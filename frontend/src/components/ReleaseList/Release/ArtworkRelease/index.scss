@@ -1,0 +1,78 @@
+.ArtworkReleases {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-gap: 10px;
+  max-width: 1320px;
+  width: 95%;
+  margin: 0 auto;
+
+  .bp3-popover-wrapper,
+  .bp3-popover-target {
+    height: 100%;
+  }
+
+  .Release {
+    margin-bottom: 10px;
+    padding: 10px;
+    height: 100%;
+
+    .CoverArt {
+      position: relative;
+
+      img {
+        border-radius: 6px;
+        height: auto;
+        width: 100%;
+      }
+
+      .InInbox {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+      }
+    }
+
+    .ReleaseInfo {
+      margin-top: 5px;
+
+      .Title h5 {
+        margin-bottom: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    .ReleaseArtists {
+      display: flex;
+      flex-flow: row wrap;
+      max-height: 50px;
+      overflow: hidden;
+
+      .ReleaseArtist {
+        margin-top: 5px;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  @media screen and (min-width: 500px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media screen and (min-width: 700px) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    .Release {
+      padding: 12px;
+    }
+  }
+
+  @media screen and (min-width: 900px) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  @media screen and (min-width: 1200px) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}

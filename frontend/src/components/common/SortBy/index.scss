@@ -1,0 +1,8 @@
+.SortBy {
+  display: flex;
+  flex-flow: row nowrap;
+
+  .SelectSortField {
+    margin-right: 10px;
+  }
+}

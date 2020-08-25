@@ -1,0 +1,12 @@
+/target
+Cargo.lock
+db.sqlite3
+.env
+.venv
+logs/*
+!logs/.gitkeep
+
+scripts/*
+!scripts/indexer.py
+!scripts/README.md
+!scripts/requirements.txt

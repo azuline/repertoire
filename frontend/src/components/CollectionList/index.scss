@@ -1,0 +1,139 @@
+.CollectionList {
+  display: flex;
+  flex-flow: column nowrap;
+  margin: 0 auto;
+  max-width: 900px;
+  width: 95%;
+
+  .ListOptions {
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 0 5% 20px 5%;
+
+    .Filter {
+      margin-right: 15px;
+      flex-grow: 1;
+
+      .SelectType {
+        flex-grow: 0;
+      }
+    }
+
+    .SortBy {
+      margin-left: auto;
+    }
+
+    @media screen and (max-width: 900px) {
+      flex-flow: column nowrap;
+      margin: 0 2% 20px 2%;
+
+      .Filter {
+        width: 100%;
+      }
+
+      .SortBy {
+        margin: 20px auto 0;
+      }
+    }
+  }
+
+  .Collections {
+    .Collection {
+      margin-bottom: 5px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      display: flex;
+      flex-flow: row nowrap;
+      font-size: 1.2em;
+
+      .TypeAndName {
+        flex-shrink: 0;
+      }
+
+      .GenresAndNumReleases {
+        margin-left: auto;
+        overflow: hidden;
+        align-items: center;
+      }
+
+      .TypeAndName,
+      .GenresAndNumReleases {
+        display: flex;
+        flex-flow: row nowrap;
+      }
+
+      .TypeAndName,
+      .TypeAndName div,
+      .TypeAndName span {
+        overflow: hidden;
+        text-overflow: '  ...';
+      }
+
+      .Type {
+        width: 70px;
+        min-width: 70px;
+        margin-right: 10px;
+      }
+
+      .Name {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        font-weight: bold;
+        white-space: nowrap;
+        margin-right: 10px;
+
+        .Favorite {
+          margin-left: 5px;
+          overflow: visible;
+        }
+      }
+
+      .TopGenres {
+        white-space: nowrap;
+        direction: rtl;
+        overflow: hidden;
+        text-overflow: '';
+
+        .CollectionTag {
+          margin-right: 5px;
+        }
+      }
+
+      .NumReleases {
+        width: 55px;
+        min-width: 55px;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: flex-end;
+
+        .MusicIcon {
+          margin-left: 5px;
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        flex-flow: row wrap;
+
+        .TypeAndName {
+          margin-bottom: 5px;
+          width: 100%;
+        }
+
+        .GenresAndNumReleases {
+          margin-left: 0;
+          width: 100%;
+
+          .TopGenres {
+            direction: ltr;
+          }
+
+          .NumReleases {
+            margin-left: auto;
+          }
+        }
+      }
+    }
+  }
+}

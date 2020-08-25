@@ -1,0 +1,55 @@
+.QueryList {
+  display: flex;
+  flex-flow: column nowrap;
+  margin: 0 auto;
+  max-width: 900px;
+  width: 95%;
+
+  .SavedQuery {
+    margin-bottom: 5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    display: flex;
+    flex-flow: row nowrap;
+    font-size: 1.2em;
+
+    .MetaInfo {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+
+      .Id {
+        min-width: 30px;
+        margin-right: 5px;
+
+        &::before {
+          content: '#';
+        }
+
+        &::after {
+          content: ' -';
+        }
+      }
+
+      .Name {
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 10px;
+      }
+
+      // .AddedOn {
+      //   margin-left: auto;
+      // }
+    }
+
+    @media screen and (max-width: 600px) {
+      flex-flow: column nowrap;
+
+      .Query {
+        margin-top: 5px;
+      }
+    }
+  }
+}

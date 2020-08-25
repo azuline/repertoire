@@ -1,0 +1,15 @@
+.MetadataEditor {
+  display: flex;
+  flex-flow: row wrap;
+  max-width: 600px;
+  margin: 0 auto;
+
+  span {
+    font-size: 150px;
+    width: 50%;
+    height: auto;
+    padding: 20px;
+    margin: 0;
+    text-align: center;
+  }
+}

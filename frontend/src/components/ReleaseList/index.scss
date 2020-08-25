@@ -1,0 +1,68 @@
+.ReleaseList {
+  display: flex;
+  justify-content: center;
+  flex-flow: column nowrap;
+
+  .ListOptions {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    max-width: 1100px;
+    align-items: center;
+    margin: 0 auto 15px auto;
+    padding: 0 5%;
+
+    .ViewOptions {
+      margin-left: 15px;
+      display: flex;
+      flex-flow: row nowrap;
+
+      .ViewAs {
+        margin-left: 15px;
+      }
+    }
+
+    @media screen and (max-width: 940px) {
+      flex-flow: column nowrap;
+      width: 100%;
+      padding: 0 2%;
+
+      .SearchBar {
+        width: 100%;
+      }
+
+      .ViewOptions {
+        margin: 20px auto 0;
+      }
+    }
+
+    @media screen and (min-width: 500px) and (max-width: 670px) {
+      .SortOrder {
+        .bp3-icon {
+          margin-right: 0;
+        }
+
+        .bp3-button-text {
+          display: none;
+        }
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .ViewOptions {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: middle;
+
+        .SortBy,
+        .ViewAs {
+          margin: 5px auto;
+        }
+      }
+    }
+  }
+
+  .Releases {
+    margin-top: -10px;
+  }
+}

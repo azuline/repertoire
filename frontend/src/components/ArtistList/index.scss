@@ -1,0 +1,118 @@
+.ArtistList {
+  display: flex;
+  flex-flow: column nowrap;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 95%;
+
+  .ListOptions {
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 0 5% 20px 5%;
+
+    .Filter {
+      margin-right: 15px;
+      flex-grow: 1;
+
+      .SelectType {
+        flex-grow: 0;
+      }
+    }
+
+    .SortBy {
+      margin-left: auto;
+    }
+
+    @media screen and (max-width: 900px) {
+      flex-flow: column nowrap;
+      margin: 0 2% 20px 2%;
+
+      .Filter {
+        width: 100%;
+      }
+
+      .SortBy {
+        margin: 20px auto 0;
+      }
+    }
+  }
+
+  .Artists {
+    .Artist {
+      margin-bottom: 5px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      display: flex;
+      flex-flow: row nowrap;
+      font-size: 1.2em;
+
+      .Name {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        font-weight: bold;
+        white-space: nowrap;
+        margin-right: 10px;
+        flex-shrink: 0;
+
+        .Favorite {
+          margin-left: 5px;
+          overflow: visible;
+        }
+      }
+
+      .GenresAndNumReleases {
+        margin-left: auto;
+        overflow: hidden;
+        display: flex;
+        flex-flow: row nowrap;
+      }
+
+      .TopGenres {
+        white-space: nowrap;
+        direction: rtl;
+        overflow: hidden;
+        text-overflow: '  ...';
+
+        .CollectionTag {
+          margin-right: 5px;
+        }
+      }
+
+      .NumReleases {
+        width: 55px;
+        min-width: 55px;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: flex-end;
+
+        .MusicIcon {
+          margin-left: 5px;
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        flex-flow: row wrap;
+
+        .Name {
+          margin-bottom: 5px;
+          width: 100%;
+        }
+
+        .GenresAndNumReleases {
+          margin-left: 0;
+          width: 100%;
+
+          .TopGenres {
+            direction: ltr;
+          }
+
+          .NumReleases {
+            margin-left: auto;
+          }
+        }
+      }
+    }
+  }
+}

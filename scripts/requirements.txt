@@ -1,0 +1,4 @@
+tagfiles
+requests
+selectolax
+python-dotenv
