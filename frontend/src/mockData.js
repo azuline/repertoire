@@ -292,4 +292,11 @@ export const mockQueries = [
     name: 'Shitty Vivrant Music',
     query: 'label:"Vivrant" collage:"Music To Shoot Yourself To"',
   },
+  {
+    addedOn: 100000010,
+    id: 3,
+    name: 'A Really Really Really Goddamn Long Saved Query Name',
+    query:
+      'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+  },
 ];

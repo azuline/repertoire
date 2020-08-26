@@ -1,16 +1,13 @@
-import { Button, Icon, InputGroup } from '@blueprintjs/core';
+import { Button, InputGroup } from '@blueprintjs/core';
 import React, { useContext } from 'react';
-import { RecentQueriesContext, SearchContext } from 'contexts';
+import { SearchContext } from 'contexts';
 
 import { RecentQueries } from './RecentQueries';
+import { SaveQuery } from './SaveQuery';
+import { executeQuery } from 'lib/queries';
 
 export const Input = () => {
   const { query, setQuery } = useContext(SearchContext);
-  const { updateRecentQueries } = useContext(RecentQueriesContext);
-
-  const executeQuery = () => {
-    updateRecentQueries(query);
-  };
 
   // An extra handler for the outer-form wrapper which prevents the form submission.
   const executeQueryForm = (event) => {
@@ -26,15 +23,11 @@ export const Input = () => {
         onChange={(e) => setQuery(e.target.value)}
         large
         placeholder="Query"
-        leftElement={
-          <div className="LeftElements">
-            <Icon icon="search" />
-            <RecentQueries />
-          </div>
-        }
+        leftElement={<RecentQueries />}
         rightElement={
           <div className="RightElements">
             <Button minimal text="Clear" type="reset" onClick={() => setQuery('')} />
+            <SaveQuery />
             <Button icon="arrow-right" intent="primary" onClick={executeQuery} />
           </div>
         }

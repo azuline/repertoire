@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 import { SortContext, ViewContext } from 'contexts';
 
-import { Release } from './Release';
+import { Release } from 'components/Release';
 import { mockReleases } from 'mockData';
 
 // Functions to sort the release by, keyed on the sort type ID.

@@ -1,7 +1,7 @@
 import React from 'react';
 import { SearchBar } from './SearchBar';
 import { SortBy } from 'components/common/SortBy';
-import { ViewAs } from 'components/common/ViewAs';
+import { ViewAs } from './ViewAs';
 
 const sortCriteria = {
   1: { icon: 'time', id: 1, name: 'Time Added' },

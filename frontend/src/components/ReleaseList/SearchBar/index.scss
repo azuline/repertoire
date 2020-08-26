@@ -1,13 +1,3 @@
-.SearchBar {
-  flex-grow: 1;
-
-  .LeftElements {
-    > .bp3-icon {
-      margin-left: 10px;
-    }
-  }
-}
-
 .RecentQueriesPopover {
   max-height: 300px;
   overflow-y: auto;

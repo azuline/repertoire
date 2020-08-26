@@ -44,6 +44,10 @@
       // }
     }
 
+    .Query {
+      margin-left: auto;
+    }
+
     @media screen and (max-width: 600px) {
       flex-flow: column nowrap;
 
@@ -51,5 +55,15 @@
         margin-top: 5px;
       }
     }
+  }
+}
+
+.SaveForm {
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 10px;
+
+  .SaveName {
+    margin-right: 10px;
   }
 }
