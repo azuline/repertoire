@@ -1,8 +1,8 @@
 import './index.scss';
 
-import { FilterContext, SortContext } from 'components/Contexts';
+import { FilterContext, SortContext } from 'contexts';
 import React, { useEffect } from 'react';
-import { useFilterContext, useSortContext } from 'components/Hooks';
+import { useFilterContext, useSortContext } from 'hooks';
 
 import { Collections } from './Collections';
 import { ListOptions } from './ListOptions';

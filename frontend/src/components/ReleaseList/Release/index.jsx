@@ -3,7 +3,7 @@ import React, { useContext, useMemo } from 'react';
 import { ArtworkRelease } from './ArtworkRelease';
 import { CompactRelease } from './CompactRelease';
 import { DetailedRelease } from './DetailedRelease';
-import { ViewContext } from 'components/Contexts';
+import { ViewContext } from 'contexts';
 
 export const Release = (props) => {
   const { view } = useContext(ViewContext);

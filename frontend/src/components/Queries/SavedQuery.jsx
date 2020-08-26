@@ -1,7 +1,7 @@
 import { Card, Tag } from '@blueprintjs/core';
 import React, { useContext } from 'react';
 
-import { SearchContext } from 'components/Contexts';
+import { SearchContext } from 'contexts';
 import { useHistory } from 'react-router-dom';
 
 export const SavedQuery = (props) => {

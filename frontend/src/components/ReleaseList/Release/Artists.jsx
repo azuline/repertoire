@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import { Link } from 'react-router-dom';
-import { SearchContext } from 'components/Contexts';
+import { SearchContext } from 'contexts';
 import { Tag } from '@blueprintjs/core';
 import { escapeQuotes } from 'common/queries';
 

@@ -6,7 +6,7 @@ import { Card } from '@blueprintjs/core';
 import { CoverArt } from '../CoverArt';
 import { PopoverTrackList } from '../TrackList/PopoverTrackList';
 import { ReleaseArtists } from '../Artists';
-import { ViewContext } from 'components/Contexts';
+import { ViewContext } from 'contexts';
 
 export const ArtworkRelease = ({
   title,

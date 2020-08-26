@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { collectionQueryFormats, escapeQuotes } from 'common/queries';
 
 import { CollectionTag } from 'components/common/CollectionTag';
-import { SearchContext } from 'components/Contexts';
+import { SearchContext } from 'contexts';
 import { collectionTypeIdsToNames } from 'common/collections';
 import { useHistory } from 'react-router-dom';
 

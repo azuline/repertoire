@@ -3,8 +3,8 @@ import './index.scss';
 import React, { useEffect } from 'react';
 
 import { Input } from './Input';
-import { RecentQueriesContext } from 'components/Contexts';
-import { useRecentQueriesContext } from 'components/Hooks';
+import { RecentQueriesContext } from 'contexts';
+import { useRecentQueriesContext } from 'hooks';
 
 const initialRecentQueries = JSON.parse(
   localStorage.getItem('queries--recent') ?? '[]'

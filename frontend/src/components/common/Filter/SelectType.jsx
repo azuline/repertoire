@@ -1,7 +1,7 @@
 import { Button, MenuItem } from '@blueprintjs/core';
 import React, { useContext } from 'react';
 
-import { FilterContext } from 'components/Contexts';
+import { FilterContext } from 'contexts';
 import { Select } from '@blueprintjs/select';
 
 export const SelectType = ({ selections }) => {

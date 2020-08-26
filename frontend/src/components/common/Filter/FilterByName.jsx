@@ -1,7 +1,7 @@
 import { Button, InputGroup } from '@blueprintjs/core';
 import React, { useContext } from 'react';
 
-import { FilterContext } from 'components/Contexts';
+import { FilterContext } from 'contexts';
 
 export const FilterByName = () => {
   const { filter, updateFilter } = useContext(FilterContext);

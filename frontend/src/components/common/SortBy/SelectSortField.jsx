@@ -2,7 +2,7 @@ import { Button, MenuItem } from '@blueprintjs/core';
 import React, { useContext } from 'react';
 
 import { Select } from '@blueprintjs/select';
-import { SortContext } from 'components/Contexts';
+import { SortContext } from 'contexts';
 
 export const SelectSortField = ({ criteria }) => {
   const { sortField, updateSort } = useContext(SortContext);

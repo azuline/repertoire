@@ -2,7 +2,7 @@ import { Card, Icon, Position, Tooltip } from '@blueprintjs/core';
 import React, { useContext } from 'react';
 
 import { CollectionTag } from 'components/common/CollectionTag';
-import { SearchContext } from 'components/Contexts';
+import { SearchContext } from 'contexts';
 import { escapeQuotes } from 'common/queries';
 import { useHistory } from 'react-router-dom';
 

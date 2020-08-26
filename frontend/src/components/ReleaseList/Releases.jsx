@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from 'react';
-import { SortContext, ViewContext } from 'components/Contexts';
+import { SortContext, ViewContext } from 'contexts';
 
 import { Release } from './Release';
 import { mockReleases } from 'mockData';

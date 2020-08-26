@@ -1,4 +1,4 @@
-import { FilterContext, SortContext } from 'components/Contexts';
+import { FilterContext, SortContext } from 'contexts';
 import React, { useContext, useMemo } from 'react';
 
 import { Collection } from './Collection';

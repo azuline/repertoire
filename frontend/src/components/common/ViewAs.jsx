@@ -2,7 +2,7 @@ import { Button, ControlGroup, MenuItem } from '@blueprintjs/core';
 import React, { useContext } from 'react';
 
 import { Select } from '@blueprintjs/select';
-import { ViewContext } from 'components/Contexts';
+import { ViewContext } from 'contexts';
 
 export const ViewAs = ({ criteria }) => {
   const { view, expandTrackLists, updateView } = useContext(ViewContext);

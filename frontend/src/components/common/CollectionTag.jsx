@@ -3,7 +3,7 @@ import { Tag, Text } from '@blueprintjs/core';
 import { collectionQueryFormats, escapeQuotes } from 'common/queries';
 
 import { Link } from 'react-router-dom';
-import { SearchContext } from 'components/Contexts';
+import { SearchContext } from 'contexts';
 
 export const CollectionTag = ({ collection, minimal }) => {
   const { type, name } = collection;

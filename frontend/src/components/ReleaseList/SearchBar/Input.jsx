@@ -1,6 +1,6 @@
 import { Button, Icon, InputGroup } from '@blueprintjs/core';
 import React, { useContext } from 'react';
-import { RecentQueriesContext, SearchContext } from 'components/Contexts';
+import { RecentQueriesContext, SearchContext } from 'contexts';
 
 import { RecentQueries } from './RecentQueries';
 

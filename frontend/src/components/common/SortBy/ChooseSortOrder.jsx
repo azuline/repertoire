@@ -1,7 +1,7 @@
 import { Button, ButtonGroup } from '@blueprintjs/core';
 import React, { useContext } from 'react';
 
-import { SortContext } from 'components/Contexts';
+import { SortContext } from 'contexts';
 
 export const ChooseSortOrder = () => {
   const { asc, updateSort } = useContext(SortContext);

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Header } from './Header';
 import { Routes } from './Routes';
-import { SearchContext } from 'components/Contexts';
+import { SearchContext } from 'contexts';
 
 export const App = () => {
   const [query, setQuery] = useState('');

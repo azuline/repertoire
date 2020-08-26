@@ -7,7 +7,7 @@ import { CoverArt } from '../CoverArt';
 import { FlatTrackList } from '../TrackList/FlatTrackList';
 import { ReleaseArtists } from '../Artists';
 import { ReleaseCollections } from '../Collections';
-import { ViewContext } from 'components/Contexts';
+import { ViewContext } from 'contexts';
 
 export const DetailedRelease = ({
   title,

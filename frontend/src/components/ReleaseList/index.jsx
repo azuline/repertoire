@@ -1,8 +1,8 @@
 import './index.scss';
 
 import React, { useEffect } from 'react';
-import { SortContext, ViewContext } from 'components/Contexts';
-import { useReleaseViewContext, useSortContext } from 'components/Hooks';
+import { SortContext, ViewContext } from 'contexts';
+import { useReleaseViewContext, useSortContext } from 'hooks';
 
 import { ListOptions } from './ListOptions';
 import { Releases } from './Releases';
