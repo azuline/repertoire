@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 export const SortContext = React.createContext({
   asc: true,
+  defaultSortField: '',
   setAsc: () => {},
   setSortField: () => {},
   sortField: '',
@@ -18,7 +19,7 @@ const providerGenerator = ({ ascKey, sortFieldKey, defaultSortField }) => {
     useEffect(() => localStorage.setItem(ascKey, asc), [asc]);
     useEffect(() => localStorage.setItem(sortFieldKey, sortField), [sortField]);
 
-    const value = { asc, setAsc, setSortField, sortField };
+    const value = { asc, defaultSortField, setAsc, setSortField, sortField };
 
     return <SortContext.Provider value={value}>{children}</SortContext.Provider>;
   };

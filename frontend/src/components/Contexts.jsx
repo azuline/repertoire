@@ -1,11 +1,12 @@
-import React from 'react';
 import {
+  ArtistsContextProvider,
+  CollectionsContextProvider,
+  RecentQueriesContextProvider,
   SearchContextProvider,
   ThemeContextProvider,
-  RecentQueriesContextProvider,
-  CollectionsContextProvider,
-  ArtistsContextProvider,
 } from 'contexts';
+
+import React from 'react';
 
 export const Contexts = ({ children }) => {
   return (

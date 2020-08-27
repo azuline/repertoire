@@ -34,7 +34,9 @@ export const Collections = () => {
     });
 
     // Sort collections based on the sort context.
-    results.sort(sortFunctions[sortField]);
+    if (!filter || sortField !== 'Fuzzy Score') {
+      results.sort(sortFunctions[sortField]);
+    }
     if (!asc) results.reverse();
 
     // And return!

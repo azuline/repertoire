@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
 import { RecentQueriesContext } from './RecentQueries';
 import { executeQuery } from 'lib/queries';
+import { useHistory } from 'react-router-dom';
 
 export const SearchContext = React.createContext({
   query: '',

@@ -9,6 +9,7 @@ const sortCriteria = {
   Name: { icon: 'highlight' },
   'Release Count': { icon: 'numerical' },
   Random: { icon: 'random' },
+  'Fuzzy Score': { icon: 'sort-numerical' },
 };
 /* eslint-enable */
 

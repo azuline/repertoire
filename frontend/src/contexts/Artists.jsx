@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+
 import Fuse from 'fuse.js';
-import { mockArtists } from 'mockData';
 import { fuseOptions } from 'common/fuse';
+import { mockArtists } from 'mockData';
 
 export const ArtistsContext = React.createContext({
   artists: [],

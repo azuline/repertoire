@@ -32,7 +32,9 @@ export const Artists = () => {
     });
 
     // Sort artists based on the sort context.
-    results.sort(sortFunctions[sortField]);
+    if (!filter || sortField !== 'Fuzzy Score') {
+      results.sort(sortFunctions[sortField]);
+    }
     if (!asc) results.reverse();
 
     // And return!
