@@ -1,5 +1,10 @@
 import React from 'react';
 
+export const ThemeContext = React.createContext({
+  dark: false,
+  updateDark: () => {},
+});
+
 export const SearchContext = React.createContext({
   query: '',
   updateQuery: () => {},

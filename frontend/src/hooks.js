@@ -1,5 +1,16 @@
 import { useState } from 'react';
 
+export const useThemeContext = (dark) => {
+  const [darkState, setDark] = useState(dark === 'true');
+
+  const themeValue = {
+    dark: darkState,
+    updateDark: (dark) => setDark(dark),
+  };
+
+  return [darkState, themeValue];
+};
+
 export const useSortContext = (asc, sortField) => {
   // Create the sort context value.
   const [ascState, setAsc] = useState(asc === 'true');

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 
 import { Button } from '@blueprintjs/core';
+import { ThemeContext } from 'contexts';
 
 export const ThemeButton = () => {
-  const localDark = localStorage.getItem('theme-dark');
-  const [dark, setDark] = useState(localDark === 'true');
+  const { dark, updateDark } = useContext(ThemeContext);
 
   useEffect(() => {
     if (dark === true) {
@@ -21,7 +21,7 @@ export const ThemeButton = () => {
       className="bp3-minimal"
       icon="lightbulb"
       text={dark ? 'Light' : 'Dark'}
-      onClick={() => setDark(!dark)}
+      onClick={() => updateDark(!dark)}
     />
   );
 };

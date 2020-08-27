@@ -1,9 +1,13 @@
 import { Icon, Position, Tooltip } from '@blueprintjs/core';
+import { ThemeContext } from 'contexts';
 
-import React from 'react';
-import noArt from 'images/noArt.png';
+import React, { useContext } from 'react';
+import noArtLight from 'images/noArtLight.png';
+import noArtDark from 'images/noArtDark.png';
 
 export const CoverArt = ({ inInbox }) => {
+  const { dark } = useContext(ThemeContext);
+
   return (
     <div className="CoverArt">
       {inInbox && (
@@ -18,7 +22,7 @@ export const CoverArt = ({ inInbox }) => {
           </Tooltip>
         </div>
       )}
-      <img src={noArt} alt="No Cover Art" />
+      <img src={dark ? noArtDark : noArtLight} alt="No Cover Art" />
     </div>
   );
 };

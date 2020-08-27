@@ -12,7 +12,7 @@ body {
   margin: 0;
 
   &.bp3-body {
-    background-color: #f5f8fa;
+    background-color: #ebf1f5;
   }
 
   &.bp3-dark {
@@ -24,12 +24,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.bp3-card {
-  padding: 15px;
-}
-
 button,
 button:active,
 button:focus {
   outline: none;
+}
+
+.bp3-card {
+  padding: 15px;
+}
+
+.bp3-body .bp3-card,
+.bp3-body .bp3-navbar {
+  background-color: #f5f8fa;
 }

@@ -1,23 +1,12 @@
 import { Alignment, Button, MenuItem, Navbar } from '@blueprintjs/core';
-import React, { useMemo } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { Select } from '@blueprintjs/select';
 import { ThemeButton } from './ThemeButton';
-import { matchPath } from 'react-router';
 
-export const CompactHeader = ({ pages }) => {
-  const location = useLocation();
+export const CompactHeader = ({ pages, activeRoute }) => {
   const history = useHistory();
-
-  const activeRoute = useMemo(() => {
-    let [route] =
-      Object.entries(pages).find(([route, { exact }]) => {
-        return matchPath(location.pathname, { exact: exact, path: route });
-      }) ?? '/404';
-
-    return route;
-  }, [location, pages]);
 
   const renderPages = ([route, { name, icon, exact }]) => {
     return (

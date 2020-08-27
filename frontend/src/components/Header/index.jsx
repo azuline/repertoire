@@ -1,8 +1,10 @@
 import './index.scss';
 
+import { matchPath } from 'react-router';
 import { CompactHeader } from './CompactHeader';
+import React, { useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import { FullHeader } from './FullHeader';
-import React from 'react';
 
 /* eslint-disable */
 const pages = {
@@ -11,15 +13,26 @@ const pages = {
   '/artists': { name: 'Artists', icon: 'people' },
   '/queries': { name: 'Queries', icon: 'search' },
   '/metadata': { name: 'Metadata', icon: 'annotation' },
-  '/404': {name: '404', icon: 'help', hidden: true },
+  '/404': { name: '404', icon: 'help', hidden: true },
 };
 /* eslint-enable */
 
 export const Header = () => {
+  const location = useLocation();
+
+  const activeRoute = useMemo(() => {
+    let [route] =
+      Object.entries(pages).find(([route, { exact }]) => {
+        return matchPath(location.pathname, { exact: exact, path: route });
+      }) ?? '/404';
+
+    return route;
+  }, [location]);
+
   return (
     <div className="Header">
-      <FullHeader pages={pages} />
-      <CompactHeader pages={pages} />
+      <FullHeader pages={pages} activeRoute={activeRoute} />
+      <CompactHeader pages={pages} activeRoute={activeRoute} />
     </div>
   );
 };
