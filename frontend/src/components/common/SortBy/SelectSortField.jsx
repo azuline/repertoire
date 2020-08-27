@@ -7,12 +7,12 @@ import { SortContext } from 'contexts';
 export const SelectSortField = ({ criteria }) => {
   const { sortField, setSortField } = useContext(SortContext);
 
-  const renderCriteria = ({ id, name, icon }) => {
+  const renderCriteria = ([name, { icon }]) => {
     return (
       <MenuItem
-        active={id === sortField}
-        key={id}
-        onClick={() => setSortField(id)}
+        active={name === sortField}
+        key={name}
+        onClick={() => setSortField(name)}
         icon={icon}
         text={name}
       />
@@ -23,15 +23,11 @@ export const SelectSortField = ({ criteria }) => {
     <Select
       className="SelectSortField"
       filterable={false}
-      items={Object.values(criteria)}
+      items={Object.entries(criteria)}
       itemRenderer={renderCriteria}
       popoverProps={{ minimal: true, transitionDuration: 50 }}
     >
-      <Button
-        text={criteria[sortField].name}
-        icon={criteria[sortField].icon}
-        rightIcon="caret-down"
-      />
+      <Button text={sortField} icon={criteria[sortField].icon} rightIcon="caret-down" />
     </Select>
   );
 };

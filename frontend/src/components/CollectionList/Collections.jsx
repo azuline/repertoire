@@ -1,45 +1,35 @@
-import { FilterContext, SortContext } from 'contexts';
+import { CollectionsContext, FilterContext, SortContext } from 'contexts';
 import React, { useContext, useMemo } from 'react';
 
 import { Collection } from './Collection';
 import { collectionTypeNamesToIds } from 'common/collections';
-import { mockCollections } from 'mockData';
 
 const sortFunctions = {
-  1: (one, two) => two.lastUpdatedOn - one.lastUpdatedOn,
-  2: (one, two) => (one.name.toLowerCase() < two.name.toLowerCase() ? -1 : 1),
-  3: (one, two) => one.numReleases - two.numReleases,
-  4: () => Math.random() - 0.5,
+  Name: (one, two) => (one.name.toLowerCase() < two.name.toLowerCase() ? -1 : 1),
+  Random: () => Math.random() - 0.5,
+  'Recently Updated': (one, two) => two.lastUpdatedOn - one.lastUpdatedOn,
+  'Release Count': (one, two) => one.numReleases - two.numReleases,
 };
 
 export const Collections = () => {
   const { asc, sortField } = useContext(SortContext);
-  const { filter, selection } = useContext(FilterContext);
-
-  // Remap `selection` to the thing it's selecting.
-  const collectionType = selection;
+  const { filter, selection: collectionType } = useContext(FilterContext);
+  const { collections, fuse } = useContext(CollectionsContext);
 
   // Filter the collections based on the context.
-  const collections = useMemo(() => {
-    const results = mockCollections.filter((collection) => {
-      try {
-        // Filter by the name.
-        if (collection.name.search(new RegExp(filter)) === -1) {
-          return false;
-        }
+  const filteredCollections = useMemo(() => {
+    // Filter collections by fuzzy-search, if there is a filter....
+    let results = filter ? fuse.search(filter).map(({ item }) => item) : collections;
 
-        // Filter by the collection.
-        switch (collectionType) {
-          case 'All':
-            return true;
-          case 'Favorite':
-            return collection.favorite;
-          default:
-            // One of the other collections...
-            return collection.type === collectionTypeNamesToIds[collectionType];
-        }
-      } catch (e) {
-        return false;
+    // Filter by the collection type.
+    results = results.filter((collection) => {
+      switch (collectionType) {
+        case 'All':
+          return true;
+        case 'Favorite':
+          return collection.favorite;
+        default:
+          return collection.type === collectionTypeNamesToIds[collectionType];
       }
     });
 
@@ -47,12 +37,13 @@ export const Collections = () => {
     results.sort(sortFunctions[sortField]);
     if (!asc) results.reverse();
 
+    // And return!
     return results;
-  }, [asc, sortField, filter, collectionType]);
+  }, [collections, fuse, asc, sortField, filter, collectionType]);
 
   return (
     <div className="Collections">
-      {collections.map((collection) => {
+      {filteredCollections.map((collection) => {
         return <Collection key={collection.id} collection={collection} />;
       })}
     </div>

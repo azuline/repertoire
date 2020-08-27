@@ -1,41 +1,33 @@
-import { FilterContext, SortContext } from 'contexts';
+import { ArtistsContext, FilterContext, SortContext } from 'contexts';
 import React, { useContext, useMemo } from 'react';
 
 import { Artist } from './Artist';
-import { mockArtists } from 'mockData';
 
 const sortFunctions = {
-  1: (one, two) => (one.name.toLowerCase() < two.name.toLowerCase() ? -1 : 1),
-  2: (one, two) => one.numReleases - two.numReleases,
-  3: () => Math.random() - 0.5,
+  Name: (one, two) => (one.name.toLowerCase() < two.name.toLowerCase() ? -1 : 1),
+  Random: () => Math.random() - 0.5,
+  'Release Count': (one, two) => one.numReleases - two.numReleases,
 };
 
 export const Artists = () => {
   const { asc, sortField } = useContext(SortContext);
-  const { filter, selection } = useContext(FilterContext);
-
-  // Remap `selection` to the thing it's selecting.
-  const artistType = selection;
+  const { filter, selection: artistType } = useContext(FilterContext);
+  const { artists, fuse } = useContext(ArtistsContext);
 
   // Filter artists based on the filter context.
-  const artists = useMemo(() => {
-    const results = mockArtists.filter((artist) => {
-      try {
-        // Filter by name...
-        if (artist.name.search(new RegExp(filter)) === -1) {
-          return false;
-        }
+  const filteredArtists = useMemo(() => {
+    // Filter artists by fuzzy-search, if there is a filter....
+    let results = filter ? fuse.search(filter).map(({ item }) => item) : artists;
 
-        // Filter by type...
-        switch (artistType) {
-          case 'Favorite':
-            return artist.favorite;
-          case 'All':
-          default:
-            return true;
-        }
-      } catch (e) {
-        return false;
+    // Filter by the artist type.
+    results = results.filter((artist) => {
+      // Filter by type...
+      switch (artistType) {
+        case 'Favorite':
+          return artist.favorite;
+        case 'All':
+        default:
+          return true;
       }
     });
 
@@ -43,12 +35,13 @@ export const Artists = () => {
     results.sort(sortFunctions[sortField]);
     if (!asc) results.reverse();
 
+    // And return!
     return results;
-  }, [asc, sortField, filter, artistType]);
+  }, [artists, fuse, asc, sortField, filter, artistType]);
 
   return (
     <div className="Artists">
-      {artists.map((artist) => {
+      {filteredArtists.map((artist) => {
         return <Artist key={artist.id} artist={artist} />;
       })}
     </div>

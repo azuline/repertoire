@@ -2,12 +2,13 @@ import { Filter } from 'components/common/Filter';
 import React from 'react';
 import { SortBy } from 'components/common/SortBy';
 
-// HTML Select has no icon support, blueprint select is confusing as fuck...
+/* eslint-disable */
 const sortCriteria = {
-  1: { icon: 'highlight', id: 1, name: 'Name' },
-  2: { icon: 'numerical', id: 2, name: 'Release Count' },
-  3: { icon: 'random', id: 3, name: 'Random' },
+  Name: { icon: 'highlight' },
+  'Release Count': { icon: 'numerical' },
+  Random: { icon: 'random' },
 };
+/* eslint-enable */
 
 const selections = ['All', 'Favorite'];
 

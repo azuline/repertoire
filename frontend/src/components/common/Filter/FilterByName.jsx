@@ -9,7 +9,7 @@ export const FilterByName = () => {
   return (
     <InputGroup
       className="FilterByName"
-      placeholder="Filter by name... (uses regex)"
+      placeholder="Filter by name (fuzzy)..."
       leftIcon="highlight"
       rightElement={
         <Button minimal text="Clear" type="reset" onClick={() => setFilter('')} />

@@ -6,10 +6,10 @@ import { mockReleases } from 'mockData';
 
 // Functions to sort the release by, keyed on the sort type ID.
 const sortFunctions = {
-  1: (one, two) => two.addedOn - one.addedOn,
-  2: (one, two) => (one.title.toLowerCase() < two.title.toLowerCase() ? -1 : 1),
-  3: (one, two) => one.year - two.year,
-  4: () => Math.random() - 0.5,
+  Random: () => Math.random() - 0.5,
+  'Recently Added': (one, two) => two.addedOn - one.addedOn,
+  Title: (one, two) => (one.title.toLowerCase() < two.title.toLowerCase() ? -1 : 1),
+  Year: (one, two) => one.year - two.year,
 };
 
 export const Releases = () => {

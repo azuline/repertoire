@@ -4,12 +4,12 @@ export const SortContext = React.createContext({
   asc: true,
   setAsc: () => {},
   setSortField: () => {},
-  sortField: 1,
+  sortField: '',
 });
 
-const providerGenerator = ({ ascKey, sortFieldKey }) => {
+const providerGenerator = ({ ascKey, sortFieldKey, defaultSortField }) => {
   const localAsc = localStorage.getItem(ascKey) === 'true';
-  const localSortField = parseInt(localStorage.getItem(sortFieldKey)) || 1;
+  const localSortField = localStorage.getItem(sortFieldKey) ?? defaultSortField;
 
   return ({ children }) => {
     const [asc, setAsc] = useState(localAsc);
@@ -26,6 +26,7 @@ const providerGenerator = ({ ascKey, sortFieldKey }) => {
 
 const artistSpec = {
   ascKey: 'artists--asc',
+  defaultSortField: 'Name',
   sortFieldKey: 'artists--sortField',
 };
 
@@ -33,6 +34,7 @@ export const ArtistSortContextProvider = providerGenerator(artistSpec);
 
 const collectionSpec = {
   ascKey: 'collections--asc',
+  defaultSortField: 'Recently Updated',
   sortFieldKey: 'collections--sortField',
 };
 
@@ -40,6 +42,7 @@ export const CollectionSortContextProvider = providerGenerator(collectionSpec);
 
 const releaseSpec = {
   ascKey: 'releases--asc',
+  defaultSortField: 'Recently Added',
   sortFieldKey: 'releases--sortField',
 };
 

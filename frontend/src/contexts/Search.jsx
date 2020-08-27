@@ -17,6 +17,7 @@ export const SearchContextProvider = ({ children }) => {
 
   const runQuery = (query) => {
     history.push('/');
+    setQuery(query);
     appendRecentQuery(query);
 
     const releases = executeQuery(query);

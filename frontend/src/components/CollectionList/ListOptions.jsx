@@ -3,13 +3,14 @@ import React from 'react';
 import { SortBy } from 'components/common/SortBy';
 import { collectionTypeNamesToIds } from 'common/collections';
 
-// HTML Select has no icon support, blueprint select is confusing as fuck...
+/* eslint-disable */
 const sortCriteria = {
-  1: { icon: 'time', id: 1, name: 'Recently Updated' },
-  2: { icon: 'highlight', id: 2, name: 'Name' },
-  3: { icon: 'numerical', id: 3, name: 'Release Count' },
-  4: { icon: 'random', id: 4, name: 'Random' },
+  'Recently Updated': { icon: 'time' },
+  Name: { icon: 'highlight' },
+  'Release Count': { icon: 'numerical' },
+  Random: { icon: 'random' },
 };
+/* eslint-enable */
 
 const selections = ['All', 'Favorite', ...Object.keys(collectionTypeNamesToIds)];
 

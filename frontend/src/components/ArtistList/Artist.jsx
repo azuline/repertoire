@@ -21,7 +21,7 @@ export const Artist = ({ artist }) => {
       <div className="Name">
         <span className="NameText">{name}</span>
         {favorite && (
-          <div class="Favorite">
+          <div className="Favorite">
             <Tooltip content="Favorite!" position={Position.TOP}>
               <Icon className="FavoriteIcon" icon="heart" intent="primary" />
             </Tooltip>
