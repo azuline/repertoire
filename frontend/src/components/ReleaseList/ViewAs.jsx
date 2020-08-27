@@ -5,7 +5,7 @@ import { Select } from '@blueprintjs/select';
 import { ViewContext } from 'contexts';
 
 export const ViewAs = ({ criteria }) => {
-  const { view, expandTrackLists, setView, setExpandTrackLists } = useContext(
+  const { view, setView, expandTrackLists, setExpandTrackLists } = useContext(
     ViewContext
   );
 

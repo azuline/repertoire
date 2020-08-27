@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 export const RecentQueriesContext = React.createContext({
-  appendRecentQuery: () => {},
   recentQueries: [],
+  appendRecentQuery: () => {},
 });
 
 const localRecentQueries = JSON.parse(localStorage.getItem('queries--recent') ?? '[]');

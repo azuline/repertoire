@@ -3,14 +3,12 @@ import { SearchBar } from './SearchBar';
 import { SortBy } from 'components/common/SortBy';
 import { ViewAs } from './ViewAs';
 
-/* eslint-disable */
 const sortCriteria = {
-  'Recently Added': { icon: 'time' },
-  Title: { icon: 'highlight' },
-  Year: { icon: 'calendar' },
-  Random: { icon: 'random' },
+  recentlyAdded: { label: 'Recently Added', icon: 'time' },
+  title: { label: 'Title', icon: 'highlight' },
+  year: { label: 'Year', icon: 'calendar' },
+  random: { label: 'Random', icon: 'random' },
 };
-/* eslint-enable */
 
 const viewCriteria = ['Detailed', 'Compact', 'Artwork'];
 

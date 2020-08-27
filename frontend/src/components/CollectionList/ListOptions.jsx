@@ -3,15 +3,13 @@ import React from 'react';
 import { SortBy } from 'components/common/SortBy';
 import { collectionTypeNamesToIds } from 'common/collections';
 
-/* eslint-disable */
 const sortCriteria = {
-  'Recently Updated': { icon: 'time' },
-  Name: { icon: 'highlight' },
-  'Release Count': { icon: 'numerical' },
-  Random: { icon: 'random' },
-  'Fuzzy Score': { icon: 'sort-numerical' },
+  recentlyUpdated: { label: 'Recently Updated', icon: 'time' },
+  name: { label: 'Name', icon: 'highlight' },
+  releaseCount: { label: 'Release Count', icon: 'numerical' },
+  random: { label: 'Random', icon: 'random' },
+  fuzzyScore: { label: 'Fuzzy Score', icon: 'sort-numerical' },
 };
-/* eslint-enable */
 
 const selections = ['All', 'Favorite', ...Object.keys(collectionTypeNamesToIds)];
 

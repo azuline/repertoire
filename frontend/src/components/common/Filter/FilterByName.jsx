@@ -10,7 +10,7 @@ export const FilterByName = () => {
     setFilter(event.target.value);
 
     if (event.target.value) {
-      setSortField('Fuzzy Score');
+      setSortField('fuzzyScore');
       setAsc(true);
     } else {
       setSortField(defaultSortField);

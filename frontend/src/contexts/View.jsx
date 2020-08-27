@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
 export const ViewContext = React.createContext({
+  view: '',
+  setView: () => {},
   expandTrackLists: false,
   setExpandTrackLists: () => {},
-  setView: () => {},
-  view: '',
 });
 
 const localView = localStorage.getItem('releases--view') ?? 'Detailed';
@@ -21,7 +21,7 @@ export const ViewContextProvider = ({ children }) => {
     [expandTrackLists]
   );
 
-  const value = { expandTrackLists, setExpandTrackLists, setView, view };
+  const value = { view, setView, expandTrackLists, setExpandTrackLists };
 
   return <ViewContext.Provider value={value}>{children}</ViewContext.Provider>;
 };

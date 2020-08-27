@@ -13,8 +13,8 @@ export const collectionTypeIdsToNamesPlural = {
 };
 
 export const collectionTypeNamesToIds = {
-  Collage: 2,
-  Genre: 4,
-  Label: 3,
   System: 1,
+  Collage: 2,
+  Label: 3,
+  Genre: 4,
 };

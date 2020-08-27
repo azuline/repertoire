@@ -6,8 +6,8 @@ import { mockCollections } from 'mockData';
 
 export const CollectionsContext = React.createContext({
   collections: [],
-  fuse: null,
   setCollections: () => {},
+  fuse: null,
 });
 
 export const CollectionsContextProvider = ({ children }) => {
@@ -16,7 +16,7 @@ export const CollectionsContextProvider = ({ children }) => {
 
   useEffect(() => fuse.setCollection(collections), [fuse, collections]);
 
-  const value = { collections, fuse, setCollections };
+  const value = { collections, setCollections, fuse };
 
   return (
     <CollectionsContext.Provider value={value}>{children}</CollectionsContext.Provider>

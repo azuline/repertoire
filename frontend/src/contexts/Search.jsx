@@ -6,8 +6,8 @@ import { useHistory } from 'react-router-dom';
 
 export const SearchContext = React.createContext({
   query: '',
-  runQuery: () => {},
   setQuery: () => {},
+  runQuery: () => {},
 });
 
 export const SearchContextProvider = ({ children }) => {
@@ -24,7 +24,7 @@ export const SearchContextProvider = ({ children }) => {
     return releases; // delete this later, should instead modify release list context.
   };
 
-  const value = { query, runQuery, setQuery };
+  const value = { query, setQuery, runQuery };
 
   return <SearchContext.Provider value={value}>{children}</SearchContext.Provider>;
 };

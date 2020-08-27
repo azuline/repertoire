@@ -7,7 +7,6 @@ import { FullHeader } from './FullHeader';
 import { matchPath } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
-/* eslint-disable */
 const pages = {
   '/': { name: 'Releases', icon: 'music', exact: true },
   '/collections': { name: 'Collections', icon: 'projects' },
@@ -16,7 +15,6 @@ const pages = {
   '/metadata': { name: 'Metadata', icon: 'annotation' },
   '/404': { name: '404', icon: 'help', hidden: true },
 };
-/* eslint-enable */
 
 export const Header = () => {
   const location = useLocation();

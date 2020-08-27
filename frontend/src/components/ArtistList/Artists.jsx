@@ -4,9 +4,9 @@ import React, { useContext, useMemo } from 'react';
 import { Artist } from './Artist';
 
 const sortFunctions = {
-  Name: (one, two) => (one.name.toLowerCase() < two.name.toLowerCase() ? -1 : 1),
-  Random: () => Math.random() - 0.5,
-  'Release Count': (one, two) => one.numReleases - two.numReleases,
+  name: (one, two) => (one.name.toLowerCase() < two.name.toLowerCase() ? -1 : 1),
+  random: () => Math.random() - 0.5,
+  releaseCount: (one, two) => one.numReleases - two.numReleases,
 };
 
 export const Artists = () => {
@@ -32,7 +32,7 @@ export const Artists = () => {
     });
 
     // Sort artists based on the sort context.
-    if (!filter || sortField !== 'Fuzzy Score') {
+    if (!filter || sortField !== 'fuzzyScore') {
       results.sort(sortFunctions[sortField]);
     }
     if (!asc) results.reverse();

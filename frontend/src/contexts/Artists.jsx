@@ -6,8 +6,8 @@ import { mockArtists } from 'mockData';
 
 export const ArtistsContext = React.createContext({
   artists: [],
-  fuse: null,
   setArtists: () => {},
+  fuse: null,
 });
 
 export const ArtistsContextProvider = ({ children }) => {
@@ -16,7 +16,7 @@ export const ArtistsContextProvider = ({ children }) => {
 
   useEffect(() => fuse.setCollection(artists), [fuse, artists]);
 
-  const value = { artists, fuse, setArtists };
+  const value = { artists, setArtists, fuse };
 
   return <ArtistsContext.Provider value={value}>{children}</ArtistsContext.Provider>;
 };

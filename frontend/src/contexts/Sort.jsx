@@ -2,15 +2,20 @@ import React, { useEffect, useState } from 'react';
 
 export const SortContext = React.createContext({
   asc: true,
-  defaultSortField: '',
   setAsc: () => {},
-  setSortField: () => {},
   sortField: '',
+  setSortField: () => {},
+  defaultSortField: '',
 });
 
 const providerGenerator = ({ ascKey, sortFieldKey, defaultSortField }) => {
   const localAsc = localStorage.getItem(ascKey) === 'true';
-  const localSortField = localStorage.getItem(sortFieldKey) ?? defaultSortField;
+  let localSortField = localStorage.getItem(sortFieldKey) ?? defaultSortField;
+
+  // We don't start with fuzzy score since the fuzzy filter bar is initially empty.
+  if (localSortField === 'fuzzyScore') {
+    localSortField = defaultSortField;
+  }
 
   return ({ children }) => {
     const [asc, setAsc] = useState(localAsc);
@@ -19,7 +24,7 @@ const providerGenerator = ({ ascKey, sortFieldKey, defaultSortField }) => {
     useEffect(() => localStorage.setItem(ascKey, asc), [asc]);
     useEffect(() => localStorage.setItem(sortFieldKey, sortField), [sortField]);
 
-    const value = { asc, defaultSortField, setAsc, setSortField, sortField };
+    const value = { asc, setAsc, sortField, setSortField, defaultSortField };
 
     return <SortContext.Provider value={value}>{children}</SortContext.Provider>;
   };
@@ -27,24 +32,24 @@ const providerGenerator = ({ ascKey, sortFieldKey, defaultSortField }) => {
 
 const artistSpec = {
   ascKey: 'artists--asc',
-  defaultSortField: 'Name',
   sortFieldKey: 'artists--sortField',
+  defaultSortField: 'name',
 };
 
 export const ArtistSortContextProvider = providerGenerator(artistSpec);
 
 const collectionSpec = {
   ascKey: 'collections--asc',
-  defaultSortField: 'Recently Updated',
   sortFieldKey: 'collections--sortField',
+  defaultSortField: 'recentlyUpdated',
 };
 
 export const CollectionSortContextProvider = providerGenerator(collectionSpec);
 
 const releaseSpec = {
   ascKey: 'releases--asc',
-  defaultSortField: 'Recently Added',
   sortFieldKey: 'releases--sortField',
+  defaultSortField: 'recentlyAdded',
 };
 
 export const ReleaseSortContextProvider = providerGenerator(releaseSpec);

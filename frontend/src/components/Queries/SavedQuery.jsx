@@ -3,8 +3,7 @@ import React, { useContext } from 'react';
 
 import { SearchContext } from 'contexts';
 
-export const SavedQuery = (props) => {
-  const { name, id, query } = props.query;
+export const SavedQuery = ({ query: { query, id, name } }) => {
   const { runQuery } = useContext(SearchContext);
 
   return (
