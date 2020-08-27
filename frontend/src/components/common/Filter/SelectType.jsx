@@ -5,14 +5,14 @@ import { FilterContext } from 'contexts';
 import { Select } from '@blueprintjs/select';
 
 export const SelectType = ({ selections }) => {
-  const { selection, updateFilter } = useContext(FilterContext);
+  const { selection, setSelection } = useContext(FilterContext);
 
   const renderItem = (item) => {
     return (
       <MenuItem
         active={selection === item}
         key={item}
-        onClick={() => updateFilter({ selection: item })}
+        onClick={() => setSelection(item)}
         text={item}
       />
     );

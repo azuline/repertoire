@@ -5,14 +5,16 @@ import { Select } from '@blueprintjs/select';
 import { ViewContext } from 'contexts';
 
 export const ViewAs = ({ criteria }) => {
-  const { view, expandTrackLists, updateView } = useContext(ViewContext);
+  const { view, expandTrackLists, setView, setExpandTrackLists } = useContext(
+    ViewContext
+  );
 
   const renderCriteria = (view_) => {
     return (
       <MenuItem
         active={view_ === view}
         key={view_}
-        onClick={() => updateView({ view: view_ })}
+        onClick={() => setView(view_)}
         text={view_}
       />
     );
@@ -32,7 +34,7 @@ export const ViewAs = ({ criteria }) => {
       <Button
         disabled={view === 'Artwork'}
         icon="expand-all"
-        onClick={() => updateView({ expandTrackLists: !expandTrackLists })}
+        onClick={() => setExpandTrackLists(!expandTrackLists)}
       >
         {expandTrackLists ? 'Collapse Tracks' : 'Expand Tracks'}
       </Button>

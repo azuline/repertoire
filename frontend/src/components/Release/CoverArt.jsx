@@ -1,9 +1,9 @@
 import { Icon, Position, Tooltip } from '@blueprintjs/core';
-import { ThemeContext } from 'contexts';
-
 import React, { useContext } from 'react';
-import noArtLight from 'images/noArtLight.png';
+
+import { ThemeContext } from 'contexts';
 import noArtDark from 'images/noArtDark.png';
+import noArtLight from 'images/noArtLight.png';
 
 export const CoverArt = ({ inInbox }) => {
   const { dark } = useContext(ThemeContext);

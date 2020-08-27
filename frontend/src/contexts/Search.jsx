@@ -1,0 +1,29 @@
+import React, { useContext, useState } from 'react';
+
+import { useHistory } from 'react-router-dom';
+import { RecentQueriesContext } from './RecentQueries';
+import { executeQuery } from 'lib/queries';
+
+export const SearchContext = React.createContext({
+  query: '',
+  runQuery: () => {},
+  setQuery: () => {},
+});
+
+export const SearchContextProvider = ({ children }) => {
+  const history = useHistory();
+  const [query, setQuery] = useState('');
+  const { appendRecentQuery } = useContext(RecentQueriesContext);
+
+  const runQuery = (query) => {
+    history.push('/');
+    appendRecentQuery(query);
+
+    const releases = executeQuery(query);
+    return releases; // delete this later, should instead modify release list context.
+  };
+
+  const value = { query, runQuery, setQuery };
+
+  return <SearchContext.Provider value={value}>{children}</SearchContext.Provider>;
+};

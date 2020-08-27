@@ -13,7 +13,7 @@ const dividerWords = {
 };
 
 export const TrackArtists = ({ artists, minimal }) => {
-  const { setQuery } = useContext(SearchContext);
+  const { runQuery } = useContext(SearchContext);
 
   // Return a map of artist roles to the artists in that role, filtering out
   // roles without any artists in them.
@@ -30,7 +30,7 @@ export const TrackArtists = ({ artists, minimal }) => {
   // practice.
   const childDivList = useMemo(() => {
     const queryArtist = (artist) => (event) => {
-      setQuery(`artist:"${escapeQuotes(artist)}"`);
+      runQuery(`artist:"${escapeQuotes(artist)}"`);
       event.stopPropagation();
     };
 
@@ -52,7 +52,7 @@ export const TrackArtists = ({ artists, minimal }) => {
 
     // Flatten the accumulated list of lists of divs.
     return [].concat.apply([], childrenList);
-  }, [artistsByRoles, minimal, setQuery]);
+  }, [artistsByRoles, minimal, runQuery]);
 
   return <div className="TrackArtists">{childDivList.map((div) => div)}</div>;
 };

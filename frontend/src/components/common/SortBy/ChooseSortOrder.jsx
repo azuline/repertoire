@@ -4,22 +4,14 @@ import React, { useContext } from 'react';
 import { SortContext } from 'contexts';
 
 export const ChooseSortOrder = () => {
-  const { asc, updateSort } = useContext(SortContext);
+  const { asc, setAsc } = useContext(SortContext);
 
   return (
     <ButtonGroup className="SortOrder">
-      <Button
-        active={asc}
-        onClick={() => updateSort({ asc: true })}
-        icon="circle-arrow-up"
-      >
+      <Button active={asc} onClick={() => setAsc(true)} icon="circle-arrow-up">
         Asc
       </Button>
-      <Button
-        active={!asc}
-        onClick={() => updateSort({ asc: false })}
-        icon="circle-arrow-down"
-      >
+      <Button active={!asc} onClick={() => setAsc(false)} icon="circle-arrow-down">
         Desc
       </Button>
     </ButtonGroup>

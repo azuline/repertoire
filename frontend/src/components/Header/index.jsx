@@ -1,10 +1,11 @@
 import './index.scss';
 
-import { matchPath } from 'react-router';
-import { CompactHeader } from './CompactHeader';
 import React, { useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+
+import { CompactHeader } from './CompactHeader';
 import { FullHeader } from './FullHeader';
+import { matchPath } from 'react-router';
+import { useLocation } from 'react-router-dom';
 
 /* eslint-disable */
 const pages = {

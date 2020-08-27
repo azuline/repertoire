@@ -5,16 +5,13 @@ import { collectionQueryFormats, escapeQuotes } from 'common/queries';
 import { CollectionTag } from 'components/common/CollectionTag';
 import { SearchContext } from 'contexts';
 import { collectionTypeIdsToNames } from 'common/collections';
-import { useHistory } from 'react-router-dom';
 
 export const Collection = ({ collection }) => {
   const { favorite, name, numReleases, topGenres, type } = collection;
-  const { setQuery } = useContext(SearchContext);
-  const history = useHistory();
+  const { runQuery } = useContext(SearchContext);
 
   const queryCollection = () => {
-    setQuery(collectionQueryFormats[type](escapeQuotes(name)));
-    history.push('/');
+    runQuery(collectionQueryFormats[type](escapeQuotes(name)));
   };
 
   return (

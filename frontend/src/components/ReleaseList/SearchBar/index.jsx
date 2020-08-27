@@ -1,29 +1,40 @@
 import './index.scss';
 
-import React, { useEffect } from 'react';
+import { Button, InputGroup } from '@blueprintjs/core';
+import React, { useContext } from 'react';
 
-import { Input } from './Input';
-import { RecentQueriesContext } from 'contexts';
-import { useRecentQueriesContext } from 'hooks';
-
-const initialRecentQueries = JSON.parse(
-  localStorage.getItem('queries--recent') ?? '[]'
-);
+import { RecentQueries } from './RecentQueries';
+import { SaveQuery } from './SaveQuery';
+import { SearchContext } from 'contexts';
 
 export const SearchBar = () => {
-  const [recentQueries, recentQueriesValue] = useRecentQueriesContext(
-    initialRecentQueries
-  );
+  const { query, runQuery, setQuery } = useContext(SearchContext);
 
-  useEffect(() => {
-    localStorage.setItem('queries--recent', JSON.stringify(recentQueries));
-  }, [recentQueries]);
+  // An extra handler for the outer-form wrapper which prevents the form submission.
+  const executeQueryForm = (event) => {
+    runQuery(query);
+    event.preventDefault();
+  };
 
   return (
     <div className="SearchBar">
-      <RecentQueriesContext.Provider value={recentQueriesValue}>
-        <Input />
-      </RecentQueriesContext.Provider>
+      <form className="InputForm" onSubmit={executeQueryForm}>
+        <InputGroup
+          className="SearchBarInput"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          large
+          placeholder="Query"
+          leftElement={<RecentQueries />}
+          rightElement={
+            <div className="RightElements">
+              <Button minimal text="Clear" type="reset" onClick={() => setQuery('')} />
+              <SaveQuery />
+              <Button icon="arrow-right" intent="primary" onClick={executeQueryForm} />
+            </div>
+          }
+        />
+      </form>
     </div>
   );
 };

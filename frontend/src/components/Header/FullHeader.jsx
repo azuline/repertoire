@@ -1,7 +1,7 @@
 import { Alignment, Button, Navbar } from '@blueprintjs/core';
-import React from 'react';
 
 import { NavLink } from 'react-router-dom';
+import React from 'react';
 import { ThemeButton } from './ThemeButton';
 
 export const FullHeader = ({ pages, activeRoute }) => {

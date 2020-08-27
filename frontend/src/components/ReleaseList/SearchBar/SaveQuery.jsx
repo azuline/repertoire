@@ -1,5 +1,6 @@
-import React, { useState, useContext } from 'react';
-import { InputGroup, Popover, Button } from '@blueprintjs/core';
+import { Button, InputGroup, Popover } from '@blueprintjs/core';
+import React, { useContext, useState } from 'react';
+
 import { SearchContext } from 'contexts';
 import { saveQuery } from 'lib/queries';
 

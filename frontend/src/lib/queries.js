@@ -1,9 +1,5 @@
-import { useContext } from 'react';
-import { RecentQueriesContext } from 'contexts';
+// Makes query-related requests over the network against the backend.
 
-export const executeQuery = (query) => {
-  // const { updateRecentQueries } = useContext(RecentQueriesContext);
-  // updateRecentQueries(query);
-};
+export const executeQuery = (query) => {};
 
 export const saveQuery = (query) => {};

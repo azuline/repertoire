@@ -7,14 +7,14 @@ import { formatDate } from 'common/datetime';
 
 export const RecentQueries = () => {
   const { recentQueries } = useContext(RecentQueriesContext);
-  const { setQuery } = useContext(SearchContext);
+  const { runQuery } = useContext(SearchContext);
 
   const renderItem = ([index, { query, time }]) => {
     return (
       <MenuItem
         key={query}
         label={formatDate(time)}
-        onClick={() => setQuery(query)}
+        onClick={() => runQuery(query)}
         text={`${index + 1}. ${query}`}
       />
     );

@@ -1,9 +1,9 @@
 import { Alignment, Button, MenuItem, Navbar } from '@blueprintjs/core';
-import React from 'react';
-import { useHistory } from 'react-router-dom';
 
+import React from 'react';
 import { Select } from '@blueprintjs/select';
 import { ThemeButton } from './ThemeButton';
+import { useHistory } from 'react-router-dom';
 
 export const CompactHeader = ({ pages, activeRoute }) => {
   const history = useHistory();

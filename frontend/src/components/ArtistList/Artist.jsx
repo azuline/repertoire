@@ -8,11 +8,11 @@ import { useHistory } from 'react-router-dom';
 
 export const Artist = ({ artist }) => {
   const { favorite, name, numReleases, topGenres } = artist;
-  const { setQuery } = useContext(SearchContext);
+  const { runQuery } = useContext(SearchContext);
   const history = useHistory();
 
   const queryArtist = () => {
-    setQuery(`artist:"${escapeQuotes(name)}"`);
+    runQuery(`artist:"${escapeQuotes(name)}"`);
     history.push('/');
   };
 

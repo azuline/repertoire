@@ -5,14 +5,14 @@ import { Select } from '@blueprintjs/select';
 import { SortContext } from 'contexts';
 
 export const SelectSortField = ({ criteria }) => {
-  const { sortField, updateSort } = useContext(SortContext);
+  const { sortField, setSortField } = useContext(SortContext);
 
   const renderCriteria = ({ id, name, icon }) => {
     return (
       <MenuItem
         active={id === sortField}
         key={id}
-        onClick={() => updateSort({ sortField: id })}
+        onClick={() => setSortField(id)}
         icon={icon}
         text={name}
       />

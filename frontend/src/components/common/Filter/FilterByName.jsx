@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import { FilterContext } from 'contexts';
 
 export const FilterByName = () => {
-  const { filter, updateFilter } = useContext(FilterContext);
+  const { filter, setFilter } = useContext(FilterContext);
 
   return (
     <InputGroup
@@ -12,15 +12,10 @@ export const FilterByName = () => {
       placeholder="Filter by name... (uses regex)"
       leftIcon="highlight"
       rightElement={
-        <Button
-          minimal
-          text="Clear"
-          type="reset"
-          onClick={() => updateFilter({ filter: '' })}
-        />
+        <Button minimal text="Clear" type="reset" onClick={() => setFilter('')} />
       }
       value={filter}
-      onChange={(event) => updateFilter({ filter: event.target.value })}
+      onChange={(event) => setFilter(event.target.value)}
     />
   );
 };
