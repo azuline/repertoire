@@ -10,19 +10,25 @@ export const SortContext = React.createContext({
 });
 
 const providerGenerator = ({ ascKey, sortFieldKey, defaultSortField }) => {
-  const transformFuzzySortField = (sortField) => {
-    return sortField === 'fuzzyScore' ? defaultSortField : sortField;
-  };
-
   return ({ children }) => {
     const [asc, setAsc] = usePersistentState(ascKey, true);
     const [sortField, setSortField] = usePersistentState(
       sortFieldKey,
-      defaultSortField,
-      transformFuzzySortField
+      defaultSortField
     );
 
-    const value = { asc, setAsc, sortField, setSortField, defaultSortField };
+    // If the sort field is fuzzyScore, don't save it to localStorage.
+    const setSortFieldIgnoreFuzzy = (sortField) => {
+      setSortField(sortField, sortField !== 'fuzzyScore');
+    };
+
+    const value = {
+      asc,
+      setAsc,
+      sortField,
+      setSortField: setSortFieldIgnoreFuzzy,
+      defaultSortField,
+    };
 
     return <SortContext.Provider value={value}>{children}</SortContext.Provider>;
   };
