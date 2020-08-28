@@ -7,10 +7,14 @@
     display: flex;
     flex-flow: row nowrap;
     width: 100%;
-    max-width: 1100px;
+    max-width: 1200px;
     align-items: center;
-    margin: 0 auto 15px auto;
+    margin: 0 auto 20px auto;
     padding: 0 5%;
+
+    .SearchBar {
+      flex-grow: 1;
+    }
 
     .ViewOptions {
       margin-left: 15px;
@@ -22,13 +26,14 @@
       }
     }
 
-    @media screen and (max-width: 1100px) {
+    @media screen and (max-width: 1200px) {
       flex-flow: column nowrap;
       width: 100%;
       padding: 0 2%;
 
       .SearchBar {
         width: 98%;
+        max-width: 800px;
         margin: 0 auto;
       }
 
@@ -37,7 +42,7 @@
       }
     }
 
-    @media screen and (min-width: 500px) and (max-width: 670px) {
+    @media screen and (min-width: 540px) and (max-width: 670px) {
       .SortOrder {
         .bp3-icon {
           margin-right: 0;
@@ -49,7 +54,7 @@
       }
     }
 
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 540px) {
       .ViewOptions {
         display: flex;
         flex-flow: column nowrap;
