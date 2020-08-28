@@ -1,0 +1,31 @@
+.ListOptions {
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 0 5% 20px 5%;
+
+  .Filter {
+    margin-right: 15px;
+    flex-grow: 1;
+
+    .SelectType {
+      flex-grow: 0;
+    }
+  }
+
+  .SortBy {
+    margin-left: auto;
+  }
+
+  @media screen and (max-width: 900px) {
+    flex-flow: column nowrap;
+    margin: 0 2% 20px 2%;
+
+    .Filter {
+      width: 100%;
+    }
+
+    .SortBy {
+      margin: 20px auto 0;
+    }
+  }
+}

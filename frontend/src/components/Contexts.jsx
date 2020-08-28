@@ -1,6 +1,7 @@
 import {
   ArtistsContextProvider,
   CollectionsContextProvider,
+  QueriesContextProvider,
   SearchContextProvider,
   ThemeContextProvider,
 } from 'contexts';
@@ -12,7 +13,9 @@ export const Contexts = ({ children }) => {
     <SearchContextProvider>
       <ThemeContextProvider>
         <CollectionsContextProvider>
-          <ArtistsContextProvider>{children}</ArtistsContextProvider>
+          <ArtistsContextProvider>
+            <QueriesContextProvider>{children}</QueriesContextProvider>
+          </ArtistsContextProvider>
         </CollectionsContextProvider>
       </ThemeContextProvider>
     </SearchContextProvider>

@@ -1,0 +1,84 @@
+.QueryList {
+  display: flex;
+  flex-flow: column nowrap;
+  margin: 0 auto;
+  max-width: 1050px;
+  width: 95%;
+
+  .SavedQuery {
+    margin-bottom: 5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    display: flex;
+    flex-flow: row nowrap;
+    font-size: 1.2em;
+
+    .Name {
+      height: 30px;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      font-weight: bold;
+      white-space: nowrap;
+      margin-right: 10px;
+      flex-shrink: 0;
+
+      .NameText {
+        overflow: hidden;
+        text-overflow: '  ...';
+      }
+
+      .Favorite {
+        margin-left: 5px;
+        overflow: visible;
+
+        span {
+          overflow: hidden;
+        }
+      }
+    }
+
+    .QueryAndNumReleases {
+      margin-left: auto;
+      overflow: hidden;
+      display: flex;
+      flex-flow: row nowrap;
+    }
+
+    .NumReleases {
+      width: 55px;
+      min-width: 55px;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: flex-end;
+
+      .MusicIcon {
+        margin-left: 5px;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      flex-flow: column nowrap;
+
+      .QueryAndNumReleases {
+        margin-top: 5px;
+        margin-left: 0;
+      }
+
+      .NumReleases {
+        margin-left: auto;
+      }
+    }
+  }
+}
+
+.SaveForm {
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 10px;
+
+  .SaveName {
+    margin-right: 10px;
+  }
+}

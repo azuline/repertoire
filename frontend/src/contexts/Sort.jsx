@@ -51,3 +51,11 @@ const releaseSpec = {
 };
 
 export const ReleaseSortContextProvider = providerGenerator(releaseSpec);
+
+const querySpec = {
+  ascKey: 'queries--asc',
+  sortFieldKey: 'queries--sortField',
+  defaultSortField: 'recentlyAdded',
+};
+
+export const QuerySortContextProvider = providerGenerator(querySpec);

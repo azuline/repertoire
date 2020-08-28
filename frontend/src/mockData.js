@@ -198,7 +198,7 @@ export const mockCollections = [
     favorite: true,
     id: 5,
     lastUpdatedOn: 10000000,
-    name: 'Vivrant',
+    name: 'Vivrantttttttttttttttttttttttttttttttttttttttttttt',
     numReleases: 31,
     topGenres: [
       { id: 23, name: 'Progressive House' },
@@ -215,7 +215,7 @@ export const mockArtists = [
   {
     favorite: false,
     id: 1,
-    name: 'Red Fox',
+    name: 'Red Foxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     numReleases: 5,
     topGenres: [
       { id: 3, name: 'K-Pop' },
@@ -282,20 +282,26 @@ export const mockArtists = [
 export const mockQueries = [
   {
     addedOn: 10000000,
+    favorite: true,
     id: 1,
     name: 'Shitty Inbox Music',
+    numReleases: 901,
     query: 'system:"inbox" collage:"Music To Shoot Yourself To"',
   },
   {
     addedOn: 10000001,
+    favorite: false,
     id: 2,
     name: 'Shitty Vivrant Music',
+    numReleases: 11,
     query: 'label:"Vivrant" collage:"Music To Shoot Yourself To"',
   },
   {
     addedOn: 100000010,
+    favorite: false,
     id: 3,
     name: 'A Really Really Really Goddamn Long Saved Query Name',
+    numReleases: 71,
     query:
       'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
   },

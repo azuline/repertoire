@@ -26,3 +26,7 @@ export const ArtistFilterContextProvider = providerGenerator(artistSpec);
 const collectionSpec = { selectionKey: 'collections--collectionType' };
 
 export const CollectionFilterContextProvider = providerGenerator(collectionSpec);
+
+const querySpec = { selectionKey: 'queries--queryType' };
+
+export const QueryFilterContextProvider = providerGenerator(querySpec);

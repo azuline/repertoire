@@ -4,7 +4,7 @@ import { ArtistList } from './ArtistList';
 import { CollectionList } from './CollectionList';
 import { FourOhFour } from './FourOhFour';
 import { MetadataEditor } from './MetadataEditor';
-import { Queries } from './Queries';
+import { QueryList } from './QueryList';
 import React from 'react';
 import { ReleaseList } from './ReleaseList';
 
@@ -18,7 +18,7 @@ const routes = [
     path: '/artists',
   },
   {
-    component: Queries,
+    component: QueryList,
     path: '/queries',
   },
   {

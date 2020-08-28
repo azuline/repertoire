@@ -152,5 +152,6 @@ CREATE TABLE music__saved_queries (
 	id INTEGER NOT NULL,
 	query VARCHAR NOT NULL,
 	added_on DATETIME DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+    favorite BOOLEAN NOT NULL DEFAULT 0 CHECK (favorite IN (0, 1)),
 	PRIMARY KEY (id)
 );

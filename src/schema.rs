@@ -86,6 +86,7 @@ table! {
         id -> Integer,
         query -> Text,
         added_on -> Timestamp,
+        favorite -> Bool,
     }
 }
 
