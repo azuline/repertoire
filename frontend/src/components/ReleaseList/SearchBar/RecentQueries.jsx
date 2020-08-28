@@ -1,13 +1,12 @@
 import { Button, Menu, MenuItem } from '@blueprintjs/core';
 import React, { useContext } from 'react';
-import { RecentQueriesContext, SearchContext } from 'contexts';
+import { SearchContext } from 'contexts';
 
 import { Select } from '@blueprintjs/select';
 import { formatDate } from 'common/datetime';
 
 export const RecentQueries = () => {
-  const { recentQueries } = useContext(RecentQueriesContext);
-  const { runQuery } = useContext(SearchContext);
+  const { runQuery, recentQueries } = useContext(SearchContext);
 
   const renderItem = ([index, { query, time }]) => {
     return (

@@ -19,14 +19,15 @@ API is currently in the process of being written.
 
 ## Installation
 
-1. Set the `DATABASE_URL` envvar in `.env`.
-2. Install diesel's CLI tool.
-3. Create the database with `diesel migration run`.
-4. Install Python dependencies for `scripts/`.
-5. Index a directory of music (or multiple) with `scripts/indexer.py`.
-6. Compile React frontend in 'frontend/' with `yarn build`.
-7. Compile backend with TODO.
-8. Run with TODO.
+1. Copy `.env.sample` to `.env`.
+2. Set the `DATABASE_URL` envvar in `.env`.
+3. Install diesel's CLI tool.
+4. Create the database with `diesel migration run`.
+5. Install Python dependencies for `scripts/`.
+6. Index a directory of music (or multiple) with `scripts/indexer.py`.
+7. Compile React frontend in 'frontend/' with `yarn build`.
+8. Compile backend with TODO.
+9. Run with TODO.
 
 ## License
 

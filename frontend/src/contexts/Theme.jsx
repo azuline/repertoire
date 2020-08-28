@@ -1,23 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { usePersistentState } from 'hooks';
 
 export const ThemeContext = React.createContext({
   dark: false,
   setDark: () => {},
 });
 
-const localDark = localStorage.getItem('theme-dark') === 'true';
-
 export const ThemeContextProvider = ({ children }) => {
-  const [dark, setDark] = useState(localDark);
+  const [dark, setDark] = usePersistentState('theme-dark', true);
 
   useEffect(() => {
-    if (dark === true) {
-      document.body.className = 'bp3-dark';
-      localStorage.setItem('theme-dark', 'true');
-    } else {
-      document.body.className = 'bp3-body';
-      localStorage.removeItem('theme-dark');
-    }
+    document.body.className = dark ? 'bp3-dark' : 'bp3-body';
   }, [dark]);
 
   const value = { dark, setDark };

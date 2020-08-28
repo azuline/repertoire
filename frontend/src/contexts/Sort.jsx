@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { usePersistentState } from 'hooks';
 
 export const SortContext = React.createContext({
   asc: true,
@@ -9,20 +10,17 @@ export const SortContext = React.createContext({
 });
 
 const providerGenerator = ({ ascKey, sortFieldKey, defaultSortField }) => {
-  const localAsc = localStorage.getItem(ascKey) === 'true';
-  let localSortField = localStorage.getItem(sortFieldKey) ?? defaultSortField;
-
-  // We don't start with fuzzy score since the fuzzy filter bar is initially empty.
-  if (localSortField === 'fuzzyScore') {
-    localSortField = defaultSortField;
-  }
+  const transformFuzzySortField = (sortField) => {
+    return sortField === 'fuzzyScore' ? defaultSortField : sortField;
+  };
 
   return ({ children }) => {
-    const [asc, setAsc] = useState(localAsc);
-    const [sortField, setSortField] = useState(localSortField);
-
-    useEffect(() => localStorage.setItem(ascKey, asc), [asc]);
-    useEffect(() => localStorage.setItem(sortFieldKey, sortField), [sortField]);
+    const [asc, setAsc] = usePersistentState(ascKey, true);
+    const [sortField, setSortField] = usePersistentState(
+      sortFieldKey,
+      defaultSortField,
+      transformFuzzySortField
+    );
 
     const value = { asc, setAsc, sortField, setSortField, defaultSortField };
 

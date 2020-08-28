@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { usePersistentState } from 'hooks';
 
 export const FilterContext = React.createContext({
   filter: '',
@@ -8,13 +9,9 @@ export const FilterContext = React.createContext({
 });
 
 const providerGenerator = ({ selectionKey }) => {
-  const localSelection = localStorage.getItem(selectionKey) ?? 'All';
-
   return ({ children }) => {
     const [filter, setFilter] = useState('');
-    const [selection, setSelection] = useState(localSelection);
-
-    useEffect(() => localStorage.setItem(selectionKey, selection), [selection]);
+    const [selection, setSelection] = usePersistentState(selectionKey, 'All');
 
     const value = { filter, setFilter, selection, setSelection };
 

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { usePersistentState } from 'hooks';
 
 export const ViewContext = React.createContext({
   view: '',
@@ -7,18 +8,11 @@ export const ViewContext = React.createContext({
   setExpandTrackLists: () => {},
 });
 
-const localView = localStorage.getItem('releases--view') ?? 'Detailed';
-const localExpandTrackLists =
-  localStorage.getItem('releases--expandTrackLists') === 'true';
-
 export const ViewContextProvider = ({ children }) => {
-  const [view, setView] = useState(localView);
-  const [expandTrackLists, setExpandTrackLists] = useState(localExpandTrackLists);
-
-  useEffect(() => localStorage.setItem('releases--view', view), [view]);
-  useEffect(
-    () => localStorage.setItem('releases--expandTrackLists', expandTrackLists),
-    [expandTrackLists]
+  const [view, setView] = usePersistentState('releases--view', 'Detailed');
+  const [expandTrackLists, setExpandTrackLists] = usePersistentState(
+    'releases--expandTrackLists',
+    false
   );
 
   const value = { view, setView, expandTrackLists, setExpandTrackLists };
