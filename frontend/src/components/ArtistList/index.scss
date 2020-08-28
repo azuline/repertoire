@@ -1,7 +1,7 @@
 .ArtistList {
   display: flex;
   flex-flow: column nowrap;
-  max-width: 900px;
+  max-width: 1050px;
   margin: 0 auto;
   width: 95%;
 
@@ -45,8 +45,10 @@
       display: flex;
       flex-flow: row nowrap;
       font-size: 1.2em;
+      align-items: center;
 
       .Name {
+        height: 30px;
         display: flex;
         flex-flow: row nowrap;
         align-items: center;
@@ -58,6 +60,10 @@
         .Favorite {
           margin-left: 5px;
           overflow: visible;
+
+          span {
+            overflow: hidden;
+          }
         }
       }
 

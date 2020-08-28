@@ -7,7 +7,7 @@ import { ThemeButton } from './ThemeButton';
 export const FullHeader = ({ pages, activeRoute }) => {
   return (
     <Navbar className="FullHeader">
-      <Navbar.Group align={Alignment.LEFT}>
+      <Navbar.Group className="NavLinks" align={Alignment.LEFT}>
         {Object.entries(pages).map(([route, { name, icon, exact, hidden }]) => {
           return hidden ? null : (
             <NavLink key={route} to={route} exact={exact}>

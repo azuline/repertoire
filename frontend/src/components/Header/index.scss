@@ -7,11 +7,15 @@
     color: inherit;
   }
 
+  .FullHeader > .NavLinks > a {
+    margin-right: 5px;
+  }
+
   .CompactHeader {
     display: none;
   }
 
-  @media screen and (max-width: 670px) {
+  @media screen and (max-width: 700px) {
     .CompactHeader {
       display: flex;
 
