@@ -1,8 +1,10 @@
 /target
 Cargo.lock
-db.sqlite3
 .env
 .venv
+
+db.sqlite3
+cover_args
 logs/*
 !logs/.gitkeep
 

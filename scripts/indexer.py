@@ -1,19 +1,19 @@
 #!/usr/bin/env python
 
 import glob
-import os
-from dotenv import load_dotenv
 import itertools
 import logging
+import os
 import re
 import sqlite3
 from argparse import ArgumentParser
 from enum import Enum
 from hashlib import sha256
-from typing import List, Dict, Iterable
 from pathlib import Path
+from typing import Dict, Iterable, List, Optional
 
-from tagfiles import TagFile, ArtistRoles
+from dotenv import load_dotenv
+from tagfiles import ArtistRoles, TagFile
 
 load_dotenv(dotenv_path=Path(__file__).parent.parent / ".env")
 
@@ -36,10 +36,12 @@ EXTS = [
 ARTIST_FEATURE_REGEX = re.compile(
     r" [\(\[]?(?:feat|ft|featuring)\.? ([^\)\]]+)[\)\]]?", flags=re.IGNORECASE
 )
-ARTIST_DELIMITER_REGEX = re.compile(
-    r"\\|\\\\|\/|; | presents | vs\.? ", flags=re.IGNORECASE
-)
+ARTIST_DELIMITER_REGEX = re.compile(r"\\|\\\\|; | ", flags=re.IGNORECASE)
 GENRE_DELIMITER_REGEX = re.compile(r"\\\\|\/|,|;")
+
+if not all(os.getenv(key) for key in ["DATABASE_URL", "COVER_ARTS_DIR"]):
+    print("Configure your environment (DB and cover art dir).")
+    exit(1)
 
 
 class CollectionType(Enum):
@@ -251,7 +253,7 @@ def fetch_or_create_release(tf: TagFile, cursor: sqlite3.Cursor) -> int:
     release_type = get_release_type(tf)
     release_year = tf.date.year or 0
     release_date = tf.date.date or None
-    image_path = None  # TODO
+    image_path = save_image(tf)
     album_artists = [ARTIST_FEATURE_REGEX.sub("", a) for a in tf.artist_album]
 
     logging.info(
@@ -293,6 +295,69 @@ def fetch_or_create_release(tf: TagFile, cursor: sqlite3.Cursor) -> int:
     insert_into_genre_collections(release_id, genres, cursor)
 
     return release_id
+
+
+def save_image(tf: TagFile) -> Optional[str]:
+    """
+    If the track has attached cover art, save it to the cover_arts dir under
+    the sha256 of the cover art.
+
+    Otherwise, look in the directory of the file and the directory above it for
+    a `cover` or `folder` file (case insensitive) if embedded art does not
+    exist.
+
+    If neither exist, return None.
+    """
+    return _save_embedded_image(tf) or _save_external_image(tf)
+
+
+def _save_embedded_image(tf: TagFile) -> Optional[str]:
+    if not tf.image_mime:
+        logging.debug("No embedded image found for `{tf.path}`.")
+        return None
+
+    extension = {"image/jpeg": "jpg", "image/png": "png"}.get(tf.image_mime, None)
+
+    if not extension:
+        logging.debug("Embedded image with invalid mimetype found for `{tf.path}`.")
+        return None
+
+    return _save_image(tf.image, extension)
+
+
+def _save_external_image(tf: TagFile) -> Optional[str]:
+    filenames = {
+        "cover.jpg": "jpg",
+        "cover.jpeg": "jpg",
+        "cover.png": "png",
+        "folder.jpg": "jpg",
+        "folder.jpeg": "jpg",
+        "folder.png": "png",
+    }
+
+    track_path = Path(tf.path)
+    for dir_ in (track_path.parent, track_path.parent.parent):
+        for filename, ext in filenames.items():
+            filepath = dir_ / filename
+            if filepath.exists():
+                with filepath.open("rb") as f:
+                    return _save_image(f.read(), ext)
+
+    return None
+
+
+def _save_image(data: bytes, extension: str) -> str:
+    hash_ = sha256(data).hexdigest()
+
+    filepath = os.getenv("COVER_ARTS_DIR") / f"{hash_}.{extension}"
+
+    if filepath.exists():
+        logging.debug("Embedded image already saved!")
+    else:
+        with open(filepath, "wb") as f:
+            f.write(data)
+
+    return filepath
 
 
 def contains_same_artists(one: Iterable, two: Iterable) -> bool:
