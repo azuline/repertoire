@@ -4,7 +4,7 @@ A release-oriented music server. Work in progress.
 
 Stack:
 
-- Backend: Rust (Rocket) + Python scripts
+- Backend: Python (Flask)
 - Frontend: JavaScript (React)
 
 ## State of the Project
@@ -14,20 +14,16 @@ Goal: MVP
 Frontend is fully mocked up (design may change). It lacks the backend request
 logic and a few parts dependent upon that logic.
 
-Backend currently consists of a database and Python script to populate it. The
-API is currently in the process of being written.
+Backend currently being written.
 
 ## Installation
 
-1. Copy `.env.sample` to `.env`.
-2. Set the `DATABASE_URL` envvar in `.env`.
-3. Install diesel's CLI tool.
-4. Create the database with `diesel migration run`.
-5. Install Python dependencies for `scripts/`.
-6. Index a directory of music (or multiple) with `scripts/indexer.py`.
-7. Compile React frontend in 'frontend/' with `yarn build`.
-8. Compile backend with TODO.
-9. Run with TODO.
+1. Copy `.env.sample` to `.env` and set the variables (can leave unchanged).
+2. Install Python backend with `pip install -e .` (to a virtualenv if you'd
+   like).
+3. Create the database with TODO.
+4. Compile React frontend in 'frontend/' with `yarn build`.
+5. Run with TODO.
 
 ## License
 

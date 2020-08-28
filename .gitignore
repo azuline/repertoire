@@ -4,11 +4,6 @@ Cargo.lock
 .venv
 
 db.sqlite3
-cover_args
-logs/*
-!logs/.gitkeep
-
-scripts/*
-!scripts/indexer.py
-!scripts/README.md
-!scripts/requirements.txt
+cover_arts
+logs/
+scripts/
