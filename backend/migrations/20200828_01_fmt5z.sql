@@ -1,3 +1,6 @@
+-- initial creation of the database
+-- depends:
+
 CREATE TABLE music__releases (
     id INTEGER NOT NULL,
     title VARCHAR NOT NULL,
@@ -154,4 +157,13 @@ CREATE TABLE music__saved_queries (
 	added_on DATETIME DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
     favorite BOOLEAN NOT NULL DEFAULT 0 CHECK (favorite IN (0, 1)),
 	PRIMARY KEY (id)
+);
+
+CREATE TABLE system__users (
+	id INTEGER NOT NULL,
+	username VARCHAR NOT NULL,
+	token BLOB NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE (username),
+	UNIQUE (token)
 );

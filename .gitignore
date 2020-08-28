@@ -2,6 +2,7 @@
 Cargo.lock
 .env
 .venv
+__pycache__/
 
 db.sqlite3
 cover_arts

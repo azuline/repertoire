@@ -6,78 +6,41 @@ import logging
 import os
 import re
 import sqlite3
-from argparse import ArgumentParser
-from enum import Enum
 from hashlib import sha256
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional
+from typing import Iterable, List, Optional
 
-from dotenv import load_dotenv
-from tagfiles import ArtistRoles, TagFile
+import click
+from tagfiles import TagFile
 
-load_dotenv(dotenv_path=Path(__file__).parent.parent / ".env")
+from src.enums import CollectionType, ReleaseType
+from src.util import database
 
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
 
-# Add log file handler.
-log_path = Path(__file__).parent.parent / "logs" / "indexer.log"
-handler = logging.FileHandler(str(log_path))
-formatter = logging.Formatter("%(asctime)s %(levelname)s: %(message)s")
-handler.setFormatter(formatter)
-logger.addHandler(handler)
+COVER_ART_DIR = Path(os.getenv("COVER_ART_DIR"))
+MUSIC_DIRS = os.getenv("MUSIC_DIRS").split(":")
 
 EXTS = [
     ".m4a",
     ".mp3",
     ".ogg",
+    ".flac",
 ]
 
-ARTIST_FEATURE_REGEX = re.compile(
-    r" [\(\[]?(?:feat|ft|featuring)\.? ([^\)\]]+)[\)\]]?", flags=re.IGNORECASE
-)
-ARTIST_DELIMITER_REGEX = re.compile(r"\\|\\\\|; | ", flags=re.IGNORECASE)
 GENRE_DELIMITER_REGEX = re.compile(r"\\\\|\/|,|;")
 
-if not all(os.getenv(key) for key in ["DATABASE_URL", "COVER_ARTS_DIR"]):
-    print("Configure your environment (DB and cover art dir).")
-    exit(1)
 
-
-class CollectionType(Enum):
-    SYSTEM = 1
-    COLLAGE = 2
-    LABEL = 3
-    GENRE = 4
-
-
-class ReleaseType(Enum):
-    ALBUM = 1
-    SINGLE = 2
-    EP = 3
-    COMPILATION = 4
-    SOUNDTRACK = 5
-    SPOKENWORD = 6
-    LIVE = 7
-    REMIX = 8
-    DJMIX = 9
-    MIXTAPE = 10
-    OTHER = 11
-    UNKNOWN = 12
+def index_directories() -> None:
+    """Catalog all the music in the configured library directories."""
+    for dir_ in MUSIC_DIRS:
+        catalog_directory(dir_)
 
 
 def catalog_directory(audio_path: str) -> None:
     """Catalog the music in a directory."""
     logger.info(f"Beginning catalog of `{audio_path}`.")
-    with sqlite3.connect(os.getenv("DATABASE_URL")) as conn:
-        conn.row_factory = sqlite3.Row
-        conn.execute("PRAGMA foreign_keys = ON")
-
-        if not is_valid_database(conn):
-            print("Not a valid database, did you migrate?")
-            logger.critical("Invalid database file, exiting...")
-            exit(1)
-
+    with database() as conn:
         for ext in EXTS:
             logger.info(f"Scanning directory for files with extension `{ext}`.")
 
@@ -85,10 +48,12 @@ def catalog_directory(audio_path: str) -> None:
             for i, filepath in enumerate(
                 glob.iglob(f"{audio_path}/**/*{ext}", recursive=True)
             ):
-                print(f"Scanning for extension `{ext}`, on track {i}...", end="\r")
+                click.echo(
+                    f"Scanning for extension `{ext}`, on track {i}...\r", nl=False
+                )
                 catalog_file(conn, TagFile(filepath))
 
-            print(f"Finished scanning extension `{ext}` with {i} tracks!")
+            click.echo(f"Finished scanning extension `{ext}` with {i} tracks!")
 
         fix_release_types(conn)
 
@@ -131,7 +96,7 @@ def catalog_file(conn: sqlite3.Connection, tf: TagFile) -> None:
     sha256 = calculate_sha_256(tf.path)
     track_number = tf.track_number or 1
     disc_number = tf.disc_number or 1
-    length = tf.mut.info.length
+    duration = tf.mut.info.length
 
     logger.info(
         f"Found new track `{tf.path}` with title `{title}` and hash "
@@ -143,10 +108,10 @@ def catalog_file(conn: sqlite3.Connection, tf: TagFile) -> None:
     cursor.execute(
         """
         INSERT INTO music__tracks
-        (title, filepath, sha256, release_id, track_number, disc_number, length)
+        (title, filepath, sha256, release_id, track_number, disc_number, duration)
         VALUES (?, ?, ?, ?, ?, ?, ?)
         """,
-        (title, filepath, sha256, release_id, track_number, disc_number, length),
+        (title, filepath, sha256, release_id, track_number, disc_number, duration),
     )
     conn.commit()
     track_id = cursor.lastrowid
@@ -155,7 +120,7 @@ def catalog_file(conn: sqlite3.Connection, tf: TagFile) -> None:
 
     # Handle track-specific artists.
     logger.info(f"Inserting artists for track `{tf.path}`...")
-    for role, artists in adjust_artist_dict(tf.artist).items():
+    for role, artists in tf.artist.items():
         for artist in artists:
             artist_id = fetch_or_create_artist(artist, cursor)
             cursor.execute(
@@ -172,32 +137,6 @@ def catalog_file(conn: sqlite3.Connection, tf: TagFile) -> None:
             )
 
     cursor.close()
-
-
-def adjust_artist_dict(
-    artists: Dict[ArtistRoles, List[str]]
-) -> Dict[ArtistRoles, List[str]]:
-    """
-    Given the dict of artists from the tags, scan the artists list for combined
-    artists and featuring artists. If any are found, fix the lists and return a
-    copy!
-    """
-    new_artists = artists.copy()
-    new_artists[ArtistRoles.MAIN] = []
-
-    for artist in artists[ArtistRoles.MAIN]:
-        match = ARTIST_FEATURE_REGEX.search(artist)
-        if match:
-            for feat in ARTIST_DELIMITER_REGEX.split(match[1]):
-                if feat not in new_artists[ArtistRoles.FEATURE]:
-                    new_artists[ArtistRoles.FEATURE].append(feat)
-            artist = ARTIST_FEATURE_REGEX.sub("", artist)
-
-        for main in ARTIST_DELIMITER_REGEX.split(artist):
-            if main not in new_artists[ArtistRoles.MAIN]:
-                new_artists[ArtistRoles.MAIN].append(main)
-
-    return new_artists
 
 
 def fetch_or_create_release(tf: TagFile, cursor: sqlite3.Cursor) -> int:
@@ -254,7 +193,7 @@ def fetch_or_create_release(tf: TagFile, cursor: sqlite3.Cursor) -> int:
     release_year = tf.date.year or 0
     release_date = tf.date.date or None
     image_path = save_image(tf)
-    album_artists = [ARTIST_FEATURE_REGEX.sub("", a) for a in tf.artist_album]
+    album_artists = tf.artist_album
 
     logging.info(
         f"Failed to fetch release for track `{tf.path}`, creating with title "
@@ -349,7 +288,7 @@ def _save_external_image(tf: TagFile) -> Optional[str]:
 def _save_image(data: bytes, extension: str) -> str:
     hash_ = sha256(data).hexdigest()
 
-    filepath = os.getenv("COVER_ARTS_DIR") / f"{hash_}.{extension}"
+    filepath = COVER_ART_DIR / f"{hash_}.{extension}"
 
     if filepath.exists():
         logging.debug("Embedded image already saved!")
@@ -357,7 +296,7 @@ def _save_image(data: bytes, extension: str) -> str:
         with open(filepath, "wb") as f:
             f.write(data)
 
-    return filepath
+    return str(filepath)
 
 
 def contains_same_artists(one: Iterable, two: Iterable) -> bool:
@@ -413,7 +352,8 @@ def insert_into_inbox_collection(release_id: int, cursor: sqlite3.Cursor) -> Non
     """
     cursor.execute(
         """
-        INSERT INTO music_collections (release_id, collection_id) VALUES (?, ?)
+        INSERT INTO music__collections_releases (release_id, collection_id)
+        VALUES (?, ?)
         """,
         (release_id, 1),
     )
@@ -585,12 +525,3 @@ def fix_release_types(conn: sqlite3.Connection) -> None:
         conn.commit()
 
     cursor.close()
-
-
-parser = ArgumentParser(description="Recursively index a directory of music.")
-parser.add_argument("directory", type=str, help="The directory to index.")
-
-
-if __name__ == "__main__":
-    args = parser.parse_args()
-    catalog_directory(args.database, args.directory.rstrip("/"))

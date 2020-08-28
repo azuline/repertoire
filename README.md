@@ -18,12 +18,30 @@ Backend currently being written.
 
 ## Installation
 
-1. Copy `.env.sample` to `.env` and set the variables (can leave unchanged).
-2. Install Python backend with `pip install -e .` (to a virtualenv if you'd
-   like).
+1. Configure the backend (see [Configuration](##Configuration)).
+2. Install Python backend in `backend/` with `pip install -e .` (to a
+   virtualenv if you'd like).
 3. Create the database with TODO.
 4. Compile React frontend in 'frontend/' with `yarn build`.
 5. Run with TODO.
+
+## Configuration
+
+Configuration of the backend is handled with environment variables. These are
+set in the `.env` file located in the root directory of the project.
+
+To configure the backend, copy `.env.sample` to `.env` and alter the variables
+as desired. The following list describes what each variable does.
+
+- `DATABASE_PATH` - Location to store the SQLite database.
+- `COVER_ART_DIR` - Location to store cover arts of the library.
+- `LOGS_DIR` - Location to write backend service logs.
+- `PID_PATH` - Location to write the backend daemon PID file.
+- `MUSIC_DIRS` - A colon-delimited list of directories to look for music in.
+  _Warning: Does not support directories with colons in their path._
+
+Regarding the paths to use, one can use the root directory of the project if
+there is no better option (i.e. `/path/to/repertoire`).
 
 ## License
 
