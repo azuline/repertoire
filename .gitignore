@@ -3,8 +3,9 @@ Cargo.lock
 .env
 .venv
 __pycache__/
+*.egg-info
 
 db.sqlite3
-cover_arts
+cover_arts/
 logs/
-scripts/
+backend/scripts/

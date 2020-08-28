@@ -1,5 +1,6 @@
 import logging
 import os
+from pathlib import Path
 from signal import SIGKILL, SIGTERM
 
 import click
@@ -11,7 +12,7 @@ from src.cli.errors import CliError
 
 logger = logging.getLogger(__name__)
 
-PID_PATH = os.getenv("PID_PATH")
+PID_PATH = Path(os.getenv("PID_PATH"))
 
 
 @commands.command()
@@ -39,7 +40,7 @@ def start(host, port, foreground):
         server.serve_forever()
 
     daemon = Daemonize(
-        app="src",
+        app="repertoire",
         pid=PID_PATH,
         action=run_daemon,
         foreground=foreground,
