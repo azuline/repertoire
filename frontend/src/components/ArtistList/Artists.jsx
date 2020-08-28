@@ -2,12 +2,9 @@ import { ArtistsContext, FilterContext, SortContext } from 'contexts';
 import React, { useContext, useMemo } from 'react';
 
 import { Artist } from './Artist';
+import { name, releaseCount, random } from 'common/sorts';
 
-const sortFunctions = {
-  name: (one, two) => (one.name.toLowerCase() < two.name.toLowerCase() ? -1 : 1),
-  random: () => Math.random() - 0.5,
-  releaseCount: (one, two) => one.numReleases - two.numReleases,
-};
+const sortFunctions = { name, releaseCount, random };
 
 export const Artists = () => {
   const { asc, sortField } = useContext(SortContext);

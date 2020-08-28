@@ -1,7 +1,7 @@
 import { Button, Menu, MenuItem } from '@blueprintjs/core';
 import React, { useContext } from 'react';
-import { SearchContext } from 'contexts';
 
+import { SearchContext } from 'contexts';
 import { Select } from '@blueprintjs/select';
 import { formatDate } from 'common/datetime';
 

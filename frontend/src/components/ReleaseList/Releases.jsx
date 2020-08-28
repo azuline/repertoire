@@ -3,14 +3,10 @@ import { SortContext, ViewContext } from 'contexts';
 
 import { Release } from 'components/Release';
 import { mockReleases } from 'mockData';
+import { random, recentlyAdded, title, year } from 'common/sorts';
 
-// Functions to sort the release by, keyed on the sort type ID.
-const sortFunctions = {
-  random: () => Math.random() - 0.5,
-  recentlyAdded: (one, two) => two.addedOn - one.addedOn,
-  ritle: (one, two) => (one.title.toLowerCase() < two.title.toLowerCase() ? -1 : 1),
-  year: (one, two) => one.year - two.year,
-};
+// Functions to sort the releases by.
+const sortFunctions = { recentlyAdded, title, year, random };
 
 export const Releases = () => {
   const { asc, sortField } = useContext(SortContext);

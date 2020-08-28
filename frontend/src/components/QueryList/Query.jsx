@@ -1,4 +1,4 @@
-import { Card, Tag, Icon, Tooltip, Position } from '@blueprintjs/core';
+import { Card, Icon, Position, Tag, Tooltip } from '@blueprintjs/core';
 import React, { useContext } from 'react';
 
 import { SearchContext } from 'contexts';

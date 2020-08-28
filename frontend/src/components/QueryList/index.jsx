@@ -2,9 +2,9 @@ import './index.scss';
 
 import { QueryFilterContextProvider, QuerySortContextProvider } from 'contexts';
 
-import React from 'react';
 import { ListOptions } from 'components/common/ListOptions';
 import { Queries } from './Queries';
+import React from 'react';
 
 const selections = ['All', 'Favorite'];
 

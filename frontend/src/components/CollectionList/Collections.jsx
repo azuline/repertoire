@@ -3,13 +3,9 @@ import React, { useContext, useMemo } from 'react';
 
 import { Collection } from './Collection';
 import { collectionTypeNamesToIds } from 'common/collections';
+import { name, random, recentlyUpdated, releaseCount } from 'common/sorts';
 
-const sortFunctions = {
-  Name: (one, two) => (one.name.toLowerCase() < two.name.toLowerCase() ? -1 : 1),
-  Random: () => Math.random() - 0.5,
-  recentlyUpdated: (one, two) => two.lastUpdatedOn - one.lastUpdatedOn,
-  releaseCount: (one, two) => one.numReleases - two.numReleases,
-};
+const sortFunctions = { recentlyUpdated, name, releaseCount, random };
 
 export const Collections = () => {
   const { asc, sortField } = useContext(SortContext);

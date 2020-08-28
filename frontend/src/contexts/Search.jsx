@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { usePersistentState } from 'hooks';
 
 import { executeQuery } from 'lib/queries';
 import { useHistory } from 'react-router-dom';
+import { usePersistentState } from 'hooks';
 
 export const SearchContext = React.createContext({
   query: '',

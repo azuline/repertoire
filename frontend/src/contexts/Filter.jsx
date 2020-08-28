@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { usePersistentState } from 'hooks';
 
 export const FilterContext = React.createContext({

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+
 import { usePersistentState } from 'hooks';
 
 export const ThemeContext = React.createContext({

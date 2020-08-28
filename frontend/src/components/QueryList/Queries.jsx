@@ -1,13 +1,10 @@
-import React, { useContext, useMemo } from 'react';
-import { Query } from './Query';
 import { FilterContext, QueriesContext, SortContext } from 'contexts';
+import React, { useContext, useMemo } from 'react';
 
-const sortFunctions = {
-  Name: (one, two) => (one.name.toLowerCase() < two.name.toLowerCase() ? -1 : 1),
-  Random: () => Math.random() - 0.5,
-  recentlyAdded: (one, two) => two.addedOn - one.addedOn,
-  releaseCount: (one, two) => one.numReleases - two.numReleases,
-};
+import { Query } from './Query';
+import { recentlyAdded, name, releaseCount, random } from 'common/sorts';
+
+const sortFunctions = { recentlyAdded, name, releaseCount, random };
 
 export const Queries = () => {
   const { asc, sortField } = useContext(SortContext);
