@@ -2,6 +2,7 @@ import React from 'react';
 import { SearchBar } from './SearchBar';
 import { SortBy } from 'components/common/SortBy';
 import { ViewAs } from './ViewAs';
+import { PerPage } from './PerPage';
 
 const sortCriteria = {
   recentlyAdded: { label: 'Recently Added', icon: 'time' },
@@ -18,7 +19,10 @@ export const ReleaseListOptions = () => {
       <SearchBar />
       <div className="ViewOptions">
         <SortBy criteria={sortCriteria} />
-        <ViewAs criteria={viewCriteria} />
+        <div className="ViewOptionsBottomRow">
+          <PerPage />
+          <ViewAs criteria={viewCriteria} />
+        </div>
       </div>
     </div>
   );

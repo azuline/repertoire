@@ -8,7 +8,7 @@ export const ViewContext = React.createContext({
   setExpandTrackLists: () => {},
 });
 
-export const ViewContextProvider = ({ children }) => {
+export const ReleaseViewContextProvider = ({ children }) => {
   const [view, setView] = usePersistentState('releases--view', 'Detailed');
   const [expandTrackLists, setExpandTrackLists] = usePersistentState(
     'releases--expandTrackLists',

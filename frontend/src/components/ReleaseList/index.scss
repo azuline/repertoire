@@ -8,7 +8,7 @@
     flex-flow: row nowrap;
     width: 100%;
     align-items: center;
-    margin: 0 auto 20px auto;
+    margin: 0 auto 15px auto;
     padding: 0 5%;
 
     .SearchBar {
@@ -19,10 +19,20 @@
       margin-left: 15px;
       display: flex;
       flex-flow: row nowrap;
+    }
 
-      .ViewAs {
-        margin-left: 15px;
-      }
+    .ViewOptionsBottomRow {
+      display: flex;
+      flex-flow: row nowrap;
+    }
+
+    .ViewAs,
+    .SelectPerPage {
+      margin-left: 15px;
+    }
+
+    .SelectPerPage .bp3-button-text::before {
+      content: 'Per Page: ';
     }
 
     @media screen and (max-width: 1200px) {
@@ -36,12 +46,32 @@
       }
 
       .ViewOptions {
-        margin: 20px auto 0;
+        margin: 15px auto 0;
       }
     }
 
-    @media screen and (min-width: 540px) and (max-width: 670px) {
+    @media screen and (max-width: 760px) {
       .SortOrder {
+        .bp3-icon {
+          margin-right: 0;
+        }
+        .bp3-button-text {
+          display: none;
+        }
+      }
+    }
+
+    @media screen and (max-width: 690px) {
+      .SelectPerPage .bp3-button-text::before {
+        content: '' !important;
+      }
+
+      .ViewAs,
+      .SelectPerPage {
+        margin-left: 5px;
+      }
+
+      .ExpandTracks {
         .bp3-icon {
           margin-right: 0;
         }
@@ -52,7 +82,7 @@
       }
     }
 
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 520px) {
       .ViewOptions {
         display: flex;
         flex-flow: column nowrap;
@@ -61,6 +91,10 @@
         .SortBy,
         .ViewAs {
           margin: 5px auto;
+        }
+
+        .SelectPerPage {
+          margin: 5px 5px 5px 0;
         }
       }
     }

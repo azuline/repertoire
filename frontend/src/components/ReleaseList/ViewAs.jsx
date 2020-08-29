@@ -32,8 +32,9 @@ export const ViewAs = ({ criteria }) => {
         <Button text={view} icon="eye-open" rightIcon="caret-down" />
       </Select>
       <Button
+        className="ExpandTracks"
         disabled={view === 'Artwork'}
-        icon="expand-all"
+        icon={expandTrackLists ? 'collapse-all' : 'expand-all'}
         onClick={() => setExpandTrackLists(!expandTrackLists)}
       >
         {expandTrackLists ? 'Collapse Tracks' : 'Expand Tracks'}

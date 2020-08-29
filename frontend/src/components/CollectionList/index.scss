@@ -3,9 +3,10 @@
   flex-flow: column nowrap;
 
   .Collections {
-    height: calc(100vh - 120px);
+    height: calc(100vh - 110px);
     overflow: auto;
     width: 100%;
+    margin-top: 15px;
 
     .Virtual {
       position: relative;
@@ -16,6 +17,10 @@
         top: 0;
         left: 0;
         width: 100%;
+
+        &:hover {
+          z-index: 60;
+        }
       }
 
       margin-top: 1px;
@@ -102,9 +107,11 @@
       }
     }
 
-    @media screen and (max-width: 600px) {
-      height: calc(100vh - 120px);
+    @media screen and (max-width: 900px) {
+      height: calc(100vh - 150px) !important;
+    }
 
+    @media screen and (max-width: 600px) {
       .Collection {
         flex-flow: row wrap;
 
