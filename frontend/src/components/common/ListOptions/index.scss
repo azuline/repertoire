@@ -1,7 +1,10 @@
 .ListOptions {
   display: flex;
   flex-flow: row nowrap;
-  margin: 0 5% 20px 5%;
+  max-width: 1100px;
+  width: 100%;
+  padding: 0 5%;
+  margin: 0 auto 20px auto;
 
   .Filter {
     margin-right: 15px;
@@ -18,7 +21,6 @@
 
   @media screen and (max-width: 900px) {
     flex-flow: column nowrap;
-    margin: 0 2% 20px 2%;
 
     .Filter {
       width: 100%;

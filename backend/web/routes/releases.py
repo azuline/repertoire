@@ -32,7 +32,7 @@ def SortOption(value):
     Schema(
         {
             "search": str,
-            "collections": List[int],
+            "collections": [int],
             "page": int,
             "limit": int,
             Required("sort", default="recentlyAdded"): SortOption,

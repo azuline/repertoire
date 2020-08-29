@@ -1,54 +1,78 @@
 .QueryList {
   display: flex;
   flex-flow: column nowrap;
-  margin: 0 auto;
-  max-width: 1050px;
-  width: 95%;
 
-  .SavedQuery {
-    margin-bottom: 5px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    display: flex;
-    flex-flow: row nowrap;
-    font-size: 1.2em;
+  .Queries {
+    height: calc(100vh - 120px);
+    overflow: auto;
+    width: 100%;
 
-    .Name {
-      height: 30px;
-      display: flex;
-      flex-flow: row nowrap;
-      align-items: center;
-      font-weight: bold;
-      white-space: nowrap;
-      margin-right: 10px;
-      flex-shrink: 0;
+    .Virtual {
+      position: relative;
+      width: 100%;
 
-      .NameText {
-        overflow: hidden;
-        text-overflow: '  ...';
+      .VirtualRow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
       }
 
-      .Favorite {
-        margin-left: 5px;
-        overflow: visible;
-
-        span {
-          overflow: hidden;
-        }
-      }
+      margin-top: 1px;
+      margin-bottom: 20px;
     }
 
-    .Query {
-      margin-left: auto;
-      overflow: hidden;
+    .SavedQuery {
+      border-radius: 0;
+      margin: 0 auto;
+      max-width: 1050px;
+      width: 95%;
+      margin-bottom: 5px;
+      padding-top: 8px;
+      padding-bottom: 8px;
       display: flex;
       flex-flow: row nowrap;
+      font-size: 1.2em;
+
+      .Name {
+        height: 30px;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        font-weight: bold;
+        white-space: nowrap;
+        margin-right: 10px;
+        flex-shrink: 0;
+
+        .NameText {
+          overflow: hidden;
+          text-overflow: '  ...';
+        }
+
+        .Favorite {
+          margin-left: 5px;
+          overflow: visible;
+
+          span {
+            overflow: hidden;
+          }
+        }
+      }
+
+      .Query {
+        margin-left: auto;
+        overflow: hidden;
+        display: flex;
+        flex-flow: row nowrap;
+      }
     }
 
     @media screen and (max-width: 600px) {
+      height: calc(100vh - 120px);
+
       .Query {
         display: none;
       }
     }
+    }
   }
-}
