@@ -1,6 +1,7 @@
 import os
 import sqlite3
 from contextlib import contextmanager
+from datetime import datetime
 from typing import ContextManager
 
 DATABASE_PATH = os.getenv("DATABASE_PATH")
@@ -13,3 +14,8 @@ def database() -> ContextManager[sqlite3.Connection]:
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys = ON")
         yield conn
+
+
+def to_posix_time(time: str) -> int:
+    """Take a YYYY-MM-DD HH:MM:SS UTC timestamp and convert it to unix time."""
+    return datetime.fromisoformat(f"{time}+00:00").timestamp()

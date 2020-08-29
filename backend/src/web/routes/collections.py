@@ -1,7 +1,7 @@
 import flask
 
 from src.enums import CollectionType
-from src.util import database
+from src.util import database, to_posix_time
 from src.web.util import check_auth
 
 bp = flask.Blueprint("collections", __name__)
@@ -21,7 +21,7 @@ def get_collections():
                 cols.favorite,
                 cols.type,
                 COUNT(colsrls.release_id) AS num_releases,
-                MAX(colsrls.added_on) AS added_on
+                MAX(colsrls.added_on) AS last_updated_on
             FROM music__collections AS cols
             LEFT JOIN music__collections_releases AS colsrls
                 ON colsrls.collection_id = cols.id
@@ -36,7 +36,7 @@ def get_collections():
                 "favorite": row["favorite"],
                 "type": row["type"],
                 "numReleases": row["num_releases"],
-                "addedOn": row["added_on"],
+                "lastUpdatedOn": to_posix_time(row["last_updated_on"]),
             }
             for row in cursor.fetchall()
         ]

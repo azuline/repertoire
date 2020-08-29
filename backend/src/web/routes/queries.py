@@ -4,7 +4,7 @@ from typing import Dict
 import flask
 from voluptuous import Schema
 
-from src.util import database
+from src.util import database, to_posix_time
 from src.web.util import check_auth, validate_data
 
 bp = flask.Blueprint("queries", __name__)
@@ -73,6 +73,6 @@ def _make_query_dict(row: sqlite3.Row) -> Dict:
         "id": row["id"],
         "name": row["name"],
         "favorite": row["favorite"],
-        "addedOn": row["added_on"],
+        "addedOn": to_posix_time(row["added_on"]),
         "query": row["query"],
     }
