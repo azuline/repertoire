@@ -11,10 +11,9 @@ Stack:
 
 Goal: MVP
 
-Frontend is fully mocked up (design may change). It lacks the backend request
-logic and a few parts dependent upon that logic.
-
-Backend currently being written.
+- Frontend is fully mocked up (design may change).
+- Backend is at MVP. Needs tests.
+- Currently writing frontend request handling and state logic.
 
 ## Installation
 

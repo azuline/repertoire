@@ -42,19 +42,20 @@ def catalog_directory(audio_path: str) -> None:
     """Catalog the music in a directory."""
     logger.info(f"Beginning catalog of `{audio_path}`.")
     with database() as conn:
+        files = []
         for ext in EXTS:
-            logger.info(f"Scanning directory for files with extension `{ext}`.")
+            click.echo(f"Searching for files of extension {ext}...")
+            files.extend(glob.glob(f"{audio_path}/**/*{ext}", recursive=True))
 
-            i = 0
-            for i, filepath in enumerate(
-                glob.iglob(f"{audio_path}/**/*{ext}", recursive=True)
-            ):
-                click.echo(
-                    f"Scanning for extension `{ext}`, on track {i}...\r", nl=False
-                )
-                catalog_file(conn, TagFile(filepath))
+        logger.info(f"Found {len(files)} tracks to catalog.")
+        click.echo(f"Found {len(files)} tracks to catalog.")
 
-            click.echo(f"Finished scanning extension `{ext}` with {i} tracks!")
+        for i, filepath in enumerate(files):
+            if i % 25 == 0:
+                click.echo(f"Cataloguing track {i}...\r", nl=False)
+            catalog_file(conn, TagFile(filepath))
+
+        click.echo("Finished cataloguing tracks.")
 
         fix_release_types(conn)
 
