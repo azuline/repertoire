@@ -85,21 +85,11 @@
         flex-flow: row wrap;
 
         .TypeAndName {
-          margin-bottom: 5px;
           width: 100%;
         }
 
         .GenresAndNumReleases {
-          margin-left: 0;
-          width: 100%;
-
-          .TopGenres {
-            direction: ltr;
-          }
-
-          .NumReleases {
-            margin-left: auto;
-          }
+          display: none;
         }
       }
     }

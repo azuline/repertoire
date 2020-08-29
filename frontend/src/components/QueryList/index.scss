@@ -46,22 +46,9 @@
     }
 
     @media screen and (max-width: 600px) {
-      flex-flow: column nowrap;
-
       .Query {
-        margin-top: 5px;
-        margin-left: 0;
+        display: none;
       }
     }
-  }
-}
-
-.SaveForm {
-  display: flex;
-  flex-flow: row nowrap;
-  padding: 10px;
-
-  .SaveName {
-    margin-right: 10px;
   }
 }

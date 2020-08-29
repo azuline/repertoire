@@ -2,7 +2,7 @@ import './index.scss';
 
 import { ReleaseSortContextProvider, ViewContextProvider } from 'contexts';
 
-import { ListOptions } from './ListOptions';
+import { ReleaseListOptions } from './ReleaseListOptions';
 import React from 'react';
 import { Releases } from './Releases';
 
@@ -11,7 +11,7 @@ export const ReleaseList = () => {
     <div className="ReleaseList">
       <ReleaseSortContextProvider>
         <ViewContextProvider>
-          <ListOptions />
+          <ReleaseListOptions />
           <Releases />
         </ViewContextProvider>
       </ReleaseSortContextProvider>

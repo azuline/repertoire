@@ -3,11 +3,10 @@
   justify-content: center;
   flex-flow: column nowrap;
 
-  .ListOptions {
+  .ReleaseListOptions {
     display: flex;
     flex-flow: row nowrap;
     width: 100%;
-    max-width: 1200px;
     align-items: center;
     margin: 0 auto 20px auto;
     padding: 0 5%;
@@ -28,7 +27,6 @@
 
     @media screen and (max-width: 1200px) {
       flex-flow: column nowrap;
-      width: 100%;
       padding: 0 2%;
 
       .SearchBar {
@@ -70,5 +68,15 @@
 
   .Releases {
     margin-top: -10px;
+  }
+}
+
+.SaveForm {
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 10px;
+
+  .SaveName {
+    margin-right: 10px;
   }
 }

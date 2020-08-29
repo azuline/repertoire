@@ -12,9 +12,9 @@ const sortCriteria = {
 
 const viewCriteria = ['Detailed', 'Compact', 'Artwork'];
 
-export const ListOptions = () => {
+export const ReleaseListOptions = () => {
   return (
-    <div className="ListOptions">
+    <div className="ReleaseListOptions">
       <SearchBar />
       <div className="ViewOptions">
         <SortBy criteria={sortCriteria} />
