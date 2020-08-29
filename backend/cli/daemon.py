@@ -7,8 +7,8 @@ from daemonize import Daemonize
 from gevent.pywsgi import WSGIServer
 
 from backend.cli.commands import commands, shared_options
-from backend.errors import CliError
 from backend.constants import PID_PATH
+from backend.errors import CliError
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +28,10 @@ def start(host, port, foreground):
     """Start the backend daemon."""
 
     def run_daemon():
+        from gevent import monkey
+
+        monkey.patch_all()
+
         from backend.tasks import huey
         from backend.web.wsgi import app
 

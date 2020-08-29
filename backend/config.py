@@ -5,7 +5,7 @@ from typing import List
 from backend.constants import CONFIG_PATH
 from backend.errors import InvalidConfig
 
-DEFAULT_CONFIG = {"repertoire": {"music_directories": "[]", "index_interval": "86400"}}
+DEFAULT_CONFIG = {"repertoire": {"music_directories": "[]", "index_interval": "24"}}
 
 
 def _save_config(parser: ConfigParser) -> None:
@@ -83,9 +83,10 @@ class Config:
 
         # Validate that the re-index interval is a valid positive integer.
         try:
-            if self.index_interval < 0:
+            if self.index_interval < 0 or self.index_interval > 24:
                 raise ValueError
         except ValueError:
             raise InvalidConfig(
-                "repertoire.index_interval is not a valid positive integer."
+                "repertoire.index_interval is not a valid integer between "
+                "0 and 24, inclusive."
             )

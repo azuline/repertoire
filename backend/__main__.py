@@ -1,14 +1,10 @@
-from gevent import monkey
-
-monkey.patch_all()
-
 import logging
 import sys
 
 import click
 
 from backend.cli import commands
-from backend.errors import InvalidConfig, CliError
+from backend.errors import CliError, InvalidConfig
 
 logger = logging.getLogger(__name__)
 

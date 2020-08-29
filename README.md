@@ -53,8 +53,9 @@ A sample configuration file is as follows:
 [repertoire]
 ; A JSON-encoded list of directories to index music files from.
 music_directories = ["/path/one", "/path/two"]
-; The interval (in seconds) in between indexes of the `music_directories`.
-index_interval = 86400
+; The interval (in hours) in between indexes of the `music_directories`.
+; Supports integers between 0 and 24, inclusive.
+index_interval = 1440
 ```
 
 _Note: Comments in the real config will be stripped by the backend._

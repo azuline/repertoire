@@ -1,7 +1,7 @@
 import sqlite3
 from contextlib import contextmanager
 from datetime import datetime
-from typing import ContextManager
+from typing import ContextManager, Dict
 
 from backend.constants import DATABASE_PATH
 
@@ -20,3 +20,15 @@ def to_posix_time(time: str) -> int:
     if time:
         return datetime.fromisoformat(f"{time}+00:00").timestamp()
     return None
+
+
+def hours_to_crontab(hours: int) -> Dict:
+    """
+    Given an integer that represents hours, return a dict of params that
+    matches Huey's crontab parameter format.
+    """
+    if not hours:
+        return {}
+    elif hours == 24:
+        return {"day": "*/1"}
+    return {"hour": f"*/{hours}"}
