@@ -1,5 +1,6 @@
 import { ArtistsContext, FilterContext, SortContext } from 'contexts';
 import React, { useContext, useMemo } from 'react';
+import { useVirtual } from 'react-virtual';
 
 import { Artist } from './Artist';
 import { name, releaseCount, random } from 'common/sorts';
@@ -38,11 +39,28 @@ export const Artists = () => {
     return results;
   }, [artists, fuse, asc, sortField, filter, artistType]);
 
+  // Virtual render setup.
+  const parentRef = React.useRef();
+  const rowVirtualizer = useVirtual({
+    size: filteredArtists.length,
+    parentRef,
+    estimateSize: React.useCallback(() => 46, []),
+    overscan: 5,
+  });
+
   return (
-    <div className="Artists">
-      {filteredArtists.map((artist) => {
-        return <Artist key={artist.id} artist={artist} />;
-      })}
+    <div className="Artists" ref={parentRef}>
+      <div className="Virtual" style={{ height: `${rowVirtualizer.totalSize}px` }}>
+        {rowVirtualizer.virtualItems.map((virtualRow) => (
+          <div
+            key={virtualRow.index}
+            className="VirtualRow"
+            style={{ height: '46px', transform: `translateY(${virtualRow.start}px)` }}
+          >
+            <Artist artist={filteredArtists[virtualRow.index]} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

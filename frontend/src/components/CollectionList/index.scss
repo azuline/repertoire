@@ -1,12 +1,32 @@
 .CollectionList {
   display: flex;
   flex-flow: column nowrap;
-  margin: 0 auto;
-  max-width: 1050px;
-  width: 95%;
 
   .Collections {
+    height: calc(100vh - 120px);
+    overflow: auto;
+    width: 100%;
+
+    .Virtual {
+      position: relative;
+      width: 100%;
+
+      .VirtualRow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+
+      margin-top: 1px;
+      margin-bottom: 20px;
+    }
+
     .Collection {
+      margin: 0 auto;
+      border-radius: 0;
+      max-width: 1050px;
+      width: 95%;
       margin-bottom: 5px;
       padding-top: 8px;
       padding-bottom: 8px;
@@ -80,8 +100,12 @@
           margin-left: 5px;
         }
       }
+    }
 
-      @media screen and (max-width: 600px) {
+    @media screen and (max-width: 600px) {
+      height: calc(100vh - 120px);
+
+      .Collection {
         flex-flow: row wrap;
 
         .TypeAndName {

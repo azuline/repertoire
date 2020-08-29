@@ -4,6 +4,7 @@ import React, { useContext, useMemo } from 'react';
 import { Collection } from './Collection';
 import { collectionTypeNamesToIds } from 'common/collections';
 import { name, random, recentlyUpdated, releaseCount } from 'common/sorts';
+import { useVirtual } from 'react-virtual';
 
 const sortFunctions = { recentlyUpdated, name, releaseCount, random };
 
@@ -39,11 +40,28 @@ export const Collections = () => {
     return results;
   }, [collections, fuse, asc, sortField, filter, collectionType]);
 
+  // Virtual render setup.
+  const parentRef = React.useRef();
+  const rowVirtualizer = useVirtual({
+    size: filteredCollections.length,
+    parentRef,
+    estimateSize: React.useCallback(() => 46, []),
+    overscan: 5,
+  });
+
   return (
-    <div className="Collections">
-      {filteredCollections.map((collection) => {
-        return <Collection key={collection.id} collection={collection} />;
-      })}
+    <div className="Collections" ref={parentRef}>
+      <div className="Virtual" style={{ height: `${rowVirtualizer.totalSize}px` }}>
+        {rowVirtualizer.virtualItems.map((virtualRow) => (
+          <div
+            key={virtualRow.index}
+            className="VirtualRow"
+            style={{ height: '46px', transform: `translateY(${virtualRow.start}px)` }}
+          >
+            <Collection collection={filteredCollections[virtualRow.index]} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
