@@ -2,7 +2,7 @@ import sqlite3
 from typing import Dict, List
 
 import flask
-from unidecode import unidecode
+from unidecode import Required, unidecode
 from voluptuous import Schema
 
 from backend.util import database, strip_punctuation, to_posix_time
@@ -10,11 +10,34 @@ from backend.web.util import check_auth, validate_data
 
 bp = flask.Blueprint("releases", __name__)
 
+SORT_OPTIONS = {
+    "recentlyAdded": "rls.added_on",
+    "title": "rls.title",
+    "year": "rls.release_year",
+    "random": "RANDOM()",
+}
+
+
+def SortOption(value):
+    """Voluptuous custom schema validator."""
+    try:
+        return SORT_OPTIONS[value]
+    except KeyError:
+        raise ValueError
+
 
 @bp.route("/api/releases", methods=["GET"])
 @check_auth
 @validate_data(
-    Schema({"search": str, "collections": List[int], "page": int, "limit": int})
+    Schema(
+        {
+            "search": str,
+            "collections": List[int],
+            "page": int,
+            "limit": int,
+            Required("sort", default="recentlyAdded"): SortOption(),
+        }
+    )
 )
 def get_releases(
     search: str = "", collections: List[int] = [], page: int = 1, offset: int = 40
@@ -25,7 +48,7 @@ def get_releases(
 
         releases = _query_releases(search, collections, page, offset, cursor)
 
-        for release in releases:
+        for release in releases["releases"]:
             release["tracks"] = _fetch_tracks(release, cursor)
             release["artists"] = _fetch_artists(release, cursor)
             release["collections"] = _fetch_collections(release, cursor)
@@ -36,14 +59,29 @@ def get_releases(
 
 
 def _query_releases(
-    search: str, collections: List[int], page: int, offset: int, cursor: sqlite3.Cursor
+    search: str,
+    collections: List[int],
+    page: int,
+    offset: int,
+    sort: str,
+    cursor: sqlite3.Cursor,
 ) -> List[Dict]:
-    # Lol holy shit omg this is so dirty.
-    extra_sql = []
-    extra_params = []
+    """
+    We query the releases with a search string and a list of collections to
+    filter by. To do so, we construct the SQL query and parameter list
+    dynamically based on the number of words in the search string and number of
+    collections in the collection list.
 
+    Our search string is split up into individual punctuation-less words and
+    then used to filter the releases.
+    """
+    # Variables to hold the filter SQL and params.
+    filter_sql = []
+    filter_params = []
+
+    # Add the collections to the filter SQL.
     for collection in collections:
-        extra_sql.append(
+        filter_sql.append(
             """
             EXISTS (
                 SELECT 1 FROM music__collections_releases
@@ -51,24 +89,37 @@ def _query_releases(
             )
             """
         )
-        extra_params.append(collection.id)
+        filter_params.append(collection.id)
 
+    # Add the search str to the filter SQL.
     for word in strip_punctuation(search).split(" "):
         if not word:
             continue
 
-        extra_sql.append(
+        filter_sql.append(
             """
             EXISTS (
-                SELECT 1 FROM music__search_index
+                SELECT 1 FROM music__releases_search_index
                 WHERE word = ? OR word = ? AND release_id = rls.id
             )
             """
         )
-        extra_params.append(word, unidecode(word))
+        filter_params.append(word, unidecode(word))
 
     cursor.execute(
-        """
+        f"""
+        SELECT
+            COUNT(1)
+        FROM music__releases AS rls
+        {"WHERE" + " and ".join(filter_sql) if filter_sql else ""}
+        """,
+        tuple(filter_params),
+    )
+
+    total = cursor.fetchone()[0]
+
+    cursor.execute(
+        f"""
         SELECT
             rls.id,
             rls.title,
@@ -76,23 +127,27 @@ def _query_releases(
             rls.release_year,
             rls.added_on
         FROM music__releases AS rls
-        {"WHERE + " and ".join(extra_sql) if extra_sql else ""}
+        {"WHERE" + " and ".join(filter_sql) if filter_sql else ""}
+        ORDER BY {sort}
         LIMIT ?
         OFFSET ?
         """,
-        (offset, (page - 1) * offset, *extra_params),
+        (*filter_params, offset, (page - 1) * offset),
     )
 
-    return [
-        {
-            "id": row["id"],
-            "title": row["title"],
-            "releaseType": row["release_type"],
-            "year": row["release_year"],
-            "addedOn": to_posix_time(row["added_on"]),
-        }
-        for row in cursor.fetchall()
-    ]
+    return {
+        "total": total,
+        "releases": [
+            {
+                "id": row["id"],
+                "title": row["title"],
+                "releaseType": row["release_type"],
+                "year": row["release_year"],
+                "addedOn": to_posix_time(row["added_on"]),
+            }
+            for row in cursor.fetchall()
+        ],
+    }
 
 
 def _fetch_tracks(release: Dict, cursor: sqlite3.Cursor) -> List[Dict]:
