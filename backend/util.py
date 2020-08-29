@@ -1,9 +1,14 @@
 import sqlite3
 from contextlib import contextmanager
 from datetime import datetime
+from string import punctuation
 from typing import ContextManager, Dict
 
+from unidecode import unidecode
+
 from backend.constants import DATABASE_PATH
+
+punctuation = set(punctuation)
 
 
 @contextmanager
@@ -32,3 +37,8 @@ def hours_to_crontab(hours: int) -> Dict:
     elif hours == 24:
         return {"day": "*/1"}
     return {"hour": f"*/{hours}"}
+
+
+def strip_punctuation(string: str) -> str:
+    """Strip the punctuation from a string."""
+    return "".join(c for c in unidecode(string) if c not in punctuation)

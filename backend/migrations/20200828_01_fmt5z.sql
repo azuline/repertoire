@@ -161,6 +161,14 @@ CREATE TABLE music__saved_queries (
     UNIQUE (name)
 );
 
+CREATE TABLE music__releases_search_index (
+	id INTEGER NOT NULL,
+	release_id INTEGER NOT NULL,
+	word VARCHAR NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE
+);
+
 CREATE TABLE system__users (
     id INTEGER NOT NULL,
     username VARCHAR NOT NULL,

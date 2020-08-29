@@ -1,27 +1,29 @@
-import re
 import sqlite3
 from typing import Dict, List
 
 import flask
+from unidecode import unidecode
 from voluptuous import Schema
 
-from backend.util import database, to_posix_time
+from backend.util import database, strip_punctuation, to_posix_time
 from backend.web.util import check_auth, validate_data
 
 bp = flask.Blueprint("releases", __name__)
 
-END_QUOTE_REGEX = re.compile(r'(?:\\.|[^"\\])*"')
-
 
 @bp.route("/api/releases", methods=["GET"])
 @check_auth
-@validate_data(Schema({"query": str, "page": int, "limit": int}))
-def get_releases(query: str = "", page: int = 1, offset: int = 40):
+@validate_data(
+    Schema({"search": str, "collections": List[int], "page": int, "limit": int})
+)
+def get_releases(
+    search: str = "", collections: List[int] = [], page: int = 1, offset: int = 40
+):
     """Returns the stored releases."""
     with database() as conn:
         cursor = conn.cursor()
 
-        releases = _query_releases(query, page, offset, cursor)
+        releases = _query_releases(search, collections, page, offset, cursor)
 
         for release in releases:
             release["tracks"] = _fetch_tracks(release, cursor)
@@ -34,21 +36,51 @@ def get_releases(query: str = "", page: int = 1, offset: int = 40):
 
 
 def _query_releases(
-    query: str, page: int, offset: int, cursor: sqlite3.Cursor
+    search: str, collections: List[int], page: int, offset: int, cursor: sqlite3.Cursor
 ) -> List[Dict]:
+    # Lol holy shit omg this is so dirty.
+    extra_sql = []
+    extra_params = []
+
+    for collection in collections:
+        extra_sql.append(
+            """
+            EXISTS (
+                SELECT 1 FROM music__collections_releases
+                WHERE release_id = rls.id AND collection_id = ?
+            )
+            """
+        )
+        extra_params.append(collection.id)
+
+    for word in strip_punctuation(search).split(" "):
+        if not word:
+            continue
+
+        extra_sql.append(
+            """
+            EXISTS (
+                SELECT 1 FROM music__search_index
+                WHERE word = ? OR word = ? AND release_id = rls.id
+            )
+            """
+        )
+        extra_params.append(word, unidecode(word))
+
     cursor.execute(
         """
         SELECT
-            id,
-            title,
-            release_type,
-            release_year,
-            added_on
-        FROM music__releases
+            rls.id,
+            rls.title,
+            rls.release_type,
+            rls.release_year,
+            rls.added_on
+        FROM music__releases AS rls
+        {"WHERE + " and ".join(extra_sql) if extra_sql else ""}
         LIMIT ?
         OFFSET ?
         """,
-        (offset, (page - 1) * offset),
+        (offset, (page - 1) * offset, *extra_params),
     )
 
     return [

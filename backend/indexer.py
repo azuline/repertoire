@@ -15,6 +15,7 @@ from tagfiles import TagFile
 from backend.config import Config
 from backend.constants import COVER_ART_DIR
 from backend.enums import CollectionType, ReleaseType
+from backend.search import build_search_index
 from backend.util import database
 
 logger = logging.getLogger()
@@ -34,6 +35,7 @@ def index_directories() -> None:
     config = Config()
     for dir_ in config.music_directories:
         catalog_directory(dir_)
+    build_search_index()
 
 
 def catalog_directory(audio_path: str) -> None:
