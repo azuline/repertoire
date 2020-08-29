@@ -72,7 +72,7 @@ def _make_query_dict(row: sqlite3.Row) -> Dict:
     return {
         "id": row["id"],
         "name": row["name"],
-        "favorite": row["favorite"],
+        "favorite": bool(row["favorite"]),
         "addedOn": to_posix_time(row["added_on"]),
         "query": row["query"],
     }

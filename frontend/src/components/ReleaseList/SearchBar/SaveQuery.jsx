@@ -1,11 +1,11 @@
 import { Button, InputGroup, Popover } from '@blueprintjs/core';
 import React, { useContext, useState } from 'react';
 
-import { SearchContext } from 'contexts';
-import { saveQuery } from 'lib/queries';
+import { SearchContext, QueriesContext } from 'contexts';
 
 export const SaveQuery = () => {
   const { query } = useContext(SearchContext);
+  const { saveQuery } = useContext(QueriesContext);
   const [name, setName] = useState('');
 
   const saveQueryForm = () => saveQuery(query, name);

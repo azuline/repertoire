@@ -31,7 +31,7 @@ def get_artists():
             {
                 "id": row["id"],
                 "name": row["name"],
-                "favorite": row["favorite"],
+                "favorite": bool(row["favorite"]),
                 "numReleases": row["num_releases"],
             }
             for row in cursor.fetchall()

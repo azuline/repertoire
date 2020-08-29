@@ -3,7 +3,10 @@ This module implements the Flask application function pattern. To create a new
 Flask app instance, call ``create_app()``.
 """
 
+import os
+
 import flask
+from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
 from werkzeug.utils import find_modules, import_string
 
@@ -25,8 +28,13 @@ def create_app(config=None):
     """
     app = flask.Flask(__name__, static_folder=str(STATIC_FOLDER), static_url_path="/")
 
+    # Disable CORS if we are in debug mode.
+    if os.getenv("FLASK_DEBUG") == "1":
+        CORS(app)
+
     @app.route("/", methods=["GET"])
-    def index():
+    @app.route("/<path>", methods=["GET"])
+    def index(path=None):
         return app.send_static_file("index.html")
 
     with app.app_context():

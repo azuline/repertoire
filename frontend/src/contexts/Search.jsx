@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { executeQuery } from 'lib/queries';
+import { queryReleases } from 'requests';
 import { useHistory } from 'react-router-dom';
 import { usePersistentState } from 'hooks';
 
@@ -28,7 +28,7 @@ export const SearchContextProvider = ({ children }) => {
     setQuery(query);
     appendRecentQuery(query);
 
-    const releases = executeQuery(query);
+    const releases = queryReleases(query);
     return releases; // delete this later, should instead modify release list context.
   };
 

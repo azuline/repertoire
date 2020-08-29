@@ -2,8 +2,8 @@ import sqlite3
 from typing import Dict, List
 
 import flask
-from unidecode import Required, unidecode
-from voluptuous import Schema
+from unidecode import unidecode
+from voluptuous import Required, Schema
 
 from backend.util import database, strip_punctuation, to_posix_time
 from backend.web.util import check_auth, validate_data
@@ -35,7 +35,7 @@ def SortOption(value):
             "collections": List[int],
             "page": int,
             "limit": int,
-            Required("sort", default="recentlyAdded"): SortOption(),
+            Required("sort", default="recentlyAdded"): SortOption,
         }
     )
 )

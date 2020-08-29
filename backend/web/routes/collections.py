@@ -33,7 +33,7 @@ def get_collections():
             {
                 "id": row["id"],
                 "name": row["name"],
-                "favorite": row["favorite"],
+                "favorite": bool(row["favorite"]),
                 "type": row["type"],
                 "numReleases": row["num_releases"],
                 "lastUpdatedOn": to_posix_time(row["last_updated_on"]),

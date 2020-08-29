@@ -2,21 +2,30 @@ import React, { useEffect, useState } from 'react';
 
 import Fuse from 'fuse.js';
 import { fuseOptions } from 'common/fuse';
-import { mockArtists } from 'mockData';
+import { fetchArtists } from 'requests';
 
 export const ArtistsContext = React.createContext({
   artists: [],
   setArtists: () => {},
   fuse: null,
+  fetched: false,
 });
 
 export const ArtistsContextProvider = ({ children }) => {
-  const [artists, setArtists] = useState(mockArtists);
+  const [artists, setArtists] = useState([]);
+  const [fetched, setFetched] = useState(false);
   const fuse = new Fuse(artists, { ...fuseOptions, keys: ['name'] });
 
   useEffect(() => fuse.setCollection(artists), [fuse, artists]);
 
-  const value = { artists, setArtists, fuse };
+  useEffect(() => {
+    (async () => {
+      setArtists(await fetchArtists());
+      setFetched(true);
+    })();
+  }, []);
+
+  const value = { artists, setArtists, fuse, fetched };
 
   return <ArtistsContext.Provider value={value}>{children}</ArtistsContext.Provider>;
 };

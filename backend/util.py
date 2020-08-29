@@ -35,8 +35,8 @@ def hours_to_crontab(hours: int) -> Dict:
     if not hours:
         return {}
     elif hours == 24:
-        return {"day": "*/1"}
-    return {"hour": f"*/{hours}"}
+        return {"minute": "0", "hour": "0", "day": "*/1"}
+    return {"minute": "0", "hour": f"*/{hours}"}
 
 
 def strip_punctuation(string: str) -> str:
