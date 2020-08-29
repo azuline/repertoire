@@ -1,3 +1,3 @@
-from huey.contrib.minimal import MiniHuey
+from huey.contrib.mini import MiniHuey
 
 huey = MiniHuey()

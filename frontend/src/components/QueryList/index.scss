@@ -38,36 +38,19 @@
       }
     }
 
-    .QueryAndNumReleases {
+    .Query {
       margin-left: auto;
       overflow: hidden;
       display: flex;
       flex-flow: row nowrap;
     }
 
-    .NumReleases {
-      width: 55px;
-      min-width: 55px;
-      display: flex;
-      flex-flow: row nowrap;
-      align-items: center;
-      justify-content: flex-end;
-
-      .MusicIcon {
-        margin-left: 5px;
-      }
-    }
-
     @media screen and (max-width: 600px) {
       flex-flow: column nowrap;
 
-      .QueryAndNumReleases {
+      .Query {
         margin-top: 5px;
         margin-left: 0;
-      }
-
-      .NumReleases {
-        margin-left: auto;
       }
     }
   }

@@ -285,7 +285,6 @@ export const mockQueries = [
     favorite: true,
     id: 1,
     name: 'Shitty Inbox Music',
-    numReleases: 901,
     query: 'system:"inbox" collage:"Music To Shoot Yourself To"',
   },
   {
@@ -293,7 +292,6 @@ export const mockQueries = [
     favorite: false,
     id: 2,
     name: 'Shitty Vivrant Music',
-    numReleases: 11,
     query: 'label:"Vivrant" collage:"Music To Shoot Yourself To"',
   },
   {
@@ -301,7 +299,6 @@ export const mockQueries = [
     favorite: false,
     id: 3,
     name: 'A Really Really Really Goddamn Long Saved Query Name',
-    numReleases: 71,
     query:
       'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
   },

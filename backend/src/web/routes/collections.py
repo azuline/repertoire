@@ -9,7 +9,7 @@ bp = flask.Blueprint("collections", __name__)
 
 @bp.route("/collections", methods=["GET"])
 @check_auth
-def collections():
+def get_collections():
     """Returns the stored collections."""
     with database() as conn:
         cursor = conn.cursor()

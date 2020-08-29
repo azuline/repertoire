@@ -8,7 +8,7 @@ CREATE TABLE music__releases (
     release_year INTEGER NOT NULL DEFAULT 0,
     release_date DATETIME,
     image_path VARCHAR,
-	added_on DATETIME DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+    added_on DATETIME DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (release_type) REFERENCES music__release_types(id)
 );
@@ -96,7 +96,7 @@ CREATE TABLE music__tracks (
     release_id INTEGER NOT NULL DEFAULT 1,
     track_number VARCHAR NOT NULL DEFAULT 1,
     disc_number VARCHAR NOT NULL DEFAULT 1,
-	duration INTEGER NOT NULL,
+    duration INTEGER NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (release_id) REFERENCES music__releases (id),
     UNIQUE (filepath)
@@ -139,8 +139,8 @@ INSERT INTO music__collection_types (id, type) VALUES
 
 -- Insert a system inbox collection.
 INSERT INTO music__collections (id, name, type) VALUES
-	(1, "Inbox", 1),
-	(2, "Favorite", 1);
+    (1, "Inbox", 1),
+    (2, "Favorite", 1);
 
 CREATE TABLE music__collections_releases (
     release_id INTEGER NOT NULL,
@@ -152,18 +152,20 @@ CREATE TABLE music__collections_releases (
 );
 
 CREATE TABLE music__saved_queries (
-	id INTEGER NOT NULL,
-	query VARCHAR NOT NULL,
-	added_on DATETIME DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+    id INTEGER NOT NULL,
+    name VARCHAR NOT NULL,
+    query VARCHAR NOT NULL,
+    added_on DATETIME DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
     favorite BOOLEAN NOT NULL DEFAULT 0 CHECK (favorite IN (0, 1)),
-	PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE (name)
 );
 
 CREATE TABLE system__users (
-	id INTEGER NOT NULL,
-	username VARCHAR NOT NULL,
-	token BLOB NOT NULL,
-	PRIMARY KEY (id),
-	UNIQUE (username),
-	UNIQUE (token)
+    id INTEGER NOT NULL,
+    username VARCHAR NOT NULL,
+    token BLOB NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE (username),
+    UNIQUE (token)
 );

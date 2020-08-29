@@ -9,6 +9,8 @@ import json
 import flask
 from voluptuous import Invalid
 
+from src.util import database
+
 
 def check_auth(func):
     """
@@ -25,9 +27,24 @@ def check_auth(func):
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        # token = _get_token(flask.request.headers)
+        return func(*args, **kwargs)  # Just for current testing, TODO delete.
+
+        token_hex = _get_token(flask.request.headers)
+        try:
+            token = bytes.fromhex(token_hex)
+        except ValueError:
+            flask.abort(401)
+
+        with database() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                """SELECT 1 FROM system__users WHERE token = ?""",
+                (token,),
+            )
+            if not cursor.fetchone():
+                flask.abort(401)
+
         return func(*args, **kwargs)
-        flask.abort(401)
 
     return wrapper
 

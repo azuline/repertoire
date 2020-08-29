@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 
 import { SearchContext } from 'contexts';
 
-export const Query = ({ query: { query, id, name, favorite, numReleases } }) => {
+export const Query = ({ query: { query, id, name, favorite } }) => {
   const { runQuery } = useContext(SearchContext);
 
   return (
@@ -23,14 +23,9 @@ export const Query = ({ query: { query, id, name, favorite, numReleases } }) => 
           </div>
         )}
       </div>
-      <div className="QueryAndNumReleases">
-        <Tag className="Query" large minimal>
-          {query}
-        </Tag>
-        <div className="NumReleases">
-          {numReleases} <Icon className="MusicIcon" icon="music" />
-        </div>
-      </div>
+      <Tag className="Query" large minimal>
+        {query}
+      </Tag>
     </Card>
   );
 };

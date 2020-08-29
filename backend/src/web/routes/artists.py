@@ -9,7 +9,7 @@ bp = flask.Blueprint("artists", __name__)
 
 @bp.route("/artists", methods=["GET"])
 @check_auth
-def artists():
+def get_artists():
     """Returns the stored artists."""
     with database() as conn:
         cursor = conn.cursor()
