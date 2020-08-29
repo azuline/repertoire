@@ -5,11 +5,11 @@ description = "A release-oriented music server."
 authors = ["azuline <azuline@riseup.net>"]
 license = "AGPL-3.0"
 packages = [
-	{ include = "src" },
+	{ include = "backend" },
 ]
 
 [tool.poetry.scripts]
-repertoire = "src.__main__:run"
+repertoire = "backend.__main__:run"
 
 [tool.poetry.dependencies]
 python = "^3.7"

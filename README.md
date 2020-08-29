@@ -19,11 +19,20 @@ Backend currently being written.
 ## Installation
 
 1. Configure the backend (see [Configuration](##Configuration)).
-2. Install Python backend in `backend/` with `pip install -e .` (to a
-   virtualenv if you'd like).
-3. Create the database with TODO.
-4. Compile React frontend in 'frontend/' with `yarn build`.
-5. Run with TODO.
+2. Install backend with `pip install -e .` (to a virtualenv if you'd like).
+3. Compile frontend in `frontend/` with `yarn build`.
+
+Or, as a set of shell commands,
+
+```sh
+$ cp .env.sample .env
+$ nano .env  # With your editor of choice.
+$ pip install -e .
+$ cd frontend
+$ yarn build
+$ cd ..
+$ repertoire
+```
 
 ## Configuration
 
@@ -42,6 +51,14 @@ as desired. The following list describes what each variable does.
 
 Regarding the paths to use, one can use the root directory of the project if
 there is no better option (i.e. `/path/to/repertoire`).
+
+## Development
+
+Run the debug server with
+
+```
+$ FLASK_DEBUG=1 FLASK_APP=backend/src/web/wsgi.py python -m flask run
+```
 
 ## License
 
