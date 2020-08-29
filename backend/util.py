@@ -1,10 +1,9 @@
-import os
 import sqlite3
 from contextlib import contextmanager
 from datetime import datetime
 from typing import ContextManager
 
-DATABASE_PATH = os.getenv("DATABASE_PATH")
+from backend.constants import DATABASE_PATH
 
 
 @contextmanager

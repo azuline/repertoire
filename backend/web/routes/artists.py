@@ -1,8 +1,8 @@
 import flask
 
-from src.enums import CollectionType
-from src.util import database
-from src.web.util import check_auth
+from backend.enums import CollectionType
+from backend.util import database
+from backend.web.util import check_auth
 
 bp = flask.Blueprint("artists", __name__)
 

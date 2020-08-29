@@ -2,8 +2,8 @@ import secrets
 
 import click
 
-from src.cli.commands import commands, shared_options
-from src.util import database
+from backend.cli.commands import commands, shared_options
+from backend.util import database
 
 
 @commands.command()

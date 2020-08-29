@@ -1,5 +1,5 @@
-from src.cli.commands import commands, shared_options
-from src.indexer import index_directories
+from backend.cli.commands import commands, shared_options
+from backend.indexer import index_directories
 
 
 @commands.command()

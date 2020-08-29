@@ -4,8 +4,8 @@ from typing import Dict
 import flask
 from voluptuous import Schema
 
-from src.util import database, to_posix_time
-from src.web.util import check_auth, validate_data
+from backend.util import database, to_posix_time
+from backend.web.util import check_auth, validate_data
 
 bp = flask.Blueprint("queries", __name__)
 

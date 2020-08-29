@@ -1,4 +1,4 @@
 # flake8: noqa
 
-from . import daemon, indexer, token
+from . import config, daemon, indexer, token
 from .commands import commands

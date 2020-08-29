@@ -1,8 +1,8 @@
 import flask
 
-from src.enums import CollectionType
-from src.util import database, to_posix_time
-from src.web.util import check_auth
+from backend.enums import CollectionType
+from backend.util import database, to_posix_time
+from backend.web.util import check_auth
 
 bp = flask.Blueprint("collections", __name__)
 

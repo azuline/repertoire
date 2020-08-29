@@ -3,7 +3,6 @@
 import glob
 import itertools
 import logging
-import os
 import re
 import sqlite3
 from hashlib import sha256
@@ -13,13 +12,12 @@ from typing import Iterable, List, Optional
 import click
 from tagfiles import TagFile
 
-from src.enums import CollectionType, ReleaseType
-from src.util import database
+from backend.config import Config
+from backend.constants import COVER_ART_DIR
+from backend.enums import CollectionType, ReleaseType
+from backend.util import database
 
 logger = logging.getLogger()
-
-COVER_ART_DIR = Path(os.getenv("COVER_ART_DIR"))
-MUSIC_DIRS = os.getenv("MUSIC_DIRS").split(":")
 
 EXTS = [
     ".m4a",
@@ -33,7 +31,8 @@ GENRE_DELIMITER_REGEX = re.compile(r"\\\\|\/|,|;")
 
 def index_directories() -> None:
     """Catalog all the music in the configured library directories."""
-    for dir_ in MUSIC_DIRS:
+    config = Config()
+    for dir_ in config.music_directories:
         catalog_directory(dir_)
 
 

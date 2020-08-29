@@ -1,14 +1,14 @@
-from gevent import monkey  # isort:skip
+from gevent import monkey
 
-monkey.patch_all()  # noqa
+monkey.patch_all()
 
 import logging
 import sys
 
 import click
 
-from src.cli import commands
-from src.cli.errors import CliError
+from backend.cli import commands
+from backend.errors import InvalidConfig, CliError
 
 logger = logging.getLogger(__name__)
 
@@ -18,6 +18,9 @@ def run():
         commands()
     except CliError as e:
         click.echo(str(e))
+        sys.exit(1)
+    except InvalidConfig as e:
+        click.echo(f"Config error: {e}")
         sys.exit(1)
 
 

@@ -1,2 +1,0 @@
-class CliError(Exception):
-    pass

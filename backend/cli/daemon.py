@@ -1,18 +1,16 @@
 import logging
 import os
-from pathlib import Path
 from signal import SIGKILL, SIGTERM
 
 import click
 from daemonize import Daemonize
 from gevent.pywsgi import WSGIServer
 
-from src.cli.commands import commands, shared_options
-from src.cli.errors import CliError
+from backend.cli.commands import commands, shared_options
+from backend.errors import CliError
+from backend.constants import PID_PATH
 
 logger = logging.getLogger(__name__)
-
-PID_PATH = Path(os.getenv("PID_PATH"))
 
 
 @commands.command()
@@ -30,8 +28,8 @@ def start(host, port, foreground):
     """Start the backend daemon."""
 
     def run_daemon():
-        from src.tasks import huey
-        from src.web.wsgi import app
+        from backend.tasks import huey
+        from backend.web.wsgi import app
 
         huey.start()
 

@@ -18,16 +18,17 @@ Backend currently being written.
 
 ## Installation
 
-1. Configure the backend (see [Configuration](##Configuration)).
-2. Install backend with `pip install -e .` (to a virtualenv if you'd like).
+1. Install backend with `pip install -e .` (to a virtualenv if you'd like).
+2. Configure the backend (see [Configuration](##Configuration)).
 3. Compile frontend in `frontend/` with `yarn build`.
 
 Or, as a set of shell commands,
 
 ```sh
-$ cp .env.sample .env
-$ nano .env  # With your editor of choice.
 $ pip install -e .
+$ cp .env.sample .env
+$ nano .env  # Set `DATA_PATH`.
+$ repertoire config  # Configure the backend.
 $ cd frontend
 $ yarn build
 $ cd ..
@@ -36,28 +37,34 @@ $ repertoire
 
 ## Configuration
 
-Configuration of the backend is handled with environment variables. These are
-set in the `.env` file located in the root directory of the project.
+Backend configuration and data is stored in a data directory (`DATA_PATH`). The
+location of this directory is set in the `.env` file located in the root
+directory of the project. The `.env.sample` file is a sample skeleton for the
+`.env` file.
 
-To configure the backend, copy `.env.sample` to `.env` and alter the variables
-as desired. The following list describes what each variable does.
+A good default `DATA_PATH` is `/path/to/repertoire/data`.
 
-- `DATABASE_PATH` - Location to store the SQLite database.
-- `COVER_ART_DIR` - Location to store cover arts of the library.
-- `LOGS_DIR` - Location to write backend service logs.
-- `PID_PATH` - Location to write the backend daemon PID file.
-- `MUSIC_DIRS` - A colon-delimited list of directories to look for music in.
-  _Warning: Does not support directories with colons in their path._
+Once `DATA_PATH` is set, the backend can be configured with the shell command
+`repertoire config`. This will open the config file in `EDITOR`.
 
-Regarding the paths to use, one can use the root directory of the project if
-there is no better option (i.e. `/path/to/repertoire`).
+A sample configuration file is as follows:
+
+```ini
+[repertoire]
+; A JSON-encoded list of directories to index music files from.
+music_directories = ["/path/one", "/path/two"]
+; The interval (in seconds) in between indexes of the `music_directories`.
+index_interval = 86400
+```
+
+_Note: Comments in the real config will be stripped by the backend._
 
 ## Development
 
-Run the debug server with
+Run the debug backend server with
 
 ```
-$ FLASK_DEBUG=1 FLASK_APP=backend/src/web/wsgi.py python -m flask run
+$ FLASK_DEBUG=1 FLASK_APP=backend/web/wsgi.py python -m flask run
 ```
 
 ## License

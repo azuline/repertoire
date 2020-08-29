@@ -30,12 +30,12 @@ def create_app(config=None):
 
 def _register_blueprints(app):
     """
-    Find all blueprints in the ``src.web.routes`` package and register
+    Find all blueprints in the ``backend.web.routes`` package and register
     them with the passed-in Flask application.
 
     :param flask.Flask app: The application to register the blueprints with.
     """
-    modules = find_modules("src.web.routes", include_packages=True)
+    modules = find_modules("backend.web.routes", include_packages=True)
     for module_name in modules:
         module = import_string(module_name)
         if hasattr(module, "bp"):

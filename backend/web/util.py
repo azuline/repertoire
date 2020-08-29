@@ -9,7 +9,7 @@ import json
 import flask
 from voluptuous import Invalid
 
-from src.util import database
+from backend.util import database
 
 
 def check_auth(func):

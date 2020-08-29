@@ -2,8 +2,8 @@ import os
 
 import flask
 
-from src.util import database
-from src.web.util import check_auth
+from backend.util import database
+from backend.web.util import check_auth
 
 bp = flask.Blueprint("files", __name__)
 
