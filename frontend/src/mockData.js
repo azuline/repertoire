@@ -14,68 +14,80 @@ export const mockReleases = [
     tracks: {
       1: {
         1: {
+          id: 1,
           artists: [
             { id: 2, name: 'IZ*ONE (아이즈원)', role: 1 },
             { id: 3, name: 'Justin Bieber', role: 2 },
           ],
-          length: 100,
+          duration: 100,
           title: 'EYES',
         },
         2: {
+          id: 2,
           artists: [{ id: 2, name: 'IZ*ONE (아이즈원)', role: 1 }],
-          length: 100,
+          duration: 100,
           title: 'FIESTA',
         },
         3: {
+          id: 3,
           artists: [{ id: 2, name: 'IZ*ONE (아이즈원)', role: 1 }],
-          length: 100,
+          duration: 100,
           title: 'DREAMLIKE',
         },
         4: {
+          id: 4,
           artists: [{ id: 2, name: 'IZ*ONE (아이즈원)', role: 1 }],
-          length: 100,
+          duration: 100,
           title: 'AYAYAYA',
         },
         5: {
+          id: 5,
           artists: [{ id: 2, name: 'IZ*ONE (아이즈원)', role: 1 }],
-          length: 100,
+          duration: 100,
           title: 'SO CURIOUS',
         },
         6: {
+          id: 6,
           artists: [{ id: 2, name: 'IZ*ONE (아이즈원)', role: 1 }],
-          length: 100,
+          duration: 100,
           title: 'SPACESHIP',
         },
         7: {
+          id: 7,
           artists: [{ id: 2, name: 'IZ*ONE (아이즈원)', role: 1 }],
-          length: 100,
+          duration: 100,
           title: '우연이 아니야',
         },
       },
       2: {
         1: {
+          id: 7,
           artists: [{ id: 2, name: 'IZ*ONE (아이즈원)', role: 1 }],
-          length: 100,
+          duration: 100,
           title: 'YOU & I',
         },
         2: {
+          id: 8,
           artists: [{ id: 2, name: 'IZ*ONE (아이즈원)', role: 1 }],
-          length: 100,
+          duration: 100,
           title: 'DAYDREAM',
         },
         3: {
+          id: 9,
           artists: [{ id: 2, name: 'IZ*ONE (아이즈원)', role: 1 }],
-          length: 100,
+          duration: 100,
           title: 'PINK BLUSHER',
         },
         4: {
+          id: 10,
           artists: [{ id: 2, name: 'IZ*ONE (아이즈원)', role: 1 }],
-          length: 100,
+          duration: 100,
           title: '언젠가 우리의 밤도 지나가겠죠',
         },
         5: {
+          id: 11,
           artists: [{ id: 2, name: 'IZ*ONE (아이즈원)', role: 1 }],
-          length: 100,
+          duration: 100,
           title: 'OPEN YOUR EYES',
         },
       },
@@ -114,6 +126,7 @@ export const mockReleases = [
     tracks: {
       1: {
         1: {
+          id: 12,
           artists: [
             { id: 3, name: 'Justin Bieber', role: 1 },
             { id: 4, name: '6ix9ine', role: 3 },
@@ -124,7 +137,7 @@ export const mockReleases = [
             { id: 9, name: '11leven14ourteen', role: 3 },
             { id: 10, name: '12welve15ifteen', role: 3 },
           ],
-          length: 100,
+          duration: 100,
           title: 'Baby (6ix9ine Remix)',
         },
       },

@@ -28,10 +28,12 @@ export const TrackList = ({ tracks }) => {
             <div className="Tracks">
               {Object.entries(disctracks).map(([trackno, track]) => {
                 return (
-                  <Card key={trackno} className="Track" interactive>
+                  <Card key={track.id} className="Track" interactive>
                     <div className="TrackSimpleInfo">
                       <div className="TrackTitle">{track.title}</div>
-                      <div className="TrackLength">{secondsToLength(track.length)}</div>
+                      <div className="TrackLength">
+                        {secondsToLength(track.duration)}
+                      </div>
                     </div>
                     <TrackArtists artists={track.artists} minimal />
                   </Card>

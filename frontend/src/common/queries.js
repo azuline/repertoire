@@ -8,3 +8,5 @@ export const collectionQueryFormats = {
 export const escapeQuotes = (string) => {
   return string.replace(/"/g, '\\"');
 };
+
+export const apiUrl = process.env.NODE_ENV === 'development' ? 'localhost:5000/' : '/';
