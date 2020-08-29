@@ -17,4 +17,6 @@ def database() -> ContextManager[sqlite3.Connection]:
 
 def to_posix_time(time: str) -> int:
     """Take a YYYY-MM-DD HH:MM:SS UTC timestamp and convert it to unix time."""
-    return datetime.fromisoformat(f"{time}+00:00").timestamp()
+    if time:
+        return datetime.fromisoformat(f"{time}+00:00").timestamp()
+    return None

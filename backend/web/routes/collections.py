@@ -7,7 +7,7 @@ from backend.web.util import check_auth
 bp = flask.Blueprint("collections", __name__)
 
 
-@bp.route("/collections", methods=["GET"])
+@bp.route("/api/collections", methods=["GET"])
 @check_auth
 def get_collections():
     """Returns the stored collections."""

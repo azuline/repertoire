@@ -7,6 +7,10 @@ import flask
 from werkzeug.exceptions import HTTPException
 from werkzeug.utils import find_modules, import_string
 
+from backend.constants import PROJECT_ROOT
+
+STATIC_FOLDER = PROJECT_ROOT / "frontend" / "build"
+
 
 def create_app(config=None):
     """
@@ -19,7 +23,11 @@ def create_app(config=None):
     :return: The created Flask application.
     :rtype: flask.Flask
     """
-    app = flask.Flask(__name__)
+    app = flask.Flask(__name__, static_folder=str(STATIC_FOLDER), static_url_path="/")
+
+    @app.route("/", methods=["GET"])
+    def index():
+        return app.send_static_file("index.html")
 
     with app.app_context():
         _register_blueprints(app)

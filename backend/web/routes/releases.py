@@ -13,7 +13,7 @@ bp = flask.Blueprint("releases", __name__)
 END_QUOTE_REGEX = re.compile(r'(?:\\.|[^"\\])*"')
 
 
-@bp.route("/releases", methods=["GET"])
+@bp.route("/api/releases", methods=["GET"])
 @check_auth
 @validate_data(Schema({"query": str, "page": int, "limit": int}))
 def get_releases(query: str = "", page: int = 1, offset: int = 40):
@@ -113,19 +113,15 @@ def _fetch_artists(release: Dict, cursor: sqlite3.Cursor) -> List[Dict]:
         """
         SELECT
             arts.id,
-            arts.name,
-            rlsarts.role
-        FROM music__release_artists AS rlsarts
+            arts.name
+        FROM music__releases_artists AS rlsarts
         JOIN music__artists AS arts ON arts.id = rlsarts.artist_id
         WHERE rlsarts.release_id = ?
         """,
         (release["id"],),
     )
 
-    return [
-        {"id": row["id"], "name": row["name"], "role": row["role"]}
-        for row in cursor.fetchall()
-    ]
+    return [{"id": row["id"], "name": row["name"]} for row in cursor.fetchall()]
 
 
 def _fetch_collections(release: Dict, cursor: sqlite3.Cursor) -> List[Dict]:

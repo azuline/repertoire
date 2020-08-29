@@ -7,7 +7,7 @@ from backend.web.util import check_auth
 bp = flask.Blueprint("artists", __name__)
 
 
-@bp.route("/artists", methods=["GET"])
+@bp.route("/api/artists", methods=["GET"])
 @check_auth
 def get_artists():
     """Returns the stored artists."""

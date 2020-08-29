@@ -95,7 +95,7 @@ def catalog_file(conn: sqlite3.Connection, tf: TagFile) -> None:
     sha256 = calculate_sha_256(tf.path)
     track_number = tf.track_number or 1
     disc_number = tf.disc_number or 1
-    duration = tf.mut.info.length
+    duration = int(tf.mut.info.length)
 
     logger.info(
         f"Found new track `{tf.path}` with title `{title}` and hash "

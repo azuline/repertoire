@@ -10,7 +10,7 @@ from backend.web.util import check_auth, validate_data
 bp = flask.Blueprint("queries", __name__)
 
 
-@bp.route("/queries", methods=["GET"])
+@bp.route("/api/queries", methods=["GET"])
 @check_auth
 def get_queries():
     """Returns the stored queries."""
@@ -35,7 +35,7 @@ def get_queries():
     return flask.jsonify(queries)
 
 
-@bp.route("/queries", methods=["POST"])
+@bp.route("/api/queries", methods=["POST"])
 @check_auth
 @validate_data(Schema({"name": str, "query": str}))
 def add_query(name, query):
