@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 export const usePersistentState = (localStorageKey, defaultValue) => {
   const [value, setValue] = useState(() => {
@@ -6,13 +6,18 @@ export const usePersistentState = (localStorageKey, defaultValue) => {
     return storedValue ? JSON.parse(storedValue) : defaultValue;
   });
 
-  const setPersistentValue = (newValue, persist = true) => {
-    const toStore = newValue instanceof Function ? newValue(value) : newValue;
-    setValue(toStore);
-    if (persist) {
-      localStorage.setItem(localStorageKey, JSON.stringify(toStore));
-    }
-  };
+  const setPersistentValue = useCallback(
+    (newValue, persist = true) => {
+      setValue((value) => {
+        const toStore = newValue instanceof Function ? newValue(value) : newValue;
+        if (persist) {
+          localStorage.setItem(localStorageKey, JSON.stringify(toStore));
+        }
+        return toStore;
+      });
+    },
+    [setValue, localStorageKey]
+  );
 
   return [value, setPersistentValue];
 };

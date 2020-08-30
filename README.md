@@ -11,9 +11,8 @@ Stack:
 
 Goal: MVP
 
-- Frontend is fully mocked up (design may change).
-- Backend is at MVP. Needs tests.
-- Currently writing frontend request handling and state logic.
+- Backend is MVP. Needs tests (snapshot tests are fine).
+- Frontend is mocked up, logic is nearing completion.
 
 ## Installation
 
@@ -41,10 +40,9 @@ location of this directory is set in the `.env` file located in the root
 directory of the project. The `.env.sample` file is a sample skeleton for the
 `.env` file.
 
-A good default `DATA_PATH` is `/path/to/repertoire/data`.
-
-Once `DATA_PATH` is set, the backend can be configured with the shell command
-`repertoire config`. This will open the config file in `EDITOR`.
+A good default `DATA_PATH` is `/path/to/repertoire/data`. Once `DATA_PATH` is
+set, the backend can be configured with the shell command `repertoire config`.
+This will open the config file in `EDITOR`.
 
 A sample configuration file is as follows:
 

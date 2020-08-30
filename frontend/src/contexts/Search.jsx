@@ -17,17 +17,23 @@ export const SearchContextProvider = ({ children }) => {
   const [activeQuery, setActiveQuery] = useState('');
   const [recentQueries, setRecentQueries] = usePersistentState('queries--recent', []);
 
-  // On a new `activeQuery`, redirect to '/', sync the state of `query` to
-  // `activeQuery`, and update the list of recent queries.
+  // On a new `activeQuery`...
   useEffect(() => {
-    history.push('/');
+    // Redirect to '/' if not already there.
+    if (history.location.pathname !== '/') {
+      history.push('/');
+    }
+
+    // Sync `query` with `activeQuery`.
     setQuery(activeQuery);
 
-    // Cap the list of recent queries at 30 entries and remove previous
-    // duplicate queries.
+    // Update recent queries: cap the list of recent queries at 30 entries and
+    // remove previous duplicate queries.
     setRecentQueries((oldEntries) => {
+      if (!activeQuery) return oldEntries;
+
       const dedupEntries = oldEntries.filter((entry) => entry.query !== activeQuery);
-      const newEntry = { activeQuery, time: Math.floor(Date.now() / 1000) };
+      const newEntry = { query: activeQuery, time: Math.floor(Date.now() / 1000) };
       return [newEntry, ...dedupEntries].slice(0, 30);
     });
   }, [history, setQuery, activeQuery, setRecentQueries]);
