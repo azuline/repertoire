@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { PaginationContext } from 'contexts';
 import { Page } from './Page';
 import { DotDotDot } from './DotDotDot';
+import { ControlGroup } from '@blueprintjs/core';
 import './index.scss';
 
 export const Pagination = () => {
@@ -11,7 +12,7 @@ export const Pagination = () => {
   const top = Math.min(page + 2, numPages - 1);
 
   return (
-    <div className="Pagination">
+    <ControlGroup className="Pagination">
       <Page page={1} />
       {bottom !== 2 && <DotDotDot />}
       {Array.from({ length: top - bottom }).map((_, i) => (
@@ -19,6 +20,6 @@ export const Pagination = () => {
       ))}
       {top + 1 !== numPages && <DotDotDot />}
       {numPages > 2 && <Page page={numPages} />}
-    </div>
+    </ControlGroup>
   );
 };

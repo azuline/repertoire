@@ -3,7 +3,7 @@ from typing import Dict, List
 
 import flask
 from unidecode import unidecode
-from voluptuous import Required, Schema
+from voluptuous import Coerce, Required, Schema
 
 from backend.util import database, strip_punctuation, to_posix_time
 from backend.web.util import check_auth, validate_data
@@ -31,22 +31,32 @@ def SortOption(value):
 @validate_data(
     Schema(
         {
-            "search": str,
-            "collections": [int],
-            "page": int,
-            "limit": int,
+            Required("search", default=""): str,
+            Required("collections", default=[]): Coerce([int]),
+            Required("artists", default=[]): Coerce([int]),
+            Required("page", default=1): Coerce(int),
+            Required("perPage", default=50): Coerce(int),
             Required("sort", default="recentlyAdded"): SortOption,
+            Required("asc", default=True): Coerce(bool),
         }
     )
 )
 def get_releases(
-    search: str = "", collections: List[int] = [], page: int = 1, offset: int = 40
+    search: str,
+    collections: List[int],
+    artists: List[int],
+    page: int,
+    perPage: int,
+    sort: int,
+    asc: bool,
 ):
     """Returns the stored releases."""
     with database() as conn:
         cursor = conn.cursor()
 
-        releases = _query_releases(search, collections, page, offset, cursor)
+        releases = _query_releases(
+            search, collections, artists, page, perPage, sort, asc, cursor
+        )
 
         for release in releases["releases"]:
             release["tracks"] = _fetch_tracks(release, cursor)
@@ -61,9 +71,11 @@ def get_releases(
 def _query_releases(
     search: str,
     collections: List[int],
+    artists: List[int],
     page: int,
-    offset: int,
+    perPage: int,
     sort: str,
+    asc: bool,
     cursor: sqlite3.Cursor,
 ) -> List[Dict]:
     """
@@ -90,6 +102,18 @@ def _query_releases(
             """
         )
         filter_params.append(collection.id)
+
+    # Add the artists to the filter SQL.
+    for artist in artists:
+        filter_sql.append(
+            """
+            EXISTS (
+                SELECT 1 FROM music__releases_artists
+                WHERE release_id = rls.id AND artist_id = ?
+            )
+            """
+        )
+        filter_params.append(artist.id)
 
     # Add the search str to the filter SQL.
     for word in strip_punctuation(search).split(" "):
@@ -128,11 +152,11 @@ def _query_releases(
             rls.added_on
         FROM music__releases AS rls
         {"WHERE" + " and ".join(filter_sql) if filter_sql else ""}
-        ORDER BY {sort}
+        ORDER BY {sort} {"ASC" if asc else "DESC"}
         LIMIT ?
         OFFSET ?
         """,
-        (*filter_params, offset, (page - 1) * offset),
+        (*filter_params, perPage, (page - 1) * perPage),
     )
 
     return {

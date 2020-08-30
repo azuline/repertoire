@@ -8,3 +8,7 @@ export const collectionQueryFormats = {
 export const escapeQuotes = (string) => {
   return string.replace(/"/g, '\\"');
 };
+
+export const parseQuery = (query) => {
+  return [query, [], []];
+};

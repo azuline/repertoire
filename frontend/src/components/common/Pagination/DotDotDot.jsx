@@ -1,5 +1,10 @@
 import React from 'react';
+import { Button } from '@blueprintjs/core';
 
 export const DotDotDot = () => {
-  return <div className="DotDotDot">&#8230;</div>;
+  return (
+    <Button className="DotDotDot" minimal>
+      &#8230;
+    </Button>
+  );
 };

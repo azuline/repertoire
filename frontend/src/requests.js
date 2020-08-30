@@ -4,15 +4,25 @@ export const apiUrl =
   process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '';
 
 // Queries for a list of releases.
-export const queryReleases = async (search, collections, page, offset, sort) => {
+export const queryReleases = async (
+  search,
+  collections,
+  artists,
+  page,
+  perPage,
+  sort,
+  asc
+) => {
   const response = await fetch(
     `${apiUrl}/api/releases?` +
       new URLSearchParams({
         search: search ?? '',
-        collections: collections ?? null,
-        page: page ?? null,
-        offset: offset ?? null,
-        sort: sort ?? null,
+        collections: collections ?? '',
+        artists: artists ?? '',
+        page: page ?? '',
+        perPage: perPage ?? '',
+        sort: sort ?? '',
+        asc: asc ?? '',
       })
   );
   return await response.json();
