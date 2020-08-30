@@ -2,3 +2,14 @@
   display: flex;
   flex-flow: row nowrap;
 }
+
+.GoToPageForm {
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 10px;
+
+  .GoToPage {
+    width: 100px;
+    margin-right: 10px;
+  }
+}

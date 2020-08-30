@@ -35,7 +35,7 @@
       content: 'Per Page: ';
     }
 
-    @media screen and (max-width: 1200px) {
+    @media screen and (max-width: 1300px) {
       flex-flow: column nowrap;
       padding: 0 2%;
 
@@ -50,7 +50,7 @@
       }
     }
 
-    @media screen and (max-width: 760px) {
+    @media screen and (max-width: 800px) {
       .SortOrder {
         .bp3-icon {
           margin-right: 0;
@@ -61,7 +61,7 @@
       }
     }
 
-    @media screen and (max-width: 690px) {
+    @media screen and (max-width: 720px) {
       .SelectPerPage .bp3-button-text::before {
         content: '' !important;
       }

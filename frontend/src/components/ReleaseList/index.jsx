@@ -11,6 +11,7 @@ export const ReleaseList = () => {
       <ReleaseListOptions />
       <Pagination />
       <Releases />
+      <Pagination />
     </div>
   );
 };
