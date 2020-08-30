@@ -1,5 +1,5 @@
 import { Button, ControlGroup, MenuItem } from '@blueprintjs/core';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 
 import { Select } from '@blueprintjs/select';
 import { ViewContext } from 'contexts';
@@ -9,16 +9,19 @@ export const ViewAs = ({ criteria }) => {
     ViewContext
   );
 
-  const renderCriteria = (view_) => {
-    return (
-      <MenuItem
-        active={view_ === view}
-        key={view_}
-        onClick={() => setView(view_)}
-        text={view_}
-      />
-    );
-  };
+  const renderCriteria = useCallback(
+    (view_) => {
+      return (
+        <MenuItem
+          active={view_ === view}
+          key={view_}
+          onClick={() => setView(view_)}
+          text={view_}
+        />
+      );
+    },
+    [view, setView]
+  );
 
   return (
     <ControlGroup className="ViewAs">

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 export const PaginationContext = React.createContext({
   page: 1,
   setPage: () => {},
-  numPages: 1,
+  numPages: 0,
   setNumPages: () => {},
   perPage: 50,
   setPerPage: () => {},

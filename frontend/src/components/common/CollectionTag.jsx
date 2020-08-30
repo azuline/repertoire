@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { Tag, Text } from '@blueprintjs/core';
 import { collectionQueryFormats, escapeQuotes } from 'common/queries';
 
@@ -8,10 +8,13 @@ export const CollectionTag = ({ collection, minimal }) => {
   const { type, name } = collection;
   const { setActiveQuery } = useContext(SearchContext);
 
-  const queryCollection = (event) => {
-    setActiveQuery(collectionQueryFormats[type](escapeQuotes(name)));
-    event.stopPropagation();
-  };
+  const queryCollection = useCallback(
+    (event) => {
+      setActiveQuery(collectionQueryFormats[type](escapeQuotes(name)));
+      event.stopPropagation();
+    },
+    [setActiveQuery, name, type]
+  );
 
   return (
     <Tag

@@ -28,9 +28,10 @@ export const CompactRelease = ({
   }, [collections]);
 
   // In the compact release, only display genres and labels.
-  const filteredCollections = collections.filter(({ type }) => {
-    return genreAndLabelCollectionTypes.includes(type);
-  });
+  const filteredCollections = useMemo(
+    () => collections.filter(({ type }) => genreAndLabelCollectionTypes.includes(type)),
+    [collections]
+  );
 
   return (
     <div className="ReleaseWrapper">

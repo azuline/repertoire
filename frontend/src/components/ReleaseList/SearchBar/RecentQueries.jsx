@@ -1,5 +1,5 @@
 import { Button, Menu, MenuItem } from '@blueprintjs/core';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 
 import { SearchContext } from 'contexts';
 import { Select } from '@blueprintjs/select';
@@ -8,16 +8,19 @@ import { formatDate } from 'common/datetime';
 export const RecentQueries = () => {
   const { setActiveQuery, recentQueries } = useContext(SearchContext);
 
-  const renderItem = ([index, { query, time }]) => {
-    return (
-      <MenuItem
-        key={query}
-        label={formatDate(time)}
-        onClick={() => setActiveQuery(query)}
-        text={`${index + 1}. ${query}`}
-      />
-    );
-  };
+  const renderItem = useCallback(
+    ([index, { query, time }]) => {
+      return (
+        <MenuItem
+          key={query}
+          label={formatDate(time)}
+          onClick={() => setActiveQuery(query)}
+          text={`${index + 1}. ${query}`}
+        />
+      );
+    },
+    [setActiveQuery]
+  );
 
   return (
     <Select

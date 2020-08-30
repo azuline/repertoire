@@ -1,6 +1,6 @@
 import { Alignment, Button, MenuItem, Navbar } from '@blueprintjs/core';
+import React, { useCallback } from 'react';
 
-import React from 'react';
 import { Select } from '@blueprintjs/select';
 import { ThemeButton } from './ThemeButton';
 import { useHistory } from 'react-router-dom';
@@ -8,17 +8,20 @@ import { useHistory } from 'react-router-dom';
 export const CompactHeader = ({ pages, activeRoute }) => {
   const history = useHistory();
 
-  const renderPages = ([route, { name, icon, exact }]) => {
-    return (
-      <MenuItem
-        active={route === activeRoute}
-        key={route}
-        icon={icon}
-        text={name}
-        onClick={() => history.push(route)}
-      />
-    );
-  };
+  const renderPages = useCallback(
+    ([route, { name, icon, exact }]) => {
+      return (
+        <MenuItem
+          active={route === activeRoute}
+          key={route}
+          icon={icon}
+          text={name}
+          onClick={() => history.push(route)}
+        />
+      );
+    },
+    [history, activeRoute]
+  );
 
   const items = Object.entries(pages).filter(([, { hidden }]) => !hidden);
 

@@ -8,20 +8,17 @@ import { ViewContext } from 'contexts';
 export const Release = (props) => {
   const { view } = useContext(ViewContext);
 
-  let ReleaseType;
-
-  switch (view) {
-    case 'Artwork':
-      ReleaseType = ArtworkRelease;
-      break;
-    case 'Compact':
-      ReleaseType = CompactRelease;
-      break;
-    case 'Detailed':
-    default:
-      ReleaseType = DetailedRelease;
-      break;
-  }
+  const ReleaseType = useMemo(() => {
+    switch (view) {
+      case 'Artwork':
+        return ArtworkRelease;
+      case 'Compact':
+        return CompactRelease;
+      case 'Detailed':
+      default:
+        return DetailedRelease;
+    }
+  }, [view]);
 
   const inInbox = useMemo(() => {
     return props.collections.some((collection) => collection.id === 1);

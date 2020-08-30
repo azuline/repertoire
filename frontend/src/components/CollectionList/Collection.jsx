@@ -1,5 +1,5 @@
 import { Card, Icon, Position, Tag, Tooltip } from '@blueprintjs/core';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { collectionQueryFormats, escapeQuotes } from 'common/queries';
 
 import { CollectionTag } from 'components/common/CollectionTag';
@@ -10,9 +10,9 @@ export const Collection = ({ collection }) => {
   const { favorite, name, numReleases, topGenres, type } = collection;
   const { setActiveQuery } = useContext(SearchContext);
 
-  const queryCollection = () => {
+  const queryCollection = useCallback(() => {
     setActiveQuery(collectionQueryFormats[type](escapeQuotes(name)));
-  };
+  }, [setActiveQuery, type, name]);
 
   return (
     <Card className="Collection" interactive onClick={queryCollection}>

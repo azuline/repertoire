@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { usePersistentState } from 'hooks';
+import React, { useEffect, useState } from 'react';
+
 import { useHistory } from 'react-router-dom';
+import { usePersistentState } from 'hooks';
 
 export const SearchContext = React.createContext({
   query: '',

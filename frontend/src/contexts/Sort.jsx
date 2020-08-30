@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+
 import { usePersistentState } from 'hooks';
 
 export const SortContext = React.createContext({
@@ -18,9 +19,12 @@ const providerGenerator = ({ ascKey, sortFieldKey, defaultSortField }) => {
     );
 
     // If the sort field is fuzzyScore, don't save it to localStorage.
-    const setSortFieldIgnoreFuzzy = (sortField) => {
-      setSortField(sortField, sortField !== 'fuzzyScore');
-    };
+    const setSortFieldIgnoreFuzzy = useCallback(
+      (sortField) => {
+        setSortField(sortField, sortField !== 'fuzzyScore');
+      },
+      [setSortField]
+    );
 
     const value = {
       asc,

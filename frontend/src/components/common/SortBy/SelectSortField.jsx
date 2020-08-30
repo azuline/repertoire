@@ -1,5 +1,5 @@
 import { Button, MenuItem } from '@blueprintjs/core';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 
 import { Select } from '@blueprintjs/select';
 import { SortContext } from 'contexts';
@@ -7,17 +7,20 @@ import { SortContext } from 'contexts';
 export const SelectSortField = ({ criteria }) => {
   const { sortField, setSortField } = useContext(SortContext);
 
-  const renderCriteria = ([key, { label, icon }]) => {
-    return (
-      <MenuItem
-        active={key === sortField}
-        key={key}
-        onClick={() => setSortField(key)}
-        icon={icon}
-        text={label}
-      />
-    );
-  };
+  const renderCriteria = useCallback(
+    ([key, { label, icon }]) => {
+      return (
+        <MenuItem
+          active={key === sortField}
+          key={key}
+          onClick={() => setSortField(key)}
+          icon={icon}
+          text={label}
+        />
+      );
+    },
+    [sortField, setSortField]
+  );
 
   return (
     <Select
