@@ -1,9 +1,9 @@
 import { CollectionsContext, FilterContext, SortContext } from 'contexts';
 import React, { useContext, useMemo } from 'react';
+import { name, random, recentlyUpdated, releaseCount } from 'common/sorts';
 
 import { Collection } from './Collection';
 import { collectionTypeNamesToIds } from 'common/collections';
-import { name, random, recentlyUpdated, releaseCount } from 'common/sorts';
 import { useVirtual } from 'react-virtual';
 
 const sortFunctions = { recentlyUpdated, name, releaseCount, random };

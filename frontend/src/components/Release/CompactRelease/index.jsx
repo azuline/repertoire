@@ -1,6 +1,5 @@
 import './index.scss';
 
-import { releaseTypes } from 'common/releases';
 import { Card, Divider, Icon, Position, Tooltip } from '@blueprintjs/core';
 import React, { useContext, useMemo, useState } from 'react';
 
@@ -9,6 +8,7 @@ import { FlatTrackList } from '../TrackList/FlatTrackList';
 import { ReleaseArtists } from '../Artists';
 import { ReleaseCollections } from '../Collections';
 import { ViewContext } from 'contexts';
+import { releaseTypes } from 'common/releases';
 
 const genreAndLabelCollectionTypes = [3, 4];
 

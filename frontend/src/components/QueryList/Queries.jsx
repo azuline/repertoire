@@ -1,9 +1,9 @@
 import { FilterContext, QueriesContext, SortContext } from 'contexts';
 import React, { useContext, useMemo } from 'react';
+import { name, random, recentlyAdded, releaseCount } from 'common/sorts';
 
 import { Query } from './Query';
 import { useVirtual } from 'react-virtual';
-import { recentlyAdded, name, releaseCount, random } from 'common/sorts';
 
 const sortFunctions = { recentlyAdded, name, releaseCount, random };
 

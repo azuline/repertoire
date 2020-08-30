@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import Fuse from 'fuse.js';
+import { fetchQueries } from 'requests';
 import { fuseOptions } from 'common/fuse';
 import { submitQuery } from 'requests';
-import { fetchQueries } from 'requests';
 
 export const QueriesContext = React.createContext({
   queries: [],

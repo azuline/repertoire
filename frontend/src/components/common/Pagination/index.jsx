@@ -1,9 +1,11 @@
-import React, { useContext } from 'react';
-import { PaginationContext } from 'contexts';
-import { Page } from './Page';
-import { DotDotDot } from './DotDotDot';
-import { ControlGroup } from '@blueprintjs/core';
 import './index.scss';
+
+import React, { useContext } from 'react';
+
+import { ControlGroup } from '@blueprintjs/core';
+import { DotDotDot } from './DotDotDot';
+import { Page } from './Page';
+import { PaginationContext } from 'contexts';
 
 export const Pagination = () => {
   const { page, numPages } = useContext(PaginationContext);

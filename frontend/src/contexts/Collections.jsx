@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import Fuse from 'fuse.js';
-import { fuseOptions } from 'common/fuse';
 import { fetchCollections } from 'requests';
+import { fuseOptions } from 'common/fuse';
 
 export const CollectionsContext = React.createContext({
   collections: [],

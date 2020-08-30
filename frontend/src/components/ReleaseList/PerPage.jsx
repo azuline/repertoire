@@ -1,8 +1,8 @@
 import { Button, MenuItem } from '@blueprintjs/core';
-import React, { useContext, useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 
-import { Select } from '@blueprintjs/select';
 import { PaginationContext } from 'contexts';
+import { Select } from '@blueprintjs/select';
 
 const perPageOptions = [25, 50, 100, 200];
 

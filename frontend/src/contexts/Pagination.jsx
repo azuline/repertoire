@@ -11,7 +11,7 @@ export const PaginationContext = React.createContext({
 
 export const ReleasePaginationContextProvider = ({ children }) => {
   const [page, setPage] = useState(1);
-  const [numPages, setNumPages] = useState(1);
+  const [numPages, setNumPages] = useState(0);
   const [perPage, setPerPage] = useState(50);
 
   const value = { page, setPage, numPages, setNumPages, perPage, setPerPage };

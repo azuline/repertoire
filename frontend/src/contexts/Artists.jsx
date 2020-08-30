@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import Fuse from 'fuse.js';
-import { fuseOptions } from 'common/fuse';
 import { fetchArtists } from 'requests';
+import { fuseOptions } from 'common/fuse';
 
 export const ArtistsContext = React.createContext({
   artists: [],

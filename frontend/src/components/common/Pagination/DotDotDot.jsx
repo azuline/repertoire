@@ -1,6 +1,7 @@
-import React, { useState, useCallback, useContext } from 'react';
+import { Button, InputGroup, Popover } from '@blueprintjs/core';
+import React, { useCallback, useContext, useState } from 'react';
+
 import { PaginationContext } from 'contexts';
-import { InputGroup, Popover, Button } from '@blueprintjs/core';
 
 export const DotDotDot = () => {
   const [input, setInput] = useState('');

@@ -1,12 +1,13 @@
-import React, { useEffect, useState, useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
+import { PaginationContext } from './Pagination';
+import { ReleasesContext } from './Releases';
+import { SortContext } from './Sort';
+import { parseQuery } from 'common/queries';
 import { queryReleases } from 'requests';
 import { useHistory } from 'react-router-dom';
 import { usePersistentState } from 'hooks';
-import { parseQuery } from 'common/queries';
-import { SortContext } from './Sort';
-import { ReleasesContext } from './Releases';
-import { PaginationContext } from './Pagination';
+
 export { ViewContext } from './View';
 
 export const SearchContext = React.createContext({

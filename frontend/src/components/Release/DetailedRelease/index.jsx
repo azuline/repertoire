@@ -1,5 +1,4 @@
 import './index.scss';
-import {releaseTypes} from 'common/releases';
 
 import { Card, Divider } from '@blueprintjs/core';
 import React, { useContext, useMemo, useState } from 'react';
@@ -9,6 +8,7 @@ import { FlatTrackList } from '../TrackList/FlatTrackList';
 import { ReleaseArtists } from '../Artists';
 import { ReleaseCollections } from '../Collections';
 import { ViewContext } from 'contexts';
+import { releaseTypes } from 'common/releases';
 
 export const DetailedRelease = ({
   title,
@@ -41,7 +41,7 @@ export const DetailedRelease = ({
               </div>
               <div className="Classifiers">
                 <div className="Year">
-                  <h5 className="bp3-heading">{year || "Unknown"}</h5>
+                  <h5 className="bp3-heading">{year || 'Unknown'}</h5>
                 </div>
                 <Divider />
                 <div className="Type">

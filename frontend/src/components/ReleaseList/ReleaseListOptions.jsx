@@ -1,8 +1,8 @@
+import { PerPage } from './PerPage';
 import React from 'react';
 import { SearchBar } from './SearchBar';
 import { SortBy } from 'components/common/SortBy';
 import { ViewAs } from './ViewAs';
-import { PerPage } from './PerPage';
 
 const sortCriteria = {
   recentlyAdded: { label: 'Recently Added', icon: 'time' },

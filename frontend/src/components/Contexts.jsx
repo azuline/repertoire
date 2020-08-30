@@ -1,13 +1,13 @@
 import {
   ArtistsContextProvider,
-  ReleasesContextProvider,
-  ReleasePaginationContextProvider,
   CollectionsContextProvider,
   QueriesContextProvider,
-  SearchContextProvider,
-  ThemeContextProvider,
+  ReleasePaginationContextProvider,
   ReleaseSortContextProvider,
   ReleaseViewContextProvider,
+  ReleasesContextProvider,
+  SearchContextProvider,
+  ThemeContextProvider,
 } from 'contexts';
 
 import React from 'react';
