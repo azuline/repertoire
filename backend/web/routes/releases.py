@@ -7,7 +7,7 @@ from voluptuous import Coerce, Required, Schema
 
 from backend.util import database, strip_punctuation, to_posix_time
 from backend.web.util import check_auth, validate_data
-from backend.web.validators import JSONList, SortOption
+from backend.web.validators import JSONList, SortOption, StringBool
 
 bp = flask.Blueprint("releases", __name__)
 
@@ -23,7 +23,7 @@ bp = flask.Blueprint("releases", __name__)
             Required("page", default=1): Coerce(int),
             Required("perPage", default=50): Coerce(int),
             Required("sort", default="recentlyAdded"): SortOption,
-            Required("asc", default=True): Coerce(bool),
+            Required("asc", default="true"): StringBool,
         }
     )
 )
@@ -37,6 +37,11 @@ def get_releases(
     asc: bool,
 ):
     """Returns the stored releases."""
+    # Small adjustment to asc... we want recently added ascending to show
+    # newest first.
+    if sort == "rls.added_on":
+        asc = not asc
+
     with database() as conn:
         cursor = conn.cursor()
 
@@ -129,8 +134,6 @@ def _query_releases(
     )
 
     total = cursor.fetchone()[0]
-
-    print(filter_sql, filter_params)
 
     cursor.execute(
         f"""
