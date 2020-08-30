@@ -1,5 +1,5 @@
-import { Button, InputGroup, Popover } from '@blueprintjs/core';
 import { AuthenticationContext, QueriesContext, SearchContext } from 'contexts';
+import { Button, InputGroup, Popover } from '@blueprintjs/core';
 import React, { useCallback, useContext, useState } from 'react';
 
 export const SaveQuery = () => {

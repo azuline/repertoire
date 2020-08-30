@@ -1,6 +1,6 @@
 import {
-  AuthenticationContextProvider,
   ArtistsContextProvider,
+  AuthenticationContextProvider,
   CollectionsContextProvider,
   QueriesContextProvider,
   ReleasePaginationContextProvider,

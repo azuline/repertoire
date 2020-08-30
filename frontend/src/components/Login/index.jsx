@@ -1,17 +1,20 @@
-import React, { useCallback, useState, useContext } from 'react';
-import { Button, InputGroup } from '@blueprintjs/core';
 import './index.scss';
+
+import { Button, InputGroup } from '@blueprintjs/core';
+import React, { useCallback, useContext, useState } from 'react';
+
 import { AuthenticationContext } from 'contexts';
-import { apiUrl } from 'requests';
+import { useRequest } from 'hooks';
 
 export const Login = () => {
+  const request = useRequest();
   const [input, setInput] = useState('');
   const { setToken, setUsername } = useContext(AuthenticationContext);
 
   const auth = useCallback(
     (token) => {
       (async () => {
-        const response = await fetch(`${apiUrl}/api/user`, {
+        const response = await request('/api/user', {
           headers: new Headers({ Authorization: `Token ${token}` }),
         });
         if (response.status !== 200) {
@@ -23,7 +26,7 @@ export const Login = () => {
         }
       })();
     },
-    [setToken, setUsername]
+    [request, setToken, setUsername]
   );
 
   return (

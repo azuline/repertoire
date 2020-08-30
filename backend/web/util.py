@@ -28,7 +28,6 @@ def check_auth(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         try:
-            print(flask.request.headers)
             token = bytes.fromhex(_get_token(flask.request.headers))
         except (TypeError, ValueError):
             flask.abort(401)

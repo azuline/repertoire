@@ -1,4 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useContext, useState } from 'react';
+
+import { AuthenticationContext } from 'contexts';
 
 export const usePersistentState = (localStorageKey, defaultValue) => {
   const [value, setValue] = useState(() => {
@@ -20,4 +22,21 @@ export const usePersistentState = (localStorageKey, defaultValue) => {
   );
 
   return [value, setPersistentValue];
+};
+
+const apiUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '';
+
+export const useRequest = () => {
+  const { token } = useContext(AuthenticationContext);
+
+  const request = useCallback(
+    (url, options = {}) =>
+      fetch(`${apiUrl}${url}`, {
+        headers: new Headers({ Authorization: `Token ${token}` }),
+        ...options, // Allow options to overwrite headers.
+      }),
+    [token]
+  );
+
+  return request;
 };

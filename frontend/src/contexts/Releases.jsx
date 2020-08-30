@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 
+import { AuthenticationContext } from './Authentication';
 import { PaginationContext } from './Pagination';
 import { SearchContext } from './Search';
-import { AuthenticationContext } from './Authentication';
 import { SortContext } from './Sort';
 import { parseQuery } from 'common/queries';
-import { queryReleases } from 'requests';
+import { useRequest } from 'hooks';
 
 export const ReleasesContext = React.createContext({
   releases: [],
@@ -13,8 +13,8 @@ export const ReleasesContext = React.createContext({
 });
 
 export const ReleasesContextProvider = ({ children }) => {
+  const request = useRequest();
   const [releases, setReleases] = useState([]);
-
   const { activeQuery } = useContext(SearchContext);
   const { asc, sortField } = useContext(SortContext);
   const { page, perPage, setNumPages } = useContext(PaginationContext);
@@ -23,24 +23,39 @@ export const ReleasesContextProvider = ({ children }) => {
   // On changes to the search query and release view options, update the
   // releases list.
   useEffect(() => {
+    if (!token) return;
+
     (async () => {
-      if (token) {
-        const [search, collections, artists] = parseQuery(activeQuery);
-        const { releases, total } = await queryReleases(
-          token,
-          search,
-          collections,
-          artists,
-          page,
-          perPage,
-          sortField,
-          asc
-        );
-        setReleases(releases);
-        setNumPages(Math.ceil(total / perPage));
-      }
+      const [search, collections, artists] = parseQuery(activeQuery);
+
+      const response = await request(
+        '/api/releases?' +
+          new URLSearchParams({
+            search: search ?? '',
+            collections: JSON.stringify(collections ?? []),
+            artists: JSON.stringify(artists ?? []),
+            page: page ?? '',
+            perPage: perPage ?? '',
+            sort: sortField ?? '',
+            asc: asc ?? '',
+          })
+      );
+      const { releases, total } = await response.json();
+
+      setReleases(releases);
+      setNumPages(Math.ceil(total / perPage));
     })();
-  }, [token, activeQuery, setReleases, page, perPage, setNumPages, sortField, asc]);
+  }, [
+    token,
+    request,
+    activeQuery,
+    setReleases,
+    page,
+    perPage,
+    setNumPages,
+    sortField,
+    asc,
+  ]);
 
   const value = { releases, setReleases };
 

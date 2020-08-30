@@ -1,13 +1,13 @@
+import React, { useContext } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import { ArtistList } from 'components/ArtistList';
-import { Login } from 'components/Login';
 import { AuthenticationContext } from 'contexts';
 import { CollectionList } from 'components/CollectionList';
 import { FourOhFour } from 'components/FourOhFour';
+import { Login } from 'components/Login';
 import { MetadataEditor } from 'components/MetadataEditor';
 import { QueryList } from 'components/QueryList';
-import React, { useContext } from 'react';
 import { ReleaseList } from 'components/ReleaseList';
 
 const routes = [
