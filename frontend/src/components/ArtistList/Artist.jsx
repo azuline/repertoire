@@ -7,9 +7,9 @@ import { escapeQuotes } from 'common/queries';
 
 export const Artist = ({ artist }) => {
   const { favorite, name, numReleases, topGenres } = artist;
-  const { runQuery } = useContext(SearchContext);
+  const { setActiveQuery } = useContext(SearchContext);
 
-  const queryArtist = () => runQuery(`artist:"${escapeQuotes(name)}"`);
+  const queryArtist = () => setActiveQuery(`artist:"${escapeQuotes(name)}"`);
 
   return (
     <Card className="Artist" interactive onClick={queryArtist}>

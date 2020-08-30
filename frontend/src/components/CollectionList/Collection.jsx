@@ -8,10 +8,10 @@ import { collectionTypeIdsToNames } from 'common/collections';
 
 export const Collection = ({ collection }) => {
   const { favorite, name, numReleases, topGenres, type } = collection;
-  const { runQuery } = useContext(SearchContext);
+  const { setActiveQuery } = useContext(SearchContext);
 
   const queryCollection = () => {
-    runQuery(collectionQueryFormats[type](escapeQuotes(name)));
+    setActiveQuery(collectionQueryFormats[type](escapeQuotes(name)));
   };
 
   return (

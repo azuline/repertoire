@@ -33,8 +33,9 @@ def start(host, port, foreground):
         monkey.patch_all()
 
         from backend.tasks import huey
-        from backend.web.wsgi import app
+        from backend.web.app import create_app
 
+        app = create_app()
         huey.start()
 
         logger.info(f"Listening on http://{host}:{port}/")

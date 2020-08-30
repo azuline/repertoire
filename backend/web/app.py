@@ -15,7 +15,7 @@ from backend.constants import PROJECT_ROOT
 STATIC_FOLDER = PROJECT_ROOT / "frontend" / "build"
 
 
-def create_app(config=None):
+def create_app():
     """
     Create, set up, and return a new Flask application object. If a ``config``
     is passed in, it will be modified and used; however, if one is not passed

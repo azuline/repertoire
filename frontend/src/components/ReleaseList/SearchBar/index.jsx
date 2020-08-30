@@ -1,20 +1,23 @@
 import './index.scss';
 
 import { Button, InputGroup } from '@blueprintjs/core';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 
 import { RecentQueries } from './RecentQueries';
 import { SaveQuery } from './SaveQuery';
 import { SearchContext } from 'contexts';
 
 export const SearchBar = () => {
-  const { query, runQuery, setQuery } = useContext(SearchContext);
+  const { query, setActiveQuery, setQuery } = useContext(SearchContext);
 
   // An extra handler for the outer-form wrapper which prevents the form submission.
-  const executeQueryForm = (event) => {
-    runQuery(query);
-    event.preventDefault();
-  };
+  const executeQueryForm = useCallback(
+    (event) => {
+      setActiveQuery(query);
+      event.preventDefault();
+    },
+    [query, setActiveQuery]
+  );
 
   return (
     <div className="SearchBar">
@@ -28,7 +31,12 @@ export const SearchBar = () => {
           leftElement={<RecentQueries />}
           rightElement={
             <div className="RightElements">
-              <Button minimal text="Clear" type="reset" onClick={() => runQuery('')} />
+              <Button
+                minimal
+                text="Clear"
+                type="reset"
+                onClick={() => setActiveQuery('')}
+              />
               <SaveQuery />
               <Button icon="arrow-right" intent="primary" onClick={executeQueryForm} />
             </div>

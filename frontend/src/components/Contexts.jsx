@@ -14,11 +14,11 @@ import React from 'react';
 
 export const Contexts = ({ children }) => {
   return (
-    <ReleasesContextProvider>
+    <SearchContextProvider>
       <ReleaseSortContextProvider>
         <ReleaseViewContextProvider>
           <ReleasePaginationContextProvider>
-            <SearchContextProvider>
+            <ReleasesContextProvider>
               <ThemeContextProvider>
                 <CollectionsContextProvider>
                   <ArtistsContextProvider>
@@ -26,10 +26,10 @@ export const Contexts = ({ children }) => {
                   </ArtistsContextProvider>
                 </CollectionsContextProvider>
               </ThemeContextProvider>
-            </SearchContextProvider>
+            </ReleasesContextProvider>
           </ReleasePaginationContextProvider>
         </ReleaseViewContextProvider>
       </ReleaseSortContextProvider>
-    </ReleasesContextProvider>
+    </SearchContextProvider>
   );
 };

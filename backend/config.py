@@ -27,25 +27,29 @@ def write_default_config() -> None:
     Write the default config if a config file doesn't exist. And if the
     existing config lacks keys, update it with new default values.
     """
+    # If config doesn't exist, write it.
     if not CONFIG_PATH.exists():
         parser = ConfigParser()
         parser.read_dict(DEFAULT_CONFIG)
         parser.save()
-    else:
-        parser = _load_config()
-        modified = False
+        return
 
-        for section, items in DEFAULT_CONFIG.items():
-            for key, value in items.items():
-                if section not in parser:
-                    modified = True
-                    parser[section] = {}
-                if key not in parser[section]:
-                    modified = True
-                    parser[section][key] = value
+    # Otherwise, update config with default values if keys don't exist.
+    parser = _load_config()
+    modified = False
 
-        if modified:
-            parser.save()
+    for section, items in DEFAULT_CONFIG.items():
+        if section not in parser:
+            modified = True
+            parser[section] = {}
+
+        for key, value in items.items():
+            if key not in parser[section]:
+                modified = True
+                parser[section][key] = value
+
+    if modified:
+        parser.save()
 
 
 class Config:

@@ -54,7 +54,7 @@ A sample configuration file is as follows:
 music_directories = ["/path/one", "/path/two"]
 ; The interval (in hours) in between indexes of the `music_directories`.
 ; Supports integers between 0 and 24, inclusive.
-index_interval = 1440
+index_interval = 24
 ```
 
 _Note: Comments in the real config will be stripped by the backend._

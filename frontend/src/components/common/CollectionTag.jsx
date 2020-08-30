@@ -6,10 +6,10 @@ import { SearchContext } from 'contexts';
 
 export const CollectionTag = ({ collection, minimal }) => {
   const { type, name } = collection;
-  const { runQuery } = useContext(SearchContext);
+  const { setActiveQuery } = useContext(SearchContext);
 
   const queryCollection = (event) => {
-    runQuery(collectionQueryFormats[type](escapeQuotes(name)));
+    setActiveQuery(collectionQueryFormats[type](escapeQuotes(name)));
     event.stopPropagation();
   };
 

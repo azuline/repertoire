@@ -6,10 +6,11 @@ export const usePersistentState = (localStorageKey, defaultValue) => {
     return storedValue ? JSON.parse(storedValue) : defaultValue;
   });
 
-  const setPersistentValue = (value, persist = true) => {
-    setValue(value);
+  const setPersistentValue = (newValue, persist = true) => {
+    const toStore = newValue instanceof Function ? newValue(value) : newValue;
+    setValue(toStore);
     if (persist) {
-      localStorage.setItem(localStorageKey, JSON.stringify(value));
+      localStorage.setItem(localStorageKey, JSON.stringify(toStore));
     }
   };
 

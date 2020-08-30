@@ -1,81 +1,37 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-
-import { PaginationContext } from './Pagination';
-import { ReleasesContext } from './Releases';
-import { SortContext } from './Sort';
-import { parseQuery } from 'common/queries';
-import { queryReleases } from 'requests';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { usePersistentState } from 'hooks';
-
-export { ViewContext } from './View';
+import { useHistory } from 'react-router-dom';
 
 export const SearchContext = React.createContext({
   query: '',
   setQuery: () => {},
-  runQuery: () => {},
+  activeQuery: '',
+  setActiveQuery: () => {},
   recentQueries: [],
 });
 
 export const SearchContextProvider = ({ children }) => {
   const history = useHistory();
   const [query, setQuery] = useState('');
+  const [activeQuery, setActiveQuery] = useState('');
   const [recentQueries, setRecentQueries] = usePersistentState('queries--recent', []);
 
-  const { asc, sortField } = useContext(SortContext);
-  const { page, perPage, setNumPages } = useContext(PaginationContext);
-  const { setReleases } = useContext(ReleasesContext);
+  // On a new `activeQuery`, redirect to '/', sync the state of `query` to
+  // `activeQuery`, and update the list of recent queries.
+  useEffect(() => {
+    history.push('/');
+    setQuery(activeQuery);
 
-  const appendRecentQuery = useCallback(
     // Cap the list of recent queries at 30 entries and remove previous
     // duplicate queries.
-    (query) => {
-      const entry = { query, time: Math.floor(Date.now() / 1000) };
-      const oldEntries = recentQueries.filter((oldEntry) => oldEntry.query !== query);
-      setRecentQueries([entry, ...oldEntries].slice(0, 30));
-    },
-    [recentQueries, setRecentQueries]
-  );
+    setRecentQueries((oldEntries) => {
+      const dedupEntries = oldEntries.filter((entry) => entry.query !== activeQuery);
+      const newEntry = { activeQuery, time: Math.floor(Date.now() / 1000) };
+      return [newEntry, ...dedupEntries].slice(0, 30);
+    });
+  }, [history, setQuery, activeQuery, setRecentQueries]);
 
-  // Function to query the backend for releases.
-  const runQuery = useCallback(
-    (query) => {
-      history.push('/');
-      setQuery(query);
-      appendRecentQuery(query);
-
-      (async () => {
-        const [search, collections, artists] = parseQuery(query);
-        const { releases, total } = await queryReleases(
-          search,
-          collections,
-          artists,
-          page,
-          perPage,
-          sortField,
-          asc
-        );
-        setReleases(releases);
-        setNumPages(Math.ceil(total / perPage));
-      })();
-    },
-    [
-      history,
-      setQuery,
-      appendRecentQuery,
-      setReleases,
-      page,
-      perPage,
-      setNumPages,
-      sortField,
-      asc,
-    ]
-  );
-
-  // Execute `runQuery` on changes to release view options.
-  useEffect(() => runQuery(query), [page, perPage, sortField, asc]);
-
-  const value = { query, setQuery, runQuery, recentQueries };
+  const value = { query, setQuery, activeQuery, setActiveQuery, recentQueries };
 
   return <SearchContext.Provider value={value}>{children}</SearchContext.Provider>;
 };

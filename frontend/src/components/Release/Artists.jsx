@@ -1,16 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 
 import { SearchContext } from 'contexts';
 import { Tag } from '@blueprintjs/core';
 import { escapeQuotes } from 'common/queries';
 
 export const ReleaseArtists = ({ artists, minimal, large }) => {
-  const { runQuery } = useContext(SearchContext);
+  const { setActiveQuery } = useContext(SearchContext);
 
-  const queryArtist = (artist) => (event) => {
-    runQuery(`artist:"${escapeQuotes(artist)}"`);
-    event.stopPropagation();
-  };
+  const queryArtist = useCallback(
+    (artist) => (event) => {
+      setActiveQuery(`artist:"${escapeQuotes(artist)}"`);
+      event.stopPropagation();
+    },
+    [setActiveQuery]
+  );
 
   return (
     <div className="ReleaseArtists">

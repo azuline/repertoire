@@ -13,7 +13,7 @@ const dividerWords = {
 };
 
 export const TrackArtists = ({ artists, minimal }) => {
-  const { runQuery } = useContext(SearchContext);
+  const { setActiveQuery } = useContext(SearchContext);
 
   // Return a map of artist roles to the artists in that role, filtering out
   // roles without any artists in them.
@@ -29,10 +29,10 @@ export const TrackArtists = ({ artists, minimal }) => {
 
   const queryArtist = useCallback(
     (artist) => (event) => {
-      runQuery(`artist:"${escapeQuotes(artist)}"`);
+      setActiveQuery(`artist:"${escapeQuotes(artist)}"`);
       event.stopPropagation();
     },
-    [runQuery]
+    [setActiveQuery]
   );
 
   return (
