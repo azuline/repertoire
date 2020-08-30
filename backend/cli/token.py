@@ -23,7 +23,7 @@ def token():
             )
         else:
             cursor.execute(
-                """UPDATE system_users UPDATE token = ? WHERE id = 1""", (token,)
+                """UPDATE system__users SET token = ? WHERE id = 1""", (token,)
             )
 
     click.echo(f"Generated new authentication token: {token.hex()}")

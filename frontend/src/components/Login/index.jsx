@@ -5,6 +5,7 @@ import React, { useCallback, useContext, useState } from 'react';
 
 import { AuthenticationContext } from 'contexts';
 import { useRequest } from 'hooks';
+import { TopToaster } from 'components/Toaster';
 
 export const Login = () => {
   const request = useRequest();
@@ -18,7 +19,12 @@ export const Login = () => {
           headers: new Headers({ Authorization: `Token ${token}` }),
         });
         if (response.status !== 200) {
-          // TODO: Use error component on failure.
+          TopToaster.show({
+            icon: 'user',
+            intent: 'danger',
+            message: 'Login failed!',
+            timeout: 2000,
+          });
         } else {
           const { username } = await response.json();
           setUsername(username);

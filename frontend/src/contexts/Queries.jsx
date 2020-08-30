@@ -31,12 +31,14 @@ export const QueriesContextProvider = ({ children }) => {
   }, [token, request, setQueries]);
 
   const saveQuery = useCallback(
-    (query, name) => {
+    (name, query) => {
       (async () => {
-        const submittedQuery = await request('/api/queries', {
+        const response = await request('/api/queries', {
           method: 'POST',
-          body: JSON.stringify({ query, name }),
+          body: JSON.stringify({ name, query }),
         });
+        const submittedQuery = await response.json();
+
         setQueries((queries) => [submittedQuery, ...queries]);
       })();
     },

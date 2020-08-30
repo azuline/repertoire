@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 import { usePersistentState } from 'hooks';
@@ -14,32 +14,32 @@ export const SearchContext = React.createContext({
 export const SearchContextProvider = ({ children }) => {
   const history = useHistory();
   const [query, setQuery] = useState('');
-  const [activeQuery, setActiveQuery] = useState('');
+  const [activeQuery, setActiveQueryRaw] = useState('');
   const [recentQueries, setRecentQueries] = usePersistentState('queries--recent', []);
 
-  // On a new `activeQuery`...
-  useEffect(() => {
-    // If history is undefined, then we are not logged in and should not do anything.
-    if (!history) return;
+  const setActiveQuery = useCallback(
+    (newQuery) => {
+      // Redirect to '/' if not already there.
+      if (history.location.pathname !== '/') {
+        history.push('/');
+      }
 
-    // Redirect to '/' if not already there.
-    if (history.location.pathname !== '/') {
-      history.push('/');
-    }
+      // Sync `query` with `activeQuery`.
+      setQuery(newQuery);
+      setActiveQueryRaw(newQuery);
 
-    // Sync `query` with `activeQuery`.
-    setQuery(activeQuery);
+      // Update recent queries: cap the list of recent queries at 30 entries and
+      // remove previous duplicate queries.
+      setRecentQueries((oldEntries) => {
+        if (!newQuery) return oldEntries;
 
-    // Update recent queries: cap the list of recent queries at 30 entries and
-    // remove previous duplicate queries.
-    setRecentQueries((oldEntries) => {
-      if (!activeQuery) return oldEntries;
-
-      const dedupEntries = oldEntries.filter((entry) => entry.query !== activeQuery);
-      const newEntry = { query: activeQuery, time: Math.floor(Date.now() / 1000) };
-      return [newEntry, ...dedupEntries].slice(0, 30);
-    });
-  }, [history, setQuery, activeQuery, setRecentQueries]);
+        const dedupEntries = oldEntries.filter((entry) => entry.query !== newQuery);
+        const newEntry = { query: newQuery, time: Math.floor(Date.now() / 1000) };
+        return [newEntry, ...dedupEntries].slice(0, 30);
+      });
+    },
+    [history, setQuery, setActiveQueryRaw, setRecentQueries]
+  );
 
   const value = { query, setQuery, activeQuery, setActiveQuery, recentQueries };
 
