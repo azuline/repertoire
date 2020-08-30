@@ -19,6 +19,9 @@ export const SearchContextProvider = ({ children }) => {
 
   // On a new `activeQuery`...
   useEffect(() => {
+    // If history is undefined, then we are not logged in and should not do anything.
+    if (!history) return;
+
     // Redirect to '/' if not already there.
     if (history.location.pathname !== '/') {
       history.push('/');

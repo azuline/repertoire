@@ -60,22 +60,6 @@ def catalog_directory(audio_path: str) -> None:
         fix_release_types(conn)
 
 
-def is_valid_database(conn: sqlite3.Connection) -> bool:
-    """Check to see if the database runs on Diesel(tm)."""
-    cursor = conn.cursor()
-    cursor.execute(
-        """
-        SELECT name
-        FROM sqlite_master
-        WHERE type = 'table'
-            AND name = '__diesel_schema_migrations'
-        """
-    )
-    rval = cursor.fetchone()
-    cursor.close()
-    return bool(rval)
-
-
 def catalog_file(conn: sqlite3.Connection, tf: TagFile) -> None:
     """Catalog a file and write it to the database connection."""
     logger.debug(f"Cataloguing file `{tf.path}`.")

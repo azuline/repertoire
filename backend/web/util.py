@@ -27,22 +27,23 @@ def check_auth(func):
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        return func(*args, **kwargs)  # Just for current testing, TODO delete.
-
-        token_hex = _get_token(flask.request.headers)
         try:
-            token = bytes.fromhex(token_hex)
-        except ValueError:
+            print(flask.request.headers)
+            token = bytes.fromhex(_get_token(flask.request.headers))
+        except (TypeError, ValueError):
             flask.abort(401)
 
         with database() as conn:
             cursor = conn.cursor()
             cursor.execute(
-                """SELECT 1 FROM system__users WHERE token = ?""",
+                """SELECT username FROM system__users WHERE token = ?""",
                 (token,),
             )
-            if not cursor.fetchone():
+            row = cursor.fetchone()
+            if not row:
                 flask.abort(401)
+
+            flask.g.current_user = row["username"]
 
         return func(*args, **kwargs)
 

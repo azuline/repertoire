@@ -1,4 +1,5 @@
 import {
+  AuthenticationContextProvider,
   ArtistsContextProvider,
   CollectionsContextProvider,
   QueriesContextProvider,
@@ -14,22 +15,24 @@ import React from 'react';
 
 export const Contexts = ({ children }) => {
   return (
-    <SearchContextProvider>
-      <ReleaseSortContextProvider>
-        <ReleaseViewContextProvider>
-          <ReleasePaginationContextProvider>
-            <ReleasesContextProvider>
-              <ThemeContextProvider>
-                <CollectionsContextProvider>
-                  <ArtistsContextProvider>
-                    <QueriesContextProvider>{children}</QueriesContextProvider>
-                  </ArtistsContextProvider>
-                </CollectionsContextProvider>
-              </ThemeContextProvider>
-            </ReleasesContextProvider>
-          </ReleasePaginationContextProvider>
-        </ReleaseViewContextProvider>
-      </ReleaseSortContextProvider>
-    </SearchContextProvider>
+    <AuthenticationContextProvider>
+      <SearchContextProvider>
+        <ReleaseSortContextProvider>
+          <ReleaseViewContextProvider>
+            <ReleasePaginationContextProvider>
+              <ReleasesContextProvider>
+                <ThemeContextProvider>
+                  <CollectionsContextProvider>
+                    <ArtistsContextProvider>
+                      <QueriesContextProvider>{children}</QueriesContextProvider>
+                    </ArtistsContextProvider>
+                  </CollectionsContextProvider>
+                </ThemeContextProvider>
+              </ReleasesContextProvider>
+            </ReleasePaginationContextProvider>
+          </ReleaseViewContextProvider>
+        </ReleaseSortContextProvider>
+      </SearchContextProvider>
+    </AuthenticationContextProvider>
   );
 };

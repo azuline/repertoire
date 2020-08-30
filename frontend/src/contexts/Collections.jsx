@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import Fuse from 'fuse.js';
+import { AuthenticationContext } from './Authentication';
 import { fetchCollections } from 'requests';
 import { fuseOptions } from 'common/fuse';
 
@@ -16,14 +17,18 @@ export const CollectionsContextProvider = ({ children }) => {
   const [fetched, setFetched] = useState(false);
   const fuse = new Fuse(collections, { ...fuseOptions, keys: ['name'] });
 
+  const { token } = useContext(AuthenticationContext);
+
   useEffect(() => fuse.setCollection(collections), [fuse, collections]);
 
   useEffect(() => {
     (async () => {
-      setCollections(await fetchCollections());
-      setFetched(true);
+      if (token) {
+        setCollections(await fetchCollections(token));
+        setFetched(true);
+      }
     })();
-  }, []);
+  }, [token]);
 
   const value = { collections, setCollections, fuse, fetched };
 

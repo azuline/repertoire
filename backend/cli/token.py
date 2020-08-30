@@ -8,7 +8,7 @@ from backend.util import database
 
 @commands.command()
 @shared_options
-def token(username, access):
+def token():
     """Generate an authentication token."""
     token = secrets.token_bytes(20)
 

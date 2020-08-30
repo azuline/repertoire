@@ -6,6 +6,7 @@ export { CollectionsContext, CollectionsContextProvider } from './Collections';
 export { QueriesContext, QueriesContextProvider } from './Queries';
 export { PaginationContext, ReleasePaginationContextProvider } from './Pagination';
 export { ReleasesContext, ReleasesContextProvider } from './Releases';
+export { AuthenticationContext, AuthenticationContextProvider } from './Authentication';
 
 export {
   FilterContext,

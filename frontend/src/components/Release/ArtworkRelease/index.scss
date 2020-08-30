@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-gap: 10px;
-  max-width: 1320px;
+  max-width: 1560px;
   width: 95%;
   margin: 0 auto 15px auto;
 
@@ -75,5 +75,9 @@
 
   @media screen and (min-width: 1200px) {
     grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  @media screen and (min-width: 1400px) {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
   }
 }

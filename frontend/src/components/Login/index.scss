@@ -1,0 +1,20 @@
+.Login {
+  width: 100%;
+  height: calc(100vh - 65px);
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  .LoginForm {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin: 0 auto;
+
+    .LoginToken {
+      min-width: 300px;
+      width: 30%;
+      margin-right: 10px;
+    }
+  }
+}

@@ -164,7 +164,7 @@ CREATE TABLE music__saved_queries (
 CREATE TABLE music__releases_search_index (
 	id INTEGER NOT NULL,
 	release_id INTEGER NOT NULL,
-	word VARCHAR NOT NULL,
+	word VARCHAR COLLATE "NOCASE" NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE
 );

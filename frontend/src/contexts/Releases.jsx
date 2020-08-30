@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { PaginationContext } from './Pagination';
 import { SearchContext } from './Search';
+import { AuthenticationContext } from './Authentication';
 import { SortContext } from './Sort';
 import { parseQuery } from 'common/queries';
 import { queryReleases } from 'requests';
@@ -17,25 +18,29 @@ export const ReleasesContextProvider = ({ children }) => {
   const { activeQuery } = useContext(SearchContext);
   const { asc, sortField } = useContext(SortContext);
   const { page, perPage, setNumPages } = useContext(PaginationContext);
+  const { token } = useContext(AuthenticationContext);
 
   // On changes to the search query and release view options, update the
   // releases list.
   useEffect(() => {
     (async () => {
-      const [search, collections, artists] = parseQuery(activeQuery);
-      const { releases, total } = await queryReleases(
-        search,
-        collections,
-        artists,
-        page,
-        perPage,
-        sortField,
-        asc
-      );
-      setReleases(releases);
-      setNumPages(Math.ceil(total / perPage));
+      if (token) {
+        const [search, collections, artists] = parseQuery(activeQuery);
+        const { releases, total } = await queryReleases(
+          token,
+          search,
+          collections,
+          artists,
+          page,
+          perPage,
+          sortField,
+          asc
+        );
+        setReleases(releases);
+        setNumPages(Math.ceil(total / perPage));
+      }
     })();
-  }, [activeQuery, setReleases, page, perPage, setNumPages, sortField, asc]);
+  }, [token, activeQuery, setReleases, page, perPage, setNumPages, sortField, asc]);
 
   const value = { releases, setReleases };
 

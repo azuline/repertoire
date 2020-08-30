@@ -1,13 +1,20 @@
 import { Button, InputGroup, Popover } from '@blueprintjs/core';
-import { QueriesContext, SearchContext } from 'contexts';
-import React, { useContext, useState } from 'react';
+import { AuthenticationContext, QueriesContext, SearchContext } from 'contexts';
+import React, { useCallback, useContext, useState } from 'react';
 
 export const SaveQuery = () => {
-  const { query } = useContext(SearchContext);
-  const { saveQuery } = useContext(QueriesContext);
   const [name, setName] = useState('');
 
-  const saveQueryForm = () => saveQuery(query, name);
+  const { query } = useContext(SearchContext);
+  const { saveQuery } = useContext(QueriesContext);
+  const { token } = useContext(AuthenticationContext);
+
+  const saveQueryForm = useCallback(() => saveQuery(token, query, name), [
+    saveQuery,
+    token,
+    query,
+    name,
+  ]);
 
   return (
     <Popover className="SaveQuery" position="bottom">

@@ -6,13 +6,13 @@ import { Routes } from './Routes';
 
 export const App = () => {
   return (
-    <BrowserRouter>
-      <Contexts>
+    <Contexts>
+      <BrowserRouter>
         <div className="App">
           <Header />
           <Routes />
         </div>
-      </Contexts>
-    </BrowserRouter>
+      </BrowserRouter>
+    </Contexts>
   );
 };

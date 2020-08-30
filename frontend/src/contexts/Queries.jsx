@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import Fuse from 'fuse.js';
 import { fetchQueries } from 'requests';
 import { fuseOptions } from 'common/fuse';
 import { submitQuery } from 'requests';
+import { AuthenticationContext } from './Authentication';
 
 export const QueriesContext = React.createContext({
   queries: [],
@@ -18,14 +19,18 @@ export const QueriesContextProvider = ({ children }) => {
   const [fetched, setFetched] = useState(false);
   const fuse = new Fuse(queries, { ...fuseOptions, keys: ['name'] });
 
+  const { token } = useContext(AuthenticationContext);
+
   useEffect(() => fuse.setCollection(queries), [fuse, queries]);
 
   useEffect(() => {
     (async () => {
-      setQueries(await fetchQueries());
-      setFetched(true);
+      if (token) {
+        setQueries(await fetchQueries(token));
+        setFetched(true);
+      }
     })();
-  }, []);
+  }, [token]);
 
   const saveQuery = (query, name) => {
     const submittedQuery = submitQuery(query, name);

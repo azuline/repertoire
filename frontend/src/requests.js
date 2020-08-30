@@ -5,6 +5,7 @@ export const apiUrl =
 
 // Queries for a list of releases.
 export const queryReleases = async (
+  token,
   search,
   collections,
   artists,
@@ -23,34 +24,44 @@ export const queryReleases = async (
         perPage: perPage ?? '',
         sort: sort ?? '',
         asc: asc ?? '',
-      })
+      }),
+    {
+      headers: new Headers({ Authorization: `Token ${token}` }),
+    }
   );
   return await response.json();
 };
 
 // Returns a list of queries.
-export const fetchQueries = async () => {
-  const response = await fetch(`${apiUrl}/api/queries`);
+export const fetchQueries = async (token) => {
+  const response = await fetch(`${apiUrl}/api/queries`, {
+    headers: new Headers({ Authorization: `Token ${token}` }),
+  });
   return await response.json();
 };
 
 // Submits a query and returns a newly-created query object.
-export const submitQuery = async (query, name) => {
+export const submitQuery = async (token, query, name) => {
   const response = await fetch(`${apiUrl}/api/queries`, {
     method: 'POST',
+    headers: new Headers({ Authorization: `Token ${token}` }),
     body: JSON.stringify({ query, name }),
   });
   return await response.json();
 };
 
 // Returns a list of collections.
-export const fetchCollections = async () => {
-  const response = await fetch(`${apiUrl}/api/collections`);
+export const fetchCollections = async (token) => {
+  const response = await fetch(`${apiUrl}/api/collections`, {
+    headers: new Headers({ Authorization: `Token ${token}` }),
+  });
   return await response.json();
 };
 
 // Returns a list of artists.
-export const fetchArtists = async () => {
-  const response = await fetch(`${apiUrl}/api/artists`);
+export const fetchArtists = async (token) => {
+  const response = await fetch(`${apiUrl}/api/artists`, {
+    headers: new Headers({ Authorization: `Token ${token}` }),
+  });
   return await response.json();
 };
