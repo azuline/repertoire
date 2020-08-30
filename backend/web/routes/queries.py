@@ -2,7 +2,7 @@ import sqlite3
 from typing import Dict
 
 import flask
-from voluptuous import Schema
+from voluptuous import Required, Schema
 
 from backend.util import database, to_posix_time
 from backend.web.util import check_auth, validate_data
@@ -37,7 +37,7 @@ def get_queries():
 
 @bp.route("/api/queries", methods=["POST"])
 @check_auth
-@validate_data(Schema({"name": str, "query": str}))
+@validate_data(Schema({Required("name"): str, Required("query"): str}))
 def add_query(name, query):
     with database() as conn:
         cursor = conn.cursor()

@@ -37,7 +37,7 @@ INSERT INTO music__release_types (id, type) VALUES
 
 -- Create an Unknown release.
 INSERT INTO music__releases (id, title, release_type) VALUES
-    (1, "Unknown Release", 13);
+    (1, "Unknown Release", 12);
 
 
 CREATE TABLE music__releases_links (

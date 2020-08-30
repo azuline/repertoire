@@ -28,7 +28,7 @@ export const SearchBar = () => {
           leftElement={<RecentQueries />}
           rightElement={
             <div className="RightElements">
-              <Button minimal text="Clear" type="reset" onClick={() => setQuery('')} />
+              <Button minimal text="Clear" type="reset" onClick={() => runQuery('')} />
               <SaveQuery />
               <Button icon="arrow-right" intent="primary" onClick={executeQueryForm} />
             </div>

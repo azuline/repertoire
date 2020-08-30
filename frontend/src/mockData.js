@@ -9,7 +9,7 @@ export const mockReleases = [
       { id: 1, name: 'Inbox', type: 1 },
     ],
     id: 2,
-    releaseType: 'Album',
+    releaseType: 1,
     title: 'BLOOM*IZ',
     tracks: {
       1: {
@@ -121,7 +121,7 @@ export const mockReleases = [
       { id: 28, name: 'Do Not Pass Go Records', type: 3 },
     ],
     id: 3,
-    releaseType: 'Single',
+    releaseType: 2,
     title: 'Baby (6ix9ine Remix)',
     tracks: {
       1: {

@@ -1,5 +1,6 @@
 import './index.scss';
 
+import { releaseTypes } from 'common/releases';
 import { Card, Divider, Icon, Position, Tooltip } from '@blueprintjs/core';
 import React, { useContext, useMemo, useState } from 'react';
 
@@ -55,11 +56,11 @@ export const CompactRelease = ({
             </div>
             <div className="Classifiers">
               <div className="Year">
-                <h5 className="bp3-heading">{year}</h5>
+                <h5 className="bp3-heading">{year || 'Unknown'}</h5>
               </div>
               <Divider />
               <div className="Type">
-                <h5 className="bp3-heading">{releaseType}</h5>
+                <h5 className="bp3-heading">{releaseTypes[releaseType]}</h5>
               </div>
             </div>
           </div>

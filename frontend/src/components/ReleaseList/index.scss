@@ -83,6 +83,8 @@
     }
 
     @media screen and (max-width: 520px) {
+      margin-bottom: 5px;
+
       .ViewOptions {
         display: flex;
         flex-flow: column nowrap;

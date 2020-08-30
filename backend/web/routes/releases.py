@@ -7,23 +7,9 @@ from voluptuous import Coerce, Required, Schema
 
 from backend.util import database, strip_punctuation, to_posix_time
 from backend.web.util import check_auth, validate_data
+from backend.web.validators import JSONList, SortOption
 
 bp = flask.Blueprint("releases", __name__)
-
-SORT_OPTIONS = {
-    "recentlyAdded": "rls.added_on",
-    "title": "rls.title",
-    "year": "rls.release_year",
-    "random": "RANDOM()",
-}
-
-
-def SortOption(value):
-    """Voluptuous custom schema validator."""
-    try:
-        return SORT_OPTIONS[value]
-    except KeyError:
-        raise ValueError
 
 
 @bp.route("/api/releases", methods=["GET"])
@@ -32,8 +18,8 @@ def SortOption(value):
     Schema(
         {
             Required("search", default=""): str,
-            Required("collections", default=[]): Coerce([int]),
-            Required("artists", default=[]): Coerce([int]),
+            Required("collections", default="[]"): JSONList(int),
+            Required("artists", default="[]"): JSONList(int),
             Required("page", default=1): Coerce(int),
             Required("perPage", default=50): Coerce(int),
             Required("sort", default="recentlyAdded"): SortOption,
@@ -92,28 +78,30 @@ def _query_releases(
     filter_params = []
 
     # Add the collections to the filter SQL.
-    for collection in collections:
-        filter_sql.append(
-            """
-            EXISTS (
-                SELECT 1 FROM music__collections_releases
-                WHERE release_id = rls.id AND collection_id = ?
+    if collections:
+        for collection in collections:
+            filter_sql.append(
+                """
+                EXISTS (
+                    SELECT 1 FROM music__collections_releases
+                    WHERE release_id = rls.id AND collection_id = ?
+                )
+                """
             )
-            """
-        )
-        filter_params.append(collection.id)
+            filter_params.append(collection.id)
 
     # Add the artists to the filter SQL.
-    for artist in artists:
-        filter_sql.append(
-            """
-            EXISTS (
-                SELECT 1 FROM music__releases_artists
-                WHERE release_id = rls.id AND artist_id = ?
+    if artists:
+        for artist in artists:
+            filter_sql.append(
+                """
+                EXISTS (
+                    SELECT 1 FROM music__releases_artists
+                    WHERE release_id = rls.id AND artist_id = ?
+                )
+                """
             )
-            """
-        )
-        filter_params.append(artist.id)
+            filter_params.append(artist.id)
 
     # Add the search str to the filter SQL.
     for word in strip_punctuation(search).split(" "):
@@ -124,11 +112,11 @@ def _query_releases(
             """
             EXISTS (
                 SELECT 1 FROM music__releases_search_index
-                WHERE word = ? OR word = ? AND release_id = rls.id
+                WHERE (word = ? OR word = ?) AND release_id = rls.id
             )
             """
         )
-        filter_params.append(word, unidecode(word))
+        filter_params.extend([word, unidecode(word)])
 
     cursor.execute(
         f"""
@@ -141,6 +129,8 @@ def _query_releases(
     )
 
     total = cursor.fetchone()[0]
+
+    print(filter_sql, filter_params)
 
     cursor.execute(
         f"""

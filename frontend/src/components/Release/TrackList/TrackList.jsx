@@ -30,6 +30,7 @@ export const TrackList = ({ tracks }) => {
                 return (
                   <Card key={track.id} className="Track" interactive>
                     <div className="TrackSimpleInfo">
+                      <div className="TrackNumber">{trackno}</div>
                       <div className="TrackTitle">{track.title}</div>
                       <div className="TrackLength">
                         {secondsToLength(track.duration)}

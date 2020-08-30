@@ -22,11 +22,12 @@ export const SearchContextProvider = ({ children }) => {
   const [recentQueries, setRecentQueries] = usePersistentState('queries--recent', []);
 
   const { asc, sortField } = useContext(SortContext);
-  const { page, perPage } = useContext(PaginationContext);
+  const { page, perPage, setNumPages } = useContext(PaginationContext);
   const { setReleases } = useContext(ReleasesContext);
 
-  // Cap the list of recent queries at 30 entries and remove previous duplicate queries.
   const appendRecentQuery = useCallback(
+    // Cap the list of recent queries at 30 entries and remove previous
+    // duplicate queries.
     (query) => {
       const entry = { query, time: Math.floor(Date.now() / 1000) };
       const oldEntries = recentQueries.filter((oldEntry) => oldEntry.query !== query);
@@ -44,7 +45,7 @@ export const SearchContextProvider = ({ children }) => {
 
       (async () => {
         const [search, collections, artists] = parseQuery(query);
-        const releases = await queryReleases(
+        const { releases, total } = await queryReleases(
           search,
           collections,
           artists,
@@ -54,9 +55,20 @@ export const SearchContextProvider = ({ children }) => {
           asc
         );
         setReleases(releases);
+        setNumPages(Math.ceil(total / perPage));
       })();
     },
-    [history, setQuery, appendRecentQuery, setReleases, page, perPage, sortField, asc]
+    [
+      history,
+      setQuery,
+      appendRecentQuery,
+      setReleases,
+      page,
+      perPage,
+      setNumPages,
+      sortField,
+      asc,
+    ]
   );
 
   // Execute `runQuery` on changes to release view options.

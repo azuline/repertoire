@@ -17,8 +17,8 @@ export const queryReleases = async (
     `${apiUrl}/api/releases?` +
       new URLSearchParams({
         search: search ?? '',
-        collections: collections ?? '',
-        artists: artists ?? '',
+        collections: JSON.stringify(collections ?? []),
+        artists: JSON.stringify(artists ?? []),
         page: page ?? '',
         perPage: perPage ?? '',
         sort: sort ?? '',
