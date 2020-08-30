@@ -11,6 +11,10 @@ export const Pagination = () => {
   const bottom = Math.max(page - 2, 2);
   const top = Math.min(page + 3, numPages);
 
+  if (numPages === 0) {
+    return null;
+  }
+
   return (
     <ControlGroup className="Pagination">
       <Page page={1} />
