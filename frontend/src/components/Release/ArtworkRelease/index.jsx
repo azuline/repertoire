@@ -9,12 +9,14 @@ import { ReleaseArtists } from '../Artists';
 import { ViewContext } from 'contexts';
 
 export const ArtworkRelease = ({
+  id,
   title,
   year,
   releaseType,
   artists,
   collections,
   tracks,
+  hasImage,
 }) => {
   const [displayTrackList, setDisplayTrackList] = useState(false);
   const { expandTrackLists } = useContext(ViewContext);
@@ -30,7 +32,7 @@ export const ArtworkRelease = ({
         interactive
         onClick={() => expandTrackLists || setDisplayTrackList(!displayTrackList)}
       >
-        <CoverArt inInbox={inInbox} />
+        <CoverArt inInbox={inInbox} releaseId={id} hasImage={hasImage} />
         <div className="ReleaseInfo">
           <div className="Title">
             <h5 className="bp3-heading">{title}</h5>

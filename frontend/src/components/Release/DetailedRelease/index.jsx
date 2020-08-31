@@ -11,12 +11,14 @@ import { ViewContext } from 'contexts';
 import { releaseTypes } from 'common/releases';
 
 export const DetailedRelease = ({
+  id,
   title,
   year,
   releaseType,
   artists,
   collections,
   tracks,
+  hasImage,
 }) => {
   const [displayTrackList, setDisplayTrackList] = useState(false);
   const { expandTrackLists } = useContext(ViewContext);
@@ -33,7 +35,7 @@ export const DetailedRelease = ({
         onClick={() => expandTrackLists || setDisplayTrackList(!displayTrackList)}
       >
         <div className="ReleaseInfo">
-          <CoverArt inInbox={inInbox} />
+          <CoverArt inInbox={inInbox} releaseId={id} hasImage={hasImage} />
           <div className="Metadata">
             <div className="SimpleData">
               <div className="Title">

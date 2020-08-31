@@ -13,12 +13,14 @@ import { releaseTypes } from 'common/releases';
 const genreAndLabelCollectionTypes = [3, 4];
 
 export const CompactRelease = ({
+  id,
   title,
   year,
   releaseType,
   artists,
   collections,
   tracks,
+  hasImage,
 }) => {
   const [displayTrackList, setDisplayTrackList] = useState(false);
   const { expandTrackLists } = useContext(ViewContext);
@@ -66,7 +68,7 @@ export const CompactRelease = ({
             </div>
           </div>
           <div className="ArtAndTags">
-            <CoverArt />
+            <CoverArt releaseId={id} hasImage={hasImage} />
             <div className="Tags">
               <ReleaseArtists artists={artists} minimal />
               <ReleaseCollections collections={filteredCollections} />

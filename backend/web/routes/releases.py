@@ -140,6 +140,7 @@ def _query_releases(
         SELECT
             rls.id,
             rls.title,
+            rls.image_path,
             rls.release_type,
             rls.release_year,
             rls.added_on
@@ -161,6 +162,7 @@ def _query_releases(
                 "releaseType": row["release_type"],
                 "year": row["release_year"],
                 "addedOn": to_posix_time(row["added_on"]),
+                "hasImage": bool(row["image_path"]),
             }
             for row in cursor.fetchall()
         ],

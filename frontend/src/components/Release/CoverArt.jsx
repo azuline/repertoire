@@ -1,12 +1,36 @@
 import { Icon, Position, Tooltip } from '@blueprintjs/core';
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useRequest } from 'hooks';
 
 import { ThemeContext } from 'contexts';
 import noArtDark from 'images/noArtDark.png';
 import noArtLight from 'images/noArtLight.png';
+import loading from 'images/loading.png';
 
-export const CoverArt = ({ inInbox }) => {
+export const CoverArt = ({ inInbox, releaseId, hasImage }) => {
+  const request = useRequest();
   const { dark } = useContext(ThemeContext);
+  const [imageUrl, setImageUrl] = useState(loading);
+
+  useEffect(() => {
+    (async () => {
+      // If there is no image, just return no art image.
+      if (!hasImage) {
+        setImageUrl(dark ? noArtDark : noArtLight);
+        return;
+      }
+
+      // Otherwise, make a request for the image.
+      try {
+        const response = await request(`/files/covers/${releaseId}?thumbnail=true`);
+        if (response.status !== 200) throw new Error('broked');
+        const blob = await response.blob();
+        setImageUrl(URL.createObjectURL(blob));
+      } catch {
+        setImageUrl(dark ? noArtDark : noArtLight);
+      }
+    })();
+  }, [dark, request, releaseId, hasImage, setImageUrl]);
 
   return (
     <div className="CoverArt">
@@ -22,7 +46,7 @@ export const CoverArt = ({ inInbox }) => {
           </Tooltip>
         </div>
       )}
-      <img src={dark ? noArtDark : noArtLight} alt="No Cover Art" />
+      <img src={imageUrl} alt="Cover Art" />
     </div>
   );
 };
