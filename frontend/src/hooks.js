@@ -1,4 +1,5 @@
 import { useCallback, useContext, useState } from 'react';
+import { TopToaster } from 'components/Toaster';
 
 import { AuthenticationContext } from 'contexts';
 
@@ -27,15 +28,38 @@ export const usePersistentState = (localStorageKey, defaultValue) => {
 const apiUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '';
 
 export const useRequest = () => {
-  const { token } = useContext(AuthenticationContext);
+  const { token, setToken } = useContext(AuthenticationContext);
+
+  const toastToFailure = useCallback(() => {
+    const existingToasts = TopToaster.getToasts();
+
+    // Don't create a duplicate fail to authenticate toast.
+    if (existingToasts.some(({ className }) => className === 'ToastAuthFailure')) {
+      return;
+    }
+
+    TopToaster.show({
+      className: 'ToastAuthFailure',
+      icon: 'user',
+      intent: 'danger',
+      message: 'Failed to authenticate!',
+      timeout: 2000,
+    });
+  }, []);
 
   const request = useCallback(
-    (url, options = {}) =>
-      fetch(`${apiUrl}${url}`, {
+    async (url, options = {}) => {
+      const response = await fetch(`${apiUrl}${url}`, {
         headers: new Headers({ Authorization: `Token ${token}` }),
         ...options, // Allow options to overwrite headers.
-      }),
-    [token]
+      });
+      if (response.status === 401) {
+        toastToFailure();
+        setToken('');
+      }
+      return response;
+    },
+    [token, setToken, toastToFailure]
   );
 
   return request;
