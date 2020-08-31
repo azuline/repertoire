@@ -1,11 +1,11 @@
 import { Icon, Position, Tooltip } from '@blueprintjs/core';
-import React, { useState, useEffect, useContext } from 'react';
-import { useRequest } from 'hooks';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { ThemeContext } from 'contexts';
+import loading from 'images/loading.png';
 import noArtDark from 'images/noArtDark.png';
 import noArtLight from 'images/noArtLight.png';
-import loading from 'images/loading.png';
+import { useRequest } from 'hooks';
 
 export const CoverArt = ({ inInbox, releaseId, hasImage }) => {
   const request = useRequest();

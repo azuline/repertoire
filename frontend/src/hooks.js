@@ -1,7 +1,7 @@
 import { useCallback, useContext, useState } from 'react';
-import { TopToaster } from 'components/Toaster';
 
 import { AuthenticationContext } from 'contexts';
+import { TopToaster } from 'components/Toaster';
 
 export const usePersistentState = (localStorageKey, defaultValue) => {
   const [value, setValue] = useState(() => {

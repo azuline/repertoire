@@ -26,7 +26,7 @@ export const ArtworkRelease = ({
   }, [collections]);
 
   return (
-    <PopoverTrackList tracks={tracks} class="ReleaseWrapper">
+    <PopoverTrackList tracks={tracks} className="ReleaseWrapper">
       <Card
         className="Release"
         interactive

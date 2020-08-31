@@ -3,42 +3,25 @@
   flex-flow: column nowrap;
 
   .Artists {
-    height: calc(100vh - 110px);
-    overflow: auto;
     width: 100%;
     margin-top: 15px;
 
-    .Virtual {
-      position: relative;
-      width: 100%;
-
-      .VirtualRow {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-
-        &:hover {
-          z-index: 60;
-        }
-      }
-
-      margin-top: 1px;
-      margin-bottom: 20px;
-    }
-
     .Artist {
+      margin: 1px auto;
       border-radius: 0;
       max-width: 1050px;
-      margin: 0 auto;
       width: 95%;
-      margin-bottom: 5px;
       padding-top: 8px;
       padding-bottom: 8px;
       display: flex;
       flex-flow: row nowrap;
       font-size: 1.2em;
       align-items: center;
+      position: relative;
+
+      &:hover {
+        z-index: 100;
+      }
 
       .Name {
         height: 30px;

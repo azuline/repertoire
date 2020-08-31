@@ -1,6 +1,7 @@
-import { QueriesContext, SearchContext } from 'contexts';
 import { Button, InputGroup, Popover } from '@blueprintjs/core';
+import { QueriesContext, SearchContext } from 'contexts';
 import React, { useCallback, useContext, useState } from 'react';
+
 import { TopToaster } from 'components/Toaster';
 
 export const SaveQuery = () => {

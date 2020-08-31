@@ -3,41 +3,24 @@
   flex-flow: column nowrap;
 
   .Queries {
-    height: calc(100vh - 110px);
-    overflow: auto;
     width: 100%;
     margin-top: 15px;
 
-    .Virtual {
-      position: relative;
-      width: 100%;
-
-      .VirtualRow {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-
-        &:hover {
-          z-index: 60;
-        }
-      }
-
-      margin-top: 1px;
-      margin-bottom: 20px;
-    }
-
     .SavedQuery {
       border-radius: 0;
-      margin: 0 auto;
+      margin: 1px auto;
       max-width: 1050px;
       width: 95%;
-      margin-bottom: 5px;
       padding-top: 8px;
       padding-bottom: 8px;
       display: flex;
       flex-flow: row nowrap;
       font-size: 1.2em;
+      position: relative;
+
+      &:hover {
+        z-index: 100;
+      }
 
       .Name {
         height: 30px;

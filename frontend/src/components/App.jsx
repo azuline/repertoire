@@ -10,7 +10,9 @@ export const App = () => {
       <Contexts>
         <div className="App">
           <Header />
-          <Routes />
+          <div className="Body">
+            <Routes />
+          </div>
         </div>
       </Contexts>
     </BrowserRouter>

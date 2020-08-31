@@ -1,9 +1,9 @@
 import { FilterContext, QueriesContext, SortContext } from 'contexts';
-import React, { useContext, useMemo } from 'react';
+import { List, WindowScroller } from 'react-virtualized';
+import React, { useCallback, useContext, useMemo, useRef } from 'react';
 import { name, random, recentlyAdded, releaseCount } from 'common/sorts';
 
 import { Query } from './Query';
-import { useVirtual } from 'react-virtual';
 
 const sortFunctions = { recentlyAdded, name, releaseCount, random };
 
@@ -40,27 +40,37 @@ export const Queries = () => {
   }, [queries, fuse, asc, sortField, filter, queryType]);
 
   // Virtual render setup.
-  const parentRef = React.useRef();
-  const rowVirtualizer = useVirtual({
-    size: filteredQueries.length,
-    parentRef,
-    estimateSize: React.useCallback(() => 46, []),
-    overscan: 5,
-  });
+  const scrollRef = useRef();
+
+  const renderRow = useCallback(
+    ({ index, key, style }) => {
+      return (
+        <div key={key} style={style}>
+          <Query query={filteredQueries[index]} />
+        </div>
+      );
+    },
+    [filteredQueries]
+  );
 
   return (
-    <div className="Queries" ref={parentRef}>
-      <div className="Virtual" style={{ height: `${rowVirtualizer.totalSize}px` }}>
-        {rowVirtualizer.virtualItems.map((virtualRow) => (
-          <div
-            key={virtualRow.index}
-            className="VirtualRow"
-            style={{ height: '46px', transform: `translateY(${virtualRow.start}px)` }}
-          >
-            <Query query={filteredQueries[virtualRow.index]} />
-          </div>
-        ))}
-      </div>
+    <div className="Queries">
+      <WindowScroller ref={scrollRef}>
+        {({ height, width, isScrolling, onChildScroll, scrollTop }) => (
+          <List
+            autoHeight
+            height={height}
+            isScrolling={isScrolling}
+            onScroll={onChildScroll}
+            overscanRowCount={8}
+            rowCount={filteredQueries.length}
+            rowHeight={46}
+            rowRenderer={renderRow}
+            scrollTop={scrollTop}
+            width={width}
+          />
+        )}
+      </WindowScroller>
     </div>
   );
 };
