@@ -1,9 +1,10 @@
 import os
 
 import flask
+from voluptuous import Schema
 
 from backend.util import database
-from backend.web.util import check_auth
+from backend.web.util import check_auth, validate_data
 
 bp = flask.Blueprint("files", __name__)
 
@@ -31,7 +32,8 @@ def get_track(track_id):
 
 @bp.route("/files/covers/<release_id>", methods=["GET"])
 @check_auth
-def get_cover(release_id):
+@validate_data(Schema({"thumbnail": bool}))
+def get_cover(release_id, thumbnail=False):
     """Accepts a release ID and returns the cover art."""
     with database() as conn:
         cursor = conn.cursor()

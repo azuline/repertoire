@@ -25,6 +25,7 @@ yoyo-migrations = "^7.2"
 click = "^7.1"
 voluptuous = "^0.11.7"
 unidecode = "^1.1.1"
+pillow = "^7.2.0"
 
 [tool.poetry.dev-dependencies]
 isort = "^5.4"

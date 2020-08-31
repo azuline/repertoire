@@ -4,7 +4,7 @@ from huey import crontab
 from huey.contrib.mini import MiniHuey
 
 from backend.config import Config
-from backend.indexer import index_directories
+from backend.lib import index_directories
 from backend.util import hours_to_crontab
 
 huey = MiniHuey()

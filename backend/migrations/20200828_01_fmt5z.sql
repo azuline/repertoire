@@ -169,6 +169,12 @@ CREATE TABLE music__releases_search_index (
 	FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE
 );
 
+CREATE TABLE music__releases_to_fetch_images (
+	release_id INTEGER NOT NULL,
+	PRIMARY KEY (release_id),
+	FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE
+);
+
 CREATE TABLE system__users (
     id INTEGER NOT NULL,
     username VARCHAR NOT NULL,

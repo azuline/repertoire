@@ -4,7 +4,7 @@ import React, { useCallback, useContext } from 'react';
 import { PaginationContext } from 'contexts';
 import { Select } from '@blueprintjs/select';
 
-const perPageOptions = [25, 50, 100, 200];
+const perPageOptions = [25, 50, 100];
 
 export const PerPage = () => {
   const { perPage, setPerPage } = useContext(PaginationContext);

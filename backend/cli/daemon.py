@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 from signal import SIGKILL, SIGTERM
 
 import click
@@ -27,11 +28,17 @@ logger = logging.getLogger(__name__)
 def start(host, port, foreground):
     """Start the backend daemon."""
 
+    # If we are running in the foreground, also pipe logs to stdout.
+    if foreground:
+        logger = logging.getLogger()
+        handler = logging.StreamHandler(sys.stdout)
+        formatter = logging.Formatter(
+            "%(asctime)s %(levelname)s:%(name)s - %(message)s"
+        )
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+
     def run_daemon():
-        from gevent import monkey
-
-        monkey.patch_all()
-
         from backend.tasks import huey
         from backend.web.app import create_app
 

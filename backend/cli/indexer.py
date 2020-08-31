@@ -1,5 +1,5 @@
 from backend.cli.commands import commands, shared_options
-from backend.indexer import index_directories
+from backend.lib import build_search_index, index_directories, save_pending_images
 
 
 @commands.command()
@@ -7,3 +7,5 @@ from backend.indexer import index_directories
 def index():
     """Index the music in the music dirs."""
     index_directories()
+    build_search_index()
+    save_pending_images()

@@ -6,16 +6,13 @@ import logging
 import re
 import sqlite3
 from hashlib import sha256
-from pathlib import Path
-from typing import Iterable, List, Optional
+from typing import Iterable, List
 
 import click
 from tagfiles import TagFile
 
 from backend.config import Config
-from backend.constants import COVER_ART_DIR
 from backend.enums import CollectionType, ReleaseType
-from backend.search import build_search_index
 from backend.util import database
 
 logger = logging.getLogger()
@@ -35,16 +32,16 @@ def index_directories() -> None:
     config = Config()
     for dir_ in config.music_directories:
         catalog_directory(dir_)
-    build_search_index()
 
 
 def catalog_directory(audio_path: str) -> None:
     """Catalog the music in a directory."""
     logger.info(f"Beginning catalog of `{audio_path}`.")
+    click.echo(f"Beginning catalog of `{audio_path}`.")
     with database() as conn:
         files = []
         for ext in EXTS:
-            click.echo(f"Searching for files of extension {ext}...")
+            logger.info(f"Searching for files of extension {ext}...")
             files.extend(glob.glob(f"{audio_path}/**/*{ext}", recursive=True))
 
         logger.info(f"Found {len(files)} tracks to catalog.")
@@ -161,15 +158,15 @@ def fetch_or_create_release(tf: TagFile, cursor: sqlite3.Cursor) -> int:
         )
         stored_album_artists = {row["name"] for row in cursor.fetchall()}
 
-        logging.debug(
+        logger.debug(
             f"Comparing `{stored_album_artists}` from stored release "
             f"{release_id} with `{tf.artist_album}` from the track."
         )
         if contains_same_artists(stored_album_artists, tf.artist_album):
-            logging.debug(f"Fetched release {release_id} for track `{tf.path}`.")
+            logger.debug(f"Fetched release {release_id} for track `{tf.path}`.")
             return release_id
 
-        logging.debug(
+        logger.debug(
             f"Release {release_id} did not match album artists with "
             f"`{tf.path}`, not a match..."
         )
@@ -178,10 +175,9 @@ def fetch_or_create_release(tf: TagFile, cursor: sqlite3.Cursor) -> int:
     release_type = get_release_type(tf)
     release_year = tf.date.year or 0
     release_date = tf.date.date or None
-    image_path = save_image(tf)
     album_artists = tf.artist_album
 
-    logging.info(
+    logger.info(
         f"Failed to fetch release for track `{tf.path}`, creating with title "
         f"`{title}` from year {release_year}."
     )
@@ -189,17 +185,26 @@ def fetch_or_create_release(tf: TagFile, cursor: sqlite3.Cursor) -> int:
     cursor.execute(
         """
         INSERT INTO music__releases
-        (title, release_type, release_year, release_date, image_path)
-        VALUES (?, ?, ?, ?, ?)
+        (title, release_type, release_year, release_date)
+        VALUES (?, ?, ?, ?)
         """,
-        (title, release_type.value, release_year, release_date, image_path),
+        (title, release_type.value, release_year, release_date),
     )
     cursor.connection.commit()
     release_id = cursor.lastrowid
 
-    logging.info(f"Release `{title}` inserted with ID {release_id}.")
+    logger.info(f"Release `{title}` inserted with ID {release_id}.")
 
-    logging.info(f"Inserting {len(album_artists)} artist(s) for release {release_id}.")
+    # Mark release as pending for album art checking.
+    cursor.execute(
+        """
+        INSERT INTO music__releases_to_fetch_images (release_id) VALUES (?)
+        """,
+        (release_id,),
+    )
+    cursor.connection.commit()
+
+    logger.info(f"Inserting {len(album_artists)} artist(s) for release {release_id}.")
     for artist in album_artists:
         artist_id = fetch_or_create_artist(artist, cursor)
         cursor.execute(
@@ -211,7 +216,7 @@ def fetch_or_create_release(tf: TagFile, cursor: sqlite3.Cursor) -> int:
             (release_id, artist_id),
         )
         cursor.connection.commit()
-        logging.info(f"Added artist {artist_id} to release {release_id}.")
+        logger.info(f"Added artist {artist_id} to release {release_id}.")
 
     insert_into_inbox_collection(release_id, cursor)
     insert_into_label_collection(release_id, tf.label, cursor)
@@ -222,69 +227,6 @@ def fetch_or_create_release(tf: TagFile, cursor: sqlite3.Cursor) -> int:
     return release_id
 
 
-def save_image(tf: TagFile) -> Optional[str]:
-    """
-    If the track has attached cover art, save it to the cover_arts dir under
-    the sha256 of the cover art.
-
-    Otherwise, look in the directory of the file and the directory above it for
-    a `cover` or `folder` file (case insensitive) if embedded art does not
-    exist.
-
-    If neither exist, return None.
-    """
-    return _save_embedded_image(tf) or _save_external_image(tf)
-
-
-def _save_embedded_image(tf: TagFile) -> Optional[str]:
-    if not tf.image_mime:
-        logging.debug("No embedded image found for `{tf.path}`.")
-        return None
-
-    extension = {"image/jpeg": "jpg", "image/png": "png"}.get(tf.image_mime, None)
-
-    if not extension:
-        logging.debug("Embedded image with invalid mimetype found for `{tf.path}`.")
-        return None
-
-    return _save_image(tf.image, extension)
-
-
-def _save_external_image(tf: TagFile) -> Optional[str]:
-    filenames = {
-        "cover.jpg": "jpg",
-        "cover.jpeg": "jpg",
-        "cover.png": "png",
-        "folder.jpg": "jpg",
-        "folder.jpeg": "jpg",
-        "folder.png": "png",
-    }
-
-    track_path = Path(tf.path)
-    for dir_ in (track_path.parent, track_path.parent.parent):
-        for filename, ext in filenames.items():
-            filepath = dir_ / filename
-            if filepath.exists():
-                with filepath.open("rb") as f:
-                    return _save_image(f.read(), ext)
-
-    return None
-
-
-def _save_image(data: bytes, extension: str) -> str:
-    hash_ = sha256(data).hexdigest()
-
-    filepath = COVER_ART_DIR / f"{hash_}.{extension}"
-
-    if filepath.exists():
-        logging.debug("Embedded image already saved!")
-    else:
-        with open(filepath, "wb") as f:
-            f.write(data)
-
-    return str(filepath)
-
-
 def contains_same_artists(one: Iterable, two: Iterable) -> bool:
     """See if the two iterables contain the same case-insensitive strings."""
     return {s.lower() for s in one} == {s.lower() for s in two}
@@ -293,7 +235,7 @@ def contains_same_artists(one: Iterable, two: Iterable) -> bool:
 def fetch_or_create_artist(artist: str, cursor: sqlite3.Cursor) -> int:
     """Fetch or create an artist in the database. Return its ID."""
     if not artist:
-        logging.debug("Fetched unknown artist!")
+        logger.debug("Fetched unknown artist!")
         return 1  # Unknown artist!
 
     cursor.execute(
@@ -306,10 +248,10 @@ def fetch_or_create_artist(artist: str, cursor: sqlite3.Cursor) -> int:
 
     # Return artist id if it was fetched.
     if row:
-        logging.debug(f"Fetched artist {row['id']} for artist `{artist}`.")
+        logger.debug(f"Fetched artist {row['id']} for artist `{artist}`.")
         return row["id"]
 
-    logging.info(f"Failed to fetch artist `{artist}`, creating artist...")
+    logger.info(f"Failed to fetch artist `{artist}`, creating artist...")
 
     # Otherwise, create artist.
     cursor.execute(
@@ -320,7 +262,7 @@ def fetch_or_create_artist(artist: str, cursor: sqlite3.Cursor) -> int:
     )
     cursor.connection.commit()
     artist_id = cursor.lastrowid
-    logging.info(f"Artist `{artist}` inserted with ID {artist_id}.")
+    logger.info(f"Artist `{artist}` inserted with ID {artist_id}.")
     return artist_id
 
 
@@ -389,7 +331,7 @@ def insert_into_label_collection(
         """,
         (release_id, collection_id),
     )
-    cursor.collection.commit()
+    cursor.connection.commit()
     logger.info(
         f"Release {release_id} inserted into label collection `{collection_id}`."
     )
