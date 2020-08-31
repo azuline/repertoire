@@ -1,7 +1,3 @@
-from gevent import monkey
-
-monkey.patch_all()
-
 import logging
 
 from yoyo import get_backend, read_migrations

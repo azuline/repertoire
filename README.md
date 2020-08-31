@@ -19,6 +19,8 @@ Goal: MVP
 1. Install backend with `pip install -e .` (to a virtualenv if you'd like).
 2. Configure the backend (see [Configuration](##Configuration)).
 3. Compile frontend in `frontend/` with `yarn build`.
+4. Generate an authentication token with `repertoire token`.
+5. Run!
 
 Or, as a set of shell commands,
 
@@ -30,19 +32,38 @@ $ repertoire config  # Configure the backend.
 $ cd frontend
 $ yarn build
 $ cd ..
-$ repertoire
+$ repertoire token  # Remember this token.
+$ repertoire start  # Start the daemon.
+```
+
+## Command Line
+
+```
+Usage: repertoire [OPTIONS] COMMAND [ARGS]...
+
+  A release-oriented music server.
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  config  Edit the application config.
+  index   Index the music in the music dirs.
+  start   Start the backend daemon.
+  status  Show the backend daemon status.
+  stop    Stop the backend daemon.
+  token   Generate an authentication token.
 ```
 
 ## Configuration
 
-Backend configuration and data is stored in a data directory (`DATA_PATH`). The
-location of this directory is set in the `.env` file located in the root
-directory of the project. The `.env.sample` file is a sample skeleton for the
-`.env` file.
+Backend configuration and data is stored in a data directory, determined by the
+`DATA_PATH` environment variable. This environment variable should be set in
+the `.env` file located in the project root. A good default value for
+`DATA_PATH` is `/path/to/repertoire/data`.
 
-A good default `DATA_PATH` is `/path/to/repertoire/data`. Once `DATA_PATH` is
-set, the backend can be configured with the shell command `repertoire config`.
-This will open the config file in `EDITOR`.
+Once `DATA_PATH` is set, the backend can be configured with the shell command
+`repertoire config`. This will open the config file in your `$EDITOR`.
 
 A sample configuration file is as follows:
 
@@ -55,7 +76,7 @@ music_directories = ["/path/one", "/path/two"]
 index_interval = 24
 ```
 
-_Note: Comments in the real config will be stripped by the backend._
+_Note: Comments in the real config will be stripped._
 
 ## Development
 

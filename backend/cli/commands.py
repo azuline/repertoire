@@ -6,7 +6,7 @@ import click
 
 @click.group()
 def commands():
-    """The root command group for the CLI."""
+    """A release-oriented music server."""
     pass
 
 

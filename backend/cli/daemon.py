@@ -28,31 +28,42 @@ logger = logging.getLogger(__name__)
 def start(host, port, foreground):
     """Start the backend daemon."""
 
-    # If we are running in the foreground, also pipe logs to stdout.
-    if foreground:
-        logger = logging.getLogger()
-        handler = logging.StreamHandler(sys.stdout)
-        formatter = logging.Formatter(
-            "%(asctime)s %(levelname)s:%(name)s - %(message)s"
-        )
-        handler.setFormatter(formatter)
-        logger.addHandler(handler)
-
     def run_daemon():
+        from gevent import monkey
+
+        monkey.patch_all()
+
         from backend.tasks import huey
         from backend.web.app import create_app
 
         app = create_app()
+
         huey.start()
 
-        logger.info(f"Listening on http://{host}:{port}/")
         server = WSGIServer((host, port), app)
         server.serve_forever()
+
+    from backend import handler  # Logger handler.
+
+    logger = logging.getLogger()
+    keep_fds = [handler.stream.fileno()]
+
+    # If we are running in the foreground, also pipe logs to stdout.
+    if foreground:
+        stream_handler = logging.StreamHandler(sys.stdout)
+        formatter = logging.Formatter(
+            "%(asctime)s %(levelname)s:%(name)s - %(message)s"
+        )
+        stream_handler.setFormatter(formatter)
+        logger.addHandler(stream_handler)
+        keep_fds.append(stream_handler.stream.fileno())
 
     daemon = Daemonize(
         app="repertoire",
         pid=PID_PATH,
         action=run_daemon,
+        logger=logger,
+        keep_fds=keep_fds,
         foreground=foreground,
     )
     daemon.start()
@@ -67,7 +78,6 @@ def stop(force):
         with PID_PATH.open() as pf:
             pid = int(pf.read())
             os.kill(pid, SIGTERM if not force else SIGKILL)
-        PID_PATH.unlink()
     except (ValueError, FileNotFoundError):
         raise CliError("Daemon is not running")
 
@@ -78,6 +88,6 @@ def status():
     """Show the backend daemon status."""
     try:
         with PID_PATH.open() as pf:
-            click.echo(f"Daemon is running with PID {pf.read()}")
+            click.echo(f"Daemon is running with PID {pf.read()}.")
     except FileNotFoundError:
         raise CliError("Daemon is not running.")
