@@ -9,6 +9,7 @@ import {
   ReleasesContextProvider,
   SearchContextProvider,
   ThemeContextProvider,
+  NowPlayingContextProvider,
 } from 'contexts';
 
 import React from 'react';
@@ -24,7 +25,11 @@ export const Contexts = ({ children }) => {
                 <ThemeContextProvider>
                   <CollectionsContextProvider>
                     <ArtistsContextProvider>
-                      <QueriesContextProvider>{children}</QueriesContextProvider>
+                      <QueriesContextProvider>
+                        <NowPlayingContextProvider>
+                          {children}
+                        </NowPlayingContextProvider>
+                      </QueriesContextProvider>
                     </ArtistsContextProvider>
                   </CollectionsContextProvider>
                 </ThemeContextProvider>

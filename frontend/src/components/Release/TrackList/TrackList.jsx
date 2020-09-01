@@ -1,17 +1,30 @@
 import './index.scss';
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 
+import { NowPlayingContext } from 'contexts';
 import { Card } from '@blueprintjs/core';
 import { TrackArtists } from './Artists';
+import { secondsToLength } from 'common/tracks';
 
-const secondsToLength = (totalSeconds) => {
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = (totalSeconds % 60).toString().padStart(2, '0');
-  return `${minutes}:${seconds}`;
-};
+export const TrackList = ({ release, tracks }) => {
+  const { setPlayQueue, setCurrentQueueIndex } = useContext(NowPlayingContext);
 
-export const TrackList = ({ tracks }) => {
+  const enQueue = useCallback(
+    (track_id) => {
+      const flattenedTracks = Object.values(tracks).reduce(
+        (accumulator, disctracks) => [
+          ...accumulator,
+          ...Object.values(disctracks).map((track) => ({ ...track, release: release })),
+        ],
+        []
+      );
+      setPlayQueue(flattenedTracks);
+      setCurrentQueueIndex(flattenedTracks.findIndex((track) => track.id === track_id));
+    },
+    [release, tracks, setPlayQueue, setCurrentQueueIndex]
+  );
+
   const multiDisc = useMemo(() => Object.keys(tracks).length !== 1, [tracks]);
 
   return (
@@ -25,10 +38,14 @@ export const TrackList = ({ tracks }) => {
                 <h3>Disc {discno}</h3>
               </div>
             )}
-            <div className="Tracks">
+            <div className="TrackListTracks">
               {Object.entries(disctracks).map(([trackno, track]) => {
                 return (
-                  <Card key={track.id} className="Track" interactive>
+                  <Card
+                    key={track.id}
+                    className="Track"
+                    onClick={() => enQueue(track.id)}
+                  >
                     <div className="TrackSimpleInfo">
                       <div className="TrackNumber">{trackno}</div>
                       <div className="TrackTitle">{track.title}</div>

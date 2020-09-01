@@ -14,6 +14,11 @@ export const CoverArt = ({ inInbox, releaseId, hasImage }) => {
 
   useEffect(() => {
     (async () => {
+      // If there is no release, leave image as blank loading.
+      if (!releaseId) {
+        return;
+      }
+
       // If there is no image, just return no art image.
       if (!hasImage) {
         setImageUrl(dark ? noArtDark : noArtLight);

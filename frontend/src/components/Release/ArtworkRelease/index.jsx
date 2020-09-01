@@ -3,21 +3,14 @@ import './index.scss';
 import React, { useContext, useMemo, useState } from 'react';
 
 import { Card } from '@blueprintjs/core';
-import { CoverArt } from '../CoverArt';
+import { CoverArt } from 'components/common/CoverArt';
 import { PopoverTrackList } from '../TrackList/PopoverTrackList';
 import { ReleaseArtists } from '../Artists';
 import { ViewContext } from 'contexts';
 
-export const ArtworkRelease = ({
-  id,
-  title,
-  year,
-  releaseType,
-  artists,
-  collections,
-  tracks,
-  hasImage,
-}) => {
+export const ArtworkRelease = (release) => {
+  const { id, title, artists, collections, tracks, hasImage } = release;
+
   const [displayTrackList, setDisplayTrackList] = useState(false);
   const { expandTrackLists } = useContext(ViewContext);
 
@@ -26,7 +19,7 @@ export const ArtworkRelease = ({
   }, [collections]);
 
   return (
-    <PopoverTrackList tracks={tracks} className="ReleaseWrapper">
+    <PopoverTrackList release={release} tracks={tracks} className="ReleaseWrapper">
       <Card
         className="Release"
         interactive

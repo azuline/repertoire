@@ -1,5 +1,5 @@
 import { FilterContext, QueriesContext, SortContext } from 'contexts';
-import { List, WindowScroller } from 'react-virtualized';
+import { AutoSizer, List, WindowScroller } from 'react-virtualized';
 import React, { useCallback, useContext, useMemo, useRef } from 'react';
 import { name, random, recentlyAdded, releaseCount } from 'common/sorts';
 
@@ -55,22 +55,26 @@ export const Queries = () => {
 
   return (
     <div className="Queries">
-      <WindowScroller ref={scrollRef}>
-        {({ height, width, isScrolling, onChildScroll, scrollTop }) => (
-          <List
-            autoHeight
-            height={height}
-            isScrolling={isScrolling}
-            onScroll={onChildScroll}
-            overscanRowCount={8}
-            rowCount={filteredQueries.length}
-            rowHeight={46}
-            rowRenderer={renderRow}
-            scrollTop={scrollTop}
-            width={width}
-          />
+      <AutoSizer disableHeight>
+        {({ width }) => (
+          <WindowScroller ref={scrollRef}>
+            {({ height, isScrolling, onChildScroll, scrollTop }) => (
+              <List
+                autoHeight
+                height={height}
+                isScrolling={isScrolling}
+                onScroll={onChildScroll}
+                overscanRowCount={8}
+                rowCount={filteredQueries.length}
+                rowHeight={46}
+                rowRenderer={renderRow}
+                scrollTop={scrollTop}
+                width={width}
+              />
+            )}
+          </WindowScroller>
         )}
-      </WindowScroller>
+      </AutoSizer>
     </div>
   );
 };

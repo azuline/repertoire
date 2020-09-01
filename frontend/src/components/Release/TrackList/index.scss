@@ -30,7 +30,7 @@
 
   .PopoverTrackList {
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 80px;
 
     .TrackList {
       box-shadow: none;
@@ -45,7 +45,7 @@
 }
 
 .TrackList {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   width: 100%;
   border-radius: 0;
   padding: 0;
@@ -63,83 +63,83 @@
   h3 {
     margin: 10px auto;
   }
+}
 
-  .Tracks {
-    margin: 0 auto 10px;
-    max-width: 1050px;
-    width: 92%;
+.TrackListTracks {
+  margin: 0 auto;
+  max-width: 1050px;
+  width: 92%;
+  display: flex;
+  flex-flow: column nowrap;
+
+  .Track {
     display: flex;
-    flex-flow: column nowrap;
+    background-color: transparent;
+    box-shadow: none;
+    flex-flow: row nowrap;
+    padding: 6px 5px;
+    align-items: center;
 
-    .Track {
+    &:hover {
+      box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+    }
+
+    &:last-child {
+      border-bottom: none !important;
+    }
+
+    .TrackSimpleInfo {
       display: flex;
-      background-color: transparent;
-      box-shadow: none;
       flex-flow: row nowrap;
-      padding: 6px 5px;
-      align-items: center;
+      min-width: 200px;
+      width: 35%;
 
-      &:hover {
-        box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 0.1);
+      .TrackNumber {
+        margin-right: 4px;
+
+        &:after {
+          content: '.';
+        }
       }
 
-      &:last-child {
-        border-bottom: none !important;
+      .TrackTitle {
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
+
+      .TrackLength {
+        margin-left: auto;
+      }
+    }
+
+    .TrackArtists {
+      margin-left: 20px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: '  ...';
+
+      .TrackArtist,
+      .DividerWord {
+        margin-right: 10px;
+      }
+    }
+
+    @media screen and (max-width: 800px) {
+      flex-flow: row wrap;
 
       .TrackSimpleInfo {
-        display: flex;
-        flex-flow: row nowrap;
-        min-width: 200px;
-        width: 35%;
-
-        .TrackNumber {
-          margin-right: 4px;
-
-          &:after {
-            content: '.';
-          }
-        }
-
-        .TrackTitle {
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .TrackLength {
-          margin-left: auto;
-        }
+        margin-bottom: 5px;
+        width: 100%;
       }
 
       .TrackArtists {
-        margin-left: 20px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: '  ...';
-
-        .TrackArtist,
-        .DividerWord {
-          margin-right: 10px;
-        }
-      }
-
-      @media screen and (max-width: 600px) {
-        flex-flow: row wrap;
-
-        .TrackSimpleInfo {
-          margin-bottom: 5px;
-          width: 100%;
-        }
-
-        .TrackArtists {
-          margin-left: 0;
-          width: 100%;
-        }
+        margin-left: 0;
+        width: 100%;
       }
     }
   }
 }
-
 .bp3-body {
   .PopoverTrackList,
   .TrackList {

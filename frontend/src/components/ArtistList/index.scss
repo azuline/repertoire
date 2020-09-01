@@ -4,7 +4,7 @@
 
   .Artists {
     width: 100%;
-    margin-top: 15px;
+    margin: 15px 0;
 
     .Artist {
       margin: 1px auto;
@@ -78,10 +78,6 @@
           margin-left: 5px;
         }
       }
-    }
-
-    @media screen and (max-width: 900px) {
-      height: calc(100vh - 150px) !important;
     }
 
     @media screen and (max-width: 600px) {

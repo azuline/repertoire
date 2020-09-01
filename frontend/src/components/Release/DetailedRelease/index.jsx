@@ -3,23 +3,25 @@ import './index.scss';
 import { Card, Divider } from '@blueprintjs/core';
 import React, { useContext, useMemo, useState } from 'react';
 
-import { CoverArt } from '../CoverArt';
+import { CoverArt } from 'components/common/CoverArt';
 import { FlatTrackList } from '../TrackList/FlatTrackList';
 import { ReleaseArtists } from '../Artists';
 import { ReleaseCollections } from '../Collections';
 import { ViewContext } from 'contexts';
 import { releaseTypes } from 'common/releases';
 
-export const DetailedRelease = ({
-  id,
-  title,
-  year,
-  releaseType,
-  artists,
-  collections,
-  tracks,
-  hasImage,
-}) => {
+export const DetailedRelease = (release) => {
+  const {
+    id,
+    title,
+    year,
+    releaseType,
+    artists,
+    collections,
+    tracks,
+    hasImage,
+  } = release;
+
   const [displayTrackList, setDisplayTrackList] = useState(false);
   const { expandTrackLists } = useContext(ViewContext);
 
@@ -56,7 +58,9 @@ export const DetailedRelease = ({
         </div>
         <ReleaseCollections collections={collections} />
       </Card>
-      {(displayTrackList || expandTrackLists) && <FlatTrackList tracks={tracks} />}
+      {(displayTrackList || expandTrackLists) && (
+        <FlatTrackList release={release} tracks={tracks} />
+      )}
     </div>
   );
 };

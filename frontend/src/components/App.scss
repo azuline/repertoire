@@ -1,0 +1,18 @@
+.App {
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 100vh;
+
+  .Header {
+    flex: 0 1 auto;
+  }
+
+  .Body {
+    flex: 1 1 auto;
+    margin-bottom: 60px;
+  }
+
+  .Footer {
+    flex: 0 1 auto;
+  }
+}
