@@ -1,6 +1,6 @@
 import './index.scss';
 
-import React, { useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 
 import { ControlGroup } from '@blueprintjs/core';
 import { DotDotDot } from './DotDotDot';
@@ -8,7 +8,12 @@ import { Page } from './Page';
 import { PaginationContext } from 'contexts';
 
 export const Pagination = () => {
-  const { page, numPages } = useContext(PaginationContext);
+  const { page, setPage, numPages } = useContext(PaginationContext);
+
+  // Verify that page is always valid on numPage change.
+  useEffect(() => {
+    if (page > numPages) setPage(1);
+  }, [page, numPages, setPage]);
 
   const bottom = Math.max(page - 2, 2);
   const top = Math.min(page + 3, numPages);
@@ -25,7 +30,7 @@ export const Pagination = () => {
         <Page key={bottom + i} page={bottom + i} />
       ))}
       {top !== numPages && <DotDotDot />}
-      {numPages > 2 && <Page page={numPages} />}
+      {numPages > 1 && <Page page={numPages} />}
     </ControlGroup>
   );
 };

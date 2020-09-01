@@ -109,7 +109,7 @@ export const Footer = () => {
             {[...playQueue.entries()].map(([index, track]) => (
               <Card
                 key={index}
-                className="Track"
+                className={'Track' + (currentQueueIndex === index ? ' Active' : '')}
                 onClick={() => setCurrentQueueIndex(index)}
               >
                 <div className="TrackSimpleInfo">
