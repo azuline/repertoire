@@ -113,7 +113,7 @@ export const Footer = () => {
                 onClick={() => {
                   setCurrentQueueIndex(index);
                   TopToaster.show({
-                    icon: 'search',
+                    icon: 'image',
                     message: 'Loading track...',
                     timeout: 1000,
                   });

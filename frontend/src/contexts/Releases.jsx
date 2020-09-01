@@ -6,6 +6,7 @@ import { SearchContext } from './Search';
 import { SortContext } from './Sort';
 import { parseQuery } from 'common/queries';
 import { useRequest } from 'hooks';
+import { TopToaster } from 'components/Toaster';
 
 export const ReleasesContext = React.createContext({
   releases: [],
@@ -24,6 +25,7 @@ export const ReleasesContextProvider = ({ children }) => {
   // releases list.
   useEffect(() => {
     if (!token) return;
+    TopToaster.show({ icon: 'music', message: 'Loading releases...', timeout: 1000 });
 
     (async () => {
       const [search, collections, artists] = parseQuery(activeQuery);

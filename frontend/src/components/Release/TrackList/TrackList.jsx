@@ -22,7 +22,7 @@ export const TrackList = ({ release, tracks }) => {
       );
       setPlayQueue(flattenedTracks);
       setCurrentQueueIndex(flattenedTracks.findIndex((track) => track.id === track_id));
-      TopToaster.show({ icon: 'search', message: 'Loading track...', timeout: 1000 });
+      TopToaster.show({ icon: 'music', message: 'Loading track...', timeout: 1000 });
     },
     [release, tracks, setPlayQueue, setCurrentQueueIndex]
   );
