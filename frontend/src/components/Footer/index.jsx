@@ -110,7 +110,14 @@ export const Footer = () => {
               <Card
                 key={index}
                 className={'Track' + (currentQueueIndex === index ? ' Active' : '')}
-                onClick={() => setCurrentQueueIndex(index)}
+                onClick={() => {
+                  setCurrentQueueIndex(index);
+                  TopToaster.show({
+                    icon: 'search',
+                    message: 'Loading track...',
+                    timeout: 1000,
+                  });
+                }}
               >
                 <div className="TrackSimpleInfo">
                   <div className="TrackNumber">{index + 1}</div>

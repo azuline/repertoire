@@ -27,7 +27,6 @@
 
   .ShortMainInfo {
     height: 50px;
-    overflow: hide;
   }
 
   .CoverArt {
@@ -47,17 +46,19 @@
   }
 
   .PlayTrackInfo {
-    flex: 1 0 auto;
-    overflow: hide;
+    flex: 1 1 auto;
+    overflow: hidden;
 
     .TrackTitle {
       text-overflow: ellipsis;
+      overflow: hidden;
       margin-bottom: 4px;
     }
 
     .TrackTitle,
     .TrackArtists {
       text-align: center;
+      overflow: hidden;
     }
   }
 
@@ -81,12 +82,16 @@
   }
 
   .PlayQueue {
-    margin: 5px 15px;
+    margin: 5px 0;
     overflow: auto;
 
     .EmptyQueue {
       text-align: center;
       font-style: italic;
+    }
+
+    .TrackListTracks {
+      width: 100%;
     }
 
     .Track.Active {

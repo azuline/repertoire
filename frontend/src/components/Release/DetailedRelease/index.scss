@@ -24,15 +24,10 @@
           height: 100%;
           width: auto;
         }
-
-        .InInbox {
-          position: absolute;
-          top: -7px;
-          left: -7px;
-        }
       }
 
       .Metadata {
+        overflow: hidden;
         flex-grow: 1;
 
         .SimpleData,
@@ -46,6 +41,13 @@
           display: flex;
           flex-flow: row nowrap;
           align-items: center;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          height: 18px;
+
+          .InInboxIcon {
+            margin-right: 5px;
+          }
         }
 
         .Classifiers {

@@ -1,6 +1,6 @@
 import './index.scss';
 
-import { Card, Divider } from '@blueprintjs/core';
+import { Tooltip, Position, Icon, Card, Divider } from '@blueprintjs/core';
 import React, { useContext, useMemo, useState } from 'react';
 
 import { CoverArt } from 'components/common/CoverArt';
@@ -37,10 +37,20 @@ export const DetailedRelease = (release) => {
         onClick={() => expandTrackLists || setDisplayTrackList(!displayTrackList)}
       >
         <div className="ReleaseInfo">
-          <CoverArt inInbox={inInbox} releaseId={id} hasImage={hasImage} />
+          <CoverArt releaseId={id} hasImage={hasImage} />
           <div className="Metadata">
             <div className="SimpleData">
               <div className="Title">
+                {inInbox && (
+                  <Tooltip content="In Inbox!" position={Position.TOP}>
+                    <Icon
+                      className="InInboxIcon"
+                      icon="inbox-update"
+                      intent="danger"
+                      htmlTitle="In Inbox"
+                    />
+                  </Tooltip>
+                )}
                 <h4 className="bp3-heading">{title}</h4>
               </div>
               <div className="Classifiers">

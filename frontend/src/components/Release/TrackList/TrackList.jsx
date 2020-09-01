@@ -6,6 +6,7 @@ import { NowPlayingContext } from 'contexts';
 import { Card } from '@blueprintjs/core';
 import { TrackArtists } from './Artists';
 import { secondsToLength } from 'common/tracks';
+import { TopToaster } from 'components/Toaster';
 
 export const TrackList = ({ release, tracks }) => {
   const { setPlayQueue, setCurrentQueueIndex } = useContext(NowPlayingContext);
@@ -21,6 +22,7 @@ export const TrackList = ({ release, tracks }) => {
       );
       setPlayQueue(flattenedTracks);
       setCurrentQueueIndex(flattenedTracks.findIndex((track) => track.id === track_id));
+      TopToaster.show({ icon: 'search', message: 'Loading track...', timeout: 1000 });
     },
     [release, tracks, setPlayQueue, setCurrentQueueIndex]
   );
