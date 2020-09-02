@@ -5,6 +5,7 @@
   max-width: 1560px;
   width: 95%;
   margin: 0 auto 15px auto;
+  flex-grow: 1;
 
   .bp3-popover-wrapper,
   .bp3-popover-target {
@@ -28,10 +29,10 @@
 
       .InInbox {
         position: absolute;
-        top: 5px;
-        left: 5px;
-        padding: 3px;
-        border-radius: 4px;
+        top: -22px;
+        left: -22px;
+        padding: 4px;
+        border-radius: 16px;
       }
     }
 
@@ -85,9 +86,9 @@
 }
 
 .bp3-body .ArtworkReleases .InInbox {
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .bp3-dark .ArtworkReleases .InInbox {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(255, 255, 255, 0.2);
 }

@@ -68,5 +68,5 @@ export const useAudio = (initialTrackId) => {
     }
   }, [playing, setPlaying, audio]);
 
-  return { audio, setTrackId, playing, setPlaying, time, seek };
+  return { audio, setTrackId, playing, setPlaying, time, setTime, seek };
 };

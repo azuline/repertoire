@@ -110,18 +110,7 @@
 
       .TrackLength {
         margin-left: auto;
-      }
-    }
-
-    .TrackArtists {
-      margin-left: 20px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: '  ...';
-
-      .TrackArtist,
-      .DividerWord {
-        margin-right: 10px;
+        align-self: center;
       }
     }
 
@@ -140,6 +129,19 @@
     }
   }
 }
+
+.TrackArtists {
+  margin-left: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: '  ...';
+
+  .TrackArtist,
+  .DividerWord {
+    margin-right: 10px;
+  }
+}
+
 .bp3-body {
   .PopoverTrackList,
   .TrackList {

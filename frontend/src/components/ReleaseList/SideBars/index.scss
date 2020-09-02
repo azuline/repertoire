@@ -1,0 +1,103 @@
+.SideBars {
+  display: flex;
+  flex-flow: row nowrap;
+  position: sticky;
+  top: 0;
+  height: calc(100vh - 110px);
+  z-index: 100;
+
+  .SideBar {
+    width: 150px;
+    padding: 0 0 10px 0;
+    height: 100%;
+    overflow: auto;
+
+    .SideBarHeader {
+      font-weight: bold;
+      padding: 10px;
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    .TypeHeading,
+    .Entry {
+      box-shadow: none;
+
+      &:hover {
+        box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+      }
+    }
+
+    .TypeHeading {
+      padding: 3px 10px 3px 2px;
+      font-weight: bold;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+    }
+
+    .Entry {
+      padding: 3px 10px;
+      background-color: transparent;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .Entry.Active {
+      font-weight: bold;
+    }
+  }
+
+  .SideBar.Hidden {
+    display: none;
+  }
+
+  @media screen and (max-width: 800px) {
+    // Position absolute (mimic float).
+  }
+
+  .HideBars {
+    margin-top: 30px;
+    width: 0;
+
+    .Vertical {
+      display: flex;
+      flex-flow: row nowrap;
+      transform: rotate(90deg);
+      transform-origin: left bottom 0;
+
+      .HideBar {
+        display: flex;
+        flex-flow: nowrap;
+        padding: 2px 5px;
+        margin-right: 10px;
+        box-shadow: none;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+
+        .bp3-icon {
+          margin-right: 5px;
+        }
+
+        &:hover {
+          box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 0.1);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+.bp3-dark .SideBar {
+  background-color: #394b59;
+}
+
+.bp3-body .HideBar {
+  background-color: #ced9e0;
+}
+
+.bp3-dark .HideBar {
+  background-color: #5c7080;
+}

@@ -14,7 +14,9 @@ export const NowPlayingContextProvider = ({ children }) => {
   const [playQueue, setPlayQueue] = useState([]);
   const [currentQueueIndex, setCurrentQueueIndex] = useState(0);
   const [playHistory, setPlayHistory] = useState([]);
-  const { audio, setTrackId, playing, setPlaying, time, seek } = useAudio(null);
+  const { audio, setTrackId, playing, setPlaying, time, setTime, seek } = useAudio(
+    null
+  );
   const [totalTime, setTotalTime] = useState(0);
 
   // Fetch current track object from playQueue.
@@ -27,6 +29,7 @@ export const NowPlayingContextProvider = ({ children }) => {
   useEffect(() => {
     if (!currentTrack) {
       setTrackId(null);
+      setTime(0);
       setTotalTime(0);
     } else {
       setTrackId(currentTrack.id);

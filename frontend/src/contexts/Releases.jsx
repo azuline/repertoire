@@ -4,7 +4,7 @@ import { AuthenticationContext } from './Authentication';
 import { PaginationContext } from './Pagination';
 import { SearchContext } from './Search';
 import { SortContext } from './Sort';
-import { useParseQuery, useRequest } from 'hooks';
+import { useRequest } from 'hooks';
 import { TopToaster } from 'components/Toaster';
 
 export const ReleasesContext = React.createContext({
@@ -14,9 +14,8 @@ export const ReleasesContext = React.createContext({
 
 export const ReleasesContextProvider = ({ children }) => {
   const request = useRequest();
-  const parseQuery = useParseQuery();
   const [releases, setReleases] = useState([]);
-  const { activeQuery } = useContext(SearchContext);
+  const { search, collections, artists } = useContext(SearchContext);
   const { asc, sortField } = useContext(SortContext);
   const { page, perPage, setNumPages } = useContext(PaginationContext);
   const { token } = useContext(AuthenticationContext);
@@ -25,11 +24,10 @@ export const ReleasesContextProvider = ({ children }) => {
   // releases list.
   useEffect(() => {
     if (!token) return;
+
     TopToaster.show({ icon: 'music', message: 'Loading releases...', timeout: 1000 });
 
     (async () => {
-      const [search, collections, artists] = parseQuery(activeQuery);
-
       const response = await request(
         '/api/releases?' +
           new URLSearchParams({
@@ -50,8 +48,9 @@ export const ReleasesContextProvider = ({ children }) => {
   }, [
     token,
     request,
-    parseQuery,
-    activeQuery,
+    search,
+    collections,
+    artists,
     setReleases,
     page,
     perPage,

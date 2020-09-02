@@ -17,12 +17,12 @@ import React from 'react';
 export const Contexts = ({ children }) => {
   return (
     <AuthenticationContextProvider>
-      <SearchContextProvider>
-        <ReleaseSortContextProvider>
-          <ReleaseViewContextProvider>
-            <ReleasePaginationContextProvider>
-              <CollectionsContextProvider>
-                <ArtistsContextProvider>
+      <CollectionsContextProvider>
+        <ArtistsContextProvider>
+          <SearchContextProvider>
+            <ReleaseSortContextProvider>
+              <ReleaseViewContextProvider>
+                <ReleasePaginationContextProvider>
                   <ReleasesContextProvider>
                     <ThemeContextProvider>
                       <QueriesContextProvider>
@@ -32,12 +32,12 @@ export const Contexts = ({ children }) => {
                       </QueriesContextProvider>
                     </ThemeContextProvider>
                   </ReleasesContextProvider>
-                </ArtistsContextProvider>
-              </CollectionsContextProvider>
-            </ReleasePaginationContextProvider>
-          </ReleaseViewContextProvider>
-        </ReleaseSortContextProvider>
-      </SearchContextProvider>
+                </ReleasePaginationContextProvider>
+              </ReleaseViewContextProvider>
+            </ReleaseSortContextProvider>
+          </SearchContextProvider>
+        </ArtistsContextProvider>
+      </CollectionsContextProvider>
     </AuthenticationContextProvider>
   );
 };

@@ -1,113 +1,126 @@
 .ReleaseList {
   display: flex;
-  justify-content: center;
-  flex-flow: column nowrap;
+  flex-flow: row nowrap;
+  margin-top: -15px;
 
-  .ReleaseListOptions {
-    display: flex;
-    flex-flow: row nowrap;
+  .TheActualList {
     width: 100%;
-    align-items: center;
-    margin: 0 auto 15px auto;
-    padding: 0 5%;
+    display: flex;
+    justify-content: center;
+    flex-flow: column nowrap;
+    margin-top: 15px;
 
-    .SearchBar {
-      flex-grow: 1;
-    }
-
-    .ViewOptions {
-      margin-left: 15px;
+    .ReleaseListOptions {
       display: flex;
       flex-flow: row nowrap;
-    }
-
-    .ViewOptionsBottomRow {
-      display: flex;
-      flex-flow: row nowrap;
-    }
-
-    .ViewAs,
-    .SelectPerPage {
-      margin-left: 15px;
-    }
-
-    .SelectPerPage .bp3-button-text::before {
-      content: 'Per Page: ';
-    }
-
-    @media screen and (max-width: 1300px) {
-      flex-flow: column nowrap;
-      padding: 0 2%;
+      width: 100%;
+      align-items: center;
+      margin: 0 auto 15px auto;
+      padding: 0 5%;
 
       .SearchBar {
-        width: 98%;
-        max-width: 800px;
-        margin: 0 auto;
+        flex-grow: 1;
       }
 
       .ViewOptions {
-        margin: 15px auto 0;
+        margin-left: 15px;
+        display: flex;
+        flex-flow: row nowrap;
       }
-    }
 
-    @media screen and (max-width: 800px) {
-      .SortOrder {
-        .bp3-icon {
-          margin-right: 0;
-        }
-        .bp3-button-text {
-          display: none;
-        }
-      }
-    }
-
-    @media screen and (max-width: 720px) {
-      .SelectPerPage .bp3-button-text::before {
-        content: '' !important;
+      .ViewOptionsBottomRow {
+        display: flex;
+        flex-flow: row nowrap;
       }
 
       .ViewAs,
       .SelectPerPage {
-        margin-left: 5px;
+        margin-left: 15px;
       }
 
-      .ExpandTracks {
-        .bp3-icon {
-          margin-right: 0;
-        }
-
-        .bp3-button-text {
-          display: none;
-        }
+      .SelectPerPage .bp3-button-text::before {
+        content: 'Per Page: ';
       }
-    }
 
-    @media screen and (max-width: 520px) {
-      margin-bottom: 5px;
-
-      .ViewOptions {
-        display: flex;
+      @media screen and (max-width: 1300px) {
         flex-flow: column nowrap;
-        align-items: middle;
+        padding: 0 2%;
 
-        .SortBy,
-        .ViewAs {
-          margin: 5px auto;
+        .SearchBar {
+          width: 98%;
+          max-width: 800px;
+          margin: 0 auto;
         }
 
+        .ViewOptions {
+          margin: 15px auto 0;
+        }
+      }
+
+      @media screen and (max-width: 800px) {
+        .SortOrder {
+          .bp3-icon {
+            margin-right: 0;
+          }
+          .bp3-button-text {
+            display: none;
+          }
+        }
+      }
+
+      @media screen and (max-width: 720px) {
+        .SelectPerPage .bp3-button-text::before {
+          content: '' !important;
+        }
+
+        .ViewAs,
         .SelectPerPage {
-          margin: 5px 5px 5px 0;
+          margin-left: 5px;
+        }
+
+        .ExpandTracks {
+          .bp3-icon {
+            margin-right: 0;
+          }
+
+          .bp3-button-text {
+            display: none;
+          }
+        }
+      }
+
+      @media screen and (max-width: 520px) {
+        margin-bottom: 5px;
+
+        .ViewOptions {
+          display: flex;
+          flex-flow: column nowrap;
+          align-items: middle;
+
+          .SortBy,
+          .ViewAs {
+            margin: 5px auto;
+          }
+
+          .SelectPerPage {
+            margin: 5px 5px 5px 0;
+          }
         }
       }
     }
-  }
 
-  .Pagination {
-    margin: 0 auto 15px auto;
-  }
+    .Pagination {
+      margin: 0 auto 15px auto;
+    }
 
-  .Releases {
-    margin-top: -10px;
+    .Releases {
+      margin-top: -10px;
+      flex-grow: 1;
+    }
+
+    .NoResults {
+      flex-grow: 1;
+    }
   }
 }
 
