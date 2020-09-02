@@ -44,9 +44,15 @@
           overflow: hidden;
           text-overflow: ellipsis;
           height: 18px;
+          white-space: nowrap;
 
           .InInboxIcon {
             margin-right: 5px;
+          }
+
+          h4 {
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
 

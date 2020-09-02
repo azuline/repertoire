@@ -5,12 +5,17 @@ import { SearchContext } from 'contexts';
 import { Tag } from '@blueprintjs/core';
 import { escapeQuotes } from 'common/queries';
 
-const dividerWords = {
+const dividerWordsRaw = {
   2: 'feat.',
   3: 'remixed by',
   4: 'produced by',
   7: 'mixed by',
 };
+
+// Role rankings for sorting their order of apperance.
+const roleRankings = ['6', '5', '7', '1', '4', '2', '3'];
+
+const sortRoles = ([a], [b]) => roleRankings.indexOf(a) - roleRankings.indexOf(b);
 
 export const TrackArtists = ({ artists, minimal }) => {
   const { setActiveQuery } = useContext(SearchContext);
@@ -24,8 +29,22 @@ export const TrackArtists = ({ artists, minimal }) => {
       return accumulator;
     }, {});
 
-    return Object.entries(roles);
+    const entries = Object.entries(roles);
+    entries.sort(sortRoles);
+    return entries;
   }, [artists]);
+
+  // Determine the final list of divider words.
+  // If we have a composer or a conductor, switch to "classical mode" and turn
+  // main artists into performers.
+  const dividerWords = useMemo(() => {
+    if (artistsByRoles.some(([role]) => role === '5' || role === '6')) {
+      return { 1: 'performed by', ...dividerWordsRaw };
+    }
+    return dividerWordsRaw;
+  }, [artistsByRoles]);
+
+  console.log(artistsByRoles);
 
   const queryArtist = useCallback(
     (artist) => (event) => {
