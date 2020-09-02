@@ -21,19 +21,19 @@ export const Contexts = ({ children }) => {
         <ReleaseSortContextProvider>
           <ReleaseViewContextProvider>
             <ReleasePaginationContextProvider>
-              <ReleasesContextProvider>
-                <ThemeContextProvider>
-                  <CollectionsContextProvider>
-                    <ArtistsContextProvider>
+              <CollectionsContextProvider>
+                <ArtistsContextProvider>
+                  <ReleasesContextProvider>
+                    <ThemeContextProvider>
                       <QueriesContextProvider>
                         <NowPlayingContextProvider>
                           {children}
                         </NowPlayingContextProvider>
                       </QueriesContextProvider>
-                    </ArtistsContextProvider>
-                  </CollectionsContextProvider>
-                </ThemeContextProvider>
-              </ReleasesContextProvider>
+                    </ThemeContextProvider>
+                  </ReleasesContextProvider>
+                </ArtistsContextProvider>
+              </CollectionsContextProvider>
             </ReleasePaginationContextProvider>
           </ReleaseViewContextProvider>
         </ReleaseSortContextProvider>

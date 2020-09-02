@@ -93,7 +93,7 @@ def _query_releases(
                 )
                 """
             )
-            filter_params.append(collection.id)
+            filter_params.append(collection)
 
     # Add the artists to the filter SQL.
     if artists:
@@ -106,7 +106,7 @@ def _query_releases(
                 )
                 """
             )
-            filter_params.append(artist.id)
+            filter_params.append(artist)
 
     # Add the search str to the filter SQL.
     for word in strip_punctuation(search).split(" "):

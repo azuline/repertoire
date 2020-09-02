@@ -4,8 +4,7 @@ import { AuthenticationContext } from './Authentication';
 import { PaginationContext } from './Pagination';
 import { SearchContext } from './Search';
 import { SortContext } from './Sort';
-import { parseQuery } from 'common/queries';
-import { useRequest } from 'hooks';
+import { useParseQuery, useRequest } from 'hooks';
 import { TopToaster } from 'components/Toaster';
 
 export const ReleasesContext = React.createContext({
@@ -15,6 +14,7 @@ export const ReleasesContext = React.createContext({
 
 export const ReleasesContextProvider = ({ children }) => {
   const request = useRequest();
+  const parseQuery = useParseQuery();
   const [releases, setReleases] = useState([]);
   const { activeQuery } = useContext(SearchContext);
   const { asc, sortField } = useContext(SortContext);
@@ -50,6 +50,7 @@ export const ReleasesContextProvider = ({ children }) => {
   }, [
     token,
     request,
+    parseQuery,
     activeQuery,
     setReleases,
     page,

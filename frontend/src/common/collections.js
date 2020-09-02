@@ -18,3 +18,10 @@ export const collectionTypeNamesToIds = {
   Label: 3,
   Genre: 4,
 };
+
+export const collectionTypeNamesLowerToIds = {
+  system: 1,
+  collage: 2,
+  label: 3,
+  genre: 4,
+};

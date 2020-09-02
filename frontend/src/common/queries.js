@@ -9,6 +9,6 @@ export const escapeQuotes = (string) => {
   return string.replace(/"/g, '\\"');
 };
 
-export const parseQuery = (query) => {
-  return [query, [], []];
+export const unescapeQuotes = (string) => {
+  return string.replace(/\\"/g, '"');
 };
