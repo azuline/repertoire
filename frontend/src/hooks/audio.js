@@ -11,7 +11,11 @@ const useMedia = () => {
           oldMedia.pause();
         }
 
-        newMedia.play();
+        // newMedia can be null.
+        if (newMedia) {
+          newMedia.play();
+        }
+
         return newMedia;
       }),
     [setMediaRaw]
@@ -27,9 +31,20 @@ export const useAudio = (initialTrackId) => {
   const [audio, setAudio] = useMedia();
   const [time, setTime] = useState(0);
 
+  const seek = useCallback(
+    (seconds) => {
+      if (audio) audio.fastSeek(0);
+    },
+    [audio]
+  );
+
   // Whenever a new trackId is set, update the audio object.
   useEffect(() => {
-    if (!trackId) return;
+    if (!trackId) {
+      setAudio(null);
+      setPlaying(false);
+      return;
+    }
 
     (async () => {
       const response = await request(`/files/tracks/${trackId}`);
@@ -42,7 +57,7 @@ export const useAudio = (initialTrackId) => {
 
   // Add hooks to manage time setting on active audio.
   useEffect(() => {
-    if (playing) {
+    if (audio && playing) {
       if (audio.ended) audio.fastSeek(0);
       if (audio.paused) audio.play();
 
@@ -53,5 +68,5 @@ export const useAudio = (initialTrackId) => {
     }
   }, [playing, setPlaying, audio]);
 
-  return { audio, setTrackId, playing, setPlaying, time };
+  return { audio, setTrackId, playing, setPlaying, time, seek };
 };

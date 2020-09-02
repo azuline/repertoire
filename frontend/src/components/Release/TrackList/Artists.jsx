@@ -44,8 +44,6 @@ export const TrackArtists = ({ artists, minimal }) => {
     return dividerWordsRaw;
   }, [artistsByRoles]);
 
-  console.log(artistsByRoles);
-
   const queryArtist = useCallback(
     (artist) => (event) => {
       setActiveQuery(`artist:"${escapeQuotes(artist)}"`);

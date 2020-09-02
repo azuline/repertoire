@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useAudio } from 'hooks';
 
 export const NowPlayingContext = React.createContext({
   playQueue: [],
@@ -13,6 +14,41 @@ export const NowPlayingContextProvider = ({ children }) => {
   const [playQueue, setPlayQueue] = useState([]);
   const [currentQueueIndex, setCurrentQueueIndex] = useState(0);
   const [playHistory, setPlayHistory] = useState([]);
+  const { audio, setTrackId, playing, setPlaying, time, seek } = useAudio(null);
+  const [totalTime, setTotalTime] = useState(0);
+
+  // Fetch current track object from playQueue.
+  const currentTrack = useMemo(() => playQueue[currentQueueIndex], [
+    playQueue,
+    currentQueueIndex,
+  ]);
+
+  // If current track changes, set the audio file and total time accordingly.
+  useEffect(() => {
+    if (!currentTrack) {
+      setTrackId(null);
+      setTotalTime(0);
+    } else {
+      setTrackId(currentTrack.id);
+      setTotalTime(currentTrack.duration);
+    }
+  }, [setTrackId, currentTrack]);
+
+  // If current track ends, and we still have tracks in queue, begin next track.
+  useEffect(() => {
+    if (!audio) return;
+
+    const onEnded = () => {
+      if (currentQueueIndex !== playQueue.length - 1) {
+        setCurrentQueueIndex(currentQueueIndex + 1);
+      } else {
+        setPlaying(false);
+      }
+    };
+
+    audio.addEventListener('ended', onEnded);
+    return () => audio.removeEventListener('ended', onEnded);
+  }, [audio, currentQueueIndex, playQueue, setCurrentQueueIndex, setPlaying]);
 
   const value = {
     playQueue,
@@ -20,7 +56,13 @@ export const NowPlayingContextProvider = ({ children }) => {
     currentQueueIndex,
     setCurrentQueueIndex,
     playHistory,
-    setPlayHistory,
+    currentTrack,
+    audio,
+    playing,
+    setPlaying,
+    time,
+    totalTime,
+    seek,
   };
 
   return (

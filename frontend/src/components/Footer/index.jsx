@@ -1,54 +1,31 @@
-import React, { useCallback, useEffect, useMemo, useState, useContext } from 'react';
+import React, { useCallback, useState, useContext } from 'react';
 import { CoverArt } from 'components/common/CoverArt';
 import './index.scss';
 import { NowPlayingContext } from 'contexts';
 import { ProgressBar, ControlGroup, Button, Card } from '@blueprintjs/core';
 import { TrackArtists } from 'components/Release/TrackList/Artists';
 import { secondsToLength } from 'common/tracks';
-import { useAudio } from 'hooks';
 import { TopToaster } from 'components/Toaster';
 
 export const Footer = () => {
-  const { audio, setTrackId, playing, setPlaying, time } = useAudio(null);
   const [expanded, setExpanded] = useState(false);
-  const [totalTime, setTotalTime] = useState(0);
-  const { playQueue, currentQueueIndex, setCurrentQueueIndex } = useContext(
-    NowPlayingContext
-  );
-
-  // Fetch current track object from playQueue.
-  const currentTrack = useMemo(() => playQueue[currentQueueIndex], [
+  const {
+    currentTrack,
+    audio,
+    time,
+    totalTime,
+    playing,
+    setPlaying,
     playQueue,
     currentQueueIndex,
-  ]);
-
-  // If current track changes, set the audio file and total time accordingly.
-  useEffect(() => {
-    if (!currentTrack) return;
-
-    setTrackId(currentTrack.id);
-    setTotalTime(currentTrack.duration);
-  }, [setTrackId, currentTrack]);
-
-  // If current track ends, and we still have tracks in queue, begin next track.
-  useEffect(() => {
-    if (!audio) return;
-
-    const onEnded = () => {
-      if (currentQueueIndex !== playQueue.length - 1) {
-        setCurrentQueueIndex(currentQueueIndex + 1);
-      } else {
-        setPlaying(false);
-      }
-    };
-
-    audio.addEventListener('ended', onEnded);
-    return () => audio.removeEventListener('ended', onEnded);
-  }, [audio, currentQueueIndex, playQueue, setCurrentQueueIndex, setPlaying]);
+    setCurrentQueueIndex,
+  } = useContext(NowPlayingContext);
 
   // Function to handle clicking of play button.
   const togglePlay = useCallback(() => {
-    if (!audio) {
+    if (currentQueueIndex === -1) {
+      setCurrentQueueIndex(0);
+    } else if (!audio) {
       TopToaster.show({
         icon: 'music',
         intent: 'danger',
@@ -60,7 +37,7 @@ export const Footer = () => {
 
     if (playing) {
       setPlaying(false);
-    } else if (audio.paused && !audio.ended) {
+    } else if (audio && audio.paused && !audio.ended) {
       setPlaying(true);
     } else if (playQueue.length === 1) {
       audio.fastSeek(0);
@@ -68,16 +45,32 @@ export const Footer = () => {
     } else {
       setCurrentQueueIndex(0);
     }
-  }, [audio, playing, setPlaying, playQueue, setCurrentQueueIndex]);
+  }, [audio, playing, setPlaying, playQueue, currentQueueIndex, setCurrentQueueIndex]);
+
+  const nextTrack = useCallback(() => {
+    if (currentQueueIndex === playQueue.length - 1) {
+      setCurrentQueueIndex(-1);
+    } else {
+      setCurrentQueueIndex((index) => index + 1);
+    }
+  }, [currentQueueIndex, playQueue, setCurrentQueueIndex]);
+
+  const prevTrack = useCallback(() => {
+    if (currentQueueIndex === 0) {
+      setCurrentQueueIndex(-1);
+    } else {
+      setCurrentQueueIndex((index) => index - 1);
+    }
+  }, [currentQueueIndex, setCurrentQueueIndex]);
 
   return (
     <Card className={'Footer' + (expanded ? ' Expanded' : '')}>
       <div className="LongMainInfo">
         <div className="ShortMainInfo">
           <ControlGroup className="PlayButtons">
-            <Button icon="fast-backward" />
+            <Button icon="fast-backward" onClick={prevTrack} />
             <Button icon={playing ? 'pause' : 'play'} onClick={togglePlay} />
-            <Button icon="fast-forward" />
+            <Button icon="fast-forward" onClick={nextTrack} />
           </ControlGroup>
           <CoverArt
             releaseId={currentTrack ? currentTrack.release.id : null}

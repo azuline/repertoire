@@ -9,7 +9,7 @@ import { secondsToLength } from 'common/tracks';
 import { TopToaster } from 'components/Toaster';
 
 export const TrackList = ({ release, tracks }) => {
-  const { setPlayQueue, setCurrentQueueIndex } = useContext(NowPlayingContext);
+  const { seek, setPlayQueue, setCurrentQueueIndex } = useContext(NowPlayingContext);
 
   const enQueue = useCallback(
     (track_id) => {
@@ -22,9 +22,10 @@ export const TrackList = ({ release, tracks }) => {
       );
       setPlayQueue(flattenedTracks);
       setCurrentQueueIndex(flattenedTracks.findIndex((track) => track.id === track_id));
+      seek(0);
       TopToaster.show({ icon: 'music', message: 'Loading track...', timeout: 1000 });
     },
-    [release, tracks, setPlayQueue, setCurrentQueueIndex]
+    [release, tracks, seek, setPlayQueue, setCurrentQueueIndex]
   );
 
   const multiDisc = useMemo(() => Object.keys(tracks).length !== 1, [tracks]);
