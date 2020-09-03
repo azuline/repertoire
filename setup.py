@@ -22,7 +22,7 @@ setup(
     author_email='azuline@riseup.net',
     license='AGPL-3.0',
     entry_points={"console_scripts": ["repertoire = backend.__main__:run"]},
-    packages=['backend', 'backend.cli', 'backend.lib', 'frontend.node_modules.node-gyp.gyp.pylib.gyp', 'frontend.node_modules.node-gyp.gyp.pylib.gyp.generator'],
+    packages=['backend', 'backend.cli', 'backend.lib'],
     package_dir={"": "."},
     package_data={"backend": ["migrations/*.sql"]},
     install_requires=['click==7.*,>=7.1.0', 'daemonize==2.*,>=2.5.0', 'flask==1.*,>=1.1.0', 'gevent==20.*,>=20.6.0', 'huey==2.*,>=2.3.0', 'pillow==7.*,>=7.2.0', 'python-dotenv==0.*,>=0.14.0', 'requests==2.*,>=2.24.0', 'selectolax==0.*,>=0.2.7', 'tagfiles==0.*,>=0.3.1', 'unidecode==1.*,>=1.1.1', 'voluptuous==0.*,>=0.11.7', 'yoyo-migrations==7.*,>=7.2.0'],
