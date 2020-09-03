@@ -97,6 +97,13 @@
     margin: 5px 0;
     overflow: auto;
 
+    .QueueTitle {
+      max-width: 1050px;
+      margin: 5px auto 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
     .EmptyQueue {
       text-align: center;
       font-style: italic;

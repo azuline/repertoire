@@ -95,6 +95,7 @@ export const Footer = () => {
         </div>
       </div>
       <div className="PlayQueue">
+        <div className="QueueTitle">Play Queue</div>
         {playQueue.length === 0 ? (
           <div className="EmptyQueue">Play queue empty.</div>
         ) : (
