@@ -3,4 +3,7 @@ lint:
 	isort -c backend/
 	flake8 backend/
 
-.PHONY: lint
+build:
+	cd frontend; yarn build
+
+.PHONY: lint build

@@ -1,6 +1,13 @@
 .FlatTrackList {
   margin-top: -5px;
-  margin-left: -22px;
+
+  @media screen and (min-width: 800px) {
+    margin-left: -22px;
+
+    .TrackList {
+      padding-left: 22px;
+    }
+  }
 
   .TopArrowPointer {
     width: 0;

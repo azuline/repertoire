@@ -58,7 +58,7 @@
 }
 
 .HideBars {
-  width: 0;
+  width: 22px;
   position: sticky;
   z-index: 95;
 
@@ -91,6 +91,7 @@
 
 @media screen and (max-width: 800px) {
   .HideBars {
+    width: 0;
     position: absolute;
     left: 0;
     top: 50px;
