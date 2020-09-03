@@ -11,21 +11,33 @@ export const SideBars = () => {
   );
 
   return (
-    <div className="SideBars">
-      <CollectionBar hidden={hideCollection} />
-      <ArtistBar hidden={hideArtist} />
+    <>
+      <div className="SideBars">
+        <CollectionBar hidden={hideCollection} />
+        <ArtistBar hidden={hideArtist} />
+      </div>
       <div className="HideBars">
         <div className="Vertical">
-          <Card className="HideBar" onClick={() => setHideCollection(!hideCollection)}>
+          <Card
+            className="HideBar HideCollections"
+            onClick={() => setHideCollection(!hideCollection)}
+          >
             <Icon icon={hideCollection ? 'chevron-up' : 'chevron-down'} />
-            Collections
+            <div className="HideName">
+              <span>Collections</span>
+            </div>
           </Card>
-          <Card className="HideBar" onClick={() => setHideArtist(!hideArtist)}>
+          <Card
+            className="HideBar HideArtists"
+            onClick={() => setHideArtist(!hideArtist)}
+          >
             <Icon icon={hideArtist ? 'chevron-up' : 'chevron-down'} />
-            Artists
+            <div className="HideName">
+              <span>Artists</span>
+            </div>
           </Card>
         </div>
       </div>
-    </div>
+    </>
   );
 };

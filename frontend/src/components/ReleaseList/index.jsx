@@ -13,6 +13,7 @@ export const ReleaseList = () => {
   return (
     <div className={`ReleaseList SideBars${numVisible}`}>
       <SideBars />
+      <div className="DarkOverlay" />
       <div className="TheActualList">
         <ReleaseListOptions />
         <Pagination />

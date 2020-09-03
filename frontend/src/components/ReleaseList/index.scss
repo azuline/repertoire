@@ -3,6 +3,18 @@
   flex-flow: row nowrap;
   margin-top: -15px;
 
+  .DarkOverlay {
+    display: none;
+    position: fixed;
+    height: calc(100vh - 50px);
+    top: 50px;
+    left: 0;
+    background-color: #10161a;
+    opacity: 0.7;
+    width: 100vw;
+    z-index: 90;
+  }
+
   .TheActualList {
     width: 100%;
     display: flex;
@@ -137,6 +149,14 @@
 
 // Copy paste copy paste...
 
+.ReleaseList.SideBars0 {
+  @media screen and (max-width: 1130px) {
+    .SideBars {
+      position: fixed;
+    }
+  }
+}
+
 .ReleaseList.SideBars1 {
   @media screen and (max-width: 1480px) {
     .TheActualList .ReleaseListOptions {
@@ -156,12 +176,12 @@
   }
 
   @media screen and (max-width: 980px) {
-    .TheActualList {
-      margin-left: 22px;
-    }
-
     .SideBars {
       position: fixed;
+    }
+
+    .DarkOverlay {
+      display: block;
     }
   }
 }
@@ -185,12 +205,12 @@
   }
 
   @media screen and (max-width: 1130px) {
-    .TheActualList {
-      margin-left: 22px;
-    }
-
     .SideBars {
       position: fixed;
+    }
+
+    .DarkOverlay {
+      display: block;
     }
   }
 }
