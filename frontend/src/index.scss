@@ -38,3 +38,20 @@ button:focus {
 .bp3-body .bp3-navbar {
   background-color: #f5f8fa;
 }
+
+.bp3-dark * {
+  scrollbar-color: #10161a transparent;
+}
+.bp3-body * {
+  scrollbar-color: #8a9ba8 transparent;
+}
+body *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.Body * {
+  scrollbar-width: thin;
+}
+.Body *::-webkit-scrollbar {
+  width: 12px;
+}

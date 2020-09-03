@@ -13,7 +13,9 @@ export const ReleaseList = () => {
       <div className="TheActualList">
         <ReleaseListOptions />
         <Pagination />
+        <div className="ReleasesWrapper">
         <Releases />
+        </div>
         <Pagination />
       </div>
     </div>

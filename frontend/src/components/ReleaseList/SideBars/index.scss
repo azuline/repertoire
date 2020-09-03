@@ -2,7 +2,8 @@
   display: flex;
   flex-flow: row nowrap;
   position: sticky;
-  top: 0;
+  top: 50px;
+  left: 0;
   height: calc(100vh - 110px);
   z-index: 100;
 
@@ -11,6 +12,8 @@
     padding: 0 0 10px 0;
     height: 100%;
     overflow: auto;
+    border-radius: 0;
+    background-color: transparent;
 
     .SideBarHeader {
       font-weight: bold;
@@ -59,8 +62,7 @@
   }
 
   .HideBars {
-    margin-top: 30px;
-    width: 0;
+    width: 22px;
 
     .Vertical {
       display: flex;
@@ -73,7 +75,7 @@
         flex-flow: nowrap;
         padding: 2px 5px;
         margin-right: 10px;
-        box-shadow: none;
+        margin-bottom: 1px;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
 
@@ -90,14 +92,6 @@
   }
 }
 
-.bp3-dark .SideBar {
-  background-color: #394b59;
-}
-
-.bp3-body .HideBar {
-  background-color: #ced9e0;
-}
-
 .bp3-dark .HideBar {
-  background-color: #5c7080;
+  background-color: #394b59;
 }
