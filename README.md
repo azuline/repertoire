@@ -83,7 +83,7 @@ _Note: Comments in the real config will be stripped._
 Run the debug backend server with
 
 ```
-$ FLASK_DEBUG=1 FLASK_APP=backend/web/wsgi.py python -m flask run
+$ FLASK_DEBUG=1 FLASK_APP=backend/web/app.py python -m flask run
 ```
 
 ## License
