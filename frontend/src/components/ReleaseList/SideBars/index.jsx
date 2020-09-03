@@ -1,16 +1,14 @@
-import React from 'react';
-import { Icon, Card, Button } from '@blueprintjs/core';
-import { usePersistentState } from 'hooks';
+import React, { useContext } from 'react';
+import { Icon, Card } from '@blueprintjs/core';
+import { SideBarContext } from 'contexts';
 import './index.scss';
 import { ArtistBar } from './ArtistBar';
 import { CollectionBar } from './CollectionBar';
 
 export const SideBars = () => {
-  const [hideCollection, setHideCollection] = usePersistentState(
-    'sidebar--hide-collection',
-    true
+  const { hideCollection, setHideCollection, hideArtist, setHideArtist } = useContext(
+    SideBarContext
   );
-  const [hideArtist, setHideArtist] = usePersistentState('sidebar--hide-artist', true);
 
   return (
     <div className="SideBars">

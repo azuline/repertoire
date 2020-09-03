@@ -41,8 +41,22 @@
       .SelectPerPage .bp3-button-text::before {
         content: 'Per Page: ';
       }
+    }
 
-      @media screen and (max-width: 1300px) {
+    .Pagination {
+      margin: 0 auto 15px auto;
+    }
+
+    .ReleasesWrapper {
+      flex-grow: 1;
+    }
+
+    .NoResults {
+      flex-grow: 1;
+    }
+
+    .ReleaseListOptions {
+      @media screen and (max-width: 1330px) {
         flex-flow: column nowrap;
         padding: 0 2%;
 
@@ -57,7 +71,7 @@
         }
       }
 
-      @media screen and (max-width: 800px) {
+      @media screen and (max-width: 830px) {
         .SortOrder {
           .bp3-icon {
             margin-right: 0;
@@ -68,7 +82,7 @@
         }
       }
 
-      @media screen and (max-width: 720px) {
+      @media screen and (max-width: 750px) {
         .SelectPerPage .bp3-button-text::before {
           content: '' !important;
         }
@@ -89,7 +103,7 @@
         }
       }
 
-      @media screen and (max-width: 520px) {
+      @media screen and (max-width: 550px) {
         margin-bottom: 5px;
 
         .ViewOptions {
@@ -108,27 +122,75 @@
         }
       }
     }
+  }
+}
 
-    .Pagination {
-      margin: 0 auto 15px auto;
+.SideBar {
+  &.bp3-body {
+    background-color: #ebf1f5;
+  }
+
+  &.bp3-dark {
+    background-color: #293742;
+  }
+}
+
+// Copy paste copy paste...
+
+.ReleaseList.SideBars1 {
+  @media screen and (max-width: 1480px) {
+    .TheActualList .ReleaseListOptions {
+      flex-flow: column nowrap;
+      padding: 0 2%;
+
+      .SearchBar {
+        width: 98%;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .ViewOptions {
+        margin: 15px auto 0;
+      }
+    }
+  }
+
+  @media screen and (max-width: 980px) {
+    .TheActualList {
+      margin-left: 22px;
     }
 
-    .ReleasesWrapper {
-      flex-grow: 1;
-    }
-
-    .NoResults {
-      flex-grow: 1;
+    .SideBars {
+      position: fixed;
     }
   }
 }
 
-.SaveForm {
-  display: flex;
-  flex-flow: row nowrap;
-  padding: 10px;
+.ReleaseList.SideBars2 {
+  @media screen and (max-width: 1630px) {
+    .TheActualList .ReleaseListOptions {
+      flex-flow: column nowrap;
+      padding: 0 2%;
 
-  .SaveName {
-    margin-right: 10px;
+      .SearchBar {
+        width: 98%;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .ViewOptions {
+        margin: 15px auto 0;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1130px) {
+    .TheActualList {
+      margin-left: 22px;
+    }
+
+    .SideBars {
+      position: fixed;
+    }
   }
 }

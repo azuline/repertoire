@@ -8,6 +8,7 @@ export { PaginationContext, ReleasePaginationContextProvider } from './Paginatio
 export { ReleasesContext, ReleasesContextProvider } from './Releases';
 export { AuthenticationContext, AuthenticationContextProvider } from './Authentication';
 export { NowPlayingContext, NowPlayingContextProvider } from './NowPlaying';
+export { SideBarContext, SideBarContextProvider } from './SideBar';
 
 export {
   FilterContext,

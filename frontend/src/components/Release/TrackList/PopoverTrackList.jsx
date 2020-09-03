@@ -1,11 +1,14 @@
 import { Popover } from '@blueprintjs/core';
-import React from 'react';
+import React, { useContext } from 'react';
 import { TrackList } from './TrackList';
+import { SideBarContext } from 'contexts';
 
 export const PopoverTrackList = (props) => {
+  const { numVisible } = useContext(SideBarContext);
+
   return (
     <Popover
-      portalClassName="PopoverPortalTrackList"
+      portalClassName={`PopoverPortalTrackList SideBars${numVisible}`}
       popoverClassName="PopoverTrackList"
       content={<TrackList {...props} />}
       position="bottom"

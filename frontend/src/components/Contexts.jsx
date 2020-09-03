@@ -10,6 +10,7 @@ import {
   SearchContextProvider,
   ThemeContextProvider,
   NowPlayingContextProvider,
+  SideBarContextProvider,
 } from 'contexts';
 
 import React from 'react';
@@ -27,7 +28,7 @@ export const Contexts = ({ children }) => {
                     <ThemeContextProvider>
                       <QueriesContextProvider>
                         <NowPlayingContextProvider>
-                          {children}
+                          <SideBarContextProvider>{children}</SideBarContextProvider>
                         </NowPlayingContextProvider>
                       </QueriesContextProvider>
                     </ThemeContextProvider>

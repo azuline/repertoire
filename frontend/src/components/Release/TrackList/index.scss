@@ -1,5 +1,6 @@
 .FlatTrackList {
   margin-top: -5px;
+  margin-left: -22px;
 
   .TopArrowPointer {
     width: 0;
@@ -22,10 +23,17 @@
   height: 100%;
 
   .bp3-transition-container {
-    width: 100vw;
     box-sizing: border-box;
     padding: 0 2.5%;
     width: 100%;
+  }
+
+  &.SideBars1 .bp3-transition-container {
+    padding-left: calc(2.5% + 150px);
+  }
+
+  &.SideBars2 .bp3-transition-container {
+    padding-left: calc(2.5% + 300px);
   }
 
   .PopoverTrackList {
