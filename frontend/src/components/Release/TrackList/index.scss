@@ -131,8 +131,14 @@
       }
 
       .TrackArtists {
+        margin-top: -5px;
         margin-left: 0;
         width: 100%;
+        white-space: initial;
+
+        .TrackArtist {
+          margin-top: 5px;
+        }
       }
     }
   }

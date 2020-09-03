@@ -33,7 +33,11 @@ export const CompactHeader = ({ pages, activeRoute }) => {
           filterable={false}
           items={items}
           itemRenderer={renderPages}
-          popoverProps={{ minimal: true, transitionDuration: 50 }}
+          popoverProps={{
+            minimal: true,
+            transitionDuration: 50,
+            portalClassName: 'HeaderDropdown',
+          }}
           resetOnQuery
         >
           <Button
