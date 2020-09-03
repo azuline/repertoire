@@ -34,8 +34,9 @@ export const NowPlayingContextProvider = ({ children }) => {
     } else {
       setTrackId(currentTrack.id);
       setTotalTime(currentTrack.duration);
+      setPlayHistory((history) => [currentTrack.id, ...history]);
     }
-  }, [setTrackId, currentTrack]);
+  }, [setTrackId, setTime, setPlayHistory, currentTrack]);
 
   // If current track ends, and we still have tracks in queue, begin next track.
   useEffect(() => {

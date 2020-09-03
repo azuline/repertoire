@@ -149,35 +149,31 @@
 
 // Copy paste copy paste...
 
-.ReleaseList.SideBars0 {
-  @media screen and (max-width: 1130px) {
-    .SideBars {
-      position: fixed;
-    }
-  }
-}
-
 .ReleaseList.SideBars1 {
-  @media screen and (max-width: 1480px) {
-    .TheActualList .ReleaseListOptions {
-      flex-flow: column nowrap;
-      padding: 0 2%;
+  .TheActualList {
+    margin-left: 172px;
 
-      .SearchBar {
-        width: 98%;
-        max-width: 800px;
-        margin: 0 auto;
-      }
+    @media screen and (max-width: 1480px) {
+      .ReleaseListOptions {
+        flex-flow: column nowrap;
+        padding: 0 2%;
 
-      .ViewOptions {
-        margin: 10px auto 0;
+        .SearchBar {
+          width: 98%;
+          max-width: 800px;
+          margin: 0 auto;
+        }
+
+        .ViewOptions {
+          margin: 10px auto 0;
+        }
       }
     }
   }
 
   @media screen and (max-width: 980px) {
-    .SideBars {
-      position: fixed;
+    .TheActualList {
+      margin-left: 0;
     }
 
     .DarkOverlay {
@@ -187,26 +183,30 @@
 }
 
 .ReleaseList.SideBars2 {
-  @media screen and (max-width: 1630px) {
-    .TheActualList .ReleaseListOptions {
-      flex-flow: column nowrap;
-      padding: 0 2%;
+  .TheActualList {
+    margin-left: 322px;
 
-      .SearchBar {
-        width: 98%;
-        max-width: 800px;
-        margin: 0 auto;
-      }
+    @media screen and (max-width: 1630px) {
+      .ReleaseListOptions {
+        flex-flow: column nowrap;
+        padding: 0 2%;
 
-      .ViewOptions {
-        margin: 10px auto 0;
+        .SearchBar {
+          width: 98%;
+          max-width: 800px;
+          margin: 0 auto;
+        }
+
+        .ViewOptions {
+          margin: 10px auto 0;
+        }
       }
     }
   }
 
   @media screen and (max-width: 1130px) {
-    .SideBars {
-      position: fixed;
+    .TheActualList {
+      margin-left: 0;
     }
 
     .DarkOverlay {

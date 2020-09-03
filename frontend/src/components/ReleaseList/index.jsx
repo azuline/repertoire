@@ -1,6 +1,7 @@
 import './index.scss';
 
 import { Pagination } from 'components/common/Pagination';
+import { DarkOverlay } from './DarkOverlay';
 import React, { useContext } from 'react';
 import { ReleaseListOptions } from './ReleaseListOptions';
 import { Releases } from './Releases';
@@ -13,7 +14,7 @@ export const ReleaseList = () => {
   return (
     <div className={`ReleaseList SideBars${numVisible}`}>
       <SideBars />
-      <div className="DarkOverlay" />
+      <DarkOverlay />
       <div className="TheActualList">
         <ReleaseListOptions />
         <Pagination />
