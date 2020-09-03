@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "repertoire",
+  "name": "repertoire",
   "icons": [
     {
       "src": "favicon.ico",
@@ -13,8 +13,8 @@
       "sizes": "240x240"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#f5f8fa",
-  "background_color": "#293742"
+  "background_color": "#394B59
 }
