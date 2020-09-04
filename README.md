@@ -2,6 +2,8 @@
 
 A release-oriented music server. Work in progress!
 
+![example](_github/example.png)
+
 Stack: Python (w/ Flask) and React (JS).
 
 State: Barely usable.
