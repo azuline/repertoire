@@ -4,13 +4,13 @@ import React, { useContext } from 'react';
 import { SearchContext } from 'contexts';
 
 export const Query = ({ query: { query, id, name, favorite } }) => {
-  const { setActiveQuery } = useContext(SearchContext);
+  const { setQuery } = useContext(SearchContext);
 
   return (
     <Card
       className="SavedQuery"
       interactive
-      onClick={() => setActiveQuery(query)}
+      onClick={() => setQuery(query)}
       title={query}
     >
       <div className="Name">

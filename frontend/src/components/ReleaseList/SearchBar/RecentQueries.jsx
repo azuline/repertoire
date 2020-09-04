@@ -6,7 +6,7 @@ import { Select } from '@blueprintjs/select';
 import { formatDate } from 'common/datetime';
 
 export const RecentQueries = () => {
-  const { setActiveQuery, recentQueries } = useContext(SearchContext);
+  const { setQuery, recentQueries } = useContext(SearchContext);
 
   const renderItem = useCallback(
     ([index, { query, time }]) => {
@@ -14,12 +14,12 @@ export const RecentQueries = () => {
         <MenuItem
           key={query}
           label={formatDate(time)}
-          onClick={() => setActiveQuery(query)}
+          onClick={() => setQuery(query)}
           text={`${index + 1}. ${query}`}
         />
       );
     },
-    [setActiveQuery]
+    [setQuery]
   );
 
   return (

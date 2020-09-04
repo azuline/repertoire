@@ -1,18 +1,10 @@
 # repertoire
 
-A release-oriented music server. Work in progress.
+A release-oriented music server. Work in progress!
 
-Stack:
+Stack: Python (w/ Flask) and React (JS).
 
-- Backend: Python (Flask)
-- Frontend: JavaScript (React)
-
-## State of the Project
-
-Goal: MVP
-
-- Backend is MVP. Needs tests (snapshot tests are fine).
-- Frontend is mocked up, logic is nearing completion.
+State: Barely usable.
 
 ## Installation
 

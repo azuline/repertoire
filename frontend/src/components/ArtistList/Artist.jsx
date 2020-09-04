@@ -7,11 +7,11 @@ import { escapeQuotes } from 'common/queries';
 
 export const Artist = ({ artist }) => {
   const { favorite, name, numReleases, topGenres } = artist;
-  const { setActiveQuery } = useContext(SearchContext);
+  const { setQuery } = useContext(SearchContext);
 
   const queryArtist = useCallback(
-    () => setActiveQuery(`artist:"${escapeQuotes(name)}"`),
-    [setActiveQuery, name]
+    () => setQuery(`artist:"${escapeQuotes(name)}"`),
+    [setQuery, name]
   );
 
   return (

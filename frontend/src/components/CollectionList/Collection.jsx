@@ -8,11 +8,11 @@ import { collectionTypeIdsToNames } from 'common/collections';
 
 export const Collection = ({ collection }) => {
   const { favorite, name, numReleases, topGenres, type } = collection;
-  const { setActiveQuery } = useContext(SearchContext);
+  const { setQuery } = useContext(SearchContext);
 
   const queryCollection = useCallback(() => {
-    setActiveQuery(collectionQueryFormats[type](escapeQuotes(name)));
-  }, [setActiveQuery, type, name]);
+    setQuery(collectionQueryFormats[type](escapeQuotes(name)));
+  }, [setQuery, type, name]);
 
   return (
     <Card className="Collection" interactive onClick={queryCollection}>

@@ -18,7 +18,7 @@ const roleRankings = ['6', '5', '7', '1', '4', '2', '3'];
 const sortRoles = ([a], [b]) => roleRankings.indexOf(a) - roleRankings.indexOf(b);
 
 export const TrackArtists = ({ artists, minimal }) => {
-  const { setActiveQuery } = useContext(SearchContext);
+  const { setQuery } = useContext(SearchContext);
 
   // Return a map of artist roles to the artists in that role, filtering out
   // roles without any artists in them.
@@ -46,10 +46,10 @@ export const TrackArtists = ({ artists, minimal }) => {
 
   const queryArtist = useCallback(
     (artist) => (event) => {
-      setActiveQuery(`artist:"${escapeQuotes(artist)}"`);
+      setQuery(`artist:"${escapeQuotes(artist)}"`);
       event.stopPropagation();
     },
-    [setActiveQuery]
+    [setQuery]
   );
 
   return (

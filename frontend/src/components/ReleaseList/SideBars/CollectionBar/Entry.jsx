@@ -1,10 +1,11 @@
-import React, { useCallback, useMemo, useContext } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { collectionQueryFormats, escapeQuotes } from 'common/queries';
-import { SearchContext } from 'contexts';
+
 import { Card } from '@blueprintjs/core';
+import { SearchContext } from 'contexts';
 
 export const Entry = ({ collection, activeCollections }) => {
-  const { query, setActiveQuery } = useContext(SearchContext);
+  const { query, setQuery } = useContext(SearchContext);
 
   const active = useMemo(() => activeCollections.includes(collection.id), [
     collection,
@@ -18,11 +19,11 @@ export const Entry = ({ collection, activeCollections }) => {
 
   const toggleActive = useCallback(() => {
     if (query.search(queryString) === -1) {
-      setActiveQuery(`${query} ${queryString}`);
+      setQuery(`${query} ${queryString}`);
     } else {
-      setActiveQuery(query.replace(queryString, ''));
+      setQuery(query.replace(queryString, ''));
     }
-  }, [query, queryString, setActiveQuery]);
+  }, [query, queryString, setQuery]);
 
   return (
     <Card className={'Entry' + (active ? ' Active' : '')} onClick={toggleActive}>

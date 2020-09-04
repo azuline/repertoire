@@ -5,14 +5,14 @@ import { Tag } from '@blueprintjs/core';
 import { escapeQuotes } from 'common/queries';
 
 export const ReleaseArtists = ({ artists, minimal, large }) => {
-  const { setActiveQuery } = useContext(SearchContext);
+  const { setQuery } = useContext(SearchContext);
 
   const queryArtist = useCallback(
     (artist) => (event) => {
-      setActiveQuery(`artist:"${escapeQuotes(artist)}"`);
+      setQuery(`artist:"${escapeQuotes(artist)}"`);
       event.stopPropagation();
     },
-    [setActiveQuery]
+    [setQuery]
   );
 
   return (

@@ -1,13 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParseQuery, usePersistentState } from 'hooks';
 
 import { useHistory } from 'react-router-dom';
-import { useParseQuery, usePersistentState } from 'hooks';
 
 export const SearchContext = React.createContext({
   query: '',
   setQuery: () => {},
   activeQuery: '',
-  setActiveQuery: () => {},
   recentQueries: [],
 });
 
@@ -20,18 +19,15 @@ export const SearchContextProvider = ({ children }) => {
   const [artists, setArtists] = useState([]);
   const [recentQueries, setRecentQueries] = usePersistentState('queries--recent', []);
 
-  const setActiveQuery = useCallback(
+  useEffect(
     (newQuery) => {
       // Redirect to '/' if not already there.
       if (history.location.pathname !== '/') {
         history.push('/');
       }
 
-      // Sync `query` with `activeQuery`.
-      setQuery(newQuery);
-
       // Parse query and update parsed values.
-      const [newSearch, newCollections, newArtists] = parseQuery(newQuery);
+      const [newSearch, newCollections, newArtists] = parseQuery(query);
       setSearch(newSearch);
       setCollections(newCollections);
       setArtists(newArtists);
@@ -41,14 +37,14 @@ export const SearchContextProvider = ({ children }) => {
       setRecentQueries((oldEntries) => {
         if (!newQuery) return oldEntries;
 
-        const dedupEntries = oldEntries.filter((entry) => entry.query !== newQuery);
-        const newEntry = { query: newQuery, time: Math.floor(Date.now() / 1000) };
+        const dedupEntries = oldEntries.filter((entry) => entry.query !== query);
+        const newEntry = { query, time: Date.now() };
         return [newEntry, ...dedupEntries].slice(0, 30);
       });
     },
     [
       history,
-      setQuery,
+      query,
       parseQuery,
       setSearch,
       setCollections,
@@ -59,11 +55,10 @@ export const SearchContextProvider = ({ children }) => {
 
   const value = {
     query,
-    setQuery,
     search,
     collections,
     artists,
-    setActiveQuery,
+    setQuery,
     recentQueries,
   };
 
