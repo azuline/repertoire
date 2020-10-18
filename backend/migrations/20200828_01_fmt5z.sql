@@ -135,12 +135,22 @@ INSERT INTO music__collection_types (id, type) VALUES
     (1, "System"),
     (2, "Collage"),
     (3, "Label"),
-    (4, "Genre");
+    (4, "Genre"),
+    (5, "Rating");
 
 -- Insert a system inbox collection.
 INSERT INTO music__collections (id, name, type) VALUES
     (1, "Inbox", 1),
-    (2, "Favorite", 1);
+    (2, "Favorite", 1),
+	(3, "1", 5),
+	(4, "2", 5),
+	(5, "3", 5),
+	(6, "4", 5),
+	(7, "5", 5),
+	(8, "6", 5),
+	(9, "7", 5),
+	(10, "8", 5),
+	(11, "9", 5);
 
 CREATE TABLE music__collections_releases (
     release_id INTEGER NOT NULL,
@@ -173,6 +183,14 @@ CREATE TABLE music__releases_to_fetch_images (
 	release_id INTEGER NOT NULL,
 	PRIMARY KEY (release_id),
 	FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE
+);
+
+CREATE TABLE music__play_history (
+	id INTEGER NOT NULL,
+	time DATETIME DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+	track_id INTEGER NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (track_id) REFERENCES music__tracks(id) ON DELETE SET NULL
 );
 
 CREATE TABLE system__users (
