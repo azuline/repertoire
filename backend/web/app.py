@@ -6,7 +6,6 @@ Flask app instance, call ``create_app()``.
 import os
 
 import flask
-from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
 from werkzeug.utils import find_modules, import_string
 
@@ -30,6 +29,8 @@ def create_app():
 
     # Disable CORS if we are in debug mode.
     if os.getenv("FLASK_DEBUG") == "1":
+        from flask_cors import CORS
+
         CORS(app)
 
     @app.route("/", methods=["GET"])

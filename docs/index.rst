@@ -20,7 +20,7 @@ Advanced Features
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: Hacking
+   :caption: Advanced Features
 
    advanced/rest_api
 
@@ -32,4 +32,4 @@ Hacking
    :hidden:
    :caption: Hacking
 
-   hacking/backend
+   hacking/library

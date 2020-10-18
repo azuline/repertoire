@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from datetime import datetime
 from itertools import chain
@@ -50,11 +52,26 @@ def from_row(row: Row) -> T:
     )
 
 
+def from_id(id_: int, cursor: Cursor) -> Optional[T]:
+    """
+    Return the release with the provided ID.
+
+    :param id_: The ID of the release to fetch.
+    :param cursor: A cursor to the database.
+    :return: The release with the provided ID, if it exists.
+    """
+    cursor.execute("""SELECT * FROM music__releases WHERE id = ?""", (id_,))
+
+    row = cursor.fetchone()
+    return from_row(row) if row else None
+
+
 def search(
     cursor: Cursor,
+    *,
     search: str = "",
-    collections: List[int] = [],
-    artists: List[int] = [],
+    collections: List[collection.T] = [],
+    artists: List[artist.T] = [],
     page: int = 1,
     limit: Optional[int] = None,
     sort: ReleaseSort = ReleaseSort.RECENTLY_ADDED,

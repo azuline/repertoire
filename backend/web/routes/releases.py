@@ -3,6 +3,8 @@ from typing import List
 import flask
 from voluptuous import Coerce, Required, Schema
 
+from backend.enum import ReleaseSort
+from backend.lib import artist, collection, release
 from backend.util import database
 from backend.web.util import check_auth, validate_data
 from backend.web.validators import JSONList, SortOption, StringBool
@@ -19,7 +21,7 @@ bp = flask.Blueprint("releases", __name__)
             Required("collections", default="[]"): JSONList(int),
             Required("artists", default="[]"): JSONList(int),
             Required("page", default=1): Coerce(int),
-            Required("perPage", default=50): Coerce(int),
+            Required("limit", default=50): Coerce(int),
             Required("sort", default="recentlyAdded"): SortOption,
             Required("asc", default="true"): StringBool,
         }
@@ -27,11 +29,11 @@ bp = flask.Blueprint("releases", __name__)
 )
 def get_releases(
     search: str,
-    collections: List[int],
-    artists: List[int],
+    collections: List[collection.T],
+    artists: List[artist.T],
     page: int,
-    perPage: int,
-    sort: int,
+    limit: int,
+    sort: ReleaseSort,
     asc: bool,
 ):
     """Returns the stored releases."""
@@ -43,15 +45,24 @@ def get_releases(
     with database() as conn:
         cursor = conn.cursor()
 
-        # releases = _query_releases(
-        #     search, collections, artists, page, perPage, sort, asc, cursor
-        # )
+        total, releases = release.search(
+            search=search,
+            collections=collections,
+            artists=artists,
+            page=page,
+            limit=limit,
+            sort=sort,
+            asc=asc,
+            cursor=cursor,
+        )
 
-        # for release in releases["releases"]:
-        #     release["tracks"] = _fetch_tracks(release, cursor)
-        #     release["artists"] = _fetch_artists(release, cursor)
-        #     release["collections"] = _fetch_collections(release, cursor)
+        releases_json = []
+        for rls in releases:
+            rls_json = rls
+            rls_json["tracks"] = release.tracks(rls, cursor)
+            rls_json["artists"] = release.artists(rls, cursor)
+            rls_json["collections"] = release.collections(rls, cursor)
 
         cursor.close()
 
-    # return flask.jsonify(releases)
+    return flask.jsonify({"total": total, "releases": releases_json})

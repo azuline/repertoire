@@ -1,7 +1,8 @@
 Library
 =======
 
-A library to work with the models and functionality on the backend.
+The ``backend.lib`` package is a library that contains functions and
+dataclasses that cleanly expose the backend functionality.
 
 This library is used internally to implement the REST API and CLI.
 

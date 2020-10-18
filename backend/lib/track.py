@@ -1,7 +1,11 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from pathlib import Path
 from sqlite3 import Cursor, Row
-from typing import List
+from typing import List, Optional
+
+from backend.enums import ArtistRole
 
 from . import artist
 
@@ -47,8 +51,24 @@ def from_row(row: Row, cursor: Cursor) -> T:
         (row["id"],),
     )
 
-    return T(
-        **row,
-        filepath=Path(row["filepath"]),
-        artists=[artist.from_row(row) for row in cursor.fetchall()],
-    )
+    artists = []
+    for row in cursor.fetchall():
+        role = row["role"]
+        del row["role"]
+        artists.append({"artist": artist.from_row(row), "role": ArtistRole(role)})
+
+    return T(**row, filepath=Path(row["filepath"]), artists=artists)
+
+
+def from_id(id_: int, cursor: Cursor) -> Optional[T]:
+    """
+    Return the track with the provided ID.
+
+    :param id_: The ID of the track to fetch.
+    :param cursor: A cursor to the database.
+    :return: The track with the provided ID, if it exists.
+    """
+    cursor.execute("""SELECT * FROM music__tracks WHERE id = ?""", (id_,))
+
+    row = cursor.fetchone()
+    return from_row(row) if row else None

@@ -25,7 +25,6 @@ def get_track(track_id):
             flask.abort(404)
 
         filepath = row["filepath"]
-        cursor.close()
 
     ext = os.path.splitext(filepath)[1]
     return flask.send_file(filepath, attachment_filename=f"track{track_id}{ext}")
@@ -47,7 +46,6 @@ def get_cover(release_id, thumbnail=False):
             flask.abort(404)
 
         filepath = row["image_path"]
-        cursor.close()
 
     ext = os.path.splitext(filepath)[1]
     return flask.send_file(filepath, attachment_filename=f"cover{release_id}{ext}")
