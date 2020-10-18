@@ -1,13 +1,6 @@
 from enum import Enum
 
-from tagfiles import ArtistRoles  # noqa
-
-
-class CollectionType(Enum):
-    SYSTEM = 1
-    COLLAGE = 2
-    LABEL = 3
-    GENRE = 4
+from tagfiles import ArtistRoles as ArtistRole  # noqa
 
 
 class ReleaseType(Enum):
@@ -23,3 +16,18 @@ class ReleaseType(Enum):
     MIXTAPE = 10
     OTHER = 11
     UNKNOWN = 12
+
+
+class CollectionType(Enum):
+    SYSTEM = 1
+    COLLAGE = 2
+    LABEL = 3
+    GENRE = 4
+    RATING = 5
+
+
+class ReleaseSort(Enum):
+    RECENTLY_ADDED = "rls.added_on"
+    TITLE = "rls.title"
+    YEAR = "rls.release_year"
+    RANDOM = "RANDOM()"

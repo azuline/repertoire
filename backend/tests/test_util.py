@@ -1,8 +1,18 @@
-from backend.util import parse_crontab, strip_punctuation, to_posix_time
+from backend.util import cached_property, parse_crontab, strip_punctuation
 
 
-def test_to_posix_time():
-    assert 1602988618 == to_posix_time("2020-10-18 02:36:58")
+def test_cached_property():
+    var = 1
+
+    class Test:
+        @cached_property
+        def attr(self):
+            return var
+
+    test = Test()
+    assert test.attr == 1
+    var = 2
+    assert test.attr == 1
 
 
 def test_parse_crontab():

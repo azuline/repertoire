@@ -2,11 +2,13 @@ import json
 
 from voluptuous import Invalid
 
+from backend.enums import ReleaseSort
+
 SORT_OPTIONS = {
-    "recentlyAdded": "rls.added_on",
-    "title": "rls.title",
-    "year": "rls.release_year",
-    "random": "RANDOM()",
+    "releaseYear": ReleaseSort.RELEASE_YEAR,
+    "title": ReleaseSort.TITLE,
+    "year": ReleaseSort.YEAR,
+    "random": ReleaseSort.RANDOM,
 }
 
 

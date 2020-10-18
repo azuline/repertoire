@@ -1,8 +1,8 @@
 import sqlite3
 from contextlib import contextmanager
-from datetime import datetime
+from functools import wraps
 from string import punctuation
-from typing import ContextManager, Dict
+from typing import Callable, ContextManager, Dict
 
 from unidecode import unidecode
 
@@ -14,17 +14,30 @@ punctuation = set(punctuation)
 @contextmanager
 def database() -> ContextManager[sqlite3.Connection]:
     """A simple wrapper for the sqlite3 connection context manager."""
-    with sqlite3.connect(str(DATABASE_PATH)) as conn:
+    with sqlite3.connect(DATABASE_PATH, detect_types=sqlite3.PARSE_DECLTYPES) as conn:
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys = ON")
         yield conn
 
 
-def to_posix_time(time: str) -> int:
-    """Take a YYYY-MM-DD HH:MM:SS UTC timestamp and convert it to unix time."""
-    if time:
-        return datetime.fromisoformat(f"{time}+00:00").timestamp()
-    return None
+def cached_property(func: Callable) -> property:
+    """
+    A replacement for `property` that caches the result for future accesses.
+    """
+
+    @wraps(func)
+    def wrapper(self):
+        try:
+            return self.__property_cache[func.__name__]
+        except AttributeError:
+            self.__property_cache = {}
+        except KeyError:
+            pass
+
+        rval = self.__property_cache[func.__name__] = func(self)
+        return rval
+
+    return property(wrapper)
 
 
 def parse_crontab(crontab: str) -> Dict:

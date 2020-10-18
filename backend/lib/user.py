@@ -1,7 +1,7 @@
 import secrets
 import string
 from dataclasses import dataclass
-from sqlite3 import Cursor
+from sqlite3 import Cursor, Row
 from typing import Optional, Tuple
 
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -19,10 +19,21 @@ class T:
     A user dataclass. This dataclass is frozen (immutable).
     """
 
-    #: The user's ID.
+    # We have these empty comments so that the attributes and types render in sphinx...
+    #:
     id: int
-    #: The user's username.
+    #:
     username: str
+
+
+def from_row(row: Row) -> T:
+    """
+    Return a user dataclass containing data from a row from the database.
+
+    :param row: A row from the database.
+    :return: A user dataclass.
+    """
+    return T(**row)
 
 
 def from_id(id_: int, cursor: Cursor) -> Optional[T]:
@@ -36,7 +47,7 @@ def from_id(id_: int, cursor: Cursor) -> Optional[T]:
     cursor.execute("SELECT id, username FROM system__users WHERE id = ?", (id_,))
 
     row = cursor.fetchone()
-    return T(**row) if row else None
+    return from_row(row) if row else None
 
 
 def from_username(username: str, cursor: Cursor) -> Optional[T]:
@@ -53,7 +64,7 @@ def from_username(username: str, cursor: Cursor) -> Optional[T]:
     )
 
     row = cursor.fetchone()
-    return T(**row) if row else None
+    return from_row(row) if row else None
 
 
 def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
@@ -77,7 +88,7 @@ def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
     )
 
     row = cursor.fetchone()
-    return T(**row) if row else None
+    return from_row(row) if row else None
 
 
 def create(username: str, cursor: Cursor) -> Tuple[T, bytes]:

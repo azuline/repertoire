@@ -42,7 +42,6 @@ INSERT INTO music__releases (id, title, release_type) VALUES
 CREATE TABLE music__artists (
     id INTEGER NOT NULL,
     name VARCHAR COLLATE "NOCASE" NOT NULL,
-    image_path VARCHAR,
     favorite BOOLEAN NOT NULL DEFAULT 0 CHECK (favorite IN (0, 1)),
     PRIMARY KEY (id)
 );
@@ -146,16 +145,6 @@ CREATE TABLE music__collections_releases (
     PRIMARY KEY (release_id, collection_id),
     FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE,
     FOREIGN KEY (collection_id) REFERENCES music__collections(id) ON DELETE CASCADE
-);
-
-CREATE TABLE music__saved_queries (
-    id INTEGER NOT NULL,
-    name VARCHAR NOT NULL,
-    query VARCHAR NOT NULL,
-    added_on DATETIME DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
-    favorite BOOLEAN NOT NULL DEFAULT 0 CHECK (favorite IN (0, 1)),
-    PRIMARY KEY (id),
-    UNIQUE (name)
 );
 
 CREATE TABLE music__releases_search_index (

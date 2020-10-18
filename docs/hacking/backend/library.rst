@@ -10,3 +10,33 @@ User
 
 .. automodule:: backend.lib.user
    :members:
+
+Release
+-------
+
+.. automodule:: backend.lib.release
+   :members:
+
+Track
+-----
+
+.. automodule:: backend.lib.track
+   :members:
+
+Artist
+------
+
+.. automodule:: backend.lib.artist
+   :members:
+
+Collection
+----------
+
+.. automodule:: backend.lib.collection
+   :members:
+
+Play History
+------------
+
+.. automodule:: backend.lib.play_history
+   :members:
