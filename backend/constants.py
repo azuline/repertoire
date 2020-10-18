@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 
 import click
@@ -6,8 +7,13 @@ from dotenv import load_dotenv
 
 PROJECT_ROOT = Path(__file__).parent.parent
 
-# Load up the environment variables.
-load_dotenv(dotenv_path=PROJECT_ROOT / ".env")
+# If pytest is running, set DATA_PATH to the tests' data directory rather than the real
+# one.
+
+if "pytest" not in sys.modules:
+    load_dotenv(dotenv_path=PROJECT_ROOT / ".env")
+else:
+    os.environ["DATA_PATH"] = str(PROJECT_ROOT / "backend" / "tests" / "data")
 
 # Fetch the data path from `.env` and ensure that it exists and is writeable.
 try:

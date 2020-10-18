@@ -29,16 +29,22 @@ def to_posix_time(time: str) -> int:
     return None
 
 
-def hours_to_crontab(hours: int) -> Dict:
+def parse_crontab(crontab: str) -> Dict:
     """
-    Given an integer that represents hours, return a dict of params that
-    matches Huey's crontab parameter format.
+    Given a crontab entry from the config, split the values and create a dictionary
+    mapping each value to their huey key.
+
+    :raises ValueError: If there are not the correct number of fields in ``crontab``.
     """
-    if not hours:
-        return {}
-    elif hours == 24:
-        return {"minute": "0", "hour": "0", "day": "*/1"}
-    return {"minute": "0", "hour": f"*/{hours}"}
+    minute, hour, day, month, day_of_week = crontab.split(" ")
+
+    return dict(
+        minute=minute,
+        hour=hour,
+        day=day,
+        month=month,
+        day_of_week=day_of_week,
+    )
 
 
 def strip_punctuation(string: str) -> str:

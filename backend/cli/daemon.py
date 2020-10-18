@@ -33,11 +33,12 @@ def start(host, port, foreground):
 
         monkey.patch_all()
 
-        from backend.tasks import huey
+        from backend.tasks import huey, schedule_tasks
         from backend.web.app import create_app
 
         app = create_app()
 
+        schedule_tasks()
         huey.start()
 
         server = WSGIServer((host, port), app)

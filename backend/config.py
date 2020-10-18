@@ -2,10 +2,15 @@ import json
 from configparser import ConfigParser
 from typing import List
 
+from huey import crontab
+
 from backend.constants import CONFIG_PATH
 from backend.errors import InvalidConfig
+from backend.util import parse_crontab
 
-DEFAULT_CONFIG = {"repertoire": {"music_directories": "[]", "index_interval": "24"}}
+DEFAULT_CONFIG = {
+    "repertoire": {"music_directories": "[]", "index_crontab": "0 0 * * *"}
+}
 
 
 def _save_config(parser: ConfigParser) -> None:
@@ -66,31 +71,19 @@ class Config:
 
     def __init__(self):
         self.parser = _load_config()
-        self._validate()
 
     @property
     def music_directories(self) -> List[str]:
-        return json.loads(self.parser["repertoire"]["music_directories"])
-
-    @property
-    def index_interval(self) -> int:
-        return int(self.parser["repertoire"]["index_interval"])
-
-    def _validate(self) -> None:
-        # Validate that the list of music directories is a valid list.
         try:
-            self.music_directories
+            return json.loads(self.parser["repertoire"]["music_directories"])
         except json.decoder.JSONDecodeError:
             raise InvalidConfig(
                 "repertoire.music_directories is not a valid JSON-encoded list."
             )
 
-        # Validate that the re-index interval is a valid positive integer.
+    @property
+    def index_crontab(self) -> int:
         try:
-            if self.index_interval < 0 or self.index_interval > 24:
-                raise ValueError
+            return crontab(**parse_crontab(self.parser["repertoire"]["index_crontab"]))
         except ValueError:
-            raise InvalidConfig(
-                "repertoire.index_interval is not a valid integer between "
-                "0 and 24, inclusive."
-            )
+            raise InvalidConfig("repertoire.index_crontab is not a valid crontab.")

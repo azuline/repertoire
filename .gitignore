@@ -1,9 +1,9 @@
-/target
-Cargo.lock
 .env
 .venv
 __pycache__/
 *.egg-info
+*.log
+*.sqlite3
 
-data/
-scripts/
+/data/
+/scripts/
