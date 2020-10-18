@@ -82,6 +82,18 @@ Run the debug backend server with
 $ FLASK_DEBUG=1 FLASK_APP=backend/web/app.py python -m flask run
 ```
 
+If you are working with the database, the following `yoyo.ini` configures the
+`yoyo` shell command to use the database `data/db.sqlite3`.
+
+```
+[DEFAULT]
+sources = backend/migrations
+migration_table = _yoyo_migration
+batch_mode = off
+verbosity = 0
+database = sqlite:///data/db.sqlite3
+```
+
 ## License
 
 ```

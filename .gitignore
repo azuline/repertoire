@@ -6,5 +6,6 @@ __pycache__/
 *.sqlite3
 .coverage
 
+/yoyo.ini
 /data/
 /scripts/
