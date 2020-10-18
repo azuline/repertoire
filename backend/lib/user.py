@@ -25,7 +25,7 @@ class T:
     username: str
 
 
-def get_from_id(id_: int, cursor: Cursor) -> Optional[T]:
+def from_id(id_: int, cursor: Cursor) -> Optional[T]:
     """
     Get a user tuple from the user's ID.
 
@@ -39,7 +39,7 @@ def get_from_id(id_: int, cursor: Cursor) -> Optional[T]:
     return T(**row) if row else None
 
 
-def get_from_username(username: str, cursor: Cursor) -> Optional[T]:
+def from_username(username: str, cursor: Cursor) -> Optional[T]:
     """
     Get a user tuple from the user's username.
 
@@ -75,6 +75,9 @@ def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
         """SELECT id, username FROM system__users WHERE token_prefix = ?""",
         (token_prefix,),
     )
+
+    row = cursor.fetchone()
+    return T(**row) if row else None
 
 
 def create(username: str, cursor: Cursor) -> Tuple[T, bytes]:

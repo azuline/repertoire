@@ -67,11 +67,11 @@ class Config:
 
     def __new__(cls):
         if cls.__config is None:
-            cls.__config = __Config()
+            cls.__config = _Config()
         return cls.__config
 
 
-class __Config:
+class _Config:
     """
     The actual config object that gets loaded as a singleton.
     """

@@ -1,8 +1,9 @@
 tests:
-	poetry run pytest --cov=backend backend/tests
+	poetry run pytest --cov=backend --cov-branch backend/tests
 	poetry run black --check -S -t py37 -l 89 backend/
 	poetry run isort -c backend/
 	poetry run flake8 backend/
+	poetry run coverage html
 
 lint:
 	poetry run black -S -t py37 -l 89 backend/
