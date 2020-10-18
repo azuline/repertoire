@@ -1,0 +1,11 @@
+language: python
+os: linux
+dist: xenial
+python:
+  - "3.6"
+cache: pip
+install:
+  - pip install poetry
+  - poetry install
+script:
+  - make tests

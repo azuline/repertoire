@@ -1,5 +1,7 @@
 # repertoire
 
+[![Build Status](https://travis-ci.org/azuline/repertoire.svg?branch=master)](https://travis-ci.org/azuline/repertoire)
+
 A release-oriented music server. Work in progress!
 
 ![example](_github/example.png)
