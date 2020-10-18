@@ -3,7 +3,7 @@ import logging
 from yoyo import get_backend, read_migrations
 
 from backend.config import write_default_config
-from backend.constants import DATABASE_PATH, LOGS_DIR, PROJECT_ROOT
+from backend.constants import CONFIG_PATH, DATABASE_PATH, LOGS_DIR, PROJECT_ROOT
 
 # Configure logging.
 logger = logging.getLogger()
@@ -21,4 +21,4 @@ with db_backend.lock():
     db_backend.apply_migrations(db_backend.to_apply(db_migrations))
 
 # Create/update config with default values.
-write_default_config()
+write_default_config(CONFIG_PATH)

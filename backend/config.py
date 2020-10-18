@@ -1,5 +1,6 @@
 import json
 from configparser import ConfigParser
+from pathlib import Path
 from typing import List
 
 from huey import crontab
@@ -13,34 +14,34 @@ DEFAULT_CONFIG = {
 }
 
 
-def _save_config(parser: ConfigParser) -> None:
-    with CONFIG_PATH.open("w") as f:
+def _save_config(parser: ConfigParser, config_path: Path) -> None:
+    with config_path.open("w") as f:
         parser.write(f)
 
 
-def _load_config() -> ConfigParser:
+def _load_config(config_path: Path) -> ConfigParser:
     parser = ConfigParser()
-    parser.read(CONFIG_PATH)
+    parser.read(config_path)
     return parser
 
 
 ConfigParser.save = _save_config
 
 
-def write_default_config() -> None:
+def write_default_config(config_path: Path) -> None:
     """
     Write the default config if a config file doesn't exist. And if the
     existing config lacks keys, update it with new default values.
     """
     # If config doesn't exist, write it.
-    if not CONFIG_PATH.exists():
+    if not config_path.exists():
         parser = ConfigParser()
         parser.read_dict(DEFAULT_CONFIG)
-        parser.save()
+        parser.save(config_path)
         return
 
     # Otherwise, update config with default values if keys don't exist.
-    parser = _load_config()
+    parser = _load_config(config_path)
     modified = False
 
     for section, items in DEFAULT_CONFIG.items():
@@ -54,7 +55,7 @@ def write_default_config() -> None:
                 parser[section][key] = value
 
     if modified:
-        parser.save()
+        parser.save(config_path)
 
 
 class Config:
@@ -66,11 +67,17 @@ class Config:
 
     def __new__(cls):
         if cls.__config is None:
-            cls.__config = super().__new__(cls)
+            cls.__config = __Config()
         return cls.__config
 
+
+class __Config:
+    """
+    The actual config object that gets loaded as a singleton.
+    """
+
     def __init__(self):
-        self.parser = _load_config()
+        self.parser = _load_config(CONFIG_PATH)
 
     @property
     def music_directories(self) -> List[str]:
