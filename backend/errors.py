@@ -8,3 +8,15 @@ class CliError(BackendError):
 
 class InvalidConfig(BackendError):
     pass
+
+
+class LibError(BackendError):
+    pass
+
+
+class InvalidUsername(LibError):
+    pass
+
+
+class TokenGenerationFailure(LibError):
+    pass

@@ -5,6 +5,7 @@ __pycache__/
 *.log
 *.sqlite3
 .coverage
+_build/
 
 /yoyo.ini
 /data/

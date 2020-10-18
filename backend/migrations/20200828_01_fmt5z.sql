@@ -39,13 +39,6 @@ INSERT INTO music__release_types (id, type) VALUES
 INSERT INTO music__releases (id, title, release_type) VALUES
     (1, "Unknown Release", 12);
 
-
-CREATE TABLE music__releases_links (
-    release_id INTEGER NOT NULL,
-    link VARCHAR COLLATE "NOCASE" NOT NULL,
-    PRIMARY KEY (release_id, link)
-);
-
 CREATE TABLE music__artists (
     id INTEGER NOT NULL,
     name VARCHAR COLLATE "NOCASE" NOT NULL,
@@ -73,12 +66,6 @@ INSERT INTO music__artist_roles (id, role) VALUES
     (5, "COMPOSER"),
     (6, "CONDUCTOR"),
     (7, "DJMIXER");
-
-CREATE TABLE music__artists_links (
-    artist_id INTEGER NOT NULL,
-    link VARCHAR COLLATE "NOCASE" NOT NULL,
-    PRIMARY KEY (artist_id, link)
-);
 
 CREATE TABLE music__releases_artists (
     release_id INTEGER NOT NULL,
@@ -196,8 +183,9 @@ CREATE TABLE music__play_history (
 CREATE TABLE system__users (
     id INTEGER NOT NULL,
     username VARCHAR NOT NULL,
-    token BLOB NOT NULL,
+    token_prefix BLOB NOT NULL,
+    token_hash VARCHAR NOT NULL,
     PRIMARY KEY (id),
     UNIQUE (username),
-    UNIQUE (token)
+    UNIQUE (token_prefix)
 );

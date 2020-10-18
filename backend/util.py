@@ -4,12 +4,10 @@ from datetime import datetime
 from string import punctuation
 from typing import ContextManager, Dict
 
-from backports.datetime_fromisoformat import MonkeyPatch
 from unidecode import unidecode
 
 from backend.constants import DATABASE_PATH
 
-MonkeyPatch.patch_fromisoformat()
 punctuation = set(punctuation)
 
 

@@ -4,9 +4,6 @@ tests:
 	poetry run isort -c backend/
 	poetry run flake8 backend/
 
-setup.py:
-	dephell deps convert --from pyproject.toml --to setup.py
-
 lint:
 	poetry run black -S -t py37 -l 89 backend/
 	poetry run isort -c backend/
@@ -14,4 +11,11 @@ lint:
 build:
 	cd frontend; yarn build
 
-.PHONY: tests setup.py lint build
+docs:
+	rm -rf docs/_build/html docs/_build/doctrees
+	sphinx-build -M html docs docs/_build
+
+setup.py:
+	dephell deps convert --from pyproject.toml --to setup.py
+
+.PHONY: tests setup.py lint build docs
