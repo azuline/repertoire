@@ -75,6 +75,35 @@ def from_id(id_: int, cursor: Cursor) -> Optional[T]:
     return from_row(row) if row else None
 
 
+def from_name_and_type(name: str, type: CollectionType, cursor: Cursor) -> Optional[T]:
+    """
+    Return the collection with the given name and type, if it exists.
+
+    :param name: The name of the collection.
+    :param type: The type of the collection.
+    :param cursor: A cursor to the database.
+    :return: The collection, if it exists.
+    """
+    cursor.execute(
+        """
+        SELECT
+            cols.*,
+            COUNT(colsrls.release_id) AS num_releases,
+            MAX(colsrls.added_on) AS last_updated_on
+        FROM music__collections AS cols
+        LEFT JOIN music__collections_releases AS colsrls
+            ON colsrls.collection_id = cols.id
+        WHERE cols.name = ?
+            AND cols.type = ?
+        GROUP BY cols.id
+        """,
+        (name, type.value),
+    )
+
+    row = cursor.fetchone()
+    return from_row(row) if row else None
+
+
 def all(cursor: Cursor, type: CollectionType = None) -> List[T]:
     """
     Get all collections.

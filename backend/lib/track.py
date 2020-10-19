@@ -70,7 +70,35 @@ def from_id(id_: int, cursor: Cursor) -> Optional[T]:
     :param cursor: A cursor to the database.
     :return: The track with the provided ID, if it exists.
     """
-    cursor.execute("""SELECT * FROM music__tracks WHERE id = ?""", (id_,))
+    cursor.execute("SELECT * FROM music__tracks WHERE id = ?", (id_,))
+
+    row = cursor.fetchone()
+    return from_row(row, cursor) if row else None
+
+
+def from_filepath(filepath: str, cursor: Cursor) -> Optional[T]:
+    """
+    Return the track with the provided filepath.
+
+    :param filepath: The filepath of the track to fetch.
+    :param cursor: A cursor to the database.
+    :return: The track with the provided filepath, if it exists.
+    """
+    cursor.execute("SELECT * FROM music__tracks WHERE filepath = ?", (filepath,))
+
+    row = cursor.fetchone()
+    return from_row(row, cursor) if row else None
+
+
+def from_sha256(sha256: bytes, cursor: Cursor) -> Optional[T]:
+    """
+    Return the track with the provided sha256 hash.
+
+    :param sha256: The sha256 hash of the track to fetch.
+    :param cursor: A cursor to the database.
+    :return: The track with the provided sha256 hash, if it exists.
+    """
+    cursor.execute("SELECT * FROM music__tracks WHERE sha256 = ?", (sha256,))
 
     row = cursor.fetchone()
     return from_row(row, cursor) if row else None

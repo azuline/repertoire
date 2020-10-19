@@ -81,6 +81,8 @@ def catalog_file(conn: sqlite3.Connection, tf: TagFile) -> None:
     disc_number = tf.disc_number or 1
     duration = int(tf.mut.info.length)
 
+    # TODO: Compare sha256 with existing database, if so, update filepath.
+
     logger.info(
         f"Found new track `{tf.path}` with title `{title}` and hash "
         f"`{sha256.hex()}`, inserting into database..."

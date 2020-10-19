@@ -12,6 +12,20 @@ def test_from_id_failure(db: Cursor):
     assert collection.from_id(90000, db) is None
 
 
+def test_from_name_and_type_success(db: Cursor):
+    col = collection.from_name_and_type("Electronic", CollectionType.GENRE, db)
+    assert col.name == "Electronic"
+    assert col.type == CollectionType.GENRE
+
+
+def test_from_name_and_type_failure(db: Cursor):
+    col1 = collection.from_name_and_type("Electronic", CollectionType.COLLAGE, db)
+    col2 = collection.from_name_and_type("Inb0x", CollectionType.SYSTEM, db)
+
+    assert col1 is None
+    assert col2 is None
+
+
 def test_all(db: Cursor, snapshot):
     collections = collection.all(db)
     snapshot.assert_match(collections)

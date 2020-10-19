@@ -63,6 +63,32 @@ def from_id(id_: int, cursor: Cursor) -> Optional[T]:
     return from_row(row) if row else None
 
 
+def from_name(name: str, cursor: Cursor) -> Optional[T]:
+    """
+    Return the artist with the given name, if they exist.
+
+    :param name: The name of the artist.
+    :param cursor: A cursor to the database.
+    :return: The artist, if they exist.
+    """
+    cursor.execute(
+        """
+        SELECT
+            arts.*,
+            COUNT(artsrls.release_id) AS num_releases
+        FROM music__artists AS arts
+        LEFT JOIN music__releases_artists AS artsrls
+            ON artsrls.artist_id = arts.id
+        WHERE arts.name = ?
+        GROUP BY arts.id
+        """,
+        (name,),
+    )
+
+    row = cursor.fetchone()
+    return from_row(row) if row else None
+
+
 def all(cursor: Cursor) -> List[T]:
     """
     Get all artists with one-or-more releases.

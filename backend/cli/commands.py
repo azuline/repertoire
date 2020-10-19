@@ -11,10 +11,12 @@ def commands():
     pass
 
 
-def shared_options(func: Callable):
+def shared_options(func: Callable) -> Callable:
     """
     A decorator to add some shared click options to every command. Currently,
-    the --log-level option is implemented by this decorator.
+    the ``--log-level`` option is implemented by this decorator.
+
+    This must be applied before the click ``command`` decorator.
 
     :param Callable func: The function to decorate.
 

@@ -11,6 +11,15 @@ def test_from_id_failure(db: Cursor):
     assert artist.from_id(90000, db) is None
 
 
+def test_from_name_success(db: Cursor):
+    art = artist.from_name("aaron west and the roaring twenties", db)
+    assert art.name == "Aaron West and the Roaring Twenties"
+
+
+def test_from_name_failure(db: Cursor):
+    assert artist.from_name("nonexistent", db) is None
+
+
 def test_all(db: Cursor, snapshot):
     artists = artist.all(db)
     assert all(art.num_releases for art in artists)
