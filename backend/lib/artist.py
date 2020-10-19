@@ -5,6 +5,7 @@ from sqlite3 import Cursor, Row
 from typing import Dict, List, Optional
 
 from backend.enums import CollectionType
+from backend.errors import Duplicate
 from backend.util import without_key
 
 from . import collection, release
@@ -37,11 +38,11 @@ def from_row(row: Row) -> T:
     return T(**dict(row, favorite=bool(row["favorite"])))
 
 
-def from_id(id_: int, cursor: Cursor) -> Optional[T]:
+def from_id(id: int, cursor: Cursor) -> Optional[T]:
     """
     Return the artist with the provided ID.
 
-    :param id_: The ID of the artist to fetch.
+    :param id: The ID of the artist to fetch.
     :param cursor: A cursor to the database.
     :return: The artist with the provided ID, if it exists.
     """
@@ -56,11 +57,11 @@ def from_id(id_: int, cursor: Cursor) -> Optional[T]:
         WHERE arts.id = ?
         GROUP BY arts.id
         """,
-        (id_,),
+        (id,),
     )
 
-    row = cursor.fetchone()
-    return from_row(row) if row else None
+    if row := cursor.fetchone():
+        return from_row(row)
 
 
 def from_name(name: str, cursor: Cursor) -> Optional[T]:
@@ -85,8 +86,8 @@ def from_name(name: str, cursor: Cursor) -> Optional[T]:
         (name,),
     )
 
-    row = cursor.fetchone()
-    return from_row(row) if row else None
+    if row := cursor.fetchone():
+        return from_row(row)
 
 
 def all(cursor: Cursor) -> List[T]:
@@ -108,6 +109,34 @@ def all(cursor: Cursor) -> List[T]:
         """
     )
     return [from_row(row) for row in cursor.fetchall() if row["num_releases"]]
+
+
+def create(name: str, cursor: Cursor, favorite: bool = False) -> T:
+    """
+    Create an artist and persist it to the database.
+
+    :param name: The name of the artist.
+    :cursor: A cursor to the database.
+    :param favorite: Whether the artist is a favorite or not.
+    :return: The newly created artist.
+    :raises Duplicate: If an artist with the same name already exists.
+    """
+    cursor.execute("SELECT 1 FROM music__artists WHERE name = ?", (name,))
+    if cursor.fetchone():
+        raise Duplicate
+
+    cursor.execute(
+        """INSERT INTO music__artists (name, favorite) VALUES (?, ?)""",
+        (name, favorite),
+    )
+    cursor.connection.commit()
+
+    return T(
+        id=cursor.lastrowid,
+        name=name,
+        favorite=favorite,
+        num_releases=0,
+    )
 
 
 def releases(artist: T, cursor: Cursor) -> List[release.T]:

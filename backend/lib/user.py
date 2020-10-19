@@ -38,18 +38,18 @@ def from_row(row: Row) -> T:
     return T(**row)
 
 
-def from_id(id_: int, cursor: Cursor) -> Optional[T]:
+def from_id(id: int, cursor: Cursor) -> Optional[T]:
     """
     Get a user tuple from the user's ID.
 
-    :param id_: The ID of the user to get.
+    :param id: The ID of the user to get.
     :param cursor: A cursor to the database.
     :return: The user, if they exist.
     """
-    cursor.execute("SELECT id, username FROM system__users WHERE id = ?", (id_,))
+    cursor.execute("SELECT id, username FROM system__users WHERE id = ?", (id,))
 
-    row = cursor.fetchone()
-    return from_row(row) if row else None
+    if row := cursor.fetchone():
+        return from_row(row)
 
 
 def from_username(username: str, cursor: Cursor) -> Optional[T]:
@@ -65,8 +65,8 @@ def from_username(username: str, cursor: Cursor) -> Optional[T]:
         (username,),
     )
 
-    row = cursor.fetchone()
-    return from_row(row) if row else None
+    if row := cursor.fetchone():
+        return from_row(row)
 
 
 def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
@@ -89,8 +89,8 @@ def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
         (token_prefix,),
     )
 
-    row = cursor.fetchone()
-    return from_row(row) if row else None
+    if row := cursor.fetchone():
+        return from_row(row)
 
 
 def create(username: str, cursor: Cursor) -> Tuple[T, bytes]:
@@ -193,9 +193,7 @@ def check_token(user: T, token: bytes, cursor: Cursor) -> bool:
     :return: Whether the token is valid.
     """
     cursor.execute("SELECT token_hash FROM system__users WHERE id = ?", (user.id,))
-    row = cursor.fetchone()
-
-    if not row:
+    if not (row := cursor.fetchone()):
         return False
 
     return check_password_hash(row["token_hash"], token)

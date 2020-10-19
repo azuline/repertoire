@@ -20,3 +20,7 @@ class InvalidUsername(LibError):
 
 class TokenGenerationFailure(LibError):
     pass
+
+
+class Duplicate(LibError):
+    pass

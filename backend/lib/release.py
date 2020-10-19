@@ -10,6 +10,7 @@ from typing import List, Optional, Tuple
 from unidecode import unidecode
 
 from backend.enums import ReleaseSort, ReleaseType
+from backend.errors import Duplicate
 from backend.util import strip_punctuation
 
 from . import artist, collection, track
@@ -54,18 +55,18 @@ def from_row(row: Row) -> T:
     )
 
 
-def from_id(id_: int, cursor: Cursor) -> Optional[T]:
+def from_id(id: int, cursor: Cursor) -> Optional[T]:
     """
     Return the release with the provided ID.
 
-    :param id_: The ID of the release to fetch.
+    :param id: The ID of the release to fetch.
     :param cursor: A cursor to the database.
     :return: The release with the provided ID, if it exists.
     """
-    cursor.execute("""SELECT * FROM music__releases WHERE id = ?""", (id_,))
+    cursor.execute("""SELECT * FROM music__releases WHERE id = ?""", (id,))
 
-    row = cursor.fetchone()
-    return from_row(row) if row else None
+    if row := cursor.fetchone():
+        return from_row(row)
 
 
 def search(
@@ -189,6 +190,73 @@ def _generate_search_filter(search: str) -> Tuple[str, List[str]]:
     filter_params = chain(*((word, unidecode(word)) for word in words))
 
     return filter_sql, filter_params
+
+
+def create(
+    title: str,
+    artists: List[artist.T],
+    release_type: ReleaseType,
+    release_year: int,
+    cursor: Cursor,
+    release_date: date = None,
+    image_path: Path = None,
+) -> T:
+    """
+    Create a release with the provided parameters.
+
+    :param title: The title of the release.
+    :param artists: The "album artists" on the release.
+    :param release_type: The type of the release.
+    :param release_year: The year the release came out.
+    :param cursor: A cursor to the database.
+    :param release_date: The date the release came out.
+    :param image_path: A path to the release's cover art.
+    :return: The newly created release.
+    :raises Duplicate: If a release with the same name and artists already exists.
+    """
+    if _find_duplicate_release(title, artists):
+        raise Duplicate
+
+    # Insert the release into the database.
+    cursor.execute(
+        """
+        INSERT INTO music__releases (
+            title, image_path, release_type, release_year, release_date
+        ) VALUES (?, ?, ?, ?, ?)
+        """,
+        (title, image_path, release_type.value, release_year, release_date),
+    )
+    cursor.connection.commit()
+    id = cursor.lastrowid
+
+    # Insert the release artists into the database.
+    for art in artists:
+        cursor.execute(
+            """
+            INSERT INTO music__releases_artists (release_id, artist_id) VALUES (?, ?)
+            """,
+            (id, art.id),
+        )
+    cursor.connection.commit()
+
+    # We fetch it from the database to also get the `added_on` column.
+    return from_id(id, cursor)
+
+
+def _find_duplicate_release(
+    title: str, artists: List[artist.T], cursor: Cursor
+) -> bool:
+    """
+    Try to find a duplicate release with the given title and artists. Return whether we
+    find one or not.
+
+    :param title: The title of the release.
+    :param artists: The artists that contributed to the release.
+    """
+    # We run a search on the title, limiting it to releases with all the artists, and
+    # then see if any have an exact match with the title.
+    matches = search(search=title, artists=artists, cursor=cursor)
+    return any(rls.title == title for rls in matches)
 
 
 def tracks(release: T, cursor: Cursor) -> List[track.T]:

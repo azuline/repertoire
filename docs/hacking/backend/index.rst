@@ -51,6 +51,7 @@ The backend can be split into several layers, from lowest to highest:
 
 .. toctree::
    :maxdepth: 1
+   :hidden:
    :caption: Backend
 
    backend
