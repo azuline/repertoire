@@ -25,9 +25,6 @@ def _load_config(config_path: Path) -> ConfigParser:
     return parser
 
 
-ConfigParser.save = _save_config
-
-
 def write_default_config(config_path: Path) -> None:
     """
     Write the default config if a config file doesn't exist. And if the
@@ -37,7 +34,7 @@ def write_default_config(config_path: Path) -> None:
     if not config_path.exists():
         parser = ConfigParser()
         parser.read_dict(DEFAULT_CONFIG)
-        parser.save(config_path)
+        _save_config(parser, config_path)
         return
 
     # Otherwise, update config with default values if keys don't exist.
@@ -55,20 +52,7 @@ def write_default_config(config_path: Path) -> None:
                 parser[section][key] = value
 
     if modified:
-        parser.save(config_path)
-
-
-class Config:
-    """
-    A "proxy singleton" that returns the same config instance when instantiated.
-    """
-
-    __config = None
-
-    def __new__(cls):
-        if cls.__config is None:
-            cls.__config = _Config()
-        return cls.__config
+        _save_config(parser, config_path)
 
 
 class _Config:
@@ -94,3 +78,19 @@ class _Config:
             return crontab(**parse_crontab(self.parser["repertoire"]["index_crontab"]))
         except ValueError:
             raise InvalidConfig("repertoire.index_crontab is not a valid crontab.")
+
+
+class Config:
+    """
+    A "proxy singleton" that returns the same config instance when instantiated.
+    """
+
+    __config: _Config = None
+
+    music_directories: List[str]
+    index_crontab: int
+
+    def __new__(cls) -> _Config:
+        if cls.__config is None:
+            cls.__config = _Config()
+        return cls.__config

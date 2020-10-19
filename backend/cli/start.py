@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 @shared_options
 @click.option("--host", "-h", default="127.0.0.1", help="Where to listen")
 @click.option("--port", "-p", default=45731, help="Port to listen on")
-def start(host, port):
+def start(host: str, port: int):
     """Start the backend."""
     from backend.tasks import schedule_and_start
     from backend.web.app import create_app

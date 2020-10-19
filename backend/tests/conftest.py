@@ -12,11 +12,6 @@ TEST_SQL_PATH = Path(__file__).parent / "database.sql"
 
 
 @pytest.fixture
-def data_path():
-    return DATA_PATH
-
-
-@pytest.fixture
 def db():
     DATABASE_PATH.unlink(missing_ok=True)
 

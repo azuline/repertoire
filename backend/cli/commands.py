@@ -1,5 +1,6 @@
 import functools
 import logging
+from typing import Callable
 
 import click
 
@@ -10,7 +11,7 @@ def commands():
     pass
 
 
-def shared_options(func):
+def shared_options(func: Callable):
     """
     A decorator to add some shared click options to every command. Currently,
     the --log-level option is implemented by this decorator.
