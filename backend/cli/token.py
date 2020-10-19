@@ -13,7 +13,7 @@ def token():
     with database() as conn:
         cursor = conn.cursor()
 
-        if usr := user.get_from_id(1, cursor):
+        if usr := user.from_id(1, cursor):
             token = user.new_token(usr, cursor)
         else:
             _, token = user.create("admin", cursor)

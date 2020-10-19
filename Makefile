@@ -7,7 +7,7 @@ tests:
 
 lint:
 	poetry run black backend/
-	poetry run isort -c backend/
+	poetry run isort backend/
 
 build:
 	cd frontend; yarn build
