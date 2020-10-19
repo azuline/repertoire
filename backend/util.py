@@ -1,6 +1,8 @@
 import sqlite3
 from contextlib import contextmanager
 from functools import wraps
+from hashlib import sha256
+from pathlib import Path
 from string import punctuation
 from typing import Any, Callable, ContextManager, Dict, Union
 
@@ -87,3 +89,13 @@ def strip_punctuation(string: str) -> str:
     :return: The stripped string.
     """
     return "".join(c for c in unidecode(string) if c not in punctuation)
+
+
+def calculate_sha_256(filepath: Path) -> bytes:
+    """Calculate the SHA256 of a file."""
+    hash_ = sha256()
+    with filepath.open("rb") as fp:
+        for block in iter(lambda: fp.read(65536), b""):
+            hash_.update(block)
+
+    return hash_.digest()

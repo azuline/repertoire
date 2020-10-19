@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 from sqlite3 import Cursor, Row
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 from backend.enums import ArtistRole
 from backend.errors import Duplicate
@@ -77,7 +77,7 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
         return from_row(row, cursor)
 
 
-def from_filepath(filepath: str, cursor: Cursor) -> Optional[T]:
+def from_filepath(filepath: Union[Path, str], cursor: Cursor) -> Optional[T]:
     """
     Return the track with the provided filepath.
 
@@ -85,7 +85,7 @@ def from_filepath(filepath: str, cursor: Cursor) -> Optional[T]:
     :param cursor: A cursor to the database.
     :return: The track with the provided filepath, if it exists.
     """
-    cursor.execute("SELECT * FROM music__tracks WHERE filepath = ?", (filepath,))
+    cursor.execute("SELECT * FROM music__tracks WHERE filepath = ?", (str(filepath),))
 
     if row := cursor.fetchone():
         return from_row(row, cursor)
@@ -132,12 +132,12 @@ def create(
     :param track_number: The track number.
     :param disc_number: The disc number.
     :return: The newly created track.
-    :raises Duplicate: If a track with the same filepath already exists.
+    :raises Duplicate: If a track with the same filepath already exists. The duplicate
+                       track is passed as the ``entity`` argument.
     """
     # First, check to see if a track with the same filepath exists.
-    cursor.execute("SELECT 1 FROM music__tracks WHERE filepath = ?", (str(filepath),))
-    if cursor.fetchone():
-        raise Duplicate
+    if trk := from_filepath(filepath, cursor):
+        raise Duplicate(trk)
 
     # Next, check to see if a track with the same sha256 exists.
     cursor.execute("SELECT id FROM music__tracks WHERE sha256 = ?", (sha256,))

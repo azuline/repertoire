@@ -15,9 +15,10 @@ def build_search_index():
     Insert a normalized and non-normalized form of each word into the database.
     """
     with database() as conn:
-        cursor = conn.cursor()
         logger.info("Rebuilding search index...")
         click.echo("Rebuilding search index...")
+
+        cursor = conn.cursor()
         cursor.execute("""DELETE FROM music__releases_search_index""")
 
         cursor.execute(

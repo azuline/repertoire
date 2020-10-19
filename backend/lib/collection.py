@@ -141,14 +141,11 @@ def create(
     :cursor: A cursor to the database.
     :param favorite: Whether the collection is a favorite or not.
     :return: The newly created collection.
-    :raises Duplicate: If an collection with the same name and type already exists.
+    :raises Duplicate: If an collection with the same name and type already exists. The
+                       duplicate collection is passed as the ``entity`` argument.
     """
-    cursor.execute(
-        """SELECT 1 FROM music__collections WHERE name = ? AND type = ?""",
-        (name, type.value),
-    )
-    if cursor.fetchone():
-        raise Duplicate
+    if col := from_name_and_type(name, type, cursor):
+        raise Duplicate(col)
 
     cursor.execute(
         """INSERT INTO music__collections (name, type, favorite) VALUES (?, ?, ?)""",
@@ -223,3 +220,11 @@ def top_genres(collection: T, cursor: Cursor, *, num_genres: int = 5) -> List[Di
         }
         for row in cursor.fetchall()
     ]
+
+
+def add_release(col: T, rls: release.T, cursor: Cursor) -> None:
+    """
+    TODO:
+
+    If release is already in collection, raise exception!
+    """

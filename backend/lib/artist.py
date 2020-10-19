@@ -119,11 +119,11 @@ def create(name: str, cursor: Cursor, favorite: bool = False) -> T:
     :cursor: A cursor to the database.
     :param favorite: Whether the artist is a favorite or not.
     :return: The newly created artist.
-    :raises Duplicate: If an artist with the same name already exists.
+    :raises Duplicate: If an artist with the same name already exists. The duplicate
+                       artist is passed as the ``entity`` argument.
     """
-    cursor.execute("SELECT 1 FROM music__artists WHERE name = ?", (name,))
-    if cursor.fetchone():
-        raise Duplicate
+    if art := from_name(name, cursor):
+        raise Duplicate(art)
 
     cursor.execute(
         """INSERT INTO music__artists (name, favorite) VALUES (?, ?)""",

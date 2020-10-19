@@ -19,36 +19,36 @@ snapshots['test_release_collections 1'] = [
     GenericRepr("T(id=15, name='World', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=None, last_updated_on=None)")
 ]
 
-snapshots['test_release_from_id_success 1'] = GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, release_date=datetime.date(2014, 7, 8), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'))")
+snapshots['test_release_from_id_success 1'] = GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, release_date=datetime.date(2014, 7, 8), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'), num_tracks=10)")
 
 snapshots['test_release_search_all 1'] = (
     3,
     [
-        GenericRepr("T(id=1, title='Unknown Release', release_type=<ReleaseType.UNKNOWN: 12>, added_on=datetime.datetime(1970, 1, 1, 0, 0), release_year=0, release_date=None, image_path=None)"),
-        GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, release_date=datetime.date(2014, 7, 8), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'))"),
-        GenericRepr("T(id=3, title='Departure', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 8, 29, 34), release_year=2016, release_date=None, image_path=PosixPath('/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg'))")
+        GenericRepr("T(id=1, title='Unknown Release', release_type=<ReleaseType.UNKNOWN: 12>, added_on=datetime.datetime(1970, 1, 1, 0, 0), release_year=0, release_date=None, image_path=None, num_tracks=None)"),
+        GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, release_date=datetime.date(2014, 7, 8), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'), num_tracks=None)"),
+        GenericRepr("T(id=3, title='Departure', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 8, 29, 34), release_year=2016, release_date=None, image_path=PosixPath('/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg'), num_tracks=None)")
     ]
 )
 
 snapshots['test_release_search_page 1'] = (
     3,
     [
-        GenericRepr("T(id=1, title='Unknown Release', release_type=<ReleaseType.UNKNOWN: 12>, added_on=datetime.datetime(1970, 1, 1, 0, 0), release_year=0, release_date=None, image_path=None)"),
-        GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, release_date=datetime.date(2014, 7, 8), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'))")
+        GenericRepr("T(id=1, title='Unknown Release', release_type=<ReleaseType.UNKNOWN: 12>, added_on=datetime.datetime(1970, 1, 1, 0, 0), release_year=0, release_date=None, image_path=None, num_tracks=None)"),
+        GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, release_date=datetime.date(2014, 7, 8), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'), num_tracks=None)")
     ]
 )
 
 snapshots['test_release_search_page_2 1'] = (
     3,
     [
-        GenericRepr("T(id=3, title='Departure', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 8, 29, 34), release_year=2016, release_date=None, image_path=PosixPath('/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg'))")
+        GenericRepr("T(id=3, title='Departure', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 8, 29, 34), release_year=2016, release_date=None, image_path=PosixPath('/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg'), num_tracks=None)")
     ]
 )
 
 snapshots['test_release_search_search 1'] = (
     1,
     [
-        GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, release_date=datetime.date(2014, 7, 8), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'))")
+        GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, release_date=datetime.date(2014, 7, 8), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'), num_tracks=None)")
     ]
 )
 

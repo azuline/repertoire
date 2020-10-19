@@ -37,6 +37,8 @@ class T:
     release_date: Optional[date] = None
     #: The filepath of the album cover.
     image_path: Optional[Path] = None
+    #: The number of tracks that this release has.
+    num_tracks: Optional[int] = None
 
 
 def from_row(row: Row) -> T:
@@ -63,7 +65,18 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     :param cursor: A cursor to the database.
     :return: The release with the provided ID, if it exists.
     """
-    cursor.execute("""SELECT * FROM music__releases WHERE id = ?""", (id,))
+    cursor.execute(
+        """
+        SELECT
+            rls.*,
+            COUNT(trks.id) AS num_tracks
+        FROM music__releases AS rls
+            LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
+        WHERE rls.id = ?
+        GROUP BY rls.id
+        """,
+        (id,),
+    )
 
     if row := cursor.fetchone():
         return from_row(row)
@@ -212,10 +225,11 @@ def create(
     :param release_date: The date the release came out.
     :param image_path: A path to the release's cover art.
     :return: The newly created release.
-    :raises Duplicate: If a release with the same name and artists already exists.
+    :raises Duplicate: If a release with the same name and artists already exists. The
+                       duplicate release is passed as the ``entity`` argument.
     """
-    if _find_duplicate_release(title, artists, cursor):
-        raise Duplicate
+    if rls := _find_duplicate_release(title, artists, cursor):
+        raise Duplicate(rls)
 
     # Insert the release into the database.
     cursor.execute(
@@ -245,18 +259,25 @@ def create(
 
 def _find_duplicate_release(
     title: str, artists: List[artist.T], cursor: Cursor
-) -> bool:
+) -> Optional[T]:
     """
-    Try to find a duplicate release with the given title and artists. Return whether we
-    find one or not.
+    Try to find a duplicate release with the given title and artists. If we find a
+    duplicate release, return it.
 
     :param title: The title of the release.
     :param artists: The artists that contributed to the release.
+    :param cursor: A cursor to the database.
+    :return: The duplicate release, if found.
     """
     # We run a search on the title, limiting it to releases with all the artists, and
     # then see if any have an exact match with the title.
     _, matches = search(search=title, artists=artists, cursor=cursor)
-    return any(rls.title == title for rls in matches)
+
+    for rls in matches:
+        if rls.title == title:
+            return rls
+
+    return None
 
 
 def tracks(release: T, cursor: Cursor) -> List[track.T]:

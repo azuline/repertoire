@@ -13,6 +13,8 @@ from backend.util import database
 
 logger = logging.getLogger()
 
+MIME_TO_EXTS = {"image/jpeg": "jpg", "image/png": "png"}
+
 
 def save_pending_images():
     """
@@ -24,44 +26,38 @@ def save_pending_images():
 
     with database() as conn:
         cursor = conn.cursor()
-        cursor.execute("""SELECT release_id FROM music__releases_to_fetch_images""")
-        release_ids = [row["release_id"] for row in cursor.fetchall()]
+        cursor.execute("""SELECT rls_id FROM music__releases_to_fetch_images""")
+        rls_ids = [row[0] for row in cursor.fetchall()]
 
-        for release_id in release_ids:
-            logger.debug(f"Searching for cover art in release {release_id}.")
-            cursor.execute(
-                """
-                SELECT filepath
-                FROM music__tracks
-                WHERE release_id = ?
-                LIMIT 1
-                """,
-                (release_id,),
-            )
-            track = cursor.fetchone()
-            if not track or not os.path.isfile(track["filepath"]):
-                logger.debug(f"No tracks found for release {release_id}.")
-                continue
+    for rls_id in rls_ids:
+        logger.debug(f"Searching for cover art in release {rls_id}.")
 
-            tf = TagFile(track["filepath"])
-            image_path = save_image(tf)
-            if not image_path:
-                logger.debug(f"No image found for release {release_id}.")
-                continue
+        cursor.execute(
+            "SELECT filepath FROM music__tracks WHERE rls_id = ? LIMIT 1", (rls_id,)
+        )
+        track = cursor.fetchone()
+        if not track or not os.path.isfile(track["filepath"]):
+            logger.debug(f"No tracks found for release {rls_id}.")
+            continue
 
-            logger.debug(f"Setting image for release {release_id}.")
-            cursor.execute(
-                """UPDATE music__releases SET image_path = ? WHERE id = ?""",
-                (image_path, release_id),
-            )
-            cursor.connection.commit()
-            cursor.execute(
-                """DELETE FROM music__releases_to_fetch_images WHERE release_id = ?""",
-                (release_id,),
-            )
-            cursor.connection.commit()
+        tf = TagFile(track["filepath"])
+        image_path = save_image(tf)
+        if not image_path:
+            logger.debug(f"No image found for release {rls_id}.")
+            continue
 
-            generate_thumbnail(image_path)
+        logger.debug(f"Setting image for release {rls_id}.")
+        cursor.execute(
+            """UPDATE music__releases SET image_path = ? WHERE id = ?""",
+            (image_path, rls_id),
+        )
+        cursor.execute(
+            """DELETE FROM music__releases_to_fetch_images WHERE rls_id = ?""",
+            (rls_id,),
+        )
+        cursor.connection.commit()
+
+        generate_thumbnail(image_path)
 
 
 def save_image(tf: TagFile) -> Optional[str]:
@@ -83,7 +79,7 @@ def _save_embedded_image(tf: TagFile) -> Optional[str]:
         logger.debug("No embedded image found for `{tf.path}`.")
         return None
 
-    extension = {"image/jpeg": "jpg", "image/png": "png"}.get(tf.image_mime, None)
+    extension = MIME_TO_EXTS.get(tf.image_mime, None)
 
     if not extension:
         logger.debug("Embedded image with invalid mimetype found for `{tf.path}`.")

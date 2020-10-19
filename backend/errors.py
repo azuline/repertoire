@@ -1,3 +1,6 @@
+from typing import Any
+
+
 class BackendError(Exception):
     pass
 
@@ -23,4 +26,9 @@ class TokenGenerationFailure(LibError):
 
 
 class Duplicate(LibError):
-    pass
+
+    #: The duplicate entity.
+    entity: Any
+
+    def __init__(self, entity: Any = None):
+        self.entity = entity
