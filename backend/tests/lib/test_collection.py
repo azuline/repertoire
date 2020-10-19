@@ -1,5 +1,6 @@
 from sqlite3 import Cursor
 
+from backend.enums import CollectionType
 from backend.lib import collection
 
 
@@ -12,8 +13,13 @@ def test_from_id_failure(db: Cursor):
 
 
 def test_all(db: Cursor, snapshot):
-    artists = collection.all(db)
-    snapshot.assert_match(artists)
+    collections = collection.all(db)
+    snapshot.assert_match(collections)
+
+
+def test_all_filter_type(db: Cursor, snapshot):
+    collections = collection.all(db, type=CollectionType.SYSTEM)
+    snapshot.assert_match(collections)
 
 
 def test_releases(db: Cursor, snapshot):

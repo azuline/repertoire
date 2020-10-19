@@ -185,7 +185,7 @@ def _generate_search_filter(search: str) -> Tuple[str, List[str]]:
 
     words = [w for w in strip_punctuation(search).split(" ") if w]
 
-    filter_sql = repeat(sql, 2 * len(words))
+    filter_sql = repeat(sql, len(words))
     filter_params = chain(*((word, unidecode(word)) for word in words))
 
     return filter_sql, filter_params

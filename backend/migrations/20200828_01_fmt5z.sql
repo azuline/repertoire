@@ -36,8 +36,9 @@ INSERT INTO music__release_types (id, type) VALUES
     (12, "UNKNOWN");
 
 -- Create an Unknown release.
-INSERT INTO music__releases (id, title, release_type) VALUES
-    (1, "Unknown Release", 12);
+INSERT INTO music__releases (id, title, release_type, added_on) VALUES
+    (1, "Unknown Release", 12, "1970-01-01 00:00:00");
+
 
 CREATE TABLE music__artists (
     id INTEGER NOT NULL,

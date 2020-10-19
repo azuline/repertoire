@@ -75,15 +75,16 @@ def from_id(id_: int, cursor: Cursor) -> Optional[T]:
     return from_row(row) if row else None
 
 
-def all(cursor: Cursor) -> List[T]:
+def all(cursor: Cursor, type: CollectionType = None) -> List[T]:
     """
     Get all collections.
 
     :param cursor: A cursor to the database.
+    :param type: Filter by a collection type. Pass ``None`` to fetch all types.
     :return: All collections stored on the backend.
     """
     cursor.execute(
-        """
+        f"""
         SELECT
             cols.*,
             COUNT(colsrls.release_id) AS num_releases,
@@ -91,8 +92,10 @@ def all(cursor: Cursor) -> List[T]:
         FROM music__collections AS cols
         LEFT JOIN music__collections_releases AS colsrls
             ON colsrls.collection_id = cols.id
+        {"WHERE cols.type = ?" if type else ""}
         GROUP BY cols.id
-        """
+        """,
+        ((type.value,) if type else ()),
     )
     return [from_row(row) for row in cursor.fetchall()]
 
