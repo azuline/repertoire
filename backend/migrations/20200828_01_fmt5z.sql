@@ -6,9 +6,9 @@ CREATE TABLE music__releases (
     title VARCHAR NOT NULL,
     release_type INTEGER NOT NULL DEFAULT 1,
     release_year INTEGER NOT NULL DEFAULT 0,
-    release_date DATETIME,
+    release_date DATE,
     image_path VARCHAR,
-    added_on DATETIME DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+    added_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (release_type) REFERENCES music__release_types(id)
 );
@@ -141,7 +141,7 @@ INSERT INTO music__collections (id, name, type) VALUES
 CREATE TABLE music__collections_releases (
     release_id INTEGER NOT NULL,
     collection_id INTEGER NOT NULL,
-    added_on DATETIME DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+    added_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
     PRIMARY KEY (release_id, collection_id),
     FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE,
     FOREIGN KEY (collection_id) REFERENCES music__collections(id) ON DELETE CASCADE
@@ -163,7 +163,7 @@ CREATE TABLE music__releases_to_fetch_images (
 
 CREATE TABLE music__play_history (
 	id INTEGER NOT NULL,
-	time DATETIME DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+	time TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
 	track_id INTEGER NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (track_id) REFERENCES music__tracks(id) ON DELETE SET NULL

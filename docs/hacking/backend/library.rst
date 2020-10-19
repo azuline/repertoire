@@ -1,10 +1,14 @@
+.. _backend_library:
+
 Library
 =======
 
-The ``backend.lib`` package is a library that contains functions and
-dataclasses that cleanly expose the backend functionality.
+The ``backend.lib`` package contains functions and dataclasses that expose a
+clean and functional interface for working with the data from the database.
 
-This library is used internally to implement the REST API and CLI.
+This package is designed functionally--each module corresponds to one data
+model. A dataclass for each data model exists at ``module.T``, and each module
+contains functions that fetch or operate on dataclasses.
 
 User
 ----

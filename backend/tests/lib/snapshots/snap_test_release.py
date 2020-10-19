@@ -19,7 +19,7 @@ snapshots['test_release_collections 1'] = [
     GenericRepr("T(id=15, name='World', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=None, last_updated_on=None)")
 ]
 
-snapshots['test_release_from_id_success 1'] = GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on='2020-10-19 00:25:34', release_year=2014, release_date='2014-07-08', image_path=PosixPath('/home/azul/devel/repertoire/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'))")
+snapshots['test_release_from_id_success 1'] = GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, release_date=datetime.date(2014, 7, 8), image_path=PosixPath('/home/azul/devel/repertoire/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'))")
 
 snapshots['test_release_tracks 1'] = [
     GenericRepr("T(id=1, filepath=PosixPath('/tmp/repertoire-library/Aaron West and the Roaring Twenties/2014. We Don’t Have Each Other/01. Our Apartment.m4a'), sha256=b'u\\xca\\x14C!e\\xa9\\xee\\x87\\xeec\\xdfeN\\xf7\\x7fE\\xd0\\t\\xbb\\xe5}\\xa0a\\nE<H\\xc6\\xb2j\\x1a', title='Our Apartment', release_id=2, duration=213, artists=[{'artist': T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=None), 'role': <ArtistRoles.MAIN: 1>}], track_number='1', disc_number='1')"),

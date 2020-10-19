@@ -13,7 +13,11 @@ punctuation = set(punctuation)
 
 @contextmanager
 def database() -> ContextManager[sqlite3.Connection]:
-    """A simple wrapper for the sqlite3 connection context manager."""
+    """
+    A simple wrapper for the sqlite3 connection context manager.
+
+    :return: A context manager that yields a database connection.
+    """
     with sqlite3.connect(DATABASE_PATH, detect_types=sqlite3.PARSE_DECLTYPES) as conn:
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys = ON")
@@ -21,6 +25,14 @@ def database() -> ContextManager[sqlite3.Connection]:
 
 
 def without_key(mapping: Union[Dict, sqlite3.Row], key: Any) -> Dict:
+    """
+    Return a dict/Row without a certain key. This function does not modify the original
+    dictionary/Row.
+
+    :param mapping: The original dict/row.
+    :param key: The key to remove.
+    :return: The dict without the passed-in key.
+    """
     return {k: mapping[k] for k in mapping.keys() if k != key}
 
 
@@ -49,6 +61,8 @@ def parse_crontab(crontab: str) -> Dict:
     Given a crontab entry from the config, split the values and create a dictionary
     mapping each value to their huey key.
 
+    :param crontab: The string-encoded crontab.
+    :return: A dictionary of crontab keyword arguments that huey accepts.
     :raises ValueError: If there are not the correct number of fields in ``crontab``.
     """
     minute, hour, day, month, day_of_week = crontab.split(" ")
@@ -63,5 +77,10 @@ def parse_crontab(crontab: str) -> Dict:
 
 
 def strip_punctuation(string: str) -> str:
-    """Strip the punctuation from a string."""
+    """
+    Strip the punctuation from a string.
+
+    :param string: The string to strip.
+    :return: The stripped string.
+    """
     return "".join(c for c in unidecode(string) if c not in punctuation)

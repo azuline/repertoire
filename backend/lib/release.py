@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import date, datetime
 from itertools import chain, repeat
 from pathlib import Path
 from sqlite3 import Cursor, Row
@@ -33,7 +33,7 @@ class T:
     #: The year this release was released.
     release_year: int
     #: The date this release was released.
-    release_date: Optional[datetime] = None
+    release_date: Optional[date] = None
     #: The filepath of the album cover.
     image_path: Optional[Path] = None
 
