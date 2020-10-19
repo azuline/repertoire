@@ -4,15 +4,7 @@ Backend
 =======
 
 This section contains the documentation for the backend source code. This page
-goes over the organization of the backend and provides a general overview. The
-next several pages contain the source code documentation:
-
-- :ref:`backend_backend` documents the top-level backend boilerplate code.
-- :ref:`backend_command_line` documents the command line interface
-  implementation.
-- :ref:`backend_indexer` documents the indexer implementation.
-- :ref:`backend_library` documents the internal library API.
-- :ref:`backend_webserver` documents the webserver implementation.
+goes over the organization of the backend and provides a general overview.
 
 The backend is laid out as follows:
 
@@ -40,14 +32,24 @@ The backend is laid out as follows:
 
 The backend can be split into several layers, from lowest to highest:
 
-- The Filesystem (Music Files)
+- The Filesystem (Music Files, Bring Your Own!)
 - The Library Indexer (:ref:`backend_indexer`)
-- The Database (SQLite)
+- The Database (:ref:`backend_database`)
 - The Library Interface (:ref:`backend_library`)
-- Library Interface Consumers:
+- Consumer Interfaces:
 
   - The Command Line (:ref:`backend_command_line`)
-  - The Webserver (:ref:`backend_webserver`)
+  - The Webserver & GraphQL API (:ref:`backend_webserver`)
+
+The next several pages document each major section of the backend codebase.
+
+- :ref:`backend_backend` documents the top-level backend boilerplate code.
+- :ref:`backend_command_line` documents the command line interface
+  implementation.
+- :ref:`backend_database` documents the database schema.
+- :ref:`backend_indexer` documents the indexer implementation.
+- :ref:`backend_library` documents the internal library API.
+- :ref:`backend_webserver` documents the webserver implementation.
 
 .. toctree::
    :maxdepth: 1
@@ -56,6 +58,7 @@ The backend can be split into several layers, from lowest to highest:
 
    backend
    command_line
+   database
    indexer
    library
    webserver
