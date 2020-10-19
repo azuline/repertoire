@@ -40,6 +40,23 @@ def test_create_duplicate(db: Cursor):
         artist.create("aaron west and the roaring twenties", db)
 
 
+def test_update_fields(db: Cursor, snapshot):
+    col = artist.update(
+        artist.from_id(2, db),
+        cursor=db,
+        name="New Name",
+        favorite=True,
+    )
+    snapshot.assert_match(col)
+    assert col == artist.from_id(2, db)
+
+
+def test_update_nothing(db: Cursor):
+    col = artist.from_id(2, db)
+    new_col = artist.update(col, cursor=db)
+    assert col == new_col
+
+
 def test_releases(db: Cursor, snapshot):
     art = artist.from_id(2, db)
     snapshot.assert_match(artist.releases(art, db))

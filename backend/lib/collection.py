@@ -1,15 +1,17 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from datetime import datetime
 from sqlite3 import Cursor, Row
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from backend.enums import CollectionType
-from backend.errors import Duplicate
+from backend.errors import AlreadyExists, CannotUpdate, DoesNotExist, Duplicate
 from backend.util import without_key
 
 from . import release
+
+ILLEGAL_UPDATE_TYPES = {CollectionType.SYSTEM, CollectionType.RATING}
 
 
 @dataclass
@@ -162,19 +164,122 @@ def create(
     )
 
 
-def releases(collection: T, cursor: Cursor) -> List[release.T]:
+def update(col: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
+    """
+    Update a collection and persist changes to the database. To update a value, pass it
+    in as a keyword argument. To keep the original value, do not pass in a keyword
+    argument.
+
+    Collections cannot be updated to/from the ``SYSTEM`` and ``RATING`` types. If this is
+    attempted, ``CannotUpdate`` will be raised.
+
+    :param col: The collection to update.
+    :param cursor: A cursor to the database.
+    :param name: New collection name.
+    :type  name: :py:obj:`str`
+    :param type: New collection type.
+    :type  type: :py:obj:`backend.enums.CollectionType`
+    :param favorite: New collection favorite.
+    :type  favorite: :py:obj:`bool`
+    :return: The updated collection.
+    :raises CannotUpdate: If an illegal update is attempted.
+    """
+    if "type" in changes and (
+        col.type in ILLEGAL_UPDATE_TYPES or changes["type"] in ILLEGAL_UPDATE_TYPES
+    ):
+        raise CannotUpdate
+
+    cursor.execute(
+        """
+        UPDATE music__collections
+        SET name = ?,
+            type = ?,
+            favorite = ?
+        WHERE id = ?
+        """,
+        (
+            changes.get("name", col.name),
+            changes.get("type", col.type).value,
+            changes.get("favorite", col.favorite),
+            col.id,
+        ),
+    )
+    cursor.connection.commit()
+
+    return T(**dict(asdict(col), **changes))
+
+
+def releases(col: T, cursor: Cursor) -> List[release.T]:
     """
     Get the releases in a collection.
 
-    :param collection: The collection whose releases we want to get.
+    :param col: The collection whose releases we want to get.
     :param cursor: A cursor to the database.
     :return: A list of releases in the collection.
     """
-    _, releases = release.search(collections=[collection], cursor=cursor)
+    _, releases = release.search(collections=[col], cursor=cursor)
     return releases
 
 
-def top_genres(collection: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
+def add_release(col: T, rls: release.T, cursor: Cursor) -> None:
+    """
+    Add the provided release to the provided collection.
+
+    :param col: The collection to add the release to.
+    :param rls: The release to add.
+    :param cursor: A cursor to the database.
+    :raises AlreadyExists: If the release is already in the collection.
+    """
+    cursor.execute(
+        """
+        SELECT 1 FROM music__collections_releases
+        WHERE collection_id = ? AND release_id = ?
+        """,
+        (col.id, rls.id),
+    )
+    if cursor.fetchone():
+        raise AlreadyExists
+
+    cursor.execute(
+        """
+        INSERT INTO music__collections_releases (collection_id, release_id)
+        VALUES (?, ?)
+        """,
+        (col.id, rls.id),
+    )
+    cursor.connection.commit()
+
+
+def del_release(col: T, rls: release.T, cursor: Cursor) -> None:
+    """
+    Remove the provided release from the provided collection.
+
+    :param col: The collection to remove the release from.
+    :param rls: The release to remove.
+    :param cursor: A cursor to the database.
+    :raises DoesNotExist: If the release is not in the collection.
+    """
+    cursor.execute(
+        """
+        SELECT 1 FROM music__collections_releases
+        WHERE collection_id = ? AND release_id = ?
+        """,
+        (col.id, rls.id),
+    )
+    if not cursor.fetchone():
+        raise DoesNotExist
+
+    cursor.execute(
+        """
+        DELETE FROM music__collections_releases
+        WHERE collection_id = ? AND release_id = ?
+        """,
+        (col.id, rls.id),
+    )
+    cursor.connection.commit()
+
+
+def top_genres(col: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
     """
     Get the top genre collections of the releases in a collection.
 
@@ -190,7 +295,7 @@ def top_genres(collection: T, cursor: Cursor, *, num_genres: int = 5) -> List[Di
          ...
        ]
 
-    :param collection: The collection whose top genres to fetch.
+    :param col: The collection whose top genres to fetch.
     :param cursor: A cursor to the database.
     :param num_genres: The number of top genres to fetch.
     :return: The top genres.
@@ -210,7 +315,7 @@ def top_genres(collection: T, cursor: Cursor, *, num_genres: int = 5) -> List[Di
         ORDER BY num_matches DESC
         LIMIT ?
         """,
-        (collection.id, CollectionType.GENRE.value, num_genres),
+        (col.id, CollectionType.GENRE.value, num_genres),
     )
 
     return [
@@ -220,11 +325,3 @@ def top_genres(collection: T, cursor: Cursor, *, num_genres: int = 5) -> List[Di
         }
         for row in cursor.fetchall()
     ]
-
-
-def add_release(col: T, rls: release.T, cursor: Cursor) -> None:
-    """
-    TODO:
-
-    If release is already in collection, raise exception!
-    """

@@ -1,9 +1,10 @@
+from datetime import date
 from sqlite3 import Cursor
 
 import pytest
 
 from backend.enums import ReleaseSort, ReleaseType
-from backend.errors import Duplicate
+from backend.errors import AlreadyExists, DoesNotExist, Duplicate
 from backend.lib import artist, release
 
 
@@ -92,7 +93,7 @@ def test_create_same_album_name(db: Cursor):
 
 
 def test_create_duplicate(db: Cursor):
-    with pytest.raises(Duplicate):
+    with pytest.raises(Duplicate) as e:
         release.create(
             title="Departure",
             artists=[artist.from_id(4, db)],
@@ -101,10 +102,63 @@ def test_create_duplicate(db: Cursor):
             cursor=db,
         )
 
+    assert e.id == 3
 
-def test_release_artists(db: Cursor, snapshot):
+
+def test_update_fields(db: Cursor, snapshot):
+    rls = release.update(
+        release.from_id(2, db),
+        cursor=db,
+        title="New Title",
+        release_type=ReleaseType.COMPILATION,
+        release_year=2040,
+        release_date=date(2040, 10, 28),
+    )
+    snapshot.assert_match(rls)
+    assert rls == release.from_id(2, db)
+
+
+def test_update_nothing(db: Cursor):
+    rls = release.from_id(2, db)
+    new_rls = release.update(rls, cursor=db)
+    assert rls == new_rls
+
+
+def test_artists(db: Cursor, snapshot):
     rls = release.from_id(2, db)
     snapshot.assert_match(release.artists(rls, db))
+
+
+def test_add_artist(db: Cursor, snapshot):
+    rls = release.from_id(2, db)
+    art = artist.from_id(3, db)
+
+    release.add_artist(rls, art, db)
+    snapshot.assert_match(release.artists(rls, db))
+
+
+def test_add_artist_failure(db: Cursor):
+    rls = release.from_id(2, db)
+    art = artist.from_id(2, db)
+
+    with pytest.raises(AlreadyExists):
+        release.add_artist(rls, art, db)
+
+
+def test_del_artist(db: Cursor, snapshot):
+    rls = release.from_id(2, db)
+    art = artist.from_id(2, db)
+
+    release.del_artist(rls, art, db)
+    snapshot.assert_match(release.artists(rls, db))
+
+
+def test_del_artist_failure(db: Cursor):
+    rls = release.from_id(2, db)
+    art = artist.from_id(3, db)
+
+    with pytest.raises(DoesNotExist):
+        release.del_artist(rls, art, db)
 
 
 def test_release_collections(db: Cursor, snapshot):

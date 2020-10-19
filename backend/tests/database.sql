@@ -65,16 +65,16 @@ INSERT INTO music__collections VALUES(17,'Electronic',0,4);
 INSERT INTO music__collections VALUES(18,'House',0,4);
 INSERT INTO music__collections VALUES(19,'Ambient',0,4);
 
-INSERT INTO music__collections_releases VALUES(2,1,'2020-10-19 00:25:34');
-INSERT INTO music__collections_releases VALUES(2,12,'2020-10-19 00:25:34');
-INSERT INTO music__collections_releases VALUES(2,13,'2020-10-19 00:25:34');
-INSERT INTO music__collections_releases VALUES(2,14,'2020-10-19 00:25:34');
-INSERT INTO music__collections_releases VALUES(2,15,'2020-10-19 00:25:34');
-INSERT INTO music__collections_releases VALUES(3,1,'2020-10-19 00:25:34');
-INSERT INTO music__collections_releases VALUES(3,16,'2020-10-19 00:25:34');
-INSERT INTO music__collections_releases VALUES(3,17,'2020-10-19 00:25:34');
-INSERT INTO music__collections_releases VALUES(3,18,'2020-10-19 00:25:34');
-INSERT INTO music__collections_releases VALUES(3,19,'2020-10-19 00:25:34');
+INSERT INTO music__collections_releases VALUES(1,2,'2020-10-19 00:25:34');
+INSERT INTO music__collections_releases VALUES(12,2,'2020-10-19 00:25:34');
+INSERT INTO music__collections_releases VALUES(13,2,'2020-10-19 00:25:34');
+INSERT INTO music__collections_releases VALUES(14,2,'2020-10-19 00:25:34');
+INSERT INTO music__collections_releases VALUES(15,2,'2020-10-19 00:25:34');
+INSERT INTO music__collections_releases VALUES(1,3,'2020-10-19 00:25:34');
+INSERT INTO music__collections_releases VALUES(16,3,'2020-10-19 00:25:34');
+INSERT INTO music__collections_releases VALUES(17,3,'2020-10-19 00:25:34');
+INSERT INTO music__collections_releases VALUES(18,3,'2020-10-19 00:25:34');
+INSERT INTO music__collections_releases VALUES(19,3,'2020-10-19 00:25:34');
 
 INSERT INTO music__releases_search_index VALUES(1,1,'Release');
 INSERT INTO music__releases_search_index VALUES(2,1,'Unknown');

@@ -4,7 +4,7 @@ from sqlite3 import Cursor
 import pytest
 
 from backend.enums import ArtistRole
-from backend.errors import Duplicate
+from backend.errors import AlreadyExists, DoesNotExist, Duplicate
 from backend.lib import artist, release, track
 
 
@@ -42,19 +42,23 @@ def test_from_sha256_failure(db: Cursor):
 
 
 def test_create(db: Cursor):
+    artists = [{"artist": artist.from_id(2, db), "role": ArtistRole.MAIN}]
+
     trk = track.create(
         title="new track",
         filepath=Path("/tmp/repertoire-library/09-track.m4a"),
         sha256=b"0" * 32,
         release=release.from_id(2, db),
-        artists=[{"artist": artist.from_id(2, db), "role": ArtistRole.MAIN}],
+        artists=artists,
         duration=9001,
         track_number="1",
         disc_number="2",
         cursor=db,
     )
+
     assert trk.id == 22
     assert trk == track.from_id(22, db)
+    assert artists == track.artists(trk, db)
 
 
 def test_create_same_sha256(db: Cursor):
@@ -92,3 +96,84 @@ def test_create_duplicate_filepath(db: Cursor):
             disc_number="1",
             cursor=db,
         )
+
+
+def test_update_fields(db: Cursor, snapshot):
+    trk = track.update(
+        track.from_id(1, db),
+        cursor=db,
+        title="New Title",
+        release=release.from_id(2, db),
+        track_number="X Æ",
+        disc_number="A-12",
+    )
+    snapshot.assert_match(trk)
+    assert trk == track.from_id(1, db)
+
+
+def test_update_nothing(db: Cursor):
+    trk = track.from_id(1, db)
+    new_trk = track.update(trk, cursor=db)
+    assert trk == new_trk
+
+
+def test_artists(db: Cursor, snapshot):
+    trk = track.from_id(10, db)
+    snapshot.assert_match(track.artists(trk, db))
+
+
+def test_add_artist(db: Cursor, snapshot):
+    trk = track.from_id(10, db)
+    art = artist.from_id(4, db)
+
+    track.add_artist(trk, art, ArtistRole.MAIN, db)
+    artists = track.artists(trk, db)
+
+    assert len(artists) == 3
+    snapshot.assert_match(artists)
+
+
+def test_add_artist_new_role(db: Cursor, snapshot):
+    trk = track.from_id(10, db)
+    art = artist.from_id(2, db)
+
+    track.add_artist(trk, art, ArtistRole.REMIXER, db)
+    artists = track.artists(trk, db)
+
+    assert len(artists) == 3
+    snapshot.assert_match(artists)
+
+
+def test_add_artist_failure(db: Cursor, snapshot):
+    trk = track.from_id(10, db)
+    art = artist.from_id(2, db)
+
+    with pytest.raises(AlreadyExists):
+        track.add_artist(trk, art, ArtistRole.MAIN, db)
+
+
+def test_del_artist(db: Cursor, snapshot):
+    trk = track.from_id(10, db)
+    art = artist.from_id(3, db)
+
+    track.del_artist(trk, art, ArtistRole.COMPOSER, db)
+    artists = track.artists(trk, db)
+
+    assert len(artists) == 1
+    snapshot.assert_match(artists)
+
+
+def test_del_artist_failure(db: Cursor, snapshot):
+    trk = track.from_id(10, db)
+    art = artist.from_id(4, db)
+
+    with pytest.raises(DoesNotExist):
+        track.del_artist(trk, art, ArtistRole.MAIN, db)
+
+
+def test_del_artist_failure_bad_role(db: Cursor, snapshot):
+    trk = track.from_id(10, db)
+    art = artist.from_id(3, db)
+
+    with pytest.raises(DoesNotExist):
+        track.del_artist(trk, art, ArtistRole.MAIN, db)

@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from sqlite3 import Cursor, Row
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from backend.enums import CollectionType
 from backend.errors import Duplicate
@@ -131,27 +131,50 @@ def create(name: str, cursor: Cursor, favorite: bool = False) -> T:
     )
     cursor.connection.commit()
 
-    return T(
-        id=cursor.lastrowid,
-        name=name,
-        favorite=favorite,
-        num_releases=0,
+    return T(id=cursor.lastrowid, name=name, favorite=favorite, num_releases=0)
+
+
+def update(art: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
+    """
+    Update an artist and persist changes to the database. To update a value, pass it
+    in as a keyword argument. To keep the original value, do not pass in a keyword
+    argument.
+
+    :param art: The artist to update.
+    :param cursor: A cursor to the database.
+    :param name: New artist name.
+    :type  name: :py:obj:`str`
+    :param favorite: New artist favorite.
+    :type  favorite: :py:obj:`bool`
+    :return: The updated artist.
+    """
+    cursor.execute(
+        """
+        UPDATE music__artists
+        SET name = ?,
+            favorite = ?
+        WHERE id = ?
+        """,
+        (changes.get("name", art.name), changes.get("favorite", art.favorite), art.id),
     )
+    cursor.connection.commit()
+
+    return T(**dict(asdict(art), **changes))
 
 
-def releases(artist: T, cursor: Cursor) -> List[release.T]:
+def releases(art: T, cursor: Cursor) -> List[release.T]:
     """
     Get the releases of an artist.
 
-    :param collection: The artist whose releases we want to get.
+    :param art: The artist whose releases we want to get.
     :param cursor: A cursor to the database.
     :return: A list of releases of the artist.
     """
-    _, releases = release.search(artists=[artist], cursor=cursor)
+    _, releases = release.search(artists=[art], cursor=cursor)
     return releases
 
 
-def top_genres(artist: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
+def top_genres(art: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
     """
     Get the top genre collections of the releases of an artist.
 
@@ -167,7 +190,7 @@ def top_genres(artist: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
          ...
        ]
 
-    :param artist: The artist whose top genres to fetch.
+    :param art: The artist whose top genres to fetch.
     :param cursor: A cursor to the database.
     :param num_genres: The number of top genres to fetch.
     :return: The top genres.
@@ -187,7 +210,7 @@ def top_genres(artist: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
         ORDER BY num_matches DESC
         LIMIT ?
         """,
-        (artist.id, CollectionType.GENRE.value, num_genres),
+        (art.id, CollectionType.GENRE.value, num_genres),
     )
 
     return [

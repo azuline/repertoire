@@ -91,8 +91,8 @@ The database schema is as follows:
    );
 
    CREATE TABLE music__collections_releases (
-       release_id INTEGER NOT NULL,
        collection_id INTEGER NOT NULL,
+       release_id INTEGER NOT NULL,
        added_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
        PRIMARY KEY (release_id, collection_id),
        FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE,

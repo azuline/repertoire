@@ -25,6 +25,10 @@ class TokenGenerationFailure(LibError):
     pass
 
 
+class CannotUpdate(LibError):
+    pass
+
+
 class Duplicate(LibError):
 
     #: The duplicate entity.
@@ -32,3 +36,11 @@ class Duplicate(LibError):
 
     def __init__(self, entity: Any = None):
         self.entity = entity
+
+
+class AlreadyExists(LibError):
+    pass
+
+
+class DoesNotExist(LibError):
+    pass

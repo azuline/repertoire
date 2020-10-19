@@ -36,3 +36,5 @@ snapshots['test_top_genres 1'] = [
         'num_matches': 1
     }
 ]
+
+snapshots['test_update_fields 1'] = GenericRepr("T(id=2, name='New Name', favorite=True, num_releases=1)")
