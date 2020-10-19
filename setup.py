@@ -21,7 +21,11 @@ setup(
     author_email="azuline@riseup.net",
     license="AGPL-3.0",
     entry_points={"console_scripts": ["repertoire = backend.__main__:run"]},
-    packages=["backend", "backend.cli", "backend.indexer"],
+    packages=[
+        "backend",
+        "backend.cli",
+        "backend.indexer",
+    ],
     package_dir={"": "."},
     package_data={
         "backend": [
@@ -33,7 +37,6 @@ setup(
     },
     install_requires=[
         "click==7.*,>=7.1.0",
-        "dataclasses-json==0.*,>=0.5.2",
         "flask==1.*,>=1.1.0",
         "gevent==20.*,>=20.6.0",
         "huey==2.*,>=2.3.0",
@@ -51,12 +54,12 @@ setup(
             "flake8==3.*,>=3.8.0",
             "flask-cors==3.*,>=3.0.8",
             "isort==5.*,>=5.4.0",
-            "mypy==0.*,>=0.790.0",
             "pytest==6.*,>=6.1.1",
             "pytest-cov==2.*,>=2.10.1",
             "snapshottest==0.*,>=0.6.0",
             "sphinx==3.*,>=3.2.1",
             "sphinx-autodoc-typehints==1.*,>=1.11.1",
+            "sphinx-automodapi==0.*,>=0.13.0",
             "sphinx-rtd-theme==0.*,>=0.5.0",
         ]
     },
