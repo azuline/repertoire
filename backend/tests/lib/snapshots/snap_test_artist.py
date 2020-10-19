@@ -15,7 +15,7 @@ snapshots['test_all 1'] = [
 snapshots['test_from_id_success 1'] = GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)")
 
 snapshots['test_releases 1'] = [
-    GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, release_date=datetime.date(2014, 7, 8), image_path=PosixPath('/home/azul/devel/repertoire/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'))")
+    GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, release_date=datetime.date(2014, 7, 8), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'))")
 ]
 
 snapshots['test_top_genres 1'] = [

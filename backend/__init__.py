@@ -1,4 +1,9 @@
+from gevent import monkey
+
+monkey.patch_all()
+
 import logging
+import sys
 
 from yoyo import get_backend, read_migrations
 
@@ -8,10 +13,16 @@ from backend.constants import CONFIG_PATH, DATABASE_PATH, LOGS_DIR, PROJECT_ROOT
 # Configure logging.
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-handler = logging.FileHandler(str(LOGS_DIR / "backend.log"))
+
 formatter = logging.Formatter("%(asctime)s %(levelname)s:%(name)s - %(message)s")
-handler.setFormatter(formatter)
-logger.addHandler(handler)
+
+log_handler = logging.FileHandler(str(LOGS_DIR / "backend.log"))
+log_handler.setFormatter(formatter)
+logger.addHandler(log_handler)
+
+stream_handler = logging.StreamHandler(sys.stdout)
+stream_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
 
 # Run database migrations.
 db_backend = get_backend(f"sqlite:///{DATABASE_PATH}")

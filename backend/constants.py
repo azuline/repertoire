@@ -13,7 +13,7 @@ PROJECT_ROOT = Path(__file__).parent.parent
 if "pytest" not in sys.modules and "sphinx" not in sys.modules:
     load_dotenv(dotenv_path=PROJECT_ROOT / ".env")
 else:
-    os.environ["DATA_PATH"] = str(PROJECT_ROOT / "backend" / "tests" / "test_data")
+    os.environ["DATA_PATH"] = str(PROJECT_ROOT / "backend" / "tests" / "fake_data")
 
 # Fetch the data path from `.env` and ensure that it exists and is writeable.
 try:

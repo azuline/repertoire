@@ -6,8 +6,14 @@ from yoyo import get_backend, read_migrations
 from backend.constants import PROJECT_ROOT
 from backend.util import database
 
-DATABASE_PATH = Path(__file__).parent / "test_data" / "db.sqlite3"
-TEST_SQL_PATH = Path(__file__).parent / "test_data.sql"
+DATA_PATH = Path(__file__).parent / "fake_data"
+DATABASE_PATH = DATA_PATH / "db.sqlite3"
+TEST_SQL_PATH = Path(__file__).parent / "database.sql"
+
+
+@pytest.fixture
+def data_path():
+    return DATA_PATH
 
 
 @pytest.fixture

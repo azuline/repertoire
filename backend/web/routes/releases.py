@@ -3,7 +3,7 @@ from typing import List
 import flask
 from voluptuous import Coerce, Required, Schema
 
-from backend.enum import ReleaseSort
+from backend.enums import ReleaseSort
 from backend.lib import artist, collection, release
 from backend.util import database
 from backend.web.util import check_auth, validate_data

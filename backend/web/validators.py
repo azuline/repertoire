@@ -5,7 +5,7 @@ from voluptuous import Invalid
 from backend.enums import ReleaseSort
 
 SORT_OPTIONS = {
-    "releaseYear": ReleaseSort.RELEASE_YEAR,
+    "recentlyAdded": ReleaseSort.RECENTLY_ADDED,
     "title": ReleaseSort.TITLE,
     "year": ReleaseSort.YEAR,
     "random": ReleaseSort.RANDOM,

@@ -1,8 +1,8 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 
-INSERT INTO music__releases VALUES(2,'We Don’t Have Each Other',1,2014,'2014-07-08','/home/azul/devel/repertoire/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg','2020-10-19 00:25:34');
-INSERT INTO music__releases VALUES(3,'Departure',1,2016,NULL,'/home/azul/devel/repertoire/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg','2020-10-19 08:29:34');
+INSERT INTO music__releases VALUES(2,'We Don’t Have Each Other',1,2014,'2014-07-08','/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg','2020-10-19 00:25:34');
+INSERT INTO music__releases VALUES(3,'Departure',1,2016,NULL,'/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg','2020-10-19 08:29:34');
 
 INSERT INTO music__artists VALUES(2,'Aaron West and the Roaring Twenties',0);
 INSERT INTO music__artists VALUES(3,'John Darnielle',0);

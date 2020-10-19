@@ -37,7 +37,7 @@ snapshots['test_all_filter_type 1'] = [
 snapshots['test_from_id_success 1'] = GenericRepr("T(id=16, name='Downtempo', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on='2020-10-19 00:25:34')")
 
 snapshots['test_releases 1'] = [
-    GenericRepr("T(id=3, title='Departure', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 8, 29, 34), release_year=2016, release_date=None, image_path=PosixPath('/home/azul/devel/repertoire/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg'))")
+    GenericRepr("T(id=3, title='Departure', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 8, 29, 34), release_year=2016, release_date=None, image_path=PosixPath('/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg'))")
 ]
 
 snapshots['test_top_genres 1'] = [
