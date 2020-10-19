@@ -2,7 +2,7 @@ import sqlite3
 from contextlib import contextmanager
 from functools import wraps
 from string import punctuation
-from typing import Callable, ContextManager, Dict
+from typing import Any, Callable, ContextManager, Dict, Union
 
 from unidecode import unidecode
 
@@ -18,6 +18,10 @@ def database() -> ContextManager[sqlite3.Connection]:
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys = ON")
         yield conn
+
+
+def without_key(mapping: Union[Dict, sqlite3.Row], key: Any) -> Dict:
+    return {k: mapping[k] for k in mapping.keys() if k != key}
 
 
 def cached_property(func: Callable) -> property:

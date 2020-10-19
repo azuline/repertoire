@@ -1,4 +1,4 @@
-from backend.util import cached_property, parse_crontab, strip_punctuation
+from backend.util import cached_property, parse_crontab, strip_punctuation, without_key
 
 
 def test_cached_property():
@@ -6,13 +6,25 @@ def test_cached_property():
 
     class Test:
         @cached_property
-        def attr(self):
+        def a(self):
+            return var
+
+        @cached_property
+        def b(self):
             return var
 
     test = Test()
-    assert test.attr == 1
+    assert test.a == 1
     var = 2
-    assert test.attr == 1
+    assert test.a == 1
+
+    assert test.b == 2
+    var = 3
+    assert test.b == 2
+
+
+def test_without_key():
+    assert {1: 2} == without_key({1: 2, 3: 4}, 3)
 
 
 def test_parse_crontab():

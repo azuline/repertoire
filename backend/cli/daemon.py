@@ -52,7 +52,9 @@ def start(host, port, foreground):
     # If we are running in the foreground, also pipe logs to stdout.
     if foreground:
         stream_handler = logging.StreamHandler(sys.stdout)
-        formatter = logging.Formatter("%(asctime)s %(levelname)s:%(name)s - %(message)s")
+        formatter = logging.Formatter(
+            "%(asctime)s %(levelname)s:%(name)s - %(message)s"
+        )
         stream_handler.setFormatter(formatter)
         logger.addHandler(stream_handler)
         keep_fds.append(stream_handler.stream.fileno())

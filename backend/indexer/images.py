@@ -55,6 +55,11 @@ def save_pending_images():
                 (image_path, release_id),
             )
             cursor.connection.commit()
+            cursor.execute(
+                """DELETE FROM music__releases_to_fetch_images WHERE release_id = ?""",
+                (release_id,),
+            )
+            cursor.connection.commit()
 
             generate_thumbnail(image_path)
 

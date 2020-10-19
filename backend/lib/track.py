@@ -6,6 +6,7 @@ from sqlite3 import Cursor, Row
 from typing import List, Optional
 
 from backend.enums import ArtistRole
+from backend.util import without_key
 
 from . import artist
 
@@ -28,21 +29,20 @@ class T:
     #:
     release_id: int
     #:
-    track_number: str
-    #:
-    disc_number: str
-    #:
     duration: int
     #:
     artists: List[artist.T]
+    #:
+    track_number: str
+    #:
+    disc_number: Optional[str] = None
 
 
 def from_row(row: Row, cursor: Cursor) -> T:
     cursor.execute(
         """
         SELECT
-            arts.id,
-            arts.name,
+            arts.*,
             trksarts.role
         FROM music__tracks_artists AS trksarts
         JOIN music__artists AS arts ON arts.id = trksarts.artist_id
@@ -51,13 +51,15 @@ def from_row(row: Row, cursor: Cursor) -> T:
         (row["id"],),
     )
 
-    artists = []
-    for row in cursor.fetchall():
-        role = row["role"]
-        del row["role"]
-        artists.append({"artist": artist.from_row(row), "role": ArtistRole(role)})
+    artists = [
+        {
+            "artist": artist.from_row(without_key(row, "role")),
+            "role": ArtistRole(row["role"]),
+        }
+        for row in cursor.fetchall()
+    ]
 
-    return T(**row, filepath=Path(row["filepath"]), artists=artists)
+    return T(**dict(row, filepath=Path(row["filepath"]), artists=artists))
 
 
 def from_id(id_: int, cursor: Cursor) -> Optional[T]:
@@ -71,4 +73,4 @@ def from_id(id_: int, cursor: Cursor) -> Optional[T]:
     cursor.execute("""SELECT * FROM music__tracks WHERE id = ?""", (id_,))
 
     row = cursor.fetchone()
-    return from_row(row) if row else None
+    return from_row(row, cursor) if row else None

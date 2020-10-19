@@ -5,8 +5,9 @@ from sqlite3 import Cursor, Row
 from typing import Dict, List, Optional
 
 from backend.enums import CollectionType
+from backend.util import without_key
 
-from . import release
+from . import collection, release
 
 
 @dataclass
@@ -23,7 +24,7 @@ class T:
     #:
     favorite: bool
     #: The number of releases attributed to the artist.
-    num_releases: Optional[int]
+    num_releases: Optional[int] = None
 
 
 def from_row(row: Row) -> T:
@@ -33,7 +34,7 @@ def from_row(row: Row) -> T:
     :param row: A row from the database.
     :return: An artist dataclass.
     """
-    return T(**row)
+    return T(**dict(row, favorite=bool(row["favorite"])))
 
 
 def from_id(id_: int, cursor: Cursor) -> Optional[T]:
@@ -53,6 +54,7 @@ def from_id(id_: int, cursor: Cursor) -> Optional[T]:
         LEFT JOIN music__releases_artists AS artsrls
             ON artsrls.artist_id = arts.id
         WHERE arts.id = ?
+        GROUP BY arts.id
         """,
         (id_,),
     )
@@ -128,16 +130,15 @@ def top_genres(artist: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
         WHERE artsrls.artist_id = ? AND genres.type = ?
         GROUP BY genres.id
         ORDER BY num_matches DESC
-        LIMIT 5
+        LIMIT ?
         """,
         (artist.id, CollectionType.GENRE.value, num_genres),
     )
 
-    top_genres = []
-
-    for row in cursor.fetchall():
-        matches = row["num_matches"]
-        del row["num_matches"]
-        top_genres.append({"genre": from_row(row), "num_matches": matches})
-
-    return top_genres
+    return [
+        {
+            "genre": collection.from_row(without_key(row, "num_matches")),
+            "num_matches": row["num_matches"],
+        }
+        for row in cursor.fetchall()
+    ]
