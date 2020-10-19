@@ -14,7 +14,7 @@ build:
 
 docs:
 	rm -rf docs/_build/html docs/_build/doctrees
-	sphinx-build -M html docs docs/_build
+	poetry run sphinx-build -M html docs docs/_build
 
 setup.py:
 	dephell deps convert --from pyproject.toml --to setup.py

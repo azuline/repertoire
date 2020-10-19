@@ -10,24 +10,6 @@ This package is designed functionally--each module corresponds to one data
 model. A dataclass for each data model exists at ``module.T``, and each module
 contains functions that fetch or operate on dataclasses.
 
-User
-----
-
-.. automodule:: backend.lib.user
-   :members:
-
-Release
--------
-
-.. automodule:: backend.lib.release
-   :members:
-
-Track
------
-
-.. automodule:: backend.lib.track
-   :members:
-
 Artist
 ------
 
@@ -44,4 +26,22 @@ Play History
 ------------
 
 .. automodule:: backend.lib.play_history
+   :members:
+
+Release
+-------
+
+.. automodule:: backend.lib.release
+   :members:
+
+Track
+-----
+
+.. automodule:: backend.lib.track
+   :members:
+
+User
+----
+
+.. automodule:: backend.lib.user
    :members:

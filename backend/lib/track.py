@@ -145,10 +145,10 @@ def create(
         # If a track with the same sha256 exists, update the filepath and return.
         cursor.execute(
             """UPDATE music__tracks SET filepath = ? WHERE id = ?""",
-            (filepath, row["id"]),
+            (str(filepath), row["id"]),
         )
         cursor.connection.commit()
-        return
+        return from_id(row["id"], cursor)
 
     # Track is not a duplicate, so we can insert and return.
     cursor.execute(
@@ -173,14 +173,4 @@ def create(
         )
     cursor.connection.commit()
 
-    return T(
-        id=id,
-        title=title,
-        filepath=filepath,
-        sha256=sha256,
-        release=release,
-        artists=artists,
-        duration=duration,
-        track_number=track_number,
-        disc_number=disc_number,
-    )
+    return from_id(id, cursor)

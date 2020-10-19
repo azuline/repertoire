@@ -1,7 +1,10 @@
 from sqlite3 import Cursor
 
-from backend.enums import ReleaseSort
-from backend.lib import release
+import pytest
+
+from backend.enums import ReleaseSort, ReleaseType
+from backend.errors import Duplicate
+from backend.lib import artist, release
 
 
 def test_release_from_id_success(db: Cursor, snapshot):
@@ -60,6 +63,43 @@ def test_release_search_asc(db: Cursor, snapshot):
     _, asc_true = release.search(sort=ReleaseSort.TITLE, asc=True, cursor=db)
     _, asc_false = release.search(sort=ReleaseSort.TITLE, asc=False, cursor=db)
     assert asc_true == asc_false[::-1]
+
+
+def test_create(db: Cursor):
+    rls = release.create(
+        title="New Release",
+        artists=[artist.from_id(2, db), artist.from_id(4, db)],
+        release_type=ReleaseType.ALBUM,
+        release_year=2020,
+        cursor=db,
+    )
+    assert rls.id == 4
+    assert rls == release.from_id(4, db)
+    assert len(release.artists(rls, db)) == 2
+
+
+def test_create_same_album_name(db: Cursor):
+    rls = release.create(
+        title="Departure",
+        artists=[artist.from_id(2, db), artist.from_id(4, db)],
+        release_type=ReleaseType.ALBUM,
+        release_year=2020,
+        cursor=db,
+    )
+    assert rls.id == 4
+    assert rls == release.from_id(4, db)
+    assert len(release.artists(rls, db)) == 2
+
+
+def test_create_duplicate(db: Cursor):
+    with pytest.raises(Duplicate):
+        release.create(
+            title="Departure",
+            artists=[artist.from_id(4, db)],
+            release_type=ReleaseType.ALBUM,
+            release_year=2020,
+            cursor=db,
+        )
 
 
 def test_release_artists(db: Cursor, snapshot):

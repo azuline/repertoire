@@ -214,7 +214,7 @@ def create(
     :return: The newly created release.
     :raises Duplicate: If a release with the same name and artists already exists.
     """
-    if _find_duplicate_release(title, artists):
+    if _find_duplicate_release(title, artists, cursor):
         raise Duplicate
 
     # Insert the release into the database.
@@ -255,7 +255,7 @@ def _find_duplicate_release(
     """
     # We run a search on the title, limiting it to releases with all the artists, and
     # then see if any have an exact match with the title.
-    matches = search(search=title, artists=artists, cursor=cursor)
+    _, matches = search(search=title, artists=artists, cursor=cursor)
     return any(rls.title == title for rls in matches)
 
 

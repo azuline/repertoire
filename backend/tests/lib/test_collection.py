@@ -1,6 +1,9 @@
 from sqlite3 import Cursor
 
+import pytest
+
 from backend.enums import CollectionType
+from backend.errors import Duplicate
 from backend.lib import collection
 
 
@@ -34,6 +37,19 @@ def test_all(db: Cursor, snapshot):
 def test_all_filter_type(db: Cursor, snapshot):
     collections = collection.all(db, type=CollectionType.SYSTEM)
     snapshot.assert_match(collections)
+
+
+def test_create(db: Cursor):
+    col = collection.create(
+        "new collage", CollectionType.COLLAGE, favorite=True, cursor=db
+    )
+    assert col.id == 20
+    assert col == collection.from_id(20, db)
+
+
+def test_create_duplicate(db: Cursor):
+    with pytest.raises(Duplicate):
+        collection.create("Folk", CollectionType.GENRE, db)
 
 
 def test_releases(db: Cursor, snapshot):
