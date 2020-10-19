@@ -18,7 +18,7 @@ Enums
 .. This is a manual documentation of the ``ArtistRole`` enum we re-export from
    ``tagfiles``. Sphinx does not automatically document it.
 
-.. py:class:: backend.enums.ReleaseType(value)
+.. py:class:: backend.enums.ArtistRole(value)
 
    The possible artist roles.
 
@@ -62,6 +62,10 @@ Tasks
 
 Util
 ----
+
+.. automodsumm:: backend.util
+   :functions-only:
+   :nosignatures:
 
 .. automodule:: backend.util
    :members:

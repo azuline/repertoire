@@ -102,7 +102,7 @@ def test_create_duplicate(db: Cursor):
             cursor=db,
         )
 
-    assert e.id == 3
+    assert e.value.entity.id == 3
 
 
 def test_update_fields(db: Cursor, snapshot):

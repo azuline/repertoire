@@ -38,6 +38,12 @@ class T:
 
 
 def from_row(row: Row) -> T:
+    """
+    Return a track dataclass containing data from a row in the database.
+
+    :param row: A row from the database.
+    :return: A track dataclass.
+    """
     return T(**dict(row, filepath=Path(row["filepath"])))
 
 

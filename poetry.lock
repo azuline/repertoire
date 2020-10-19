@@ -636,6 +636,20 @@ type_comments = ["typed-ast (>=1.4.0)"]
 
 [[package]]
 category = "dev"
+description = "Sphinx extension for auto-generating API documentation for entire modules"
+name = "sphinx-automodapi"
+optional = false
+python-versions = ">=3.6"
+version = "0.13"
+
+[package.dependencies]
+sphinx = ">=1.7"
+
+[package.extras]
+test = ["pytest", "pytest-cov", "cython", "codecov", "coverage (<5.0)"]
+
+[[package]]
+category = "dev"
 description = "Read the Docs theme for Sphinx"
 name = "sphinx-rtd-theme"
 optional = false
@@ -900,7 +914,7 @@ test = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 
 [metadata]
-content-hash = "da88b7d5a6fbe0128fd14bddc9f5005617b7f05a2dc70c848488b6fce863eaf3"
+content-hash = "3fe5e0de881f64628abbcddb823e284b614bef47aeaf090fa77021267040074c"
 lock-version = "1.0"
 python-versions = "^3.8"
 
@@ -1319,6 +1333,10 @@ sphinx = [
 sphinx-autodoc-typehints = [
     {file = "sphinx-autodoc-typehints-1.11.1.tar.gz", hash = "sha256:244ba6d3e2fdb854622f643c7763d6f95b6886eba24bec28e86edf205e4ddb20"},
     {file = "sphinx_autodoc_typehints-1.11.1-py3-none-any.whl", hash = "sha256:da049791d719f4c9813642496ee4764203e317f0697eb75446183fa2a68e3f77"},
+]
+sphinx-automodapi = [
+    {file = "sphinx-automodapi-0.13.tar.gz", hash = "sha256:e1019336df7f7f0bcbf848eff7b84e7bef71691a57d8b5bda9107a2a046a226a"},
+    {file = "sphinx_automodapi-0.13-py3-none-any.whl", hash = "sha256:f9ebc9c10597f3aab1d93e5a8b1829903eee7c64f5bafb0cf71fd40e5c7d95f0"},
 ]
 sphinx-rtd-theme = [
     {file = "sphinx_rtd_theme-0.5.0-py2.py3-none-any.whl", hash = "sha256:373413d0f82425aaa28fb288009bf0d0964711d347763af2f1b65cafcb028c82"},
