@@ -1,7 +1,7 @@
 import json
 from configparser import ConfigParser
 from pathlib import Path
-from typing import List
+from typing import Callable, List
 
 from huey import crontab
 
@@ -15,11 +15,23 @@ DEFAULT_CONFIG = {
 
 
 def _save_config(parser: ConfigParser, config_path: Path) -> None:
+    """
+    This function saves a ConfigParser instance to the provided ``config_path``.
+
+    :param parser: The ConfigParser instance to save.
+    :param config_path: The filepath of the file to save to.
+    """
     with config_path.open("w") as f:
         parser.write(f)
 
 
 def _load_config(config_path: Path) -> ConfigParser:
+    """
+    This function loads a ConfigParser instance from the provided ``config_path``.
+
+    :param config_path: The filepath of the config file to load.
+    :return: The loaded ConfigParser instance.
+    """
     parser = ConfigParser()
     parser.read(config_path)
     return parser
@@ -29,6 +41,9 @@ def write_default_config(config_path: Path) -> None:
     """
     Write the default config if a config file doesn't exist. And if the
     existing config lacks keys, update it with new default values.
+
+    :param config_path: The filepath of the configuration file. Typically
+                        ``CONFIG_PATH``.
     """
     # If config doesn't exist, write it.
     if not config_path.exists():
@@ -57,7 +72,7 @@ def write_default_config(config_path: Path) -> None:
 
 class _Config:
     """
-    The actual config object that gets loaded as a singleton.
+    The "real" config object that gets loaded as a singleton in ``Config``.
     """
 
     def __init__(self):
@@ -83,12 +98,17 @@ class _Config:
 class Config:
     """
     A "proxy singleton" that returns the same config instance when instantiated.
+
+    Other modules should only work with this singleton. This allows for code to fetch the
+    global configuration object when needed.
     """
 
     __config: _Config = None
 
+    #: Music directories to index.
     music_directories: List[str]
-    index_crontab: int
+    #: Crontab to schedule library indexing. Its type is a Huey ``crontab``.
+    index_crontab: Callable
 
     def __new__(cls) -> _Config:
         if cls.__config is None:

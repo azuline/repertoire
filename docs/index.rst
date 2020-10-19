@@ -41,7 +41,7 @@ Advanced Features
    :hidden:
    :caption: Advanced Features
 
-   advanced/rest_api
+   advanced/graphql_api
 
 Hacking
 -------
@@ -51,6 +51,7 @@ Hacking
    :hidden:
    :caption: Hacking
 
+   hacking/design
    hacking/environment
    hacking/backend/index
    hacking/frontend/index

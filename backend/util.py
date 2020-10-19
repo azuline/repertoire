@@ -39,6 +39,9 @@ def without_key(mapping: Union[Dict, sqlite3.Row], key: Any) -> Dict:
 def cached_property(func: Callable) -> property:
     """
     A replacement for `property` that caches the result for future accesses.
+
+    :param func: A function to turn into a property.
+    :return: A property object.
     """
 
     @wraps(func)

@@ -1,5 +1,18 @@
+.. _backend:
+
 Backend
 =======
+
+This section contains the documentation for the backend source code. This page
+goes over the organization of the backend and provides a general overview. The
+next several pages contain the source code documentation:
+
+- :ref:`backend_backend` documents the top-level backend boilerplate code.
+- :ref:`backend_command_line` documents the command line interface
+  implementation.
+- :ref:`backend_indexer` documents the indexer implementation.
+- :ref:`backend_library` documents the internal library API.
+- :ref:`backend_webserver` documents the webserver implementation.
 
 The backend is laid out as follows:
 
@@ -38,10 +51,10 @@ The backend can be split into several layers, from lowest to highest:
 
 .. toctree::
    :maxdepth: 1
-   :hidden:
    :caption: Backend
 
-   library
+   backend
    command_line
-   webserver
    indexer
+   library
+   webserver

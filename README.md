@@ -5,6 +5,8 @@
 
 A release-oriented music server. Work in progress!
 
+Visit [the documentation](https://repertoire.readthedocs.io) to get started!
+
 ![example](_github/example.png)
 
 ## License
