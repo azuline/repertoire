@@ -66,6 +66,7 @@ INSERT INTO music__collections VALUES(16,'Downtempo',0,4);
 INSERT INTO music__collections VALUES(17,'Electronic',0,4);
 INSERT INTO music__collections VALUES(18,'House',0,4);
 INSERT INTO music__collections VALUES(19,'Ambient',0,4);
+INSERT INTO music__collections VALUES(20,'MyLabel',0,3);
 
 INSERT INTO music__collections_releases VALUES(1,2,'2020-10-19 00:25:34');
 INSERT INTO music__collections_releases VALUES(12,2,'2020-10-19 00:25:34');

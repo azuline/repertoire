@@ -43,8 +43,8 @@ def test_create(db: Cursor):
     col = collection.create(
         "new collage", CollectionType.COLLAGE, favorite=True, cursor=db
     )
-    assert col.id == 20
-    assert col == collection.from_id(20, db)
+    assert col.id == 21
+    assert col == collection.from_id(21, db)
 
 
 def test_create_duplicate(db: Cursor):

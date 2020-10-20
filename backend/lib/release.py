@@ -310,15 +310,40 @@ def _find_duplicate_release(
     :param cursor: A cursor to the database.
     :return: The duplicate release, if found.
     """
-    # We run a search on the title, limiting it to releases with all the artists, and
-    # then see if any have an exact match with the title.
-    _, matches = search(search=title, artists=artists, cursor=cursor)
+    # First fetch all releases with the same title.
+    cursor.execute(
+        """
+        SELECT
+            rls.*,
+            COUNT(trks.id) AS num_tracks
+        FROM music__releases AS rls
+            LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
+        WHERE rls.title = ?
+        GROUP BY rls.id
+        """,
+        (title,),
+    )
 
-    for rls in matches:
-        if rls.title == title:
-            return rls
+    # Construct a lowercase set of artists for a future case-insensitive comparison.
+    provided_artists = {art.name.lower() for art in artists}
 
-    return None
+    for row in cursor.fetchall():
+        # For each release with the same title, compare the artists.
+        cursor.execute(
+            """
+            SELECT name
+            FROM music__artists AS arts
+            INNER JOIN music__releases_artists AS relarts
+                ON relarts.artist_id = arts.id
+            WHERE relarts.release_id = ?
+            """,
+            (row["id"],),
+        )
+
+        # Compare the artists of this release with our provided artists.
+        if provided_artists == {row["name"].lower() for row in cursor.fetchall()}:
+            # If they match, return this release, as it is a duplicate.
+            return from_row(row)
 
 
 def update(rls: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
@@ -383,10 +408,18 @@ def artists(rls: T, cursor: Cursor) -> List[artist.T]:
     """
     cursor.execute(
         """
-        SELECT arts.*
-        FROM music__releases_artists AS rlsarts
-        JOIN music__artists AS arts ON arts.id = rlsarts.artist_id
-        WHERE rlsarts.release_id = ?
+        SELECT
+            artists.*,
+            COUNT(rlsarts.release_id) AS num_releases
+        FROM (
+            SELECT arts.*
+            FROM music__releases_artists AS rlsarts
+            JOIN music__artists AS arts ON arts.id = rlsarts.artist_id
+            WHERE rlsarts.release_id = ?
+            GROUP BY arts.id
+        ) AS artists
+        JOIN music__releases_artists AS rlsarts ON rlsarts.artist_id = artists.id
+        GROUP BY artists.id
         """,
         (rls.id,),
     )
@@ -449,11 +482,21 @@ def collections(rls: T, cursor: Cursor) -> List[collection.T]:
     """
     cursor.execute(
         """
-        SELECT cols.*
-        FROM music__collections AS cols
+        SELECT
+            collections.*,
+            COUNT(colsrls.release_id) AS num_releases,
+            MAX(colsrls.added_on) AS last_updated_on
+        FROM (
+            SELECT cols.*
+            FROM music__collections AS cols
+            JOIN music__collections_releases AS colsrls
+                ON colsrls.collection_id = cols.id
+            WHERE colsrls.release_id = ?
+            GROUP BY cols.id
+        ) AS collections
         JOIN music__collections_releases AS colsrls
-            ON colsrls.collection_id = cols.id
-        WHERE colsrls.release_id = ?
+            ON colsrls.collection_id = collections.id
+        GROUP BY collections.id
         """,
         (rls.id,),
     )

@@ -30,7 +30,8 @@ snapshots['test_all 1'] = [
     GenericRepr("T(id=16, name='Downtempo', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on='2020-10-19 00:25:34')"),
     GenericRepr("T(id=17, name='Electronic', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on='2020-10-19 00:25:34')"),
     GenericRepr("T(id=18, name='House', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on='2020-10-19 00:25:34')"),
-    GenericRepr("T(id=19, name='Ambient', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on='2020-10-19 00:25:34')")
+    GenericRepr("T(id=19, name='Ambient', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on='2020-10-19 00:25:34')"),
+    GenericRepr("T(id=20, name='MyLabel', favorite=False, type=<CollectionType.LABEL: 3>, num_releases=0, last_updated_on=None)")
 ]
 
 snapshots['test_all_filter_type 1'] = [

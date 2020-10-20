@@ -8,23 +8,23 @@ from snapshottest import GenericRepr, Snapshot
 snapshots = Snapshot()
 
 snapshots['test_add_artist 1'] = [
-    GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=None)"),
-    GenericRepr("T(id=3, name='John Darnielle', favorite=False, num_releases=None)")
+    GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)"),
+    GenericRepr("T(id=3, name='John Darnielle', favorite=False, num_releases=1)")
 ]
 
 snapshots['test_artists 1'] = [
-    GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=None)")
+    GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)")
 ]
 
 snapshots['test_del_artist 1'] = [
 ]
 
 snapshots['test_release_collections 1'] = [
-    GenericRepr("T(id=1, name='Inbox', favorite=False, type=<CollectionType.SYSTEM: 1>, num_releases=None, last_updated_on=None)"),
-    GenericRepr("T(id=12, name='Folk', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=None, last_updated_on=None)"),
-    GenericRepr("T(id=13, name='Rock', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=None, last_updated_on=None)"),
-    GenericRepr("T(id=14, name='Country', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=None, last_updated_on=None)"),
-    GenericRepr("T(id=15, name='World', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=None, last_updated_on=None)")
+    GenericRepr("T(id=1, name='Inbox', favorite=False, type=<CollectionType.SYSTEM: 1>, num_releases=2, last_updated_on='2020-10-19 00:25:34')"),
+    GenericRepr("T(id=12, name='Folk', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on='2020-10-19 00:25:34')"),
+    GenericRepr("T(id=13, name='Rock', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on='2020-10-19 00:25:34')"),
+    GenericRepr("T(id=14, name='Country', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on='2020-10-19 00:25:34')"),
+    GenericRepr("T(id=15, name='World', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on='2020-10-19 00:25:34')")
 ]
 
 snapshots['test_release_from_id_success 1'] = GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, release_date=datetime.date(2014, 7, 8), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'), num_tracks=10)")

@@ -29,6 +29,16 @@ project root to simplify working with the ``yoyo`` database migration tool.
    verbosity = 0
    database = sqlite:///data/db.sqlite3
 
+The ``Makefile`` contains some phony rules for commonly-used sets of commands.
+
+.. code-block:: sh
+
+   $ make tests    # Run tests & lint check. Generate HTML coverage report.
+   $ make lint     # Lint the backend.
+   $ make docs     # Regenerate the documentation in `docs/_build`.
+   $ make setup.py # Regenerate the `setup.py` file from the `pyproject.toml`.
+   $ make build    # Build the frontend.
+
 Frontend
 --------
 

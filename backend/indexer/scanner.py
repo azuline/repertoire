@@ -4,7 +4,7 @@ import logging
 import re
 from itertools import chain
 from sqlite3 import Cursor
-from typing import List
+from typing import List, Optional
 
 from tagfiles import TagFile
 
@@ -51,9 +51,9 @@ def scan_directory(directory: str) -> None:
 
         for ext in EXTS:
             for filepath in glob.iglob(f"{directory}/**/*{ext}", recursive=True):
-                if _in_database(filepath, cursor):
+                if not _in_database(filepath, cursor):
                     logger.info(f"Discovered new file `{filepath}`.")
-                    catalog_file(TagFile(filepath), cursor)
+                    catalog_file(filepath, cursor)
                 else:
                     logger.debug(f"File `{filepath}` already in database, skipping...")
 
@@ -74,7 +74,7 @@ def _in_database(filepath: str, cursor: Cursor) -> bool:
     return bool(cursor.fetchone())
 
 
-def catalog_file(tf: TagFile, cursor: Cursor) -> None:
+def catalog_file(filepath: str, cursor: Cursor) -> None:
     """
     Given a file, enter its information into the database. If associated database
     objects, e.g. artists and albums, don't exist, they are created with information from
@@ -84,9 +84,11 @@ def catalog_file(tf: TagFile, cursor: Cursor) -> None:
     the existing database row will be updated to the new filepath. No metadata updating
     will happen.
 
-    :param tf: A TagFile representing the music file.
+    :param filepath: The filepath of the music file.
     :param cursor: A cursor to the database.
     """
+    tf = TagFile(filepath)
+
     release = fetch_or_create_release(tf, cursor)
     artists = [
         {"artist": fetch_or_create_artist(art, cursor), "role": role}
@@ -123,9 +125,9 @@ def fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
     """
     if not tf.album:
         logger.debug(f"Fetched `Unknown Release` for track `{tf.path}`.")
-        return release.from_id(1)
+        return release.from_id(1, cursor)
 
-    # Try to create a releas with the given title and album artists. If it raises a
+    # Try to create a release with the given title and album artists. If it raises a
     # duplicate error, return the duplicate entity.
     try:
         rls = release.create(
@@ -202,11 +204,13 @@ def insert_into_inbox_collection(rls: release.T, cursor: Cursor) -> None:
     """
     logger.debug(f"Adding release {rls.id} to the inbox collection.")
     # Inbox has ID 1--this is specified in the database schema.
-    inbox = collection.from_id(1)
-    collection.add_release(inbox, rls)
+    inbox = collection.from_id(1, cursor)
+    collection.add_release(inbox, rls, cursor)
 
 
-def insert_into_label_collection(rls: release.T, label: str, cursor: Cursor) -> None:
+def insert_into_label_collection(
+    rls: release.T, label: Optional[str], cursor: Cursor
+) -> None:
     """
     Insert an release into a label collection. Create the collection if
     it doesn't already exist.
@@ -227,17 +231,22 @@ def insert_into_label_collection(rls: release.T, label: str, cursor: Cursor) -> 
     collection.add_release(col, rls, cursor)
 
 
-def insert_into_genre_collections(rls: release.T, genre: str, cursor: Cursor) -> None:
+def insert_into_genre_collections(
+    rls: release.T, genres: List[str], cursor: Cursor
+) -> None:
     """
-    Split the ``genre`` parameter on the defined genre delimiters. Insert the provided
-    release into the corresponding collection for each split genre. Create any genre
-    collections that don't exist.
+    Split each genre in the ``genres`` parameter on the defined genre delimiters. Insert
+    the provided release into the corresponding collection for each split genre. Create
+    any genre collections that don't exist.
 
     :param rls: The release to add to the genre collections.
-    :param genre: The unsplit genre tag from the track.
+    :param genres: The genre tags from the track.
     :param cursor: A cursor to the database.
     """
-    for genre in chain(*[_split_genres(g) for g in genre]):
+    for genre in chain(*[_split_genres(g) for g in genres]):
+        if not genre:
+            continue
+
         try:
             col = collection.create(genre, CollectionType.GENRE, cursor)
         except Duplicate as e:

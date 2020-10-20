@@ -96,8 +96,7 @@ def from_name_and_type(name: str, type: CollectionType, cursor: Cursor) -> Optio
         FROM music__collections AS cols
         LEFT JOIN music__collections_releases AS colsrls
             ON colsrls.collection_id = cols.id
-        WHERE cols.name = ?
-            AND cols.type = ?
+        WHERE cols.name = ? AND cols.type = ?
         GROUP BY cols.id
         """,
         (name, type.value),

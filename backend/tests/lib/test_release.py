@@ -127,11 +127,25 @@ def test_create_same_album_name(db: Cursor):
     assert len(release.artists(rls, db)) == 2
 
 
+def test_create_same_album_name_artist_subset(db: Cursor):
+    rls = release.create(
+        title="Departure",
+        artists=[artist.from_id(4, db)],
+        release_type=ReleaseType.ALBUM,
+        release_year=2020,
+        cursor=db,
+    )
+
+    assert rls.id == 4
+    assert rls == release.from_id(4, db)
+    assert len(release.artists(rls, db)) == 1
+
+
 def test_create_duplicate(db: Cursor):
     with pytest.raises(Duplicate) as e:
         release.create(
             title="Departure",
-            artists=[artist.from_id(4, db)],
+            artists=[artist.from_id(4, db), artist.from_id(5, db)],
             release_type=ReleaseType.ALBUM,
             release_year=2020,
             cursor=db,
