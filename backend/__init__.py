@@ -14,14 +14,16 @@ from backend.constants import CONFIG_PATH, DATABASE_PATH, LOGS_DIR, PROJECT_ROOT
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-formatter = logging.Formatter("%(asctime)s %(levelname)s:%(name)s - %(message)s")
-
+# Add a logging handler for `backend.log`.
 log_handler = logging.FileHandler(str(LOGS_DIR / "backend.log"))
-log_handler.setFormatter(formatter)
+log_formatter = logging.Formatter("%(asctime)s %(levelname)s:%(name)s - %(message)s")
+log_handler.setFormatter(log_formatter)
 logger.addHandler(log_handler)
 
+# Add a logging handler for stdout.
+stream_formatter = logging.Formatter("%(name)s - %(message)s")
 stream_handler = logging.StreamHandler(sys.stdout)
-stream_handler.setFormatter(formatter)
+stream_handler.setFormatter(stream_formatter)
 logger.addHandler(stream_handler)
 
 # Run database migrations.

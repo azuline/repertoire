@@ -28,7 +28,7 @@ COVER_FILENAMES = [
 ]
 
 
-def save_pending_covers():
+def save_pending_covers() -> None:
     """
     For the releases with pending covers-to-save, look at their first track for a cover
     art to save. If a cover art is found, save it to the ``COVER_ART_DIR``, generate a

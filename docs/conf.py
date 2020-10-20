@@ -22,7 +22,6 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx_rtd_theme",
     "sphinx_autodoc_typehints",
-    "sphinx_automodapi.automodapi",
     "autodocsumm",
 ]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]

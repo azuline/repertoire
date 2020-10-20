@@ -29,6 +29,14 @@ Scan music directories
    :private-members:
    :autosummary:
 
+Build search index
+------------------
+
+.. automodule:: backend.indexer.search
+   :members:
+   :private-members:
+   :autosummary:
+
 Extract album art
 -----------------
 

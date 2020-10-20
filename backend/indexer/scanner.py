@@ -103,6 +103,7 @@ def catalog_file(tf: TagFile, cursor: Cursor) -> None:
         duration=int(tf.mut.info.length),
         track_number=tf.track_number or "1",
         disc_number=tf.disc_number or "1",
+        cursor=cursor,
     )
 
 
@@ -133,6 +134,7 @@ def fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
             release_type=_get_release_type(tf),
             release_year=tf.date.year or 0,
             release_date=tf.date.date or None,
+            cursor=cursor,
         )
     except Duplicate as e:
         logger.debug(f"Return existing release {e.entity.id} for track `{tf.path}`.")
