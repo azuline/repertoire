@@ -35,7 +35,7 @@ def check_auth(func):
         with database() as conn:
             cursor = conn.cursor()
             cursor.execute(
-                """SELECT username FROM system__users WHERE token = ?""",
+                "SELECT username FROM system__users WHERE token = ?",
                 (token,),
             )
             row = cursor.fetchone()

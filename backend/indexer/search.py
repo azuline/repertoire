@@ -19,7 +19,7 @@ def build_search_index():
         click.echo("Rebuilding search index...")
 
         cursor = conn.cursor()
-        cursor.execute("""DELETE FROM music__releases_search_index""")
+        cursor.execute("DELETE FROM music__releases_search_index")
 
         cursor.execute(
             """

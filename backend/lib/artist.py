@@ -126,8 +126,7 @@ def create(name: str, cursor: Cursor, favorite: bool = False) -> T:
         raise Duplicate(art)
 
     cursor.execute(
-        """INSERT INTO music__artists (name, favorite) VALUES (?, ?)""",
-        (name, favorite),
+        "INSERT INTO music__artists (name, favorite) VALUES (?, ?)", (name, favorite)
     )
     cursor.connection.commit()
 

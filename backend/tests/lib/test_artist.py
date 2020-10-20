@@ -31,8 +31,8 @@ def test_all(db: Cursor, snapshot):
 
 def test_create(db: Cursor):
     art = artist.create("new artist", favorite=True, cursor=db)
-    assert art.id == 5
-    assert art == artist.from_id(5, db)
+    assert art.id == 6
+    assert art == artist.from_id(6, db)
 
 
 def test_create_duplicate(db: Cursor):

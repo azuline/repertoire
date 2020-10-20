@@ -26,14 +26,14 @@ def save_pending_images():
 
     with database() as conn:
         cursor = conn.cursor()
-        cursor.execute("""SELECT rls_id FROM music__releases_to_fetch_images""")
+        cursor.execute("SELECT release_id FROM music__releases_to_fetch_images")
         rls_ids = [row[0] for row in cursor.fetchall()]
 
     for rls_id in rls_ids:
         logger.debug(f"Searching for cover art in release {rls_id}.")
 
         cursor.execute(
-            "SELECT filepath FROM music__tracks WHERE rls_id = ? LIMIT 1", (rls_id,)
+            "SELECT filepath FROM music__tracks WHERE release_id = ? LIMIT 1", (rls_id,)
         )
         track = cursor.fetchone()
         if not track or not os.path.isfile(track["filepath"]):
@@ -48,11 +48,11 @@ def save_pending_images():
 
         logger.debug(f"Setting image for release {rls_id}.")
         cursor.execute(
-            """UPDATE music__releases SET image_path = ? WHERE id = ?""",
+            "UPDATE music__releases SET image_path = ? WHERE id = ?",
             (image_path, rls_id),
         )
         cursor.execute(
-            """DELETE FROM music__releases_to_fetch_images WHERE rls_id = ?""",
+            "DELETE FROM music__releases_to_fetch_images WHERE release_id = ?",
             (rls_id,),
         )
         cursor.connection.commit()

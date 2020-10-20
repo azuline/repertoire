@@ -6,7 +6,6 @@ from itertools import chain
 from sqlite3 import Cursor
 from typing import List
 
-import click
 from tagfiles import TagFile
 
 from backend.config import Config
@@ -29,37 +28,22 @@ GENRE_DELIMITER_REGEX = re.compile(r"\\\\|\/|,|;")
 
 def index_directories() -> None:
     """Index the music files in the configured music directories."""
-    config = Config()
-    tracks_indexed = 0
-
-    for dir_ in config.music_directories:
-        for _ in catalog_directory(dir_):
-            tracks_indexed += 1
-            yield tracks_indexed
+    for dir_ in Config().music_directories:
+        catalog_directory(dir_)
 
 
 def catalog_directory(directory: str) -> None:
     """
     Recurisvely catalog the music in a given directory.
     """
-    logger.info(f"Beginning catalog of `{directory}`.")
+    logger.info(f"Cataloging `{directory}`.")
 
     with database() as conn:
         cursor = conn.cursor()
 
-        logger.info("Searching for music files...")
-        files = chain(
-            *[glob.glob(f"{directory}/**/*{ext}", recursive=True) for ext in EXTS]
-        )
-
-        logger.info(f"Found {len(files)} tracks to catalog.")
-        click.echo(f"Found {len(files)} tracks to catalog.")
-
-        for i, filepath in enumerate(files):
-            catalog_file(TagFile(filepath), cursor)
-            yield i
-
-        click.echo("Finished cataloguing tracks.")
+        for ext in EXTS:
+            for filepath in glob.iglob(f"{directory}/**/*{ext}", recursive=True):
+                catalog_file(TagFile(filepath), cursor)
 
         fix_release_types(cursor)
 
@@ -77,18 +61,16 @@ def catalog_file(tf: TagFile, cursor: Cursor) -> None:
         logger.debug(f"File `{tf.path}` already in database, skipping...")
         return
 
-    artists = [
-        {"artist": fetch_or_create_artist(art, cursor), "role": role}
-        for role, artists in tf.artist.items()
-        for art in artists
-    ]
-
     track.create(
         title=f"{tf.title} ({tf.version})" if tf.version else tf.title,
         filepath=tf.path,
         sha256=calculate_sha_256(tf.path),
         release=fetch_or_create_release(tf, cursor),
-        artists=artists,
+        artists=[
+            {"artist": fetch_or_create_artist(art, cursor), "role": role}
+            for role, artists in tf.artist.items()
+            for art in artists
+        ],
         duration=int(tf.mut.info.length),
         track_number=tf.track_number or "1",
         disc_number=tf.disc_number or "1",
@@ -101,7 +83,7 @@ def fetch_or_create_release(tf: TagFile, cursor: Cursor) -> int:
 
     if not tf.album:
         logger.debug(f"Fetched `Unknown Release` for track `{tf.path}`.")
-        return 1  # Unknown release.
+        return release.from_id(1)
 
     # Try to create a releas with the given title and album artists. If it raises a
     # duplicate error, return the duplicate entity.
@@ -114,7 +96,10 @@ def fetch_or_create_release(tf: TagFile, cursor: Cursor) -> int:
             release_date=tf.date.date or None,
         )
     except Duplicate as e:
+        logger.debug(f"Return existing release {e.entity.id} for track `{tf.path}`.")
         return e.entity
+
+    logger.debug(f"Created new release {rls.id} for track `{tf.path}`.")
 
     # Flag the release to have its cover art extracted and stored.
     cursor.execute(
@@ -211,7 +196,7 @@ def fix_release_types(cursor: Cursor) -> None:
     """
     logger.info("Fixing release types...")
 
-    _, releases = release.search(release_types=[ReleaseType.UNKNOWN])
+    _, releases = release.search(cursor, release_types=[ReleaseType.UNKNOWN])
 
     for rls in releases:
         if rls.num_tracks < 3:
@@ -222,4 +207,4 @@ def fix_release_types(cursor: Cursor) -> None:
             type_ = ReleaseType.ALBUM
 
         logger.info(f"Setting release type of release {rls.id} to {type_.name}.")
-        release.update(rls, release_type=type_)
+        release.update(rls, cursor, release_type=type_)

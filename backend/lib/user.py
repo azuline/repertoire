@@ -61,7 +61,7 @@ def from_username(username: str, cursor: Cursor) -> Optional[T]:
     :return: The user, if they exist.
     """
     cursor.execute(
-        """SELECT id, username FROM system__users WHERE username = ?""",
+        "SELECT id, username FROM system__users WHERE username = ?",
         (username,),
     )
 
@@ -85,7 +85,7 @@ def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
     token_prefix = token[:PREFIX_LENGTH]
 
     cursor.execute(
-        """SELECT id, username FROM system__users WHERE token_prefix = ?""",
+        "SELECT id, username FROM system__users WHERE token_prefix = ?",
         (token_prefix,),
     )
 
@@ -175,7 +175,7 @@ def new_token(user: T, cursor: Cursor) -> bytes:
     token_hash = generate_password_hash(token)
 
     cursor.execute(
-        """UPDATE system__users SET token_prefix = ?, token_hash = ? WHERE id = ?""",
+        "UPDATE system__users SET token_prefix = ?, token_hash = ? WHERE id = ?",
         (token_prefix, token_hash, user.id),
     )
     cursor.connection.commit()

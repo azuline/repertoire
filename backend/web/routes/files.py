@@ -16,9 +16,7 @@ def get_track(track_id):
     """Accepts a track ID and returns the track file."""
     with database() as conn:
         cursor = conn.cursor()
-        cursor.execute(
-            """SELECT filepath FROM music__tracks WHERE id = ?""", (track_id,)
-        )
+        cursor.execute("SELECT filepath FROM music__tracks WHERE id = ?", (track_id,))
 
         row = cursor.fetchone()
         if not row:
@@ -38,7 +36,7 @@ def get_cover(release_id, thumbnail=False):
     with database() as conn:
         cursor = conn.cursor()
         cursor.execute(
-            """SELECT image_path FROM music__releases WHERE id = ?""", (release_id,)
+            "SELECT image_path FROM music__releases WHERE id = ?", (release_id,)
         )
 
         row = cursor.fetchone()

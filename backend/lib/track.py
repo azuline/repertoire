@@ -128,7 +128,7 @@ def create(
     if row := cursor.fetchone():
         # If a track with the same sha256 exists, update the filepath and return.
         cursor.execute(
-            """UPDATE music__tracks SET filepath = ? WHERE id = ?""",
+            "UPDATE music__tracks SET filepath = ? WHERE id = ?",
             (str(filepath), row["id"]),
         )
         cursor.connection.commit()

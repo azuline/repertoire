@@ -150,7 +150,7 @@ def create(
         raise Duplicate(col)
 
     cursor.execute(
-        """INSERT INTO music__collections (name, type, favorite) VALUES (?, ?, ?)""",
+        "INSERT INTO music__collections (name, type, favorite) VALUES (?, ?, ?)",
         (name, type.value, favorite),
     )
     cursor.connection.commit()

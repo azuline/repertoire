@@ -88,6 +88,7 @@ def search(
     search: str = "",
     collections: List[collection.T] = [],
     artists: List[artist.T] = [],
+    release_types: List[ReleaseType] = [],
     page: int = 1,
     per_page: Optional[int] = None,
     sort: ReleaseSort = ReleaseSort.RECENTLY_ADDED,
@@ -103,6 +104,8 @@ def search(
                         in this list.
     :param artists: A list of artists. We match releases by the artists in this list. For
                     a release to match, all artists in this list must be included.
+    :param release_types: A list of release types. Filter out releases that do not match
+                          one of the release types in this list.
     :param page: Which page of releases to return.
     :param per_page: The number of releases per-page. Pass ``None`` to return all
                      releases (this will ignore ``page``).
@@ -119,6 +122,7 @@ def search(
     for sql, params in [
         _generate_collection_filter(collections),
         _generate_artist_filter(artists),
+        _generate_release_types_filter(release_types),
         _generate_search_filter(search),
     ]:
         filter_sql.extend(sql)
@@ -129,7 +133,7 @@ def search(
         f"""
         SELECT COUNT(1)
         FROM music__releases AS rls
-        {"WHERE" + " AND ".join(filter_sql) if filter_sql else ""}
+        {"WHERE " + " AND ".join(filter_sql) if filter_sql else ""}
         """,
         filter_params,
     )
@@ -142,9 +146,13 @@ def search(
     # Fetch the releases on the current page.
     cursor.execute(
         f"""
-        SELECT rls.*
+        SELECT
+            rls.*,
+            COUNT(trks.id) AS num_tracks
         FROM music__releases AS rls
-        {"WHERE" + " AND ".join(filter_sql) if filter_sql else ""}
+            LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
+        {"WHERE " + " AND ".join(filter_sql) if filter_sql else ""}
+        GROUP BY rls.id
         ORDER BY {sort.value} {"ASC" if asc else "DESC"}
         {"LIMIT ? OFFSET ?" if per_page else ""}
         """,
@@ -156,8 +164,13 @@ def search(
 
 def _generate_collection_filter(
     collections: List[collection.T],
-) -> Tuple[str, List[int]]:
-    """Generate the SQL and params for filtering on collections."""
+) -> Tuple[List[str], List[int]]:
+    """
+    Generate the SQL and params for filtering on collections.
+
+    :param collections: The collections to filter on.
+    :return: The filter SQL and query parameters.
+    """
     sql = """
           EXISTS (
               SELECT 1 FROM music__collections_releases
@@ -173,8 +186,13 @@ def _generate_collection_filter(
 
 def _generate_artist_filter(
     artists: List[artist.T],
-) -> Tuple[str, List[int]]:
-    """Generate the SQL and params for filtering on artists."""
+) -> Tuple[List[str], List[int]]:
+    """
+    Generate the SQL and params for filtering on artists.
+
+    :param artists: The artists to filter on.
+    :return: The filter SQL and query parameters.
+    """
     sql = """
           EXISTS (
               SELECT 1 FROM music__releases_artists
@@ -188,8 +206,31 @@ def _generate_artist_filter(
     return filter_sql, filter_params
 
 
-def _generate_search_filter(search: str) -> Tuple[str, List[str]]:
-    """Generate the SQL and params for filtering on the search words."""
+def _generate_release_types_filter(
+    release_types: List[ReleaseType],
+) -> Tuple[List[str], List[int]]:
+    """
+    Generate the SQL and params for filtering on the release types.
+
+    :param release_types: The release types to filter on.
+    :return: The filter SQL and query parameters.
+    """
+    if not release_types:
+        return [], []
+
+    filter_sql = [f"rls.release_type IN ({', '.join('?' * len(release_types))})"]
+    filter_params = [rtype.value for rtype in release_types]
+
+    return filter_sql, filter_params
+
+
+def _generate_search_filter(search: str) -> Tuple[List[str], List[str]]:
+    """
+    Generate the SQL and params for filtering on the search words.
+
+    :param search: The search words to filter on.
+    :return: The filter SQL and query parameters.
+    """
     sql = """
           EXISTS (
               SELECT 1 FROM music__releases_search_index

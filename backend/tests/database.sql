@@ -2,14 +2,16 @@ PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 
 INSERT INTO music__releases VALUES(2,'We Don’t Have Each Other',1,2014,'2014-07-08','/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg','2020-10-19 00:25:34');
-INSERT INTO music__releases VALUES(3,'Departure',1,2016,NULL,'/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg','2020-10-19 08:29:34');
+INSERT INTO music__releases VALUES(3,'Departure',3,2016,NULL,'/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg','2020-10-19 08:29:34');
 
 INSERT INTO music__artists VALUES(2,'Aaron West and the Roaring Twenties',0);
 INSERT INTO music__artists VALUES(3,'John Darnielle',0);
 INSERT INTO music__artists VALUES(4,'Abakus',0);
+INSERT INTO music__artists VALUES(5,'Bacchus',1);
 
 INSERT INTO music__releases_artists VALUES(2,2);
 INSERT INTO music__releases_artists VALUES(3,4);
+INSERT INTO music__releases_artists VALUES(3,5);
 
 INSERT INTO music__tracks VALUES(1,'/tmp/repertoire-library/Aaron West and the Roaring Twenties/2014. We Don’t Have Each Other/01. Our Apartment.m4a',X'75ca14432165a9ee87ee63df654ef77f45d009bbe57da0610a453c48c6b26a1a','Our Apartment',2,'1','1',213);
 INSERT INTO music__tracks VALUES(2,'/tmp/repertoire-library/Aaron West and the Roaring Twenties/2014. We Don’t Have Each Other/02. Grapefruit.m4a',X'b85ef274639c131eb639e9843b51c0e028a870e36fb4e1d861e438d6821fae76','Grapefruit',2,'2','1',252);
