@@ -1,11 +1,12 @@
 # flake8: noqa
 
-from .images import save_pending_images
-from .indexer import index_directories
+from .covers import save_pending_covers
+from .scanner import scan_directories
 from .search import build_search_index
 
 
-def run_indexer():
-    index_directories()
+def run_indexer() -> None:
+    """Run the three stages of the indexer."""
+    scan_directories()
     build_search_index()
-    save_pending_images()
+    save_pending_covers()

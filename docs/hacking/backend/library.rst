@@ -13,59 +13,41 @@ contains functions that fetch or operate on dataclasses.
 Artist
 ------
 
-.. automodsumm:: backend.lib.artist
-   :functions-only:
-   :nosignatures:
-
 .. automodule:: backend.lib.artist
    :members:
+   :autosummary:
 
 Collection
 ----------
 
-.. automodsumm:: backend.lib.collection
-   :functions-only:
-   :nosignatures:
-
 .. automodule:: backend.lib.collection
    :members:
+   :autosummary:
 
 Play History
 ------------
 
-.. automodsumm:: backend.lib.play_history
-   :functions-only:
-   :nosignatures:
-
 .. automodule:: backend.lib.play_history
    :members:
+   :autosummary:
 
 Release
 -------
 
-.. automodsumm:: backend.lib.release
-   :functions-only:
-   :nosignatures:
-
 .. automodule:: backend.lib.release
    :members:
+   :autosummary:
 
 Track
 -----
 
-.. automodsumm:: backend.lib.track
-   :functions-only:
-   :nosignatures:
-
 .. automodule:: backend.lib.track
    :members:
+   :autosummary:
 
 User
 ----
 
-.. automodsumm:: backend.lib.user
-   :functions-only:
-   :nosignatures:
-
 .. automodule:: backend.lib.user
    :members:
+   :autosummary:

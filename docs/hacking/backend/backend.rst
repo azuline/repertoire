@@ -63,9 +63,6 @@ Tasks
 Util
 ----
 
-.. automodsumm:: backend.util
-   :functions-only:
-   :nosignatures:
-
 .. automodule:: backend.util
    :members:
+   :autosummary:

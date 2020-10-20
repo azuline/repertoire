@@ -1,2 +1,2 @@
 sphinx-autodoc-typehints
-sphinx-automodapi
+autodocsumm==0.1.13
