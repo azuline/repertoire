@@ -3,7 +3,7 @@ from sqlite3 import Cursor
 import pytest
 
 from backend.errors import Duplicate
-from backend.lib import artist
+from backend.library import artist
 
 
 def test_from_id_success(db: Cursor, snapshot):

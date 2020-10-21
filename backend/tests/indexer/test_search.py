@@ -1,6 +1,6 @@
 from backend.enums import ArtistRole, ReleaseType
 from backend.indexer.search import _words_from_string, build_search_index
-from backend.lib import artist, release, track
+from backend.library import artist, release, track
 
 
 def test_search_index(db):

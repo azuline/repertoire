@@ -9,7 +9,7 @@ import json
 import flask
 from voluptuous import Invalid
 
-from backend.lib import user
+from backend.library import user
 
 
 def check_auth(abort_if_unauthorized=True):

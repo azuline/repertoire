@@ -4,7 +4,7 @@ import pytest
 from werkzeug.security import check_password_hash
 
 from backend.errors import InvalidUsername
-from backend.lib import user
+from backend.library import user
 
 
 def test_from_id_success(db: Cursor, snapshot):

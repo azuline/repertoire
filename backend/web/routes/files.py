@@ -4,7 +4,7 @@ import flask
 from flask import Blueprint, Response
 from voluptuous import Schema
 
-from backend.lib import release, track
+from backend.library import release, track
 from backend.web.util import check_auth, validate_data
 from backend.web.validators import StringBool
 

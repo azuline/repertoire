@@ -15,7 +15,7 @@ from ariadne import (
 
 from backend.graphql.query import query
 from backend.graphql.scalars import posix_time_scalar
-from backend.graphql.user import user_resolver
+from backend.graphql.types.user import user_resolver
 
 SCHEMA_PATH = Path(__file__).parent / "schema.graphql"
 

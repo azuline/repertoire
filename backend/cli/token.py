@@ -1,7 +1,7 @@
 import click
 
 from backend.cli.commands import commands, shared_options
-from backend.lib import user
+from backend.library import user
 from backend.util import database
 
 

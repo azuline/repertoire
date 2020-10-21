@@ -18,7 +18,7 @@ from backend.indexer.scanner import (
     scan_directories,
     scan_directory,
 )
-from backend.lib import artist, collection, release, track
+from backend.library import artist, collection, release, track
 from backend.tests.conftest import FAKE_DATA
 
 FAKE_MUSIC = FAKE_DATA / "fake_music"

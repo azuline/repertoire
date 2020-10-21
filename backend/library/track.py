@@ -171,7 +171,7 @@ def update(trk: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
     :param title: New track title.
     :type  title: :py:obj:`str`
     :param release: New release.
-    :type  release: :py:obj:`backend.lib.release.T`
+    :type  release: :py:obj:`backend.library.release.T`
     :param track_number: New track number.
     :type  track_number: :py:obj:`str`
     :param disc_number: New disc number.

@@ -6,7 +6,7 @@ from PIL import Image
 
 from backend.enums import ReleaseType
 from backend.indexer.covers import generate_thumbnail, save_pending_covers
-from backend.lib import release, track
+from backend.library import release, track
 from backend.tests.conftest import FAKE_DATA
 
 NEW_ALBUM = FAKE_DATA / "fake_music" / "New Album"

@@ -5,7 +5,7 @@ import pytest
 
 from backend.enums import ReleaseSort, ReleaseType
 from backend.errors import AlreadyExists, DoesNotExist, Duplicate
-from backend.lib import artist, collection, release
+from backend.library import artist, collection, release
 
 
 def test_release_from_id_success(db: Cursor, snapshot):

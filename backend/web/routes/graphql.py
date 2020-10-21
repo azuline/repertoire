@@ -7,7 +7,7 @@ from ariadne.constants import PLAYGROUND_HTML
 from flask import Blueprint, Request, Response
 
 from backend.graphql import schema
-from backend.lib import user
+from backend.library import user
 from backend.web.util import check_auth
 
 bp = Blueprint("graphql", __name__, url_prefix="/graphql")

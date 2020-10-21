@@ -11,7 +11,7 @@ from tagfiles import TagFile
 from backend.config import Config
 from backend.enums import CollectionType, ReleaseType
 from backend.errors import Duplicate
-from backend.lib import artist, collection, release, track
+from backend.library import artist, collection, release, track
 from backend.util import calculate_sha_256, database
 
 logger = logging.getLogger()

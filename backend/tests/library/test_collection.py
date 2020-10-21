@@ -4,7 +4,7 @@ import pytest
 
 from backend.enums import CollectionType
 from backend.errors import AlreadyExists, CannotUpdate, DoesNotExist, Duplicate
-from backend.lib import collection, release
+from backend.library import collection, release
 
 
 def test_from_id_success(db: Cursor, snapshot):

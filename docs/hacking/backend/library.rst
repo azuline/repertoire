@@ -3,7 +3,7 @@
 Library
 =======
 
-The ``backend.lib`` package contains functions and dataclasses that expose a
+The ``backend.library`` package contains functions and dataclasses that expose a
 clean and functional interface for working with the data from the database.
 
 This package is designed functionally--each module corresponds to one data
@@ -13,41 +13,41 @@ contains functions that fetch or operate on dataclasses.
 Artist
 ------
 
-.. automodule:: backend.lib.artist
+.. automodule:: backend.library.artist
    :members:
    :autosummary:
 
 Collection
 ----------
 
-.. automodule:: backend.lib.collection
+.. automodule:: backend.library.collection
    :members:
    :autosummary:
 
 Play History
 ------------
 
-.. automodule:: backend.lib.play_history
+.. automodule:: backend.library.play_history
    :members:
    :autosummary:
 
 Release
 -------
 
-.. automodule:: backend.lib.release
+.. automodule:: backend.library.release
    :members:
    :autosummary:
 
 Track
 -----
 
-.. automodule:: backend.lib.track
+.. automodule:: backend.library.track
    :members:
    :autosummary:
 
 User
 ----
 
-.. automodule:: backend.lib.user
+.. automodule:: backend.library.user
    :members:
    :autosummary:

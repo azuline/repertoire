@@ -5,7 +5,7 @@ import pytest
 
 from backend.enums import ArtistRole
 from backend.errors import AlreadyExists, DoesNotExist, Duplicate
-from backend.lib import artist, release, track
+from backend.library import artist, release, track
 
 
 def test_from_id_success(db: Cursor, snapshot):
