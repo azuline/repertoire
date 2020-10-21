@@ -1,6 +1,5 @@
 from dataclasses import asdict
 from datetime import date
-from pathlib import Path
 from unittest.mock import Mock, call, patch
 
 import pytest
@@ -20,8 +19,9 @@ from backend.indexer.scanner import (
     scan_directory,
 )
 from backend.lib import artist, collection, release, track
+from backend.tests.conftest import FAKE_DATA
 
-FAKE_MUSIC = Path(__file__).parent.parent / "fake_data" / "fake_music"
+FAKE_MUSIC = FAKE_DATA / "fake_music"
 NEW_ALBUM = FAKE_MUSIC / "New Album"
 
 

@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 
 import pytest
@@ -6,9 +7,21 @@ from yoyo import get_backend, read_migrations
 from backend.constants import PROJECT_ROOT
 from backend.util import database
 
-DATA_PATH = Path(__file__).parent / "fake_data"
-DATABASE_PATH = DATA_PATH / "db.sqlite3"
+FAKE_DATA = Path(__file__).parent / "fake_data"
+DATABASE_PATH = FAKE_DATA / "db.sqlite3"
 TEST_SQL_PATH = Path(__file__).parent / "database.sql"
+
+COVER_ART = FAKE_DATA / "cover_art"
+LOGS = FAKE_DATA / "logs"
+
+
+@pytest.fixture(autouse=True)
+def clear_fake_data_logs_and_covers():
+    shutil.rmtree(COVER_ART, ignore_errors=True)
+    shutil.rmtree(LOGS, ignore_errors=True)
+
+    COVER_ART.mkdir()
+    LOGS.mkdir()
 
 
 @pytest.fixture

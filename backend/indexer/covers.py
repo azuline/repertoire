@@ -52,7 +52,7 @@ def save_pending_covers() -> None:
 
             generate_thumbnail(image_path)
 
-            _update_image_path(rls_id, image_path)
+            _update_image_path(rls_id, image_path, cursor)
             _delete_release_from_pending(rls_id, cursor)
 
 
@@ -78,9 +78,8 @@ def _get_track_path_of_release(rls_id: int, cursor: Cursor) -> Optional[str]:
     cursor.execute(
         "SELECT filepath FROM music__tracks WHERE release_id = ? LIMIT 1", (rls_id,)
     )
-    track = cursor.fetchone()
-
-    return track[0] if os.path.isfile(track[0]) else None
+    if (track := cursor.fetchone()) and os.path.isfile(track[0]):
+        return track[0]
 
 
 def _update_image_path(rls_id: int, image_path: Path, cursor: Cursor) -> None:
@@ -138,7 +137,7 @@ def _save_embedded_image(tf: TagFile) -> Optional[str]:
     :return: The path to the saved image, if it exists.
     """
     if not tf.image_mime:
-        logger.debug("No embedded image found for `{tf.path}`.")
+        logger.debug(f"No embedded image found for `{tf.path}`.")
         return None
 
     extension = MIME_TO_EXTS.get(tf.image_mime, None)

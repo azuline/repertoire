@@ -12,7 +12,7 @@ from backend.constants import CONFIG_PATH, DATABASE_PATH, LOGS_DIR, PROJECT_ROOT
 
 # Configure logging.
 logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 # Add a logging handler for `backend.log`.
 log_handler = logging.FileHandler(str(LOGS_DIR / "backend.log"))
