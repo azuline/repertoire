@@ -9,6 +9,7 @@ from backend.util import database
 
 FAKE_DATA = Path(__file__).parent / "fake_data"
 DATABASE_PATH = FAKE_DATA / "db.sqlite3"
+DATABASE_JOURNAL_PATH = FAKE_DATA / "db.sqlite3-journal"
 TEST_SQL_PATH = Path(__file__).parent / "database.sql"
 
 COVER_ART = FAKE_DATA / "cover_art"
@@ -27,6 +28,7 @@ def clear_fake_data_logs_and_covers():
 @pytest.fixture
 def db():
     DATABASE_PATH.unlink(missing_ok=True)
+    DATABASE_JOURNAL_PATH.unlink(missing_ok=True)
 
     db_backend = get_backend(f"sqlite:///{DATABASE_PATH}")
     db_migrations = read_migrations(str(PROJECT_ROOT / "backend" / "migrations"))

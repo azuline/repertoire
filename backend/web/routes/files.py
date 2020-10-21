@@ -1,49 +1,40 @@
 import os
 
 import flask
+from flask import Blueprint, Response
 from voluptuous import Schema
 
-from backend.util import database
+from backend.lib import release, track
 from backend.web.util import check_auth, validate_data
 from backend.web.validators import StringBool
 
-bp = flask.Blueprint("files", __name__)
+bp = Blueprint("files", __name__, url_prefix="/files")
 
 
-@bp.route("/files/tracks/<track_id>", methods=["GET"])
-@check_auth
-def get_track(track_id):
-    """Accepts a track ID and returns the track file."""
-    with database() as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT filepath FROM music__tracks WHERE id = ?", (track_id,))
+@bp.route("/tracks/<track_id>", methods=["GET"])
+@check_auth()
+def get_track(track_id: int):
+    """
+    Accepts a track ID and returns the track file.
+    """
+    if not (trk := track.from_id(track_id, flask.g.db)):
+        flask.abort(404)
 
-        row = cursor.fetchone()
-        if not row:
-            flask.abort(404)
-
-        filepath = row["filepath"]
-
-    ext = os.path.splitext(filepath)[1]
-    return flask.send_file(filepath, attachment_filename=f"track{track_id}{ext}")
+    ext = os.path.splitext(trk.filepath)[1]
+    return flask.send_file(trk.filepath, attachment_filename=f"track{track_id}{ext}")
 
 
-@bp.route("/files/covers/<release_id>", methods=["GET"])
-@check_auth
+@bp.route("/covers/<release_id>", methods=["GET"])
+@check_auth()
 @validate_data(Schema({"thumbnail": StringBool}))
-def get_cover(release_id, thumbnail=False):
-    """Accepts a release ID and returns the cover art."""
-    with database() as conn:
-        cursor = conn.cursor()
-        cursor.execute(
-            "SELECT image_path FROM music__releases WHERE id = ?", (release_id,)
-        )
+def get_cover(release_id: int, thumbnail: bool = False) -> Response:
+    """
+    Accepts a release ID and returns the cover art.
+    """
+    if not (rls := release.from_id(release_id, flask.g.db)):
+        flask.abort(404)
 
-        row = cursor.fetchone()
-        if not row:
-            flask.abort(404)
-
-        filepath = row["image_path"]
-
-    ext = os.path.splitext(filepath)[1]
-    return flask.send_file(filepath, attachment_filename=f"cover{release_id}{ext}")
+    ext = os.path.splitext(rls.image_path)[1]
+    return flask.send_file(
+        rls.image_path, attachment_filename=f"cover{release_id}{ext}"
+    )

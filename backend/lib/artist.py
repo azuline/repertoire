@@ -25,7 +25,7 @@ class T:
     #:
     favorite: bool
     #: The number of releases attributed to the artist.
-    num_releases: Optional[int] = None
+    num_releases: int
 
 
 def from_row(row: Row) -> T:

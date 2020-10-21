@@ -9,10 +9,10 @@ import json
 import flask
 from voluptuous import Invalid
 
-from backend.util import database
+from backend.lib import user
 
 
-def check_auth(func):
+def check_auth(abort_if_unauthorized=True):
     """
     Ensure that the wrapped function can only be accessed by a request that
     passes a valid APIKey in the header. If the API Key is not present or
@@ -25,28 +25,23 @@ def check_auth(func):
     :raises: HTTPException
     """
 
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        try:
-            token = bytes.fromhex(_get_token(flask.request.headers))
-        except (TypeError, ValueError):
-            flask.abort(401)
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            try:
+                token = bytes.fromhex(_get_token(flask.request.headers))
+                flask.g.user = user.from_token(token, flask.g.db)
+            except (TypeError, ValueError):
+                flask.g.user = None
 
-        with database() as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                "SELECT username FROM system__users WHERE token = ?",
-                (token,),
-            )
-            row = cursor.fetchone()
-            if not row:
+            if not flask.g.user and abort_if_unauthorized:
                 flask.abort(401)
 
-            flask.g.current_user = row["username"]
+            return func(*args, **kwargs)
 
-        return func(*args, **kwargs)
+        return wrapper
 
-    return wrapper
+    return decorator
 
 
 def _get_token(headers):

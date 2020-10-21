@@ -288,11 +288,14 @@ def top_genres(col: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
 
        [
          {
-           "genre": genre.T,
+           "genre": collection.T,
            "num_matches": int,
          },
          ...
        ]
+
+    The fields ``num_releases`` and ``last_updated_on`` in the genre collections are set
+    to ``None``.
 
     :param col: The collection whose top genres to fetch.
     :param cursor: A cursor to the database.

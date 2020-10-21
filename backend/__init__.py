@@ -1,7 +1,3 @@
-from gevent import monkey
-
-monkey.patch_all()
-
 import logging
 import sys
 
@@ -12,7 +8,7 @@ from backend.constants import CONFIG_PATH, DATABASE_PATH, LOGS_DIR, PROJECT_ROOT
 
 # Configure logging.
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 # Add a logging handler for `backend.log`.
 log_handler = logging.FileHandler(str(LOGS_DIR / "backend.log"))
@@ -26,12 +22,14 @@ stream_handler = logging.StreamHandler(sys.stdout)
 stream_handler.setFormatter(stream_formatter)
 logger.addHandler(stream_handler)
 
-# Run database migrations.
-db_backend = get_backend(f"sqlite:///{DATABASE_PATH}")
-db_migrations = read_migrations(str(PROJECT_ROOT / "backend" / "migrations"))
+# Don't automatically initialize/update application data when sphinx is running.
+if "sphinx" not in sys.modules:
+    # Run database migrations.
+    db_backend = get_backend(f"sqlite:///{DATABASE_PATH}")
+    db_migrations = read_migrations(str(PROJECT_ROOT / "backend" / "migrations"))
 
-with db_backend.lock():
-    db_backend.apply_migrations(db_backend.to_apply(db_migrations))
+    with db_backend.lock():
+        db_backend.apply_migrations(db_backend.to_apply(db_migrations))
 
-# Create/update config with default values.
-write_default_config(CONFIG_PATH)
+    # Create/update config with default values.
+    write_default_config(CONFIG_PATH)

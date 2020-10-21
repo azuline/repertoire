@@ -131,7 +131,7 @@ def test_insert_into_inbox_collection(db):
 
     insert_into_inbox_collection(rls, db)
 
-    assert rls in collection.releases(inbox, db)
+    assert release.from_id(1, db) in collection.releases(inbox, db)
 
 
 def test_insert_into_label_collection_nonexistent(db):

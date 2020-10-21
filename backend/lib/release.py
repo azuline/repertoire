@@ -33,12 +33,14 @@ class T:
     added_on: datetime
     #: The year this release was released.
     release_year: int
+    #: The number of tracks that this release has.
+    num_tracks: int
+    # Whether this release is in the inbox.
+    in_inbox: bool
     #: The date this release was released.
     release_date: Optional[date] = None
     #: The filepath of the album cover.
     image_path: Optional[Path] = None
-    #: The number of tracks that this release has.
-    num_tracks: Optional[int] = None
 
 
 def from_row(row: Row) -> T:
@@ -52,6 +54,7 @@ def from_row(row: Row) -> T:
         **dict(
             row,
             release_type=ReleaseType(row["release_type"]),
+            in_inbox=bool(row["in_inbox"]),
             image_path=Path(row["image_path"]) if row["image_path"] else None,
         )
     )
@@ -69,7 +72,12 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
         """
         SELECT
             rls.*,
-            COUNT(trks.id) AS num_tracks
+            COUNT(trks.id) AS num_tracks,
+            (
+                SELECT 1
+                FROM music__collections_releases
+                WHERE release_id = rls.id AND collection_id = 1
+            ) AS in_inbox
         FROM music__releases AS rls
             LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
         WHERE rls.id = ?
@@ -148,7 +156,12 @@ def search(
         f"""
         SELECT
             rls.*,
-            COUNT(trks.id) AS num_tracks
+            COUNT(trks.id) AS num_tracks,
+            (
+                SELECT 1
+                FROM music__collections_releases
+                WHERE release_id = rls.id AND collection_id = 1
+            ) AS in_inbox
         FROM music__releases AS rls
             LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
         {"WHERE " + " AND ".join(filter_sql) if filter_sql else ""}
@@ -315,7 +328,12 @@ def _find_duplicate_release(
         """
         SELECT
             rls.*,
-            COUNT(trks.id) AS num_tracks
+            COUNT(trks.id) AS num_tracks,
+            (
+                SELECT 1
+                FROM music__collections_releases
+                WHERE release_id = rls.id AND collection_id = 1
+            ) AS in_inbox
         FROM music__releases AS rls
             LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
         WHERE rls.title = ?
@@ -472,6 +490,7 @@ def del_artist(rls: T, art: artist.T, cursor: Cursor) -> None:
     cursor.connection.commit()
 
 
+# TODO: Add a collection type parameter.
 def collections(rls: T, cursor: Cursor) -> List[collection.T]:
     """
     Get the collections that contain the provided release.

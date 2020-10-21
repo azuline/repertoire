@@ -71,7 +71,8 @@ def from_username(username: str, cursor: Cursor) -> Optional[T]:
 
 def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
     """
-    Get a user tuple from the user's token.
+    Get a user tuple from the user's token. The returned user is necessarily
+    authenticated.
 
     How it works: We store a unique prefix of each user's token and match on that.
 
@@ -90,7 +91,9 @@ def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
     )
 
     if row := cursor.fetchone():
-        return from_row(row)
+        usr = from_row(row)
+        if check_token(usr, token, cursor):
+            return usr
 
 
 def create(username: str, cursor: Cursor) -> Tuple[T, bytes]:

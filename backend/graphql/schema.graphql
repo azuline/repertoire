@@ -1,0 +1,124 @@
+scalar PosixTime
+
+type Query {
+    user: User
+
+    release(id: Int!): Release
+
+    artist(id: Int!): Artist
+
+    artist_from_name(name: String!): Artist
+
+    track(id: Int!): Track
+
+    collection(id: Int!): Collection
+
+    collection_from_name_and_type(name: String!, type: CollectionType): Collection
+
+    # TODO: Fetching multiples.
+}
+
+type User {
+    id: Int!
+    username: String!
+}
+
+type Release {
+    id: Int!
+    title: String!
+    releaseType: ReleaseType!
+    addedOn: PosixTime!
+    inInbox: Boolean!
+    releaseYear: Int!
+    numTracks: Int!
+    releaseDate: String
+    imagePath: String
+
+    tracks: [Track]
+    artists: [Artist]
+    genres: [Collection]
+    labels: [Collection]
+    collages: [Collection]
+}
+
+type Artist {
+    id: Int!
+    name: String!
+    favorite: Boolean!
+    numReleases: Int!
+
+    releases: [Release]
+    topGenres: [TopGenre]
+}
+
+type Track {
+    id: Int!
+    title: String!
+    duration: Int!
+    trackNumber: String!
+    discNumber: String
+
+    release: [Release]
+    artists: [TrackArtist]
+}
+
+type Collection {
+    id: Int!
+    name: String!
+    type: CollectionType!
+    numReleases: Int
+    lastUpdatedOn: PosixTime
+
+    releases: [Release]
+    topGenres: [TopGenre]
+}
+
+type TrackArtist {
+    role: ArtistRole!
+    artist: Artist!
+}
+
+type TopGenre {
+    genre: Collection!
+    numMatches: Int!
+}
+
+enum ArtistRole {
+    MAIN
+    FEATURE
+    REMIXER
+    PRODUCER
+    COMPOSER
+    CONDUCTOR
+    DJMIXER
+}
+
+enum ReleaseType {
+    ALBUM
+    SINGLE
+    EP
+    COMPILATION
+    SOUNDTRACK
+    SPOKENWORD
+    LIVE
+    REMIX
+    DJMIX
+    MIXTAPE
+    OTHER
+    UNKNOWN
+}
+
+enum CollectionType {
+    SYSTEM
+    COLLAGE
+    LABEL
+    GENRE
+    RATING
+}
+
+enum ReleaseSort {
+    RECENTLY_ADDED
+    TITLE
+    YEAR
+    RANDOM
+}

@@ -83,7 +83,7 @@ def test_save_pending_covers(db, snapshot):
         db.connection.commit()
 
         save_pending_covers()
-        saved_covers = [path.name for path in COVER_ART.iterdir()]
+        saved_covers = sorted([path.name for path in COVER_ART.iterdir()])
 
         assert len(saved_covers) == 4
         snapshot.assert_match(saved_covers)
