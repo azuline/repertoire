@@ -38,4 +38,4 @@ def test_parse_crontab():
 
 
 def test_strip_punctuation():
-    assert "abc" == strip_punctuation("[a.b!?c))")
+    assert "abcàà" == strip_punctuation("[a.b!?c))àà")

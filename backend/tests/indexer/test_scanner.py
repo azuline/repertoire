@@ -1,3 +1,4 @@
+from dataclasses import asdict
 from datetime import date
 from pathlib import Path
 from unittest.mock import Mock, call, patch
@@ -66,7 +67,14 @@ def test_catalog_file(mock_fetch_or_create_release, db, snapshot):
     catalog_file(filepath, db)
 
     trk = track.from_filepath(filepath, db)
-    snapshot.assert_match(trk)
+
+    # Because filepath is not a reproducible value (depends on environment), we exclude
+    # it from our snapshot and test it separately.
+    track_dict = asdict(trk)
+    del track_dict["filepath"]
+
+    snapshot.assert_match(track_dict)
+    assert str(trk.filepath).endswith("/track1.flac")
     snapshot.assert_match(track.artists(trk, db))
 
 

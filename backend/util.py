@@ -88,7 +88,7 @@ def strip_punctuation(string: str) -> str:
     :param string: The string to strip.
     :return: The stripped string.
     """
-    return "".join(c for c in unidecode(string) if c not in punctuation)
+    return "".join(c for c in string if unidecode(c) not in punctuation)
 
 
 def calculate_sha_256(filepath: Path) -> bytes:

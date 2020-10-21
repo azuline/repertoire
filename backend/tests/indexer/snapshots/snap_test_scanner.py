@@ -7,7 +7,15 @@ from snapshottest import GenericRepr, Snapshot
 
 snapshots = Snapshot()
 
-snapshots['test_catalog_file 1'] = GenericRepr("T(id=22, filepath=PosixPath('/home/azul/devel/repertoire/backend/tests/fake_music/New Album/track1.flac'), sha256=b'\\xb9\\x91\\x8c\\xb7\\xfd-_\\xd1QU\\x9d\\x15\\x98GK\\x8bA,\\xf3PX\\xbc3E\\xc1\\x15\\xa1\\x14\\x90\\xd0\\x80\\xbc', title='Track 1 (Artist AB Remix)', release_id=3, duration=2, track_number='1', disc_number='1')")
+snapshots['test_catalog_file 1'] = {
+    'disc_number': '1',
+    'duration': 2,
+    'id': 22,
+    'release_id': 3,
+    'sha256': b'\xb9\x91\x8c\xb7\xfd-_\xd1QU\x9d\x15\x98GK\x8bA,\xf3PX\xbc3E\xc1\x15\xa1\x14\x90\xd0\x80\xbc',
+    'title': 'Track 1 (Artist AB Remix)',
+    'track_number': '1'
+}
 
 snapshots['test_catalog_file 2'] = [
     {
