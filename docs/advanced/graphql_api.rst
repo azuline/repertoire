@@ -2,3 +2,8 @@
 
 GraphQL API
 ===========
+
+Schema
+------
+
+.. literalinclude:: ../../backend/graphql/schema.graphql

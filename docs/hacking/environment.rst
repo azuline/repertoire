@@ -15,7 +15,7 @@ The debug backend server can be ran with
 
 .. code-block:: sh
 
-   $ FLASK_DEBUG=1 FLASK_APP=backend/web/app.py python -m flask run
+   $ QUART_APP=backend.webserver.app:create_app() quart run
 
 If you are working with the database, a ``yoyo.ini`` file can be created in the
 project root to simplify working with the ``yoyo`` database migration tool.

@@ -1,9 +1,3 @@
-"""
-This module initializes the GraphQL schema by importing every other module in the
-package. The `type_defs` attribute of each module is taken, and together they are
-compiled into the schema.
-"""
-
 from pathlib import Path
 
 from ariadne import (

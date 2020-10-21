@@ -5,8 +5,8 @@ from quart import Blueprint, Response
 from voluptuous import Schema
 
 from backend.library import release, track
-from backend.web.util import check_auth, validate_data
-from backend.web.validators import StringBool
+from backend.webserver.util import check_auth, validate_data
+from backend.webserver.validators import StringBool
 
 bp = Blueprint("files", __name__, url_prefix="/files")
 

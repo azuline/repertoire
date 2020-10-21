@@ -31,7 +31,7 @@ def start(host: str, port: int, workers: int):
 
 
 def _start_webserver(host: int, port: int) -> None:
-    from backend.web.app import create_app
+    from backend.webserver.app import create_app
 
     config = Config()
     config.bind = [f"{host}:{port}"]

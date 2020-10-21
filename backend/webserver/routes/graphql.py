@@ -8,7 +8,7 @@ from quart import Blueprint, Request, Response
 
 from backend.graphql import schema
 from backend.library import user
-from backend.web.util import check_auth
+from backend.webserver.util import check_auth
 
 bp = Blueprint("graphql", __name__, url_prefix="/graphql")
 

@@ -3,7 +3,7 @@ from sqlite3 import Cursor
 
 import pytest
 
-from backend.enums import ReleaseSort, ReleaseType, CollectionType
+from backend.enums import CollectionType, ReleaseSort, ReleaseType
 from backend.errors import AlreadyExists, DoesNotExist, Duplicate
 from backend.library import artist, collection, release
 

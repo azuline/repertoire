@@ -21,14 +21,11 @@ The backend is laid out as follows:
    ├── util.py              # General utility functions.
    ├── cli/                 # The command line commands are defined here.
    ├── indexer/             # Library indexer; populates the database.
-   ├── lib/                 # Library with data abstractions.
+   ├── graphql/             # GraphQL API; contains the schema definition.
+   ├── library/             # Library with data abstractions.
    ├── migrations/          # Database migrations.
    ├── tests/               # The tests for the backend.
-   └── web/                 # The Flask webserver directory.
-       ├── app.py           # Contains the Flask app factory.
-       ├── routes/          # Where the REST API routes are stored.
-       ├── util.py          # Web server utility functions.
-       └── validators.py    # Custom validators for request data validation.
+   └── webserver/           # The webserver (duh!).
 
 The backend can be split into several layers, from lowest to highest:
 
@@ -49,7 +46,8 @@ The next several pages document each major section of the backend codebase.
 - :ref:`backend_database` documents the database schema.
 - :ref:`backend_indexer` documents the indexer implementation.
 - :ref:`backend_library` documents the internal library API.
-- :ref:`backend_webserver` documents the webserver implementation.
+- :ref:`backend_webserver` documents the webserver and GraphQL API
+  implementation.
 
 .. toctree::
    :maxdepth: 1

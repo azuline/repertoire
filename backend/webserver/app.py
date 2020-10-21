@@ -11,7 +11,7 @@ from quart import Quart, Response
 from werkzeug.exceptions import HTTPException
 
 from backend.constants import DATABASE_PATH, PROJECT_ROOT
-from backend.web.routes import files, graphql
+from backend.webserver.routes import files, graphql
 
 STATIC_FOLDER = PROJECT_ROOT / "frontend" / "build"
 
@@ -49,7 +49,7 @@ def create_app() -> Quart:
 
 def _register_blueprints(app: Quart):
     """
-    Find all blueprints in the ``backend.web.routes`` package and register
+    Find all blueprints in the ``backend.webserver.routes`` package and register
     them with the passed-in Quart application.
 
     :param app: The application to register the blueprints with.
