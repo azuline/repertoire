@@ -1,10 +1,10 @@
-from huey.contrib.mini import MiniHuey
+from huey import Huey
 
 from backend.config import Config
 from backend.indexer import run_indexer
 
 
-def schedule_and_start(huey: MiniHuey) -> None:
+def schedule_tasks(huey: Huey) -> None:
     """
     Schedule tasks and start the huey task queue.
 
@@ -12,6 +12,4 @@ def schedule_and_start(huey: MiniHuey) -> None:
     """
     config = Config()
 
-    huey.task(config.index_crontab)(run_indexer)
-
-    huey.start()
+    huey.periodic_task(config.index_crontab)(run_indexer)

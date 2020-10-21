@@ -6,7 +6,7 @@ utilities for the web application package.
 import functools
 import json
 
-import flask
+import quart
 from voluptuous import Invalid
 
 from backend.library import user
@@ -27,17 +27,17 @@ def check_auth(abort_if_unauthorized=True):
 
     def decorator(func):
         @functools.wraps(func)
-        def wrapper(*args, **kwargs):
+        async def wrapper(*args, **kwargs):
             try:
-                token = bytes.fromhex(_get_token(flask.request.headers))
-                flask.g.user = user.from_token(token, flask.g.db)
+                token = bytes.fromhex(_get_token(quart.request.headers))
+                quart.g.user = user.from_token(token, quart.g.db)
             except (TypeError, ValueError):
-                flask.g.user = None
+                quart.g.user = None
 
-            if not flask.g.user and abort_if_unauthorized:
-                flask.abort(401)
+            if not quart.g.user and abort_if_unauthorized:
+                quart.abort(401)
 
-            return func(*args, **kwargs)
+            return await func(*args, **kwargs)
 
         return wrapper
 
@@ -67,7 +67,7 @@ def _get_token(headers):
 
 def validate_data(schema):
     """
-    This decorates a flask endpoint. Given a voluptuous schema, this returns a
+    This decorates a quart endpoint. Given a voluptuous schema, this returns a
     decorator that parses the argument/form data, depending on the request
     method, and validates it against the schema. If the schema is valid, then
     the function will be called, expanding the schema keys as keyword
@@ -83,20 +83,20 @@ def validate_data(schema):
 
     def wrapper(func):
         @functools.wraps(func)
-        def new_func(*args, **kwargs):
+        async def new_func(*args, **kwargs):
             try:
-                kwargs.update(schema(_get_request_data()))
+                kwargs.update(schema(await _get_request_data()))
             except Invalid as e:
-                flask.abort(400, description=f"Invalid data: {e.msg}")
+                quart.abort(400, description=f"Invalid data: {e.msg}")
 
-            return func(*args, **kwargs)
+            return await func(*args, **kwargs)
 
         return new_func
 
     return wrapper
 
 
-def _get_request_data():
+async def _get_request_data():
     """
     Helper function for ``validate_data``. Depending on the request method,
     it decides whether or not to process the query_string or form. If the
@@ -106,11 +106,11 @@ def _get_request_data():
     :rtype: dict
     :raises: voluptuous.Invalid
     """
-    if flask.request.method == "GET":
-        return flask.request.args.to_dict()
+    if quart.request.method == "GET":
+        return quart.request.args.to_dict()
 
     try:
-        data = flask.request.get_data()
+        data = await quart.request.get_data()
         return json.loads(data) if data else {}
     except ValueError:  # JSONDecodeError subclasses ValueError.
         raise Invalid("Unable to parse data.")

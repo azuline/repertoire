@@ -1,13 +1,13 @@
 """
-This module implements the Flask application function pattern. To create a new
-Flask app instance, call ``create_app()``.
+This module implements the Quart application function pattern. To create a new
+Quart app instance, call ``create_app()``.
 """
 
 import logging
 import sqlite3
 
-import flask
-from flask import Flask, Response
+import quart
+from quart import Quart, Response
 from werkzeug.exceptions import HTTPException
 
 from backend.constants import DATABASE_PATH, PROJECT_ROOT
@@ -18,40 +18,39 @@ STATIC_FOLDER = PROJECT_ROOT / "frontend" / "build"
 logger = logging.getLogger(__name__)
 
 
-def create_app() -> Flask:
+def create_app() -> Quart:
     """
-    Create, set up, and return a new Flask application object. If a ``config``
+    Create, set up, and return a new Quart application object. If a ``config``
     is passed in, it will be modified and used; however, if one is not passed
     in, then the default configuration will be used.
 
-    :param object config: A config object to configure Flask with.
+    :param object config: A config object to configure Quart with.
 
-    :return: The created Flask application.
+    :return: The created Quart application.
     """
-    app = flask.Flask(__name__, static_folder=str(STATIC_FOLDER), static_url_path="/")
+    app = Quart(__name__, static_folder=str(STATIC_FOLDER), static_url_path="/")
 
     if app.debug:  # Disable CORS if we are in debug mode.
-        from flask_cors import CORS
+        from quart_cors import cors
 
-        CORS(app)
+        cors(app)
 
     @app.route("/", methods=["GET"])
     @app.route("/<path>", methods=["GET"])
-    def index(path=None):
-        return app.send_static_file("index.html")
+    async def index(path=None):
+        return await app.send_static_file("index.html")
 
-    with app.app_context():
-        _register_blueprints(app)
-        _register_error_handler(app)
-        _register_database_handler(app)
+    _register_blueprints(app)
+    _register_error_handler(app)
+    _register_database_handler(app)
 
     return app
 
 
-def _register_blueprints(app: Flask):
+def _register_blueprints(app: Quart):
     """
     Find all blueprints in the ``backend.web.routes`` package and register
-    them with the passed-in Flask application.
+    them with the passed-in Quart application.
 
     :param app: The application to register the blueprints with.
     """
@@ -59,9 +58,9 @@ def _register_blueprints(app: Flask):
     app.register_blueprint(graphql.bp)
 
 
-def _register_error_handler(app: Flask):
+def _register_error_handler(app: Quart):
     """
-    Register a default error handler on the passed-in Flask application.
+    Register a default error handler on the passed-in Quart application.
 
     :param app: The application to register the error handler with.
     """
@@ -73,7 +72,7 @@ def _register_error_handler(app: Flask):
     app.register_error_handler(HTTPException, handle_error)
 
 
-def _register_database_handler(app: Flask):
+def _register_database_handler(app: Quart):
     """
     Register a per-request database connection opener/closer on the app.
 
@@ -82,12 +81,16 @@ def _register_database_handler(app: Flask):
 
     @app.before_request
     def connect_to_db() -> None:
-        conn = sqlite3.connect(DATABASE_PATH, detect_types=sqlite3.PARSE_DECLTYPES)
+        conn = sqlite3.connect(
+            DATABASE_PATH,
+            detect_types=sqlite3.PARSE_DECLTYPES,
+            check_same_thread=False,
+        )
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys = ON")
-        flask.g.db = conn.cursor()
+        quart.g.db = conn.cursor()
 
     @app.after_request
     def close_db_connection(response: Response) -> None:
-        flask.g.db.connection.close()
+        quart.g.db.connection.close()
         return response

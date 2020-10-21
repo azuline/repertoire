@@ -24,32 +24,34 @@ setup(
     packages=[
         "backend",
         "backend.cli",
+        "backend.graphql",
         "backend.indexer",
+        "backend.tests.indexer.snapshots",
+        "backend.tests.library.snapshots",
     ],
     package_dir={"": "."},
     package_data={
         "backend": [
             "migrations/*.sql",
-            "tests/*.sql",
-            "tests/fake_data/*.ini",
-            "tests/fake_data/*.sqlite3",
-        ]
+        ],
+        "backend.graphql": ["*.graphql"],
     },
     install_requires=[
+        "ariadne==0.*,>=0.12.0",
         "click==7.*,>=7.1.0",
-        "flask==1.*,>=1.1.0",
-        "gevent==20.*,>=20.6.0",
         "huey==2.*,>=2.3.0",
         "pillow==7.*,>=7.2.0",
         "python-dotenv==0.*,>=0.14.0",
+        "quart==0.*,>=0.13.1",
         "requests==2.*,>=2.24.0",
-        "tagfiles==0.*,>=0.3.1",
+        "tagfiles==0.*,>=0.3.2",
         "unidecode==1.*,>=1.1.1",
         "voluptuous==0.*,>=0.11.7",
         "yoyo-migrations==7.*,>=7.2.0",
     ],
     extras_require={
         "dev": [
+            "autodocsumm==0.1.13",
             "black==20.8b1",
             "flake8==3.*,>=3.8.0",
             "flask-cors==3.*,>=3.0.8",
@@ -59,7 +61,6 @@ setup(
             "snapshottest==0.*,>=0.6.0",
             "sphinx==3.*,>=3.2.1",
             "sphinx-autodoc-typehints==1.*,>=1.11.1",
-            "sphinx-automodapi==0.*,>=0.13.0",
             "sphinx-rtd-theme==0.*,>=0.5.0",
         ]
     },

@@ -39,5 +39,6 @@ LOGS_DIR.mkdir(exist_ok=True)
 COVER_ART_DIR.mkdir(exist_ok=True)
 
 DATABASE_PATH = DATA_PATH / "db.sqlite3"
+HUEY_PATH = DATA_PATH / "huey.sqlite3"
 CONFIG_PATH = DATA_PATH / "config.ini"
 PID_PATH = DATA_PATH / "backend.pid"
