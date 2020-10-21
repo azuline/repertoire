@@ -45,6 +45,7 @@ Enums
 
 .. automodule:: backend.enums
    :members:
+   :member-order: bysource
 
 Errors
 ------

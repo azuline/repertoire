@@ -21,7 +21,7 @@ from backend.indexer.scanner import (
 )
 from backend.lib import artist, collection, release, track
 
-FAKE_MUSIC = Path(__file__).parent.parent / "fake_music"
+FAKE_MUSIC = Path(__file__).parent.parent / "fake_data" / "fake_music"
 NEW_ALBUM = FAKE_MUSIC / "New Album"
 
 
