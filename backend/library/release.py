@@ -9,7 +9,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from unidecode import unidecode
 
-from backend.enums import ReleaseSort, ReleaseType
+from backend.enums import CollectionType, ReleaseSort, ReleaseType
 from backend.errors import AlreadyExists, DoesNotExist, Duplicate
 from backend.util import strip_punctuation
 
@@ -490,17 +490,19 @@ def del_artist(rls: T, art: artist.T, cursor: Cursor) -> None:
     cursor.connection.commit()
 
 
-# TODO: Add a collection type parameter.
-def collections(rls: T, cursor: Cursor) -> List[collection.T]:
+def collections(
+    rls: T, cursor: Cursor, type: CollectionType = None
+) -> List[collection.T]:
     """
     Get the collections that contain the provided release.
 
     :param rls: The provided release.
     :param cursor: A cursor to the datbase.
+    :param type: The type of collections to fetch. Leave ``None`` to fetch all.
     :return: The collections that contain the provided release.
     """
     cursor.execute(
-        """
+        f"""
         SELECT
             collections.*,
             COUNT(colsrls.release_id) AS num_releases,
@@ -511,12 +513,13 @@ def collections(rls: T, cursor: Cursor) -> List[collection.T]:
             JOIN music__collections_releases AS colsrls
                 ON colsrls.collection_id = cols.id
             WHERE colsrls.release_id = ?
+                {"AND cols.type = ?" if type else ""}
             GROUP BY cols.id
         ) AS collections
         JOIN music__collections_releases AS colsrls
             ON colsrls.collection_id = collections.id
         GROUP BY collections.id
         """,
-        (rls.id,),
+        (rls.id, *((type.value,) if type else ())),
     )
     return [collection.from_row(row) for row in cursor.fetchall()]

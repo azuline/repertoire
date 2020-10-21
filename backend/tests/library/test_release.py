@@ -3,7 +3,7 @@ from sqlite3 import Cursor
 
 import pytest
 
-from backend.enums import ReleaseSort, ReleaseType
+from backend.enums import ReleaseSort, ReleaseType, CollectionType
 from backend.errors import AlreadyExists, DoesNotExist, Duplicate
 from backend.library import artist, collection, release
 
@@ -213,3 +213,11 @@ def test_del_artist_failure(db: Cursor):
 def test_release_collections(db: Cursor, snapshot):
     rls = release.from_id(2, db)
     snapshot.assert_match(release.collections(rls, db))
+
+
+def test_release_collections_filter_type(db: Cursor, snapshot):
+    rls = release.from_id(2, db)
+    collections = release.collections(rls, db, type=CollectionType.SYSTEM)
+
+    assert len(collections) == 1
+    snapshot.assert_match(collections)

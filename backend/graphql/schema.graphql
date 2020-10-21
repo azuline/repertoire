@@ -1,44 +1,15 @@
 scalar PosixTime
 
 type Query {
+    artist(id: Int!): Artist
+    artistFromName(name: String!): Artist
+    collection(id: Int!): Collection
+    collectionFromNameAndType(name: String!, type: CollectionType): Collection
+    release(id: Int!): Release
+    track(id: Int!): Track
     user: User
 
-    release(id: Int!): Release
-
-    artist(id: Int!): Artist
-
-    artist_from_name(name: String!): Artist
-
-    track(id: Int!): Track
-
-    collection(id: Int!): Collection
-
-    collection_from_name_and_type(name: String!, type: CollectionType): Collection
-
     # TODO: Fetching multiples.
-}
-
-type User {
-    id: Int!
-    username: String!
-}
-
-type Release {
-    id: Int!
-    title: String!
-    releaseType: ReleaseType!
-    addedOn: PosixTime!
-    inInbox: Boolean!
-    releaseYear: Int!
-    numTracks: Int!
-    releaseDate: String
-    imagePath: String
-
-    tracks: [Track]
-    artists: [Artist]
-    genres: [Collection]
-    labels: [Collection]
-    collages: [Collection]
 }
 
 type Artist {
@@ -49,17 +20,6 @@ type Artist {
 
     releases: [Release]
     topGenres: [TopGenre]
-}
-
-type Track {
-    id: Int!
-    title: String!
-    duration: Int!
-    trackNumber: String!
-    discNumber: String
-
-    release: [Release]
-    artists: [TrackArtist]
 }
 
 type Collection {
@@ -73,6 +33,35 @@ type Collection {
     topGenres: [TopGenre]
 }
 
+type Release {
+    id: Int!
+    title: String!
+    releaseType: ReleaseType!
+    addedOn: PosixTime!
+    inInbox: Boolean!
+    releaseYear: Int!
+    numTracks: Int!
+    releaseDate: String
+    imagePath: String
+
+    artists: [Artist]
+    tracks: [Track]
+    genres: [Collection]
+    labels: [Collection]
+    collages: [Collection]
+}
+
+type Track {
+    id: Int!
+    title: String!
+    duration: Int!
+    trackNumber: String!
+    discNumber: String
+
+    release: [Release]
+    artists: [TrackArtist]
+}
+
 type TrackArtist {
     role: ArtistRole!
     artist: Artist!
@@ -81,6 +70,11 @@ type TrackArtist {
 type TopGenre {
     genre: Collection!
     numMatches: Int!
+}
+
+type User {
+    id: Int!
+    username: String!
 }
 
 enum ArtistRole {
