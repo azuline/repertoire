@@ -51,6 +51,17 @@ def test_update_fields(db: Cursor, snapshot):
     assert col == artist.from_id(2, db)
 
 
+def test_update_duplicate(db: Cursor, snapshot):
+    with pytest.raises(Duplicate) as e:
+        artist.update(
+            artist.from_id(5, db),
+            cursor=db,
+            name="Abakus",
+        )
+
+    assert e.value.entity.id == 4
+
+
 def test_update_nothing(db: Cursor):
     col = artist.from_id(2, db)
     new_col = artist.update(col, cursor=db)

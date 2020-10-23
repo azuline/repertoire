@@ -148,7 +148,7 @@ type Mutation {
         role: ArtistRole!
     ): TrackResult
 
-    delArtistFromRole(
+    delArtistFromTrack(
         trackId: Int!
         artistId: Int!
         role: ArtistRole!
@@ -158,7 +158,7 @@ type Mutation {
     Generate a new authentication token for the current user. Invalidate the
     old one.
     """
-    newToken: UserResult
+    newToken: TokenResult
 
 }
 
@@ -282,9 +282,24 @@ type User {
 "The return type of a query for a single user."
 union UserResult = User | Error
 
+type Token {
+    hex: String!
+}
+
+"The return type of a mutation for a new token."
+union TokenResult = Token | Error
+
 enum ErrorType {
     NOT_AUTHENTICATED
     NOT_FOUND
+    "A duplicate entity was found matching some characteristics."
+    DUPLICATE
+    "An update was attempted to an immutable entity."
+    IMMUTABLE
+    "An entity already exists in a collection."
+    ALREADY_EXISTS
+    "An entity does not exist in a collection."
+    DOES_NOT_EXIST
 }
 
 enum ArtistRole {

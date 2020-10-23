@@ -14,6 +14,7 @@ from backend.graphql.enums import (
     release_sort_enum,
     release_type_enum,
 )
+from backend.graphql.mutation import mutation
 from backend.graphql.query import query
 from backend.graphql.scalars import posix_time_scalar
 from backend.graphql.types.artist import (
@@ -46,6 +47,7 @@ type_defs = load_schema_from_path(SCHEMA_PATH)
 
 resolvers = [
     query,
+    mutation,
     gql_artist,
     gql_artist_result,
     gql_artists,

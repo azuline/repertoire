@@ -12,6 +12,7 @@ The ``backend.graphql`` package is laid out as follows:
    graphql/
    ├── __init__.py          # Exports the final `schema`.
    ├── enums.py             # Contains the GraphQL enum resolvers.
+   ├── mutation.py          # Contains the base `mutation` type.
    ├── query.py             # Contains the base `query` type.
    ├── scalars.py           # Contains the GraphQL scalar resolvers.
    ├── schema.graphql       # The complete and raw GraphQL schema.

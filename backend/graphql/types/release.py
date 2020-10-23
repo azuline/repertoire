@@ -1,13 +1,16 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from ariadne import ObjectType, UnionType
 from graphql.type import GraphQLResolveInfo
 
 from backend.enums import CollectionType, GraphQLError, ReleaseType
+from backend.errors import AlreadyExists, DoesNotExist, Duplicate
+from backend.graphql.mutation import mutation
 from backend.graphql.query import query
 from backend.graphql.types.error import Error
 from backend.graphql.util import require_auth, resolve_result
 from backend.library import artist, release
+from backend.util import convert_keys_case
 
 gql_release = ObjectType("Release")
 gql_release_result = UnionType("ReleaseResult", resolve_result("Release"))
@@ -27,20 +30,8 @@ def resolve_release(obj: Any, info: GraphQLResolveInfo, id: int) -> release.T:
 
 @query.field("releases")
 @require_auth
-def resolve_releases(
-    obj: Any,
-    info: GraphQLResolveInfo,
-    releaseTypes: List[ReleaseType] = [],
-    perPage: Optional[int] = None,
-    **kwargs,
-) -> List[release.T]:
-    # For some of the parameters, we have to convert camelCase to snake_case manually.
-    total, releases = release.search(
-        cursor=info.context.db,
-        per_page=perPage,
-        release_types=releaseTypes,
-        **kwargs,
-    )
+def resolve_releases(obj: Any, info: GraphQLResolveInfo, **kwargs) -> List[release.T]:
+    total, releases = release.search(info.context.db, **convert_keys_case(kwargs))
     return {"total": total, "results": releases}
 
 
@@ -72,3 +63,86 @@ def resolve_labels(obj: release.T, info: GraphQLResolveInfo) -> List[Dict]:
 @gql_release.field("collages")
 def resolve_collages(obj: release.T, info: GraphQLResolveInfo) -> List[Dict]:
     return release.collections(obj, info.context.db, type=CollectionType.COLLAGE)
+
+
+@mutation.field("createRelease")
+@require_auth
+def resolve_create_release(
+    _,
+    info: GraphQLResolveInfo,
+    title: str,
+    artists: List[int],
+    releaseType: ReleaseType,
+    releaseYear: int,
+    releaseDate: Optional[str] = None,
+) -> Union[release.T, Error]:
+    try:
+        return release.create(
+            title=title,
+            artists=artists,
+            release_type=releaseType,
+            release_year=releaseYear,
+            cursor=info.context.db,
+            release_date=releaseDate,
+        )
+    except Duplicate:
+        return Error(
+            GraphQLError.DUPLICATE,
+            "A release with the same title and artists already exists.",
+        )
+
+
+@mutation.field("updateRelease")
+@require_auth
+def resolve_update_release(
+    _,
+    info: GraphQLResolveInfo,
+    id: int,
+    **changes,
+) -> Union[release.T, Error]:
+    if not (rls := release.from_id(id, info.context.db)):
+        return Error(GraphQLError.NOT_FOUND, f"Release {id} does not exist.")
+
+    return release.update(rls, info.context.db, **convert_keys_case(changes))
+
+
+@mutation.field("addArtistToRelease")
+@require_auth
+def resolve_add_artist_to_release(
+    _,
+    info: GraphQLResolveInfo,
+    releaseId: int,
+    artistId: int,
+) -> Union[release.T, Error]:
+    if not (rls := release.from_id(releaseId, info.context.db)):
+        return Error(GraphQLError.NOT_FOUND, "Release does not exist.")
+    if not (art := artist.from_id(artistId, info.context.db)):
+        return Error(GraphQLError.NOT_FOUND, "Artist does not exist.")
+
+    try:
+        release.add_artist(rls, art, info.context.db)
+    except AlreadyExists:
+        return Error(GraphQLError.ALREADY_EXISTS, "Artist is already in release.")
+
+    return rls
+
+
+@mutation.field("delArtistFromRelease")
+@require_auth
+def resolve_del_artist_from_release(
+    _,
+    info: GraphQLResolveInfo,
+    releaseId: int,
+    artistId: int,
+) -> Union[release.T, Error]:
+    if not (rls := release.from_id(releaseId, info.context.db)):
+        return Error(GraphQLError.NOT_FOUND, "Release does not exist.")
+    if not (art := artist.from_id(artistId, info.context.db)):
+        return Error(GraphQLError.NOT_FOUND, "Artist does not exist.")
+
+    try:
+        release.del_artist(rls, art, info.context.db)
+    except DoesNotExist:
+        return Error(GraphQLError.DOES_NOT_EXIST, "Artist is not in release.")
+
+    return rls

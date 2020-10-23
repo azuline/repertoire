@@ -151,7 +151,15 @@ def update(art: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
     :param favorite: New artist favorite.
     :type  favorite: :py:obj:`bool`
     :return: The updated artist.
+    :raises Duplicate: If an artist already exists with the new name.
     """
+    if (
+        "name" in changes
+        and (dupl := from_name(changes["name"], cursor))
+        and dupl != art
+    ):
+        raise Duplicate(dupl)
+
     cursor.execute(
         """
         UPDATE music__artists

@@ -29,6 +29,10 @@ class InvalidCollectionType(LibError):
     pass
 
 
+class ImmutableCollection(LibError):
+    pass
+
+
 class Duplicate(LibError):
 
     #: The duplicate entity.

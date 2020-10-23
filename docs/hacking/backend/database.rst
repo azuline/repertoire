@@ -55,7 +55,8 @@ Schema
        id INTEGER NOT NULL,
        name VARCHAR COLLATE "NOCASE" NOT NULL,
        favorite BOOLEAN NOT NULL DEFAULT 0 CHECK (favorite IN (0, 1)),
-       PRIMARY KEY (id)
+       PRIMARY KEY (id),
+       UNIQUE (name) -- We will have this constraint for now...
    );
 
    CREATE TABLE music__artist_roles (

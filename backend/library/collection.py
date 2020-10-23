@@ -7,7 +7,13 @@ from sqlite3 import Cursor, Row
 from typing import Any, Dict, List, Optional
 
 from backend.enums import CollectionType
-from backend.errors import AlreadyExists, DoesNotExist, Duplicate, InvalidCollectionType
+from backend.errors import (
+    AlreadyExists,
+    DoesNotExist,
+    Duplicate,
+    ImmutableCollection,
+    InvalidCollectionType,
+)
 from backend.util import without_key
 
 from . import release
@@ -175,7 +181,11 @@ def create(
     )
 
     return T(
-        id=cursor.lastrowid, name=name, type=type, favorite=favorite, num_releases=0,
+        id=cursor.lastrowid,
+        name=name,
+        type=type,
+        favorite=favorite,
+        num_releases=0,
     )
 
 
@@ -194,8 +204,19 @@ def update(col: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
     :param favorite: New collection favorite.
     :type  favorite: :py:obj:`bool`
     :return: The updated collection.
-    :raises CannotUpdate: If an illegal update is attempted.
+    :raises ImmutableCollection: If the collection cannot be updated.
+    :raises Duplicate: If the new name conflicts with another collection.
     """
+    if col.type in [CollectionType.SYSTEM, CollectionType.RATING]:
+        raise ImmutableCollection
+
+    if (
+        "name" in changes
+        and (dupl := from_name_and_type(changes["name"], col.type, cursor))
+        and dupl != col
+    ):
+        raise Duplicate(dupl)
+
     cursor.execute(
         """
         UPDATE music__collections
@@ -203,7 +224,11 @@ def update(col: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
             favorite = ?
         WHERE id = ?
         """,
-        (changes.get("name", col.name), changes.get("favorite", col.favorite), col.id,),
+        (
+            changes.get("name", col.name),
+            changes.get("favorite", col.favorite),
+            col.id,
+        ),
     )
     cursor.connection.commit()
 

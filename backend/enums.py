@@ -70,3 +70,11 @@ class GraphQLError(Enum):
     NOT_AUTHENTICATED = 1
     #:
     NOT_FOUND = 2
+    #:
+    DUPLICATE = 3
+    #:
+    IMMUTABLE = 4
+    #:
+    ALREADY_EXISTS = 5
+    #:
+    DOES_NOT_EXIST = 6

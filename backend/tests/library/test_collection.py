@@ -3,7 +3,13 @@ from sqlite3 import Cursor
 import pytest
 
 from backend.enums import CollectionType
-from backend.errors import AlreadyExists, DoesNotExist, Duplicate, InvalidCollectionType
+from backend.errors import (
+    AlreadyExists,
+    DoesNotExist,
+    Duplicate,
+    ImmutableCollection,
+    InvalidCollectionType,
+)
 from backend.library import collection, release
 
 
@@ -70,17 +76,38 @@ def test_update_fields(db: Cursor, snapshot):
     assert col == collection.from_id(13, db)
 
 
+@pytest.mark.parametrize("col_id", [1, 5])
+def test_update_immutable(db: Cursor, col_id):
+    with pytest.raises(ImmutableCollection):
+        collection.update(
+            collection.from_id(6, db),
+            cursor=db,
+            name="New Name",
+        )
+
+
+@pytest.mark.parametrize("col_id", [1, 5])
+def test_update_duplicate(db: Cursor, col_id):
+    with pytest.raises(Duplicate) as e:
+        collection.update(
+            collection.from_id(18, db),
+            cursor=db,
+            name="Folk",
+        )
+
+    assert e.value.entity.id == 12
+
+
 def test_update_nothing(db: Cursor):
     col = collection.from_id(13, db)
     new_col = collection.update(col, cursor=db)
     assert col == new_col
 
 
-@pytest.mark.parametrize("col_id", [1, 3])
-def test_update_favorite(db: Cursor, col_id):
-    col = collection.update(collection.from_id(col_id, db), cursor=db, favorite=True)
+def test_update_favorite(db: Cursor):
+    col = collection.update(collection.from_id(12, db), cursor=db, favorite=True)
     assert col.favorite is True
-    assert col == collection.from_id(col_id, db)
+    assert col == collection.from_id(12, db)
 
 
 def test_releases(db: Cursor, snapshot):

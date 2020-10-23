@@ -3,7 +3,7 @@ from contextlib import contextmanager
 from functools import wraps
 from hashlib import sha256
 from pathlib import Path
-from string import punctuation
+from string import ascii_uppercase, punctuation
 from typing import Any, Callable, ContextManager, Dict, Union
 
 from unidecode import unidecode
@@ -99,3 +99,23 @@ def calculate_sha_256(filepath: Path) -> bytes:
             hash_.update(block)
 
     return hash_.digest()
+
+
+def convert_keys_case(mapping: Dict) -> Dict:
+    """
+    Given a dict, convert the keys from camelCase to snake_case.
+
+    :param mapping: A dict whose keys' cases to convert.
+    :return: A converted dict.
+    """
+    return {camelCase_to_snake_case(key): value for key, value in mapping.items()}
+
+
+def camelCase_to_snake_case(string: str) -> str:
+    """
+    Convert a camelCase string to snake_case.
+
+    :param string: The string to convert.
+    :return: A snake case string.
+    """
+    return "".join(f"_{c.lower()}" if c in ascii_uppercase else c for c in string)
