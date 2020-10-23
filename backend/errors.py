@@ -25,7 +25,7 @@ class TokenGenerationFailure(LibError):
     pass
 
 
-class CannotUpdate(LibError):
+class InvalidCollectionType(LibError):
     pass
 
 

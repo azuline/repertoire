@@ -67,4 +67,4 @@ snapshots['test_top_genres 1'] = [
     }
 ]
 
-snapshots['test_update_fields 1'] = GenericRepr("T(id=13, name='New Name', favorite=True, type=<CollectionType.COLLAGE: 2>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
+snapshots['test_update_fields 1'] = GenericRepr("T(id=13, name='New Name', favorite=True, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")

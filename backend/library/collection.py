@@ -7,7 +7,7 @@ from sqlite3 import Cursor, Row
 from typing import Any, Dict, List, Optional
 
 from backend.enums import CollectionType
-from backend.errors import AlreadyExists, CannotUpdate, DoesNotExist, Duplicate
+from backend.errors import AlreadyExists, DoesNotExist, Duplicate, InvalidCollectionType
 from backend.util import without_key
 
 from . import release
@@ -158,6 +158,9 @@ def create(
     :raises Duplicate: If an collection with the same name and type already exists. The
                        duplicate collection is passed as the ``entity`` argument.
     """
+    if type in [CollectionType.SYSTEM, CollectionType.RATING]:
+        raise InvalidCollectionType
+
     if col := from_name_and_type(name, type, cursor):
         raise Duplicate(col)
 
@@ -172,11 +175,7 @@ def create(
     )
 
     return T(
-        id=cursor.lastrowid,
-        name=name,
-        type=type,
-        favorite=favorite,
-        num_releases=0,
+        id=cursor.lastrowid, name=name, type=type, favorite=favorite, num_releases=0,
     )
 
 
@@ -186,39 +185,25 @@ def update(col: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
     in as a keyword argument. To keep the original value, do not pass in a keyword
     argument.
 
-    Collections cannot be updated to/from the ``SYSTEM`` and ``RATING`` types. If this is
-    attempted, ``CannotUpdate`` will be raised.
+    **Note: The type of a collection cannot be changed.**
 
     :param col: The collection to update.
     :param cursor: A cursor to the database.
     :param name: New collection name.
     :type  name: :py:obj:`str`
-    :param type: New collection type.
-    :type  type: :py:obj:`backend.enums.CollectionType`
     :param favorite: New collection favorite.
     :type  favorite: :py:obj:`bool`
     :return: The updated collection.
     :raises CannotUpdate: If an illegal update is attempted.
     """
-    if "type" in changes and (
-        col.type in ILLEGAL_UPDATE_TYPES or changes["type"] in ILLEGAL_UPDATE_TYPES
-    ):
-        raise CannotUpdate
-
     cursor.execute(
         """
         UPDATE music__collections
         SET name = ?,
-            type = ?,
             favorite = ?
         WHERE id = ?
         """,
-        (
-            changes.get("name", col.name),
-            changes.get("type", col.type).value,
-            changes.get("favorite", col.favorite),
-            col.id,
-        ),
+        (changes.get("name", col.name), changes.get("favorite", col.favorite), col.id,),
     )
     cursor.connection.commit()
 

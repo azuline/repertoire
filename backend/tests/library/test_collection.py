@@ -3,7 +3,7 @@ from sqlite3 import Cursor
 import pytest
 
 from backend.enums import CollectionType
-from backend.errors import AlreadyExists, CannotUpdate, DoesNotExist, Duplicate
+from backend.errors import AlreadyExists, DoesNotExist, Duplicate, InvalidCollectionType
 from backend.library import collection, release
 
 
@@ -39,10 +39,11 @@ def test_all_filter_type(db: Cursor, snapshot):
     snapshot.assert_match(collections)
 
 
-def test_create(db: Cursor):
-    col = collection.create(
-        "new collage", CollectionType.COLLAGE, favorite=True, cursor=db
-    )
+@pytest.mark.parametrize(
+    "type", [CollectionType.COLLAGE, CollectionType.LABEL, CollectionType.GENRE]
+)
+def test_create(db: Cursor, type):
+    col = collection.create("new collage", type, favorite=True, cursor=db)
     assert col.id == 21
     assert col == collection.from_id(21, db)
 
@@ -52,12 +53,17 @@ def test_create_duplicate(db: Cursor):
         collection.create("Folk", CollectionType.GENRE, db)
 
 
+@pytest.mark.parametrize("type", [CollectionType.SYSTEM, CollectionType.RATING])
+def test_create_invalid_type(db: Cursor, type):
+    with pytest.raises(InvalidCollectionType):
+        collection.create("new collage", type, cursor=db)
+
+
 def test_update_fields(db: Cursor, snapshot):
     col = collection.update(
         collection.from_id(13, db),
         cursor=db,
         name="New Name",
-        type=CollectionType.COLLAGE,
         favorite=True,
     )
     snapshot.assert_match(col)
@@ -71,21 +77,7 @@ def test_update_nothing(db: Cursor):
 
 
 @pytest.mark.parametrize("col_id", [1, 3])
-def test_update_cannot(db: Cursor, col_id):
-    with pytest.raises(CannotUpdate):
-        collection.update(
-            collection.from_id(col_id, db), cursor=db, type=CollectionType.COLLAGE
-        )
-
-
-@pytest.mark.parametrize("type", [CollectionType.SYSTEM, CollectionType.RATING])
-def test_update_to_cannot(db: Cursor, type):
-    with pytest.raises(CannotUpdate):
-        collection.update(collection.from_id(13, db), cursor=db, type=type)
-
-
-@pytest.mark.parametrize("col_id", [1, 3])
-def test_update_favorite_cannots(db: Cursor, col_id):
+def test_update_favorite(db: Cursor, col_id):
     col = collection.update(collection.from_id(col_id, db), cursor=db, favorite=True)
     assert col.favorite is True
     assert col == collection.from_id(col_id, db)
