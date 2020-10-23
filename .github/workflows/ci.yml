@@ -28,10 +28,13 @@ jobs:
         run: poetry install
 
       - name: Run tests.
-        run: poetry run pytest --cov=backend --cov-branch backend/tests
+        run: poetry run pytest --cov-report=xml --cov=backend --cov-branch backend/tests
 
       - name: Run lint check.
         run: |
           poetry run black --check backend/
           poetry run isort -c backend/
           poetry run flake8 backend/
+
+      - name: Upload coverage.
+        run: bash <(curl -s https://codecov.io/bash) -cF python
