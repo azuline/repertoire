@@ -27,10 +27,7 @@ def validate_data_app(quart_app):
 
 @pytest.mark.asyncio
 async def test_check_auth_success(check_auth_app, quart_client):
-    admin_token = "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc8"
-    response = await quart_client.get(
-        "/testing", headers={"Authorization": f"Token {admin_token}"}
-    )
+    response = await quart_client.authed_get("/testing")
 
     assert b"admin" == await response.get_data()
 

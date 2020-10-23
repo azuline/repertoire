@@ -95,5 +95,5 @@ def test_generate_thumbnail():
         shutil.copyfile(FAKE_COVER, image_path)
         generate_thumbnail(image_path)
 
-        im = Image.open(Path.cwd() / "cover.jpg.thumbnail")
+        im = Image.open(Path.cwd() / "cover.thumbnail")
         assert im.size == (300, 300)

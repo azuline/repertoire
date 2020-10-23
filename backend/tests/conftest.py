@@ -18,6 +18,8 @@ TEST_SQL_PATH = Path(__file__).parent / "database.sql"
 COVER_ART = FAKE_DATA / "cover_art"
 LOGS = FAKE_DATA / "logs"
 
+ADMIN_TOKEN = "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc8"
+
 
 @pytest.fixture(autouse=True)
 def clear_fake_data_logs_and_covers():
@@ -54,14 +56,33 @@ def quart_app():
 
 @pytest.fixture
 async def quart_client(quart_app):
+    def update_kwargs(kwargs):
+        kwargs["headers"] = {
+            **kwargs.get("headers", {}),
+            "Authorization": f"Token {ADMIN_TOKEN}",
+        }
+        return kwargs
+
     async with quart_app.app_context():
-        yield quart_app.test_client()
+        test_client = quart_app.test_client()
+
+        async def authed_get(*args, **kwargs):
+            return await test_client.get(*args, **update_kwargs(kwargs))
+
+        async def authed_post(*args, **kwargs):
+            return await test_client.post(*args, **update_kwargs(kwargs))
+
+        test_client.authed_get = authed_get
+        test_client.authed_post = authed_post
+
+        yield test_client
 
 
 @pytest.fixture
-def quart_authed_client(quart_client):
-    with database() as conn:
-        cursor = conn.cursor()
-        quart.g.user = user.from_id(1, cursor)
+def quart_authed_request(quart_client):
+    with quart_client.test_request_context("/testing", method="GET"):
+        with database() as conn:
+            cursor = conn.cursor()
+            quart.g.user = user.from_id(1, cursor)
 
-    yield quart_client
+        yield quart_client

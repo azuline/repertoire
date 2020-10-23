@@ -21,7 +21,11 @@ async def get_track(track_id: int):
         quart.abort(404)
 
     ext = os.path.splitext(trk.filepath)[1]
-    return await quart.send_file(trk.filepath, attachment_filename=f"track{ext}")
+
+    try:
+        return await quart.send_file(trk.filepath, attachment_filename=f"track{ext}")
+    except FileNotFoundError:
+        quart.abort(404)
 
 
 @bp.route("/covers/<release_id>", methods=["GET"])
@@ -34,9 +38,11 @@ async def get_cover(release_id: int, thumbnail: bool = False) -> Response:
     if not (rls := release.from_id(release_id, quart.g.db)):
         quart.abort(404)
 
-    image_path = rls.image_path
-    if thumbnail:
-        image_path += ".thumbnail"
-
     ext = os.path.splitext(rls.image_path)[1]
-    return await quart.send_file(image_path, attachment_filename=f"cover{ext}")
+    try:
+        return await quart.send_file(
+            rls.image_path.with_suffix(".thumbnail") if thumbnail else rls.image_path,
+            attachment_filename=f"cover{ext}",
+        )
+    except FileNotFoundError:
+        quart.abort(404)

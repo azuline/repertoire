@@ -92,7 +92,8 @@ def _update_image_path(rls_id: int, image_path: Path, cursor: Cursor) -> None:
     """
     logger.debug(f"Setting image for release {rls_id}.")
     cursor.execute(
-        "UPDATE music__releases SET image_path = ? WHERE id = ?", (image_path, rls_id)
+        "UPDATE music__releases SET image_path = ? WHERE id = ?",
+        (str(image_path), rls_id),
     )
     cursor.connection.commit()
 
@@ -111,7 +112,7 @@ def _delete_release_from_pending(rls_id: int, cursor: Cursor) -> None:
     cursor.connection.commit()
 
 
-def save_image(tf: TagFile) -> Optional[str]:
+def save_image(tf: TagFile) -> Optional[Path]:
     """
     If the track has attached cover art, save it to the cover_arts dir with
     the sha256 of the cover art as the filename.
@@ -128,7 +129,7 @@ def save_image(tf: TagFile) -> Optional[str]:
     return _save_embedded_image(tf) or _save_external_image(tf)
 
 
-def _save_embedded_image(tf: TagFile) -> Optional[str]:
+def _save_embedded_image(tf: TagFile) -> Optional[Path]:
     """
     If an embedded image exists, save the image embedded in a tagfile to a file on disk
     and return the path to the saved image. Otherwise, return ``None``.
@@ -149,7 +150,7 @@ def _save_embedded_image(tf: TagFile) -> Optional[str]:
     return _save_image_file(tf.image, extension)
 
 
-def _save_external_image(tf: TagFile) -> Optional[str]:
+def _save_external_image(tf: TagFile) -> Optional[Path]:
     """
     Given a tagfile, search its directory and its parent directory for a cover image. If
     one is found, save it to ``COVER_ARTS_DIR``, otherwise, return ``None``.
@@ -181,7 +182,7 @@ def _get_possible_cover_paths(
             yield dir_ / filename, ext
 
 
-def _save_image_file(data: bytes, extension: str) -> str:
+def _save_image_file(data: bytes, extension: str) -> Path:
     """
     Given the contents of an image file (as bytes) and its extension, save it to
     ``COVER_ART_DIR``. Calculate the file's sha256sum and use it as the filename.
@@ -201,10 +202,10 @@ def _save_image_file(data: bytes, extension: str) -> str:
         with filepath.open("wb") as f:
             f.write(data)
 
-    return str(filepath)
+    return filepath
 
 
-def generate_thumbnail(image_path: str) -> None:
+def generate_thumbnail(image_path: Path) -> None:
     """
     Given a path to a saved image file, generate a 300x300 thumbnail and save it to
     ``{image_path}.extension``.
@@ -214,4 +215,4 @@ def generate_thumbnail(image_path: str) -> None:
     logger.debug(f"Generating thumbnail for {image_path}.")
     image = Image.open(image_path).convert("RGB")
     image.thumbnail((300, 300))
-    image.save(f"{image_path}.thumbnail", "JPEG")
+    image.save(image_path.with_suffix(".thumbnail"), "JPEG")
