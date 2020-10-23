@@ -1,36 +1,127 @@
 scalar PosixTime
 
-# TODO: Document the schema.
-
 type Query {
+    """
+    Fetch an artist from its ID.
+    """
     artist(id: Int!): ArtistResult
+
+    """
+    Fetch an artist from its name.
+    """
     artistFromName(name: String!): ArtistResult
+
+    """
+    Fetch a collection from its ID.
+    """
     collection(id: Int!): CollectionResult
+
+    """
+    Fetch a collection from its name and type.
+    """
     collectionFromNameAndType(
+        """
+        Name of the collection to fetch.
+        """
         name: String!
+
+        """
+        "Type of the collection to fetch.
+        """
         type: CollectionType!
     ): CollectionResult
+
+    """
+    Fetch a release from its ID.
+    """
     release(id: Int!): ReleaseResult
+
+    """
+    Fetch a track from its ID.
+    """
     track(id: Int!): TrackResult
+
+    """
+    Fetch the currently authenticated user.
+    """
     user: UserResult
 
+    """
+    Fetch all artists.
+    """
     artists: ArtistsResult
-    # Type is optional--leave null to return all collections.
-    collections(type: CollectionType): CollectionsResult
+
+    """
+    Fetch all collections (of a type).
+    """
+    collections(
+        """
+        If provided, only collections of this type will be returned.
+        """
+        type: CollectionType
+    ): CollectionsResult
+
+    """
+    Search for releases matching a certain criteria.
+    """
     releases(
+        """
+        A search string. We split this up into individual punctuation-less
+        words and return releases that contain each word.
+        """
         search: String
+
+        """
+        A list of collection IDs. We match releases by the collections in this
+        list. For a release to match, it must be in all collections in this
+        list.
+        """
         collections: [Int]
+
+        """
+        A list of artist IDs. We match releases by the artists in this list.
+        For a release to match, all artists in this list must be included.
+        """
         artists: [Int]
+
+        """
+        A list of release types. Filter out releases that do not match one of
+        the release types in this list.
+        """
         releaseTypes: [ReleaseType]
+
+        """
+        Which page of releases to return.
+        """
         page: Int
+
+        """
+        The number of releases per-page. Leave null to return all releases
+        (this will ignore `page`).
+        """
         perPage: Int
+
+        """
+        How to sort the matching releases.
+        """
         sort: ReleaseSort
+
+        """
+        If true, sort in ascending order. If false, descending.
+        """
         asc: Boolean
     ): ReleasesResult
 }
 
+"""
+The Error type potentially returned from a query.
+"""
 type Error {
+    """
+    The type of the error.
+    """
     error: ErrorType!
+
     message: String!
 }
 
@@ -41,15 +132,25 @@ type Artist {
     numReleases: Int!
 
     releases: [Release]
+
+    """
+    The top genres of the artist, compiled from their releases.
+    """
     topGenres: [TopGenre]
 }
 
+"""
+The return type of a query for a single artist.
+"""
 union ArtistResult = Artist | Error
 
 type Artists {
     results: [Artist]!
 }
 
+"""
+The return type of a query for multiple artists.
+"""
 union ArtistsResult = Artists | Error
 
 type Collection {
@@ -58,18 +159,30 @@ type Collection {
     favorite: Boolean!
     type: CollectionType!
     numReleases: Int
+
+    """
+    The last datetime a release was added to the collection.
+    """
     lastUpdatedOn: PosixTime
 
     releases: [Release]
+
+    """
+    The top genres of the collection, compiled from its releases.
+    """
     topGenres: [TopGenre]
 }
 
+"""
+The return type of a query for a single collection."""
 union CollectionResult = Collection | Error
 
 type Collections {
     results: [Collection]!
 }
 
+"""
+The return type of a query for multiple collections."""
 union CollectionsResult = Collections | Error
 
 type Release {
@@ -79,9 +192,18 @@ type Release {
     addedOn: PosixTime!
     inInbox: Boolean!
     releaseYear: Int!
-    numTracks: Int!
+
+    """
+    The date that the release was released. (Optional).
+    """
     releaseDate: String
-    imagePath: String
+
+    numTracks: Int!
+
+    """
+    Whether this release has a cover image.
+    """
+    hasCover: Boolean!
 
     artists: [Artist]
     tracks: [Track]
@@ -90,15 +212,26 @@ type Release {
     collages: [Collection]
 }
 
+"""
+The return type of a query for a single release.
+"""
 union ReleaseResult = Release | Error
 
 type Releases {
-    # Total number of releases matching the query across all pages.
+    """
+    The total number of releases matching the query across all pages.
+    """
     total: Int!
-    # The releases on the current page.
+
+    """
+    The releases on the current page.
+    """
     results: [Release]!
 }
 
+"""
+The return type of a query for multiple releases.
+"""
 union ReleasesResult = Releases | Error
 
 type Track {
@@ -112,15 +245,29 @@ type Track {
     artists: [TrackArtist]
 }
 
+"""
+The return type of a query for a single track.
+"""
 union TrackResult = Track | Error
 
 type TrackArtist {
-    role: ArtistRole!
     artist: Artist!
+
+    """
+    The role that the artist has on the track.
+    """
+    role: ArtistRole!
 }
 
+"""
+A type that represents the top genres of an artist/collection.
+"""
 type TopGenre {
     genre: Collection!
+
+    """
+    The number of releases in the artist/collection that match this genre.
+    """
     numMatches: Int!
 }
 
@@ -129,6 +276,9 @@ type User {
     username: String!
 }
 
+"""
+The return type of a query for a single user.
+"""
 union UserResult = User | Error
 
 enum ErrorType {
