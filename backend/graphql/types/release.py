@@ -44,6 +44,11 @@ def resolve_releases(
     return {"total": total, "results": releases}
 
 
+@gql_release.field("hasCover")
+def resolve_has_cover(obj: release.T, info: GraphQLResolveInfo) -> bool:
+    return bool(obj.image_path)
+
+
 @gql_release.field("artists")
 def resolve_artists(obj: release.T, info: GraphQLResolveInfo) -> List[artist.T]:
     return release.artists(obj, info.context.db)

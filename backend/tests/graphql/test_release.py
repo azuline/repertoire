@@ -17,7 +17,7 @@ async def test_release(graphql_query, snapshot):
               releaseYear
               numTracks
               releaseDate
-              imagePath
+              hasCover
 
               artists {
                 id
@@ -113,7 +113,7 @@ async def test_releases(graphql_query, snapshot):
                 releaseYear
                 numTracks
                 releaseDate
-                imagePath
+                hasCover
 
                 artists {
                   id

@@ -38,8 +38,8 @@ snapshots['test_release 1'] = (
                         'id': 19
                     }
                 ],
+                'hasCover': True,
                 'id': 3,
-                'imagePath': '/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg',
                 'inInbox': True,
                 'labels': [
                 ],
@@ -129,8 +129,8 @@ snapshots['test_releases 1'] = (
                         ],
                         'genres': [
                         ],
+                        'hasCover': False,
                         'id': 1,
-                        'imagePath': None,
                         'inInbox': False,
                         'labels': [
                         ],
@@ -165,8 +165,8 @@ snapshots['test_releases 1'] = (
                                 'id': 15
                             }
                         ],
+                        'hasCover': True,
                         'id': 2,
-                        'imagePath': '/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg',
                         'inInbox': True,
                         'labels': [
                         ],
@@ -234,8 +234,8 @@ snapshots['test_releases 1'] = (
                                 'id': 19
                             }
                         ],
+                        'hasCover': True,
                         'id': 3,
-                        'imagePath': '/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg',
                         'inInbox': True,
                         'labels': [
                         ],
