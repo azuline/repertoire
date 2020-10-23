@@ -38,7 +38,7 @@ async def test_artist(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_artist_no_auth_not_found(graphql_query, snapshot):
+async def test_artist_not_found(graphql_query, snapshot):
     query = """
         query {
           artist(id: 999999) {
@@ -147,6 +147,68 @@ async def test_artist_from_name_no_auth(graphql_query, snapshot):
 
             ... on Artist {
               id
+            }
+
+            ... on Error {
+              error
+              message
+            }
+          }
+        }
+    """
+
+    snapshot.assert_match(await graphql_query(query, authed=False))
+
+
+@pytest.mark.asyncio
+async def test_artists(graphql_query, snapshot):
+    query = """
+        query {
+          artists {
+            __typename
+
+            ... on Artists {
+              results {
+                id
+                name
+                favorite
+                numReleases
+
+                releases {
+                  id
+                }
+
+                topGenres {
+                  genre {
+                    id
+                  }
+                  numMatches
+                }
+              }
+            }
+
+            ... on Error {
+              error
+              message
+            }
+          }
+        }
+    """
+
+    snapshot.assert_match(await graphql_query(query, authed=True))
+
+
+@pytest.mark.asyncio
+async def test_artists_no_auth(graphql_query, snapshot):
+    query = """
+        query {
+          artists {
+            __typename
+
+            ... on Artists {
+              results {
+                id
+              }
             }
 
             ... on Error {

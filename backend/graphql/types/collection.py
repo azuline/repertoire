@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from ariadne import ObjectType, UnionType
 from graphql.type import GraphQLResolveInfo
@@ -11,6 +11,9 @@ from backend.library import collection, release
 
 gql_collection = ObjectType("Collection")
 gql_collection_result = UnionType("CollectionResult", resolve_result("Collection"))
+
+gql_collections = ObjectType("Collections")
+gql_collections_result = UnionType("CollectionsResult", resolve_result("Collections"))
 
 
 @query.field("collection")
@@ -36,6 +39,16 @@ def resolve_collection_from_name_and_type(
     return Error(
         GraphQLError.NOT_FOUND, f'Collection "{name}" of type {type.name} not found.'
     )
+
+
+@query.field("collections")
+@require_auth
+def resolve_collections(
+    obj: Any,
+    info: GraphQLResolveInfo,
+    type: Optional[CollectionType] = None,
+) -> List[collection.T]:
+    return {"results": collection.all(info.context.db, type=type)}
 
 
 @gql_collection.field("releases")

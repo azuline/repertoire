@@ -226,7 +226,7 @@ def releases(col: T, cursor: Cursor) -> List[release.T]:
     :param cursor: A cursor to the database.
     :return: A list of releases in the collection.
     """
-    _, releases = release.search(collections=[col], cursor=cursor)
+    _, releases = release.search(collections=[col.id], cursor=cursor)
     return releases
 
 

@@ -169,7 +169,7 @@ def releases(art: T, cursor: Cursor) -> List[release.T]:
     :param cursor: A cursor to the database.
     :return: A list of releases of the artist.
     """
-    _, releases = release.search(artists=[art], cursor=cursor)
+    _, releases = release.search(artists=[art.id], cursor=cursor)
     return releases
 
 

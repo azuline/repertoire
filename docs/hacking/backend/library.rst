@@ -24,13 +24,6 @@ Collection
    :members:
    :autosummary:
 
-Play History
-------------
-
-.. automodule:: backend.library.play_history
-   :members:
-   :autosummary:
-
 Release
 -------
 

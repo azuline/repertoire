@@ -32,4 +32,4 @@ New queries should also follow this pattern, as this provides a way to
 encode errors such as authentication errors and not-found errors cleanly to the
 responding client.
 
-_Note: The ``Error`` dataclass is located in ``backend.graphql.types.error``._
+Note: The ``Error`` dataclass is located in ``backend.graphql.types.error``.

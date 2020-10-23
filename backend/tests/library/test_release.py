@@ -5,7 +5,7 @@ import pytest
 
 from backend.enums import CollectionType, ReleaseSort, ReleaseType
 from backend.errors import AlreadyExists, DoesNotExist, Duplicate
-from backend.library import artist, collection, release
+from backend.library import artist, release
 
 
 def test_release_from_id_success(db: Cursor, snapshot):
@@ -71,22 +71,19 @@ def test_release_search_asc(db: Cursor, snapshot):
 
 
 def test_release_search_filter_collections(db: Cursor, snapshot):
-    total, inbox = release.search(db, collections=[collection.from_id(1, db)])
+    total, inbox = release.search(db, collections=[1])
 
     assert total == 2
     snapshot.assert_match(inbox)
 
-    total, folk = release.search(db, collections=[collection.from_id(12, db)])
+    total, folk = release.search(db, collections=[12])
 
     assert total == 1
     snapshot.assert_match(folk)
 
 
 def test_release_search_filter_artist(db: Cursor, snapshot):
-    abakus = artist.from_id(4, db)
-    bacchus = artist.from_id(5, db)
-
-    total, releases = release.search(db, artists=[abakus, bacchus])
+    total, releases = release.search(db, artists=[4, 5])
 
     assert total == 1
     snapshot.assert_match(releases)

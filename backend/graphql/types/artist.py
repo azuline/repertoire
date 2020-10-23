@@ -12,6 +12,9 @@ from backend.library import artist, release
 gql_artist = ObjectType("Artist")
 gql_artist_result = UnionType("ArtistResult", resolve_result("Artist"))
 
+gql_artists = ObjectType("Artists")
+gql_artists_result = UnionType("ArtistsResult", resolve_result("Artists"))
+
 
 @query.field("artist")
 @require_auth
@@ -29,6 +32,12 @@ def resolve_artist_from_name(obj: Any, info: GraphQLResolveInfo, name: str) -> a
         return art
 
     return Error(GraphQLError.NOT_FOUND, f'Artist "{name}" does not exist.')
+
+
+@query.field("artists")
+@require_auth
+def resolve_artists(obj: Any, info: GraphQLResolveInfo) -> List[artist.T]:
+    return {"results": artist.all(info.context.db)}
 
 
 @gql_artist.field("releases")

@@ -94,8 +94,8 @@ def search(
     cursor: Cursor,
     *,
     search: str = "",
-    collections: List[collection.T] = [],
-    artists: List[artist.T] = [],
+    collections: List[int] = [],
+    artists: List[int] = [],
     release_types: List[ReleaseType] = [],
     page: int = 1,
     per_page: Optional[int] = None,
@@ -107,11 +107,11 @@ def search(
 
     :param search: A search string. We split this up into individual punctuation-less
                    words and return releases that contain each word.
-    :param collections: A list of collections. We match releases by the collections in
+    :param collections: A list of collection IDs. We match releases by the collections in
                         this list. For a release to match, it must be in all collections
                         in this list.
-    :param artists: A list of artists. We match releases by the artists in this list. For
-                    a release to match, all artists in this list must be included.
+    :param artists: A list of artist IDs. We match releases by the artists in this list.
+                    For a release to match, all artists in this list must be included.
     :param release_types: A list of release types. Filter out releases that do not match
                           one of the release types in this list.
     :param page: Which page of releases to return.
@@ -175,13 +175,11 @@ def search(
     return total, [from_row(row) for row in cursor.fetchall()]
 
 
-def _generate_collection_filter(
-    collections: List[collection.T],
-) -> Tuple[List[str], List[int]]:
+def _generate_collection_filter(collections: List[int]) -> Tuple[List[str], List[int]]:
     """
     Generate the SQL and params for filtering on collections.
 
-    :param collections: The collections to filter on.
+    :param collections: The collection IDs to filter on.
     :return: The filter SQL and query parameters.
     """
     sql = """
@@ -192,18 +190,16 @@ def _generate_collection_filter(
           """
 
     filter_sql = repeat(sql, len(collections))
-    filter_params = [c.id for c in collections]
+    filter_params = [id for id in collections]
 
     return filter_sql, filter_params
 
 
-def _generate_artist_filter(
-    artists: List[artist.T],
-) -> Tuple[List[str], List[int]]:
+def _generate_artist_filter(artists: List[int]) -> Tuple[List[str], List[int]]:
     """
     Generate the SQL and params for filtering on artists.
 
-    :param artists: The artists to filter on.
+    :param artists: The artist IDs to filter on.
     :return: The filter SQL and query parameters.
     """
     sql = """
@@ -214,7 +210,7 @@ def _generate_artist_filter(
           """
 
     filter_sql = repeat(sql, len(artists))
-    filter_params = [a.id for a in artists]
+    filter_params = [id for id in artists]
 
     return filter_sql, filter_params
 
@@ -265,8 +261,8 @@ def create(
     release_type: ReleaseType,
     release_year: int,
     cursor: Cursor,
-    release_date: date = None,
-    image_path: Path = None,
+    release_date: Optional[date] = None,
+    image_path: Optional[Path] = None,
 ) -> T:
     """
     Create a release with the provided parameters.
@@ -491,7 +487,7 @@ def del_artist(rls: T, art: artist.T, cursor: Cursor) -> None:
 
 
 def collections(
-    rls: T, cursor: Cursor, type: CollectionType = None
+    rls: T, cursor: Cursor, type: Optional[CollectionType] = None
 ) -> List[collection.T]:
     """
     Get the collections that contain the provided release.

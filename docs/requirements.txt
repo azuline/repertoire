@@ -1,2 +1,3 @@
-sphinx-autodoc-typehints
 autodocsumm==0.1.13
+sphinx-autodoc-typehints
+"sphinxcontrib.httpdomain"

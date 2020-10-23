@@ -16,10 +16,25 @@ from backend.graphql.enums import (
 )
 from backend.graphql.query import query
 from backend.graphql.scalars import posix_time_scalar
-from backend.graphql.types.artist import gql_artist, gql_artist_result
-from backend.graphql.types.collection import gql_collection, gql_collection_result
+from backend.graphql.types.artist import (
+    gql_artist,
+    gql_artist_result,
+    gql_artists,
+    gql_artists_result,
+)
+from backend.graphql.types.collection import (
+    gql_collection,
+    gql_collection_result,
+    gql_collections,
+    gql_collections_result,
+)
 from backend.graphql.types.error import gql_error
-from backend.graphql.types.release import gql_release, gql_release_result
+from backend.graphql.types.release import (
+    gql_release,
+    gql_release_result,
+    gql_releases,
+    gql_releases_result,
+)
 from backend.graphql.types.top_genre import gql_top_genre
 from backend.graphql.types.track import gql_track, gql_track_result
 from backend.graphql.types.track_artist import gql_track_artist
@@ -33,11 +48,17 @@ resolvers = [
     query,
     gql_artist,
     gql_artist_result,
+    gql_artists,
+    gql_artists_result,
     gql_collection,
     gql_collection_result,
+    gql_collections,
+    gql_collections_result,
     gql_error,
     gql_release,
     gql_release_result,
+    gql_releases,
+    gql_releases_result,
     gql_top_genre,
     gql_track,
     gql_track_artist,

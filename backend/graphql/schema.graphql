@@ -1,15 +1,32 @@
 scalar PosixTime
 
+# TODO: Document the schema.
+
 type Query {
     artist(id: Int!): ArtistResult
     artistFromName(name: String!): ArtistResult
     collection(id: Int!): CollectionResult
-    collectionFromNameAndType(name: String!, type: CollectionType): CollectionResult
+    collectionFromNameAndType(
+        name: String!
+        type: CollectionType!
+    ): CollectionResult
     release(id: Int!): ReleaseResult
     track(id: Int!): TrackResult
     user: UserResult
 
-    # TODO: Fetching multiples.
+    artists: ArtistsResult
+    # Type is optional--leave null to return all collections.
+    collections(type: CollectionType): CollectionsResult
+    releases(
+        search: String
+        collections: [Int]
+        artists: [Int]
+        releaseTypes: [ReleaseType]
+        page: Int
+        perPage: Int
+        sort: ReleaseSort
+        asc: Boolean
+    ): ReleasesResult
 }
 
 type Error {
@@ -29,6 +46,12 @@ type Artist {
 
 union ArtistResult = Artist | Error
 
+type Artists {
+    results: [Artist]!
+}
+
+union ArtistsResult = Artists | Error
+
 type Collection {
     id: Int!
     name: String!
@@ -42,6 +65,12 @@ type Collection {
 }
 
 union CollectionResult = Collection | Error
+
+type Collections {
+    results: [Collection]!
+}
+
+union CollectionsResult = Collections | Error
 
 type Release {
     id: Int!
@@ -62,6 +91,15 @@ type Release {
 }
 
 union ReleaseResult = Release | Error
+
+type Releases {
+    # Total number of releases matching the query across all pages.
+    total: Int!
+    # The releases on the current page.
+    results: [Release]!
+}
+
+union ReleasesResult = Releases | Error
 
 type Track {
     id: Int!

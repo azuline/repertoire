@@ -138,7 +138,7 @@ snapshots['test_artist_no_auth 1'] = (
     }
 )
 
-snapshots['test_artist_no_auth_not_found 1'] = (
+snapshots['test_artist_not_found 1'] = (
     True,
     {
         'data': {
@@ -146,6 +146,143 @@ snapshots['test_artist_no_auth_not_found 1'] = (
                 '__typename': 'Error',
                 'error': 'NOT_FOUND',
                 'message': 'Artist 999999 does not exist.'
+            }
+        }
+    }
+)
+
+snapshots['test_artists 1'] = (
+    True,
+    {
+        'data': {
+            'artists': {
+                '__typename': 'Artists',
+                'results': [
+                    {
+                        'favorite': False,
+                        'id': 2,
+                        'name': 'Aaron West and the Roaring Twenties',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 2
+                            }
+                        ],
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 12
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 13
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 14
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 15
+                                },
+                                'numMatches': 1
+                            }
+                        ]
+                    },
+                    {
+                        'favorite': False,
+                        'id': 4,
+                        'name': 'Abakus',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 3
+                            }
+                        ],
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 16
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 17
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 18
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 19
+                                },
+                                'numMatches': 1
+                            }
+                        ]
+                    },
+                    {
+                        'favorite': True,
+                        'id': 5,
+                        'name': 'Bacchus',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 3
+                            }
+                        ],
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 16
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 17
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 18
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 19
+                                },
+                                'numMatches': 1
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+)
+
+snapshots['test_artists_no_auth 1'] = (
+    True,
+    {
+        'data': {
+            'artists': {
+                '__typename': 'Error',
+                'error': 'NOT_AUTHENTICATED',
+                'message': 'Please authenticate ^.~'
             }
         }
     }
