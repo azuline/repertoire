@@ -17,6 +17,8 @@ The package is laid out as follows:
         ├── files.py    # Contains the endpoints that return music/image files.
         └── graphql.py  # Contains the GraphQL endpoints.
 
+The endpoints are documented at :ref:`advanced_server_api`.
+
 Utility Functions
 -----------------
 
@@ -30,20 +32,3 @@ Custom Validators
 .. automodule:: backend.webserver.validators
    :members:
    :autosummary:
-
-GraphQL
--------
-
-The GraphQL API is implemented with ``ariadne``.
-
-The ``backend.graphql`` package is laid out as follows:
-
-.. code-block::
-
-   graphql/
-   ├── __init__.py          # Exports the final `schema`.
-   ├── enums.py             # Contains the GraphQL enum resolvers.
-   ├── query.py             # Contains the base `query` type.
-   ├── scalars.py           # Contains the GraphQL scalar resolvers.
-   ├── schema.graphql       # The complete and raw GraphQL schema.
-   └── types/               # The resolvers for each GraphQL type.

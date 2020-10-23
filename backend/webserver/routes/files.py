@@ -15,7 +15,13 @@ bp = Blueprint("files", __name__, url_prefix="/files")
 @check_auth()
 async def get_track(track_id: int):
     """
-    Accepts a track ID and returns the track file.
+    Returns a track's audio file.
+
+    :param track_id: The ID of the track to fetch.
+
+    :reqheader Authorization: An authorization token.
+    :status 200: Audio file exists and is returned.
+    :status 404: Track or audio file does not exist.
     """
     if not (trk := track.from_id(track_id, quart.g.db)):
         quart.abort(404)
@@ -33,7 +39,14 @@ async def get_track(track_id: int):
 @validate_data(Schema({"thumbnail": StringBool}))
 async def get_cover(release_id: int, thumbnail: bool = False) -> Response:
     """
-    Accepts a release ID and returns the cover art.
+    Returns a release's cover art image.
+
+    :param release_id: The ID of the release whose cover to fetch.
+    :query thumbnail: Whether to return a thumbnail (300x300) version of the image.
+
+    :reqheader Authorization: An authorization token.
+    :status 200: Cover image exists and is returned.
+    :status 404: Release or cover image does not exist.
     """
     if not (rls := release.from_id(release_id, quart.g.db)):
         quart.abort(404)

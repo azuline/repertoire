@@ -41,7 +41,7 @@ Advanced Features
    :hidden:
    :caption: Advanced Features
 
-   advanced/graphql_api
+   advanced/server_api
 
 Hacking
 -------

@@ -36,7 +36,9 @@ The backend can be split into several layers, from lowest to highest:
 - Consumer Interfaces:
 
   - The Command Line (:ref:`backend_command_line`)
-  - The Webserver & GraphQL API (:ref:`backend_webserver`)
+  - The Webserver (:ref:`backend_webserver`)
+
+    - GraphQL API (:ref:`backend_graphql`)
 
 The next several pages document each major section of the backend codebase.
 
@@ -44,10 +46,10 @@ The next several pages document each major section of the backend codebase.
 - :ref:`backend_command_line` documents the command line interface
   implementation.
 - :ref:`backend_database` documents the database schema.
+- :ref:`backend_graphql` documents the GraphQL API.
 - :ref:`backend_indexer` documents the indexer implementation.
 - :ref:`backend_library` documents the internal library API.
-- :ref:`backend_webserver` documents the webserver and GraphQL API
-  implementation.
+- :ref:`backend_webserver` documents the webserver.
 
 .. toctree::
    :maxdepth: 1
@@ -57,6 +59,7 @@ The next several pages document each major section of the backend codebase.
    backend
    command_line
    database
+   graphql
    indexer
    library
    webserver

@@ -741,6 +741,18 @@ lint = ["flake8", "mypy", "docutils-stubs"]
 test = ["pytest"]
 
 [[package]]
+category = "dev"
+description = "Sphinx domain for documenting HTTP APIs"
+name = "sphinxcontrib.httpdomain"
+optional = false
+python-versions = "*"
+version = "1.7.0"
+
+[package.dependencies]
+Sphinx = ">=1.5"
+six = "*"
+
+[[package]]
 category = "main"
 description = "A non-validating SQL parser."
 name = "sqlparse"
@@ -892,7 +904,7 @@ postgres = ["psycopg2"]
 pyodbc = ["pyodbc"]
 
 [metadata]
-content-hash = "db20772bc35249cd2c4260bf68f0b0b9847923a7883964e5bb9309a5515542f2"
+content-hash = "b34da6176af4daa04372081848944657e6738338fc6d5d3f7ab6b1551c1f9714"
 lock-version = "1.0"
 python-versions = "^3.8"
 
@@ -1269,6 +1281,10 @@ sphinxcontrib-qthelp = [
 sphinxcontrib-serializinghtml = [
     {file = "sphinxcontrib-serializinghtml-1.1.4.tar.gz", hash = "sha256:eaa0eccc86e982a9b939b2b82d12cc5d013385ba5eadcc7e4fed23f4405f77bc"},
     {file = "sphinxcontrib_serializinghtml-1.1.4-py2.py3-none-any.whl", hash = "sha256:f242a81d423f59617a8e5cf16f5d4d74e28ee9a66f9e5b637a18082991db5a9a"},
+]
+"sphinxcontrib.httpdomain" = [
+    {file = "sphinxcontrib-httpdomain-1.7.0.tar.gz", hash = "sha256:ac40b4fba58c76b073b03931c7b8ead611066a6aebccafb34dc19694f4eb6335"},
+    {file = "sphinxcontrib_httpdomain-1.7.0-py2.py3-none-any.whl", hash = "sha256:1fb5375007d70bf180cdd1c79e741082be7aa2d37ba99efe561e1c2e3f38191e"},
 ]
 sqlparse = [
     {file = "sqlparse-0.4.1-py3-none-any.whl", hash = "sha256:017cde379adbd6a1f15a61873f43e8274179378e95ef3fede90b5aa64d304ed0"},

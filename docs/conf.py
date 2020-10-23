@@ -20,6 +20,7 @@ release = "0.2.0"
 
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinxcontrib.autohttp.flask",
     "sphinx_rtd_theme",
     "sphinx_autodoc_typehints",
     "autodocsumm",
