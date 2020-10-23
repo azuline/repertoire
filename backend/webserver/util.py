@@ -59,7 +59,7 @@ def _get_token(headers):
         key, value = headers["Authorization"].split()
         if key == "Token":
             return value
-    except (KeyError, TypeError, ValueError):
+    except (AttributeError, KeyError, TypeError, ValueError):
         pass
 
     return None

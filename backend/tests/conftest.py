@@ -2,10 +2,13 @@ import shutil
 from pathlib import Path
 
 import pytest
+import quart
 from yoyo import get_backend, read_migrations
 
 from backend.constants import PROJECT_ROOT
+from backend.library import user
 from backend.util import database
+from backend.webserver.app import create_app
 
 FAKE_DATA = Path(__file__).parent / "fake_data"
 DATABASE_PATH = FAKE_DATA / "db.sqlite3"
@@ -42,3 +45,23 @@ def db():
     with database() as conn:
         conn.executescript(test_sql)
         yield conn.cursor()
+
+
+@pytest.fixture
+def quart_app():
+    yield create_app()
+
+
+@pytest.fixture
+async def quart_client(quart_app):
+    async with quart_app.app_context():
+        yield quart_app.test_client()
+
+
+@pytest.fixture
+def quart_authed_client(quart_client):
+    with database() as conn:
+        cursor = conn.cursor()
+        quart.g.user = user.from_id(1, cursor)
+
+    yield quart_client
