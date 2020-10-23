@@ -5,14 +5,14 @@ from graphql.type import GraphQLResolveInfo
 
 from backend.library import collection
 
-top_genre_resolver = ObjectType("TopGenre")
+gql_top_genre = ObjectType("TopGenre")
 
 
-@top_genre_resolver.field("genre")
+@gql_top_genre.field("genre")
 def resolve_artist(obj: Dict, info: GraphQLResolveInfo) -> collection.T:
     return obj["genre"]
 
 
-@top_genre_resolver.field("numMatches")
+@gql_top_genre.field("numMatches")
 def resolve_role(obj: Dict, info: GraphQLResolveInfo) -> int:
     return obj["num_matches"]

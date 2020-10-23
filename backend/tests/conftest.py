@@ -3,12 +3,15 @@ from pathlib import Path
 
 import pytest
 import quart
+from ariadne import graphql
 from yoyo import get_backend, read_migrations
 
 from backend.constants import PROJECT_ROOT
+from backend.graphql import schema
 from backend.library import user
 from backend.util import database
 from backend.webserver.app import create_app
+from backend.webserver.routes.graphql import GraphQLContext
 
 FAKE_DATA = Path(__file__).parent / "fake_data"
 DATABASE_PATH = FAKE_DATA / "db.sqlite3"
@@ -79,10 +82,18 @@ async def quart_client(quart_app):
 
 
 @pytest.fixture
-def quart_authed_request(quart_client):
-    with quart_client.test_request_context("/testing", method="GET"):
-        with database() as conn:
-            cursor = conn.cursor()
-            quart.g.user = user.from_id(1, cursor)
+def graphql_query(db, quart_app):
+    async def executor(query, authed):
+        async with quart_app.test_request_context("/testing", method="GET"):
+            return await graphql(
+                schema=schema,
+                data={"operationName": None, "variables": {}, "query": query},
+                context_value=GraphQLContext(
+                    user=user.from_id(1, db) if authed else None,
+                    db=db,
+                    request=quart.request,
+                ),
+                debug=False,
+            )
 
-        yield quart_client
+    yield executor

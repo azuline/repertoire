@@ -6,8 +6,17 @@ async def test_graphql_endpoint(quart_client, snapshot):
     query = """
         query {
           user {
-            id
-            username
+            __typename
+
+            ... on User {
+              id
+              username
+            }
+
+            ... on Error {
+              error
+              message
+            }
           }
         }
     """

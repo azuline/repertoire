@@ -61,3 +61,12 @@ class ReleaseSort(Enum):
     YEAR = "rls.release_year"
     #:
     RANDOM = "RANDOM()"
+
+
+class GraphQLError(Enum):
+    """The possible GraphQL errors."""
+
+    #:
+    NOT_AUTHENTICATED = 1
+    #:
+    NOT_FOUND = 2

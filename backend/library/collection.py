@@ -39,14 +39,24 @@ def from_row(row: Row) -> T:
     """
     Return a collection dataclass containing data from a row from the database.
 
+    _Note: For some reason, SQLite doesn't parse the ``last_updated_on`` row as a
+    ``datetime`` object, instead parsing it as a string. So we do the manual conversion
+    here to a datetime object.
+
     :param row: A row from the database.
     :return: A collection dataclass.
     """
+    try:
+        last_updated_on = datetime.fromisoformat(row["last_updated_on"])
+    except (KeyError, TypeError):
+        last_updated_on = None
+
     return T(
         **dict(
             row,
             favorite=bool(row["favorite"]),
             type=CollectionType(row["type"]),
+            last_updated_on=last_updated_on,
         )
     )
 

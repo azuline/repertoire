@@ -42,7 +42,6 @@ async def graphql_server() -> Response:
 
     :return: A response to the request.
     """
-    print(await quart.request.get_json())
     success, result = await graphql(
         schema=schema,
         data=await quart.request.get_json(),

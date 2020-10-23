@@ -1,15 +1,20 @@
 scalar PosixTime
 
 type Query {
-    artist(id: Int!): Artist
-    artistFromName(name: String!): Artist
-    collection(id: Int!): Collection
-    collectionFromNameAndType(name: String!, type: CollectionType): Collection
-    release(id: Int!): Release
-    track(id: Int!): Track
-    user: User
+    artist(id: Int!): ArtistResult
+    artistFromName(name: String!): ArtistResult
+    collection(id: Int!): CollectionResult
+    collectionFromNameAndType(name: String!, type: CollectionType): CollectionResult
+    release(id: Int!): ReleaseResult
+    track(id: Int!): TrackResult
+    user: UserResult
 
     # TODO: Fetching multiples.
+}
+
+type Error {
+    error: ErrorType!
+    message: String!
 }
 
 type Artist {
@@ -22,9 +27,12 @@ type Artist {
     topGenres: [TopGenre]
 }
 
+union ArtistResult = Artist | Error
+
 type Collection {
     id: Int!
     name: String!
+    favorite: Boolean!
     type: CollectionType!
     numReleases: Int
     lastUpdatedOn: PosixTime
@@ -32,6 +40,8 @@ type Collection {
     releases: [Release]
     topGenres: [TopGenre]
 }
+
+union CollectionResult = Collection | Error
 
 type Release {
     id: Int!
@@ -51,6 +61,8 @@ type Release {
     collages: [Collection]
 }
 
+union ReleaseResult = Release | Error
+
 type Track {
     id: Int!
     title: String!
@@ -58,9 +70,11 @@ type Track {
     trackNumber: String!
     discNumber: String
 
-    release: [Release]
+    release: Release
     artists: [TrackArtist]
 }
+
+union TrackResult = Track | Error
 
 type TrackArtist {
     role: ArtistRole!
@@ -75,6 +89,13 @@ type TopGenre {
 type User {
     id: Int!
     username: String!
+}
+
+union UserResult = User | Error
+
+enum ErrorType {
+    NOT_AUTHENTICATED
+    NOT_FOUND
 }
 
 enum ArtistRole {
