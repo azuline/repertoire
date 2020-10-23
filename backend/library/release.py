@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import asdict, dataclass
 from datetime import date, datetime
 from itertools import chain, repeat
@@ -14,6 +15,8 @@ from backend.errors import AlreadyExists, DoesNotExist, Duplicate
 from backend.util import strip_punctuation
 
 from . import artist, collection, track
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -303,6 +306,8 @@ def create(
         )
     cursor.connection.commit()
 
+    logger.info(f'Created release "{title}" with ID {id}.')
+
     # We fetch it from the database to also get the `added_on` column.
     return from_id(id, cursor)
 
@@ -396,6 +401,8 @@ def update(rls: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
         ),
     )
     cursor.connection.commit()
+
+    logger.info(f"Updated release {rls.id} with {changes}.")
 
     return T(**dict(asdict(rls), **changes))
 

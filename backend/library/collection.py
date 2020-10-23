@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from sqlite3 import Cursor, Row
@@ -12,6 +13,8 @@ from backend.util import without_key
 from . import release
 
 ILLEGAL_UPDATE_TYPES = {CollectionType.SYSTEM, CollectionType.RATING}
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -164,6 +167,10 @@ def create(
     )
     cursor.connection.commit()
 
+    logger.info(
+        f'Created collection "{name}" of type {type} with ID {cursor.lastrowid}.'
+    )
+
     return T(
         id=cursor.lastrowid,
         name=name,
@@ -214,6 +221,8 @@ def update(col: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
         ),
     )
     cursor.connection.commit()
+
+    logger.info(f"Updated collection {col.id} with {changes}.")
 
     return T(**dict(asdict(col), **changes))
 

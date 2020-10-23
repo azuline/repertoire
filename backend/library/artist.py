@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import asdict, dataclass
 from sqlite3 import Cursor, Row
 from typing import Any, Dict, List, Optional
@@ -9,6 +10,8 @@ from backend.errors import Duplicate
 from backend.util import without_key
 
 from . import collection, release
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -130,6 +133,8 @@ def create(name: str, cursor: Cursor, favorite: bool = False) -> T:
     )
     cursor.connection.commit()
 
+    logger.info(f'Created artist "{name}" with ID {cursor.lastrowid}')
+
     return T(id=cursor.lastrowid, name=name, favorite=favorite, num_releases=0)
 
 
@@ -157,6 +162,8 @@ def update(art: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
         (changes.get("name", art.name), changes.get("favorite", art.favorite), art.id),
     )
     cursor.connection.commit()
+
+    logger.info(f"Updated artist {art.id} with {changes}.")
 
     return T(**dict(asdict(art), **changes))
 

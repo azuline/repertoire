@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from sqlite3 import Cursor, Row
@@ -10,6 +11,8 @@ from backend.errors import AlreadyExists, DoesNotExist, Duplicate
 from backend.util import without_key
 
 from . import artist, release
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -157,6 +160,8 @@ def create(
         )
     cursor.connection.commit()
 
+    logger.info(f'Created track "{filepath}" with ID {id}.')
+
     return from_id(id, cursor)
 
 
@@ -201,6 +206,8 @@ def update(trk: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
         ),
     )
     cursor.connection.commit()
+
+    logger.info(f"Updated track {trk.id} with {changes}.")
 
     return T(**dict(asdict(trk), **changes))
 

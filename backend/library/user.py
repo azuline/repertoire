@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import secrets
 import string
 from dataclasses import dataclass
@@ -13,6 +14,8 @@ from backend.errors import InvalidUsername, TokenGenerationFailure
 TOKEN_LENGTH = 32
 PREFIX_LENGTH = 12
 VALID_USERNAME_CHARACTERS = set(string.ascii_letters + string.digits)
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -121,6 +124,8 @@ def create(username: str, cursor: Cursor) -> Tuple[T, bytes]:
     )
     cursor.connection.commit()
 
+    logger.info(f"Created user {username} with ID {cursor.lastrowid}.")
+
     return T(id=cursor.lastrowid, username=username), token
 
 
@@ -162,14 +167,15 @@ def _generate_token(cursor: Cursor) -> Tuple[bytes, bytes]:
             return token, prefix
 
     # If we do not find a suitable token after 64 cycles, raise an exception.
+    logger.info("Failed to generate token after 64 cycles o.O")
     raise TokenGenerationFailure
 
 
-def new_token(user: T, cursor: Cursor) -> bytes:
+def new_token(usr: T, cursor: Cursor) -> bytes:
     """
     Generate a new token for a given user.
 
-    :param user: The user to generate a new token for.
+    :param usr: The user to generate a new token for.
     :param cursor: A cursor to the database.
     :return: The new token.
     :raises TokenGenerationFailure: If we could not generate a suitable token.
@@ -179,23 +185,25 @@ def new_token(user: T, cursor: Cursor) -> bytes:
 
     cursor.execute(
         "UPDATE system__users SET token_prefix = ?, token_hash = ? WHERE id = ?",
-        (token_prefix, token_hash, user.id),
+        (token_prefix, token_hash, usr.id),
     )
     cursor.connection.commit()
+
+    logger.info(f"Updated token of user {usr.id}.")
 
     return token
 
 
-def check_token(user: T, token: bytes, cursor: Cursor) -> bool:
+def check_token(usr: T, token: bytes, cursor: Cursor) -> bool:
     """
     Check if a given token is valid for a user.
 
-    :param user: The user to check.
+    :param usr: The user to check.
     :param token: The token to check.
     :param cursor: A cursor to the database.
     :return: Whether the token is valid.
     """
-    cursor.execute("SELECT token_hash FROM system__users WHERE id = ?", (user.id,))
+    cursor.execute("SELECT token_hash FROM system__users WHERE id = ?", (usr.id,))
     if not (row := cursor.fetchone()):
         return False
 
