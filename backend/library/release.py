@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional, Tuple
 from unidecode import unidecode
 
 from backend.enums import CollectionType, ReleaseSort, ReleaseType
-from backend.errors import AlreadyExists, DoesNotExist, Duplicate
+from backend.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
 from backend.util import strip_punctuation
 
 from . import artist, collection, track
@@ -42,6 +42,17 @@ class T:
     release_date: Optional[date] = None
     #: The filepath of the album cover.
     image_path: Optional[Path] = None
+
+
+def exists(id: int, cursor: Cursor) -> bool:
+    """
+    Return whether a release exists with the given ID.
+
+    :param id: The ID to check.
+    :return: Whether a release has the given ID.
+    """
+    cursor.execute("SELECT 1 FROM music__releases WHERE id = ?", (id,))
+    return bool(cursor.fetchone())
 
 
 def from_row(row: Row) -> T:
@@ -95,8 +106,8 @@ def search(
     cursor: Cursor,
     *,
     search: str = "",
-    collections: List[int] = [],
-    artists: List[int] = [],
+    collection_ids: List[int] = [],
+    artist_ids: List[int] = [],
     release_types: List[ReleaseType] = [],
     page: int = 1,
     per_page: Optional[int] = None,
@@ -108,11 +119,12 @@ def search(
 
     :param search: A search string. We split this up into individual punctuation-less
                    words and return releases that contain each word.
-    :param collections: A list of collection IDs. We match releases by the collections in
-                        this list. For a release to match, it must be in all collections
-                        in this list.
-    :param artists: A list of artist IDs. We match releases by the artists in this list.
-                    For a release to match, all artists in this list must be included.
+    :param collection_ids: A list of collection IDs. We match releases by the collections
+                           in this list. For a release to match, it must be in all
+                           collections in this list.
+    :param artist_ids: A list of artist IDs. We match releases by the artists in this
+                       list. For a release to match, all artists in this list must be
+                       included.
     :param release_types: A list of release types. Filter out releases that do not match
                           one of the release types in this list.
     :param page: Which page of releases to return.
@@ -129,8 +141,8 @@ def search(
     filter_params = []
 
     for sql, params in [
-        _generate_collection_filter(collections),
-        _generate_artist_filter(artists),
+        _generate_collection_filter(collection_ids),
+        _generate_artist_filter(artist_ids),
         _generate_release_types_filter(release_types),
         _generate_search_filter(search),
     ]:
@@ -176,11 +188,13 @@ def search(
     return total, [from_row(row) for row in cursor.fetchall()]
 
 
-def _generate_collection_filter(collections: List[int]) -> Tuple[List[str], List[int]]:
+def _generate_collection_filter(
+    collection_ids: List[int],
+) -> Tuple[List[str], List[int]]:
     """
     Generate the SQL and params for filtering on collections.
 
-    :param collections: The collection IDs to filter on.
+    :param collection_ids: The collection IDs to filter on.
     :return: The filter SQL and query parameters.
     """
     sql = """
@@ -190,17 +204,14 @@ def _generate_collection_filter(collections: List[int]) -> Tuple[List[str], List
           )
           """
 
-    filter_sql = repeat(sql, len(collections))
-    filter_params = [id for id in collections]
-
-    return filter_sql, filter_params
+    return repeat(sql, len(collection_ids)), collection_ids
 
 
-def _generate_artist_filter(artists: List[int]) -> Tuple[List[str], List[int]]:
+def _generate_artist_filter(artist_ids: List[int]) -> Tuple[List[str], List[int]]:
     """
     Generate the SQL and params for filtering on artists.
 
-    :param artists: The artist IDs to filter on.
+    :param artist_ids: The artist IDs to filter on.
     :return: The filter SQL and query parameters.
     """
     sql = """
@@ -210,10 +221,7 @@ def _generate_artist_filter(artists: List[int]) -> Tuple[List[str], List[int]]:
           )
           """
 
-    filter_sql = repeat(sql, len(artists))
-    filter_params = [id for id in artists]
-
-    return filter_sql, filter_params
+    return repeat(sql, len(artist_ids)), artist_ids
 
 
 def _generate_release_types_filter(
@@ -258,7 +266,7 @@ def _generate_search_filter(search: str) -> Tuple[List[str], List[str]]:
 
 def create(
     title: str,
-    artists: List[artist.T],
+    artist_ids: List[int],
     release_type: ReleaseType,
     release_year: int,
     cursor: Cursor,
@@ -270,7 +278,7 @@ def create(
     Create a release with the provided parameters.
 
     :param title: The title of the release.
-    :param artists: The "album artists" on the release.
+    :param artist_ids: The IDs of the "album artists" on the release.
     :param release_type: The type of the release.
     :param release_year: The year the release came out.
     :param cursor: A cursor to the database.
@@ -280,10 +288,16 @@ def create(
                              this is ``False``, then ``Duplicate`` will never be raised.
                              All releases will be created.
     :return: The newly created release.
+    :raises NotFound: If the list of artists contains an invalid ID.
     :raises Duplicate: If a release with the same name and artists already exists. The
                        duplicate release is passed as the ``entity`` argument.
     """
-    if not allow_duplicate and (rls := _find_duplicate_release(title, artists, cursor)):
+    if bad_ids := [str(id) for id in artist_ids if not artist.exists(id, cursor)]:
+        raise NotFound(f"Artist(s) {', '.join(bad_ids)} do not exist.")
+
+    if not allow_duplicate and (
+        rls := _find_duplicate_release(title, artist_ids, cursor)
+    ):
         raise Duplicate(rls)
 
     # Insert the release into the database.
@@ -299,12 +313,12 @@ def create(
     id = cursor.lastrowid
 
     # Insert the release artists into the database.
-    for art in artists:
+    for artist_id in artist_ids:
         cursor.execute(
             """
             INSERT INTO music__releases_artists (release_id, artist_id) VALUES (?, ?)
             """,
-            (id, art.id),
+            (id, artist_id),
         )
     cursor.connection.commit()
 
@@ -315,14 +329,16 @@ def create(
 
 
 def _find_duplicate_release(
-    title: str, artists: List[artist.T], cursor: Cursor
+    title: str,
+    artist_ids: List[int],
+    cursor: Cursor,
 ) -> Optional[T]:
     """
     Try to find a duplicate release with the given title and artists. If we find a
     duplicate release, return it.
 
     :param title: The title of the release.
-    :param artists: The artists that contributed to the release.
+    :param artist_ids: The IDs of the artists that contributed to the release.
     :param cursor: A cursor to the database.
     :return: The duplicate release, if found.
     """
@@ -344,11 +360,15 @@ def _find_duplicate_release(
         """,
         (title,),
     )
+    release_ids = cursor.fetchall()
 
     # Construct a lowercase set of artists for a future case-insensitive comparison.
-    provided_artists = {art.name.lower() for art in artists}
+    provided_artists = set()
+    for id in artist_ids:
+        cursor.execute("SELECT name FROM music__artists WHERE id = ?", (id,))
+        provided_artists.add(cursor.fetchone()["name"].lower())
 
-    for row in cursor.fetchall():
+    for row in release_ids:
         # For each release with the same title, compare the artists.
         cursor.execute(
             """
@@ -449,48 +469,56 @@ def artists(rls: T, cursor: Cursor) -> List[artist.T]:
     return [artist.from_row(row) for row in cursor.fetchall()]
 
 
-def add_artist(rls: T, art: artist.T, cursor: Cursor) -> None:
+def add_artist(rls: T, artist_id: int, cursor: Cursor) -> None:
     """
     Add the provided artist to the provided release.
 
     :param rls: The release to add the artist to.
-    :param art: The artist to add.
+    :param artist_id: The ID of the artist to add.
     :param cursor: A cursor to the database.
+    :raises NotFound: If no artist has the given artist ID.
     :raises AlreadyExists: If the artist is already on the release.
     """
+    if not artist.exists(artist_id, cursor):
+        raise NotFound(f"Artist {artist_id} does not exist.")
+
     cursor.execute(
         "SELECT 1 FROM music__releases_artists WHERE release_id = ? AND artist_id = ?",
-        (rls.id, art.id),
+        (rls.id, artist_id),
     )
     if cursor.fetchone():
         raise AlreadyExists
 
     cursor.execute(
         "INSERT INTO music__releases_artists (release_id, artist_id) VALUES (?, ?)",
-        (rls.id, art.id),
+        (rls.id, artist_id),
     )
     cursor.connection.commit()
 
 
-def del_artist(rls: T, art: artist.T, cursor: Cursor) -> None:
+def del_artist(rls: T, artist_id: int, cursor: Cursor) -> None:
     """
     Delete the provided artist to the provided release.
 
     :param rls: The release to delete the artist from.
-    :param art: The artist to delete.
+    :param artist_id: The ID of the artist to delete.
     :param cursor: A cursor to the database.
+    :raises NotFound: If no artist has the given artist ID.
     :raises DoesNotExist: If the artist is not on the release.
     """
+    if not artist.exists(artist_id, cursor):
+        raise NotFound(f"Artist {artist_id} does not exist.")
+
     cursor.execute(
         "SELECT 1 FROM music__releases_artists WHERE release_id = ? AND artist_id = ?",
-        (rls.id, art.id),
+        (rls.id, artist_id),
     )
     if not cursor.fetchone():
         raise DoesNotExist
 
     cursor.execute(
         "DELETE FROM music__releases_artists WHERE release_id = ? AND artist_id = ?",
-        (rls.id, art.id),
+        (rls.id, artist_id),
     )
     cursor.connection.commit()
 

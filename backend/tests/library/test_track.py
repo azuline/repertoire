@@ -5,7 +5,15 @@ import pytest
 
 from backend.enums import ArtistRole
 from backend.errors import AlreadyExists, DoesNotExist, Duplicate
-from backend.library import artist, release, track
+from backend.library import track
+
+
+def test_exists(db: Cursor):
+    assert track.exists(1, db)
+
+
+def test_does_not_exist(db: Cursor):
+    assert not track.exists(9999999, db)
 
 
 def test_from_id_success(db: Cursor, snapshot):
@@ -41,14 +49,14 @@ def test_from_sha256_failure(db: Cursor):
     assert track.from_sha256(b"0" * 32, db) is None
 
 
-def test_create(db: Cursor):
-    artists = [{"artist": artist.from_id(2, db), "role": ArtistRole.MAIN}]
+def test_create(db: Cursor, snapshot):
+    artists = [{"artist_id": 2, "role": ArtistRole.MAIN}]
 
     trk = track.create(
         title="new track",
         filepath=Path("/tmp/repertoire-library/09-track.m4a"),
         sha256=b"0" * 32,
-        release=release.from_id(2, db),
+        release_id=2,
         artists=artists,
         duration=9001,
         track_number="1",
@@ -58,7 +66,7 @@ def test_create(db: Cursor):
 
     assert trk.id == 22
     assert trk == track.from_id(22, db)
-    assert artists == track.artists(trk, db)
+    snapshot.assert_match(track.artists(trk, db))
 
 
 def test_create_same_sha256(db: Cursor):
@@ -69,8 +77,8 @@ def test_create_same_sha256(db: Cursor):
         sha256=bytes.fromhex(
             "75ca14432165a9ee87ee63df654ef77f45d009bbe57da0610a453c48c6b26a1a"
         ),
-        release=release.from_id(2, db),
-        artists=[{"artist": artist.from_id(2, db), "role": ArtistRole.MAIN}],
+        release_id=2,
+        artists=[{"artist_id": 2, "role": ArtistRole.MAIN}],
         duration=9001,
         track_number="1",
         disc_number="2",
@@ -89,8 +97,8 @@ def test_create_duplicate_filepath(db: Cursor):
                 "/tmp/repertoire-library/Abakus/2016. Departure/11. Airwaves.m4a"
             ),
             sha256=b"0" * 32,
-            release=release.from_id(3, db),
-            artists=[{"artist": artist.from_id(2, db), "role": ArtistRole.MAIN}],
+            release_id=3,
+            artists=[{"artist_id": 2, "role": ArtistRole.MAIN}],
             duration=9001,
             track_number="1",
             disc_number="1",
@@ -103,7 +111,7 @@ def test_update_fields(db: Cursor, snapshot):
         track.from_id(1, db),
         cursor=db,
         title="New Title",
-        release=release.from_id(2, db),
+        release_id=3,
         track_number="X Æ",
         disc_number="A-12",
     )
@@ -124,9 +132,8 @@ def test_artists(db: Cursor, snapshot):
 
 def test_add_artist(db: Cursor, snapshot):
     trk = track.from_id(10, db)
-    art = artist.from_id(4, db)
 
-    track.add_artist(trk, art, ArtistRole.MAIN, db)
+    track.add_artist(trk, 4, ArtistRole.MAIN, db)
     artists = track.artists(trk, db)
 
     assert len(artists) == 3
@@ -135,9 +142,8 @@ def test_add_artist(db: Cursor, snapshot):
 
 def test_add_artist_new_role(db: Cursor, snapshot):
     trk = track.from_id(10, db)
-    art = artist.from_id(2, db)
 
-    track.add_artist(trk, art, ArtistRole.REMIXER, db)
+    track.add_artist(trk, 2, ArtistRole.REMIXER, db)
     artists = track.artists(trk, db)
 
     assert len(artists) == 3
@@ -146,17 +152,15 @@ def test_add_artist_new_role(db: Cursor, snapshot):
 
 def test_add_artist_failure(db: Cursor, snapshot):
     trk = track.from_id(10, db)
-    art = artist.from_id(2, db)
 
     with pytest.raises(AlreadyExists):
-        track.add_artist(trk, art, ArtistRole.MAIN, db)
+        track.add_artist(trk, 2, ArtistRole.MAIN, db)
 
 
 def test_del_artist(db: Cursor, snapshot):
     trk = track.from_id(10, db)
-    art = artist.from_id(3, db)
 
-    track.del_artist(trk, art, ArtistRole.COMPOSER, db)
+    track.del_artist(trk, 3, ArtistRole.COMPOSER, db)
     artists = track.artists(trk, db)
 
     assert len(artists) == 1
@@ -165,15 +169,13 @@ def test_del_artist(db: Cursor, snapshot):
 
 def test_del_artist_failure(db: Cursor, snapshot):
     trk = track.from_id(10, db)
-    art = artist.from_id(4, db)
 
     with pytest.raises(DoesNotExist):
-        track.del_artist(trk, art, ArtistRole.MAIN, db)
+        track.del_artist(trk, 4, ArtistRole.MAIN, db)
 
 
 def test_del_artist_failure_bad_role(db: Cursor, snapshot):
     trk = track.from_id(10, db)
-    art = artist.from_id(3, db)
 
     with pytest.raises(DoesNotExist):
-        track.del_artist(trk, art, ArtistRole.MAIN, db)
+        track.del_artist(trk, 3, ArtistRole.MAIN, db)

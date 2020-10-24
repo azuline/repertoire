@@ -4,7 +4,13 @@ from ariadne import ObjectType, UnionType
 from graphql.type import GraphQLResolveInfo
 
 from backend.enums import CollectionType, GraphQLError
-from backend.errors import AlreadyExists, DoesNotExist, Duplicate, ImmutableCollection
+from backend.errors import (
+    AlreadyExists,
+    DoesNotExist,
+    Duplicate,
+    ImmutableCollection,
+    NotFound,
+)
 from backend.graphql.mutation import mutation
 from backend.graphql.query import query
 from backend.graphql.types.error import Error
@@ -76,10 +82,7 @@ def resolve_create_collection(
     try:
         return collection.create(name, type, info.context.db, favorite=favorite)
     except Duplicate:
-        return Error(
-            GraphQLError.DUPLICATE,
-            f'Collection "{name}" of type {type} already exists.',
-        )
+        return Error(GraphQLError.DUPLICATE, f'Collection "{name}" already exists.')
 
 
 @mutation.field("updateCollection")
@@ -97,13 +100,11 @@ def resolve_update_collection(
         return collection.update(col, info.context.db, **convert_keys_case(changes))
     except Duplicate:
         return Error(
-            GraphQLError.DUPLICATE,
-            f'Collection "{changes["name"]}" conflicts with an existing collection.',
+            GraphQLError.DUPLICATE, f'Collection "{changes["name"]}" already exists.'
         )
     except ImmutableCollection:
         return Error(
-            GraphQLError.IMMUTABLE,
-            f'Collection "{col.name}" is immutable, cannot update.',
+            GraphQLError.IMMUTABLE, f'Collection "{col.name}" cannot be updated.'
         )
 
 
@@ -117,11 +118,11 @@ def resolve_add_release_to_collection(
 ) -> Union[collection.T, Error]:
     if not (col := collection.from_id(collectionId, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, "Collection does not exist.")
-    if not (rls := release.from_id(releaseId, info.context.db)):
-        return Error(GraphQLError.NOT_FOUND, "Release does not exist.")
 
     try:
-        collection.add_release(col, rls, info.context.db)
+        collection.add_release(col, releaseId, info.context.db)
+    except NotFound as e:
+        return Error(GraphQLError.NOT_FOUND, e.message)
     except AlreadyExists:
         return Error(GraphQLError.ALREADY_EXISTS, "Release is already in collection.")
 
@@ -140,11 +141,11 @@ def resolve_del_release_from_collection(
 ) -> Union[collection.T, Error]:
     if not (col := collection.from_id(collectionId, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, "Collection does not exist.")
-    if not (rls := release.from_id(releaseId, info.context.db)):
-        return Error(GraphQLError.NOT_FOUND, "Release does not exist.")
 
     try:
-        collection.del_release(col, rls, info.context.db)
+        collection.del_release(col, releaseId, info.context.db)
+    except NotFound as e:
+        return Error(GraphQLError.NOT_FOUND, e.message)
     except DoesNotExist:
         return Error(GraphQLError.DOES_NOT_EXIST, "Release is not in collection.")
 

@@ -29,6 +29,17 @@ class T:
     num_releases: int
 
 
+def exists(id: int, cursor: Cursor) -> bool:
+    """
+    Return whether an artist exists with the given ID.
+
+    :param id: The ID to check.
+    :return: Whether an artist has the given ID.
+    """
+    cursor.execute("SELECT 1 FROM music__artists WHERE id = ?", (id,))
+    return bool(cursor.fetchone())
+
+
 def from_row(row: Row) -> T:
     """
     Return an artist dataclass containing data from a row from the database.
@@ -182,7 +193,7 @@ def releases(art: T, cursor: Cursor) -> List[release.T]:
     :param cursor: A cursor to the database.
     :return: A list of releases of the artist.
     """
-    _, releases = release.search(artists=[art.id], cursor=cursor)
+    _, releases = release.search(artist_ids=[art.id], cursor=cursor)
     return releases
 
 

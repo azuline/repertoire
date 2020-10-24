@@ -114,7 +114,7 @@ snapshots['test_add_artist_to_release_bad_artist 1'] = (
             'addArtistToRelease': {
                 '__typename': 'Error',
                 'error': 'NOT_FOUND',
-                'message': 'Artist does not exist.'
+                'message': 'Artist 9999 does not exist.'
             }
         }
     }
@@ -189,7 +189,7 @@ snapshots['test_create_release_bad_artists 1'] = (
             'createRelease': {
                 '__typename': 'Error',
                 'error': 'NOT_FOUND',
-                'message': 'Artist 9999 does not exist.'
+                'message': 'Artist(s) 9999 do not exist.'
             }
         }
     }
@@ -303,7 +303,7 @@ snapshots['test_del_artist_from_release_bad_artist 1'] = (
             'delArtistFromRelease': {
                 '__typename': 'Error',
                 'error': 'NOT_FOUND',
-                'message': 'Artist does not exist.'
+                'message': 'Artist 9999 does not exist.'
             }
         }
     }

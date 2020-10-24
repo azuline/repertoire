@@ -7,6 +7,14 @@ from backend.errors import InvalidUsername
 from backend.library import user
 
 
+def test_exists(db: Cursor):
+    assert user.exists(1, db)
+
+
+def test_does_not_exist(db: Cursor):
+    assert not user.exists(9999999, db)
+
+
 def test_from_id_success(db: Cursor, snapshot):
     snapshot.assert_match(user.from_id(1, db))
 

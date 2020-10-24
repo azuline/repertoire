@@ -1,0 +1,3 @@
+[run]
+omit =
+    backend/__main__.py

@@ -5,7 +5,15 @@ import pytest
 
 from backend.enums import CollectionType, ReleaseSort, ReleaseType
 from backend.errors import AlreadyExists, DoesNotExist, Duplicate
-from backend.library import artist, release
+from backend.library import release
+
+
+def test_exists(db: Cursor):
+    assert release.exists(1, db)
+
+
+def test_does_not_exist(db: Cursor):
+    assert not release.exists(9999999, db)
 
 
 def test_release_from_id_success(db: Cursor, snapshot):
@@ -71,19 +79,19 @@ def test_release_search_asc(db: Cursor, snapshot):
 
 
 def test_release_search_filter_collections(db: Cursor, snapshot):
-    total, inbox = release.search(db, collections=[1])
+    total, inbox = release.search(db, collection_ids=[1])
 
     assert total == 2
     snapshot.assert_match(inbox)
 
-    total, folk = release.search(db, collections=[12])
+    total, folk = release.search(db, collection_ids=[12])
 
     assert total == 1
     snapshot.assert_match(folk)
 
 
-def test_release_search_filter_artist(db: Cursor, snapshot):
-    total, releases = release.search(db, artists=[4, 5])
+def test_release_search_filter_artists(db: Cursor, snapshot):
+    total, releases = release.search(db, artist_ids=[4, 5])
 
     assert total == 1
     snapshot.assert_match(releases)
@@ -99,7 +107,7 @@ def test_release_search_filter_release_type(db: Cursor, snapshot):
 def test_create(db: Cursor):
     rls = release.create(
         title="New Release",
-        artists=[artist.from_id(2, db), artist.from_id(4, db)],
+        artist_ids=[2, 4],
         release_type=ReleaseType.ALBUM,
         release_year=2020,
         cursor=db,
@@ -113,7 +121,7 @@ def test_create(db: Cursor):
 def test_create_same_album_name_no_duplicate_trigger(db: Cursor):
     rls = release.create(
         title="Departure",
-        artists=[artist.from_id(2, db), artist.from_id(4, db)],
+        artist_ids=[2, 4],
         release_type=ReleaseType.ALBUM,
         release_year=2020,
         cursor=db,
@@ -128,7 +136,7 @@ def test_create_same_album_name_no_duplicate_trigger(db: Cursor):
 def test_create_same_album_name_artist_subset_no_duplicate_trigger(db: Cursor):
     rls = release.create(
         title="Departure",
-        artists=[artist.from_id(4, db)],
+        artist_ids=[4],
         release_type=ReleaseType.ALBUM,
         release_year=2020,
         cursor=db,
@@ -143,7 +151,7 @@ def test_create_same_album_name_artist_subset_no_duplicate_trigger(db: Cursor):
 def test_create_duplicate_allow(db: Cursor):
     rls = release.create(
         title="Departure",
-        artists=[artist.from_id(4, db), artist.from_id(5, db)],
+        artist_ids=[4, 5],
         release_type=ReleaseType.ALBUM,
         release_year=2020,
         cursor=db,
@@ -158,7 +166,7 @@ def test_create_duplicate_disallow(db: Cursor):
     with pytest.raises(Duplicate) as e:
         release.create(
             title="Departure",
-            artists=[artist.from_id(4, db), artist.from_id(5, db)],
+            artist_ids=[4, 5],
             release_type=ReleaseType.ALBUM,
             release_year=2020,
             cursor=db,
@@ -194,34 +202,30 @@ def test_artists(db: Cursor, snapshot):
 
 def test_add_artist(db: Cursor, snapshot):
     rls = release.from_id(2, db)
-    art = artist.from_id(3, db)
 
-    release.add_artist(rls, art, db)
+    release.add_artist(rls, 3, db)
     snapshot.assert_match(release.artists(rls, db))
 
 
 def test_add_artist_failure(db: Cursor):
     rls = release.from_id(2, db)
-    art = artist.from_id(2, db)
 
     with pytest.raises(AlreadyExists):
-        release.add_artist(rls, art, db)
+        release.add_artist(rls, 2, db)
 
 
 def test_del_artist(db: Cursor, snapshot):
     rls = release.from_id(2, db)
-    art = artist.from_id(2, db)
 
-    release.del_artist(rls, art, db)
+    release.del_artist(rls, 2, db)
     snapshot.assert_match(release.artists(rls, db))
 
 
 def test_del_artist_failure(db: Cursor):
     rls = release.from_id(2, db)
-    art = artist.from_id(3, db)
 
     with pytest.raises(DoesNotExist):
-        release.del_artist(rls, art, db)
+        release.del_artist(rls, 3, db)
 
 
 def test_release_collections(db: Cursor, snapshot):

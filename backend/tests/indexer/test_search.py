@@ -12,7 +12,7 @@ def test_search_index(db):
 
     rls = release.create(
         title="release title",
-        artists=[art1, art2],
+        artist_ids=[art1.id, art2.id],
         release_type=ReleaseType.ALBUM,
         release_year=2020,
         cursor=db,
@@ -24,10 +24,10 @@ def test_search_index(db):
         title="i got a hát title",
         filepath="/1.flac",
         sha256=b"0" * 32,
-        release=rls,
+        release_id=rls.id,
         artists=[
-            {"artist": art1, "role": ArtistRole.MAIN},
-            {"artist": art3, "role": ArtistRole.FEATURE},
+            {"artist_id": art1.id, "role": ArtistRole.MAIN},
+            {"artist_id": art3.id, "role": ArtistRole.FEATURE},
         ],
         duration=100,
         track_number="1",

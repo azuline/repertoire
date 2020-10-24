@@ -96,7 +96,7 @@ snapshots['test_add_release_to_collection_bad_release 1'] = (
             'addReleaseToCollection': {
                 '__typename': 'Error',
                 'error': 'NOT_FOUND',
-                'message': 'Release does not exist.'
+                'message': 'Releasse 9999 does not exist.'
             }
         }
     }
@@ -1139,7 +1139,7 @@ snapshots['test_create_collection_duplicate 1'] = (
             'createCollection': {
                 '__typename': 'Error',
                 'error': 'DUPLICATE',
-                'message': 'Collection "Folk" of type CollectionType.GENRE already exists.'
+                'message': 'Collection "Folk" already exists.'
             }
         }
     }
@@ -1217,7 +1217,7 @@ snapshots['test_del_release_from_collection_bad_release 1'] = (
             'delReleaseFromCollection': {
                 '__typename': 'Error',
                 'error': 'NOT_FOUND',
-                'message': 'Release does not exist.'
+                'message': 'Release 9999 does not exist.'
             }
         }
     }
@@ -1322,7 +1322,7 @@ snapshots['test_update_collection_duplicate 1'] = (
             'updateCollection': {
                 '__typename': 'Error',
                 'error': 'DUPLICATE',
-                'message': 'Collection "Folk" conflicts with an existing collection.'
+                'message': 'Collection "Folk" already exists.'
             }
         }
     }
@@ -1337,7 +1337,7 @@ snapshots['test_update_collection_immutable 1'] = (
             'updateCollection': {
                 '__typename': 'Error',
                 'error': 'IMMUTABLE',
-                'message': 'Collection "Inbox" is immutable, cannot update.'
+                'message': 'Collection "Inbox" cannot be updated.'
             }
         }
     }

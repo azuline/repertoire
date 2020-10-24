@@ -13,6 +13,7 @@ from backend.errors import (
     Duplicate,
     ImmutableCollection,
     InvalidCollectionType,
+    NotFound,
 )
 from backend.util import without_key
 
@@ -40,6 +41,17 @@ class T:
     num_releases: Optional[int] = None
     #:
     last_updated_on: Optional[datetime] = None
+
+
+def exists(id: int, cursor: Cursor) -> bool:
+    """
+    Return whether a collection exists with the given ID.
+
+    :param id: The ID to check.
+    :return: Whether a collection has the given ID.
+    """
+    cursor.execute("SELECT 1 FROM music__collections WHERE id = ?", (id,))
+    return bool(cursor.fetchone())
 
 
 def from_row(row: Row) -> T:
@@ -243,25 +255,29 @@ def releases(col: T, cursor: Cursor) -> List[release.T]:
     :param cursor: A cursor to the database.
     :return: A list of releases in the collection.
     """
-    _, releases = release.search(collections=[col.id], cursor=cursor)
+    _, releases = release.search(collection_ids=[col.id], cursor=cursor)
     return releases
 
 
-def add_release(col: T, rls: release.T, cursor: Cursor) -> None:
+def add_release(col: T, release_id: int, cursor: Cursor) -> None:
     """
     Add the provided release to the provided collection.
 
     :param col: The collection to add the release to.
-    :param rls: The release to add.
+    :param rls_id: The ID of the release to add.
     :param cursor: A cursor to the database.
+    :raises NotFound: If no release has the given release ID.
     :raises AlreadyExists: If the release is already in the collection.
     """
+    if not release.exists(release_id, cursor):
+        raise NotFound(f"Releasse {release_id} does not exist.")
+
     cursor.execute(
         """
         SELECT 1 FROM music__collections_releases
         WHERE collection_id = ? AND release_id = ?
         """,
-        (col.id, rls.id),
+        (col.id, release_id),
     )
     if cursor.fetchone():
         raise AlreadyExists
@@ -271,26 +287,30 @@ def add_release(col: T, rls: release.T, cursor: Cursor) -> None:
         INSERT INTO music__collections_releases (collection_id, release_id)
         VALUES (?, ?)
         """,
-        (col.id, rls.id),
+        (col.id, release_id),
     )
     cursor.connection.commit()
 
 
-def del_release(col: T, rls: release.T, cursor: Cursor) -> None:
+def del_release(col: T, release_id: int, cursor: Cursor) -> None:
     """
     Remove the provided release from the provided collection.
 
     :param col: The collection to remove the release from.
     :param rls: The release to remove.
     :param cursor: A cursor to the database.
+    :raises NotFound: If no release has the given release ID.
     :raises DoesNotExist: If the release is not in the collection.
     """
+    if not release.exists(release_id, cursor):
+        raise NotFound(f"Release {release_id} does not exist.")
+
     cursor.execute(
         """
         SELECT 1 FROM music__collections_releases
         WHERE collection_id = ? AND release_id = ?
         """,
-        (col.id, rls.id),
+        (col.id, release_id),
     )
     if not cursor.fetchone():
         raise DoesNotExist
@@ -300,7 +320,7 @@ def del_release(col: T, rls: release.T, cursor: Cursor) -> None:
         DELETE FROM music__collections_releases
         WHERE collection_id = ? AND release_id = ?
         """,
-        (col.id, rls.id),
+        (col.id, release_id),
     )
     cursor.connection.commit()
 

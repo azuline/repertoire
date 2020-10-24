@@ -7,7 +7,7 @@ from sqlite3 import Cursor, Row
 from typing import Any, Dict, List, Optional, Union
 
 from backend.enums import ArtistRole
-from backend.errors import AlreadyExists, DoesNotExist, Duplicate
+from backend.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
 from backend.util import without_key
 
 from . import artist, release
@@ -36,6 +36,17 @@ class T:
     track_number: str
     #:
     disc_number: Optional[str] = None
+
+
+def exists(id: int, cursor: Cursor) -> bool:
+    """
+    Return whether a track exists with the given ID.
+
+    :param id: The ID to check.
+    :return: Whether a track has the given ID.
+    """
+    cursor.execute("SELECT 1 FROM music__tracks WHERE id = ?", (id,))
+    return bool(cursor.fetchone())
 
 
 def from_row(row: Row) -> T:
@@ -94,7 +105,7 @@ def create(
     title: str,
     filepath: Path,
     sha256: bytes,
-    release: release.T,
+    release_id: int,
     artists: List[Dict],
     duration: int,
     track_number: str,
@@ -110,16 +121,26 @@ def create(
     :param title: The title of the track.
     :param filepath: The filepath of the track.
     :param sha256: The sha256 of the track file.
-    :param release: The release that this track belongs to.
+    :param release_id: The ID of the release that this track belongs to.
     :param artists: The artists that contributed to this track. A list of
-                    ``{"artist": artist.T, "role": ArtistRole}`` mappings.
+                    ``{"artist_id": int, "role": ArtistRole}`` mappings.
     :param duration: The duration of this track, in seconds.
     :param track_number: The track number.
     :param disc_number: The disc number.
     :return: The newly created track.
+    :raises NotFound: If no release has the given release ID or no artist
+                      corresponds with any of the given artist IDs.
     :raises Duplicate: If a track with the same filepath already exists. The duplicate
                        track is passed as the ``entity`` argument.
     """
+    if not release.exists(release_id, cursor):
+        raise NotFound(f"Release {release_id} does not exist.")
+
+    if bad_ids := [
+        d["artist_id"] for d in artists if not artist.exists(d["artist_id"], cursor)
+    ]:
+        raise NotFound(f"Artist(s) {', '.join(bad_ids)} do not exist.")
+
     # First, check to see if a track with the same filepath exists.
     if trk := from_filepath(filepath, cursor):
         raise Duplicate(trk)
@@ -142,25 +163,18 @@ def create(
             title, filepath, sha256, release_id, track_number, disc_number, duration
         ) VALUES (?, ?, ?, ?, ?, ?, ?)
         """,
-        (title, str(filepath), sha256, release.id, track_number, disc_number, duration),
+        (title, str(filepath), sha256, release_id, track_number, disc_number, duration),
     )
     cursor.connection.commit()
-    id = cursor.lastrowid
+    trk = from_id(cursor.lastrowid, cursor)
 
     # Insert artists.
     for mapping in artists:
-        cursor.execute(
-            """
-            INSERT INTO music__tracks_artists (track_id, artist_id, role)
-            VALUES (?, ?, ?)
-            """,
-            (id, mapping["artist"].id, mapping["role"].value),
-        )
-    cursor.connection.commit()
+        add_artist(trk, mapping["artist_id"], mapping["role"], cursor)
 
     logger.info(f'Created track "{filepath}" with ID {id}.')
 
-    return from_id(id, cursor)
+    return trk
 
 
 def update(trk: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
@@ -173,18 +187,17 @@ def update(trk: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
     :param cursor: A cursor to the database.
     :param title: New track title.
     :type  title: :py:obj:`str`
-    :param release: New release.
-    :type  release: :py:obj:`backend.library.release.T`
+    :param release_id: ID of the new release.
+    :type  release_id: :py:obj:`int`
     :param track_number: New track number.
     :type  track_number: :py:obj:`str`
     :param disc_number: New disc number.
     :type  disc_number: :py:obj:`str`
     :return: The updated track.
+    :raise NotFound: If the new release ID does not exist.
     """
-    # Adjust the exposed `release` to the internally used `release_id`.
-    if "release" in changes:
-        changes["release_id"] = changes["release"].id
-        del changes["release"]
+    if "release_id" in changes and not release.exists(changes["release_id"], cursor):
+        raise NotFound(f"Release {changes['release_id']} does not exist.")
 
     cursor.execute(
         """
@@ -243,22 +256,26 @@ def artists(trk: T, cursor: Cursor) -> List[Dict]:
     ]
 
 
-def add_artist(trk: T, art: artist.T, role: ArtistRole, cursor: Cursor) -> None:
+def add_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> None:
     """
     Add the provided artist/role combo to the provided track.
 
     :param trk: The track to add the artist to.
-    :param art: The artist to add.
+    :param artist_id: The ID of the artist to add.
     :param role: The role to add the artist with.
     :param cursor: A cursor to the database.
+    :raises NotFound: If no artist has the given artist ID.
     :raises AlreadyExists: If the artist/role combo is already on the track.
     """
+    if not artist.exists(artist_id, cursor):
+        raise NotFound(f"Artist {artist_id} does not exist.")
+
     cursor.execute(
         """
         SELECT 1 FROM music__tracks_artists
         WHERE track_id = ? AND artist_id = ? AND role = ?
         """,
-        (trk.id, art.id, role.value),
+        (trk.id, artist_id, role.value),
     )
     if cursor.fetchone():
         raise AlreadyExists
@@ -268,26 +285,30 @@ def add_artist(trk: T, art: artist.T, role: ArtistRole, cursor: Cursor) -> None:
         INSERT INTO music__tracks_artists (track_id, artist_id, role)
         VALUES (?, ?, ?)
         """,
-        (trk.id, art.id, role.value),
+        (trk.id, artist_id, role.value),
     )
     cursor.connection.commit()
 
 
-def del_artist(trk: T, art: artist.T, role: ArtistRole, cursor: Cursor) -> None:
+def del_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> None:
     """
     Delete the provided artist/role combo to the provided track.
 
     :param trk: The track to delete the artist from.
-    :param art: The artist to delete.
+    :param artist_id: The ID of the artist to delete.
     :param cursor: A cursor to the database.
+    :raises NotFound: If no artist has the given artist ID.
     :raises DoesNotExist: If the artist is not on the track.
     """
+    if not artist.exists(artist_id, cursor):
+        raise NotFound(f"Artist {artist_id} does not exist.")
+
     cursor.execute(
         """
         SELECT 1 FROM music__tracks_artists
         WHERE track_id = ? AND artist_id = ? AND role = ?
         """,
-        (trk.id, art.id, role.value),
+        (trk.id, artist_id, role.value),
     )
     if not cursor.fetchone():
         raise DoesNotExist
@@ -297,6 +318,6 @@ def del_artist(trk: T, art: artist.T, role: ArtistRole, cursor: Cursor) -> None:
         DELETE FROM music__tracks_artists
         WHERE track_id = ? AND artist_id = ? AND role = ?
         """,
-        (trk.id, art.id, role.value),
+        (trk.id, artist_id, role.value),
     )
     cursor.connection.commit()

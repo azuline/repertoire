@@ -5,7 +5,7 @@ from ariadne import ObjectType, UnionType
 from graphql.type import GraphQLResolveInfo
 
 from backend.enums import CollectionType, GraphQLError, ReleaseType
-from backend.errors import AlreadyExists, DoesNotExist
+from backend.errors import AlreadyExists, DoesNotExist, NotFound
 from backend.graphql.mutation import mutation
 from backend.graphql.query import query
 from backend.graphql.types.error import Error
@@ -32,14 +32,6 @@ def resolve_release(obj: Any, info: GraphQLResolveInfo, id: int) -> release.T:
 @query.field("releases")
 @require_auth
 def resolve_releases(obj: Any, info: GraphQLResolveInfo, **kwargs) -> List[release.T]:
-    # TODO: Cleanup...
-    if "collectionIds" in kwargs:
-        kwargs["collections"] = kwargs["collectionIds"]
-        del kwargs["collectionIds"]
-    if "artistIds" in kwargs:
-        kwargs["artists"] = kwargs["artistIds"]
-        del kwargs["artistIds"]
-
     total, releases = release.search(info.context.db, **convert_keys_case(kwargs))
     return {"total": total, "results": releases}
 
@@ -91,21 +83,17 @@ def resolve_create_release(
         except ValueError:
             return Error(GraphQLError.PARSE_ERROR, "Invalid release date.")
 
-    artists = []
-    for id in artistIds:
-        if not (art := artist.from_id(id, info.context.db)):
-            return Error(GraphQLError.NOT_FOUND, f"Artist {id} does not exist.")
-
-        artists.append(art)
-
-    return release.create(
-        title=title,
-        artists=artists,
-        release_type=releaseType,
-        release_year=releaseYear,
-        cursor=info.context.db,
-        release_date=releaseDate,
-    )
+    try:
+        return release.create(
+            title=title,
+            artist_ids=artistIds,
+            release_type=releaseType,
+            release_year=releaseYear,
+            cursor=info.context.db,
+            release_date=releaseDate,
+        )
+    except NotFound as e:
+        return Error(GraphQLError.NOT_FOUND, e.message)
 
 
 @mutation.field("updateRelease")
@@ -139,11 +127,11 @@ def resolve_add_artist_to_release(
 ) -> Union[release.T, Error]:
     if not (rls := release.from_id(releaseId, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, "Release does not exist.")
-    if not (art := artist.from_id(artistId, info.context.db)):
-        return Error(GraphQLError.NOT_FOUND, "Artist does not exist.")
 
     try:
-        release.add_artist(rls, art, info.context.db)
+        release.add_artist(rls, artistId, info.context.db)
+    except NotFound as e:
+        return Error(GraphQLError.NOT_FOUND, e.message)
     except AlreadyExists:
         return Error(GraphQLError.ALREADY_EXISTS, "Artist is already in release.")
 
@@ -160,11 +148,11 @@ def resolve_del_artist_from_release(
 ) -> Union[release.T, Error]:
     if not (rls := release.from_id(releaseId, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, "Release does not exist.")
-    if not (art := artist.from_id(artistId, info.context.db)):
-        return Error(GraphQLError.NOT_FOUND, "Artist does not exist.")
 
     try:
-        release.del_artist(rls, art, info.context.db)
+        release.del_artist(rls, artistId, info.context.db)
+    except NotFound as e:
+        return Error(GraphQLError.NOT_FOUND, e.message)
     except DoesNotExist:
         return Error(GraphQLError.DOES_NOT_EXIST, "Artist is not in release.")
 

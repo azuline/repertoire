@@ -29,6 +29,17 @@ class T:
     username: str
 
 
+def exists(id: int, cursor: Cursor) -> bool:
+    """
+    Return whether a user exists with the given ID.
+
+    :param id: The ID to check.
+    :return: Whether a user has the given ID.
+    """
+    cursor.execute("SELECT 1 FROM system__users WHERE id = ?", (id,))
+    return bool(cursor.fetchone())
+
+
 def from_row(row: Row) -> T:
     """
     Return a user dataclass containing data from a row from the database.

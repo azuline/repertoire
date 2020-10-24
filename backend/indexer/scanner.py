@@ -89,9 +89,9 @@ def catalog_file(filepath: str, cursor: Cursor) -> None:
     """
     tf = TagFile(filepath)
 
-    release = fetch_or_create_release(tf, cursor)
+    rls = fetch_or_create_release(tf, cursor)
     artists = [
-        {"artist": fetch_or_create_artist(art, cursor), "role": role}
+        {"artist_id": fetch_or_create_artist(art, cursor).id, "role": role}
         for role, artists in tf.artist.items()
         for art in artists
     ]
@@ -100,7 +100,7 @@ def catalog_file(filepath: str, cursor: Cursor) -> None:
         title=f"{tf.title} ({tf.version})" if tf.version else tf.title,
         filepath=tf.path,
         sha256=calculate_sha_256(tf.path),
-        release=release,
+        release_id=rls.id,
         artists=artists,
         duration=int(tf.mut.info.length),
         track_number=tf.track_number or "1",
@@ -132,7 +132,9 @@ def fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
     try:
         rls = release.create(
             title=tf.album,
-            artists=[fetch_or_create_artist(art, cursor) for art in tf.artist_album],
+            artist_ids=[
+                fetch_or_create_artist(art, cursor).id for art in tf.artist_album
+            ],
             release_type=_get_release_type(tf),
             release_year=tf.date.year or 0,
             release_date=tf.date.date or None,
@@ -206,7 +208,7 @@ def insert_into_inbox_collection(rls: release.T, cursor: Cursor) -> None:
     logger.debug(f"Adding release {rls.id} to the inbox collection.")
     # Inbox has ID 1--this is specified in the database schema.
     inbox = collection.from_id(1, cursor)
-    collection.add_release(inbox, rls, cursor)
+    collection.add_release(inbox, rls.id, cursor)
 
 
 def insert_into_label_collection(
@@ -229,7 +231,7 @@ def insert_into_label_collection(
     except Duplicate as e:
         col = e.entity
 
-    collection.add_release(col, rls, cursor)
+    collection.add_release(col, rls.id, cursor)
 
 
 def insert_into_genre_collections(
@@ -253,7 +255,7 @@ def insert_into_genre_collections(
         except Duplicate as e:
             col = e.entity
 
-        collection.add_release(col, rls, cursor)
+        collection.add_release(col, rls.id, cursor)
 
 
 def _split_genres(genres: str) -> List[str]:

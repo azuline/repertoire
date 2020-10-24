@@ -2,7 +2,9 @@ from typing import Any
 
 
 class BackendError(Exception):
-    pass
+    def __init__(self, message=None, **kwargs):
+        self.message = message
+        super().__init__(message, **kwargs)
 
 
 class CliError(BackendError):
@@ -30,6 +32,10 @@ class InvalidCollectionType(LibError):
 
 
 class ImmutableCollection(LibError):
+    pass
+
+
+class NotFound(LibError):
     pass
 
 

@@ -42,7 +42,7 @@ snapshots['test_release_search_all 1'] = (
     ]
 )
 
-snapshots['test_release_search_filter_artist 1'] = [
+snapshots['test_release_search_filter_artists 1'] = [
     GenericRepr("T(id=3, title='Departure', release_type=<ReleaseType.EP: 3>, added_on=datetime.datetime(2020, 10, 19, 8, 29, 34), release_year=2016, num_tracks=11, in_inbox=True, release_date=None, image_path=PosixPath('/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg'))")
 ]
 

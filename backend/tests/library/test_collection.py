@@ -10,7 +10,15 @@ from backend.errors import (
     ImmutableCollection,
     InvalidCollectionType,
 )
-from backend.library import collection, release
+from backend.library import collection
+
+
+def test_exists(db: Cursor):
+    assert collection.exists(1, db)
+
+
+def test_does_not_exist(db: Cursor):
+    assert not collection.exists(9999999, db)
 
 
 def test_from_id_success(db: Cursor, snapshot):
@@ -117,34 +125,30 @@ def test_releases(db: Cursor, snapshot):
 
 def test_add_release(db: Cursor, snapshot):
     col = collection.from_id(3, db)
-    rls = release.from_id(2, db)
 
-    collection.add_release(col, rls, db)
+    collection.add_release(col, 2, db)
     snapshot.assert_match(collection.releases(col, db))
 
 
 def test_add_release_failure(db: Cursor):
     col = collection.from_id(12, db)
-    rls = release.from_id(2, db)
 
     with pytest.raises(AlreadyExists):
-        collection.add_release(col, rls, db)
+        collection.add_release(col, 2, db)
 
 
 def test_del_release(db: Cursor, snapshot):
     col = collection.from_id(12, db)
-    rls = release.from_id(2, db)
 
-    collection.del_release(col, rls, db)
+    collection.del_release(col, 2, db)
     snapshot.assert_match(collection.releases(col, db))
 
 
 def test_del_release_failure(db: Cursor):
     col = collection.from_id(3, db)
-    rls = release.from_id(2, db)
 
     with pytest.raises(DoesNotExist):
-        collection.del_release(col, rls, db)
+        collection.del_release(col, 2, db)
 
 
 def test_top_genres(db: Cursor, snapshot):

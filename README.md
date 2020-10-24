@@ -1,6 +1,6 @@
 # repertoire
 
-![CI](https://img.shields.io/github/workflow/status/azuline/repertoire/CI)
+[![CI](https://img.shields.io/github/workflow/status/azuline/repertoire/CI)](https://github.com/azuline/repertoire/actions)
 [![Documentation Status](https://readthedocs.org/projects/repertoire/badge/?version=latest)](https://repertoire.readthedocs.io/en/latest/?badge=latest)
 [![codecov](https://img.shields.io/codecov/c/github/azuline/repertoire?token=98M8XQLWLH)](https://codecov.io/gh/azuline/repertoire)
 

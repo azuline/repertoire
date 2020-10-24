@@ -30,7 +30,7 @@ def test_save_pending_covers(db, snapshot):
 
         rls1 = release.create(
             title="a",
-            artists=[],
+            artist_ids=[],
             release_type=ReleaseType.ALBUM,
             release_year=2020,
             cursor=db,
@@ -40,7 +40,7 @@ def test_save_pending_covers(db, snapshot):
             title="a",
             filepath=track1_path,
             sha256=b"0" * 32,
-            release=rls1,
+            release_id=rls1.id,
             artists=[],
             duration=100,
             track_number="1",
@@ -55,7 +55,7 @@ def test_save_pending_covers(db, snapshot):
 
         rls2 = release.create(
             title="b",
-            artists=[],
+            artist_ids=[],
             release_type=ReleaseType.ALBUM,
             release_year=2020,
             cursor=db,
@@ -65,7 +65,7 @@ def test_save_pending_covers(db, snapshot):
             title="b",
             filepath=track2_path,
             sha256=b"1" * 32,
-            release=rls2,
+            release_id=rls2.id,
             artists=[],
             duration=100,
             track_number="1",

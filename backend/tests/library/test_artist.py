@@ -6,6 +6,14 @@ from backend.errors import Duplicate
 from backend.library import artist
 
 
+def test_exists(db: Cursor):
+    assert artist.exists(1, db)
+
+
+def test_does_not_exist(db: Cursor):
+    assert not artist.exists(9999999, db)
+
+
 def test_from_id_success(db: Cursor, snapshot):
     snapshot.assert_match(artist.from_id(2, db))
 

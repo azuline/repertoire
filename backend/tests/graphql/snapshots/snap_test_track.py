@@ -78,7 +78,7 @@ snapshots['test_add_artist_to_track_bad_artist 1'] = (
             'addArtistToTrack': {
                 '__typename': 'Error',
                 'error': 'NOT_FOUND',
-                'message': 'Artist does not exist.'
+                'message': 'Artist 9999 does not exist.'
             }
         }
     }
@@ -148,7 +148,7 @@ snapshots['test_del_artist_from_track_bad_artist 1'] = (
             'delArtistFromTrack': {
                 '__typename': 'Error',
                 'error': 'NOT_FOUND',
-                'message': 'Artist does not exist.'
+                'message': 'Artist 9999 does not exist.'
             }
         }
     }
@@ -295,7 +295,7 @@ snapshots['test_update_track_bad_release_id 1'] = (
             'updateTrack': {
                 '__typename': 'Error',
                 'error': 'NOT_FOUND',
-                'message': 'Release does not exist.'
+                'message': 'Release 999 does not exist.'
             }
         }
     }
