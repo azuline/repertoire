@@ -102,7 +102,10 @@ def resolve_create_release(
 @mutation.field("updateRelease")
 @require_auth
 def resolve_update_release(
-    _, info: GraphQLResolveInfo, id: int, **changes,
+    _,
+    info: GraphQLResolveInfo,
+    id: int,
+    **changes,
 ) -> Union[release.T, Error]:
     if not (rls := release.from_id(id, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, f"Release {id} does not exist.")
@@ -122,7 +125,10 @@ def resolve_update_release(
 @mutation.field("addArtistToRelease")
 @require_auth
 def resolve_add_artist_to_release(
-    _, info: GraphQLResolveInfo, releaseId: int, artistId: int,
+    _,
+    info: GraphQLResolveInfo,
+    releaseId: int,
+    artistId: int,
 ) -> Union[release.T, Error]:
     if not (rls := release.from_id(releaseId, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, "Release does not exist.")
@@ -139,7 +145,10 @@ def resolve_add_artist_to_release(
 @mutation.field("delArtistFromRelease")
 @require_auth
 def resolve_del_artist_from_release(
-    _, info: GraphQLResolveInfo, releaseId: int, artistId: int,
+    _,
+    info: GraphQLResolveInfo,
+    releaseId: int,
+    artistId: int,
 ) -> Union[release.T, Error]:
     if not (rls := release.from_id(releaseId, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, "Release does not exist.")

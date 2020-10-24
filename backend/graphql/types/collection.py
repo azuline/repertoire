@@ -37,7 +37,10 @@ def resolve_collection(obj: Any, info: GraphQLResolveInfo, id: int) -> collectio
 @query.field("collectionFromNameAndType")
 @require_auth
 def resolve_collection_from_name_and_type(
-    obj: Any, info: GraphQLResolveInfo, name: str, type: CollectionType,
+    obj: Any,
+    info: GraphQLResolveInfo,
+    name: str,
+    type: CollectionType,
 ) -> collection.T:
     if col := collection.from_name_and_type(name, type, info.context.db):
         return col
@@ -50,7 +53,9 @@ def resolve_collection_from_name_and_type(
 @query.field("collections")
 @require_auth
 def resolve_collections(
-    obj: Any, info: GraphQLResolveInfo, type: Optional[CollectionType] = None,
+    obj: Any,
+    info: GraphQLResolveInfo,
+    type: Optional[CollectionType] = None,
 ) -> List[collection.T]:
     return {"results": collection.all(info.context.db, type=type)}
 
@@ -83,7 +88,10 @@ def resolve_create_collection(
 @mutation.field("updateCollection")
 @require_auth
 def resolve_update_collection(
-    _, info: GraphQLResolveInfo, id: int, **changes,
+    _,
+    info: GraphQLResolveInfo,
+    id: int,
+    **changes,
 ) -> Union[collection.T, Error]:
     if not (col := collection.from_id(id, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, f"Collection {id} does not exist.")
@@ -103,7 +111,10 @@ def resolve_update_collection(
 @mutation.field("addReleaseToCollection")
 @require_auth
 def resolve_add_release_to_collection(
-    _, info: GraphQLResolveInfo, collectionId: int, releaseId: int,
+    _,
+    info: GraphQLResolveInfo,
+    collectionId: int,
+    releaseId: int,
 ) -> Union[collection.T, Error]:
     if not (col := collection.from_id(collectionId, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, "Collection does not exist.")
@@ -121,7 +132,10 @@ def resolve_add_release_to_collection(
 @mutation.field("delReleaseFromCollection")
 @require_auth
 def resolve_del_release_from_collection(
-    _, info: GraphQLResolveInfo, collectionId: int, releaseId: int,
+    _,
+    info: GraphQLResolveInfo,
+    collectionId: int,
+    releaseId: int,
 ) -> Union[collection.T, Error]:
     if not (col := collection.from_id(collectionId, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, "Collection does not exist.")
