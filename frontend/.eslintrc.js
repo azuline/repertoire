@@ -36,6 +36,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'warn',
     'no-empty': 'warn',
     'react/prop-types': 'off', // Using React.FC, but this still goes off...?
+    '@typescript-eslint/no-empty-function': 'off', // Screw you >:(
   },
   settings: {
     react: {
