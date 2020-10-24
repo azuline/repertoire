@@ -77,11 +77,14 @@ def resolve_create_release(
     releaseYear: int,
     releaseDate: Optional[str] = None,
 ) -> Union[release.T, Error]:
-    if releaseDate:
-        try:
-            releaseDate = date.fromisoformat(releaseDate)
-        except ValueError:
-            return Error(GraphQLError.PARSE_ERROR, "Invalid release date.")
+    # Convert the "releaseDate" field from a string to a `dat` object. If it is not in
+    # the changes dict, do nothing.
+    try:
+        releaseDate = date.fromisoformat(releaseDate)
+    except ValueError:
+        return Error(GraphQLError.PARSE_ERROR, "Invalid release date.")
+    except TypeError:
+        pass
 
     try:
         return release.create(
@@ -99,20 +102,19 @@ def resolve_create_release(
 @mutation.field("updateRelease")
 @require_auth
 def resolve_update_release(
-    _,
-    info: GraphQLResolveInfo,
-    id: int,
-    **changes,
+    _, info: GraphQLResolveInfo, id: int, **changes,
 ) -> Union[release.T, Error]:
     if not (rls := release.from_id(id, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, f"Release {id} does not exist.")
 
-    # TODO: Comment these resolvers up a bit, they've gotten non-trivial...
-    if "releaseDate" in changes:
-        try:
-            changes["releaseDate"] = date.fromisoformat(changes["releaseDate"])
-        except ValueError:
-            return Error(GraphQLError.PARSE_ERROR, "Invalid release date.")
+    # Convert the "releaseDate" update from a string to a `date` object. If it is not in
+    # the changes dict, do nothing.
+    try:
+        changes["releaseDate"] = date.fromisoformat(changes["releaseDate"])
+    except ValueError:
+        return Error(GraphQLError.PARSE_ERROR, "Invalid release date.")
+    except KeyError:
+        pass
 
     return release.update(rls, info.context.db, **convert_keys_case(changes))
 
@@ -120,40 +122,32 @@ def resolve_update_release(
 @mutation.field("addArtistToRelease")
 @require_auth
 def resolve_add_artist_to_release(
-    _,
-    info: GraphQLResolveInfo,
-    releaseId: int,
-    artistId: int,
+    _, info: GraphQLResolveInfo, releaseId: int, artistId: int,
 ) -> Union[release.T, Error]:
     if not (rls := release.from_id(releaseId, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, "Release does not exist.")
 
     try:
         release.add_artist(rls, artistId, info.context.db)
+        return rls
     except NotFound as e:
         return Error(GraphQLError.NOT_FOUND, e.message)
     except AlreadyExists:
         return Error(GraphQLError.ALREADY_EXISTS, "Artist is already in release.")
 
-    return rls
-
 
 @mutation.field("delArtistFromRelease")
 @require_auth
 def resolve_del_artist_from_release(
-    _,
-    info: GraphQLResolveInfo,
-    releaseId: int,
-    artistId: int,
+    _, info: GraphQLResolveInfo, releaseId: int, artistId: int,
 ) -> Union[release.T, Error]:
     if not (rls := release.from_id(releaseId, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, "Release does not exist.")
 
     try:
         release.del_artist(rls, artistId, info.context.db)
+        return rls
     except NotFound as e:
         return Error(GraphQLError.NOT_FOUND, e.message)
     except DoesNotExist:
         return Error(GraphQLError.DOES_NOT_EXIST, "Artist is not in release.")
-
-    return rls

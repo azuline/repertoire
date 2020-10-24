@@ -38,10 +38,7 @@ def resolve_top_genres(obj: track.T, info: GraphQLResolveInfo) -> List[Dict]:
 @mutation.field("updateTrack")
 @require_auth
 def resolve_update_track(
-    _,
-    info: GraphQLResolveInfo,
-    id: int,
-    **changes,
+    _, info: GraphQLResolveInfo, id: int, **changes,
 ) -> Union[track.T, Error]:
     if not (trk := track.from_id(id, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, f"Track {id} does not exist.")
@@ -55,42 +52,32 @@ def resolve_update_track(
 @mutation.field("addArtistToTrack")
 @require_auth
 def resolve_add_artist_to_track(
-    _,
-    info: GraphQLResolveInfo,
-    trackId: int,
-    artistId: int,
-    role: ArtistRole,
+    _, info: GraphQLResolveInfo, trackId: int, artistId: int, role: ArtistRole,
 ) -> Union[track.T, Error]:
     if not (trk := track.from_id(trackId, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, "Track does not exist.")
 
     try:
         track.add_artist(trk, artistId, role, info.context.db)
+        return trk
     except NotFound as e:
         return Error(GraphQLError.NOT_FOUND, e.message)
     except AlreadyExists:
         return Error(GraphQLError.ALREADY_EXISTS, "Artist is already on track.")
 
-    return trk
-
 
 @mutation.field("delArtistFromTrack")
 @require_auth
 def resolve_del_artist_from_track(
-    _,
-    info: GraphQLResolveInfo,
-    trackId: int,
-    artistId: int,
-    role: ArtistRole,
+    _, info: GraphQLResolveInfo, trackId: int, artistId: int, role: ArtistRole,
 ) -> Union[track.T, Error]:
     if not (trk := track.from_id(trackId, info.context.db)):
         return Error(GraphQLError.NOT_FOUND, "Track does not exist.")
 
     try:
         track.del_artist(trk, artistId, role, info.context.db)
+        return trk
     except NotFound as e:
         return Error(GraphQLError.NOT_FOUND, e.message)
     except DoesNotExist:
         return Error(GraphQLError.DOES_NOT_EXIST, "Artist is not on track.")
-
-    return trk
