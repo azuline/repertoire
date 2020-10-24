@@ -33,6 +33,9 @@ Getting Started
    start/installation
    start/configuration
 
+For instructions on how to install repertoire, see :ref:`installation`. For
+instructions on how to configure repertoire, see :ref:`configuration`.
+
 Advanced Features
 -----------------
 
@@ -42,6 +45,9 @@ Advanced Features
    :caption: Advanced Features
 
    advanced/server_api
+
+For more advanced users, documentation covering learning and accessing the
+application API is available at :ref:`advanced_server_api`.
 
 Hacking
 -------
@@ -54,3 +60,8 @@ Hacking
    hacking/environment
    hacking/backend/index
    hacking/frontend/index
+
+For developers, we have documentation useful for developing, modifying, and
+debugging the application. :ref:`hacking_environment` covers setting up the
+development environment, and :ref:`backend` covers the backend source code
+while :ref:`frontend` covers the frontend source code.
