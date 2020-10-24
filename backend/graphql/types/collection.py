@@ -4,7 +4,7 @@ from ariadne import ObjectType, UnionType
 from graphql.type import GraphQLResolveInfo
 
 from backend.enums import CollectionType, GraphQLError
-from backend.errors import AlreadyExists, DoesNotExist, Duplicate
+from backend.errors import AlreadyExists, DoesNotExist, Duplicate, ImmutableCollection
 from backend.graphql.mutation import mutation
 from backend.graphql.query import query
 from backend.graphql.types.error import Error
@@ -100,6 +100,11 @@ def resolve_update_collection(
             GraphQLError.DUPLICATE,
             f'Collection "{changes["name"]}" conflicts with an existing collection.',
         )
+    except ImmutableCollection:
+        return Error(
+            GraphQLError.IMMUTABLE,
+            f'Collection "{col.name}" is immutable, cannot update.',
+        )
 
 
 @mutation.field("addReleaseToCollection")
@@ -119,6 +124,8 @@ def resolve_add_release_to_collection(
         collection.add_release(col, rls, info.context.db)
     except AlreadyExists:
         return Error(GraphQLError.ALREADY_EXISTS, "Release is already in collection.")
+
+    col.num_releases += 1
 
     return col
 
@@ -140,5 +147,7 @@ def resolve_del_release_from_collection(
         collection.del_release(col, rls, info.context.db)
     except DoesNotExist:
         return Error(GraphQLError.DOES_NOT_EXIST, "Release is not in collection.")
+
+    col.num_releases -= 1
 
     return col

@@ -19,11 +19,9 @@ from . import artist, collection, track
 logger = logging.getLogger(__name__)
 
 
-@dataclass(frozen=True)
+@dataclass
 class T:
-    """
-    A release dataclass. This dataclass is frozen (immutable).
-    """
+    """A release dataclass."""
 
     # We have these empty comments so that the attributes and types render in sphinx...
     #:
@@ -266,6 +264,7 @@ def create(
     cursor: Cursor,
     release_date: Optional[date] = None,
     image_path: Optional[Path] = None,
+    allow_duplicate: bool = True,
 ) -> T:
     """
     Create a release with the provided parameters.
@@ -277,11 +276,14 @@ def create(
     :param cursor: A cursor to the database.
     :param release_date: The date the release came out.
     :param image_path: A path to the release's cover art.
+    :param allow_duplicate: Whether to allow creation of a duplicate release or not. If
+                             this is ``False``, then ``Duplicate`` will never be raised.
+                             All releases will be created.
     :return: The newly created release.
     :raises Duplicate: If a release with the same name and artists already exists. The
                        duplicate release is passed as the ``entity`` argument.
     """
-    if rls := _find_duplicate_release(title, artists, cursor):
+    if not allow_duplicate and (rls := _find_duplicate_release(title, artists, cursor)):
         raise Duplicate(rls)
 
     # Insert the release into the database.

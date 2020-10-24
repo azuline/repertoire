@@ -39,7 +39,12 @@ from backend.graphql.types.release import (
 from backend.graphql.types.top_genre import gql_top_genre
 from backend.graphql.types.track import gql_track, gql_track_result
 from backend.graphql.types.track_artist import gql_track_artist
-from backend.graphql.types.user import gql_user, gql_user_result
+from backend.graphql.types.user import (
+    gql_token,
+    gql_token_result,
+    gql_user,
+    gql_user_result,
+)
 
 SCHEMA_PATH = Path(__file__).parent / "schema.graphql"
 
@@ -61,6 +66,8 @@ resolvers = [
     gql_release_result,
     gql_releases,
     gql_releases_result,
+    gql_token,
+    gql_token_result,
     gql_top_genre,
     gql_track,
     gql_track_artist,

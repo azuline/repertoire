@@ -137,6 +137,7 @@ def fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
             release_year=tf.date.year or 0,
             release_date=tf.date.date or None,
             cursor=cursor,
+            allow_duplicate=False,
         )
     except Duplicate as e:
         logger.debug(f"Return existing release {e.entity.id} for track `{tf.path}`.")

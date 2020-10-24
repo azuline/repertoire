@@ -16,9 +16,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class T:
-    """
-    An artist dataclass. This dataclass is frozen (immutable).
-    """
+    """An artist dataclass."""
 
     # We have these empty comments so that the attributes and types render in sphinx...
     #:

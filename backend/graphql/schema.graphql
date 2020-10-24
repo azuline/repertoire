@@ -40,12 +40,12 @@ type Query {
         list. For a release to match, it must be in all collections in this
         list.
         """
-        collections: [Int]
+        collectionIds: [Int]
         """
         A list of artist IDs. We match releases by the artists in this list.
         For a release to match, all artists in this list must be included.
         """
-        artists: [Int]
+        artistIds: [Int]
         """
         A list of release types. Filter out releases that do not match one of
         the release types in this list.
@@ -108,7 +108,7 @@ type Mutation {
     createRelease(
         title: String!
         "A list of artist IDs--the album artists on the release."
-        artists: [Int]!
+        artistIds: [Int]!
         releaseType: ReleaseType!
         releaseYear: Int!
         "A date in YYYY-MM-DD format."
@@ -119,7 +119,7 @@ type Mutation {
         id: Int!
         title: String
         releaseType: ReleaseType,
-        releaseYear: Int!
+        releaseYear: Int
         "A date in YYYY-MM-DD format."
         releaseDate: String
     ): ReleaseResult
@@ -300,6 +300,8 @@ enum ErrorType {
     ALREADY_EXISTS
     "An entity does not exist in a collection."
     DOES_NOT_EXIST
+    "Failed to parse a parameter."
+    PARSE_ERROR
 }
 
 enum ArtistRole {

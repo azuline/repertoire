@@ -17,9 +17,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class T:
-    """
-    A track dataclass. This dataclass is frozen (immutable).
-    """
+    """A track dataclass."""
 
     # We have these empty comments so that the attributes and types render in sphinx...
     #:

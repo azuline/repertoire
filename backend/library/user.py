@@ -18,11 +18,9 @@ VALID_USERNAME_CHARACTERS = set(string.ascii_letters + string.digits)
 logger = logging.getLogger(__name__)
 
 
-@dataclass(frozen=True)
+@dataclass
 class T:
-    """
-    A user dataclass. This dataclass is frozen (immutable).
-    """
+    """A user dataclass."""
 
     # We have these empty comments so that the attributes and types render in sphinx...
     #:

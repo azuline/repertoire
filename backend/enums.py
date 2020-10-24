@@ -78,3 +78,5 @@ class GraphQLError(Enum):
     ALREADY_EXISTS = 5
     #:
     DOES_NOT_EXIST = 6
+    #:
+    PARSE_ERROR = 7

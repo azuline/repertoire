@@ -2,7 +2,7 @@
 # snapshottest: v1 - https://goo.gl/zC4yUc
 from __future__ import unicode_literals
 
-from snapshottest import Snapshot
+from snapshottest import GenericRepr, Snapshot
 
 
 snapshots = Snapshot()
@@ -287,3 +287,141 @@ snapshots['test_artists_no_auth 1'] = (
         }
     }
 )
+
+snapshots['test_create_artist 1'] = (
+    True,
+    {
+        'data': {
+            'createArtist': {
+                '__typename': 'Artist',
+                'favorite': True,
+                'id': 6,
+                'name': 'New Artist',
+                'numReleases': 0,
+                'releases': [
+                ],
+                'topGenres': [
+                ]
+            }
+        }
+    }
+)
+
+snapshots['test_create_artist 2'] = GenericRepr("T(id=6, name='New Artist', favorite=True, num_releases=0)")
+
+snapshots['test_create_artist_duplicate 1'] = (
+    True,
+    {
+        'data': {
+            'createArtist': {
+                '__typename': 'Error',
+                'error': 'DUPLICATE',
+                'message': 'Artist "Abakus" already exists.'
+            }
+        }
+    }
+)
+
+snapshots['test_create_artist_no_auth 1'] = (
+    True,
+    {
+        'data': {
+            'createArtist': {
+                '__typename': 'Error',
+                'error': 'NOT_AUTHENTICATED',
+                'message': 'Please authenticate ^.~'
+            }
+        }
+    }
+)
+
+snapshots['test_update_artist 1'] = (
+    True,
+    {
+        'data': {
+            'updateArtist': {
+                '__typename': 'Artist',
+                'favorite': True,
+                'id': 4,
+                'name': 'New Name',
+                'numReleases': 1,
+                'releases': [
+                    {
+                        'id': 3
+                    }
+                ],
+                'topGenres': [
+                    {
+                        'genre': {
+                            'id': 16
+                        },
+                        'numMatches': 1
+                    },
+                    {
+                        'genre': {
+                            'id': 17
+                        },
+                        'numMatches': 1
+                    },
+                    {
+                        'genre': {
+                            'id': 18
+                        },
+                        'numMatches': 1
+                    },
+                    {
+                        'genre': {
+                            'id': 19
+                        },
+                        'numMatches': 1
+                    }
+                ]
+            }
+        }
+    }
+)
+
+snapshots['test_update_artist 2'] = GenericRepr("T(id=4, name='New Name', favorite=True, num_releases=1)")
+
+snapshots['test_update_artist_doesnt_exist 1'] = (
+    True,
+    {
+        'data': {
+            'updateArtist': {
+                '__typename': 'Error',
+                'error': 'NOT_FOUND',
+                'message': 'Artist 999 does not exist.'
+            }
+        }
+    }
+)
+
+snapshots['test_update_artist_duplicate 1'] = (
+    True,
+    {
+        'data': {
+            'updateArtist': {
+                '__typename': 'Error',
+                'error': 'DUPLICATE',
+                'message': 'Artist "Bacchus" already exists.'
+            }
+        }
+    }
+)
+
+snapshots['test_update_artist_duplicate 2'] = GenericRepr("T(id=4, name='Abakus', favorite=False, num_releases=1)")
+
+snapshots['test_update_artist_no_auth 1'] = (
+    True,
+    {
+        'data': {
+            'updateArtist': {
+                '__typename': 'Error',
+                'error': 'NOT_AUTHENTICATED',
+                'message': 'Please authenticate ^.~'
+            }
+        }
+    }
+)
+
+snapshots['test_update_artist_no_auth 2'] = GenericRepr("T(id=4, name='Abakus', favorite=False, num_releases=1)")

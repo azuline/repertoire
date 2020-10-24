@@ -25,9 +25,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class T:
-    """
-    A collection dataclass. This dataclass is frozen (immutable).
-    """
+    """A collection dataclass."""
 
     # We have these empty comments so that the attributes and types render in sphinx...
     #:

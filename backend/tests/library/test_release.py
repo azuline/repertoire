@@ -110,13 +110,14 @@ def test_create(db: Cursor):
     assert len(release.artists(rls, db)) == 2
 
 
-def test_create_same_album_name(db: Cursor):
+def test_create_same_album_name_no_duplicate_trigger(db: Cursor):
     rls = release.create(
         title="Departure",
         artists=[artist.from_id(2, db), artist.from_id(4, db)],
         release_type=ReleaseType.ALBUM,
         release_year=2020,
         cursor=db,
+        allow_duplicate=False,
     )
 
     assert rls.id == 4
@@ -124,13 +125,14 @@ def test_create_same_album_name(db: Cursor):
     assert len(release.artists(rls, db)) == 2
 
 
-def test_create_same_album_name_artist_subset(db: Cursor):
+def test_create_same_album_name_artist_subset_no_duplicate_trigger(db: Cursor):
     rls = release.create(
         title="Departure",
         artists=[artist.from_id(4, db)],
         release_type=ReleaseType.ALBUM,
         release_year=2020,
         cursor=db,
+        allow_duplicate=False,
     )
 
     assert rls.id == 4
@@ -138,7 +140,21 @@ def test_create_same_album_name_artist_subset(db: Cursor):
     assert len(release.artists(rls, db)) == 1
 
 
-def test_create_duplicate(db: Cursor):
+def test_create_duplicate_allow(db: Cursor):
+    rls = release.create(
+        title="Departure",
+        artists=[artist.from_id(4, db), artist.from_id(5, db)],
+        release_type=ReleaseType.ALBUM,
+        release_year=2020,
+        cursor=db,
+        allow_duplicate=True,
+    )
+
+    assert rls.id == 4
+    assert rls == release.from_id(4, db)
+
+
+def test_create_duplicate_disallow(db: Cursor):
     with pytest.raises(Duplicate) as e:
         release.create(
             title="Departure",
@@ -146,6 +162,7 @@ def test_create_duplicate(db: Cursor):
             release_type=ReleaseType.ALBUM,
             release_year=2020,
             cursor=db,
+            allow_duplicate=False,
         )
 
     assert e.value.entity.id == 3

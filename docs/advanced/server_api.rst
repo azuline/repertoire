@@ -7,15 +7,25 @@ The backend webserver API consists of several REST-flavored API endpoints and a
 GraphQL API.
 
 The GraphQL API is available via ``POST`` requests to the ``/graphql``
-endpoint.
+endpoint. The raw schema is documented at :ref:`graphql_schema`.
+
+Authentication
+--------------
+
+Each user is provisioned one authorization token. To authenticate with the
+backend, this token should be included with every request as the
+``Authorization`` header, in the format ``Token {token_hex}``.
+
+A token can be generated for the ``admin`` user with the shell command ``$
+repertoire token``.
 
 GraphQL Playground
 ------------------
 
-The "GraphQL Playground" is packaged with repertoire. It provides a graphical
-playground to explore the schema documentation and query the backend, and it
-can be accessed by visiting the ``/graphql`` endpoint in your browser. By
-default, it is disabled.
+The "GraphQL Playground" is packaged with repertoire. It provides an
+interactive playground to explore the schema documentation and write GraphQL
+queries. It can be accessed by visiting the ``/graphql`` endpoint in your
+browser. By default (and in production), it is disabled.
 
 To run the "GraphQL Playground," repertoire's backend webserver must be run in
 debug mode. See :ref:`hacking_environment` to set up a development environment
@@ -24,22 +34,12 @@ and run the backend webserver in debug mode.
 Authentication
 ^^^^^^^^^^^^^^
 
-Many GraphQL resources are restricted to authenticated users. To authenticate
-in "GraphQL Playground," the ``Authorization`` HTTP header must be set to
-``Token {valid_token}``.
+Most GraphQL resources are restricted to authenticated users. To be able to
+query/mutate them, the ``Authorization`` HTTP header must be configured.
 
-A valid token can be generated with the shell command ``$ repertoire token``.
-
-The playground should look like (but with your generated token):
+The playground should look something like:
 
 .. image:: playground_auth.png
-
-GraphQL Schema
-^^^^^^^^^^^^^^
-
-For quick reference, the raw GraphQL schema is included below:
-
-.. literalinclude:: ../../backend/graphql/schema.graphql
 
 REST-Flavored Endpoints
 -----------------------
