@@ -19,3 +19,38 @@ input.padded {
 .main-bar {
   @apply w-full h-16 px-4 py-2;
 }
+
+.Toastify__toast-container {
+  @apply fixed w-full inset-x-0 top-0;
+}
+
+.Toastify__toast {
+  @apply flex flex-row flex-no-wrap w-2/3 h-12 mx-auto mt-4 items-center
+         px-4 py-1 rounded;
+  max-width: 600px;
+}
+
+.Toastify__toast--default,
+.Toastify__toast--info {
+  @apply bg-gray-500;
+}
+
+.Toastify__toast--error {
+  @apply bg-red-500;
+}
+
+.Toastify__toast--success {
+  @apply bg-green-500;
+}
+
+.Toastify__toast--warning {
+  @apply bg-orange-500;
+}
+
+.Toastify__toast-body {
+  @apply flex-1;
+}
+
+.Toastify__toast svg {
+  @apply h-6 w-6;
+}
