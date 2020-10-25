@@ -135,7 +135,7 @@ def create(name: str, cursor: Cursor, favorite: bool = False) -> T:
                        artist is passed as the ``entity`` argument.
     """
     if art := from_name(name, cursor):
-        raise Duplicate(art)
+        raise Duplicate(f'Artist "{name}" already exists.', art)
 
     cursor.execute(
         "INSERT INTO music__artists (name, favorite) VALUES (?, ?)", (name, favorite)
@@ -167,7 +167,7 @@ def update(art: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
         and (dupl := from_name(changes["name"], cursor))
         and dupl != art
     ):
-        raise Duplicate(dupl)
+        raise Duplicate(f'Artist "{changes["name"]}" already exists.', dupl)
 
     cursor.execute(
         """

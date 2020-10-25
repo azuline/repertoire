@@ -2,7 +2,7 @@ import pytest
 
 from backend.library import collection
 
-COLLECTION_FIELDS = """
+COLLECTION_RESULT = """
     id
     name
     favorite
@@ -22,32 +22,9 @@ COLLECTION_FIELDS = """
     }
 """
 
-COLLECTION_RESULT = f"""
-    __typename
-
-    ... on Collection {{
-        {COLLECTION_FIELDS}
-    }}
-
-    ... on Error {{
-        error
-        message
-    }}
-"""
-
-
 COLLECTIONS_RESULT = f"""
-    __typename
-
-    ... on Collections {{
-        results {{
-            {COLLECTION_FIELDS}
-        }}
-    }}
-
-    ... on Error {{
-        error
-        message
+    results {{
+        {COLLECTION_RESULT}
     }}
 """
 

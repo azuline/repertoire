@@ -12,7 +12,6 @@ snapshots['test_add_release_to_collection 1'] = (
     {
         'data': {
             'addReleaseToCollection': {
-                '__typename': 'Collection',
                 'favorite': False,
                 'id': 2,
                 'lastUpdatedOn': None,
@@ -63,12 +62,23 @@ snapshots['test_add_release_to_collection_already_exists 1'] = (
     True,
     {
         'data': {
-            'addReleaseToCollection': {
-                '__typename': 'Error',
-                'error': 'ALREADY_EXISTS',
-                'message': 'Release is already in collection.'
+            'addReleaseToCollection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Release is already in collection.',
+                'path': [
+                    'addReleaseToCollection'
+                ],
+                'type': 'AlreadyExists'
             }
-        }
+        ]
     }
 )
 
@@ -80,12 +90,23 @@ snapshots['test_add_release_to_collection_bad_collection 1'] = (
     True,
     {
         'data': {
-            'addReleaseToCollection': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Collection does not exist.'
+            'addReleaseToCollection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Collection 999 does not exist.',
+                'path': [
+                    'addReleaseToCollection'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -93,12 +114,23 @@ snapshots['test_add_release_to_collection_bad_release 1'] = (
     True,
     {
         'data': {
-            'addReleaseToCollection': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Releasse 9999 does not exist.'
+            'addReleaseToCollection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Releasse 9999 does not exist.',
+                'path': [
+                    'addReleaseToCollection'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -109,12 +141,23 @@ snapshots['test_add_release_to_collection_no_auth 1'] = (
     True,
     {
         'data': {
-            'addReleaseToCollection': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'addReleaseToCollection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'addReleaseToCollection'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -123,7 +166,6 @@ snapshots['test_collection 1'] = (
     {
         'data': {
             'collection': {
-                '__typename': 'Collection',
                 'favorite': False,
                 'id': 12,
                 'lastUpdatedOn': 1603067134,
@@ -171,7 +213,6 @@ snapshots['test_collection_from_name_and_type 1'] = (
     {
         'data': {
             'collectionFromNameAndType': {
-                '__typename': 'Collection',
                 'favorite': False,
                 'id': 12,
                 'lastUpdatedOn': 1603067134,
@@ -218,12 +259,23 @@ snapshots['test_collection_from_name_and_type_no_auth 1'] = (
     True,
     {
         'data': {
-            'collectionFromNameAndType': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'collectionFromNameAndType': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'collectionFromNameAndType'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -231,12 +283,23 @@ snapshots['test_collection_from_name_and_type_not_found 1'] = (
     True,
     {
         'data': {
-            'collectionFromNameAndType': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Collection "AAFEFOPAIEFPAJF" of type COLLAGE not found.'
+            'collectionFromNameAndType': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Collection "AAFEFOPAIEFPAJF" of type COLLAGE not found.',
+                'path': [
+                    'collectionFromNameAndType'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -244,12 +307,23 @@ snapshots['test_collection_no_auth 1'] = (
     True,
     {
         'data': {
-            'collection': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'collection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'collection'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -257,12 +331,23 @@ snapshots['test_collection_not_found 1'] = (
     True,
     {
         'data': {
-            'collection': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Collection 999999 not found.'
+            'collection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Collection 999999 not found.',
+                'path': [
+                    'collection'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -271,7 +356,6 @@ snapshots['test_collections 1'] = (
     {
         'data': {
             'collections': {
-                '__typename': 'Collections',
                 'results': [
                     {
                         'favorite': False,
@@ -775,12 +859,23 @@ snapshots['test_collections_no_auth 1'] = (
     True,
     {
         'data': {
-            'collections': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'collections': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'collections'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -789,7 +884,6 @@ snapshots['test_collections_type_param 1'] = (
     {
         'data': {
             'collections': {
-                '__typename': 'Collections',
                 'results': [
                     {
                         'favorite': False,
@@ -1114,7 +1208,6 @@ snapshots['test_create_collection 1'] = (
     {
         'data': {
             'createCollection': {
-                '__typename': 'Collection',
                 'favorite': True,
                 'id': 21,
                 'lastUpdatedOn': None,
@@ -1136,12 +1229,23 @@ snapshots['test_create_collection_duplicate 1'] = (
     True,
     {
         'data': {
-            'createCollection': {
-                '__typename': 'Error',
-                'error': 'DUPLICATE',
-                'message': 'Collection "Folk" already exists.'
+            'createCollection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Collection "Folk" already exists.',
+                'path': [
+                    'createCollection'
+                ],
+                'type': 'Duplicate'
             }
-        }
+        ]
     }
 )
 
@@ -1150,7 +1254,6 @@ snapshots['test_del_release_from_collection 1'] = (
     {
         'data': {
             'delReleaseFromCollection': {
-                '__typename': 'Collection',
                 'favorite': False,
                 'id': 1,
                 'lastUpdatedOn': 1603067134,
@@ -1201,12 +1304,23 @@ snapshots['test_del_release_from_collection_bad_collection 1'] = (
     True,
     {
         'data': {
-            'delReleaseFromCollection': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Collection does not exist.'
+            'delReleaseFromCollection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Collection 999 does not exist.',
+                'path': [
+                    'delReleaseFromCollection'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -1214,12 +1328,23 @@ snapshots['test_del_release_from_collection_bad_release 1'] = (
     True,
     {
         'data': {
-            'delReleaseFromCollection': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Release 9999 does not exist.'
+            'delReleaseFromCollection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Release 9999 does not exist.',
+                'path': [
+                    'delReleaseFromCollection'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -1230,12 +1355,23 @@ snapshots['test_del_release_from_collection_doesnt_exist 1'] = (
     True,
     {
         'data': {
-            'delReleaseFromCollection': {
-                '__typename': 'Error',
-                'error': 'DOES_NOT_EXIST',
-                'message': 'Release is not in collection.'
+            'delReleaseFromCollection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Release is not in collection.',
+                'path': [
+                    'delReleaseFromCollection'
+                ],
+                'type': 'DoesNotExist'
             }
-        }
+        ]
     }
 )
 
@@ -1243,12 +1379,23 @@ snapshots['test_del_release_from_collection_no_auth 1'] = (
     True,
     {
         'data': {
-            'delReleaseFromCollection': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'delReleaseFromCollection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'delReleaseFromCollection'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -1256,12 +1403,23 @@ snapshots['test_dreate_collection_no_auth 1'] = (
     True,
     {
         'data': {
-            'createCollection': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'createCollection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'createCollection'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -1270,7 +1428,6 @@ snapshots['test_update_collection 1'] = (
     {
         'data': {
             'updateCollection': {
-                '__typename': 'Collection',
                 'favorite': True,
                 'id': 12,
                 'lastUpdatedOn': 1603067134,
@@ -1319,12 +1476,23 @@ snapshots['test_update_collection_duplicate 1'] = (
     True,
     {
         'data': {
-            'updateCollection': {
-                '__typename': 'Error',
-                'error': 'DUPLICATE',
-                'message': 'Collection "Folk" already exists.'
+            'updateCollection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Collection "Folk" already exists.',
+                'path': [
+                    'updateCollection'
+                ],
+                'type': 'Duplicate'
             }
-        }
+        ]
     }
 )
 
@@ -1334,12 +1502,23 @@ snapshots['test_update_collection_immutable 1'] = (
     True,
     {
         'data': {
-            'updateCollection': {
-                '__typename': 'Error',
-                'error': 'IMMUTABLE',
-                'message': 'Collection "Inbox" cannot be updated.'
+            'updateCollection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'System and rating collections cannot be modified.',
+                'path': [
+                    'updateCollection'
+                ],
+                'type': 'Immutable'
             }
-        }
+        ]
     }
 )
 
@@ -1349,12 +1528,23 @@ snapshots['test_update_collection_no_auth 1'] = (
     True,
     {
         'data': {
-            'updateCollection': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'updateCollection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'updateCollection'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -1362,11 +1552,22 @@ snapshots['test_update_collection_not_found 1'] = (
     True,
     {
         'data': {
-            'updateCollection': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Collection 99999 does not exist.'
+            'updateCollection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Collection 99999 does not exist.',
+                'path': [
+                    'updateCollection'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )

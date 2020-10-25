@@ -12,7 +12,6 @@ snapshots['test_add_artist_to_track 1'] = (
     {
         'data': {
             'addArtistToTrack': {
-                '__typename': 'Track',
                 'artists': [
                     {
                         'artist': {
@@ -55,12 +54,23 @@ snapshots['test_add_artist_to_track_already_exists 1'] = (
     True,
     {
         'data': {
-            'addArtistToTrack': {
-                '__typename': 'Error',
-                'error': 'ALREADY_EXISTS',
-                'message': 'Artist is already on track.'
+            'addArtistToTrack': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Artist already on track with this role.',
+                'path': [
+                    'addArtistToTrack'
+                ],
+                'type': 'AlreadyExists'
             }
-        }
+        ]
     }
 )
 
@@ -75,12 +85,23 @@ snapshots['test_add_artist_to_track_bad_artist 1'] = (
     True,
     {
         'data': {
-            'addArtistToTrack': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Artist 9999 does not exist.'
+            'addArtistToTrack': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Artist 9999 does not exist.',
+                'path': [
+                    'addArtistToTrack'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -95,12 +116,23 @@ snapshots['test_add_artist_to_track_bad_track 1'] = (
     True,
     {
         'data': {
-            'addArtistToTrack': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Track does not exist.'
+            'addArtistToTrack': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Track does not exist.',
+                'path': [
+                    'addArtistToTrack'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -108,12 +140,23 @@ snapshots['test_add_artist_to_track_no_auth 1'] = (
     True,
     {
         'data': {
-            'addArtistToTrack': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'addArtistToTrack': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'addArtistToTrack'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -122,7 +165,6 @@ snapshots['test_del_artist_from_track 1'] = (
     {
         'data': {
             'delArtistFromTrack': {
-                '__typename': 'Track',
                 'artists': [
                 ],
                 'discNumber': '1',
@@ -145,12 +187,23 @@ snapshots['test_del_artist_from_track_bad_artist 1'] = (
     True,
     {
         'data': {
-            'delArtistFromTrack': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Artist 9999 does not exist.'
+            'delArtistFromTrack': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Artist 9999 does not exist.',
+                'path': [
+                    'delArtistFromTrack'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -165,12 +218,23 @@ snapshots['test_del_artist_from_track_bad_track 1'] = (
     True,
     {
         'data': {
-            'delArtistFromTrack': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Track does not exist.'
+            'delArtistFromTrack': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Track does not exist.',
+                'path': [
+                    'delArtistFromTrack'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -178,12 +242,23 @@ snapshots['test_del_artist_from_track_doesnt_exist 1'] = (
     True,
     {
         'data': {
-            'delArtistFromTrack': {
-                '__typename': 'Error',
-                'error': 'DOES_NOT_EXIST',
-                'message': 'Artist is not on track.'
+            'delArtistFromTrack': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'No artist on track with this role.',
+                'path': [
+                    'delArtistFromTrack'
+                ],
+                'type': 'DoesNotExist'
             }
-        }
+        ]
     }
 )
 
@@ -191,12 +266,23 @@ snapshots['test_del_artist_from_track_no_auth 1'] = (
     True,
     {
         'data': {
-            'delArtistFromTrack': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'delArtistFromTrack': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'delArtistFromTrack'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -205,7 +291,6 @@ snapshots['test_track 1'] = (
     {
         'data': {
             'track': {
-                '__typename': 'Track',
                 'artists': [
                     {
                         'artist': {
@@ -237,12 +322,23 @@ snapshots['test_track_no_auth 1'] = (
     True,
     {
         'data': {
-            'track': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'track': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'track'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -250,12 +346,23 @@ snapshots['test_track_not_found 1'] = (
     True,
     {
         'data': {
-            'track': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Track 999 not found.'
+            'track': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Track 999 not found.',
+                'path': [
+                    'track'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -264,7 +371,6 @@ snapshots['test_update_track 1'] = (
     {
         'data': {
             'updateTrack': {
-                '__typename': 'Track',
                 'artists': [
                     {
                         'artist': {
@@ -292,12 +398,23 @@ snapshots['test_update_track_bad_release_id 1'] = (
     True,
     {
         'data': {
-            'updateTrack': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Release 999 does not exist.'
+            'updateTrack': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Release 999 does not exist.',
+                'path': [
+                    'updateTrack'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -307,12 +424,23 @@ snapshots['test_update_track_no_auth 1'] = (
     True,
     {
         'data': {
-            'updateTrack': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'updateTrack': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'updateTrack'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -320,11 +448,22 @@ snapshots['test_update_track_not_found 1'] = (
     True,
     {
         'data': {
-            'updateTrack': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Track 99999 does not exist.'
+            'updateTrack': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Track 99999 does not exist.',
+                'path': [
+                    'updateTrack'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )

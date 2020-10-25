@@ -1,22 +1,17 @@
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List
 
-from ariadne import ObjectType, UnionType
+from ariadne import ObjectType
 from graphql.type import GraphQLResolveInfo
 
-from backend.enums import GraphQLError
-from backend.errors import Duplicate
+from backend.errors import NotFound
 from backend.graphql.mutation import mutation
 from backend.graphql.query import query
-from backend.graphql.types.error import Error
-from backend.graphql.util import require_auth, resolve_result
+from backend.graphql.util import require_auth
 from backend.library import artist, release
 from backend.util import convert_keys_case
 
 gql_artist = ObjectType("Artist")
-gql_artist_result = UnionType("ArtistResult", resolve_result("Artist"))
-
 gql_artists = ObjectType("Artists")
-gql_artists_result = UnionType("ArtistsResult", resolve_result("Artists"))
 
 
 @query.field("artist")
@@ -25,7 +20,7 @@ def resolve_artist(obj: Any, info: GraphQLResolveInfo, id: int) -> artist.T:
     if art := artist.from_id(id, info.context.db):
         return art
 
-    return Error(GraphQLError.NOT_FOUND, f"Artist {id} does not exist.")
+    raise NotFound(f"Artist {id} does not exist.")
 
 
 @query.field("artistFromName")
@@ -34,7 +29,7 @@ def resolve_artist_from_name(obj: Any, info: GraphQLResolveInfo, name: str) -> a
     if art := artist.from_name(name, info.context.db):
         return art
 
-    return Error(GraphQLError.NOT_FOUND, f'Artist "{name}" does not exist.')
+    raise NotFound(f'Artist "{name}" does not exist.')
 
 
 @query.field("artists")
@@ -60,11 +55,8 @@ def resolve_create_artist(
     info: GraphQLResolveInfo,
     name: str,
     favorite: bool = False,
-) -> Union[artist.T, Error]:
-    try:
-        return artist.create(name, info.context.db, favorite=favorite)
-    except Duplicate:
-        return Error(GraphQLError.DUPLICATE, f'Artist "{name}" already exists.')
+) -> artist.T:
+    return artist.create(name, info.context.db, favorite=favorite)
 
 
 @mutation.field("updateArtist")
@@ -74,13 +66,8 @@ def resolve_update_artist(
     info: GraphQLResolveInfo,
     id: int,
     **changes,
-) -> Union[artist.T, Error]:
+) -> artist.T:
     if not (art := artist.from_id(id, info.context.db)):
-        return Error(GraphQLError.NOT_FOUND, f"Artist {id} does not exist.")
+        raise NotFound(f"Artist {id} does not exist.")
 
-    try:
-        return artist.update(art, info.context.db, **convert_keys_case(changes))
-    except Duplicate:
-        return Error(
-            GraphQLError.DUPLICATE, f'Artist "{changes["name"]}" already exists.'
-        )
+    return artist.update(art, info.context.db, **convert_keys_case(changes))

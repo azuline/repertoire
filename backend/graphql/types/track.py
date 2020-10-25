@@ -1,19 +1,17 @@
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List
 
-from ariadne import ObjectType, UnionType
+from ariadne import ObjectType
 from graphql.type import GraphQLResolveInfo
 
-from backend.enums import ArtistRole, GraphQLError
-from backend.errors import AlreadyExists, DoesNotExist, NotFound
+from backend.enums import ArtistRole
+from backend.errors import NotFound
 from backend.graphql.mutation import mutation
 from backend.graphql.query import query
-from backend.graphql.types.error import Error
-from backend.graphql.util import require_auth, resolve_result
+from backend.graphql.util import require_auth
 from backend.library import release, track
 from backend.util import convert_keys_case
 
 gql_track = ObjectType("Track")
-gql_track_result = UnionType("TrackResult", resolve_result("Track"))
 
 
 @query.field("track")
@@ -22,7 +20,7 @@ def resolve_track(obj: Any, info: GraphQLResolveInfo, id: int) -> track.T:
     if trk := track.from_id(id, info.context.db):
         return trk
 
-    return Error(GraphQLError.NOT_FOUND, f"Track {id} not found.")
+    raise NotFound(f"Track {id} not found.")
 
 
 @gql_track.field("release")
@@ -42,14 +40,11 @@ def resolve_update_track(
     info: GraphQLResolveInfo,
     id: int,
     **changes,
-) -> Union[track.T, Error]:
+) -> track.T:
     if not (trk := track.from_id(id, info.context.db)):
-        return Error(GraphQLError.NOT_FOUND, f"Track {id} does not exist.")
+        raise NotFound(f"Track {id} does not exist.")
 
-    try:
-        return track.update(trk, info.context.db, **convert_keys_case(changes))
-    except NotFound as e:
-        return Error(GraphQLError.NOT_FOUND, e.message)
+    return track.update(trk, info.context.db, **convert_keys_case(changes))
 
 
 @mutation.field("addArtistToTrack")
@@ -60,17 +55,12 @@ def resolve_add_artist_to_track(
     trackId: int,
     artistId: int,
     role: ArtistRole,
-) -> Union[track.T, Error]:
+) -> track.T:
     if not (trk := track.from_id(trackId, info.context.db)):
-        return Error(GraphQLError.NOT_FOUND, "Track does not exist.")
+        raise NotFound("Track does not exist.")
 
-    try:
-        track.add_artist(trk, artistId, role, info.context.db)
-        return trk
-    except NotFound as e:
-        return Error(GraphQLError.NOT_FOUND, e.message)
-    except AlreadyExists:
-        return Error(GraphQLError.ALREADY_EXISTS, "Artist is already on track.")
+    track.add_artist(trk, artistId, role, info.context.db)
+    return trk
 
 
 @mutation.field("delArtistFromTrack")
@@ -81,14 +71,9 @@ def resolve_del_artist_from_track(
     trackId: int,
     artistId: int,
     role: ArtistRole,
-) -> Union[track.T, Error]:
+) -> track.T:
     if not (trk := track.from_id(trackId, info.context.db)):
-        return Error(GraphQLError.NOT_FOUND, "Track does not exist.")
+        raise NotFound("Track does not exist.")
 
-    try:
-        track.del_artist(trk, artistId, role, info.context.db)
-        return trk
-    except NotFound as e:
-        return Error(GraphQLError.NOT_FOUND, e.message)
-    except DoesNotExist:
-        return Error(GraphQLError.DOES_NOT_EXIST, "Artist is not on track.")
+    track.del_artist(trk, artistId, role, info.context.db)
+    return trk

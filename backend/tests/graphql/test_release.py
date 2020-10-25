@@ -2,7 +2,7 @@ import pytest
 
 from backend.library import release
 
-RELEASE_FIELDS = """
+RELEASE_RESULT = """
     id
     title
     releaseType
@@ -34,32 +34,10 @@ RELEASE_FIELDS = """
     }
 """
 
-RELEASE_RESULT = f"""
-    __typename
-
-    ... on Release {{
-        {RELEASE_FIELDS}
-    }}
-
-    ... on Error {{
-        error
-        message
-    }}
-"""
-
 RELEASES_RESULT = f"""
-    __typename
-
-    ... on Releases {{
-        total
-        results {{
-            {RELEASE_FIELDS}
-        }}
-    }}
-
-    ... on Error {{
-      error
-      message
+    total
+    results {{
+        {RELEASE_RESULT}
     }}
 """
 

@@ -143,7 +143,7 @@ def create(
 
     # First, check to see if a track with the same filepath exists.
     if trk := from_filepath(filepath, cursor):
-        raise Duplicate(trk)
+        raise Duplicate("A track with this filepath already exists.", trk)
 
     # Next, check to see if a track with the same sha256 exists.
     cursor.execute("SELECT id FROM music__tracks WHERE sha256 = ?", (sha256,))
@@ -278,7 +278,7 @@ def add_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> None
         (trk.id, artist_id, role.value),
     )
     if cursor.fetchone():
-        raise AlreadyExists
+        raise AlreadyExists("Artist already on track with this role.")
 
     cursor.execute(
         """
@@ -311,7 +311,7 @@ def del_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> None
         (trk.id, artist_id, role.value),
     )
     if not cursor.fetchone():
-        raise DoesNotExist
+        raise DoesNotExist("No artist on track with this role.")
 
     cursor.execute(
         """

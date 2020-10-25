@@ -7,4 +7,4 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['test_graphql_endpoint 1'] = b'{"data":{"user":{"__typename":"User","id":1,"username":"admin"}}}'
+snapshots['test_graphql_endpoint 1'] = b'{"data":{"user":{"id":1,"username":"admin"}}}'

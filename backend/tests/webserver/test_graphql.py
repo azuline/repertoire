@@ -5,19 +5,10 @@ import pytest
 async def test_graphql_endpoint(quart_client, snapshot):
     query = """
         query {
-          user {
-            __typename
-
-            ... on User {
-              id
-              username
+            user {
+                id
+                username
             }
-
-            ... on Error {
-              error
-              message
-            }
-          }
         }
     """
 

@@ -2,7 +2,7 @@ import pytest
 
 from backend.library import track
 
-TRACK_FIELDS = """
+TRACK_RESULT = """
     id
     title
     duration
@@ -19,19 +19,6 @@ TRACK_FIELDS = """
         id
       }
     }
-"""
-
-TRACK_RESULT = f"""
-    __typename
-
-    ... on Track {{
-        {TRACK_FIELDS}
-    }}
-
-    ... on Error {{
-      error
-      message
-    }}
 """
 
 

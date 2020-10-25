@@ -1,28 +1,18 @@
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 
-from ariadne import ObjectType, UnionType
+from ariadne import ObjectType
 from graphql.type import GraphQLResolveInfo
 
-from backend.enums import CollectionType, GraphQLError
-from backend.errors import (
-    AlreadyExists,
-    DoesNotExist,
-    Duplicate,
-    ImmutableCollection,
-    NotFound,
-)
+from backend.enums import CollectionType
+from backend.errors import NotFound
 from backend.graphql.mutation import mutation
 from backend.graphql.query import query
-from backend.graphql.types.error import Error
-from backend.graphql.util import require_auth, resolve_result
+from backend.graphql.util import require_auth
 from backend.library import collection, release
 from backend.util import convert_keys_case
 
 gql_collection = ObjectType("Collection")
-gql_collection_result = UnionType("CollectionResult", resolve_result("Collection"))
-
 gql_collections = ObjectType("Collections")
-gql_collections_result = UnionType("CollectionsResult", resolve_result("Collections"))
 
 
 @query.field("collection")
@@ -31,7 +21,7 @@ def resolve_collection(obj: Any, info: GraphQLResolveInfo, id: int) -> collectio
     if col := collection.from_id(id, info.context.db):
         return col
 
-    return Error(GraphQLError.NOT_FOUND, f"Collection {id} not found.")
+    raise NotFound(f"Collection {id} not found.")
 
 
 @query.field("collectionFromNameAndType")
@@ -45,9 +35,7 @@ def resolve_collection_from_name_and_type(
     if col := collection.from_name_and_type(name, type, info.context.db):
         return col
 
-    return Error(
-        GraphQLError.NOT_FOUND, f'Collection "{name}" of type {type.name} not found.'
-    )
+    raise NotFound(f'Collection "{name}" of type {type.name} not found.')
 
 
 @query.field("collections")
@@ -78,11 +66,8 @@ def resolve_create_collection(
     name: str,
     type: CollectionType,
     favorite: bool = False,
-) -> Union[collection.T, Error]:
-    try:
-        return collection.create(name, type, info.context.db, favorite=favorite)
-    except Duplicate:
-        return Error(GraphQLError.DUPLICATE, f'Collection "{name}" already exists.')
+) -> collection.T:
+    return collection.create(name, type, info.context.db, favorite=favorite)
 
 
 @mutation.field("updateCollection")
@@ -92,20 +77,11 @@ def resolve_update_collection(
     info: GraphQLResolveInfo,
     id: int,
     **changes,
-) -> Union[collection.T, Error]:
+) -> collection.T:
     if not (col := collection.from_id(id, info.context.db)):
-        return Error(GraphQLError.NOT_FOUND, f"Collection {id} does not exist.")
+        raise NotFound(f"Collection {id} does not exist.")
 
-    try:
-        return collection.update(col, info.context.db, **convert_keys_case(changes))
-    except Duplicate:
-        return Error(
-            GraphQLError.DUPLICATE, f'Collection "{changes["name"]}" already exists.'
-        )
-    except ImmutableCollection:
-        return Error(
-            GraphQLError.IMMUTABLE, f'Collection "{col.name}" cannot be updated.'
-        )
+    return collection.update(col, info.context.db, **convert_keys_case(changes))
 
 
 @mutation.field("addReleaseToCollection")
@@ -115,18 +91,13 @@ def resolve_add_release_to_collection(
     info: GraphQLResolveInfo,
     collectionId: int,
     releaseId: int,
-) -> Union[collection.T, Error]:
+) -> collection.T:
     if not (col := collection.from_id(collectionId, info.context.db)):
-        return Error(GraphQLError.NOT_FOUND, "Collection does not exist.")
+        raise NotFound(f"Collection {collectionId} does not exist.")
 
-    try:
-        collection.add_release(col, releaseId, info.context.db)
-        col.num_releases += 1
-        return col
-    except NotFound as e:
-        return Error(GraphQLError.NOT_FOUND, e.message)
-    except AlreadyExists:
-        return Error(GraphQLError.ALREADY_EXISTS, "Release is already in collection.")
+    collection.add_release(col, releaseId, info.context.db)
+    col.num_releases += 1
+    return col
 
 
 @mutation.field("delReleaseFromCollection")
@@ -136,15 +107,10 @@ def resolve_del_release_from_collection(
     info: GraphQLResolveInfo,
     collectionId: int,
     releaseId: int,
-) -> Union[collection.T, Error]:
+) -> collection.T:
     if not (col := collection.from_id(collectionId, info.context.db)):
-        return Error(GraphQLError.NOT_FOUND, "Collection does not exist.")
+        raise NotFound(f"Collection {collectionId} does not exist.")
 
-    try:
-        collection.del_release(col, releaseId, info.context.db)
-        col.num_releases -= 1
-        return col
-    except NotFound as e:
-        return Error(GraphQLError.NOT_FOUND, e.message)
-    except DoesNotExist:
-        return Error(GraphQLError.DOES_NOT_EXIST, "Release is not in collection.")
+    collection.del_release(col, releaseId, info.context.db)
+    col.num_releases -= 1
+    return col

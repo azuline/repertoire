@@ -1,23 +1,20 @@
 from datetime import date
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 
-from ariadne import ObjectType, UnionType
+from ariadne import ObjectType
 from graphql.type import GraphQLResolveInfo
 
-from backend.enums import CollectionType, GraphQLError, ReleaseType
-from backend.errors import AlreadyExists, DoesNotExist, NotFound
+from backend.enums import CollectionType, ReleaseType
+from backend.errors import NotFound, ParseError
 from backend.graphql.mutation import mutation
 from backend.graphql.query import query
-from backend.graphql.types.error import Error
-from backend.graphql.util import require_auth, resolve_result
+from backend.graphql.util import require_auth
 from backend.library import artist, release
 from backend.util import convert_keys_case
 
 gql_release = ObjectType("Release")
-gql_release_result = UnionType("ReleaseResult", resolve_result("Release"))
 
 gql_releases = ObjectType("Releases")
-gql_releases_result = UnionType("ReleasesResult", resolve_result("Releases"))
 
 
 @query.field("release")
@@ -26,7 +23,7 @@ def resolve_release(obj: Any, info: GraphQLResolveInfo, id: int) -> release.T:
     if rls := release.from_id(id, info.context.db):
         return rls
 
-    return Error(GraphQLError.NOT_FOUND, f"Release {id} not found.")
+    raise NotFound(f"Release {id} not found.")
 
 
 @query.field("releases")
@@ -76,27 +73,24 @@ def resolve_create_release(
     releaseType: ReleaseType,
     releaseYear: int,
     releaseDate: Optional[str] = None,
-) -> Union[release.T, Error]:
+) -> release.T:
     # Convert the "releaseDate" field from a string to a `dat` object. If it is not in
     # the changes dict, do nothing.
     try:
         releaseDate = date.fromisoformat(releaseDate)
     except ValueError:
-        return Error(GraphQLError.PARSE_ERROR, "Invalid release date.")
+        raise ParseError("Invalid release date.")
     except TypeError:
         pass
 
-    try:
-        return release.create(
-            title=title,
-            artist_ids=artistIds,
-            release_type=releaseType,
-            release_year=releaseYear,
-            cursor=info.context.db,
-            release_date=releaseDate,
-        )
-    except NotFound as e:
-        return Error(GraphQLError.NOT_FOUND, e.message)
+    return release.create(
+        title=title,
+        artist_ids=artistIds,
+        release_type=releaseType,
+        release_year=releaseYear,
+        cursor=info.context.db,
+        release_date=releaseDate,
+    )
 
 
 @mutation.field("updateRelease")
@@ -106,16 +100,16 @@ def resolve_update_release(
     info: GraphQLResolveInfo,
     id: int,
     **changes,
-) -> Union[release.T, Error]:
+) -> release.T:
     if not (rls := release.from_id(id, info.context.db)):
-        return Error(GraphQLError.NOT_FOUND, f"Release {id} does not exist.")
+        raise NotFound(f"Release {id} does not exist.")
 
     # Convert the "releaseDate" update from a string to a `date` object. If it is not in
     # the changes dict, do nothing.
     try:
         changes["releaseDate"] = date.fromisoformat(changes["releaseDate"])
     except ValueError:
-        return Error(GraphQLError.PARSE_ERROR, "Invalid release date.")
+        raise ParseError("Invalid release date.")
     except KeyError:
         pass
 
@@ -129,17 +123,12 @@ def resolve_add_artist_to_release(
     info: GraphQLResolveInfo,
     releaseId: int,
     artistId: int,
-) -> Union[release.T, Error]:
+) -> release.T:
     if not (rls := release.from_id(releaseId, info.context.db)):
-        return Error(GraphQLError.NOT_FOUND, "Release does not exist.")
+        raise NotFound(f"Release {releaseId} does not exist.")
 
-    try:
-        release.add_artist(rls, artistId, info.context.db)
-        return rls
-    except NotFound as e:
-        return Error(GraphQLError.NOT_FOUND, e.message)
-    except AlreadyExists:
-        return Error(GraphQLError.ALREADY_EXISTS, "Artist is already in release.")
+    release.add_artist(rls, artistId, info.context.db)
+    return rls
 
 
 @mutation.field("delArtistFromRelease")
@@ -149,14 +138,9 @@ def resolve_del_artist_from_release(
     info: GraphQLResolveInfo,
     releaseId: int,
     artistId: int,
-) -> Union[release.T, Error]:
+) -> release.T:
     if not (rls := release.from_id(releaseId, info.context.db)):
-        return Error(GraphQLError.NOT_FOUND, "Release does not exist.")
+        raise NotFound(f"Release {releaseId} does not exist.")
 
-    try:
-        release.del_artist(rls, artistId, info.context.db)
-        return rls
-    except NotFound as e:
-        return Error(GraphQLError.NOT_FOUND, e.message)
-    except DoesNotExist:
-        return Error(GraphQLError.DOES_NOT_EXIST, "Artist is not in release.")
+    release.del_artist(rls, artistId, info.context.db)
+    return rls

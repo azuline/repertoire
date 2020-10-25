@@ -2,9 +2,7 @@ from typing import Any
 
 
 class BackendError(Exception):
-    def __init__(self, message=None, **kwargs):
-        self.message = message
-        super().__init__(message, **kwargs)
+    pass
 
 
 class CliError(BackendError):
@@ -16,7 +14,12 @@ class InvalidConfig(BackendError):
 
 
 class LibError(BackendError):
-    pass
+    #: The error message.
+    message: str
+
+    def __init__(self, message: str = None, *args, **kwargs):
+        self.message = message
+        super().__init__(message, *args, **kwargs)
 
 
 class InvalidUsername(LibError):
@@ -31,7 +34,7 @@ class InvalidCollectionType(LibError):
     pass
 
 
-class ImmutableCollection(LibError):
+class Immutable(LibError):
     pass
 
 
@@ -40,12 +43,12 @@ class NotFound(LibError):
 
 
 class Duplicate(LibError):
-
     #: The duplicate entity.
     entity: Any
 
-    def __init__(self, entity: Any = None):
+    def __init__(self, message: str = None, entity: Any = None, *args, **kwargs):
         self.entity = entity
+        super().__init__(message, entity, *args, **kwargs)
 
 
 class AlreadyExists(LibError):
@@ -53,4 +56,12 @@ class AlreadyExists(LibError):
 
 
 class DoesNotExist(LibError):
+    pass
+
+
+class NotAuthorized(LibError):
+    pass
+
+
+class ParseError(LibError):
     pass

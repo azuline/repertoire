@@ -1,18 +1,15 @@
 from typing import Any
 
-from ariadne import ObjectType, UnionType
+from ariadne import ObjectType
 from graphql.type import GraphQLResolveInfo
 
 from backend.graphql.mutation import mutation
 from backend.graphql.query import query
-from backend.graphql.util import require_auth, resolve_result
+from backend.graphql.util import require_auth
 from backend.library import user
 
 gql_user = ObjectType("User")
-gql_user_result = UnionType("UserResult", resolve_result("User"))
-
 gql_token = ObjectType("Token")
-gql_token_result = UnionType("TokenResult", resolve_result("Token"))
 
 
 @query.field("user")

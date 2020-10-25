@@ -298,7 +298,7 @@ def create(
     if not allow_duplicate and (
         rls := _find_duplicate_release(title, artist_ids, cursor)
     ):
-        raise Duplicate(rls)
+        raise Duplicate("A release with the same name and artists already exists.", rls)
 
     # Insert the release into the database.
     cursor.execute(
@@ -487,7 +487,7 @@ def add_artist(rls: T, artist_id: int, cursor: Cursor) -> None:
         (rls.id, artist_id),
     )
     if cursor.fetchone():
-        raise AlreadyExists
+        raise AlreadyExists("Artist is already on release.")
 
     cursor.execute(
         "INSERT INTO music__releases_artists (release_id, artist_id) VALUES (?, ?)",
@@ -514,7 +514,7 @@ def del_artist(rls: T, artist_id: int, cursor: Cursor) -> None:
         (rls.id, artist_id),
     )
     if not cursor.fetchone():
-        raise DoesNotExist
+        raise DoesNotExist("Artist is not on release.")
 
     cursor.execute(
         "DELETE FROM music__releases_artists WHERE release_id = ? AND artist_id = ?",

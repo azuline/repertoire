@@ -12,7 +12,6 @@ snapshots['test_artist 1'] = (
     {
         'data': {
             'artist': {
-                '__typename': 'Artist',
                 'favorite': False,
                 'id': 4,
                 'name': 'Abakus',
@@ -58,7 +57,6 @@ snapshots['test_artist_from_name 1'] = (
     {
         'data': {
             'artistFromName': {
-                '__typename': 'Artist',
                 'favorite': False,
                 'id': 4,
                 'name': 'Abakus',
@@ -103,12 +101,23 @@ snapshots['test_artist_from_name_no_auth 1'] = (
     True,
     {
         'data': {
-            'artistFromName': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'artistFromName': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'artistFromName'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -116,12 +125,23 @@ snapshots['test_artist_from_name_not_found 1'] = (
     True,
     {
         'data': {
-            'artistFromName': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Artist "Random Artist name" does not exist.'
+            'artistFromName': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Artist "Random Artist name" does not exist.',
+                'path': [
+                    'artistFromName'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -129,12 +149,23 @@ snapshots['test_artist_no_auth 1'] = (
     True,
     {
         'data': {
-            'artist': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'artist': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'artist'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -142,12 +173,23 @@ snapshots['test_artist_not_found 1'] = (
     True,
     {
         'data': {
-            'artist': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Artist 999999 does not exist.'
+            'artist': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Artist 999999 does not exist.',
+                'path': [
+                    'artist'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -156,7 +198,6 @@ snapshots['test_artists 1'] = (
     {
         'data': {
             'artists': {
-                '__typename': 'Artists',
                 'results': [
                     {
                         'favorite': False,
@@ -279,12 +320,23 @@ snapshots['test_artists_no_auth 1'] = (
     True,
     {
         'data': {
-            'artists': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'artists': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'artists'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -293,7 +345,6 @@ snapshots['test_create_artist 1'] = (
     {
         'data': {
             'createArtist': {
-                '__typename': 'Artist',
                 'favorite': True,
                 'id': 6,
                 'name': 'New Artist',
@@ -313,12 +364,23 @@ snapshots['test_create_artist_duplicate 1'] = (
     True,
     {
         'data': {
-            'createArtist': {
-                '__typename': 'Error',
-                'error': 'DUPLICATE',
-                'message': 'Artist "Abakus" already exists.'
+            'createArtist': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Artist "Abakus" already exists.',
+                'path': [
+                    'createArtist'
+                ],
+                'type': 'Duplicate'
             }
-        }
+        ]
     }
 )
 
@@ -326,12 +388,23 @@ snapshots['test_create_artist_no_auth 1'] = (
     True,
     {
         'data': {
-            'createArtist': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'createArtist': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'createArtist'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -340,7 +413,6 @@ snapshots['test_update_artist 1'] = (
     {
         'data': {
             'updateArtist': {
-                '__typename': 'Artist',
                 'favorite': True,
                 'id': 4,
                 'name': 'New Name',
@@ -387,12 +459,23 @@ snapshots['test_update_artist_doesnt_exist 1'] = (
     True,
     {
         'data': {
-            'updateArtist': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Artist 999 does not exist.'
+            'updateArtist': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Artist 999 does not exist.',
+                'path': [
+                    'updateArtist'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -400,12 +483,23 @@ snapshots['test_update_artist_duplicate 1'] = (
     True,
     {
         'data': {
-            'updateArtist': {
-                '__typename': 'Error',
-                'error': 'DUPLICATE',
-                'message': 'Artist "Bacchus" already exists.'
+            'updateArtist': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Artist "Bacchus" already exists.',
+                'path': [
+                    'updateArtist'
+                ],
+                'type': 'Duplicate'
             }
-        }
+        ]
     }
 )
 
@@ -415,12 +509,23 @@ snapshots['test_update_artist_no_auth 1'] = (
     True,
     {
         'data': {
-            'updateArtist': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'updateArtist': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'updateArtist'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 

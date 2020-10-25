@@ -119,7 +119,7 @@ def create(username: str, cursor: Cursor) -> Tuple[T, bytes]:
     :raises TokenGenerationFailure: If we could not generate a suitable token.
     """
     if not _validate_username(username, cursor):
-        raise InvalidUsername
+        raise InvalidUsername("Invalid username. Usernames must be alphanumeric.")
 
     # Generate the token for the new user and hash it.
     token, token_prefix = _generate_token(cursor)
@@ -177,7 +177,7 @@ def _generate_token(cursor: Cursor) -> Tuple[bytes, bytes]:
 
     # If we do not find a suitable token after 64 cycles, raise an exception.
     logger.info("Failed to generate token after 64 cycles o.O")
-    raise TokenGenerationFailure
+    raise TokenGenerationFailure("Failed to generate token after 64 cycles o.O")
 
 
 def new_token(usr: T, cursor: Cursor) -> bytes:

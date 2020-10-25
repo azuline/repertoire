@@ -2,7 +2,7 @@ import pytest
 
 from backend.library import artist
 
-ARTIST_FIELDS = """
+ARTIST_RESULT = """
     id
     name
     favorite
@@ -21,32 +21,9 @@ ARTIST_FIELDS = """
 """
 
 
-ARTIST_RESULT = f"""
-    __typename
-
-    ... on Artist {{
-        {ARTIST_FIELDS}
-    }}
-
-    ... on Error {{
-        error
-        message
-    }}
-"""
-
-
 ARTISTS_RESULT = f"""
-    __typename
-
-    ... on Artists {{
-        results {{
-            {ARTIST_FIELDS}
-        }}
-    }}
-
-    ... on Error {{
-        error
-        message
+    results {{
+        {ARTIST_RESULT}
     }}
 """
 

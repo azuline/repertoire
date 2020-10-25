@@ -11,12 +11,23 @@ snapshots['test_new_token_no_auth 1'] = (
     True,
     {
         'data': {
-            'newToken': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'newToken': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 9,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'newToken'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -25,8 +36,8 @@ snapshots['test_user 1'] = (
     {
         'data': {
             'user': {
-                '__typename': 'User',
-                'id': 1
+                'id': 1,
+                'username': 'admin'
             }
         }
     }
@@ -36,11 +47,22 @@ snapshots['test_user_no_auth 1'] = (
     True,
     {
         'data': {
-            'user': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'user': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 9,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'user'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )

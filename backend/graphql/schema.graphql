@@ -1,32 +1,32 @@
 scalar PosixTime
 
 type Query {
-    artist(id: Int!): ArtistResult
+    artist(id: Int!): Artist
 
-    artistFromName(name: String!): ArtistResult
+    artistFromName(name: String!): Artist
 
-    collection(id: Int!): CollectionResult
+    collection(id: Int!): Collection
 
     collectionFromNameAndType(
         name: String!
         type: CollectionType!
-    ): CollectionResult
+    ): Collection
 
-    release(id: Int!): ReleaseResult
+    release(id: Int!): Release
 
-    track(id: Int!): TrackResult
+    track(id: Int!): Track
 
     "Fetch the currently authenticated user."
-    user: UserResult
+    user: User
 
     "Fetch all artists."
-    artists: ArtistsResult
+    artists: Artists
 
     "Fetch all collections (of a type)."
     collections(
         "If provided, only collections of this type will be returned."
         type: CollectionType
-    ): CollectionsResult
+    ): Collections
 
     "Search for releases matching a certain criteria."
     releases(
@@ -68,42 +68,42 @@ type Query {
         If true, sort in ascending order. If false, descending.
         """
         asc: Boolean
-    ): ReleasesResult
+    ): Releases
 }
 
 type Mutation {
     createArtist(
         name: String!
         favorite: Boolean
-    ): ArtistResult
+    ): Artist
 
     updateArtist(
         id: Int!
         name: String
         favorite: Boolean
-    ): ArtistResult
+    ): Artist
 
     createCollection(
         name: String!
         type: CollectionType!
         favorite: Boolean
-    ): CollectionResult
+    ): Collection
 
     updateCollection(
         id: Int!
         name: String
         favorite: Boolean
-    ): CollectionResult
+    ): Collection
 
     addReleaseToCollection(
         collectionId: Int!
         releaseId: Int!
-    ): CollectionResult
+    ): Collection
 
     delReleaseFromCollection(
         collectionId: Int!
         releaseId: Int!
-    ): CollectionResult
+    ): Collection
 
     createRelease(
         title: String!
@@ -113,7 +113,7 @@ type Mutation {
         releaseYear: Int!
         "A date in YYYY-MM-DD format."
         releaseDate: String
-    ): ReleaseResult
+    ): Release
 
     updateRelease(
         id: Int!
@@ -122,17 +122,17 @@ type Mutation {
         releaseYear: Int
         "A date in YYYY-MM-DD format."
         releaseDate: String
-    ): ReleaseResult
+    ): Release
 
     addArtistToRelease(
         releaseId: Int!
         artistId: Int!
-    ): ReleaseResult
+    ): Release
 
     delArtistFromRelease(
         releaseId: Int!
         artistId: Int!
-    ): ReleaseResult
+    ): Release
 
     updateTrack(
         id: Int!
@@ -140,33 +140,26 @@ type Mutation {
         releaseId: Int
         trackNumber: String
         discNumber: String
-    ): TrackResult
+    ): Track
 
     addArtistToTrack(
         trackId: Int!
         artistId: Int!
         role: ArtistRole!
-    ): TrackResult
+    ): Track
 
     delArtistFromTrack(
         trackId: Int!
         artistId: Int!
         role: ArtistRole!
-    ): TrackResult
+    ): Track
 
     """
     Generate a new authentication token for the current user. Invalidate the
     old one.
     """
-    newToken: TokenResult
+    newToken: Token
 
-}
-
-"The Error type potentially returned from a query."
-type Error {
-    "The type of the error."
-    error: ErrorType!
-    message: String!
 }
 
 type Artist {
@@ -180,15 +173,9 @@ type Artist {
     topGenres: [TopGenre]
 }
 
-"The return type of a query for a single artist."
-union ArtistResult = Artist | Error
-
 type Artists {
     results: [Artist]!
 }
-
-"The return type of a query for multiple artists."
-union ArtistsResult = Artists | Error
 
 type Collection {
     id: Int!
@@ -204,15 +191,9 @@ type Collection {
     topGenres: [TopGenre]
 }
 
-"The return type of a query for a single collection."
-union CollectionResult = Collection | Error
-
 type Collections {
     results: [Collection]!
 }
-
-"The return type of a query for multiple collections."
-union CollectionsResult = Collections | Error
 
 type Release {
     id: Int!
@@ -234,18 +215,12 @@ type Release {
     collages: [Collection]
 }
 
-"The return type of a query for a single release."
-union ReleaseResult = Release | Error
-
 type Releases {
     "The total number of releases matching the query across all pages."
     total: Int!
     "The releases on the current page."
     results: [Release]!
 }
-
-"The return type of a query for multiple releases."
-union ReleasesResult = Releases | Error
 
 type Track {
     id: Int!
@@ -257,9 +232,6 @@ type Track {
     release: Release
     artists: [TrackArtist]
 }
-
-"The return type of a query for a single track."
-union TrackResult = Track | Error
 
 type TrackArtist {
     artist: Artist!
@@ -279,29 +251,8 @@ type User {
     username: String!
 }
 
-"The return type of a query for a single user."
-union UserResult = User | Error
-
 type Token {
     hex: String!
-}
-
-"The return type of a mutation for a new token."
-union TokenResult = Token | Error
-
-enum ErrorType {
-    NOT_AUTHENTICATED
-    NOT_FOUND
-    "A duplicate entity was found matching some characteristics."
-    DUPLICATE
-    "An update was attempted to an immutable entity."
-    IMMUTABLE
-    "An entity already exists in a collection."
-    ALREADY_EXISTS
-    "An entity does not exist in a collection."
-    DOES_NOT_EXIST
-    "Failed to parse a parameter."
-    PARSE_ERROR
 }
 
 enum ArtistRole {

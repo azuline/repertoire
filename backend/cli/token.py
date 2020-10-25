@@ -8,7 +8,7 @@ from backend.util import database
 @commands.command()
 @shared_options
 def token():
-    """Generate an authentication token."""
+    """Generate an authorization token."""
     # Currently, we only support a single user.
     with database() as conn:
         cursor = conn.cursor()
@@ -18,4 +18,4 @@ def token():
         else:
             _, token = user.create("admin", cursor)
 
-    click.echo(f"Generated new authentication token: {token.hex()}")
+    click.echo(f"Generated new authorization token: {token.hex()}")

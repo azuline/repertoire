@@ -12,7 +12,6 @@ snapshots['test_add_artist_to_release 1'] = (
     {
         'data': {
             'addArtistToRelease': {
-                '__typename': 'Release',
                 'addedOn': 1603067134,
                 'artists': [
                     {
@@ -94,12 +93,23 @@ snapshots['test_add_artist_to_release_already_exists 1'] = (
     True,
     {
         'data': {
-            'addArtistToRelease': {
-                '__typename': 'Error',
-                'error': 'ALREADY_EXISTS',
-                'message': 'Artist is already in release.'
+            'addArtistToRelease': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Artist is already on release.',
+                'path': [
+                    'addArtistToRelease'
+                ],
+                'type': 'AlreadyExists'
             }
-        }
+        ]
     }
 )
 
@@ -111,12 +121,23 @@ snapshots['test_add_artist_to_release_bad_artist 1'] = (
     True,
     {
         'data': {
-            'addArtistToRelease': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Artist 9999 does not exist.'
+            'addArtistToRelease': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Artist 9999 does not exist.',
+                'path': [
+                    'addArtistToRelease'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -128,12 +149,23 @@ snapshots['test_add_artist_to_release_bad_release 1'] = (
     True,
     {
         'data': {
-            'addArtistToRelease': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Release does not exist.'
+            'addArtistToRelease': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Release 999 does not exist.',
+                'path': [
+                    'addArtistToRelease'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -141,19 +173,29 @@ snapshots['test_add_artist_to_release_no_auth 1'] = (
     True,
     {
         'data': {
-            'addArtistToRelease': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'addArtistToRelease': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'addArtistToRelease'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
 snapshots['test_create_release 1'] = {
     'data': {
         'createRelease': {
-            '__typename': 'Release',
             'artists': [
                 {
                     'id': 2
@@ -186,12 +228,23 @@ snapshots['test_create_release_bad_artists 1'] = (
     True,
     {
         'data': {
-            'createRelease': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Artist(s) 9999 do not exist.'
+            'createRelease': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Artist(s) 9999 do not exist.',
+                'path': [
+                    'createRelease'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -199,12 +252,23 @@ snapshots['test_create_release_bad_date 1'] = (
     True,
     {
         'data': {
-            'createRelease': {
-                '__typename': 'Error',
-                'error': 'PARSE_ERROR',
-                'message': 'Invalid release date.'
+            'createRelease': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid release date.',
+                'path': [
+                    'createRelease'
+                ],
+                'type': 'ParseError'
             }
-        }
+        ]
     }
 )
 
@@ -212,12 +276,23 @@ snapshots['test_create_release_no_auth 1'] = (
     True,
     {
         'data': {
-            'createRelease': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'createRelease': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'createRelease'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -226,7 +301,6 @@ snapshots['test_del_artist_from_release 1'] = (
     {
         'data': {
             'delArtistFromRelease': {
-                '__typename': 'Release',
                 'addedOn': 1603067134,
                 'artists': [
                 ],
@@ -300,12 +374,23 @@ snapshots['test_del_artist_from_release_bad_artist 1'] = (
     True,
     {
         'data': {
-            'delArtistFromRelease': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Artist 9999 does not exist.'
+            'delArtistFromRelease': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Artist 9999 does not exist.',
+                'path': [
+                    'delArtistFromRelease'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -317,12 +402,23 @@ snapshots['test_del_artist_from_release_bad_release 1'] = (
     True,
     {
         'data': {
-            'delArtistFromRelease': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Release does not exist.'
+            'delArtistFromRelease': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Release 999 does not exist.',
+                'path': [
+                    'delArtistFromRelease'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -330,12 +426,23 @@ snapshots['test_del_artist_from_release_doesnt_exist 1'] = (
     True,
     {
         'data': {
-            'delArtistFromRelease': {
-                '__typename': 'Error',
-                'error': 'DOES_NOT_EXIST',
-                'message': 'Artist is not in release.'
+            'delArtistFromRelease': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Artist is not on release.',
+                'path': [
+                    'delArtistFromRelease'
+                ],
+                'type': 'DoesNotExist'
             }
-        }
+        ]
     }
 )
 
@@ -343,12 +450,23 @@ snapshots['test_del_artist_from_release_no_auth 1'] = (
     True,
     {
         'data': {
-            'delArtistFromRelease': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'delArtistFromRelease': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'delArtistFromRelease'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -357,7 +475,6 @@ snapshots['test_release 1'] = (
     {
         'data': {
             'release': {
-                '__typename': 'Release',
                 'addedOn': 1603096174,
                 'artists': [
                     {
@@ -437,12 +554,23 @@ snapshots['test_release_no_auth 1'] = (
     True,
     {
         'data': {
-            'release': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'release': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'release'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -450,12 +578,23 @@ snapshots['test_release_not_found 1'] = (
     True,
     {
         'data': {
-            'release': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Release 999 not found.'
+            'release': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Release 999 not found.',
+                'path': [
+                    'release'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -464,7 +603,6 @@ snapshots['test_releases 1'] = (
     {
         'data': {
             'releases': {
-                '__typename': 'Releases',
                 'results': [
                     {
                         'addedOn': 0,
@@ -637,7 +775,6 @@ snapshots['test_releases_filter_artists 1'] = (
     {
         'data': {
             'releases': {
-                '__typename': 'Releases',
                 'results': [
                     {
                         'addedOn': 1603067134,
@@ -717,7 +854,6 @@ snapshots['test_releases_filter_collections 1'] = (
     {
         'data': {
             'releases': {
-                '__typename': 'Releases',
                 'results': [
                     {
                         'addedOn': 1603067134,
@@ -797,7 +933,6 @@ snapshots['test_releases_filter_types 1'] = (
     {
         'data': {
             'releases': {
-                '__typename': 'Releases',
                 'results': [
                     {
                         'addedOn': 1603067134,
@@ -876,12 +1011,23 @@ snapshots['test_releases_no_auth 1'] = (
     True,
     {
         'data': {
-            'releases': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'releases': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'releases'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -890,7 +1036,6 @@ snapshots['test_releases_pagination 1'] = (
     {
         'data': {
             'releases': {
-                '__typename': 'Releases',
                 'results': [
                     {
                         'addedOn': 1603096174,
@@ -976,7 +1121,6 @@ snapshots['test_releases_search 1'] = (
     {
         'data': {
             'releases': {
-                '__typename': 'Releases',
                 'results': [
                     {
                         'addedOn': 1603067134,
@@ -1056,7 +1200,6 @@ snapshots['test_releases_sort 1'] = (
     {
         'data': {
             'releases': {
-                '__typename': 'Releases',
                 'results': [
                     {
                         'addedOn': 1603096174,
@@ -1229,7 +1372,6 @@ snapshots['test_releases_sort_desc 1'] = (
     {
         'data': {
             'releases': {
-                '__typename': 'Releases',
                 'results': [
                     {
                         'addedOn': 1603067134,
@@ -1402,7 +1544,6 @@ snapshots['test_update_release 1'] = (
     {
         'data': {
             'updateRelease': {
-                '__typename': 'Release',
                 'addedOn': 1603067134,
                 'artists': [
                     {
@@ -1478,12 +1619,23 @@ snapshots['test_update_release_bad_date 1'] = (
     True,
     {
         'data': {
-            'updateRelease': {
-                '__typename': 'Error',
-                'error': 'PARSE_ERROR',
-                'message': 'Invalid release date.'
+            'updateRelease': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid release date.',
+                'path': [
+                    'updateRelease'
+                ],
+                'type': 'ParseError'
             }
-        }
+        ]
     }
 )
 
@@ -1493,12 +1645,23 @@ snapshots['test_update_release_no_auth 1'] = (
     True,
     {
         'data': {
-            'updateRelease': {
-                '__typename': 'Error',
-                'error': 'NOT_AUTHENTICATED',
-                'message': 'Please authenticate ^.~'
+            'updateRelease': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'updateRelease'
+                ],
+                'type': 'NotAuthorized'
             }
-        }
+        ]
     }
 )
 
@@ -1506,11 +1669,22 @@ snapshots['test_update_release_not_found 1'] = (
     True,
     {
         'data': {
-            'updateRelease': {
-                '__typename': 'Error',
-                'error': 'NOT_FOUND',
-                'message': 'Release 99999 does not exist.'
+            'updateRelease': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Release 99999 does not exist.',
+                'path': [
+                    'updateRelease'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )

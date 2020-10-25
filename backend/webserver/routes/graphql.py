@@ -6,7 +6,7 @@ from ariadne import graphql
 from ariadne.constants import PLAYGROUND_HTML
 from quart import Blueprint, Request, Response
 
-from backend.graphql import schema
+from backend.graphql import error_formatter, schema
 from backend.library import user
 from backend.webserver.util import check_auth
 
@@ -50,6 +50,7 @@ async def graphql_server() -> Response:
             db=quart.g.db,
             request=quart.request,
         ),
+        error_formatter=error_formatter,
         debug=quart.current_app.debug,
     )
 

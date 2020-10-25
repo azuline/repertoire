@@ -7,7 +7,7 @@ from ariadne import graphql
 from yoyo import get_backend, read_migrations
 
 from backend.constants import PROJECT_ROOT
-from backend.graphql import schema
+from backend.graphql import error_formatter, schema
 from backend.library import user
 from backend.util import database
 from backend.webserver.app import create_app
@@ -93,6 +93,7 @@ def graphql_query(db, quart_app):
                     db=db,
                     request=quart.request,
                 ),
+                error_formatter=error_formatter,
                 debug=False,
             )
 

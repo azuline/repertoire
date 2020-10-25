@@ -7,7 +7,7 @@ from backend.errors import (
     AlreadyExists,
     DoesNotExist,
     Duplicate,
-    ImmutableCollection,
+    Immutable,
     InvalidCollectionType,
 )
 from backend.library import collection
@@ -86,7 +86,7 @@ def test_update_fields(db: Cursor, snapshot):
 
 @pytest.mark.parametrize("col_id", [1, 5])
 def test_update_immutable(db: Cursor, col_id):
-    with pytest.raises(ImmutableCollection):
+    with pytest.raises(Immutable):
         collection.update(
             collection.from_id(6, db),
             cursor=db,

@@ -11,7 +11,7 @@ from backend.errors import (
     AlreadyExists,
     DoesNotExist,
     Duplicate,
-    ImmutableCollection,
+    Immutable,
     InvalidCollectionType,
     NotFound,
 )
@@ -175,10 +175,10 @@ def create(
                        duplicate collection is passed as the ``entity`` argument.
     """
     if type in [CollectionType.SYSTEM, CollectionType.RATING]:
-        raise InvalidCollectionType
+        raise InvalidCollectionType("Cannot modify system or rating collections.")
 
     if col := from_name_and_type(name, type, cursor):
-        raise Duplicate(col)
+        raise Duplicate(f'Collection "{name}" already exists.', col)
 
     cursor.execute(
         "INSERT INTO music__collections (name, type, favorite) VALUES (?, ?, ?)",
@@ -214,18 +214,18 @@ def update(col: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
     :param favorite: New collection favorite.
     :type  favorite: :py:obj:`bool`
     :return: The updated collection.
-    :raises ImmutableCollection: If the collection cannot be updated.
+    :raises Immutable: If the collection cannot be updated.
     :raises Duplicate: If the new name conflicts with another collection.
     """
     if col.type in [CollectionType.SYSTEM, CollectionType.RATING]:
-        raise ImmutableCollection
+        raise Immutable("System and rating collections cannot be modified.")
 
     if (
         "name" in changes
         and (dupl := from_name_and_type(changes["name"], col.type, cursor))
         and dupl != col
     ):
-        raise Duplicate(dupl)
+        raise Duplicate(f'Collection "{changes["name"]}" already exists.', dupl)
 
     cursor.execute(
         """
@@ -280,7 +280,7 @@ def add_release(col: T, release_id: int, cursor: Cursor) -> None:
         (col.id, release_id),
     )
     if cursor.fetchone():
-        raise AlreadyExists
+        raise AlreadyExists("Release is already in collection.")
 
     cursor.execute(
         """
@@ -313,7 +313,7 @@ def del_release(col: T, release_id: int, cursor: Cursor) -> None:
         (col.id, release_id),
     )
     if not cursor.fetchone():
-        raise DoesNotExist
+        raise DoesNotExist("Release is not in collection.")
 
     cursor.execute(
         """
