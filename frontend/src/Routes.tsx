@@ -1,10 +1,10 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import { Releases } from 'pages/Releases';
-import { Artists } from 'pages/Artists';
-import { AuthorizationContext } from 'contexts';
+import { Releases } from 'src/pages/Releases';
+import { Artists } from 'src/pages/Artists';
+import { AuthorizationContext } from 'src/contexts';
 import { Route, Switch } from 'react-router-dom';
-import { Login } from 'pages/Login';
+import { Login } from 'src/pages/Login';
 
 const routes = [
   { component: Releases, path: '/' },
@@ -12,9 +12,7 @@ const routes = [
   { component: Artists, path: '/artists' },
 ];
 
-type RoutesProps = { className: string };
-
-export const Routes: React.FC<RoutesProps> = ({ className }) => {
+export const Routes: React.FC<{ className?: string }> = ({ className = '' }) => {
   const { token } = React.useContext(AuthorizationContext);
 
   if (!token) {

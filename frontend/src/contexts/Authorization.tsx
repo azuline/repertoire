@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { usePersistentState } from 'hooks';
-import { User } from 'types';
+import { usePersistentState } from 'src/hooks';
+import { User } from 'src/types';
+import { LocalKeys } from 'src/constants';
 
 type ACType = {
   token: string | null;
@@ -19,8 +20,8 @@ export const AuthorizationContext = React.createContext<ACType>({
 export const AuthorizationProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [token, setToken] = usePersistentState<string>('auth--token', null);
-  const [user, setUser] = usePersistentState<User>('auth--user', null);
+  const [token, setToken] = usePersistentState<string>(LocalKeys.AuthToken, null);
+  const [user, setUser] = usePersistentState<User>(LocalKeys.AuthUser, null);
 
   const value = { token, setToken, user, setUser };
 

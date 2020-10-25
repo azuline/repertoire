@@ -1,6 +1,6 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import { AuthorizationContext } from 'contexts';
+import { AuthorizationContext } from 'src/contexts';
 
 // const USER_QUERY = `
 //   query {
@@ -23,9 +23,11 @@ import { AuthorizationContext } from 'contexts';
 const pageStyle = { maxHeight: 'calc(100vh - 120px)' };
 const inputStyle = { width: '50vw', minWidth: '300px', maxWidth: '600px' };
 
-export const Login: React.FC<{ className: string }> = ({ className }) => {
+export const Login: React.FC<{ className?: string }> = ({ className = '' }) => {
   const [input, setInput] = React.useState('');
   const { setToken, setUser } = React.useContext(AuthorizationContext);
+
+  const onChange = React.useCallback((e): void => setInput(e.target.value), [setInput]);
 
   const onSubmit = React.useCallback(() => {
     setToken(null);
@@ -40,7 +42,7 @@ export const Login: React.FC<{ className: string }> = ({ className }) => {
           style={inputStyle}
           placeholder="Token"
           value={input}
-          onChange={(e): void => setInput(e.target.value)}
+          onChange={onChange}
         />
         <button className="padded bg-green-400" onClick={onSubmit}>
           Login

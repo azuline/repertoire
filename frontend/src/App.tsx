@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Header } from 'components/Header';
+import { Header } from 'src/components/Header';
 import { BrowserRouter } from 'react-router-dom';
-import { Footer } from 'components/Footer';
-import { Toaster } from 'components/Toaster';
-import { GlobalContexts } from 'contexts';
-import { Routes } from './Routes';
+import { Footer } from 'src/components/Footer';
+import { Toaster } from 'src/components/Toaster';
+import { GlobalContexts } from 'src/contexts';
+import { Routes } from 'src/Routes';
 
 const App: React.FC = (): React.ReactElement => {
   return (
