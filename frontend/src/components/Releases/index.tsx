@@ -1,1 +1,2 @@
-export * from './ScrollingDisplay';
+export * from './ScrolledDisplay';
+export * from './PagedDisplay';

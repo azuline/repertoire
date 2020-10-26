@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  --lh: 1.4rem;
+  line-height: var(--lh);
+}
+
 button,
 input {
   @apply rounded;
@@ -25,5 +30,12 @@ input.padded {
 }
 
 .sect-header {
-  @apply font-semibold text-2xl;
+  @apply font-semibold text-3xl;
+}
+
+.truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

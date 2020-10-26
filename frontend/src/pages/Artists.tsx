@@ -1,5 +1,9 @@
 import * as React from 'react';
 
 export const Artists: React.FC = (): React.ReactElement => {
-  return <div className="Artists">Artists</div>;
+  return (
+    <div>
+      <span className="sect-header">Artists</span>
+    </div>
+  );
 };
