@@ -33,7 +33,7 @@ export const RecentlyAdded: React.FC = () => {
   const releases = data && status === 'success' ? data.releases.results : [];
 
   return (
-    <div className="flex flex-col flex-no-wrap">
+    <div className="flex flex-col">
       <span className="sect-header">Recently Added</span>
       <ScrolledReleases releases={releases} />
     </div>

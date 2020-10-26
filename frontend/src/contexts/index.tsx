@@ -7,6 +7,7 @@ import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 export * from './Authorization';
 export * from './Toaster';
 export * from './Pagination';
+export * from './ReleasesViewOptions';
 
 type GCProps = { children: React.ReactNode };
 

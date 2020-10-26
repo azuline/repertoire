@@ -9,24 +9,15 @@ html {
 
 button,
 input {
-  @apply rounded;
+  @apply rounded px-4 py-2;
 }
 
 input {
   @apply bg-gray-200 border-2 border-gray-400;
 }
 
-button.padded,
-input.padded {
-  @apply px-4 py-2;
-}
-
 .main-bar {
   @apply w-full h-16 px-4 py-2;
-}
-
-.Page {
-  @apply mt-6 w-11/12 mx-auto;
 }
 
 .sect-header {

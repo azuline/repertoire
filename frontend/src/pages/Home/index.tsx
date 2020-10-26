@@ -3,7 +3,7 @@ import { RecentlyAdded } from './RecentlyAdded';
 
 export const Home: React.FC = (): React.ReactElement => {
   return (
-    <div className="flex flex-col flex-no-wrap">
+    <div className="flex flex-col">
       <RecentlyAdded />
     </div>
   );

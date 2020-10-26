@@ -4,7 +4,7 @@ import { Searchbar } from './Searchbar';
 
 export const Header: React.FC = () => {
   return (
-    <div className="main-bar border-b-2 flex flex-row flex-no-wrap">
+    <div className="main-bar border-b-2 flex">
       <Navbar />
       <Searchbar />
     </div>

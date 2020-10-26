@@ -163,14 +163,6 @@ CREATE TABLE music__releases_to_fetch_images (
     FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE
 );
 
-CREATE TABLE music__play_history (
-    id INTEGER NOT NULL,
-    time TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
-    track_id INTEGER NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (track_id) REFERENCES music__tracks(id) ON DELETE SET NULL
-);
-
 CREATE TABLE system__users (
     id INTEGER NOT NULL,
     username VARCHAR NOT NULL,

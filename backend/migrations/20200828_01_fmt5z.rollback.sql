@@ -12,5 +12,4 @@ DROP TABLE music__collection_types;
 DROP TABLE music__collections_releases;
 DROP TABLE music__releases_search_index;
 DROP TABLE music__releases_to_fetch_images;
-DROP TABLE music__play_history;
 DROP TABLE system__users;

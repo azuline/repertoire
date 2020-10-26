@@ -1,3 +1,4 @@
 export * from './Header';
 export * from './Footer';
-export * from './ScrollingReleases';
+export * from './Release';
+export * from './Releases';

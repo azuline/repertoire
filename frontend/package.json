@@ -19,6 +19,7 @@
     "react-query": "^2.25.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
+    "react-tiny-popover": "^6.0.0-beta.2",
     "react-toast-notifications": "^2.4.0",
     "tailwindcss": "^1.9.6",
     "typescript": "^4.0.3",

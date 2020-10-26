@@ -7,7 +7,7 @@ export const ArtistList: React.FC<{ artists: ArtistT[]; className?: string }> = 
   className = '',
 }) => {
   return (
-    <div className={clsx(className, 'flex flex-row flex-no-wrap')}>
+    <div className={clsx(className, 'flex')}>
       {artists.map((art, i) => (
         <span key={art.id} className="tag mr-1">
           {i > 0 && ', '}

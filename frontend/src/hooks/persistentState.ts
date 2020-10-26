@@ -7,7 +7,7 @@ export const usePersistentState = <T>(
   /* A hook that persists the value of the state in localStorage.
    * `defaultValue` is only used when the key is not present in localStorage.
    */
-  const [value, setValue] = React.useState(() => {
+  const [value, setValue] = React.useState<T>(() => {
     const storedValue = localStorage.getItem(localStorageKey);
     return storedValue ? JSON.parse(storedValue) : defaultValue;
   });

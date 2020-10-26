@@ -9,10 +9,14 @@ export const ArtRelease: React.FC<{ className: string; release: ReleaseT }> = ({
   release,
 }) => {
   return (
-    <div className={clsx(className, 'flex flex-col flex-no-wrap h-full')}>
-      <CoverArt className="flex-0" release={release} />
+    <div className={clsx(className, 'flex flex-col h-full')}>
+      <a href={`/releases/${release.id}`}>
+        <CoverArt className="flex-0" release={release} />
+      </a>
       <div className="flex-1 mt-1">
-        <span className="truncate-2 font-medium">{release.title}</span>
+        <a href={`/releases/${release.id}`}>
+          <span className="truncate-2 font-medium">{release.title}</span>
+        </a>
         <ArtistList className="truncate-2" artists={release.artists as ArtistT[]} />
       </div>
     </div>
