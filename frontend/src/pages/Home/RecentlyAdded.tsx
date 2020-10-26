@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { RELEASE_FIELDS } from 'src/fragments';
 import { useGQLQuery } from 'src/hooks';
-import { ScrollingReleases } from 'src/components';
+import { ScrollingReleases } from 'src/components/Releases';
 import { ReleaseT } from 'src/types';
 
 const QUERY = `
@@ -15,6 +15,11 @@ const QUERY = `
 		) {
 			results {
 				${RELEASE_FIELDS}
+
+				artists {
+				  id
+					name
+				}
 			}
 		}
 	}

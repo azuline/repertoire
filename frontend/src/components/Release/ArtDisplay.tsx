@@ -1,9 +1,9 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import { ReleaseT } from 'src/types';
-import { CoverArt } from 'src/components/common/CoverArt';
+import { CoverArt } from './CoverArt';
 
-export const Release: React.FC<{ className: string; release: ReleaseT }> = ({
+export const ArtRelease: React.FC<{ className: string; release: ReleaseT }> = ({
   className,
   release,
 }) => {
