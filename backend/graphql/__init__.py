@@ -58,10 +58,14 @@ schema = make_executable_schema(gql(type_defs), *resolvers)
 
 
 def error_formatter(error: GraphQLError, debug: bool = False) -> Dict:
-    if debug:
-        return format_error(error, debug)
-
     lib_error = unwrap_graphql_error(error)
+
+    if debug:
+        return dict(
+            format_error(error, debug),
+            message=lib_error.message,
+            type=lib_error.__class__.__name__,
+        )
 
     return dict(
         error.formatted,

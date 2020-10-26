@@ -1,13 +1,11 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import { Releases } from 'src/pages/Releases';
-import { Artists } from 'src/pages/Artists';
+import { Releases, Artists, Login, Landing } from 'src/pages';
 import { AuthorizationContext } from 'src/contexts';
 import { Route, Switch } from 'react-router-dom';
-import { Login } from 'src/pages/Login';
 
 const routes = [
-  { component: Releases, path: '/' },
+  { component: Landing, path: '/' },
   { component: Releases, path: '/releases' },
   { component: Artists, path: '/artists' },
 ];
