@@ -41,7 +41,7 @@ export type ArtistT = {
   numReleases: number;
 
   releases?: ReleaseT[];
-  topGenres: TopGenre[];
+  topGenres?: TopGenre[];
 };
 
 export type CollectionT = {
@@ -52,8 +52,8 @@ export type CollectionT = {
   numReleases: number;
   lastUpdatedOn: number;
 
-  releases: ReleaseT[];
-  topGenres: TopGenre[];
+  releases?: ReleaseT[];
+  topGenres?: TopGenre[];
 };
 
 export type TrackT = {
@@ -63,8 +63,8 @@ export type TrackT = {
   trackNumber: string;
   discNumber: string;
 
-  release: ReleaseT;
-  artists: TrackArtist[];
+  release?: ReleaseT;
+  artists?: TrackArtist[];
 };
 
 export type TrackArtist = {

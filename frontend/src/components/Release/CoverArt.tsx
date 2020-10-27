@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useRequestBlob } from 'src/hooks';
 import clsx from 'clsx';
 import loading from 'src/assets/loading.png';
+import noArt from 'src/assets/noArt.jpg';
 
 export const CoverArt: React.FC<{
   className: string;
@@ -13,11 +14,11 @@ export const CoverArt: React.FC<{
 
   React.useEffect(() => {
     (async (): Promise<void> => {
-      if (hasCover) {
+      if (!hasCover) {
+        setImage(noArt);
+      } else {
         const blob = await requestBlob(`/files/covers/${id}`);
         setImage(URL.createObjectURL(blob));
-      } else {
-        // TODO: Find a default no-image cover.
       }
     })();
   }, [id, hasCover, setImage]);

@@ -4,9 +4,9 @@ import { ArtistT, ReleaseT } from 'src/types';
 import { CoverArt } from './CoverArt';
 import { ArtistList } from './ArtistList';
 
-export const ArtRelease: React.FC<{ className: string; release: ReleaseT }> = ({
-  className,
+export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = ({
   release,
+  className = '',
 }) => {
   return (
     <div className={clsx(className, 'flex flex-col h-full')}>
