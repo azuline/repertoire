@@ -14,10 +14,7 @@ export const Skip: React.FC<{
 
   return (
     <Popover isOpen={isOpen} positions={[position]} content={<PageSelect />}>
-      <button
-        className={clsx(className, defaultTheme, 'p-2 border-1')}
-        onClick={onClick}
-      >
+      <button className={clsx(className, defaultTheme, 'p-2 border-1')} onClick={onClick}>
         &#8230;
       </button>
     </Popover>

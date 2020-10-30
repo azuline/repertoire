@@ -11,16 +11,10 @@ export const AuthorizationContext = React.createContext<ACType>({
   setToken: () => {},
 });
 
-export const AuthorizationProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const AuthorizationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [token, setToken] = usePersistentState<string>('auth--token', null);
 
   const value = { token, setToken };
 
-  return (
-    <AuthorizationContext.Provider value={value}>
-      {children}
-    </AuthorizationContext.Provider>
-  );
+  return <AuthorizationContext.Provider value={value}>{children}</AuthorizationContext.Provider>;
 };

@@ -9,17 +9,13 @@ export * from './Toaster';
 export * from './Pagination';
 export * from './ReleasesViewOptions';
 
-type GCProps = { children: React.ReactNode };
-
-export const GlobalContexts: React.FC<GCProps> = ({ children }) => {
+export const GlobalContexts: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const queryCache = new QueryCache();
 
   return (
     <AuthorizationProvider>
       <ToastProvider>
-        <ReactQueryCacheProvider queryCache={queryCache}>
-          {children}
-        </ReactQueryCacheProvider>
+        <ReactQueryCacheProvider queryCache={queryCache}>{children}</ReactQueryCacheProvider>
       </ToastProvider>
     </AuthorizationProvider>
   );

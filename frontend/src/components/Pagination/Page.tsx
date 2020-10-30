@@ -4,10 +4,7 @@ import { PaginationContext } from 'src/contexts';
 
 export const defaultTheme = 'bg-gray-300 border-gray-400';
 
-export const Page: React.FC<{ page: number; className?: string }> = ({
-  page,
-  className = '',
-}) => {
+export const Page: React.FC<{ page: number; className?: string }> = ({ page, className = '' }) => {
   const { curPage, setCurPage } = React.useContext(PaginationContext);
 
   const onClick = React.useCallback(() => setCurPage(page), [page, setCurPage]);

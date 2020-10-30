@@ -24,8 +24,6 @@ Simple.args = {
     numTracks: 17,
     releaseDate: '2020-10-26',
     hasCover: false,
-    artists: [
-      { id: 1, name: 'Web design is my passion!', favorite: false, numReleases: 9 },
-    ],
+    artists: [{ id: 1, name: 'Web design is my passion!', favorite: false, numReleases: 9 }],
   },
 };

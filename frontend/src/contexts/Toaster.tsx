@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { ToastProvider as RawProvider } from 'react-toast-notifications';
 
-export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <RawProvider
       autoDismiss
