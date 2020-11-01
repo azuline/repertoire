@@ -172,7 +172,7 @@ def create(
     for mapping in artists:
         add_artist(trk, mapping["artist_id"], mapping["role"], cursor)
 
-    logger.info(f'Created track "{filepath}" with ID {id}.')
+    logger.info(f'Created track "{filepath}" with ID {trk.id}.')
 
     return trk
 

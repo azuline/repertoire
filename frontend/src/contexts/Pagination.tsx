@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-type PCType = {
+export type PCType = {
   curPage: number;
   setCurPage: (arg0: number) => void;
   perPage: number;
@@ -25,7 +25,11 @@ export const PaginationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [perPage, setPerPage] = React.useState<number>(50);
   const [total, setTotal] = React.useState<number>(0);
 
-  const numPages = React.useMemo(() => (perPage !== 0 ? total / perPage : 0), [total, perPage]);
+  const numPages = React.useMemo(() => {
+    if (perPage === 0) return 0;
+
+    return Math.ceil(total / perPage);
+  }, [total, perPage]);
 
   const value = {
     curPage,

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { QueryResult, useQuery } from 'react-query';
+import { QueryKey, QueryResult, useQuery } from 'react-query';
 import { API_URL } from 'src/constants';
 import { useToasts } from 'react-toast-notifications';
 import { AuthorizationContext } from 'src/contexts';
@@ -13,7 +13,7 @@ type Response<T> = { data: T; errors: GraphQLError[] };
 const GQL_URL = `${API_URL}/graphql`;
 
 export const useGQLQuery = <T, V = undefined>(
-  cacheKey: string,
+  cacheKey: QueryKey,
   query: string,
   { variables, authorization }: Options<V> = {},
 ): QueryResult<T, RequestError<GraphQLError>> => {

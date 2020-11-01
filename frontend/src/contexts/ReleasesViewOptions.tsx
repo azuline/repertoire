@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ReleaseType, ReleaseSort } from 'src/types';
 import { PaginationProvider } from './Pagination';
 
-type RVOCType = {
+export type RVOCType = {
   search: string;
   setSearch: (arg0: string) => void;
   collectionIds: number[];

@@ -15,7 +15,7 @@ export const Page: React.FC<{ page: number; className?: string }> = ({ page, cla
   );
 
   return (
-    <button className={clsx(className, theme, 'p-2 border-1')} onClick={onClick}>
+    <button className={clsx(className, theme, 'square-btn p-2 border-1')} onClick={onClick}>
       {page}
     </button>
   );

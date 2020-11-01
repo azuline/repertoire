@@ -3,12 +3,12 @@ import { PaginationContext } from 'src/contexts';
 import clsx from 'clsx';
 import { Page } from './Page';
 import { Skip } from './Skip';
-import { PopoverPosition } from 'react-tiny-popover';
+import { Placement } from '@popperjs/core';
 
 export const Pagination: React.FC<{
-  position?: PopoverPosition;
+  popperPlacement?: Placement;
   className?: string;
-}> = ({ position = 'bottom', className = '' }) => {
+}> = ({ popperPlacement = 'bottom', className = '' }) => {
   const { curPage, setCurPage, numPages } = React.useContext(PaginationContext);
 
   React.useEffect(() => {
@@ -16,20 +16,20 @@ export const Pagination: React.FC<{
   }, [curPage, numPages, setCurPage]);
 
   const bottom = React.useMemo(() => Math.max(curPage - 2, 2), [curPage]);
-  const top = React.useMemo(() => Math.min(curPage + 3, numPages), [curPage]);
+  const top = React.useMemo(() => Math.min(curPage + 3, numPages), [curPage, numPages]);
 
   if (numPages === 0) {
     return null;
   }
 
   return (
-    <div className={clsx(className, 'flex')}>
+    <div className={clsx(className, 'flex btn-group')}>
       <Page page={1} />
-      {bottom !== 2 && <Skip position={position} />}
+      {bottom !== 2 && <Skip popperPlacement={popperPlacement} />}
       {Array.from({ length: top - bottom }).map((_, i) => (
         <Page key={bottom + i} page={bottom + i} />
       ))}
-      {top !== numPages && <Skip position={position} />}
+      {top !== numPages && <Skip popperPlacement={popperPlacement} />}
       {numPages > 1 && <Page page={numPages} />}
     </div>
   );

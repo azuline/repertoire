@@ -60,15 +60,17 @@ schema = make_executable_schema(gql(type_defs), *resolvers)
 def error_formatter(error: GraphQLError, debug: bool = False) -> Dict:
     lib_error = unwrap_graphql_error(error)
 
-    if debug:
-        return dict(
-            format_error(error, debug),
-            message=lib_error.message,
-            type=lib_error.__class__.__name__,
-        )
+    def enhance_error(error):
+        try:
+            return dict(
+                error,
+                message=lib_error.message,
+                type=lib_error.__class__.__name__,
+            )
+        except AttributeError:  # This isn't a lib error but a real error.
+            return error
 
-    return dict(
-        error.formatted,
-        message=lib_error.message,
-        type=lib_error.__class__.__name__,
-    )
+    if debug:
+        return enhance_error(format_error(error, debug))
+
+    return enhance_error(error.formatted)

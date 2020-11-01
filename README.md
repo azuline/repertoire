@@ -35,3 +35,6 @@ with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Since GQL API can create release, need to have functions to scan its tracks for
 cover art and/or upload art.
+
+Currently scrapping out a working frontend. Can re-style individual components
+later.

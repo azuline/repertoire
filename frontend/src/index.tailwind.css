@@ -30,3 +30,17 @@ input {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.square-btn {
+  @apply h-10 w-10;
+}
+
+.btn-group > button {
+  @apply rounded-none;
+}
+.btn-group > button:first-child {
+  @apply rounded-l;
+}
+.btn-group > button:last-child {
+  @apply rounded-r;
+}

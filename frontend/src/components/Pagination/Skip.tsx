@@ -2,22 +2,34 @@ import * as React from 'react';
 import clsx from 'clsx';
 import { PaginationContext } from 'src/contexts';
 import { defaultTheme } from './Page';
-import { Popover, PopoverPosition } from 'react-tiny-popover';
+import { Placement } from '@popperjs/core';
+import { usePopper } from 'react-popper';
 
 export const Skip: React.FC<{
-  position?: PopoverPosition;
+  popperPlacement?: Placement;
   className?: string;
-}> = ({ position = 'bottom', className = '' }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  const onClick = React.useCallback(() => setIsOpen((o) => !o), [setIsOpen]);
+}> = ({ popperPlacement = 'bottom', className = '' }) => {
+  const [buttonElement, setButtonElement] = React.useState<HTMLButtonElement | null>(null);
+  const [popperElement, setPopperElement] = React.useState<HTMLDivElement | null>(null);
+  const [arrowElement, setArrowElement] = React.useState<HTMLDivElement | null>(null);
+  const { styles, attributes } = usePopper(buttonElement, popperElement, {
+    placement: popperPlacement,
+    modifiers: [{ name: 'arrow', options: { element: arrowElement } }],
+  });
 
   return (
-    <Popover isOpen={isOpen} positions={[position]} content={<PageSelect />}>
-      <button className={clsx(className, defaultTheme, 'p-2 border-1')} onClick={onClick}>
+    <>
+      <button
+        ref={setButtonElement}
+        className={clsx(className, defaultTheme, 'square-btn p-2 border-1')}
+      >
         &#8230;
       </button>
-    </Popover>
+      <div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+        <div ref={setArrowElement} style={styles.arrow} />
+        <PageSelect />
+      </div>
+    </>
   );
 };
 
