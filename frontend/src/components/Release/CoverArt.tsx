@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import loading from 'src/assets/loading.png';
 import noArt from 'src/assets/noArt.jpg';
 
+// TODO: I don't think these images are being cached. Figure out if we can do that.
+
 export const CoverArt: React.FC<{
   className: string;
   release: { id: number; hasCover: boolean };

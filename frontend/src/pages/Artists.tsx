@@ -1,9 +1,6 @@
 import * as React from 'react';
+import { SectionHeader } from 'src/components/common/SectionHeader';
 
 export const Artists: React.FC = (): React.ReactElement => {
-  return (
-    <div>
-      <span className="sect-header">Artists</span>
-    </div>
-  );
+  return <SectionHeader>Artists</SectionHeader>;
 };

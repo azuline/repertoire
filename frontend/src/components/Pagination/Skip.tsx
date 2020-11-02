@@ -1,14 +1,15 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import { PaginationContext } from 'src/contexts';
 import { defaultTheme } from './Page';
 import { Placement } from '@popperjs/core';
 import { usePopper } from 'react-popper';
 
 export const Skip: React.FC<{
+  setCurPage: (arg0: number) => void;
+  numPages: number;
   popperPlacement?: Placement;
   className?: string;
-}> = ({ popperPlacement = 'bottom', className = '' }) => {
+}> = ({ setCurPage, numPages, popperPlacement = 'bottom', className = '' }) => {
   const [buttonElement, setButtonElement] = React.useState<HTMLButtonElement | null>(null);
   const [popperElement, setPopperElement] = React.useState<HTMLDivElement | null>(null);
   const [arrowElement, setArrowElement] = React.useState<HTMLDivElement | null>(null);
@@ -27,13 +28,15 @@ export const Skip: React.FC<{
       </button>
       <div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
         <div ref={setArrowElement} style={styles.arrow} />
-        <PageSelect />
+        <PageSelect setCurPage={setCurPage} numPages={numPages} />
       </div>
     </>
   );
 };
 
-const PageSelect: React.FC = () => {
-  const { setCurPage, numPages } = React.useContext(PaginationContext);
+const PageSelect: React.FC<{
+  setCurPage: (arg0: number) => void;
+  numPages: number;
+}> = ({ setCurPage, numPages }) => {
   return <div>Hello!</div>;
 };

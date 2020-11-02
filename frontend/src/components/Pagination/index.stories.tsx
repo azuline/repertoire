@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Story } from '@storybook/react/types-6-0';
 
 import { Pagination } from '.';
-import { PaginationContext, PaginationProvider } from 'src/contexts';
 import { Placement } from '@popperjs/core';
+import { usePagination } from 'src/hooks';
 
 export default {
   title: 'Pagination',
@@ -14,23 +14,17 @@ type Args = {
   curPage: number;
   perPage: number;
   total: number;
-  props: React.ComponentProps<typeof Pagination>;
+  popperPlacement: Placement;
 };
 
-const Template: Story<Args> = (args) => (
-  <PaginationProvider>
-    <Wrapper {...args} />
-  </PaginationProvider>
-);
+const Template: Story<Args> = ({ curPage, perPage, total, popperPlacement }) => {
+  const pagination = usePagination();
 
-const Wrapper: React.FC<Args> = ({ curPage, perPage, total, props }) => {
-  const { setCurPage, setPerPage, setTotal } = React.useContext(PaginationContext);
+  pagination.setCurPage(curPage);
+  pagination.setPerPage(perPage);
+  pagination.setTotal(total);
 
-  setCurPage(curPage);
-  setPerPage(perPage);
-  setTotal(total);
-
-  return <Pagination {...props} />;
+  return <Pagination pagination={pagination} popperPlacement={popperPlacement} />;
 };
 
 const generate = (
@@ -39,7 +33,7 @@ const generate = (
   popperPlacement: Placement = 'bottom',
 ): React.ReactNode => {
   const idk = Template.bind({});
-  idk.args = { curPage, total, perPage: 10, props: { popperPlacement } };
+  idk.args = { curPage, total, perPage: 10, popperPlacement };
   return idk;
 };
 

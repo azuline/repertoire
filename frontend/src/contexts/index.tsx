@@ -6,8 +6,6 @@ import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 
 export * from './Authorization';
 export * from './Toaster';
-export * from './Pagination';
-export * from './ReleasesViewOptions';
 
 export const GlobalContexts: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const queryCache = new QueryCache();

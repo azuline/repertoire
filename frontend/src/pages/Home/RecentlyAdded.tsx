@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { RELEASE_FIELDS } from 'src/fragments';
 import { useGQLQuery } from 'src/hooks';
+import { SectionHeader } from 'src/components/common/SectionHeader';
 import { ScrolledReleases } from 'src/components/Releases';
 import { ReleaseT } from 'src/types';
 
@@ -34,7 +35,7 @@ export const RecentlyAdded: React.FC = () => {
 
   return (
     <div className="flex flex-col">
-      <span className="sect-header">Recently Added</span>
+      <SectionHeader>Recently Added</SectionHeader>
       <ScrolledReleases releases={releases} />
     </div>
   );

@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { RequestError, GraphQLError, ReleaseT, ReleaseType, ReleaseSort } from 'src/types';
-import { PCType, RVOCType } from 'src/contexts';
 import { QueryResult } from 'react-query';
 import { RELEASE_FIELDS } from 'src/fragments';
-import { useGQLQuery } from 'src/hooks';
+import { PCType, RVOCType, useGQLQuery } from 'src/hooks';
 
 const QUERY = `
   query (
@@ -26,6 +25,7 @@ const QUERY = `
 			sort: $sort
 			asc: $asc
 		) {
+      total
 			results {
 				${RELEASE_FIELDS}
 				artists {
@@ -37,7 +37,7 @@ const QUERY = `
 	}
 `;
 
-type ResultType = { releases: { results: ReleaseT[] } };
+type ResultType = { releases: { total: number; results: ReleaseT[] } };
 
 type Variables = {
   search: string;
@@ -57,7 +57,7 @@ export const fetchReleases = (
   // prettier-ignore
   const variables = React.useMemo(
     () => extractVariables(viewOptions, pagination),
-    [viewOptions, pagination,]
+    [viewOptions, pagination]
   );
 
   return useGQLQuery<ResultType, Variables>('releases', QUERY, { variables });

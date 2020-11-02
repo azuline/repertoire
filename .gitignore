@@ -8,6 +8,7 @@ __pycache__/
 _build/
 /htmlcov/
 *.pid
+tags
 
 /yoyo.ini
 /data/

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { ReleaseType, ReleaseSort } from 'src/types';
-import { PaginationProvider } from './Pagination';
 
 export type RVOCType = {
   search: string;
@@ -17,24 +16,7 @@ export type RVOCType = {
   setAsc: (arg0: boolean) => void;
 };
 
-export const ReleaseViewOptionsContext = React.createContext<RVOCType>({
-  search: '',
-  setSearch: () => {},
-  collectionIds: [],
-  setCollectionIds: () => {},
-  artistIds: [],
-  setArtistIds: () => {},
-  releaseTypes: [],
-  setReleaseTypes: () => {},
-  sort: 'RECENTLY_ADDED',
-  setSort: () => {},
-  asc: true,
-  setAsc: () => {},
-});
-
-export const ReleaseViewOptionsProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const useViewOptions = (): RVOCType => {
   const [search, setSearch] = React.useState<string>('');
   const [collectionIds, setCollectionIds] = React.useState<number[]>([]);
   const [artistIds, setArtistIds] = React.useState<number[]>([]);
@@ -42,7 +24,7 @@ export const ReleaseViewOptionsProvider: React.FC<{ children: React.ReactNode }>
   const [sort, setSort] = React.useState<ReleaseSort>('RECENTLY_ADDED');
   const [asc, setAsc] = React.useState<boolean>(true);
 
-  const value = {
+  return {
     search,
     setSearch,
     collectionIds,
@@ -56,10 +38,4 @@ export const ReleaseViewOptionsProvider: React.FC<{ children: React.ReactNode }>
     asc,
     setAsc,
   };
-
-  return (
-    <ReleaseViewOptionsContext.Provider value={value}>
-      <PaginationProvider>{children}</PaginationProvider>
-    </ReleaseViewOptionsContext.Provider>
-  );
 };

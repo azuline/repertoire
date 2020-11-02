@@ -45,7 +45,9 @@ export const useGQLQuery = <T, V = undefined>(
     }
   }, [options, addToast, setToken, rawQuery]);
 
-  return useQuery<T, RequestError<GraphQLError>>(cacheKey, handler);
+  const queryKey = React.useMemo(() => [cacheKey, variables], [cacheKey, variables]);
+
+  return useQuery<T, RequestError<GraphQLError>>(queryKey, handler);
 };
 
 export const useRawGQLQuery = <T, V = undefined>(): RawGQLQuery<T, V> => {
