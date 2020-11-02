@@ -17,14 +17,14 @@ The indexer runs in three stages:
 
 The following function executes all three stages:
 
-.. autofunction:: backend.indexer.run_indexer
+.. autofunction:: src.indexer.run_indexer
 
 Code documentation for the indexer implementation is as follows:
 
 Scan music directories
 ----------------------
 
-.. automodule:: backend.indexer.scanner
+.. automodule:: src.indexer.scanner
    :members:
    :private-members:
    :autosummary:
@@ -32,7 +32,7 @@ Scan music directories
 Build search index
 ------------------
 
-.. automodule:: backend.indexer.search
+.. automodule:: src.indexer.search
    :members:
    :private-members:
    :autosummary:
@@ -40,7 +40,7 @@ Build search index
 Extract album art
 -----------------
 
-.. automodule:: backend.indexer.covers
+.. automodule:: src.indexer.covers
    :members:
    :private-members:
    :autosummary:

@@ -3,9 +3,9 @@ from sqlite3 import Cursor
 
 import pytest
 
-from backend.enums import ArtistRole
-from backend.errors import AlreadyExists, DoesNotExist, Duplicate
-from backend.library import track
+from src.enums import ArtistRole
+from src.errors import AlreadyExists, DoesNotExist, Duplicate
+from src.library import track
 
 
 def test_exists(db: Cursor):

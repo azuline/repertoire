@@ -6,10 +6,10 @@ __pycache__/
 *.sqlite3
 .coverage
 _build/
-/htmlcov/
 *.pid
 tags
+/backend/htmlcov/
 
-/yoyo.ini
+/backend/yoyo.ini
 /data/
 /scripts/

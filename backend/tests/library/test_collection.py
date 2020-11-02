@@ -2,15 +2,15 @@ from sqlite3 import Cursor
 
 import pytest
 
-from backend.enums import CollectionType
-from backend.errors import (
+from src.enums import CollectionType
+from src.errors import (
     AlreadyExists,
     DoesNotExist,
     Duplicate,
     Immutable,
     InvalidCollectionType,
 )
-from backend.library import collection
+from src.library import collection
 
 
 def test_exists(db: Cursor):

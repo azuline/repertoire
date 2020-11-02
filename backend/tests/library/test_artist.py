@@ -2,8 +2,8 @@ from sqlite3 import Cursor
 
 import pytest
 
-from backend.errors import Duplicate
-from backend.library import artist
+from src.errors import Duplicate
+from src.library import artist
 
 
 def test_exists(db: Cursor):

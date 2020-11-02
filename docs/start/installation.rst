@@ -27,7 +27,7 @@ poetry.
 
 Installation with Poetry has the following steps:
 
-#. Change directory to ``repertoire/``.
+#. Change directory to ``repertoire/backend``.
 #. Install backend with ``$ poetry install --no-dev``.
 #. Activate the Poetry virtual environment with ``$ poetry shell``.
 #. Configure the backend with ``$ repertoire config``.
@@ -40,13 +40,13 @@ Or, as a set of shell commands:
 
 .. code-block:: sh
 
-   $ cd repertoire/
+   $ cd repertoire/backend/
    $ poetry install --no-dev # Install the backend.
    $ poetry shell            # Activate the Poetry virtual environment.
    $ cp .env.sample .env
    $ nano .env               # Set `DATA_PATH`.
    $ repertoire config       # Configure the backend.
-   $ cd frontend/
+   $ cd ../frontend/
    $ yarn build              # Build the frontend.
    $ cd ..
    $ repertoire index        # Index your music library.
@@ -63,7 +63,7 @@ to install the backend.
 
 Installation with Poetry has the following steps:
 
-#. Change directory to ``repertoire/``.
+#. Change directory to ``repertoire/backend/``.
 #. Create virtualenv with ``$ python3 -m venv .venv``.
 #. Activate virtualenv with ``$ source .venv/bin/activate``.
 #. Install backend with ``$ pip install -e .``.
@@ -77,14 +77,14 @@ Or, as a set of shell commands:
 
 .. code-block:: sh
 
-   $ cd repertoire/
+   $ cd repertoire/backend/
    $ python3 -m venv .venv     # Create the virtual environment
    $ source .venv/bin/activate # Activate the virtual environment.
    $ pip install -e .          # Install the backend.
    $ cp .env.sample .env
    $ nano .env                 # Set `DATA_PATH`.
    $ repertoire config         # Configure the backend.
-   $ cd frontend/
+   $ cd ../frontend/
    $ yarn build                # Build the frontend.
    $ cd ..
    $ repertoire index          # Index your music library.

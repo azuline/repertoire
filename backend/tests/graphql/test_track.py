@@ -1,6 +1,6 @@
 import pytest
 
-from backend.library import track
+from src.library import track
 
 TRACK_RESULT = """
     id

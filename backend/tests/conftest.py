@@ -7,12 +7,12 @@ import quart
 from ariadne import graphql
 from yoyo import get_backend, read_migrations
 
-from backend.constants import PROJECT_ROOT
-from backend.graphql import error_formatter, schema
-from backend.library import user
-from backend.util import database
-from backend.webserver.app import create_app
-from backend.webserver.routes.graphql import GraphQLContext
+from src.constants import PROJECT_ROOT
+from src.graphql import error_formatter, schema
+from src.library import user
+from src.util import database
+from src.webserver.app import create_app
+from src.webserver.routes.graphql import GraphQLContext
 
 FAKE_DATA = Path(__file__).parent / "fake_data"
 DATABASE_PATH = FAKE_DATA / "db.sqlite3"
@@ -40,7 +40,9 @@ def create_db():
     DATABASE_JOURNAL_PATH.unlink(missing_ok=True)
 
     db_backend = get_backend(f"sqlite:///{DATABASE_PATH}")
-    db_migrations = read_migrations(str(PROJECT_ROOT / "backend" / "migrations"))
+    db_migrations = read_migrations(
+        str(PROJECT_ROOT / "backend" / "src" / "migrations")
+    )
 
     with db_backend.lock():
         db_backend.apply_migrations(db_backend.to_apply(db_migrations))

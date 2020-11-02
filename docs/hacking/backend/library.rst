@@ -3,8 +3,8 @@
 Library
 =======
 
-The ``backend.library`` package contains functions and dataclasses that expose a
-clean and functional interface for working with the data from the database.
+The ``library`` package contains functions and dataclasses that expose a clean
+and functional interface for working with the data from the database.
 
 This package is designed functionally--each module corresponds to one data
 model. A dataclass for each data model exists at ``module.T``, and each module
@@ -13,34 +13,34 @@ contains functions that fetch or operate on dataclasses.
 Artist
 ------
 
-.. automodule:: backend.library.artist
+.. automodule:: src.library.artist
    :members:
    :autosummary:
 
 Collection
 ----------
 
-.. automodule:: backend.library.collection
+.. automodule:: src.library.collection
    :members:
    :autosummary:
 
 Release
 -------
 
-.. automodule:: backend.library.release
+.. automodule:: src.library.release
    :members:
    :autosummary:
 
 Track
 -----
 
-.. automodule:: backend.library.track
+.. automodule:: src.library.track
    :members:
    :autosummary:
 
 User
 ----
 
-.. automodule:: backend.library.user
+.. automodule:: src.library.user
    :members:
    :autosummary:

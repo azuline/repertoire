@@ -1,6 +1,6 @@
 import pytest
 
-from backend.library import artist
+from src.library import artist
 
 ARTIST_RESULT = """
     id

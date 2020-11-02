@@ -1,6 +1,6 @@
 import pytest
 
-from backend.library import collection
+from src.library import collection
 
 COLLECTION_RESULT = """
     id

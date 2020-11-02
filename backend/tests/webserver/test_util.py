@@ -2,7 +2,7 @@ import pytest
 import quart
 from voluptuous import Coerce, Schema
 
-from backend.webserver.util import check_auth, validate_data
+from src.webserver.util import check_auth, validate_data
 
 
 @pytest.fixture

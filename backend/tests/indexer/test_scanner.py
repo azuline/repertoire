@@ -4,8 +4,8 @@ from unittest.mock import Mock, call, patch
 
 import pytest
 
-from backend.enums import CollectionType, ReleaseType
-from backend.indexer.scanner import (
+from src.enums import CollectionType, ReleaseType
+from src.indexer.scanner import (
     _get_release_type,
     _split_genres,
     catalog_file,
@@ -18,22 +18,22 @@ from backend.indexer.scanner import (
     scan_directories,
     scan_directory,
 )
-from backend.library import artist, collection, release, track
-from backend.tests.conftest import FAKE_DATA
+from src.library import artist, collection, release, track
+from tests.conftest import FAKE_DATA
 
 FAKE_MUSIC = FAKE_DATA / "fake_music"
 NEW_ALBUM = FAKE_MUSIC / "New Album"
 
 
-@patch("backend.indexer.scanner.scan_directory")
+@patch("src.indexer.scanner.scan_directory")
 def test_scan_directories(mock_scan_directory):
     scan_directories()
 
     mock_scan_directory.assert_has_calls([call("/dir1"), call("/dir2")])
 
 
-@patch("backend.indexer.scanner.fix_release_types")
-@patch("backend.indexer.scanner.catalog_file")
+@patch("src.indexer.scanner.fix_release_types")
+@patch("src.indexer.scanner.catalog_file")
 def test_scan_directory(mock_catalog_file, mock_fix_release_types, db):
     # Add one track to the library; it should be skipped in the scan.
     track.create(
@@ -60,7 +60,7 @@ def test_scan_directory(mock_catalog_file, mock_fix_release_types, db):
     assert filepaths == {c[1][0] for c in mock_catalog_file.mock_calls}
 
 
-@patch("backend.indexer.scanner.fetch_or_create_release")
+@patch("src.indexer.scanner.fetch_or_create_release")
 def test_catalog_file(mock_fetch_or_create_release, db, snapshot):
     mock_fetch_or_create_release.return_value = Mock(id=3)
     filepath = NEW_ALBUM / "track1.flac"

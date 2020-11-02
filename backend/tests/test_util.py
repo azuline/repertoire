@@ -1,4 +1,4 @@
-from backend.util import cached_property, parse_crontab, strip_punctuation, without_key
+from src.util import cached_property, parse_crontab, strip_punctuation, without_key
 
 
 def test_cached_property():

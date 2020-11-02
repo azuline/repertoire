@@ -9,7 +9,7 @@ utility functions.
 Config
 ------
 
-.. automodule:: backend.config
+.. automodule:: src.config
    :members:
 
 Enums
@@ -18,7 +18,7 @@ Enums
 .. This is a manual documentation of the ``ArtistRole`` enum we re-export from
    ``tagfiles``. Sphinx does not automatically document it.
 
-.. py:class:: backend.enums.ArtistRole(value)
+.. py:class:: src.enums.ArtistRole(value)
 
    The possible artist roles.
 
@@ -43,14 +43,14 @@ Enums
    .. py:attribute:: DJMIXER
       :value: 7
 
-.. automodule:: backend.enums
+.. automodule:: src.enums
    :members:
    :member-order: bysource
 
 Errors
 ------
 
-.. automodule:: backend.errors
+.. automodule:: src.errors
    :members:
    :show-inheritance:
    :member-order: bysource
@@ -58,12 +58,12 @@ Errors
 Tasks
 -----
 
-.. automodule:: backend.tasks
+.. automodule:: src.tasks
    :members:
 
 Util
 ----
 
-.. automodule:: backend.util
+.. automodule:: src.util
    :members:
    :autosummary:

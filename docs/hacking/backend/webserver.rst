@@ -22,13 +22,13 @@ The endpoints are documented at :ref:`advanced_server_api`.
 Utility Functions
 -----------------
 
-.. automodule:: backend.webserver.util
+.. automodule:: src.webserver.util
    :members:
    :autosummary:
 
 Custom Validators
 -----------------
 
-.. automodule:: backend.webserver.validators
+.. automodule:: src.webserver.validators
    :members:
    :autosummary:

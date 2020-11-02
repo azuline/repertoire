@@ -1,6 +1,6 @@
 from huey import MemoryHuey
 
-from backend.tasks import schedule_tasks
+from src.tasks import schedule_tasks
 
 
 def test_schedule_tasks():

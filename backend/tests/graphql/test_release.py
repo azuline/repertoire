@@ -1,6 +1,6 @@
 import pytest
 
-from backend.library import release
+from src.library import release
 
 RELEASE_RESULT = """
     id

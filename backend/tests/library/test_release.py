@@ -3,9 +3,9 @@ from sqlite3 import Cursor
 
 import pytest
 
-from backend.enums import CollectionType, ReleaseSort, ReleaseType
-from backend.errors import AlreadyExists, DoesNotExist, Duplicate
-from backend.library import release
+from src.enums import CollectionType, ReleaseSort, ReleaseType
+from src.errors import AlreadyExists, DoesNotExist, Duplicate
+from src.library import release
 
 
 def test_exists(db: Cursor):

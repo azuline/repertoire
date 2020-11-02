@@ -4,10 +4,10 @@ from pathlib import Path
 from click.testing import CliRunner
 from PIL import Image
 
-from backend.enums import ReleaseType
-from backend.indexer.covers import generate_thumbnail, save_pending_covers
-from backend.library import release, track
-from backend.tests.conftest import FAKE_DATA
+from src.enums import ReleaseType
+from src.indexer.covers import generate_thumbnail, save_pending_covers
+from src.library import release, track
+from tests.conftest import FAKE_DATA
 
 NEW_ALBUM = FAKE_DATA / "fake_music" / "New Album"
 FAKE_COVER = FAKE_DATA / "fake_cover.jpg"

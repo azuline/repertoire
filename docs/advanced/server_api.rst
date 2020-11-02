@@ -51,7 +51,7 @@ File Serving
 
 These endpoints serve the music and image files stored on the backend.
 
-.. autoflask:: backend.webserver.app:create_app()
-   :modules: backend.webserver.routes.files
+.. autoflask:: src.webserver.app:create_app()
+   :modules: src.webserver.routes.files
    :groupby: view
    :order: path

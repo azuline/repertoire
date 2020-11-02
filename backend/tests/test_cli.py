@@ -3,7 +3,7 @@ from sqlite3 import Cursor
 from click.testing import CliRunner
 from werkzeug.security import check_password_hash
 
-from backend.cli.token import token
+from src.cli.token import token
 
 
 def test_update_token(db: Cursor):

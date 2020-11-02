@@ -3,25 +3,6 @@ repertoire
 
 A release-oriented music server. Work in progress!
 
-.. code-block::
-
-   repertoire :: a release-oriented music server
-
-   Copyright (C) 2020 azuline
-
-   This program is free software: you can redistribute it and/or modify it under
-   the terms of the GNU Affero General Public License as published by the Free
-   Software Foundation, either version 3 of the License, or (at your option) any
-   later version.
-
-   This program is distributed in the hope that it will be useful, but WITHOUT ANY
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-   PARTICULAR PURPOSE.  See the GNU Affero General Public License for more
-   details.
-
-   You should have received a copy of the GNU Affero General Public License along
-   with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 Getting Started
 ---------------
 
@@ -65,3 +46,22 @@ For developers, we have documentation useful for developing, modifying, and
 debugging the application. :ref:`hacking_environment` covers setting up the
 development environment, and :ref:`backend` covers the backend source code
 while :ref:`frontend` covers the frontend source code.
+
+.. code-block::
+
+   repertoire :: a release-oriented music server
+
+   Copyright (C) 2020 azuline
+
+   This program is free software: you can redistribute it and/or modify it under
+   the terms of the GNU Affero General Public License as published by the Free
+   Software Foundation, either version 3 of the License, or (at your option) any
+   later version.
+
+   This program is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+   PARTICULAR PURPOSE.  See the GNU Affero General Public License for more
+   details.
+
+   You should have received a copy of the GNU Affero General Public License along
+   with this program.  If not, see <https://www.gnu.org/licenses/>.

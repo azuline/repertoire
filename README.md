@@ -38,3 +38,6 @@ cover art and/or upload art.
 
 Currently scrapping out a working frontend. Can re-style individual components
 later.
+
+Still need to write some tests for the switch from objects to IDs. As well as
+resolve side-effect-calls return value.

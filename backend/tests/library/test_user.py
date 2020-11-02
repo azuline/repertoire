@@ -3,8 +3,8 @@ from sqlite3 import Cursor
 import pytest
 from werkzeug.security import check_password_hash
 
-from backend.errors import InvalidUsername
-from backend.library import user
+from src.errors import InvalidUsername
+from src.library import user
 
 
 def test_exists(db: Cursor):

@@ -10,7 +10,7 @@ The backend is laid out as follows:
 
 .. code-block::
 
-   backend/
+   src/
    ├── __init__.py          # Package initialization code is run here.
    ├── __main__.py          # Command line entry point.
    ├── config.py            # Where the configuration is read and exposed.

@@ -4,11 +4,11 @@ from pathlib import Path
 import pytest
 from click.testing import CliRunner
 
-from backend.config import DEFAULT_CONFIG
-from backend.config import Config as SingletonConfig
-from backend.config import _Config as Config  # We don't want a singleton when we test.
-from backend.config import write_default_config
-from backend.errors import InvalidConfig
+from src.config import DEFAULT_CONFIG
+from src.config import Config as SingletonConfig
+from src.config import _Config as Config  # We don't want a singleton when we test.
+from src.config import write_default_config
+from src.errors import InvalidConfig
 
 
 def test_valid_index_crontab():

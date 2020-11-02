@@ -15,17 +15,22 @@ jobs:
       - uses: actions/setup-python@v2
       - uses: abatilo/actions-poetry@v2.1.0
 
-      - name: Install dependencies.
-        run: poetry install
-
-      - name: Run tests.
-        run: poetry run pytest --cov-report=xml --cov=backend --cov-branch backend/tests
-
-      - name: Run lint check.
+      - name: Install backend dependencies.
         run: |
-          poetry run black --check backend/
-          poetry run isort -c backend/
-          poetry run flake8 backend/
+          cd backend
+          poetry install
+
+      - name: Run backend tests.
+        run: |
+          cd backend
+          poetry run pytest --cov-report=xml --cov=. --cov-branch tests/
+
+      - name: Run backend lint check.
+        run: |
+          cd backend
+          poetry run black --check .
+          poetry run isort -c .
+          poetry run flake8 .
 
       - name: Upload coverage.
         run: bash <(curl -s https://codecov.io/bash) -cF python
