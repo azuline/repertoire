@@ -9,7 +9,7 @@ const App: React.FC = (): React.ReactElement => {
   return (
     <BrowserRouter>
       <GlobalContexts>
-        <div className="app w-full min-h-screen flex flex-col bg-gray-100">
+        <div className="app w-full min-h-screen flex flex-col bg-gray-200">
           <Header />
           <Routes className="flex-1 mt-8 w-11/12 mx-auto pb-24" />
           <Footer />

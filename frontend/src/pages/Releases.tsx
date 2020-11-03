@@ -33,7 +33,7 @@ export const Releases: React.FC = (): React.ReactElement => {
       <ViewSettings viewOptions={viewOptions} pagination={pagination} />
       <Pagination pagination={pagination} />
       <PagedReleases releases={results} />
-      <Pagination pagination={pagination} popperPlacement="top" />
+      <Pagination pagination={pagination} popperPlacement="top-center" />
     </>
   );
 };

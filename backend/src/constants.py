@@ -32,10 +32,7 @@ if not os.path.isdir(DATA_PATH) or not os.access(DATA_PATH, os.W_OK):
     click.echo("Make sure that `{DATA_PATH}` is a directory and is writeable.")
     exit(1)
 
-LOGS_DIR = DATA_PATH / "logs"
 COVER_ART_DIR = DATA_PATH / "cover_art"
-
-LOGS_DIR.mkdir(exist_ok=True)
 COVER_ART_DIR.mkdir(exist_ok=True)
 
 DATABASE_PATH = DATA_PATH / "db.sqlite3"

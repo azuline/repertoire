@@ -1,7 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 
-export const defaultTheme = 'bg-white';
+export const defaultTheme = 'bg-white bg-opacity-50';
 
 export const Page: React.FC<{
   page: number;
@@ -13,7 +13,7 @@ export const Page: React.FC<{
 
   // prettier-ignore
   const theme = React.useMemo(
-    () => (page === curPage ? 'bg-blue-400' : defaultTheme),
+    () => (page === curPage ? 'bg-blue-200' : defaultTheme),
     [page, curPage],
   );
 

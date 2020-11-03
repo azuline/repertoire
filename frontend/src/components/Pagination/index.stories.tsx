@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Story } from '@storybook/react/types-6-0';
 
 import { Pagination } from '.';
-import { Placement } from '@popperjs/core';
 import { usePagination } from 'src/hooks';
 
 export default {
@@ -14,7 +13,7 @@ type Args = {
   curPage: number;
   perPage: number;
   total: number;
-  popperPlacement: Placement;
+  popperPlacement: string;
 };
 
 const Template: Story<Args> = ({ curPage, perPage, total, popperPlacement }) => {
@@ -30,7 +29,7 @@ const Template: Story<Args> = ({ curPage, perPage, total, popperPlacement }) => 
 const generate = (
   curPage: number,
   total: number,
-  popperPlacement: Placement = 'bottom',
+  popperPlacement = 'bottom-center',
 ): React.ReactNode => {
   const idk = Template.bind({});
   idk.args = { curPage, total, perPage: 10, popperPlacement };

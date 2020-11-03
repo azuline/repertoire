@@ -2,16 +2,15 @@ import * as React from 'react';
 import clsx from 'clsx';
 import { Page } from './Page';
 import { Skip } from './Skip';
-import { Placement } from '@popperjs/core';
 import { PCType } from 'src/hooks';
 
 export const Pagination: React.FC<{
   pagination: PCType;
-  popperPlacement?: Placement;
+  popperPlacement?: string;
   className?: string;
 }> = ({
   pagination: { curPage, setCurPage, numPages },
-  popperPlacement = 'bottom',
+  popperPlacement = 'bottom-center',
   className = '',
 }) => {
   React.useEffect(() => {
