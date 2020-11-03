@@ -21,7 +21,7 @@ export const Login: React.FC<{ className?: string }> = ({ className = '' }) => {
   const input = React.useRef<HTMLInputElement>(null);
   const { setToken } = React.useContext(AuthorizationContext);
   const gqlQuery = useRawGQLQuery<UserT>();
-  const { addToast, removeToast } = useToasts();
+  const { addToast } = useToasts();
 
   const onSubmit = React.useCallback(
     async (event) => {
@@ -37,20 +37,14 @@ export const Login: React.FC<{ className?: string }> = ({ className = '' }) => {
         addToast('Invalid authorization token.', { appearance: 'error' });
       }
     },
-    [input, gqlQuery, setToken, addToast, removeToast],
+    [input, gqlQuery, setToken, addToast],
   );
 
   return (
     <div className={clsx(className, 'flex content-center')} style={pageStyle}>
       <form className="mx-auto self-center" onSubmit={onSubmit}>
-        <input
-          autoFocus
-          className="padded mr-6"
-          placeholder="Token"
-          ref={input}
-          style={inputStyle}
-        />
-        <button type="submit" className="padded bg-green-400">
+        <input autoFocus className="mr-6" placeholder="Token" ref={input} style={inputStyle} />
+        <button type="submit" className="bg-green-400">
           Login
         </button>
       </form>

@@ -52,3 +52,7 @@ input {
 .btn-group > button:last-child {
   @apply rounded-r;
 }
+
+.popper-arrow {
+  @apply w-6 h-6;
+}

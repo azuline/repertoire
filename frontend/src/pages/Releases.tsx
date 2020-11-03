@@ -30,7 +30,7 @@ export const Releases: React.FC = (): React.ReactElement => {
   return (
     <>
       <SectionHeader>Releases</SectionHeader>
-      <ViewSettings viewOptions={viewOptions} />
+      <ViewSettings viewOptions={viewOptions} pagination={pagination} />
       <Pagination pagination={pagination} />
       <PagedReleases releases={results} />
       <Pagination pagination={pagination} popperPlacement="top" />
