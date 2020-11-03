@@ -57,6 +57,7 @@ exclude = '''
     | build
     | dist
 	| snapshots
+    | setup.py
   )/
 )
 '''

@@ -10,6 +10,8 @@ lint:
 	cd backend; \
 		poetry run black .; \
 		poetry run isort .
+	cd frontend; \
+		yarn lint
 
 build:
 	cd frontend; yarn build

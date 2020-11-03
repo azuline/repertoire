@@ -30,7 +30,9 @@ async def get_track(track_id: int):
 
     try:
         return await quart.send_file(
-            trk.filepath, attachment_filename=f"track{ext}", cache_timeout=604_800,
+            trk.filepath,
+            attachment_filename=f"track{ext}",
+            cache_timeout=604_800,
         )
     except FileNotFoundError:
         quart.abort(404)

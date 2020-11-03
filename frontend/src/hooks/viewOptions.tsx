@@ -21,7 +21,7 @@ export const useViewOptions = (): RVOCType => {
   const [collectionIds, setCollectionIds] = React.useState<number[]>([]);
   const [artistIds, setArtistIds] = React.useState<number[]>([]);
   const [releaseTypes, setReleaseTypes] = React.useState<ReleaseType[]>([]);
-  const [sort, setSort] = React.useState<ReleaseSort>('RECENTLY_ADDED');
+  const [sort, setSort] = React.useState<ReleaseSort>(ReleaseSort.RECENTLY_ADDED);
   const [asc, setAsc] = React.useState<boolean>(true);
 
   return {

@@ -13,13 +13,13 @@ export const Page: React.FC<{
 
   // prettier-ignore
   const theme = React.useMemo(
-    () => (page === curPage ? 'bg-blue-500' : defaultTheme),
+    () => (page === curPage ? 'bg-blue-400' : defaultTheme),
     [page, curPage],
   );
 
   return (
     <button
-      className={clsx(className, theme, 'border-gray-600 square-btn p-2 border-2')}
+      className={clsx(className, theme, 'border-gray-400 square-btn p-2 border-2')}
       onClick={onClick}
     >
       {page}
