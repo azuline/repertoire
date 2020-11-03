@@ -14,6 +14,10 @@ export const useRequest = (): Request<Response> => {
 
   const request = React.useCallback(
     async (url) => {
+      if (!token) {
+        throw new RequestError('Failed to authenticate.');
+      }
+
       const response = await fetch(`${API_URL}${url}`, {
         headers: new Headers({ Authorization: `Token ${token}` }),
       });

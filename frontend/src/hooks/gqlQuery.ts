@@ -30,6 +30,10 @@ export const useGQLQuery = <T, V = undefined>(
   );
 
   const handler = React.useCallback(async () => {
+    if (!token) {
+      throw new RequestError('Failed to authenticate');
+    }
+
     try {
       return await rawQuery(query, options);
     } catch (e) {
@@ -43,7 +47,7 @@ export const useGQLQuery = <T, V = undefined>(
 
       throw e;
     }
-  }, [options, addToast, setToken, rawQuery]);
+  }, [options, addToast, token, setToken, rawQuery]);
 
   const queryKey = React.useMemo(() => [cacheKey, variables], [cacheKey, variables]);
 

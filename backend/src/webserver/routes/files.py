@@ -29,7 +29,9 @@ async def get_track(track_id: int):
     ext = os.path.splitext(trk.filepath)[1]
 
     try:
-        return await quart.send_file(trk.filepath, attachment_filename=f"track{ext}")
+        return await quart.send_file(
+            trk.filepath, attachment_filename=f"track{ext}", cache_timeout=604_800,
+        )
     except FileNotFoundError:
         quart.abort(404)
 
@@ -52,10 +54,12 @@ async def get_cover(release_id: int, thumbnail: bool = False) -> Response:
         quart.abort(404)
 
     ext = os.path.splitext(rls.image_path)[1]
+
     try:
         return await quart.send_file(
             rls.image_path.with_suffix(".thumbnail") if thumbnail else rls.image_path,
             attachment_filename=f"cover{ext}",
+            cache_timeout=604_800,
         )
     except FileNotFoundError:
         quart.abort(404)

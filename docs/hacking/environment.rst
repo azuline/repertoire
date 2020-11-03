@@ -18,7 +18,7 @@ The debug backend webserver can be ran with
 
 .. code-block:: sh
 
-   $ QUART_DEBUG=1 QUART_APP="backend.webserver.app:create_app()" quart run
+   $ QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" quart run
 
 The ``Makefile`` contains some phony rules for commonly-used sets of commands.
 
