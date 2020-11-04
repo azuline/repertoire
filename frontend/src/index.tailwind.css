@@ -17,7 +17,8 @@
   /* TODO: Figure out a way to @apply these... */
   --color-foreground: #ffffff; /* white */
   --color-foreground-alt: #f7fafc; /* gray-100 */
-  --color-background: #111111; /* black */
+  --color-background: #161616;
+  --color-background-alt: #000000;
   --color-highlight: #6e522a; /* gold-700 */
   --color-success: #38a169; /* green-600 */
 }
@@ -30,7 +31,7 @@ html {
 
 .app {
   background-color: var(--color-background);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='12' viewBox='0 0 20 12'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='charlie-brown' fill='%23372915' fill-opacity='0.4'%3E%3Cpath d='M9.8 12L0 2.2V.8l10 10 10-10v1.4L10.2 12h-.4zm-4 0L0 6.2V4.8L7.2 12H5.8zm8.4 0L20 6.2V4.8L12.8 12h1.4zM9.8 0l.2.2.2-.2h-.4zm-4 0L10 4.2 14.2 0h-1.4L10 2.8 7.2 0H5.8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='16' viewBox='0 0 12 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 .99C4 .445 4.444 0 5 0c.552 0 1 .45 1 .99v4.02C6 5.555 5.556 6 5 6c-.552 0-1-.45-1-.99V.99zm6 8c0-.546.444-.99 1-.99.552 0 1 .45 1 .99v4.02c0 .546-.444.99-1 .99-.552 0-1-.45-1-.99V8.99z' fill='%23523d20' fill-opacity='0.19' fill-rule='evenodd'/%3E%3C/svg%3E");
 }
 
 button,
@@ -97,4 +98,17 @@ input::placeholder {
 .two-sided:hover > .back {
   visibility: visible;
   @apply full;
+}
+
+.react-toast-notifications__toast {
+  background-color: var(--color-background-alt) !important;
+  color: var(--color-foreground) !important;
+}
+.react-toast-notifications__toast__content,
+.react-toast-notifications__toast__dismiss-button,
+.react-toast-notifications__toast__icon-wrapper {
+  @apply flex items-center;
+}
+.react-toast-notifications__toast__icon-wrapper {
+  @apply justify-center;
 }

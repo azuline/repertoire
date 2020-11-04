@@ -23,7 +23,7 @@ export const Select: React.FC<{
       >
         {children}
       </select>
-      <Icon className="w-4 text-gold-500 absolute right-0 z-0" icon="chevron" />
+      <Icon className="w-4 text-gold-500 absolute right-0 z-0" icon="chevron-down-small" />
     </div>
   );
 };

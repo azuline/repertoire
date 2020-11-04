@@ -36,7 +36,7 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
     <a href={`/releases/${release.id}`}>
       <div className={clsx(className, 'relative h-0 pb-full text-white')}>
         <CoverArt className="absolute full object-cover rounded-lg" release={release} />
-        <div className="two-sided full absolute z-10" style={textStyle}>
+        <div className="two-sided rounded-lg full absolute z-10" style={textStyle}>
           <div className="front flex flex-col full justify-end">
             <div className="p-4">
               <a className="truncate-2 font-semibold text-2xl" title={release.title}>
