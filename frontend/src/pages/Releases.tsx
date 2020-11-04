@@ -34,11 +34,7 @@ export const Releases: React.FC = (): React.ReactElement => {
       <SectionHeader>Releases</SectionHeader>
       <ViewSettings viewOptions={viewOptions} pagination={pagination} />
       <PagedReleases releases={results} />
-      <Pagination
-        className="justify-center mx-auto my-4"
-        pagination={pagination}
-        popperPlacement="top-center"
-      />
+      <Pagination className="my-4" pagination={pagination} />
     </>
   );
 };

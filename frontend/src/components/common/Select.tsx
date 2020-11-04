@@ -1,4 +1,6 @@
 import * as React from 'react';
+import clsx from 'clsx';
+import { Icon } from 'src/components/common/Icon';
 
 let id = 0;
 const newId = (): string => `select-${id++}`;
@@ -12,19 +14,20 @@ export const Select: React.FC<{
   const id = React.useMemo(newId, []);
 
   return (
-    <div className={className}>
+    <div className={clsx(className, 'flex items-center relative')}>
       {label && (
-        <label htmlFor={id} className="self-center mr-4 text-lg">
-          {label}
+        <label htmlFor={id} className="py-1">
+          {label}:
         </label>
       )}
       <select
         id={id}
         onChange={onChange}
-        className="p-2 bg-white leading-tight rounded border-2 border-highlight"
+        className="py-1 bg-transparent leading-tight appearance-none text-gold-500 cursor-pointer pr-4"
       >
         {children}
       </select>
+      <Icon className="w-4 text-gold-500 absolute right-0" icon="chevron" />
     </div>
   );
 };

@@ -13,26 +13,21 @@ type Args = {
   curPage: number;
   perPage: number;
   total: number;
-  popperPlacement: string;
 };
 
-const Template: Story<Args> = ({ curPage, perPage, total, popperPlacement }) => {
+const Template: Story<Args> = ({ curPage, perPage, total }) => {
   const pagination = usePagination();
 
   pagination.setCurPage(curPage);
   pagination.setPerPage(perPage);
   pagination.setTotal(total);
 
-  return <Pagination pagination={pagination} popperPlacement={popperPlacement} />;
+  return <Pagination pagination={pagination} />;
 };
 
-const generate = (
-  curPage: number,
-  total: number,
-  popperPlacement = 'bottom-center',
-): React.ReactNode => {
+const generate = (curPage: number, total: number): React.ReactNode => {
   const idk = Template.bind({});
-  idk.args = { curPage, total, perPage: 10, popperPlacement };
+  idk.args = { curPage, total, perPage: 10 };
   return idk;
 };
 

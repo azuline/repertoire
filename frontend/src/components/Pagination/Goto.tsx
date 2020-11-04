@@ -30,8 +30,8 @@ export const Goto: React.FC<{
   return (
     <form className="flex" onSubmit={onSubmit}>
       <div className="relative ml-1">
-        <input className="w-16 h-full p-0 pr-7 text-center" placeholder="Go" ref={input} />
-        <button className="absolute right-0 h-10 py-0 pl-1 pr-2" type="submit">
+        <input className="w-16 h-10 p-0 pr-7 text-center" placeholder="Go" ref={input} />
+        <button className="absolute right-0 h-full py-0 pl-1 pr-2" type="submit">
           <Icon className="w-4" icon="right-arrow" />
         </button>
       </div>
