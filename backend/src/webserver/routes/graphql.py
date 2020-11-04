@@ -21,7 +21,7 @@ class GraphQLContext:
 
 
 @bp.route("", methods=["GET"])
-async def graphql_playground() -> Response:
+async def graphql_playground() -> Response:  # pragma: no cover
     """
     **Developer endpoint.**
 

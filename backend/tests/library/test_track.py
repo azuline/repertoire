@@ -4,7 +4,7 @@ from sqlite3 import Cursor
 import pytest
 
 from src.enums import ArtistRole
-from src.errors import AlreadyExists, DoesNotExist, Duplicate
+from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
 from src.library import track
 
 
@@ -104,6 +104,44 @@ def test_create_duplicate_filepath(db: Cursor):
             disc_number="1",
             cursor=db,
         )
+
+
+def test_create_bad_release_id(db: Cursor, snapshot):
+    with pytest.raises(NotFound) as e:
+        track.create(
+            title="new track",
+            filepath=Path("/tmp/repertoire-library/09-track.m4a"),
+            sha256=b"0" * 32,
+            release_id=999,
+            artists=[{"artist_id": 2, "role": ArtistRole.MAIN}],
+            duration=9001,
+            track_number="1",
+            disc_number="2",
+            cursor=db,
+        )
+
+    assert "Release 999" in e.value.message
+
+
+def test_create_bad_artist_ids(db: Cursor, snapshot):
+    with pytest.raises(NotFound) as e:
+        track.create(
+            title="new track",
+            filepath=Path("/tmp/repertoire-library/09-track.m4a"),
+            sha256=b"0" * 32,
+            release_id=2,
+            artists=[
+                {"artist_id": 2, "role": ArtistRole.MAIN},
+                {"artist_id": 1000, "role": ArtistRole.MAIN},
+                {"artist_id": 1001, "role": ArtistRole.MAIN},
+            ],
+            duration=9001,
+            track_number="1",
+            disc_number="2",
+            cursor=db,
+        )
+
+    assert "Artist(s) 1000, 1001" in e.value.message
 
 
 def test_update_fields(db: Cursor, snapshot):

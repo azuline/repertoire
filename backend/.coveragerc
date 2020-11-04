@@ -1,0 +1,3 @@
+[run]
+omit =
+    src/__main__.py

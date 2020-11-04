@@ -30,7 +30,8 @@ def create_app() -> Quart:
     """
     app = Quart(__name__, static_folder=str(STATIC_FOLDER), static_url_path="/")
 
-    if app.debug:  # Disable CORS if we are in debug mode.
+    # Disable CORS if we are in debug mode.
+    if app.debug:  # pragma: no cover
         from quart_cors import cors
 
         cors(app)

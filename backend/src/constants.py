@@ -10,7 +10,7 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 # If pytest/sphinx called this, set DATA_PATH to the tests' data directory rather than
 # the real one.
 
-if "pytest" not in sys.modules and "sphinx" not in sys.modules:
+if "pytest" not in sys.modules and "sphinx" not in sys.modules:  # pragma: no cover
     load_dotenv(dotenv_path=PROJECT_ROOT / ".env")
 else:
     os.environ["DATA_PATH"] = str(PROJECT_ROOT / "backend" / "tests" / "fake_data")

@@ -176,8 +176,10 @@ def _generate_token(cursor: Cursor) -> Tuple[bytes, bytes]:
             return token, prefix
 
     # If we do not find a suitable token after 64 cycles, raise an exception.
-    logger.info("Failed to generate token after 64 cycles o.O")
-    raise TokenGenerationFailure("Failed to generate token after 64 cycles o.O")
+    logger.info("Failed to generate token after 64 cycles o.O")  # pragma: no cover
+    raise TokenGenerationFailure(  # pragma: no cover
+        "Failed to generate token after 64 cycles o.O"
+    )
 
 
 def new_token(usr: T, cursor: Cursor) -> bytes:

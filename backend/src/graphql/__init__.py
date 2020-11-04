@@ -70,7 +70,7 @@ def error_formatter(error: GraphQLError, debug: bool = False) -> Dict:
         except AttributeError:  # This isn't a lib error but a real error.
             return error
 
-    if debug:
+    if debug:  # pragma: no cover
         return enhance_error(format_error(error, debug))
 
     return enhance_error(error.formatted)

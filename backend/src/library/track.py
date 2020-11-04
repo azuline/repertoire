@@ -139,7 +139,7 @@ def create(
     if bad_ids := [
         d["artist_id"] for d in artists if not artist.exists(d["artist_id"], cursor)
     ]:
-        raise NotFound(f"Artist(s) {', '.join(bad_ids)} do not exist.")
+        raise NotFound(f"Artist(s) {', '.join(str(i) for i in bad_ids)} do not exist.")
 
     # First, check to see if a track with the same filepath exists.
     if trk := from_filepath(filepath, cursor):

@@ -38,6 +38,13 @@ def test_from_token_success(db: Cursor, snapshot):
     snapshot.assert_match(user.from_token(token, db))
 
 
+def test_from_token_failure_but_correct_prefix(db: Cursor, snapshot):
+    token = bytes.fromhex(
+        "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc0"
+    )
+    snapshot.assert_match(user.from_token(token, db))
+
+
 def test_from_token_failure(db: Cursor):
     assert user.from_token(b"0" * 32, db) is None
 
