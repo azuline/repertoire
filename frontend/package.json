@@ -34,6 +34,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src --ext .ts,.tsx --fix",
+    "sort-imports": "find src/ -type f \\( -name '*.tsx' -o -name '*.ts' -o -name '*.js' \\) -exec import-sort --write '{}' \\;",
     "prestorybook": "yarn build:css",
     "storybook": "start-storybook -p 6006 -s public --no-dll",
     "build-storybook": "build-storybook -s public --no-dll"
@@ -70,6 +71,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "import-sort-cli": "^6.0.0",
     "postcss": "^8.1.4",
     "prettier": "2.1.2",
     "react-is": "^17.0.1"

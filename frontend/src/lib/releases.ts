@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { RequestError, GraphQLError, ReleaseT, ReleaseType, ReleaseSort } from 'src/types';
+
+import { GraphQLError, ReleaseSort, ReleaseT, ReleaseType, RequestError } from 'src/types';
+import { PCType, RVOCType, useGQLQuery } from 'src/hooks';
+
 import { QueryResult } from 'react-query';
 import { RELEASE_FIELDS } from 'src/fragments';
-import { PCType, RVOCType, useGQLQuery } from 'src/hooks';
 
 const QUERY = `
   query (

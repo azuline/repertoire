@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Story } from '@storybook/react/types-6-0';
 
 import { Pagination } from '.';
+import { Story } from '@storybook/react/types-6-0';
 import { usePagination } from 'src/hooks';
 
 export default {

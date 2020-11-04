@@ -1,10 +1,9 @@
 import * as React from 'react';
 
-import { AuthorizationContext } from 'src/contexts';
-import { useToasts } from 'react-toast-notifications';
-
 import { API_URL } from 'src/constants';
+import { AuthorizationContext } from 'src/contexts';
 import { RequestError } from 'src/types';
+import { useToasts } from 'react-toast-notifications';
 
 type Request<T> = (url: string) => Promise<T>;
 

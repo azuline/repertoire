@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { Releases, Artists, Login, Home } from 'src/pages';
-import { AuthorizationContext } from 'src/contexts';
+
+import { Artists, Home, Login, Releases } from 'src/pages';
 import { Route, Switch } from 'react-router-dom';
+
+import { AuthorizationContext } from 'src/contexts';
 
 export const Routes: React.FC<{ className?: string }> = ({ className = '' }) => {
   const { token } = React.useContext(AuthorizationContext);

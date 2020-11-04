@@ -1,10 +1,10 @@
 import * as React from 'react';
 
 import { RELEASE_FIELDS } from 'src/fragments';
-import { useGQLQuery } from 'src/hooks';
-import { SectionHeader } from 'src/components/common/SectionHeader';
-import { ScrolledReleases } from 'src/components/Releases';
 import { ReleaseT } from 'src/types';
+import { ScrolledReleases } from 'src/components/Releases';
+import { SectionHeader } from 'src/components/common/SectionHeader';
+import { useGQLQuery } from 'src/hooks';
 
 const QUERY = `
 	query {

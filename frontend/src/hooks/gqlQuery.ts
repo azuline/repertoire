@@ -1,9 +1,11 @@
 import * as React from 'react';
+
+import { GraphQLError, RequestError } from 'src/types';
 import { QueryKey, QueryResult, useQuery } from 'react-query';
+
 import { API_URL } from 'src/constants';
-import { useToasts } from 'react-toast-notifications';
 import { AuthorizationContext } from 'src/contexts';
-import { RequestError, GraphQLError } from 'src/types';
+import { useToasts } from 'react-toast-notifications';
 
 type Options<V> = { variables?: V; authorization?: string };
 type ErrorType = { type: string; message: string };

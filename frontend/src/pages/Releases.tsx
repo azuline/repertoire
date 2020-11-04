@@ -1,10 +1,12 @@
 import * as React from 'react';
+
+import { usePagination, useViewOptions } from 'src/hooks';
+
 import { PagedReleases } from 'src/components/Releases';
 import { Pagination } from 'src/components/Pagination';
+import { SectionHeader } from 'src/components/common/SectionHeader';
 import { ViewSettings } from 'src/components/ViewSettings';
 import { fetchReleases } from 'src/lib';
-import { useViewOptions, usePagination } from 'src/hooks';
-import { SectionHeader } from 'src/components/common/SectionHeader';
 import { useToasts } from 'react-toast-notifications';
 
 export const Releases: React.FC = (): React.ReactElement => {
@@ -31,9 +33,12 @@ export const Releases: React.FC = (): React.ReactElement => {
     <>
       <SectionHeader>Releases</SectionHeader>
       <ViewSettings viewOptions={viewOptions} pagination={pagination} />
-      <Pagination pagination={pagination} />
       <PagedReleases releases={results} />
-      <Pagination pagination={pagination} popperPlacement="top-center" />
+      <Pagination
+        className="justify-center mx-auto my-4"
+        pagination={pagination}
+        popperPlacement="top-center"
+      />
     </>
   );
 };

@@ -16,7 +16,7 @@
     "noEmit": true,
     "jsx": "react",
     "baseUrl": "./",
-    "typeroots": ["src/typings"]
+    "typeRoots": ["src/typings"]
   },
   "include": ["src"]
 }

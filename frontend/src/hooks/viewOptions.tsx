@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { ReleaseType, ReleaseSort } from 'src/types';
+
+import { ReleaseSort, ReleaseType } from 'src/types';
 
 export type RVOCType = {
   search: string;

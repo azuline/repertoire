@@ -1,18 +1,14 @@
 import * as React from 'react';
-import clsx from 'clsx';
-import { Page } from './Page';
-import { Skip } from './Skip';
+
 import { PCType } from 'src/hooks';
+import { Page } from './Page';
+import { Goto } from './Goto';
+import clsx from 'clsx';
 
 export const Pagination: React.FC<{
   pagination: PCType;
-  popperPlacement?: string;
   className?: string;
-}> = ({
-  pagination: { curPage, setCurPage, numPages },
-  popperPlacement = 'bottom-center',
-  className = '',
-}) => {
+}> = ({ pagination: { curPage, setCurPage, numPages }, className = '' }) => {
   React.useEffect(() => {
     if (curPage > numPages) setCurPage(1);
   }, [curPage, numPages, setCurPage]);
@@ -24,18 +20,13 @@ export const Pagination: React.FC<{
   if (numPages === 0) return null;
 
   return (
-    <div className={clsx(className, 'flex btn-group justify-center mx-auto my-4')}>
+    <div className={clsx(className, 'flex')}>
       <Page page={1} curPage={curPage} setCurPage={setCurPage} />
-      {bottom !== 2 && (
-        <Skip popperPlacement={popperPlacement} setCurPage={setCurPage} numPages={numPages} />
-      )}
       {Array.from({ length: top - bottom }).map((_, i) => (
         <Page key={bottom + i} page={bottom + i} curPage={curPage} setCurPage={setCurPage} />
       ))}
-      {top !== numPages && (
-        <Skip popperPlacement={popperPlacement} setCurPage={setCurPage} numPages={numPages} />
-      )}
       {numPages > 1 && <Page page={numPages} curPage={curPage} setCurPage={setCurPage} />}
+      {numPages > 4 && <Goto setCurPage={setCurPage} numPages={numPages} />}
     </div>
   );
 };

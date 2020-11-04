@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Select } from 'src/components/common/Select';
+
 import { PCType } from 'src/hooks';
+import { Select } from 'src/components/common/Select';
 
 const options = [10, 25, 50, 100, 200];
 

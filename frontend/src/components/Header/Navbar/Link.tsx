@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { useHistory } from 'react-router-dom';
 
 export const Link: React.FC<{ name: string; url: string }> = ({ name, url }) => {
@@ -7,7 +8,7 @@ export const Link: React.FC<{ name: string; url: string }> = ({ name, url }) => 
 
   return (
     <button
-      className="bg-transparent font-semibold px-4 hover:bg-gray-300 mr-2"
+      className="bg-transparent hover:bg-gray-900 font-semibold px-4 mr-2"
       onClick={handleClick}
     >
       {name}

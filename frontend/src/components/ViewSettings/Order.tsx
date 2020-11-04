@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Select } from 'src/components/common/Select';
+
 import { RVOCType } from 'src/hooks';
+import { Select } from 'src/components/common/Select';
 
 export const Order: React.FC<{ viewOptions: RVOCType; className?: string }> = ({
   viewOptions,

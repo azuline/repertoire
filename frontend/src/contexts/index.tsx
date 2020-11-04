@@ -1,8 +1,9 @@
 import * as React from 'react';
 
+import { QueryCache, ReactQueryCacheProvider } from 'react-query';
+
 import { AuthorizationProvider } from './Authorization';
 import { ToastProvider } from './Toaster';
-import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 
 export * from './Authorization';
 export * from './Toaster';

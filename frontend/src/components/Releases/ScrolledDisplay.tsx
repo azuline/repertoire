@@ -1,12 +1,15 @@
 import * as React from 'react';
-import { ReleaseT } from 'src/types';
+
 import { ArtRelease } from 'src/components/Release';
+import { ReleaseT } from 'src/types';
 
 export const ScrolledReleases: React.FC<{ releases: ReleaseT[] }> = ({ releases }) => {
   return (
-    <div className="whitespace-no-wrap w-full overflow-x-auto pb-2">
+    <div className="flex w-full overflow-x-auto pb-2">
       {releases.map((rls) => (
-        <ArtRelease key={rls.id} className="inline-block w-48 mr-4" release={rls} />
+        <div key={rls.id} className="w-48 flex-shrink-0 mr-4">
+          <ArtRelease release={rls} />
+        </div>
       ))}
     </div>
   );

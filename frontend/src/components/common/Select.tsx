@@ -21,7 +21,7 @@ export const Select: React.FC<{
       <select
         id={id}
         onChange={onChange}
-        className="p-2 bg-white leading-tight rounded border-2 border-gray-400"
+        className="p-2 bg-white leading-tight rounded border-2 border-highlight"
       >
         {children}
       </select>

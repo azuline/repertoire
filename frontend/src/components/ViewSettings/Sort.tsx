@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Select } from 'src/components/common/Select';
+
 import { RVOCType } from 'src/hooks';
 import { ReleaseSort } from 'src/types';
+import { Select } from 'src/components/common/Select';
 
 const SortDisplay: { [k in ReleaseSort]: string } = {
   [ReleaseSort.RECENTLY_ADDED]: 'Recently Added',

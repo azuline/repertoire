@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useRequestBlob } from 'src/hooks';
-import clsx from 'clsx';
+
 import loading from 'src/assets/loading.png';
 import noArt from 'src/assets/noArt.jpg';
+import { useRequestBlob } from 'src/hooks';
 
 export const CoverArt: React.FC<{
   className: string;
@@ -23,5 +23,5 @@ export const CoverArt: React.FC<{
     })();
   }, [id, hasCover, setImage]);
 
-  return <img className={clsx(className, 'rounded')} src={image} />;
+  return <img className={className} src={image} />;
 };

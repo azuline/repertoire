@@ -1,7 +1,6 @@
 import * as React from 'react';
-import clsx from 'clsx';
 
-export const defaultTheme = 'bg-white bg-opacity-50';
+import clsx from 'clsx';
 
 export const Page: React.FC<{
   page: number;
@@ -13,15 +12,12 @@ export const Page: React.FC<{
 
   // prettier-ignore
   const theme = React.useMemo(
-    () => (page === curPage ? 'bg-blue-200' : defaultTheme),
-    [page, curPage],
+    () => (page === curPage ? 'text-gold-500' : 'text-white'),
+    [page, curPage]
   );
 
   return (
-    <button
-      className={clsx(className, theme, 'border-gray-400 square-btn p-2 border-2')}
-      onClick={onClick}
-    >
+    <button className={clsx(className, theme, 'p-1')} onClick={onClick}>
       {page}
     </button>
   );

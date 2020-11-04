@@ -1,9 +1,10 @@
 import * as React from 'react';
-import clsx from 'clsx';
+
 import { AuthorizationContext } from 'src/contexts';
-import { useToasts } from 'react-toast-notifications';
-import { useRawGQLQuery } from 'src/hooks';
 import { UserT } from 'src/types';
+import clsx from 'clsx';
+import { useRawGQLQuery } from 'src/hooks';
+import { useToasts } from 'react-toast-notifications';
 
 const QUERY = `
   query {
@@ -44,7 +45,7 @@ export const Login: React.FC<{ className?: string }> = ({ className = '' }) => {
     <div className={clsx(className, 'flex content-center')} style={pageStyle}>
       <form className="mx-auto self-center" onSubmit={onSubmit}>
         <input autoFocus className="mr-6" placeholder="Token" ref={input} style={inputStyle} />
-        <button type="submit" className="bg-green-400">
+        <button type="submit" className="bg-success">
           Login
         </button>
       </form>
