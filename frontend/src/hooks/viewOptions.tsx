@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ReleaseSort, ReleaseType } from 'src/types';
+import { ReleaseSort, ReleaseType, ReleaseView } from 'src/types';
 
 export type RVOCType = {
   search: string;
@@ -15,6 +15,8 @@ export type RVOCType = {
   setSort: (arg0: ReleaseSort) => void;
   asc: boolean;
   setAsc: (arg0: boolean) => void;
+  releaseView: ReleaseView;
+  setReleaseView: (arg0: ReleaseView) => void;
 };
 
 export const useViewOptions = (): RVOCType => {
@@ -24,6 +26,7 @@ export const useViewOptions = (): RVOCType => {
   const [releaseTypes, setReleaseTypes] = React.useState<ReleaseType[]>([]);
   const [sort, setSort] = React.useState<ReleaseSort>(ReleaseSort.RECENTLY_ADDED);
   const [asc, setAsc] = React.useState<boolean>(true);
+  const [releaseView, setReleaseView] = React.useState<ReleaseView>(ReleaseView.ARTWORK);
 
   return {
     search,
@@ -38,5 +41,7 @@ export const useViewOptions = (): RVOCType => {
     setSort,
     asc,
     setAsc,
+    releaseView,
+    setReleaseView,
   };
 };

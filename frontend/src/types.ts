@@ -26,6 +26,7 @@ export type ReleaseT = {
   numTracks: number;
   releaseDate: string;
   hasCover: boolean;
+  runtime: number;
 
   artists?: ArtistT[];
   tracks?: TrackT[];
@@ -124,3 +125,8 @@ export enum ReleaseSort {
 }
 
 export type ReleaseSortT = keyof typeof ReleaseSort;
+
+export enum ReleaseView {
+  ARTWORK = 'ARTWORK',
+  ROW = 'ROW',
+}

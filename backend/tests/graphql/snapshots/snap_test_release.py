@@ -46,6 +46,7 @@ snapshots['test_add_artist_to_release 1'] = (
                 'releaseDate': '2014-07-08',
                 'releaseType': 'ALBUM',
                 'releaseYear': 2014,
+                'runtime': 2258,
                 'title': 'We Don’t Have Each Other',
                 'tracks': [
                     {
@@ -217,6 +218,7 @@ snapshots['test_create_release 1'] = {
             'releaseDate': '2020-10-23',
             'releaseType': 'ALBUM',
             'releaseYear': 2020,
+            'runtime': 0,
             'title': 'aa',
             'tracks': [
             ]
@@ -329,6 +331,7 @@ snapshots['test_del_artist_from_release 1'] = (
                 'releaseDate': '2014-07-08',
                 'releaseType': 'ALBUM',
                 'releaseYear': 2014,
+                'runtime': 2258,
                 'title': 'We Don’t Have Each Other',
                 'tracks': [
                     {
@@ -509,6 +512,7 @@ snapshots['test_release 1'] = (
                 'releaseDate': None,
                 'releaseType': 'EP',
                 'releaseYear': 2016,
+                'runtime': 3513,
                 'title': 'Departure',
                 'tracks': [
                     {
@@ -621,6 +625,7 @@ snapshots['test_releases 1'] = (
                         'releaseDate': None,
                         'releaseType': 'UNKNOWN',
                         'releaseYear': 0,
+                        'runtime': 0,
                         'title': 'Unknown Release',
                         'tracks': [
                         ]
@@ -657,6 +662,7 @@ snapshots['test_releases 1'] = (
                         'releaseDate': '2014-07-08',
                         'releaseType': 'ALBUM',
                         'releaseYear': 2014,
+                        'runtime': 2258,
                         'title': 'We Don’t Have Each Other',
                         'tracks': [
                             {
@@ -726,6 +732,7 @@ snapshots['test_releases 1'] = (
                         'releaseDate': None,
                         'releaseType': 'EP',
                         'releaseYear': 2016,
+                        'runtime': 3513,
                         'title': 'Departure',
                         'tracks': [
                             {
@@ -808,6 +815,7 @@ snapshots['test_releases_filter_artists 1'] = (
                         'releaseDate': '2014-07-08',
                         'releaseType': 'ALBUM',
                         'releaseYear': 2014,
+                        'runtime': 2258,
                         'title': 'We Don’t Have Each Other',
                         'tracks': [
                             {
@@ -887,6 +895,7 @@ snapshots['test_releases_filter_collections 1'] = (
                         'releaseDate': '2014-07-08',
                         'releaseType': 'ALBUM',
                         'releaseYear': 2014,
+                        'runtime': 2258,
                         'title': 'We Don’t Have Each Other',
                         'tracks': [
                             {
@@ -966,6 +975,7 @@ snapshots['test_releases_filter_types 1'] = (
                         'releaseDate': '2014-07-08',
                         'releaseType': 'ALBUM',
                         'releaseYear': 2014,
+                        'runtime': 2258,
                         'title': 'We Don’t Have Each Other',
                         'tracks': [
                             {
@@ -1072,6 +1082,7 @@ snapshots['test_releases_pagination 1'] = (
                         'releaseDate': None,
                         'releaseType': 'EP',
                         'releaseYear': 2016,
+                        'runtime': 3513,
                         'title': 'Departure',
                         'tracks': [
                             {
@@ -1154,6 +1165,7 @@ snapshots['test_releases_search 1'] = (
                         'releaseDate': '2014-07-08',
                         'releaseType': 'ALBUM',
                         'releaseYear': 2014,
+                        'runtime': 2258,
                         'title': 'We Don’t Have Each Other',
                         'tracks': [
                             {
@@ -1236,6 +1248,7 @@ snapshots['test_releases_sort 1'] = (
                         'releaseDate': None,
                         'releaseType': 'EP',
                         'releaseYear': 2016,
+                        'runtime': 3513,
                         'title': 'Departure',
                         'tracks': [
                             {
@@ -1290,6 +1303,7 @@ snapshots['test_releases_sort 1'] = (
                         'releaseDate': None,
                         'releaseType': 'UNKNOWN',
                         'releaseYear': 0,
+                        'runtime': 0,
                         'title': 'Unknown Release',
                         'tracks': [
                         ]
@@ -1326,6 +1340,7 @@ snapshots['test_releases_sort 1'] = (
                         'releaseDate': '2014-07-08',
                         'releaseType': 'ALBUM',
                         'releaseYear': 2014,
+                        'runtime': 2258,
                         'title': 'We Don’t Have Each Other',
                         'tracks': [
                             {
@@ -1405,6 +1420,7 @@ snapshots['test_releases_sort_desc 1'] = (
                         'releaseDate': '2014-07-08',
                         'releaseType': 'ALBUM',
                         'releaseYear': 2014,
+                        'runtime': 2258,
                         'title': 'We Don’t Have Each Other',
                         'tracks': [
                             {
@@ -1456,6 +1472,7 @@ snapshots['test_releases_sort_desc 1'] = (
                         'releaseDate': None,
                         'releaseType': 'UNKNOWN',
                         'releaseYear': 0,
+                        'runtime': 0,
                         'title': 'Unknown Release',
                         'tracks': [
                         ]
@@ -1495,6 +1512,7 @@ snapshots['test_releases_sort_desc 1'] = (
                         'releaseDate': None,
                         'releaseType': 'EP',
                         'releaseYear': 2016,
+                        'runtime': 3513,
                         'title': 'Departure',
                         'tracks': [
                             {
@@ -1575,6 +1593,7 @@ snapshots['test_update_release 1'] = (
                 'releaseDate': '2020-10-23',
                 'releaseType': 'SINGLE',
                 'releaseYear': 2020,
+                'runtime': 2258,
                 'title': 'aa',
                 'tracks': [
                     {
@@ -1613,7 +1632,7 @@ snapshots['test_update_release 1'] = (
     }
 )
 
-snapshots['test_update_release 2'] = GenericRepr("T(id=2, title='aa', release_type=<ReleaseType.SINGLE: 2>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2020, num_tracks=10, in_inbox=True, release_date=datetime.date(2020, 10, 23), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'))")
+snapshots['test_update_release 2'] = GenericRepr("T(id=2, title='aa', release_type=<ReleaseType.SINGLE: 2>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2020, num_tracks=10, in_inbox=True, runtime=2258, release_date=datetime.date(2020, 10, 23), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'))")
 
 snapshots['test_update_release_bad_date 1'] = (
     True,
@@ -1639,7 +1658,7 @@ snapshots['test_update_release_bad_date 1'] = (
     }
 )
 
-snapshots['test_update_release_bad_date 2'] = GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, release_date=datetime.date(2014, 7, 8), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'))")
+snapshots['test_update_release_bad_date 2'] = GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, runtime=2258, release_date=datetime.date(2014, 7, 8), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'))")
 
 snapshots['test_update_release_no_auth 1'] = (
     True,

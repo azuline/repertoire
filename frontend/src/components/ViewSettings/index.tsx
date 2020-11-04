@@ -6,6 +6,7 @@ import { Order } from './Order';
 import { Pagination } from 'src/components/Pagination';
 import { PerPage } from './PerPage';
 import { Sort } from './Sort';
+import { View } from './View';
 import clsx from 'clsx';
 
 export const ViewSettings: React.FC<{
@@ -17,7 +18,8 @@ export const ViewSettings: React.FC<{
     <div className={clsx('flex my-4', className)}>
       <Pagination pagination={pagination} />
       <div className="flex ml-auto">
-        <Sort viewOptions={viewOptions} />
+        <View viewOptions={viewOptions} />
+        <Sort className="ml-2" viewOptions={viewOptions} />
         <Order className="ml-2" viewOptions={viewOptions} />
         <PerPage className="ml-2" pagination={pagination} />
       </div>

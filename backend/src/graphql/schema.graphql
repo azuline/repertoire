@@ -205,6 +205,8 @@ type Release {
     "The date that the release was released in YYYY-MM-DD format (Optional)."
     releaseDate: String
     numTracks: Int!
+    "The total runtime (sum of track durations)."
+    runtime: Int!
     "Whether this release has a cover image."
     hasCover: Boolean!
 

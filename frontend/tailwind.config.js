@@ -50,6 +50,7 @@ module.exports = {
   },
   variants: {
     borderWidth: ['responsive', 'hover', 'focus'],
+    display: ['responsive', 'hover'],
     opacity: ['hover'],
   },
 };

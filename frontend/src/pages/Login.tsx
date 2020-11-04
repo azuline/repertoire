@@ -15,7 +15,6 @@ const QUERY = `
   }
 `;
 
-const pageStyle = { maxHeight: 'calc(100vh - 120px)' };
 const inputStyle = { width: '50vw', minWidth: '300px', maxWidth: '600px' };
 
 export const Login: React.FC<{ className?: string }> = ({ className = '' }) => {
@@ -42,7 +41,7 @@ export const Login: React.FC<{ className?: string }> = ({ className = '' }) => {
   );
 
   return (
-    <div className={clsx(className, 'flex content-center')} style={pageStyle}>
+    <div className={clsx(className, 'flex content-center')}>
       <form className="mx-auto self-center" onSubmit={onSubmit}>
         <input autoFocus className="mr-6" placeholder="Token" ref={input} style={inputStyle} />
         <button type="submit" className="bg-success">

@@ -38,6 +38,8 @@ class T:
     num_tracks: int
     # Whether this release is in the inbox.
     in_inbox: bool
+    # The total runtime of the release (sum of track durations).
+    runtime: int
     #: The date this release was released.
     release_date: Optional[date] = None
     #: The filepath of the album cover.
@@ -65,6 +67,7 @@ def from_row(row: Row) -> T:
     return T(
         **dict(
             row,
+            runtime=row["runtime"] or 0,
             release_type=ReleaseType(row["release_type"]),
             in_inbox=bool(row["in_inbox"]),
             image_path=Path(row["image_path"]) if row["image_path"] else None,
@@ -85,6 +88,7 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
         SELECT
             rls.*,
             COUNT(trks.id) AS num_tracks,
+            SUM(trks.duration) as runtime,
             (
                 SELECT 1
                 FROM music__collections_releases
@@ -170,6 +174,7 @@ def search(
         SELECT
             rls.*,
             COUNT(trks.id) AS num_tracks,
+            SUM(trks.duration) AS runtime,
             (
                 SELECT 1
                 FROM music__collections_releases
@@ -329,9 +334,7 @@ def create(
 
 
 def _find_duplicate_release(
-    title: str,
-    artist_ids: List[int],
-    cursor: Cursor,
+    title: str, artist_ids: List[int], cursor: Cursor,
 ) -> Optional[T]:
     """
     Try to find a duplicate release with the given title and artists. If we find a
@@ -348,6 +351,7 @@ def _find_duplicate_release(
         SELECT
             rls.*,
             COUNT(trks.id) AS num_tracks,
+            SUM (trks.duration) AS runtime,
             (
                 SELECT 1
                 FROM music__collections_releases

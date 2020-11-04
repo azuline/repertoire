@@ -38,11 +38,5 @@ with this program.  If not, see <https://www.gnu.org/licenses/>.
 Since GQL API can create release, need to have functions to scan its tracks for
 cover art and/or upload art.
 
-Currently scrapping out a working frontend. Can re-style individual components
-later.
-
 Still need to write some tests for the switch from objects to IDs. As well as
 resolve side-effect-calls return value.
-
-Update the GraphQL playground image in documentation...\ the query there is out
-of date and misleading.

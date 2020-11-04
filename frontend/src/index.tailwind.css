@@ -19,7 +19,7 @@
   --color-foreground-alt: #f7fafc; /* gray-100 */
   --color-background: #111111; /* black */
   --color-highlight: #6e522a; /* gold-700 */
-  --color-success: #68d391; /* green-400 */
+  --color-success: #38a169; /* green-600 */
 }
 
 html {
@@ -30,7 +30,7 @@ html {
 
 .app {
   background-color: var(--color-background);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='12' viewBox='0 0 20 12'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='charlie-brown' fill='%23523d20' fill-opacity='0.4'%3E%3Cpath d='M9.8 12L0 2.2V.8l10 10 10-10v1.4L10.2 12h-.4zm-4 0L0 6.2V4.8L7.2 12H5.8zm8.4 0L20 6.2V4.8L12.8 12h1.4zM9.8 0l.2.2.2-.2h-.4zm-4 0L10 4.2 14.2 0h-1.4L10 2.8 7.2 0H5.8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='12' viewBox='0 0 20 12'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='charlie-brown' fill='%23372915' fill-opacity='0.4'%3E%3Cpath d='M9.8 12L0 2.2V.8l10 10 10-10v1.4L10.2 12h-.4zm-4 0L0 6.2V4.8L7.2 12H5.8zm8.4 0L20 6.2V4.8L12.8 12h1.4zM9.8 0l.2.2.2-.2h-.4zm-4 0L10 4.2 14.2 0h-1.4L10 2.8 7.2 0H5.8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
 button,
@@ -44,6 +44,14 @@ input {
 
 input::placeholder {
   @apply text-foreground-alt;
+}
+
+.full {
+  @apply h-full w-full;
+}
+
+.empty {
+  @apply h-0 w-0;
 }
 
 .main-bar {
@@ -74,6 +82,19 @@ input::placeholder {
   @apply rounded-r;
 }
 
-.popper-arrow {
-  @apply w-6 h-6;
+.two-sided {
+  /* TODO: Make the transitions like... work. */
+  transition: all 0.4s;
+}
+.two-sided > .back {
+  visibility: hidden;
+  @apply empty;
+}
+.two-sided:hover > .front {
+  visibility: hidden;
+  @apply empty;
+}
+.two-sided:hover > .back {
+  visibility: visible;
+  @apply full;
 }

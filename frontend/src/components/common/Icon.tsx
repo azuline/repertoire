@@ -25,7 +25,7 @@ const icons: { [k in IconT]: React.ReactNode } = {
   ),
   chevron: (
     <svg
-      style={{ marginTop: '0.1rem' }}
+      style={{ marginTop: '0.05rem' }}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

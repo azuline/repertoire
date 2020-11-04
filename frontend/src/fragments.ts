@@ -7,6 +7,7 @@ export const RELEASE_FIELDS = `
 	releaseYear
 	releaseDate
 	numTracks
+  runtime
 	hasCover
 `;
 

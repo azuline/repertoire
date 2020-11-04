@@ -10,6 +10,7 @@ RELEASE_RESULT = """
     inInbox
     releaseYear
     numTracks
+    runtime
     releaseDate
     hasCover
 
