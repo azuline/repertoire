@@ -19,11 +19,11 @@ export const Select: React.FC<{
       <select
         id={name}
         onChange={onChange}
-        className="py-1 bg-transparent leading-tight appearance-none text-gold-500 cursor-pointer pr-4 z-10"
+        className="py-1 bg-transparent leading-tight appearance-none text-bold cursor-pointer pr-4 z-10"
       >
         {children}
       </select>
-      <Icon className="w-4 text-gold-500 absolute right-0 z-0" icon="chevron-down-small" />
+      <Icon className="w-4 text-bold absolute right-0 z-0" icon="chevron-down-small" />
     </div>
   );
 };

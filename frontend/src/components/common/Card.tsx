@@ -6,5 +6,5 @@ export const Card: React.FC<{ children: React.ReactNode; className?: string }> =
   children,
   className = '',
 }) => {
-  return <div className={clsx(className, 'bg-background-alt rounded p-2')}>{children}</div>;
+  return <div className={clsx(className, 'bg-bg-alt rounded p-2')}>{children}</div>;
 };

@@ -9,11 +9,13 @@ module.exports = {
     },
     extend: {
       colors: {
-        foreground: 'var(--color-foreground)',
-        'foreground-alt': 'var(--color-foreground-alt)',
-        background: 'var(--color-background)',
-        'background-alt': 'var(--color-background-alt)',
+        fg: 'var(--color-fg)',
+        'fg-alt': 'var(--color-fg-alt)',
+        bg: 'var(--color-bg)',
+        'bg-alt': 'var(--color-bg-alt)',
+        'bg-embellish': 'var(--color-bg-embellish)',
         highlight: 'var(--color-highlight)',
+        bold: 'var(--color-bold)',
         success: 'var(--color-success)',
         gold: {
           50: '#FBF9F6',
@@ -45,6 +47,9 @@ module.exports = {
         70: '.7',
         80: '.8',
         90: '.9',
+      },
+      inset: {
+        '1/2': '50%',
       },
     },
   },

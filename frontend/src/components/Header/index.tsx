@@ -2,12 +2,16 @@ import * as React from 'react';
 
 import { Navbar } from './Navbar';
 import { Searchbar } from './Searchbar';
+import { User } from './User';
 
 export const Header: React.FC = () => {
   return (
-    <div className="main-bar border-highlight border-b-2 flex">
+    <div>
+      <div className="flex items-center w-full h-12 py-2 px-4 bg-bg border-highlight border-b-2">
+        <Searchbar className="cursor-pointer" />
+        <User className="ml-auto" />
+      </div>
       <Navbar />
-      <Searchbar />
     </div>
   );
 };

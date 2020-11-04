@@ -4,7 +4,6 @@ import { usePagination, useViewOptions } from 'src/hooks';
 
 import { PagedReleases } from 'src/components/Releases';
 import { Pagination } from 'src/components/Pagination';
-import { SectionHeader } from 'src/components/common/SectionHeader';
 import { ViewSettings } from 'src/components/ViewSettings';
 import { fetchReleases } from 'src/lib';
 import { useToasts } from 'react-toast-notifications';
@@ -31,7 +30,6 @@ export const Releases: React.FC = (): React.ReactElement => {
 
   return (
     <>
-      <SectionHeader>Releases</SectionHeader>
       <ViewSettings viewOptions={viewOptions} pagination={pagination} />
       <PagedReleases view={viewOptions.releaseView} releases={results} />
       <Pagination className="my-4" pagination={pagination} />

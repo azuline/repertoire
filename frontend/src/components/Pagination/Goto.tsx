@@ -36,7 +36,7 @@ export const Goto: React.FC<{
           ref={input}
         />
         <button className="absolute right-0 h-full py-0 pl-1 pr-2" type="submit">
-          <Icon className="w-4 text-gold-500" icon="right-arrow-small" />
+          <Icon className="w-4 text-bold" icon="right-arrow-small" />
         </button>
       </div>
     </form>

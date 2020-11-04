@@ -12,7 +12,7 @@ export const Page: React.FC<{
 
   // prettier-ignore
   const theme = React.useMemo(
-    () => (page === curPage ? 'text-gold-500' : 'text-white'),
+    () => (page === curPage ? 'text-bold' : 'text-white'),
     [page, curPage]
   );
 

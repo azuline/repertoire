@@ -15,22 +15,24 @@
 
 :root {
   /* TODO: Figure out a way to @apply these... */
-  --color-foreground: #ffffff; /* white */
-  --color-foreground-alt: #f7fafc; /* gray-100 */
-  --color-background: #161616;
-  --color-background-alt: #000000;
+  --color-fg: #ffffff; /* white */
+  --color-fg-alt: #f7fafc; /* gray-100 */
+  --color-bg: #161616;
+  --color-bg-alt: #000000;
+  --color-bg-embellish: #523d20; /* gold-800 */
   --color-highlight: #6e522a; /* gold-700 */
+  --color-bold: #b78846; /* gold-500 */
   --color-success: #38a169; /* green-600 */
 }
 
 html {
   --lh: 1.4rem;
   line-height: var(--lh);
-  @apply text-foreground;
+  @apply text-fg;
 }
 
 .app {
-  background-color: var(--color-background);
+  background-color: var(--color-bg);
   background-image: url("data:image/svg+xml,%3Csvg width='12' height='16' viewBox='0 0 12 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 .99C4 .445 4.444 0 5 0c.552 0 1 .45 1 .99v4.02C6 5.555 5.556 6 5 6c-.552 0-1-.45-1-.99V.99zm6 8c0-.546.444-.99 1-.99.552 0 1 .45 1 .99v4.02c0 .546-.444.99-1 .99-.552 0-1-.45-1-.99V8.99z' fill='%23523d20' fill-opacity='0.19' fill-rule='evenodd'/%3E%3C/svg%3E");
 }
 
@@ -44,7 +46,7 @@ input {
 }
 
 input::placeholder {
-  @apply text-foreground-alt;
+  @apply text-fg-alt;
 }
 
 .full {
@@ -53,10 +55,6 @@ input::placeholder {
 
 .empty {
   @apply h-0 w-0;
-}
-
-.main-bar {
-  @apply w-full h-16 px-4 py-2;
 }
 
 .truncate-2 {
@@ -100,9 +98,16 @@ input::placeholder {
   @apply full;
 }
 
+.hover-pop-2nd-child > :nth-child(2) {
+  visibility: hidden;
+}
+.hover-pop-2nd-child:hover > :nth-child(2) {
+  visibility: visible;
+}
+
 .react-toast-notifications__toast {
-  background-color: var(--color-background-alt) !important;
-  color: var(--color-foreground) !important;
+  background-color: var(--color-bg-alt) !important;
+  color: var(--color-fg) !important;
 }
 .react-toast-notifications__toast__content,
 .react-toast-notifications__toast__dismiss-button,
