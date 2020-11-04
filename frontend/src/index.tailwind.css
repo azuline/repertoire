@@ -17,8 +17,7 @@
   /* TODO: Figure out a way to @apply these... */
   --color-foreground: #ffffff; /* white */
   --color-foreground-alt: #f7fafc; /* gray-100 */
-  --color-background: #000000; /* black */
-  --color-background-alt: #1a202c; /* gray-900 */
+  --color-background: #111111; /* black */
   --color-highlight: #6e522a; /* gold-700 */
   --color-success: #68d391; /* green-400 */
 }

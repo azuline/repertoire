@@ -8,6 +8,8 @@ A release-oriented music server. Work in progress!
 
 Visit [the documentation](https://repertoire.readthedocs.io) to get started!
 
+Frontend is currently being rewritten, but it's currently something like:
+
 ![example](.github/example.png)
 
 ## License

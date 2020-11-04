@@ -20,7 +20,7 @@ export const Sort: React.FC<{ viewOptions: RVOCType; className?: string }> = ({
   ]);
 
   return (
-    <Select className={className} label="Sort" onChange={updateSort}>
+    <Select className={className} label="Sort" name="select-sort" onChange={updateSort}>
       {Object.values(ReleaseSort).map((value) => (
         <option key={value} value={value} selected={value === viewOptions.sort}>
           {SortDisplay[value]}

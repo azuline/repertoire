@@ -8,7 +8,7 @@ export const Link: React.FC<{ name: string; url: string }> = ({ name, url }) => 
 
   return (
     <button
-      className="bg-transparent hover:bg-gray-900 font-semibold px-4 mr-2"
+      className="bg-transparent hover:text-gold-500 font-semibold px-4 mr-2"
       onClick={handleClick}
     >
       {name}
