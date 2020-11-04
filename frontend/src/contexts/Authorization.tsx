@@ -13,7 +13,7 @@ export const AuthorizationContext = React.createContext<ACType>({
 });
 
 export const AuthorizationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [token, setToken] = usePersistentState<string>('auth--token', null);
+  const [token, setToken] = usePersistentState<string | null>('auth--token', null);
 
   const value = { token, setToken };
 

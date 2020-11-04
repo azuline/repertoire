@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { ReleaseSort, ReleaseType, ReleaseView } from 'src/types';
+import { usePersistentState } from './persistentState';
 
 export type RVOCType = {
   search: string;
@@ -24,9 +25,15 @@ export const useViewOptions = (): RVOCType => {
   const [collectionIds, setCollectionIds] = React.useState<number[]>([]);
   const [artistIds, setArtistIds] = React.useState<number[]>([]);
   const [releaseTypes, setReleaseTypes] = React.useState<ReleaseType[]>([]);
-  const [sort, setSort] = React.useState<ReleaseSort>(ReleaseSort.RECENTLY_ADDED);
-  const [asc, setAsc] = React.useState<boolean>(true);
-  const [releaseView, setReleaseView] = React.useState<ReleaseView>(ReleaseView.ARTWORK);
+  const [sort, setSort] = usePersistentState<ReleaseSort>(
+    'release-view-options--sort',
+    ReleaseSort.RECENTLY_ADDED,
+  );
+  const [asc, setAsc] = usePersistentState<boolean>('release-view-options--asc', false);
+  const [releaseView, setReleaseView] = usePersistentState<ReleaseView>(
+    'release-view-options--view',
+    ReleaseView.ARTWORK,
+  );
 
   return {
     search,

@@ -2,8 +2,8 @@ import * as React from 'react';
 
 export const usePersistentState = <T>(
   localStorageKey: string,
-  defaultValue: T | null = null,
-): [T | null, (arg0: T | null) => void] => {
+  defaultValue: T,
+): [T, (arg0: T) => void] => {
   /* A hook that persists the value of the state in localStorage.
    * `defaultValue` is only used when the key is not present in localStorage.
    */
@@ -13,8 +13,8 @@ export const usePersistentState = <T>(
   });
 
   const setPersistentValue = React.useCallback(
-    (newValue: T | null, persist = true) => {
-      setValue((value: T | null) => {
+    (newValue: T, persist = true) => {
+      setValue((value: T) => {
         const toStore = newValue instanceof Function ? newValue(value) : newValue;
         if (persist) {
           localStorage.setItem(localStorageKey, JSON.stringify(toStore));
