@@ -203,7 +203,7 @@ def test_artists(db: Cursor, snapshot):
 def test_add_artist(db: Cursor, snapshot):
     rls = release.from_id(2, db)
 
-    release.add_artist(rls, 3, db)
+    snapshot.assert_match(release.add_artist(rls, 3, db))
     snapshot.assert_match(release.artists(rls, db))
 
 
@@ -217,7 +217,7 @@ def test_add_artist_failure(db: Cursor):
 def test_del_artist(db: Cursor, snapshot):
     rls = release.from_id(2, db)
 
-    release.del_artist(rls, 2, db)
+    snapshot.assert_match(release.del_artist(rls, 2, db))
     snapshot.assert_match(release.artists(rls, db))
 
 

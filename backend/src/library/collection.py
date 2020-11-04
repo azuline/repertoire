@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import logging
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from datetime import datetime
 from sqlite3 import Cursor, Row
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ from src.errors import (
     InvalidCollectionType,
     NotFound,
 )
-from src.util import without_key
+from src.util import update_dataclass, without_key
 
 from . import release
 
@@ -24,7 +24,7 @@ ILLEGAL_UPDATE_TYPES = {CollectionType.SYSTEM, CollectionType.RATING}
 logger = logging.getLogger(__name__)
 
 
-@dataclass
+@dataclass(frozen=True)
 class T:
     """A collection dataclass."""
 
@@ -244,7 +244,7 @@ def update(col: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
 
     logger.info(f"Updated collection {col.id} with {changes}.")
 
-    return T(**dict(asdict(col), **changes))
+    return update_dataclass(col, **changes)
 
 
 def releases(col: T, cursor: Cursor) -> List[release.T]:
@@ -259,13 +259,14 @@ def releases(col: T, cursor: Cursor) -> List[release.T]:
     return releases
 
 
-def add_release(col: T, release_id: int, cursor: Cursor) -> None:
+def add_release(col: T, release_id: int, cursor: Cursor) -> T:
     """
     Add the provided release to the provided collection.
 
     :param col: The collection to add the release to.
     :param rls_id: The ID of the release to add.
     :param cursor: A cursor to the database.
+    :return: The collection with the number of tracks (if present) updated.
     :raises NotFound: If no release has the given release ID.
     :raises AlreadyExists: If the release is already in the collection.
     """
@@ -291,14 +292,22 @@ def add_release(col: T, release_id: int, cursor: Cursor) -> None:
     )
     cursor.connection.commit()
 
+    return update_dataclass(
+        col,
+        num_releases=(
+            col.num_releases + 1 if col.num_releases is not None else col.num_releases
+        ),
+    )
 
-def del_release(col: T, release_id: int, cursor: Cursor) -> None:
+
+def del_release(col: T, release_id: int, cursor: Cursor) -> T:
     """
     Remove the provided release from the provided collection.
 
     :param col: The collection to remove the release from.
     :param rls: The release to remove.
     :param cursor: A cursor to the database.
+    :return: The collection with the number of tracks (if present) updated.
     :raises NotFound: If no release has the given release ID.
     :raises DoesNotExist: If the release is not in the collection.
     """
@@ -323,6 +332,13 @@ def del_release(col: T, release_id: int, cursor: Cursor) -> None:
         (col.id, release_id),
     )
     cursor.connection.commit()
+
+    return update_dataclass(
+        col,
+        num_releases=(
+            col.num_releases - 1 if col.num_releases is not None else col.num_releases
+        ),
+    )
 
 
 def top_genres(col: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:

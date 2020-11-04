@@ -133,7 +133,7 @@ def test_artists(db: Cursor, snapshot):
 def test_add_artist(db: Cursor, snapshot):
     trk = track.from_id(10, db)
 
-    track.add_artist(trk, 4, ArtistRole.MAIN, db)
+    snapshot.assert_match(track.add_artist(trk, 4, ArtistRole.MAIN, db))
     artists = track.artists(trk, db)
 
     assert len(artists) == 3
@@ -143,14 +143,14 @@ def test_add_artist(db: Cursor, snapshot):
 def test_add_artist_new_role(db: Cursor, snapshot):
     trk = track.from_id(10, db)
 
-    track.add_artist(trk, 2, ArtistRole.REMIXER, db)
+    snapshot.assert_match(track.add_artist(trk, 2, ArtistRole.REMIXER, db))
     artists = track.artists(trk, db)
 
     assert len(artists) == 3
     snapshot.assert_match(artists)
 
 
-def test_add_artist_failure(db: Cursor, snapshot):
+def test_add_artist_failure(db: Cursor):
     trk = track.from_id(10, db)
 
     with pytest.raises(AlreadyExists):
@@ -160,21 +160,21 @@ def test_add_artist_failure(db: Cursor, snapshot):
 def test_del_artist(db: Cursor, snapshot):
     trk = track.from_id(10, db)
 
-    track.del_artist(trk, 3, ArtistRole.COMPOSER, db)
+    snapshot.assert_match(track.del_artist(trk, 3, ArtistRole.COMPOSER, db))
     artists = track.artists(trk, db)
 
     assert len(artists) == 1
     snapshot.assert_match(artists)
 
 
-def test_del_artist_failure(db: Cursor, snapshot):
+def test_del_artist_failure(db: Cursor):
     trk = track.from_id(10, db)
 
     with pytest.raises(DoesNotExist):
         track.del_artist(trk, 4, ArtistRole.MAIN, db)
 
 
-def test_del_artist_failure_bad_role(db: Cursor, snapshot):
+def test_del_artist_failure_bad_role(db: Cursor):
     trk = track.from_id(10, db)
 
     with pytest.raises(DoesNotExist):

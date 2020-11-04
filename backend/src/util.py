@@ -1,5 +1,6 @@
 import sqlite3
 from contextlib import contextmanager
+from dataclasses import asdict
 from functools import wraps
 from hashlib import sha256
 from pathlib import Path
@@ -119,3 +120,8 @@ def camelCase_to_snake_case(string: str) -> str:
     :return: A snake case string.
     """
     return "".join(f"_{c.lower()}" if c in ascii_uppercase else c for c in string)
+
+
+# Generics when?
+def update_dataclass(dataclass: Any, **kwargs) -> Any:
+    return dataclass.__class__(**dict(asdict(dataclass), **kwargs))

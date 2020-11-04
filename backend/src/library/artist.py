@@ -1,20 +1,20 @@
 from __future__ import annotations
 
 import logging
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from sqlite3 import Cursor, Row
 from typing import Any, Dict, List, Optional
 
 from src.enums import CollectionType
 from src.errors import Duplicate
-from src.util import without_key
+from src.util import update_dataclass, without_key
 
 from . import collection, release
 
 logger = logging.getLogger(__name__)
 
 
-@dataclass
+@dataclass(frozen=True)
 class T:
     """An artist dataclass."""
 
@@ -182,7 +182,7 @@ def update(art: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
 
     logger.info(f"Updated artist {art.id} with {changes}.")
 
-    return T(**dict(asdict(art), **changes))
+    return update_dataclass(art, **changes)
 
 
 def releases(art: T, cursor: Cursor) -> List[release.T]:

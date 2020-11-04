@@ -18,7 +18,7 @@ VALID_USERNAME_CHARACTERS = set(string.ascii_letters + string.digits)
 logger = logging.getLogger(__name__)
 
 
-@dataclass
+@dataclass(frozen=True)
 class T:
     """A user dataclass."""
 

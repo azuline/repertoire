@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import logging
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from datetime import date, datetime
 from itertools import chain, repeat
 from pathlib import Path
@@ -12,14 +12,14 @@ from unidecode import unidecode
 
 from src.enums import CollectionType, ReleaseSort, ReleaseType
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
-from src.util import strip_punctuation
+from src.util import strip_punctuation, update_dataclass
 
 from . import artist, collection, track
 
 logger = logging.getLogger(__name__)
 
 
-@dataclass
+@dataclass(frozen=True)
 class T:
     """A release dataclass."""
 
@@ -334,7 +334,9 @@ def create(
 
 
 def _find_duplicate_release(
-    title: str, artist_ids: List[int], cursor: Cursor,
+    title: str,
+    artist_ids: List[int],
+    cursor: Cursor,
 ) -> Optional[T]:
     """
     Try to find a duplicate release with the given title and artists. If we find a
@@ -430,7 +432,7 @@ def update(rls: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
 
     logger.info(f"Updated release {rls.id} with {changes}.")
 
-    return T(**dict(asdict(rls), **changes))
+    return update_dataclass(rls, **changes)
 
 
 def tracks(rls: T, cursor: Cursor) -> List[track.T]:
@@ -473,13 +475,14 @@ def artists(rls: T, cursor: Cursor) -> List[artist.T]:
     return [artist.from_row(row) for row in cursor.fetchall()]
 
 
-def add_artist(rls: T, artist_id: int, cursor: Cursor) -> None:
+def add_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
     """
     Add the provided artist to the provided release.
 
     :param rls: The release to add the artist to.
     :param artist_id: The ID of the artist to add.
     :param cursor: A cursor to the database.
+    :return: The release that was passed in.
     :raises NotFound: If no artist has the given artist ID.
     :raises AlreadyExists: If the artist is already on the release.
     """
@@ -499,14 +502,17 @@ def add_artist(rls: T, artist_id: int, cursor: Cursor) -> None:
     )
     cursor.connection.commit()
 
+    return rls
 
-def del_artist(rls: T, artist_id: int, cursor: Cursor) -> None:
+
+def del_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
     """
     Delete the provided artist to the provided release.
 
     :param rls: The release to delete the artist from.
     :param artist_id: The ID of the artist to delete.
     :param cursor: A cursor to the database.
+    :return: The release that was passed in.
     :raises NotFound: If no artist has the given artist ID.
     :raises DoesNotExist: If the artist is not on the release.
     """
@@ -525,6 +531,8 @@ def del_artist(rls: T, artist_id: int, cursor: Cursor) -> None:
         (rls.id, artist_id),
     )
     cursor.connection.commit()
+
+    return rls
 
 
 def collections(

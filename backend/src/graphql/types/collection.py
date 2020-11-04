@@ -95,9 +95,7 @@ def resolve_add_release_to_collection(
     if not (col := collection.from_id(collectionId, info.context.db)):
         raise NotFound(f"Collection {collectionId} does not exist.")
 
-    collection.add_release(col, releaseId, info.context.db)
-    col.num_releases += 1
-    return col
+    return collection.add_release(col, releaseId, info.context.db)
 
 
 @mutation.field("delReleaseFromCollection")
@@ -111,6 +109,4 @@ def resolve_del_release_from_collection(
     if not (col := collection.from_id(collectionId, info.context.db)):
         raise NotFound(f"Collection {collectionId} does not exist.")
 
-    collection.del_release(col, releaseId, info.context.db)
-    col.num_releases -= 1
-    return col
+    return collection.del_release(col, releaseId, info.context.db)

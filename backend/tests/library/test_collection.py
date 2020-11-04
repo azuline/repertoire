@@ -126,7 +126,7 @@ def test_releases(db: Cursor, snapshot):
 def test_add_release(db: Cursor, snapshot):
     col = collection.from_id(3, db)
 
-    collection.add_release(col, 2, db)
+    snapshot.assert_match(collection.add_release(col, 2, db))
     snapshot.assert_match(collection.releases(col, db))
 
 
@@ -140,7 +140,7 @@ def test_add_release_failure(db: Cursor):
 def test_del_release(db: Cursor, snapshot):
     col = collection.from_id(12, db)
 
-    collection.del_release(col, 2, db)
+    snapshot.assert_match(collection.del_release(col, 2, db))
     snapshot.assert_match(collection.releases(col, db))
 
 

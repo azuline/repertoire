@@ -127,8 +127,7 @@ def resolve_add_artist_to_release(
     if not (rls := release.from_id(releaseId, info.context.db)):
         raise NotFound(f"Release {releaseId} does not exist.")
 
-    release.add_artist(rls, artistId, info.context.db)
-    return rls
+    return release.add_artist(rls, artistId, info.context.db)
 
 
 @mutation.field("delArtistFromRelease")
@@ -142,5 +141,4 @@ def resolve_del_artist_from_release(
     if not (rls := release.from_id(releaseId, info.context.db)):
         raise NotFound(f"Release {releaseId} does not exist.")
 
-    release.del_artist(rls, artistId, info.context.db)
-    return rls
+    return release.del_artist(rls, artistId, info.context.db)

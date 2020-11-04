@@ -1,4 +1,12 @@
-from src.util import cached_property, parse_crontab, strip_punctuation, without_key
+from dataclasses import dataclass
+
+from src.util import (
+    cached_property,
+    parse_crontab,
+    strip_punctuation,
+    update_dataclass,
+    without_key,
+)
 
 
 def test_cached_property():
@@ -39,3 +47,14 @@ def test_parse_crontab():
 
 def test_strip_punctuation():
     assert "abcàà" == strip_punctuation("[a.b!?c))àà")
+
+
+def test_update_dataclass():
+    @dataclass(frozen=True)
+    class Example:
+        a: int
+
+    d1 = Example(a=1)
+    d2 = update_dataclass(d1, a=2)
+    assert d1.a == 1
+    assert d2.a == 2

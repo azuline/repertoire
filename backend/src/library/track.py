@@ -1,21 +1,21 @@
 from __future__ import annotations
 
 import logging
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from pathlib import Path
 from sqlite3 import Cursor, Row
 from typing import Any, Dict, List, Optional, Union
 
 from src.enums import ArtistRole
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
-from src.util import without_key
+from src.util import update_dataclass, without_key
 
 from . import artist, release
 
 logger = logging.getLogger(__name__)
 
 
-@dataclass
+@dataclass(frozen=True)
 class T:
     """A track dataclass."""
 
@@ -220,7 +220,7 @@ def update(trk: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
 
     logger.info(f"Updated track {trk.id} with {changes}.")
 
-    return T(**dict(asdict(trk), **changes))
+    return update_dataclass(trk, **changes)
 
 
 def artists(trk: T, cursor: Cursor) -> List[Dict]:
@@ -256,7 +256,7 @@ def artists(trk: T, cursor: Cursor) -> List[Dict]:
     ]
 
 
-def add_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> None:
+def add_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> T:
     """
     Add the provided artist/role combo to the provided track.
 
@@ -264,6 +264,7 @@ def add_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> None
     :param artist_id: The ID of the artist to add.
     :param role: The role to add the artist with.
     :param cursor: A cursor to the database.
+    :return: The track that was passed in.
     :raises NotFound: If no artist has the given artist ID.
     :raises AlreadyExists: If the artist/role combo is already on the track.
     """
@@ -289,14 +290,17 @@ def add_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> None
     )
     cursor.connection.commit()
 
+    return trk
 
-def del_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> None:
+
+def del_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> T:
     """
     Delete the provided artist/role combo to the provided track.
 
     :param trk: The track to delete the artist from.
     :param artist_id: The ID of the artist to delete.
     :param cursor: A cursor to the database.
+    :return: The track that was passed in.
     :raises NotFound: If no artist has the given artist ID.
     :raises DoesNotExist: If the artist is not on the track.
     """
@@ -321,3 +325,5 @@ def del_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> None
         (trk.id, artist_id, role.value),
     )
     cursor.connection.commit()
+
+    return trk

@@ -7,7 +7,9 @@ from snapshottest import GenericRepr, Snapshot
 
 snapshots = Snapshot()
 
-snapshots['test_add_artist 1'] = [
+snapshots['test_add_artist 1'] = GenericRepr("T(id=10, filepath=PosixPath('/tmp/repertoire-library/Aaron West and the Roaring Twenties/2014. We Don’t Have Each Other/10. Going to Georgia.m4a'), sha256=b'\\x03\\xdb>|\\xc9H\\x7fGm\\x84\\xac\\xec`\\xf5/\\xe8\\xf4\\xf7\\xd2\\xbf\\x97Bh\\x14\\xd0\\x83:\\xe2\\x9b5(\\x17', title='Going to Georgia', release_id=2, duration=153, track_number='10', disc_number='1')")
+
+snapshots['test_add_artist 2'] = [
     {
         'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)"),
         'role': GenericRepr('<ArtistRoles.MAIN: 1>')
@@ -22,7 +24,9 @@ snapshots['test_add_artist 1'] = [
     }
 ]
 
-snapshots['test_add_artist_new_role 1'] = [
+snapshots['test_add_artist_new_role 1'] = GenericRepr("T(id=10, filepath=PosixPath('/tmp/repertoire-library/Aaron West and the Roaring Twenties/2014. We Don’t Have Each Other/10. Going to Georgia.m4a'), sha256=b'\\x03\\xdb>|\\xc9H\\x7fGm\\x84\\xac\\xec`\\xf5/\\xe8\\xf4\\xf7\\xd2\\xbf\\x97Bh\\x14\\xd0\\x83:\\xe2\\x9b5(\\x17', title='Going to Georgia', release_id=2, duration=153, track_number='10', disc_number='1')")
+
+snapshots['test_add_artist_new_role 2'] = [
     {
         'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)"),
         'role': GenericRepr('<ArtistRoles.MAIN: 1>')
@@ -55,7 +59,9 @@ snapshots['test_create 1'] = [
     }
 ]
 
-snapshots['test_del_artist 1'] = [
+snapshots['test_del_artist 1'] = GenericRepr("T(id=10, filepath=PosixPath('/tmp/repertoire-library/Aaron West and the Roaring Twenties/2014. We Don’t Have Each Other/10. Going to Georgia.m4a'), sha256=b'\\x03\\xdb>|\\xc9H\\x7fGm\\x84\\xac\\xec`\\xf5/\\xe8\\xf4\\xf7\\xd2\\xbf\\x97Bh\\x14\\xd0\\x83:\\xe2\\x9b5(\\x17', title='Going to Georgia', release_id=2, duration=153, track_number='10', disc_number='1')")
+
+snapshots['test_del_artist 2'] = [
     {
         'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)"),
         'role': GenericRepr('<ArtistRoles.MAIN: 1>')

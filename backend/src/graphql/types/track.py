@@ -59,8 +59,7 @@ def resolve_add_artist_to_track(
     if not (trk := track.from_id(trackId, info.context.db)):
         raise NotFound("Track does not exist.")
 
-    track.add_artist(trk, artistId, role, info.context.db)
-    return trk
+    return track.add_artist(trk, artistId, role, info.context.db)
 
 
 @mutation.field("delArtistFromTrack")
@@ -75,5 +74,4 @@ def resolve_del_artist_from_track(
     if not (trk := track.from_id(trackId, info.context.db)):
         raise NotFound("Track does not exist.")
 
-    track.del_artist(trk, artistId, role, info.context.db)
-    return trk
+    return track.del_artist(trk, artistId, role, info.context.db)
