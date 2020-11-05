@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'src/components/common/Link';
 
 import { ArtistT, ReleaseT } from 'src/types';
-import { secondsToLength, getWhenReleased } from 'src/common';
+import { secondsToLength } from 'src/common';
 
 import { ArtistList } from './ArtistList';
 import { LabelList } from './LabelList';
@@ -20,7 +20,6 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
   release,
   className = '',
 }) => {
-  const whenReleased = React.useMemo(() => getWhenReleased(release), [release]);
   const runtime = React.useMemo(() => secondsToLength(release.runtime), [release]);
 
   return (
@@ -42,9 +41,9 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
           <div className="back relative flex flex-col full justify-center items-center">
             <div className="absolute rounded-lg top-0 left-0 bg-black bg-opacity-75 full" />
             <div className="z-10 p-4 text-center">
-              {whenReleased && <div className="py-1">Released {whenReleased}</div>}
+              {release.releaseYear && <div className="py-1">Released in {release.releaseYear}</div>}
               <div className="py-1">
-                {release.numTracks} Track{release.numTracks !== 1 ? 's' : ''} :: {runtime}
+                {release.numTracks} Track{release.numTracks !== 1 ? 's' : ''} / {runtime}
               </div>
               <div className="mt-4">
                 <LabelList className="py-1 truncate-2" prefix="Labels:" labels={release.labels} />

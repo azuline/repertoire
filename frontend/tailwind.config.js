@@ -1,6 +1,7 @@
 module.exports = {
   theme: {
     screens: {
+      xsm: '480px',
       sm: '640px',
       md: '768px',
       lg: '1024px',
@@ -36,6 +37,14 @@ module.exports = {
       },
       height: {
         '1/2': '50%',
+      },
+      width: {
+        14: '3.5rem',
+        28: '7rem',
+        36: '9rem',
+        44: '11rem',
+        52: '13rem',
+        60: '15rem',
       },
       opacity: {
         10: '.1',
