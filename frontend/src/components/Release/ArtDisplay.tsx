@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'src/components/common/Link';
 
 import { ArtistT, ReleaseT } from 'src/types';
-import { secondsToLength } from 'src/common';
+import { secondsToLength, getWhenReleased } from 'src/common';
 
 import { ArtistList } from './ArtistList';
 import { LabelList } from './LabelList';
@@ -20,16 +20,7 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
   release,
   className = '',
 }) => {
-  const whenReleased = React.useMemo(() => {
-    if (release.releaseDate) {
-      return `on ${release.releaseDate}`;
-    } else if (release.releaseYear) {
-      return `in ${release.releaseYear}`;
-    } else {
-      return null;
-    }
-  }, [release]);
-
+  const whenReleased = React.useMemo(() => getWhenReleased(release), [release]);
   const runtime = React.useMemo(() => secondsToLength(release.runtime), [release]);
 
   return (

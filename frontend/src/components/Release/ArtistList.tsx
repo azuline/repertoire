@@ -15,10 +15,12 @@ export const ArtistList: React.FC<{
     <div className={clsx(className, 'flex')}>
       {prefix && <span>{prefix}&nbsp;</span>}
       {artists.map((art, i) => (
-        <span key={art.id}>
+        <React.Fragment key={art.id}>
           {i > 0 && ', '}
-          <Link href={`/artists/${art.id}`}>{art.name}</Link>
-        </span>
+          <Link className="truncate" href={`/artists/${art.id}`}>
+            {art.name}
+          </Link>
+        </React.Fragment>
       ))}
     </div>
   );

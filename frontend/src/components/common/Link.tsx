@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import clsx from 'clsx';
 
 export const Link: React.FC<{ href: string; children: React.ReactNode; className?: string }> = ({
   href,
@@ -18,7 +17,7 @@ export const Link: React.FC<{ href: string; children: React.ReactNode; className
   );
 
   return (
-    <a className={clsx(className, 'cursor-pointer')} onClick={onClick} href={href}>
+    <a className={className} onClick={onClick} href={href}>
       {children}
     </a>
   );

@@ -21,7 +21,7 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
 
   return (
     <div className={clsx(className, 'hover-pop-2nd-child')}>
-      <div className="flex h-full items-center cursor-default rounded-none">
+      <div className="flex h-full items-center cursor-pointer rounded-none">
         <Icon className="w-5 mr-2 text-bold" icon="user-large" />
         <div>{status === 'success' && data ? data.user.username : 'Loading...'}</div>
         <Icon className="w-4 ml-1" icon="chevron-down-small" />

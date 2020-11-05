@@ -15,10 +15,12 @@ export const LabelList: React.FC<{
     <div className={clsx(className, 'flex')}>
       {prefix && <span>{prefix}&nbsp;</span>}
       {labels.map((lbl, i) => (
-        <span key={lbl.id}>
+        <React.Fragment key={lbl.id}>
           {i > 0 && ', '}
-          <Link href={`/labels/${lbl.id}`}>{lbl.name}</Link>
-        </span>
+          <Link className="truncate" href={`/labels/${lbl.id}`}>
+            {lbl.name}
+          </Link>
+        </React.Fragment>
       ))}
     </div>
   );

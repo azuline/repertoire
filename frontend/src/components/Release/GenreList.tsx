@@ -15,10 +15,12 @@ export const GenreList: React.FC<{
     <div className={clsx(className, 'flex')}>
       {prefix && <span>{prefix}&nbsp;</span>}
       {genres.map((grn, i) => (
-        <span key={grn.id}>
+        <React.Fragment key={grn.id}>
           {i > 0 && ', '}
-          <Link href={`/genres/${grn.id}`}>{grn.name}</Link>
-        </span>
+          <Link className="truncate" href={`/genres/${grn.id}`}>
+            {grn.name}
+          </Link>
+        </React.Fragment>
       ))}
     </div>
   );
