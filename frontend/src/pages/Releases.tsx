@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { TitleContext } from 'src/contexts';
 
 import { usePagination, useViewOptions } from 'src/hooks';
 
@@ -12,6 +13,9 @@ export const Releases: React.FC = (): React.ReactElement => {
   const viewOptions = useViewOptions();
   const pagination = usePagination();
   const { addToast } = useToasts();
+  const { setTitles } = React.useContext(TitleContext);
+
+  React.useEffect(() => setTitles([{ label: 'Releases', url: '/releases' }]), [setTitles]);
 
   const { status, data } = fetchReleases(viewOptions, pagination);
 

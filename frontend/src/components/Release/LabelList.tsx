@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'src/components/common/Link';
 
 import { CollectionT } from 'src/types';
 import clsx from 'clsx';
@@ -16,7 +17,7 @@ export const LabelList: React.FC<{
       {labels.map((lbl, i) => (
         <span key={lbl.id}>
           {i > 0 && ', '}
-          <a href={`/labels/${lbl.id}`}>{lbl.name}</a>
+          <Link href={`/labels/${lbl.id}`}>{lbl.name}</Link>
         </span>
       ))}
     </div>

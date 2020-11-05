@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'src/components/common/Link';
 
 import { ArtistT } from 'src/types';
 import clsx from 'clsx';
@@ -16,7 +17,7 @@ export const ArtistList: React.FC<{
       {artists.map((art, i) => (
         <span key={art.id}>
           {i > 0 && ', '}
-          <a href={`/artists/${art.id}`}>{art.name}</a>
+          <Link href={`/artists/${art.id}`}>{art.name}</Link>
         </span>
       ))}
     </div>

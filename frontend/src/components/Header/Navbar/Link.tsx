@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import { useHistory } from 'react-router-dom';
 
-export const Link: React.FC<{
+export const NavLink: React.FC<{
   children: React.ReactNode;
   url: string;
   activeRoute?: string | undefined;
@@ -16,16 +16,16 @@ export const Link: React.FC<{
   const active = React.useMemo(() => activeRoute && url === activeRoute, [activeRoute, url]);
 
   return (
-    <button
+    <div
       className={clsx(
         className,
         padding ? 'px-4' : 'px-0',
         active ? 'border-b-2' : '',
-        'bg-transparent hover:text-bold font-semibold border-bold rounded-none',
+        'bg-transparent hover:text-bold cursor-pointer border-bold flex items-center justify-center',
       )}
       onClick={handleClick}
     >
       {children}
-    </button>
+    </div>
   );
 };

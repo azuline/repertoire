@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'src/components/common/Link';
 
 import { CollectionT } from 'src/types';
 import clsx from 'clsx';
@@ -16,7 +17,7 @@ export const GenreList: React.FC<{
       {genres.map((grn, i) => (
         <span key={grn.id}>
           {i > 0 && ', '}
-          <a href={`/genres/${grn.id}`}>{grn.name}</a>
+          <Link href={`/genres/${grn.id}`}>{grn.name}</Link>
         </span>
       ))}
     </div>

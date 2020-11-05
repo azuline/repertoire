@@ -9,6 +9,8 @@ import { Sort } from './Sort';
 import { View } from './View';
 import clsx from 'clsx';
 
+// TODO: At a certain breakpoint, turn the selects into an "Options <chevron>" popover.
+
 export const ViewSettings: React.FC<{
   viewOptions: RVOCType;
   pagination: PCType;
