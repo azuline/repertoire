@@ -1,8 +1,7 @@
 import * as React from 'react';
 
-import { BrowserRouter } from 'react-router-dom';
-
 import { AuthorizationContext } from 'src/contexts';
+import { BrowserRouter } from 'react-router-dom';
 import { Footer } from 'src/components/Footer';
 import { GlobalContexts } from 'src/contexts';
 import { Header } from 'src/components/Header';

@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { ReactComponent as Logo } from 'src/assets/logo.svg';
 
 type IconT =

@@ -4,6 +4,7 @@ import { usePagination, useViewOptions } from 'src/hooks';
 
 import { PagedReleases } from 'src/components/Releases';
 import { Pagination } from 'src/components/Pagination';
+import { ReleaseView } from 'src/types';
 import { ViewSettings } from 'src/components/ViewSettings';
 import { fetchReleases } from 'src/lib';
 import { useToasts } from 'react-toast-notifications';
@@ -29,10 +30,10 @@ export const Releases: React.FC = (): React.ReactElement => {
   }, [pagination, total]);
 
   return (
-    <>
+    <div className={viewOptions.releaseView === ReleaseView.ROW ? 'max-w-6xl mx-auto' : ''}>
       <ViewSettings viewOptions={viewOptions} pagination={pagination} />
       <PagedReleases view={viewOptions.releaseView} releases={results} />
       <Pagination className="my-4" pagination={pagination} />
-    </>
+    </div>
   );
 };

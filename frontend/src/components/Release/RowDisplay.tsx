@@ -1,46 +1,54 @@
 import * as React from 'react';
-import { LabelList } from './LabelList';
-import { GenreList } from './GenreList';
-import { secondsToLength } from 'src/common';
+
+import { ArtistT, CollectionT, ReleaseT } from 'src/types';
+
 import { ArtistList } from './ArtistList';
 import { CoverArt } from './CoverArt';
-import { ReleaseT, ArtistT, CollectionT } from 'src/types';
+import { GenreList } from './GenreList';
+import { LabelList } from './LabelList';
+import clsx from 'clsx';
+import { secondsToLength } from 'src/common';
 
-export const RowRelease: React.FC<{ release: ReleaseT }> = ({ release }) => {
+// TODO: Re-do this, the tabular-like display is not appealing.
+
+export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = ({
+  release,
+  className = '',
+}) => {
   const runMinutes = React.useMemo(() => secondsToLength(release.runtime).split(':')[0], [release]);
 
   return (
     <div
-      className="w-full flex items-center py-3 hover:bg-black hover:bg-opacity-25 rounded cursor-pointer"
+      className={clsx(
+        className,
+        'w-full flex items-center py-3 hover:bg-white hover:bg-opacity-5 cursor-pointer',
+      )}
       onClick={(): void => {}}
     >
-      <div className="flex-none relative mx-2 w-12 h-12">
+      <div className="flex-none relative w-12 h-12 mr-2">
         <CoverArt className="absolute full object-cover rounded-lg" release={release} />
       </div>
-      <div className="flex-1 md:w-2/5 xl:w-1/4 overflow-hidden">
-        <div className="truncate font-semibold">{release.title}</div>
-        <ArtistList className="truncate" artists={release.artists as ArtistT[]} />
-      </div>
-      <div className="hidden lg:flex w-16 border-l-2 border-bg-embellish px-3">
-        <div className="py-2">{release.releaseYear || '????'}</div>
-      </div>
-      <div className="hidden xl:flex w-24 border-l-2 border-bg-embellish px-3">
-        <div className="py-2">
-          {release.numTracks} Track{release.numTracks !== 1 ? 's' : ''}
+      <div className="flex-1 overflow-hidden">
+        <div className="flex">
+          <div className="flex-shrink flex mr-4 truncate">
+            <div className="truncate font-semibold text-bold">{release.title}</div>
+            {release.releaseYear ? (
+              <div className="flex-none">&nbsp;&nbsp;[{release.releaseYear}]</div>
+            ) : null}
+          </div>
+          <div className="hidden sm:block flex-none ml-auto">
+            {release.numTracks}&nbsp;
+            <span className="text-gray-300">{release.numTracks !== 1 ? 'tracks' : 'track'}</span>
+            &nbsp;/&nbsp;{runMinutes}&nbsp;
+            <span className="text-gray-300">minutes</span>
+          </div>
         </div>
-      </div>
-      <div className="hidden 2xl:flex w-28 border-l-2 border-bg-embellish px-3">
-        <div className="py-2">{runMinutes} minutes</div>
-      </div>
-      <div className="hidden md:flex flex-none w-1/6 max-w-20 border-l-2 border-bg-embellish px-3 py-2 overflow-hidden">
-        {(release.labels as CollectionT[]).length !== 0 ? (
-          <LabelList className="truncate" labels={release.labels} />
-        ) : (
-          'No Label'
-        )}
-      </div>
-      <div className="hidden md:flex flex-none w-2/5 border-l-2 border-bg-embellish px-3 py-2 overflow-hidden">
-        <GenreList className="truncate" genres={release.genres} />
+        <div className="flex">
+          <ArtistList className="truncate max-w-3/5 mr-8" artists={release.artists as ArtistT[]} />
+          <div className="hidden md:block flex-1 overflow-hidden text-right rtl">
+            <GenreList className="truncate" genres={release.genres} />
+          </div>
+        </div>
       </div>
     </div>
   );

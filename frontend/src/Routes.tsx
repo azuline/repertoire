@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Artists, Home, Releases, Playlists, Collages, Labels, Genres, Metadata } from 'src/pages';
+import { Artists, Collages, Genres, Home, Labels, Metadata, Playlists, Releases } from 'src/pages';
 import { Route, Switch } from 'react-router-dom';
 
 export const Routes: React.FC<{ className?: string }> = ({ className = '' }) => {

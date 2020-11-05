@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { Link } from 'src/components/common/Link';
 
 import { ArtistT } from 'src/types';
+import { Link } from 'src/components/common/Link';
 
 export const ArtistList: React.FC<{
   artists: ArtistT[] | undefined;
   className?: string;
   prefix?: string;
 }> = ({ artists, className = '', prefix = '' }) => {
-  if (!artists || artists.length === 0) return null;
+  if (!artists || artists.length === 0) return <div>&nbsp;</div>;
 
   return (
     <div className={className}>

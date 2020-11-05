@@ -1,6 +1,7 @@
 import * as React from 'react';
-import clsx from 'clsx';
+
 import { Icon } from 'src/components/common/Icon';
+import clsx from 'clsx';
 
 // TODO: Implement a dropdown and stuff...
 

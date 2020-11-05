@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { ReleaseSort, ReleaseType, ReleaseView } from 'src/types';
+
 import { usePersistentState } from './persistentState';
 
 export type RVOCType = {

@@ -1,14 +1,13 @@
 import * as React from 'react';
-import { Link } from 'src/components/common/Link';
 
 import { ArtistT, ReleaseT } from 'src/types';
-import { secondsToLength } from 'src/common';
 
 import { ArtistList } from './ArtistList';
-import { LabelList } from './LabelList';
-import { GenreList } from './GenreList';
 import { CoverArt } from './CoverArt';
+import { GenreList } from './GenreList';
+import { Link } from 'src/components/common/Link';
 import clsx from 'clsx';
+import { secondsToLength } from 'src/common';
 
 const textStyle = {
   textShadow: '1px 1px black',
@@ -27,28 +26,25 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
       <div className={clsx(className, 'relative h-0 pb-full text-white')}>
         <CoverArt className="absolute full object-cover rounded-lg" release={release} />
         <div className="two-sided rounded-lg full absolute z-10" style={textStyle}>
-          <div className="front flex flex-col full justify-end">
-            <div className="p-4">
-              <span className="truncate-2 font-medium text-2xl" title={release.title}>
+          <div className="front flex flex-col full justify-end overflow-hidden">
+            <div className="p-4 overflow-hidden">
+              <div className="truncate font-medium text-2xl" title={release.title}>
                 {release.title}
-              </span>
+              </div>
               <ArtistList
-                className="truncate-2 mt-2 text-lg"
+                className="truncate mt-2 text-lg"
                 artists={release.artists as ArtistT[]}
               />
             </div>
           </div>
-          <div className="back relative flex flex-col full justify-center items-center">
-            <div className="absolute rounded-lg top-0 left-0 bg-black bg-opacity-75 full" />
-            <div className="z-10 p-4 text-center">
+          <div className="back relative full">
+            <div className="absolute rounded-lg top-0 left-0 full bg-black bg-opacity-75" />
+            <div className="absolute top-0 left-0 full z-10 p-4 flex flex-col justify-center items-center">
               {release.releaseYear && <div className="py-1">Released in {release.releaseYear}</div>}
-              <div className="py-1">
+              <div className="py-1 overflow-hidden mb-4">
                 {release.numTracks} Track{release.numTracks !== 1 ? 's' : ''} / {runtime}
               </div>
-              <div className="mt-4">
-                <LabelList className="py-1 truncate-2" prefix="Labels:" labels={release.labels} />
-                <GenreList className="py-1 truncate-2" genres={release.genres} />
-              </div>
+              <GenreList className="py-1 truncate max-w-full" genres={release.genres} />
             </div>
           </div>
         </div>

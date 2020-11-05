@@ -1,8 +1,8 @@
 import * as React from 'react';
 
+import { Goto } from './Goto';
 import { PCType } from 'src/hooks';
 import { Page } from './Page';
-import { Goto } from './Goto';
 import clsx from 'clsx';
 
 export const Pagination: React.FC<{

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import clsx from 'clsx';
 
+import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 
 export const NavLink: React.FC<{

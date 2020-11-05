@@ -21,6 +21,14 @@ const QUERY = `
 				  id
 					name
 				}
+        labels {
+          id
+          name
+        }
+        genres {
+          id
+          name
+        }
 			}
 		}
 	}

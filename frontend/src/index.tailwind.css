@@ -53,6 +53,10 @@ input::placeholder {
   overflow: hidden;
 }
 
+.rtl {
+  direction: rtl;
+}
+
 .square-btn {
   @apply h-10 w-10;
 }
@@ -92,6 +96,13 @@ input::placeholder {
 }
 .hover-pop-2nd-child:hover > :nth-child(2) {
   visibility: visible;
+}
+
+.round-children > :first-child {
+  @apply rounded-t;
+}
+.round-children > :last-child {
+  @apply rounded-b;
 }
 
 .react-toast-notifications__toast {

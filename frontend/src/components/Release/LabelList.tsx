@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { Link } from 'src/components/common/Link';
 
 import { CollectionT } from 'src/types';
+import { Link } from 'src/components/common/Link';
 
 export const LabelList: React.FC<{
   labels: CollectionT[] | undefined;
   className?: string;
   prefix?: string;
 }> = ({ labels, className = '', prefix = '' }) => {
-  if (!labels || labels.length === 0) return null;
+  if (!labels || labels.length === 0) return <div>&nbsp;</div>;
 
   return (
     <div className={className}>

@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { NavLink } from './Link';
-import { useLocation } from 'react-router-dom';
 import { Icon } from 'src/components/common/Icon';
+import { NavLink } from './Link';
 import { matchPath } from 'react-router';
+import { useLocation } from 'react-router-dom';
 
 // TODO: At a certain breakpoint, turn these into the same kind of thing from earlier version.
 
