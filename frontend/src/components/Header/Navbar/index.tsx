@@ -8,6 +8,8 @@ import { matchPath } from 'react-router';
 const routes = [
   { route: '/releases', exact: false },
   { route: '/artists', exact: false },
+  { route: '/playlists', exact: false },
+  { route: '/collages', exact: false },
   { route: '/labels', exact: false },
   { route: '/genres', exact: false },
 ];
