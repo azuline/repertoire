@@ -8,25 +8,27 @@ import { matchPath } from 'react-router';
 // TODO: At a certain breakpoint, turn these into the same kind of thing from earlier version.
 
 const routes = [
-  { route: '/home', label: 'Home' },
-  { route: '/releases', label: 'Releases' },
-  { route: '/artists', label: 'Artists' },
-  { route: '/playlists', label: 'Playlists' },
-  { route: '/collages', label: 'Collages' },
-  { route: '/labels', label: 'Labels' },
-  { route: '/genres', label: 'Genres' },
-  { route: '/metadata', label: 'Metadata' },
+  { path: '/', exact: true, label: 'Home' },
+  { path: '/releases', exact: false, label: 'Releases' },
+  { path: '/artists', exact: false, label: 'Artists' },
+  { path: '/playlists', exact: false, label: 'Playlists' },
+  { path: '/collages', exact: false, label: 'Collages' },
+  { path: '/labels', exact: false, label: 'Labels' },
+  { path: '/genres', exact: false, label: 'Genres' },
+  { path: '/metadata', exact: false, label: 'Metadata' },
 ];
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
 
   const activeRoute = React.useMemo(() => {
-    const { route } = routes.find(({ route }) => matchPath(location.pathname, { path: route })) ?? {
-      route: '/404',
+    const { path } = routes.find(({ path, exact }) =>
+      matchPath(location.pathname, { path, exact }),
+    ) ?? {
+      path: '/404',
     };
 
-    return route;
+    return path;
   }, [location]);
 
   return (
@@ -35,15 +37,15 @@ export const Navbar: React.FC = () => {
         <Icon className="text-bold w-16" icon="logo" />
       </NavLink>
       <div className="absolute right-1/2 flex w-1/2 max-w-md pr-10 h-16 my-2 ml-8">
-        {routes.slice(0, 4).map(({ route, label }, i) => (
-          <NavLink key={i} className="flex-1" url={route} activeRoute={activeRoute}>
+        {routes.slice(0, 4).map(({ path, label }, i) => (
+          <NavLink key={i} className="flex-1" url={path} activeRoute={activeRoute}>
             {label}
           </NavLink>
         ))}
       </div>
       <div className="absolute left-1/2 flex w-1/2 max-w-md pl-10 h-16 my-2 mr-8">
-        {routes.slice(4, 8).map(({ route, label }, i) => (
-          <NavLink key={i} className="flex-1" url={route} activeRoute={activeRoute}>
+        {routes.slice(4, 8).map(({ path, label }, i) => (
+          <NavLink key={i} className="flex-1" url={path} activeRoute={activeRoute}>
             {label}
           </NavLink>
         ))}

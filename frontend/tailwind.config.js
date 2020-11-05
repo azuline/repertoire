@@ -51,11 +51,16 @@ module.exports = {
       inset: {
         '1/2': '50%',
       },
+      transitionProperty: {
+        width: 'width',
+        height: 'height',
+      },
     },
   },
   variants: {
     borderWidth: ['responsive', 'hover', 'focus'],
     display: ['responsive', 'hover'],
     opacity: ['hover'],
+    width: ['responsive', 'focus'],
   },
 };

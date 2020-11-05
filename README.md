@@ -38,5 +38,5 @@ with this program.  If not, see <https://www.gnu.org/licenses/>.
 Since GQL API can create release, need to have functions to scan its tracks for
 cover art and/or upload art.
 
-Still need to write some tests for the switch from objects to IDs. As well as
-resolve side-effect-calls return value.
+Ought to use medium 768px as the responsive breakpoint, looks good for most
+things we have.
