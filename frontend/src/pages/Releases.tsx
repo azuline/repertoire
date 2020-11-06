@@ -1,4 +1,5 @@
 import * as React from 'react';
+import clsx from 'clsx';
 
 import { usePagination, useViewOptions } from 'src/hooks';
 
@@ -30,10 +31,17 @@ export const Releases: React.FC = (): React.ReactElement => {
   }, [pagination, total]);
 
   return (
-    <div className={viewOptions.releaseView === ReleaseView.ROW ? 'max-w-6xl mx-auto' : ''}>
-      <ViewSettings viewOptions={viewOptions} pagination={pagination} />
-      <PagedReleases view={viewOptions.releaseView} releases={results} />
-      <Pagination className="my-4" pagination={pagination} />
+    <div className="py-4 bg-bg w-full border-t-2 border-bg-embellish">
+      <div
+        className={clsx(
+          'mx-auto w-11/12',
+          viewOptions.releaseView === ReleaseView.ROW ? 'max-w-6xl' : '',
+        )}
+      >
+        <ViewSettings viewOptions={viewOptions} pagination={pagination} />
+        <PagedReleases view={viewOptions.releaseView} releases={results} />
+        <Pagination className="my-4" pagination={pagination} />
+      </div>
     </div>
   );
 };

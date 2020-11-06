@@ -43,8 +43,10 @@ export const RecentlyAdded: React.FC = () => {
 
   return (
     <div className="flex flex-col">
-      <SectionHeader>Recently Added</SectionHeader>
-      <ScrolledReleases releases={releases} />
+      <SectionHeader className="w-11/12 mx-auto">Recently Added</SectionHeader>
+      <div className="w-full bg-bg border-t-2 border-b-2 border-bg-embellish">
+        <ScrolledReleases className="rpr--home-recently-added px-1/24 py-6" releases={releases} />
+      </div>
     </div>
   );
 };

@@ -1,13 +1,17 @@
 import * as React from 'react';
+import clsx from 'clsx';
 
 import { ArtRelease } from 'src/components/Release';
 import { ReleaseT } from 'src/types';
 
-export const ScrolledReleases: React.FC<{ releases: ReleaseT[] }> = ({ releases }) => {
+export const ScrolledReleases: React.FC<{ releases: ReleaseT[]; className?: string }> = ({
+  releases,
+  className = '',
+}) => {
   return (
-    <div className="flex w-full overflow-x-auto overflow-y-hidden pb-2">
+    <div className={clsx(className, 'flex w-full overflow-x-auto')}>
       {releases.map((rls) => (
-        <div key={rls.id} className="w-56 flex-shrink-0 mr-4">
+        <div key={rls.id} className="w-56 h-56 flex-shrink-0 mr-4">
           <ArtRelease release={rls} />
         </div>
       ))}

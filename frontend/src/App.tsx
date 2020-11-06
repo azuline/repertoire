@@ -29,7 +29,7 @@ const Body: React.FC = () => {
     return (
       <>
         <Header />
-        <Routes className="flex-1 mt-8 w-11/12 mx-auto pb-24" />
+        <Routes className="flex-1 mt-8 pb-16" />
         <Footer />
       </>
     );

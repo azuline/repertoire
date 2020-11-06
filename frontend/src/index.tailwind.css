@@ -79,15 +79,15 @@ input::placeholder {
   transition: all 0.4s;
 }
 .two-sided > .back {
-  visibility: hidden;
+  display: none;
   @apply empty;
 }
 .two-sided:hover > .front {
-  visibility: hidden;
+  display: none;
   @apply empty;
 }
 .two-sided:hover > .back {
-  visibility: visible;
+  display: block;
   @apply full;
 }
 
@@ -116,4 +116,10 @@ input::placeholder {
 }
 .react-toast-notifications__toast__icon-wrapper {
   @apply justify-center;
+}
+
+.rpr--home-recently-added:after {
+  content: '';
+  flex: 0 0 4.166666%;
+  margin: 0 0 0 -1rem;
 }
