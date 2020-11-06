@@ -28,7 +28,7 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
         <div className="two-sided rounded-lg full absolute z-10" style={textStyle}>
           <div className="front flex flex-col full justify-end overflow-hidden">
             <div className="p-4 overflow-hidden">
-              <div className="truncate font-medium text-2xl" title={release.title}>
+              <div className="truncate font-medium text-xl" title={release.title}>
                 {release.title}
               </div>
               <ArtistList
@@ -39,12 +39,15 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
           </div>
           <div className="back relative full">
             <div className="absolute rounded-lg top-0 left-0 full bg-black bg-opacity-75" />
-            <div className="absolute top-0 left-0 full z-10 p-4 flex flex-col justify-center items-center">
+            <div className="absolute top-0 left-0 full z-10 p-4 flex flex-col justify-center items-center text-lg">
               {release.releaseYear && <div className="py-1">Released in {release.releaseYear}</div>}
               <div className="py-1 overflow-hidden mb-4">
                 {release.numTracks} Track{release.numTracks !== 1 ? 's' : ''} / {runtime}
               </div>
-              <GenreList className="py-1 truncate max-w-full" genres={release.genres} />
+              <GenreList
+                className="py-1 text-center truncate-2 max-w-full"
+                genres={release.genres}
+              />
             </div>
           </div>
         </div>
