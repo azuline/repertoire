@@ -1,9 +1,11 @@
 import * as React from 'react';
 
+type SetParam<T> = T | ((arg0: T) => T);
+
 export const usePersistentState = <T>(
   localStorageKey: string,
   defaultValue: T,
-): [T, (arg0: T) => void] => {
+): [T, (arg0: SetParam<T>) => void] => {
   /* A hook that persists the value of the state in localStorage.
    * `defaultValue` is only used when the key is not present in localStorage.
    */
@@ -13,7 +15,7 @@ export const usePersistentState = <T>(
   });
 
   const setPersistentValue = React.useCallback(
-    (newValue: T, persist = true) => {
+    (newValue: SetParam<T>, persist = true) => {
       setValue((value: T) => {
         const toStore = newValue instanceof Function ? newValue(value) : newValue;
         if (persist) {

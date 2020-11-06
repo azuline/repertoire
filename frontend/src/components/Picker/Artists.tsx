@@ -1,26 +1,22 @@
 import * as React from 'react';
-import CSS from 'csstype';
+
+import { Chooser } from './Chooser';
 import { RVOCType } from 'src/hooks';
+import { Selector } from './Selector';
 import { fetchArtists } from 'src/lib';
 import { useToasts } from 'react-toast-notifications';
-import { Artist } from './Artist';
 
-export const ChooseArtist: React.FC<{
+export const PickArtists: React.FC<{
   viewOptions: RVOCType;
   className?: string;
-  style?: CSS.Properties | undefined;
-}> = ({ viewOptions, className = '', style }) => {
-  const [active, setActive] = React.useState<number>(0);
+  picker: 'chooser' | 'selector';
+}> = ({ viewOptions, className = '', picker }) => {
   const { status, data } = fetchArtists();
   const { addToast } = useToasts();
 
   React.useEffect(() => {
     if (status === 'loading') addToast('Loading artists...', { appearance: 'info' });
   }, [status]);
-
-  React.useEffect(() => {
-    viewOptions.setArtistIds(active !== 0 ? [active] : []);
-  }, [active]);
 
   const results = React.useMemo(() => {
     if (!data || status !== 'success') {
@@ -32,12 +28,15 @@ export const ChooseArtist: React.FC<{
     return results;
   }, [status, data]);
 
-  return (
-    <div className={className} style={style}>
-      <Artist artist={null} active={active} setActive={setActive} />
-      {results.map((art) => (
-        <Artist key={art.id} artist={art} active={active} setActive={setActive} />
-      ))}
-    </div>
-  );
+  const Picker = React.useMemo(() => {
+    switch (picker) {
+      case 'chooser':
+        return Chooser;
+        break;
+      case 'selector':
+        return Selector;
+    }
+  }, [picker]);
+
+  return <Picker className={className} results={results} setter={viewOptions.setArtistIds} />;
 };

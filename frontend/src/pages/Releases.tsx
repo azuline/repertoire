@@ -1,5 +1,4 @@
 import * as React from 'react';
-import clsx from 'clsx';
 
 import { usePagination, useViewOptions } from 'src/hooks';
 
@@ -7,6 +6,7 @@ import { PagedReleases } from 'src/components/Releases';
 import { Pagination } from 'src/components/Pagination';
 import { ReleaseView } from 'src/types';
 import { ViewSettings } from 'src/components/ViewSettings';
+import clsx from 'clsx';
 import { fetchReleases } from 'src/lib';
 import { useToasts } from 'react-toast-notifications';
 
@@ -31,7 +31,7 @@ export const Releases: React.FC = (): React.ReactElement => {
   }, [pagination, total]);
 
   return (
-    <div className="flex-1 py-4 bg-bg w-full border-t-2 border-bg-embellish">
+    <div className="flex-1 py-4 w-full">
       <div
         className={clsx(
           'mx-auto w-11/12',

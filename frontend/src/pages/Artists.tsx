@@ -1,22 +1,22 @@
 import * as React from 'react';
-import clsx from 'clsx';
 
+import { ArtistChooser, ArtistSelector } from 'src/components/Picker';
 import { usePagination, useViewOptions } from 'src/hooks';
 
 import { PagedReleases } from 'src/components/Releases';
 import { Pagination } from 'src/components/Pagination';
 import { ReleaseView } from 'src/types';
+import { SidebarContext } from 'src/contexts';
 import { ViewSettings } from 'src/components/ViewSettings';
+import clsx from 'clsx';
 import { fetchReleases } from 'src/lib';
 import { useToasts } from 'react-toast-notifications';
-import { ChooseArtist } from 'src/components/ChooseArtist';
 
-const chooseStyle = { maxHeight: 'calc(100vh - 4rem)' };
-
-export const Artists: React.FC = (): React.ReactElement => {
+export const Artists: React.FC = () => {
   const viewOptions = useViewOptions();
   const pagination = usePagination();
   const { addToast } = useToasts();
+  const { openBar } = React.useContext(SidebarContext);
 
   const { status, data } = fetchReleases(viewOptions, pagination);
 
@@ -33,16 +33,15 @@ export const Artists: React.FC = (): React.ReactElement => {
     if (total) pagination.setTotal(total);
   }, [pagination, total]);
 
+  const bp = React.useMemo(() => (openBar ? 'lg' : 'md'), [openBar]);
+
   return (
-    <div className="flex-1 bg-bg w-full border-t-2 border-bg-embellish flex">
-      <ChooseArtist
-        className="rpr--chooser sticky mt-4 pt-4 top-0 w-48 flex-none overflow-y-auto"
-        style={chooseStyle}
-        viewOptions={viewOptions}
-      />
+    <div className={`flex-1 w-full px-1/24 flex flex-col ${bp}:flex-row`}>
+      <ArtistChooser className={`flex-none mr-4 hidden ${bp}:block`} viewOptions={viewOptions} />
+      <ArtistSelector className={`flex-none ${bp}:hidden`} viewOptions={viewOptions} />
       <div
         className={clsx(
-          'py-4 px-1/24 flex-1',
+          'py-4 flex-1',
           viewOptions.releaseView === ReleaseView.ROW ? 'max-w-6xl' : '',
         )}
       >

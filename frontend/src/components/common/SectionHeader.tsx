@@ -8,7 +8,7 @@ export const SectionHeader: React.FC<{ children: React.ReactNode; className?: st
 }) => {
   return (
     <div className={clsx(className, 'mb-8')}>
-      <span className="font-semibold text-3xl">{children}</span>
+      <span className="font-semibold text-2xl">{children}</span>
     </div>
   );
 };

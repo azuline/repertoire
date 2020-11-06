@@ -14,6 +14,7 @@ module.exports = {
         'fg-alt': 'var(--color-fg-alt)',
         bg: 'var(--color-bg)',
         'bg-alt': 'var(--color-bg-alt)',
+        'bg-alt2': 'var(--color-bg-alt2)',
         'bg-embellish': 'var(--color-bg-embellish)',
         highlight: 'var(--color-highlight)',
         bold: 'var(--color-bold)',

@@ -11,10 +11,7 @@ export const Searchbar: React.FC<{
   return (
     <div className={clsx(className, 'flex-1 relative')}>
       <div className="flex items-center h-full">
-        <input
-          className="w-64 focus:w-full pl-8 py-1 bg-bg-alt border-bg-embellish"
-          placeholder="Search"
-        />
+        <input className="w-full max-w-xs focus:max-w-none pl-8" placeholder="Search" />
         <div className="h-full absolute top-0 left-0 flex items-center pl-2 pr-1 pointer-events-none">
           <Icon icon="search-medium" className="w-5 text-bold" />
         </div>

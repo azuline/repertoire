@@ -1,8 +1,8 @@
 import * as React from 'react';
-import clsx from 'clsx';
 
 import { ArtRelease } from 'src/components/Release';
 import { ReleaseT } from 'src/types';
+import clsx from 'clsx';
 
 export const ScrolledReleases: React.FC<{ releases: ReleaseT[]; className?: string }> = ({
   releases,

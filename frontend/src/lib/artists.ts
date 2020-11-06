@@ -1,8 +1,8 @@
-import { RequestError, GraphQLError, ArtistT } from 'src/types';
-import { useGQLQuery } from 'src/hooks';
+import { ArtistT, GraphQLError, RequestError } from 'src/types';
 
-import { QueryResult } from 'react-query';
 import { ARTIST_FIELDS } from 'src/fragments';
+import { QueryResult } from 'react-query';
+import { useGQLQuery } from 'src/hooks';
 
 const QUERY = `
   query {

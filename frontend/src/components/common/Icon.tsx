@@ -4,6 +4,7 @@ import { ReactComponent as Logo } from 'src/assets/logo.svg';
 
 type IconT =
   | 'logo'
+  | 'hamburger'
   | 'right-arrow-small'
   | 'search-medium'
   | 'chevron-down-small'
@@ -13,6 +14,16 @@ type IconT =
 
 const icons: { [k in IconT]: React.ReactNode } = {
   logo: <Logo />,
+  hamburger: (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M4 6h16M4 12h16M4 18h16"
+      />
+    </svg>
+  ),
   'search-medium': (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path

@@ -42,11 +42,12 @@ export const RecentlyAdded: React.FC = () => {
   const releases = data && status === 'success' ? data.releases.results : [];
 
   return (
-    <div className="flex flex-col">
-      <SectionHeader className="w-11/12 mx-auto">Recently Added</SectionHeader>
-      <div className="w-full bg-bg border-t-2 border-b-2 border-bg-embellish">
-        <ScrolledReleases className="rpr--home-recently-added px-1/24 py-6" releases={releases} />
-      </div>
+    <div className="mt-8">
+      <SectionHeader className="mx-8">Recently Added</SectionHeader>
+      <ScrolledReleases
+        className="rpr--home-recently-added px-8 py-4 overflow-x-auto"
+        releases={releases}
+      />
     </div>
   );
 };

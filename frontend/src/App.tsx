@@ -7,14 +7,13 @@ import { GlobalContexts } from 'src/contexts';
 import { Header } from 'src/components/Header';
 import { Login } from 'src/pages';
 import { Routes } from 'src/Routes';
+import { Sidebar } from 'src/components/Sidebar';
 
 const App: React.FC = () => {
   return (
     <BrowserRouter>
       <GlobalContexts>
-        <div className="app w-full min-h-screen flex flex-col">
-          <Body />
-        </div>
+        <Body />
       </GlobalContexts>
     </BrowserRouter>
   );
@@ -27,11 +26,16 @@ const Body: React.FC = () => {
     return <Login className="flex-1" />;
   } else {
     return (
-      <>
-        <Header />
-        <Routes className="flex flex-col flex-1 mt-8 pb-16" />
+      <div className="app w-full min-h-screen flex flex-col">
+        <div className="flex-1 flex">
+          <Sidebar />
+          <div style={{ width: 'calc(100% - 14rem)' }}>
+            <Header />
+            <Routes />
+          </div>
+        </div>
         <Footer />
-      </>
+      </div>
     );
   }
 };

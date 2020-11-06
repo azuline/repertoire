@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import { AuthorizationContext } from 'src/contexts';
 import { Icon } from 'src/components/common/Icon';
+import clsx from 'clsx';
 import { fetchUser } from 'src/lib';
 import { useToasts } from 'react-toast-notifications';
-import clsx from 'clsx';
 
 export const User: React.FC<{ className?: string }> = ({ className }) => {
   const { status, data } = fetchUser();

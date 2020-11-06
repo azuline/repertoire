@@ -10,7 +10,9 @@ Visit [the documentation](https://repertoire.readthedocs.io) to get started!
 
 Frontend is being rewritten, but it's currently something like:
 
-![example](.github/example.png)
+![example](.github/example1.png)
+
+![example](.github/example2.png)
 
 ## License
 

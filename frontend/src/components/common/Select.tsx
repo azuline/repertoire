@@ -5,11 +5,13 @@ import clsx from 'clsx';
 
 export const Select: React.FC<{
   children: React.ReactNode;
+  value?: string | number | readonly string[] | undefined;
   onChange?: (arg0: React.FormEvent<HTMLSelectElement>) => void | undefined;
   className?: string;
+  selectClassName?: string;
   label?: string | undefined;
   name?: string | undefined;
-}> = ({ children, onChange, className = '', label, name }) => {
+}> = ({ children, value, onChange, className = '', selectClassName = '', label, name }) => {
   return (
     <div className={clsx(className, 'flex items-center relative')}>
       {label && (
@@ -19,8 +21,12 @@ export const Select: React.FC<{
       )}
       <select
         id={name}
+        value={value}
         onChange={onChange}
-        className="py-1 bg-transparent leading-tight appearance-none text-bold cursor-pointer pr-4 z-10 flex-1"
+        className={clsx(
+          selectClassName,
+          'py-1 bg-transparent leading-tight appearance-none text-bold cursor-pointer pr-4 z-10 flex-1',
+        )}
       >
         {children}
       </select>
