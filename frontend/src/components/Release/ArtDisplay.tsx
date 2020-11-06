@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ArtistT, ReleaseT } from 'src/types';
+import { ArtistT, CollectionT, ReleaseT } from 'src/types';
 
 import { ArtistList } from './ArtistList';
 import { CoverArt } from './CoverArt';
@@ -40,14 +40,15 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
           <div className="back relative full">
             <div className="absolute rounded-lg top-0 left-0 full bg-black bg-opacity-75" />
             <div className="absolute top-0 left-0 full z-10 p-4 flex flex-col justify-center items-center text-lg">
-              {release.releaseYear && <div className="py-1">Released in {release.releaseYear}</div>}
-              <div className="py-1 overflow-hidden mb-4">
+              {release.releaseYear ? (
+                <div className="py-1">Released in {release.releaseYear}</div>
+              ) : null}
+              <div className="py-1">
                 {release.numTracks} Track{release.numTracks !== 1 ? 's' : ''} / {runtime}
               </div>
-              <GenreList
-                className="py-1 text-center truncate-2 max-w-full"
-                genres={release.genres}
-              />
+              {(release.genres as CollectionT[]).length !== 0 ? (
+                <GenreList className="text-center truncate-2 mt-4" genres={release.genres} />
+              ) : null}
             </div>
           </div>
         </div>

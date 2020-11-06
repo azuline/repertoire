@@ -12,10 +12,10 @@ export const ArtistList: React.FC<{
 
   return (
     <div className={className}>
-      {prefix && <span>{prefix}&nbsp;</span>}
+      {prefix && <span>{prefix} </span>}
       {artists.map((art, i) => (
         <React.Fragment key={art.id}>
-          {i > 0 && <>,&nbsp;</>}
+          {i > 0 && <>, </>}
           <Link href={`/artists/${art.id}`}>{art.name}</Link>
         </React.Fragment>
       ))}

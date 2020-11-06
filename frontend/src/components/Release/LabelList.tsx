@@ -12,10 +12,10 @@ export const LabelList: React.FC<{
 
   return (
     <div className={className}>
-      {prefix && <span>{prefix}&nbsp;</span>}
+      {prefix && <span>{prefix} </span>}
       {labels.map((lbl, i) => (
         <React.Fragment key={lbl.id}>
-          {i > 0 && <>,&nbsp;</>}
+          {i > 0 && <>, </>}
           <Link href={`/labels/${lbl.id}`}>{lbl.name}</Link>
         </React.Fragment>
       ))}
