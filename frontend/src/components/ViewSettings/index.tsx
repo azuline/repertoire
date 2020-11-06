@@ -17,7 +17,7 @@ export const ViewSettings: React.FC<{
   className?: string;
 }> = ({ viewOptions, pagination, className = '' }) => {
   return (
-    <div className={clsx('flex my-4', className)}>
+    <div className={clsx('flex', className)}>
       <Pagination pagination={pagination} />
       <div className="flex ml-auto">
         <View viewOptions={viewOptions} />

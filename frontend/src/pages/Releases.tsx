@@ -31,14 +31,14 @@ export const Releases: React.FC = (): React.ReactElement => {
   }, [pagination, total]);
 
   return (
-    <div className="py-4 bg-bg w-full border-t-2 border-bg-embellish">
+    <div className="flex-1 py-4 bg-bg w-full border-t-2 border-bg-embellish">
       <div
         className={clsx(
           'mx-auto w-11/12',
           viewOptions.releaseView === ReleaseView.ROW ? 'max-w-6xl' : '',
         )}
       >
-        <ViewSettings viewOptions={viewOptions} pagination={pagination} />
+        <ViewSettings className="my-4" viewOptions={viewOptions} pagination={pagination} />
         <PagedReleases view={viewOptions.releaseView} releases={results} />
         <Pagination className="my-4" pagination={pagination} />
       </div>

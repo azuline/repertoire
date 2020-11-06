@@ -98,13 +98,6 @@ input::placeholder {
   visibility: visible;
 }
 
-.round-children > :first-child {
-  @apply rounded-t;
-}
-.round-children > :last-child {
-  @apply rounded-b;
-}
-
 .react-toast-notifications__toast {
   background-color: var(--color-bg-alt) !important;
   color: var(--color-fg) !important;
@@ -122,4 +115,9 @@ input::placeholder {
   content: '';
   flex: 0 0 4.166666%;
   margin: 0 0 0 -1rem;
+}
+
+.rpr--chooser:after {
+  content: ' ';
+  padding: 0.125rem;
 }

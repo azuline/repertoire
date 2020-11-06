@@ -8,8 +8,6 @@ import { GenreList } from './GenreList';
 import clsx from 'clsx';
 import { secondsToLength } from 'src/common';
 
-// TODO: Re-do this, the tabular-like display is not appealing.
-
 export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = ({
   release,
   className = '',
