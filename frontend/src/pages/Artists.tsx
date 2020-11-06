@@ -46,7 +46,7 @@ export const Artists: React.FC = (): React.ReactElement => {
           viewOptions.releaseView === ReleaseView.ROW ? 'max-w-6xl' : '',
         )}
       >
-        <ViewSettings className="my-4" viewOptions={viewOptions} pagination={pagination} />
+        <ViewSettings className="my-4" viewOptions={viewOptions} pagination={pagination} partial />
         <PagedReleases view={viewOptions.releaseView} releases={results} partial />
         <Pagination className="my-4" pagination={pagination} />
       </div>

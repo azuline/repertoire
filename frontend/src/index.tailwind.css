@@ -38,6 +38,10 @@ input::placeholder {
   @apply text-fg-alt;
 }
 
+.block-important {
+  display: block !important; /* troll */
+}
+
 .full {
   @apply h-full w-full;
 }
@@ -91,11 +95,11 @@ input::placeholder {
   @apply full;
 }
 
-.hover-pop-2nd-child > :nth-child(2) {
-  visibility: hidden;
+.popover > :nth-child(2) {
+  display: none;
 }
-.hover-pop-2nd-child:hover > :nth-child(2) {
-  visibility: visible;
+.hover-popover:hover > :nth-child(2) {
+  display: block;
 }
 
 .react-toast-notifications__toast {
