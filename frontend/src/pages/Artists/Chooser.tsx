@@ -44,16 +44,7 @@ export const ArtistChooser: React.FC<{
     return filter ? fuse.search(filter).map(({ item }) => item) : rawResults;
   }, [fuse, rawResults, filter]);
 
-  const setActive = React.useCallback(
-    (id: number | null): void => {
-      if (id) {
-        history.push(`/artists/${id}`);
-      } else {
-        history.push('/artists');
-      }
-    },
-    [history],
-  );
+  const makeUrl = React.useCallback((id: number): string => `/artists/${id}`, [history]);
 
   return (
     <Chooser
@@ -62,7 +53,7 @@ export const ArtistChooser: React.FC<{
       filter={filter}
       setFilter={setFilter}
       active={active}
-      setActive={setActive}
+      makeUrl={makeUrl}
     />
   );
 };

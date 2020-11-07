@@ -1,29 +1,29 @@
 import * as React from 'react';
+import { Link } from 'src/components/common/Link';
 
 import clsx from 'clsx';
-
-// Null `element` means it's the "All" select.
 
 export type ElementT = { id: number; name: string };
 
 export const Element: React.FC<{
   element: ElementT;
   active: number | null;
-  setActive: (arg0: number) => void;
-}> = ({ element, active, setActive }) => {
+  makeUrl: (arg0: number) => string;
+}> = ({ element, active, makeUrl }) => {
   const isActive = React.useMemo(() => element.id === active, [active, element]);
 
-  const onClick = React.useCallback(() => setActive(element.id), [element, setActive]);
+  const url = React.useMemo(() => makeUrl(element.id), [element, makeUrl]);
 
   return (
-    <div
-      className={clsx(
-        'pl-8 pr-4 py-1 cursor-pointer truncate',
-        isActive ? 'bg-bg-embellish' : 'hover:bg-white hover:bg-opacity-5',
-      )}
-      onClick={onClick}
-    >
-      {element.name}
-    </div>
+    <Link href={url}>
+      <div
+        className={clsx(
+          'pl-8 pr-4 py-1 cursor-pointer truncate',
+          isActive ? 'bg-bg-embellish' : 'hover:bg-white hover:bg-opacity-5',
+        )}
+      >
+        {element.name}
+      </div>
+    </Link>
   );
 };

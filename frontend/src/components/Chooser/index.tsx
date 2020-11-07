@@ -14,10 +14,10 @@ export const Chooser: React.FC<{
   className?: string | undefined;
   results: ElementT[];
   active: number | null;
-  setActive: (arg0: number | null) => void;
+  makeUrl: (arg0: number) => string;
   filter: string;
   setFilter: (arg0: string) => void;
-}> = ({ className, results, active, setActive, filter, setFilter }) => {
+}> = ({ className, results, active, makeUrl, filter, setFilter }) => {
   const { openBar } = React.useContext(SidebarContext);
 
   const bp = React.useMemo(() => (openBar ? 'lg' : 'md'), [openBar]);
@@ -30,11 +30,11 @@ export const Chooser: React.FC<{
     ({ index, key, style }) => {
       return (
         <div key={key} style={style}>
-          <Element element={results[index]} active={active} setActive={setActive} />
+          <Element element={results[index]} active={active} makeUrl={makeUrl} />
         </div>
       );
     },
-    [results, active, setActive],
+    [results, active, makeUrl],
   );
 
   const scrollToIndex = React.useMemo(() => {
