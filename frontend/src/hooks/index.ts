@@ -4,3 +4,4 @@ export * from './request';
 export * from './viewOptions';
 export * from './pagination';
 export * from './query';
+export * from './id';

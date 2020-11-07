@@ -22,6 +22,7 @@ export const Routes: React.FC<{ className?: string | undefined }> = ({ className
         <Route path="/404" component={NotFound} />
         <Route path="/releases/:id" component={Release} />
         <Route path="/releases" component={Releases} />
+        <Route path="/artists/:id" component={Artists} />
         <Route path="/artists" component={Artists} />
         <Route path="/playlists" component={Playlists} />
         <Route path="/collages" component={Collages} />

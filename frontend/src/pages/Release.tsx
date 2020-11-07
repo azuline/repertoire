@@ -1,20 +1,8 @@
 import * as React from 'react';
-import { useToasts } from 'react-toast-notifications';
-import { useHistory, useParams } from 'react-router-dom';
+import { useId } from 'src/hooks';
 
 export const Release: React.FC = () => {
-  const history = useHistory();
-  const { id } = useParams<{ id: string }>();
-  const { addToast } = useToasts();
+  const id = useId();
 
-  const intId = React.useMemo(() => parseInt(id), [id]);
-
-  React.useEffect(() => {
-    if (!/^\d+$/.test(id)) {
-      addToast('Invalid release id.', { appearance: 'error' });
-      history.push('/404');
-    }
-  }, [id, addToast, history]);
-
-  return <div>You are viewing release {intId}.</div>;
+  return <div className="px-8 py-6">You are viewing release {id}.</div>;
 };
