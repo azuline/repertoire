@@ -12,8 +12,8 @@ export const useId = (): number | null => {
   const { id } = useParams<{ id: string }>();
 
   React.useEffect(() => {
-    if (!isValid(id)) {
-      addToast('Invalid release id.', { appearance: 'error' });
+    if (id && !isValid(id)) {
+      addToast('Invalid ID.', { appearance: 'error' });
       history.push('/404');
     }
   }, [id, addToast, history]);

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useHistory } from 'react-router-dom';
 import Fuse from 'fuse.js';
 import { fuseOptions } from 'src/constants';
 
@@ -8,11 +9,11 @@ import { useToasts } from 'react-toast-notifications';
 
 export const ArtistChooser: React.FC<{
   active: number | null;
-  setActive: (arg0: number | null) => void;
   className?: string | undefined;
-}> = ({ active, setActive, className }) => {
+}> = ({ active, className }) => {
   const [filter, setFilter] = React.useState<string>('');
   const { status, data } = fetchArtists();
+  const history = useHistory();
   const { addToast } = useToasts();
 
   // Let user know that we are loading artists.
@@ -42,6 +43,17 @@ export const ArtistChooser: React.FC<{
 
     return filter ? fuse.search(filter).map(({ item }) => item) : rawResults;
   }, [fuse, rawResults, filter]);
+
+  const setActive = React.useCallback(
+    (id: number | null): void => {
+      if (id) {
+        history.push(`/artists/${id}`);
+      } else {
+        history.push('/artists');
+      }
+    },
+    [history],
+  );
 
   return (
     <Chooser

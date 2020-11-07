@@ -5,12 +5,11 @@ import { SectionHeader } from 'src/components/common/SectionHeader';
 import { useToasts } from 'react-toast-notifications';
 import { fetchArtist } from 'src/lib';
 import { ArtistReleases } from './Releases';
+import { useHistory } from 'react-router-dom';
 
-export const Artist: React.FC<{
-  active: number;
-  setActive: (arg0: number | null) => void;
-}> = ({ active, setActive }) => {
+export const Artist: React.FC<{ active: number }> = ({ active }) => {
   const { addToast } = useToasts();
+  const history = useHistory();
 
   const { status, data } = fetchArtist(active);
 
@@ -27,9 +26,9 @@ export const Artist: React.FC<{
   const setInactive = React.useCallback(
     (e) => {
       e.preventDefault();
-      setActive(null);
+      history.push('/artists');
     },
-    [setActive],
+    [history],
   );
 
   if (!artist) return null;
