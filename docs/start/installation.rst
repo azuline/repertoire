@@ -3,6 +3,9 @@
 Installation
 ============
 
+This document assumes at least basic familiarity with the shell. At the moment,
+all installation options require the shell.
+
 There are three installation options:
 
 - :ref:`installation_poetry`
@@ -43,6 +46,8 @@ Or, as a set of shell commands:
    $ cd repertoire/backend/
    $ poetry install --no-dev # Install the backend.
    $ poetry shell            # Activate the Poetry virtual environment.
+                             # This command needs to be run in each new shell
+                             # to access the `repertoire` command.
    $ cp .env.sample .env
    $ nano .env               # Set `DATA_PATH`.
    $ repertoire config       # Configure the backend.
@@ -80,6 +85,8 @@ Or, as a set of shell commands:
    $ cd repertoire/backend/
    $ python3 -m venv .venv     # Create the virtual environment
    $ source .venv/bin/activate # Activate the virtual environment.
+                               # This command needs to be run in each new shell
+                               # to access the `repertoire` command.
    $ pip install -e .          # Install the backend.
    $ cp .env.sample .env
    $ nano .env                 # Set `DATA_PATH`.

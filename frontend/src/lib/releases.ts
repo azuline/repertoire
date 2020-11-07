@@ -4,7 +4,7 @@ import { GraphQLError, ReleaseSort, ReleaseT, ReleaseType, RequestError } from '
 import { PCType, RVOCType, useGQLQuery } from 'src/hooks';
 
 import { QueryResult } from 'react-query';
-import { RELEASE_FIELDS } from 'src/fragments';
+import { RELEASE_FIELDS } from './fragments';
 
 const QUERY = `
   query (

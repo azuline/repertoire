@@ -1,6 +1,6 @@
 import { ArtistT, GraphQLError, RequestError } from 'src/types';
 
-import { ARTIST_FIELDS } from 'src/fragments';
+import { ARTIST_FIELDS } from './fragments';
 import { QueryResult } from 'react-query';
 import { useGQLQuery } from 'src/hooks';
 

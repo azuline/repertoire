@@ -6,7 +6,7 @@ import { Element, ElementT } from './Element';
 import { Icon } from 'src/components/common/Icon';
 import clsx from 'clsx';
 
-const style = { maxHeight: 'calc(100vh - 4rem)' };
+const style = { maxHeight: 'calc(100vh - 4rem)', bottom: '4rem' };
 
 export const Chooser: React.FC<{
   className?: string | undefined;
@@ -16,18 +16,17 @@ export const Chooser: React.FC<{
   filter: string;
   setFilter: (arg0: string) => void;
 }> = ({ className, results, active, setActive, filter, setFilter }) => {
-  const updateFilter = React.useCallback((e) => setFilter(e.target.value), [setFilter]);
   const { openBar } = React.useContext(SidebarContext);
 
   const bp = React.useMemo(() => (openBar ? 'lg' : 'md'), [openBar]);
+  const updateFilter = React.useCallback((e) => setFilter(e.target.value), [setFilter]);
 
-  // className={clsx(active && 'hidden', `flex-none ${bp}:block`)}
   return (
     <div
       className={clsx(
         className,
         active
-          ? `hidden ${bp}:block w-64 ${bp}:sticky ${bp}:top-0 ${bp}:overflow-y-auto`
+          ? `hidden ${bp}:block w-64 ${bp}:sticky ${bp}:self-end ${bp}:overflow-y-auto`
           : 'w-full',
         'rpr--chooser mt-4 pt-4',
       )}

@@ -2,7 +2,7 @@ import * as React from 'react';
 import Fuse from 'fuse.js';
 import { fuseOptions } from 'src/constants';
 
-import { Chooser } from './Chooser';
+import { Chooser } from 'src/components/Chooser';
 import { fetchArtists } from 'src/lib';
 import { useToasts } from 'react-toast-notifications';
 

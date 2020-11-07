@@ -21,35 +21,50 @@ export type RVOCType = {
   setReleaseView: (arg0: ReleaseView) => void;
 };
 
-export const useViewOptions = (): RVOCType => {
-  const [search, setSearch] = React.useState<string>('');
-  const [collectionIds, setCollectionIds] = React.useState<number[]>([]);
-  const [artistIds, setArtistIds] = React.useState<number[]>([]);
-  const [releaseTypes, setReleaseTypes] = React.useState<ReleaseType[]>([]);
-  const [sort, setSort] = usePersistentState<ReleaseSort>(
-    'release-view-options--sort',
-    ReleaseSort.RECENTLY_ADDED,
-  );
-  const [asc, setAsc] = usePersistentState<boolean>('release-view-options--asc', false);
-  const [releaseView, setReleaseView] = usePersistentState<ReleaseView>(
+type Params = {
+  search?: string;
+  collectionIds?: number[];
+  artistIds?: number[];
+  releaseTypes?: ReleaseType[];
+  sort?: ReleaseSort;
+  asc?: boolean;
+  releaseView?: ReleaseView;
+};
+
+export const useViewOptions = ({
+  search = '',
+  collectionIds = [],
+  artistIds = [],
+  releaseTypes = [],
+  sort = ReleaseSort.RECENTLY_ADDED,
+  asc = false,
+  releaseView = ReleaseView.ARTWORK,
+}: Params = {}): RVOCType => {
+  const [searchState, setSearch] = React.useState<string>(search);
+  const [collectionIdsState, setCollectionIds] = React.useState<number[]>(collectionIds);
+  const [artistIdsState, setArtistIds] = React.useState<number[]>(artistIds);
+  const [releaseTypesState, setReleaseTypes] = React.useState<ReleaseType[]>(releaseTypes);
+  const [sortState, setSort] = usePersistentState<ReleaseSort>('release-view-options--sort', sort);
+  const [ascState, setAsc] = usePersistentState<boolean>('release-view-options--asc', asc);
+  const [releaseViewState, setReleaseView] = usePersistentState<ReleaseView>(
     'release-view-options--view',
-    ReleaseView.ARTWORK,
+    releaseView,
   );
 
   return {
-    search,
+    search: searchState,
     setSearch,
-    collectionIds,
+    collectionIds: collectionIdsState,
     setCollectionIds,
-    artistIds,
+    artistIds: artistIdsState,
     setArtistIds,
-    releaseTypes,
+    releaseTypes: releaseTypesState,
     setReleaseTypes,
-    sort,
+    sort: sortState,
     setSort,
-    asc,
+    asc: ascState,
     setAsc,
-    releaseView,
+    releaseView: releaseViewState,
     setReleaseView,
   };
 };

@@ -1,44 +1,12 @@
 import * as React from 'react';
 
-import { RELEASE_FIELDS } from 'src/fragments';
-import { ReleaseT } from 'src/types';
 import { ScrolledReleases } from 'src/components/Releases';
 import { SectionHeader } from 'src/components/common/SectionHeader';
-import { useGQLQuery } from 'src/hooks';
 import { useHistory } from 'react-router-dom';
-
-const QUERY = `
-	query {
-		releases(
-			sort: RECENTLY_ADDED
-			asc: false
-			page: 1
-			perPage: 10
-		) {
-			results {
-				${RELEASE_FIELDS}
-
-				artists {
-				  id
-					name
-				}
-        labels {
-          id
-          name
-        }
-        genres {
-          id
-          name
-        }
-			}
-		}
-	}
-`;
-
-type ResultType = { releases: { results: ReleaseT[] } };
+import { fetchRecentlyAdded } from 'src/lib';
 
 export const RecentlyAdded: React.FC = () => {
-  const { status, data } = useGQLQuery<ResultType>('recently-added', QUERY);
+  const { status, data } = fetchRecentlyAdded();
   const history = useHistory();
 
   const releases = data && status === 'success' ? data.releases.results : [];
@@ -52,7 +20,7 @@ export const RecentlyAdded: React.FC = () => {
 
   return (
     <div className="mt-8">
-      <SectionHeader className="mx-8 cursor-pointer" onClick={toRecentlyAdded}>
+      <SectionHeader className="mx-8 my-8 cursor-pointer" onClick={toRecentlyAdded}>
         Recently Added
       </SectionHeader>
       <ScrolledReleases

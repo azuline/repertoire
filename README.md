@@ -40,7 +40,12 @@ with this program.  If not, see <https://www.gnu.org/licenses/>.
 Since GQL API can create release, need to have functions to scan its tracks for
 cover art and/or upload art.
 
-TODO: Crusade against `className = ''` and `clsx(bool ? something : '')`.
+TODO:
 
-Have artists thing use a query string parameter and figure out a
-scrollIntoView thing.
+- Crusade against `className = ''` and `clsx(bool ? something : '')`.
+- Realign the logo.
+- Have artists thing use a query string parameter and figure out a
+  scrollIntoView thing.
+- Rename the RVOC/PC types.
+- And virtualize the artists list so it doesn't grow too big.
+- Then do a clean up because this is a bit complicated.

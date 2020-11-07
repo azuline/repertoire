@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import clsx from 'clsx';
 
 export const SectionHeader: React.FC<{
@@ -8,8 +7,8 @@ export const SectionHeader: React.FC<{
   onClick?: () => void | undefined;
 }> = ({ children, className = '', onClick }) => {
   return (
-    <div className={clsx(className, 'mb-8')} onClick={onClick}>
-      <span className="font-semibold text-2xl">{children}</span>
+    <div className={clsx(className, 'font-semibold text-3xl')} onClick={onClick}>
+      {children}
     </div>
   );
 };
