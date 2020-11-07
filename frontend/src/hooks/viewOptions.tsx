@@ -32,24 +32,35 @@ type Params = {
 };
 
 export const useViewOptions = ({
-  search = '',
-  collectionIds = [],
-  artistIds = [],
-  releaseTypes = [],
-  sort = ReleaseSort.RECENTLY_ADDED,
-  asc = false,
-  releaseView = ReleaseView.ARTWORK,
+  search,
+  collectionIds,
+  artistIds,
+  releaseTypes,
+  sort,
+  asc,
+  releaseView,
 }: Params = {}): ViewOptionsType => {
-  const [searchState, setSearch] = React.useState<string>(search);
-  const [collectionIdsState, setCollectionIds] = React.useState<number[]>(collectionIds);
-  const [artistIdsState, setArtistIds] = React.useState<number[]>(artistIds);
-  const [releaseTypesState, setReleaseTypes] = React.useState<ReleaseType[]>(releaseTypes);
-  const [sortState, setSort] = usePersistentState<ReleaseSort>('release-view-options--sort', sort);
-  const [ascState, setAsc] = usePersistentState<boolean>('release-view-options--asc', asc);
+  const [searchState, setSearch] = React.useState<string>(search ?? '');
+  const [collectionIdsState, setCollectionIds] = React.useState<number[]>(collectionIds ?? []);
+  const [artistIdsState, setArtistIds] = React.useState<number[]>(artistIds ?? []);
+  const [releaseTypesState, setReleaseTypes] = React.useState<ReleaseType[]>(releaseTypes ?? []);
+  const [sortState, setSort] = usePersistentState<ReleaseSort>(
+    'release-view-options--sort',
+    sort ?? ReleaseSort.RECENTLY_ADDED,
+  );
+  const [ascState, setAsc] = usePersistentState<boolean>('release-view-options--asc', asc ?? false);
   const [releaseViewState, setReleaseView] = usePersistentState<ReleaseView>(
     'release-view-options--view',
-    releaseView,
+    releaseView ?? ReleaseView.ARTWORK,
   );
+
+  React.useEffect(() => (search !== undefined ? setSearch(search) : undefined), [search]);
+  React.useEffect(() => collectionIds && setCollectionIds(collectionIds), [collectionIds]);
+  React.useEffect(() => artistIds && setArtistIds(artistIds), [artistIds]);
+  React.useEffect(() => releaseTypes && setReleaseTypes(releaseTypes), [releaseTypes]);
+  React.useEffect(() => sort && setSort(sort), [sort]);
+  React.useEffect(() => (asc !== undefined ? setAsc(asc) : undefined), [asc]);
+  React.useEffect(() => releaseView && setReleaseView(releaseView), [releaseView]);
 
   return {
     search: searchState,

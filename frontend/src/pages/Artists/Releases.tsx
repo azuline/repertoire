@@ -6,7 +6,11 @@ import { Pagination } from 'src/components/Pagination';
 import { ViewSettings } from 'src/components/ViewSettings';
 
 export const ArtistReleases: React.FC<{ active: number }> = ({ active }) => {
-  const viewOptions = useViewOptions({ artistIds: [active] });
+  const viewOptionsSeed = React.useMemo(() => {
+    return { artistIds: [active] };
+  }, [active]);
+
+  const viewOptions = useViewOptions(viewOptionsSeed);
   const pagination = usePagination();
 
   const { status, data } = fetchReleases(viewOptions, pagination);

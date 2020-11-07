@@ -13,13 +13,15 @@ export const Order: React.FC<{ viewOptions: ViewOptionsType; className?: string 
   );
 
   return (
-    <Select onChange={updateOrder} label="Order" name="select-order" className={className}>
-      <option value="true" selected={viewOptions.asc}>
-        Asc
-      </option>
-      <option value="false" selected={!viewOptions.asc}>
-        Desc
-      </option>
+    <Select
+      onChange={updateOrder}
+      value={viewOptions.asc.toString()}
+      label="Order"
+      name="select-order"
+      className={className}
+    >
+      <option value="true">Asc</option>
+      <option value="false">Desc</option>
     </Select>
   );
 };

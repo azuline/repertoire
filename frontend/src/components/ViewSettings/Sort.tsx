@@ -22,9 +22,15 @@ export const Sort: React.FC<{ viewOptions: ViewOptionsType; className?: string |
   );
 
   return (
-    <Select className={className} label="Sort" name="select-sort" onChange={updateSort}>
+    <Select
+      className={className}
+      value={viewOptions.sort}
+      label="Sort"
+      name="select-sort"
+      onChange={updateSort}
+    >
       {Object.values(ReleaseSort).map((value) => (
-        <option key={value} value={value} selected={value === viewOptions.sort}>
+        <option key={value} value={value}>
           {displays[value]}
         </option>
       ))}
