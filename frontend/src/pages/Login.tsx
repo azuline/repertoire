@@ -43,8 +43,14 @@ export const Login: React.FC<{ className?: string | undefined }> = ({ className 
   return (
     <div className={clsx(className, 'flex content-center')}>
       <form className="mx-auto self-center" onSubmit={onSubmit}>
-        <input autoFocus className="mr-6" placeholder="Token" ref={input} style={inputStyle} />
-        <button type="submit" className="bg-success">
+        <input
+          autoFocus
+          className="mr-6"
+          placeholder="Authorization token"
+          ref={input}
+          style={inputStyle}
+        />
+        <button type="submit" className="px-4 py-2 bg-bold hover:bg-bold">
           Login
         </button>
       </form>

@@ -4,7 +4,7 @@ import { ReleaseSort, ReleaseType, ReleaseView } from 'src/types';
 
 import { usePersistentState } from './persistentState';
 
-export type RVOCType = {
+export type ViewOptionsType = {
   search: string;
   setSearch: (arg0: string) => void;
   collectionIds: number[];
@@ -39,7 +39,7 @@ export const useViewOptions = ({
   sort = ReleaseSort.RECENTLY_ADDED,
   asc = false,
   releaseView = ReleaseView.ARTWORK,
-}: Params = {}): RVOCType => {
+}: Params = {}): ViewOptionsType => {
   const [searchState, setSearch] = React.useState<string>(search);
   const [collectionIdsState, setCollectionIds] = React.useState<number[]>(collectionIds);
   const [artistIdsState, setArtistIds] = React.useState<number[]>(artistIds);

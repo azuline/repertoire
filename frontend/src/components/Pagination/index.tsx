@@ -1,12 +1,12 @@
 import * as React from 'react';
 
 import { Goto } from './Goto';
-import { PCType } from 'src/hooks';
+import { PaginationType } from 'src/hooks';
 import { Page } from './Page';
 import clsx from 'clsx';
 
 export const Pagination: React.FC<{
-  pagination: PCType;
+  pagination: PaginationType;
   className?: string | undefined;
 }> = ({ pagination: { curPage, setCurPage, numPages }, className }) => {
   React.useEffect(() => {

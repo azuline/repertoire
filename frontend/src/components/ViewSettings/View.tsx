@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { RVOCType } from 'src/hooks';
+import { ViewOptionsType } from 'src/hooks';
 import { ReleaseView } from 'src/types';
 import { Select } from 'src/components/common/Select';
 
@@ -9,7 +9,7 @@ const displays: { [k in ReleaseView]: string } = {
   [ReleaseView.ROW]: 'Row',
 };
 
-export const View: React.FC<{ viewOptions: RVOCType; className?: string | undefined }> = ({
+export const View: React.FC<{ viewOptions: ViewOptionsType; className?: string | undefined }> = ({
   viewOptions,
   className,
 }) => {

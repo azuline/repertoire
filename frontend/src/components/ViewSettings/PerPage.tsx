@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-import { PCType } from 'src/hooks';
+import { PaginationType } from 'src/hooks';
 import { Select } from 'src/components/common/Select';
 
 const options = [40, 80, 120, 160, 200];
 
-export const PerPage: React.FC<{ pagination: PCType; className?: string | undefined }> = ({
+export const PerPage: React.FC<{ pagination: PaginationType; className?: string | undefined }> = ({
   pagination,
   className,
 }) => {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { PCType, RVOCType } from 'src/hooks';
+import { PaginationType, ViewOptionsType } from 'src/hooks';
 
 import { Icon } from 'src/components/common/Icon';
 import { Order } from './Order';
@@ -13,8 +13,8 @@ import { View } from './View';
 import clsx from 'clsx';
 
 export const ViewSettings: React.FC<{
-  viewOptions: RVOCType;
-  pagination: PCType;
+  viewOptions: ViewOptionsType;
+  pagination: PaginationType;
   className?: string | undefined;
   partial?: boolean;
 }> = ({ viewOptions, pagination, className, partial = false }) => {

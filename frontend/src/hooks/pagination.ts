@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { usePersistentState } from './persistentState';
 
-export type PCType = {
+export type PaginationType = {
   curPage: number;
   setCurPage: (arg0: number) => void;
   perPage: number;
@@ -12,7 +12,7 @@ export type PCType = {
   numPages: number;
 };
 
-export const usePagination = (): PCType => {
+export const usePagination = (): PaginationType => {
   const [curPage, setCurPage] = React.useState<number>(1);
   const [perPage, setPerPage] = usePersistentState<number>('pagination--perPage', 50);
   const [total, setTotal] = React.useState<number>(0);

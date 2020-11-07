@@ -23,22 +23,24 @@ const Body: React.FC = () => {
   const { token } = React.useContext(AuthorizationContext);
   const { openBar } = React.useContext(SidebarContext);
 
-  if (!token) {
-    return <Login className="flex-1" />;
-  } else {
-    return (
-      <div className="app w-full min-h-screen flex flex-col">
-        <div className="flex-1 flex">
-          <Sidebar />
-          <div style={{ width: openBar ? 'calc(100% - 14rem)' : '100%' }}>
-            <Header />
-            <Routes />
+  return (
+    <div className="app w-full min-h-screen flex flex-col">
+      {!token ? (
+        <Login className="flex-1" />
+      ) : (
+        <>
+          <div className="flex-1 flex">
+            <Sidebar />
+            <div style={{ width: openBar ? 'calc(100% - 14rem)' : '100%' }}>
+              <Header />
+              <Routes />
+            </div>
           </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
+          <Footer />
+        </>
+      )}
+    </div>
+  );
 };
 
 export default App;

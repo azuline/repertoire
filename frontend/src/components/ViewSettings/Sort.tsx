@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { RVOCType } from 'src/hooks';
+import { ViewOptionsType } from 'src/hooks';
 import { ReleaseSort } from 'src/types';
 import { Select } from 'src/components/common/Select';
 
@@ -11,7 +11,7 @@ const displays: { [k in ReleaseSort]: string } = {
   [ReleaseSort.RANDOM]: 'Random',
 };
 
-export const Sort: React.FC<{ viewOptions: RVOCType; className?: string | undefined }> = ({
+export const Sort: React.FC<{ viewOptions: ViewOptionsType; className?: string | undefined }> = ({
   viewOptions,
   className,
 }) => {

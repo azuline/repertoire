@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { GraphQLError, ReleaseSort, ReleaseT, ReleaseType, RequestError } from 'src/types';
-import { PCType, RVOCType, useGQLQuery } from 'src/hooks';
+import { PaginationType, ViewOptionsType, useGQLQuery } from 'src/hooks';
 
 import { QueryResult } from 'react-query';
 import { RELEASE_FIELDS } from './fragments';
@@ -61,8 +61,8 @@ type Variables = {
 };
 
 export const fetchReleases = (
-  viewOptions: RVOCType,
-  pagination: PCType,
+  viewOptions: ViewOptionsType,
+  pagination: PaginationType,
 ): QueryResult<ResultType, RequestError<GraphQLError>> => {
   // prettier-ignore
   const variables = React.useMemo(
@@ -74,8 +74,8 @@ export const fetchReleases = (
 };
 
 const extractVariables = (
-  { search, collectionIds, artistIds, releaseTypes, sort, asc }: RVOCType,
-  { curPage, perPage }: PCType,
+  { search, collectionIds, artistIds, releaseTypes, sort, asc }: ViewOptionsType,
+  { curPage, perPage }: PaginationType,
 ): Variables => ({
   search,
   collectionIds,
