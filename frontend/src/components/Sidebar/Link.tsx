@@ -7,8 +7,8 @@ export const NavLink: React.FC<{
   url: string;
   label: string;
   activeRoute?: string | undefined | null;
-  className?: string;
-}> = ({ url, label, activeRoute, className = '' }) => {
+  className?: string | undefined;
+}> = ({ url, label, activeRoute, className }) => {
   const history = useHistory();
   const handleClick = React.useCallback(() => history.push(url), [history, url]);
 

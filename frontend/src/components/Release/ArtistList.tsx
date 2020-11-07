@@ -5,9 +5,9 @@ import { Link } from 'src/components/common/Link';
 
 export const ArtistList: React.FC<{
   artists: ArtistT[] | undefined;
-  className?: string;
+  className?: string | undefined;
   prefix?: string;
-}> = ({ artists, className = '', prefix = '' }) => {
+}> = ({ artists, className, prefix = '' }) => {
   if (!artists || artists.length === 0) return <div>&nbsp;</div>;
 
   return (

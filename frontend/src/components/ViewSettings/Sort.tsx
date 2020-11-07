@@ -11,9 +11,9 @@ const displays: { [k in ReleaseSort]: string } = {
   [ReleaseSort.RANDOM]: 'Random',
 };
 
-export const Sort: React.FC<{ viewOptions: RVOCType; className?: string }> = ({
+export const Sort: React.FC<{ viewOptions: RVOCType; className?: string | undefined }> = ({
   viewOptions,
-  className = '',
+  className,
 }) => {
   // prettier-ignore
   const updateSort = React.useCallback(

@@ -15,9 +15,9 @@ const textStyle = {
     'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8))',
 };
 
-export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = ({
+export const ArtRelease: React.FC<{ release: ReleaseT; className?: string | undefined }> = ({
   release,
-  className = '',
+  className,
 }) => {
   const runtime = React.useMemo(() => secondsToLength(release.runtime), [release]);
 
@@ -44,7 +44,7 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
                 <div className="py-1">Released in {release.releaseYear}</div>
               ) : null}
               <div className="py-1">
-                {release.numTracks} Track{release.numTracks !== 1 ? 's' : ''} / {runtime}
+                {release.numTracks} Track{release.numTracks !== 1 && 's'} / {runtime}
               </div>
               {(release.genres as CollectionT[]).length !== 0 ? (
                 <GenreList className="text-center truncate-2 mt-4" genres={release.genres} />

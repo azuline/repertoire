@@ -17,7 +17,7 @@ const QUERY = `
 
 const inputStyle = { width: '50vw', minWidth: '300px', maxWidth: '600px' };
 
-export const Login: React.FC<{ className?: string }> = ({ className = '' }) => {
+export const Login: React.FC<{ className?: string | undefined }> = ({ className }) => {
   const input = React.useRef<HTMLInputElement>(null);
   const { setToken } = React.useContext(AuthorizationContext);
   const gqlQuery = useRawGQLQuery<UserT>();

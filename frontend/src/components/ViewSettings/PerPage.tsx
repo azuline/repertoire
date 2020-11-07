@@ -5,9 +5,9 @@ import { Select } from 'src/components/common/Select';
 
 const options = [40, 80, 120, 160, 200];
 
-export const PerPage: React.FC<{ pagination: PCType; className?: string }> = ({
+export const PerPage: React.FC<{ pagination: PCType; className?: string | undefined }> = ({
   pagination,
-  className = '',
+  className,
 }) => {
   const updatePerPage = React.useCallback(
     (e) => pagination.setPerPage(parseInt(e.currentTarget.value)),

@@ -15,9 +15,9 @@ import clsx from 'clsx';
 export const ViewSettings: React.FC<{
   viewOptions: RVOCType;
   pagination: PCType;
-  className?: string;
+  className?: string | undefined;
   partial?: boolean;
-}> = ({ viewOptions, pagination, className = '', partial = false }) => {
+}> = ({ viewOptions, pagination, className, partial = false }) => {
   const { openBar } = React.useContext(SidebarContext);
 
   const [responsiveFlex, responsiveHide] = React.useMemo(() => {

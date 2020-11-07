@@ -3,9 +3,9 @@ import * as React from 'react';
 import { RVOCType } from 'src/hooks';
 import { Select } from 'src/components/common/Select';
 
-export const Order: React.FC<{ viewOptions: RVOCType; className?: string }> = ({
+export const Order: React.FC<{ viewOptions: RVOCType; className?: string | undefined }> = ({
   viewOptions,
-  className = '',
+  className,
 }) => {
   const updateOrder = React.useCallback(
     (e) => viewOptions.setAsc(e.currentTarget.value === 'true'),

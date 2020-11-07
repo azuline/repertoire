@@ -2,11 +2,11 @@ import * as React from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-export const Link: React.FC<{ href: string; children: React.ReactNode; className?: string }> = ({
-  href,
-  children,
-  className = '',
-}) => {
+export const Link: React.FC<{
+  href: string;
+  children: React.ReactNode;
+  className?: string | undefined;
+}> = ({ href, children, className }) => {
   const history = useHistory();
 
   const onClick = React.useCallback(

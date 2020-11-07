@@ -6,8 +6,8 @@ export const Page: React.FC<{
   page: number;
   curPage: number;
   setCurPage: (arg0: number) => void;
-  className?: string;
-}> = ({ page, curPage, setCurPage, className = '' }) => {
+  className?: string | undefined;
+}> = ({ page, curPage, setCurPage, className }) => {
   const onClick = React.useCallback(() => setCurPage(page), [page, setCurPage]);
 
   // prettier-ignore

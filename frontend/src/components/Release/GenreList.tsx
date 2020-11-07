@@ -5,9 +5,9 @@ import { Link } from 'src/components/common/Link';
 
 export const GenreList: React.FC<{
   genres: CollectionT[] | undefined;
-  className?: string;
+  className?: string | undefined;
   prefix?: string;
-}> = ({ genres, className = '', prefix = '' }) => {
+}> = ({ genres, className, prefix = '' }) => {
   if (!genres || genres.length === 0) return <div>&nbsp;</div>;
 
   return (

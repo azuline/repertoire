@@ -7,8 +7,8 @@ import clsx from 'clsx';
 
 export const Pagination: React.FC<{
   pagination: PCType;
-  className?: string;
-}> = ({ pagination: { curPage, setCurPage, numPages }, className = '' }) => {
+  className?: string | undefined;
+}> = ({ pagination: { curPage, setCurPage, numPages }, className }) => {
   React.useEffect(() => {
     if (curPage > numPages) setCurPage(1);
   }, [curPage, numPages, setCurPage]);

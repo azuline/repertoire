@@ -42,8 +42,6 @@ cover art and/or upload art.
 
 TODO:
 
-- Crusade against `className = ''` and `clsx(bool ? something : '')`.
-- Realign the logo.
 - Have artists thing use a query string parameter and figure out a
   scrollIntoView thing.
 - Rename the RVOC/PC types.

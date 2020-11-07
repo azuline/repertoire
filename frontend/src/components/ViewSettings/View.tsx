@@ -9,9 +9,9 @@ const displays: { [k in ReleaseView]: string } = {
   [ReleaseView.ROW]: 'Row',
 };
 
-export const View: React.FC<{ viewOptions: RVOCType; className?: string }> = ({
+export const View: React.FC<{ viewOptions: RVOCType; className?: string | undefined }> = ({
   viewOptions,
-  className = '',
+  className,
 }) => {
   // prettier-ignore
   const updateView = React.useCallback(

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Artists, Collages, Genres, Home, Labels, Metadata, Playlists, Releases } from 'src/pages';
 import { Route, Switch } from 'react-router-dom';
 
-export const Routes: React.FC<{ className?: string }> = ({ className = '' }) => {
+export const Routes: React.FC<{ className?: string | undefined }> = ({ className }) => {
   return (
     <div className={className}>
       <Switch>

@@ -7,11 +7,11 @@ export const Select: React.FC<{
   children: React.ReactNode;
   value?: string | number | readonly string[] | undefined;
   onChange?: (arg0: React.FormEvent<HTMLSelectElement>) => void | undefined;
-  className?: string;
+  className?: string | undefined;
   selectClassName?: string;
   label?: string | undefined;
   name?: string | undefined;
-}> = ({ children, value, onChange, className = '', selectClassName = '', label, name }) => {
+}> = ({ children, value, onChange, className, selectClassName = '', label, name }) => {
   return (
     <div className={clsx(className, 'flex items-center relative')}>
       {label && (

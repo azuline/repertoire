@@ -8,9 +8,9 @@ import { GenreList } from './GenreList';
 import clsx from 'clsx';
 import { secondsToLength } from 'src/common';
 
-export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = ({
+export const RowRelease: React.FC<{ release: ReleaseT; className?: string | undefined }> = ({
   release,
-  className = '',
+  className,
 }) => {
   const runMinutes = React.useMemo(() => secondsToLength(release.runtime).split(':')[0], [release]);
 

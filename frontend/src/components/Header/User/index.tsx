@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { fetchUser } from 'src/lib';
 import { useToasts } from 'react-toast-notifications';
 
-export const User: React.FC<{ className?: string }> = ({ className }) => {
+export const User: React.FC<{ className?: string | undefined }> = ({ className }) => {
   const { status, data } = fetchUser();
   const { setToken } = React.useContext(AuthorizationContext);
   const { addToast } = useToasts();

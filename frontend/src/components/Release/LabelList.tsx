@@ -5,9 +5,9 @@ import { Link } from 'src/components/common/Link';
 
 export const LabelList: React.FC<{
   labels: CollectionT[] | undefined;
-  className?: string;
+  className?: string | undefined;
   prefix?: string;
-}> = ({ labels, className = '', prefix = '' }) => {
+}> = ({ labels, className, prefix = '' }) => {
   if (!labels || labels.length === 0) return <div>&nbsp;</div>;
 
   return (

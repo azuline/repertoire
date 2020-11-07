@@ -52,7 +52,7 @@ export const Sidebar: React.FC = () => {
       style={{ height: 'calc(100vh - 4rem)' }}
     >
       <div className="my-6">
-        <div className="flex items-center px-4 cursor-pointer">
+        <div className="flex items-center pl-6 pr-4 cursor-pointer">
           <div className="flex items-center flex-1" onClick={goHome}>
             <Icon className="text-bold w-8" icon="logo" />
             <div className="font-semibold ml-2">
