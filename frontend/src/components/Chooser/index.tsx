@@ -37,6 +37,12 @@ export const Chooser: React.FC<{
     [results, active, setActive],
   );
 
+  const scrollToIndex = React.useMemo(() => {
+    if (!active) return undefined;
+
+    return results.findIndex((elem) => elem.id === active);
+  }, [active, results]);
+
   return (
     <div
       className={clsx(
@@ -66,6 +72,7 @@ export const Chooser: React.FC<{
               rowCount={results.length}
               rowHeight={28.5}
               rowRenderer={renderRow}
+              scrollToIndex={scrollToIndex}
               width={width}
             />
           )}

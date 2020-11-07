@@ -40,8 +40,4 @@ with this program.  If not, see <https://www.gnu.org/licenses/>.
 Since GQL API can create release, need to have functions to scan its tracks for
 cover art and/or upload art.
 
-TODO:
-
-- Have artists thing use a query string parameter and figure out a
-  scrollIntoView thing.
-- Then do a clean up because this is a bit complicated.
+Do a clean up because this whole artists thing is a bit complicated.
