@@ -7,7 +7,7 @@ export const Artists: React.FC = () => {
   const [active, setActive] = React.useState<number | null>(null);
 
   return (
-    <div className="flex-1 w-full pr-8 flex">
+    <div className="full pr-8 flex">
       <ArtistChooser active={active} setActive={setActive} />
       {active && <Artist active={active} setActive={setActive} />}
     </div>

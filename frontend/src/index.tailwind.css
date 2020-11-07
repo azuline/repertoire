@@ -126,8 +126,3 @@ input::placeholder {
   flex: 0 0 2rem;
   margin: 0 0 0 -1rem;
 }
-
-.rpr--chooser:after {
-  content: ' ';
-  padding: 0.125rem;
-}

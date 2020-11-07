@@ -31,9 +31,12 @@ const Body: React.FC = () => {
         <>
           <div className="flex-1 flex">
             <Sidebar />
-            <div style={{ width: openBar ? 'calc(100% - 14rem)' : '100%' }}>
-              <Header />
-              <Routes />
+            <div
+              className="flex flex-col"
+              style={{ width: openBar ? 'calc(100% - 14rem)' : '100%' }}
+            >
+              <Header className="flex-none" />
+              <Routes className="flex-1" />
             </div>
           </div>
           <Footer />
