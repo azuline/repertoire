@@ -40,10 +40,10 @@ export const ViewSettings: React.FC<{
         <PerPage className="ml-2" pagination={pagination} />
       </div>
       <Popover click className={clsx('ml-auto cursor-pointer', responsiveHide)}>
-        <div className="flex items-center px-2 py-1 rounded hover:bg-white hover:bg-opacity-10">
+        <button className="flex items-center">
           <div>Options</div>
           <Icon className="text-bold w-4 ml-1" icon="chevron-down-small" />
-        </div>
+        </button>
         <div className="px-4 py-2 bg-bg-alt border-highlight border-2 rounded">
           <View viewOptions={viewOptions} />
           <Sort viewOptions={viewOptions} />

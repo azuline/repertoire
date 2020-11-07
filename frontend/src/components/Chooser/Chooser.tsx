@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SidebarContext } from 'src/contexts';
 
 import { Element, ElementT } from './Element';
 
@@ -10,20 +11,27 @@ const style = { maxHeight: 'calc(100vh - 4rem)' };
 export const Chooser: React.FC<{
   className?: string | undefined;
   results: ElementT[];
-  setter: (arg0: number[]) => void;
+  active: number | null;
+  setActive: (arg0: number | null) => void;
   filter: string;
   setFilter: (arg0: string) => void;
-}> = ({ className, results, setter, filter, setFilter }) => {
-  const [active, setActive] = React.useState<number | null>(null);
-
-  React.useEffect(() => setter(active ? [active] : []), [active]);
-
+}> = ({ className, results, active, setActive, filter, setFilter }) => {
   const updateFilter = React.useCallback((e) => setFilter(e.target.value), [setFilter]);
+  const { openBar } = React.useContext(SidebarContext);
 
+  const bp = React.useMemo(() => (openBar ? 'lg' : 'md'), [openBar]);
+
+  // className={clsx(active && 'hidden', `flex-none ${bp}:block`)}
   return (
     <div
-      className={clsx(className, 'rpr--chooser sticky mt-4 pt-4 top-0 w-64 overflow-y-auto')}
-      style={style}
+      className={clsx(
+        className,
+        active
+          ? `hidden ${bp}:block w-64 ${bp}:sticky ${bp}:top-0 ${bp}:overflow-y-auto`
+          : 'w-full',
+        'rpr--chooser mt-4 pt-4',
+      )}
+      style={active ? style : {}}
     >
       <div className="relative w-full pl-8 pr-4 mb-2">
         <input

@@ -40,5 +40,7 @@ with this program.  If not, see <https://www.gnu.org/licenses/>.
 Since GQL API can create release, need to have functions to scan its tracks for
 cover art and/or upload art.
 
-Ought to use medium 768px as the responsive breakpoint, looks good for most
-things we have.
+TODO: Crusade against `className = ''` and `clsx(bool ? something : '')`.
+
+Have artists thing use a query string parameter and figure out a
+scrollIntoView thing.

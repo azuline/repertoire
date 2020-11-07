@@ -3,22 +3,24 @@ import Fuse from 'fuse.js';
 import { fuseOptions } from 'src/constants';
 
 import { Chooser } from './Chooser';
-import { RVOCType } from 'src/hooks';
 import { fetchArtists } from 'src/lib';
 import { useToasts } from 'react-toast-notifications';
 
 export const ArtistChooser: React.FC<{
-  viewOptions: RVOCType;
+  active: number | null;
+  setActive: (arg0: number | null) => void;
   className?: string | undefined;
-}> = ({ viewOptions, className }) => {
+}> = ({ active, setActive, className }) => {
   const [filter, setFilter] = React.useState<string>('');
   const { status, data } = fetchArtists();
   const { addToast } = useToasts();
 
+  // Let user know that we are loading artists.
   React.useEffect(() => {
     if (status === 'loading') addToast('Loading artists...', { appearance: 'info' });
   }, [status]);
 
+  // Fetch raw results from backend and sort them.
   const rawResults = React.useMemo(() => {
     if (!data || status !== 'success') return null;
 
@@ -27,12 +29,14 @@ export const ArtistChooser: React.FC<{
     return results;
   }, [data, status]);
 
+  // Construct the fuzzy-matcher class.
   const fuse = React.useMemo(() => {
     if (!rawResults) return null;
 
     return new Fuse(rawResults, { ...fuseOptions, keys: ['name'] });
   }, [rawResults]);
 
+  // Given the fuzzy filter and the artists, build the artists to display.
   const results = React.useMemo(() => {
     if (!fuse || !rawResults) return [];
 
@@ -45,7 +49,8 @@ export const ArtistChooser: React.FC<{
       results={results}
       filter={filter}
       setFilter={setFilter}
-      setter={viewOptions.setArtistIds}
+      active={active}
+      setActive={setActive}
     />
   );
 };

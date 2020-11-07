@@ -10,8 +10,8 @@ import { matchPath } from 'react-router';
 const libraryRoutes = [
   { path: '/releases', exact: false, label: 'Releases' },
   { path: '/artists', exact: false, label: 'Artists' },
-  { path: '/labels', exact: false, label: 'Labels' },
   { path: '/genres', exact: false, label: 'Genres' },
+  { path: '/labels', exact: false, label: 'Labels' },
 ];
 
 const collectionRoutes = [

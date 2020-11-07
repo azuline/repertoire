@@ -17,7 +17,7 @@ export const Page: React.FC<{
   );
 
   return (
-    <button className={clsx(className, theme, 'p-1')} onClick={onClick}>
+    <button className={clsx(className, theme, 'p-1 bg-transparent')} onClick={onClick}>
       {page}
     </button>
   );

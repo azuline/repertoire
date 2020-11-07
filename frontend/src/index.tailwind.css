@@ -28,17 +28,16 @@ html {
   background-color: var(--color-bg);
 }
 
-button,
-input {
-  @apply px-4 py-2;
-}
-
 button {
-  @apply rounded;
+  @apply rounded font-normal px-2 py-1 bg-bg-alt2;
+}
+
+button:hover {
+  @apply bg-white bg-opacity-10;
 }
 
 input {
-  @apply bg-transparent border-highlight border-b-2;
+  @apply bg-transparent border-highlight border-b-2 px-4 py-2;
 }
 
 input::placeholder {
