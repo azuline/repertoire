@@ -10,7 +10,7 @@ import { useToasts } from 'react-toast-notifications';
 
 export const Releases: React.FC = (): React.ReactElement => {
   const viewOptions = useViewOptions();
-  const pagination = usePagination();
+  const pagination = usePagination({ useUrl: true });
   const { addToast } = useToasts();
 
   const { status, data } = fetchReleases(viewOptions, pagination);
@@ -26,7 +26,7 @@ export const Releases: React.FC = (): React.ReactElement => {
 
   React.useEffect(() => {
     if (total) pagination.setTotal(total);
-  }, [pagination, total]);
+  }, [total]);
 
   return (
     <div className="py-4 full">

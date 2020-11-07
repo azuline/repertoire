@@ -1,5 +1,7 @@
 export * from './Home';
 export * from './Login';
+export * from './NotFound';
+export * from './Release';
 export * from './Releases';
 export * from './Artists';
 export * from './Collages';

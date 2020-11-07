@@ -13,11 +13,11 @@ export const Goto: React.FC<{
   const onSubmit = React.useCallback(
     (event) => {
       event.preventDefault();
-      if (!input.current) return;
+      if (!input.current || !/^\d+$/.test(input.current.value)) return;
 
       const page = parseInt(input.current.value);
 
-      if (isNaN(page) || page < 1 || page > numPages) {
+      if (page < 1 || page > numPages) {
         addToast('Invalid page number.', { appearance: 'error' });
         return;
       }

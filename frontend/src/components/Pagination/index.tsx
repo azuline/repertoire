@@ -9,10 +9,6 @@ export const Pagination: React.FC<{
   pagination: PaginationType;
   className?: string | undefined;
 }> = ({ pagination: { curPage, setCurPage, numPages }, className }) => {
-  React.useEffect(() => {
-    if (curPage > numPages) setCurPage(1);
-  }, [curPage, numPages, setCurPage]);
-
   const bottom = React.useMemo(() => Math.max(curPage - 2, 2), [curPage]);
   const top = React.useMemo(() => Math.min(curPage + 3, numPages), [curPage, numPages]);
 

@@ -1,6 +1,17 @@
 import * as React from 'react';
 
-import { Artists, Collages, Genres, Home, Labels, Metadata, Playlists, Releases } from 'src/pages';
+import {
+  NotFound,
+  Artists,
+  Collages,
+  Genres,
+  Home,
+  Labels,
+  Metadata,
+  Playlists,
+  Releases,
+  Release,
+} from 'src/pages';
 import { Route, Switch } from 'react-router-dom';
 
 export const Routes: React.FC<{ className?: string | undefined }> = ({ className }) => {
@@ -8,6 +19,8 @@ export const Routes: React.FC<{ className?: string | undefined }> = ({ className
     <div className={className}>
       <Switch>
         <Route path="/" component={Home} exact />
+        <Route path="/404" component={NotFound} />
+        <Route path="/releases/:id" component={Release} />
         <Route path="/releases" component={Releases} />
         <Route path="/artists" component={Artists} />
         <Route path="/playlists" component={Playlists} />
