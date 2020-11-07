@@ -1,5 +1,4 @@
 import shutil
-import sqlite3
 from pathlib import Path
 
 import pytest
@@ -34,8 +33,8 @@ def clear_fake_data_logs_and_covers():
     LOGS.mkdir()
 
 
-@pytest.fixture(scope="session")
-def create_db():
+@pytest.fixture
+def db():
     DATABASE_PATH.unlink(missing_ok=True)
     DATABASE_JOURNAL_PATH.unlink(missing_ok=True)
 
@@ -46,34 +45,6 @@ def create_db():
 
     with db_backend.lock():
         db_backend.apply_migrations(db_backend.to_apply(db_migrations))
-
-
-TABLES_TO_CLEAN = [
-    "music__releases",
-    "music__artists",
-    "music__releases_artists",
-    "music__tracks",
-    "music__tracks_artists",
-    "music__collections",
-    "music__collections_releases",
-    "music__releases_search_index",
-    "system__users",
-]
-
-
-@pytest.fixture
-def db(create_db):
-    # Rather than re-create our entire database for each test, which is kinda slow, we
-    # just clear/re-populate the tables. We only create the database once per test
-    # session. Although this is kind of dirty, our tests run a lot faster! :)
-
-    # This cleaning is going to violate a lot of foreign key constraints in the process,
-    # but by the end everything will be proper again (since there will be no rows). Since
-    # he database context manager enables foreign key constraints, we don't want to use
-    # that here.
-    with sqlite3.connect(DATABASE_PATH) as conn:
-        for table in TABLES_TO_CLEAN:
-            conn.execute(f"DELETE FROM {table}")
 
     with TEST_SQL_PATH.open("r") as f:
         test_sql = f.read()

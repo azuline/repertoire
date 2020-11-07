@@ -3,7 +3,7 @@ import * as React from 'react';
 import { PCType } from 'src/hooks';
 import { Select } from 'src/components/common/Select';
 
-const options = [10, 25, 50, 100, 200];
+const options = [40, 80, 120, 160, 200];
 
 export const PerPage: React.FC<{ pagination: PCType; className?: string }> = ({
   pagination,

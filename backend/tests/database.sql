@@ -1,22 +1,6 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 
--- Insert the rows from the migrations.
-INSERT INTO music__releases (id, title, release_type, added_on) VALUES (1, "Unknown Release", 12, "1970-01-01 00:00:00");
-INSERT INTO music__artists (id, name) VALUES (1, "Unknown Artist");
-INSERT INTO music__collections (id, name, type) VALUES
-    (1, "Inbox", 1),
-    (2, "Favorite", 1),
-    (3, "1", 5),
-    (4, "2", 5),
-    (5, "3", 5),
-    (6, "4", 5),
-    (7, "5", 5),
-    (8, "6", 5),
-    (9, "7", 5),
-    (10, "8", 5),
-    (11, "9", 5);
-
 INSERT INTO music__releases VALUES(2,'We Don’t Have Each Other',1,2014,'2014-07-08','/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg','2020-10-19 00:25:34');
 INSERT INTO music__releases VALUES(3,'Departure',3,2016,NULL,'/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg','2020-10-19 08:29:34');
 

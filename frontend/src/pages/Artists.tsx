@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ArtistChooser, ArtistSelector } from 'src/components/Picker';
+import { ArtistChooser } from 'src/components/Chooser';
 import { usePagination, useViewOptions } from 'src/hooks';
 
 import { PagedReleases } from 'src/components/Releases';
@@ -34,9 +34,8 @@ export const Artists: React.FC = () => {
   const bp = React.useMemo(() => (openBar ? 'lg' : 'md'), [openBar]);
 
   return (
-    <div className={`flex-1 w-full px-8 flex flex-col ${bp}:flex-row`}>
-      <ArtistChooser className={`flex-none mr-4 hidden ${bp}:block`} viewOptions={viewOptions} />
-      <ArtistSelector className={`flex-none ${bp}:hidden`} viewOptions={viewOptions} />
+    <div className={`flex-1 w-full pr-8 flex flex-col ${bp}:flex-row`}>
+      <ArtistChooser className={`flex-none mr-8 hidden ${bp}:block`} viewOptions={viewOptions} />
       {viewOptions.artistIds.length !== 0 && (
         <div className="py-4 flex-1 overflow-x-hidden">
           <ViewSettings

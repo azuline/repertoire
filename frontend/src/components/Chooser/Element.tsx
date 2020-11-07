@@ -18,8 +18,8 @@ export const Element: React.FC<{
   return (
     <div
       className={clsx(
-        'pl-2 pr-1 py-1 hover:bg-white hover:bg-opacity-5 cursor-pointer truncate',
-        isActive ? 'text-bold font-bold' : '',
+        'pl-8 pr-4 py-1 cursor-pointer truncate',
+        isActive ? 'bg-bg-embellish' : 'hover:bg-white hover:bg-opacity-5',
       )}
       onClick={onClick}
     >

@@ -1,5 +1,4 @@
 from dataclasses import asdict
-from datetime import date
 from unittest.mock import Mock, call, patch
 
 import pytest
@@ -93,12 +92,27 @@ def test_fetch_or_create_release_no_fetch(db):
         Mock(
             album="Departure",
             artist_album=["Bacchus"],
-            date=Mock(year=2020, date=date(2020, 1, 1)),
+            date=Mock(year=2020, date="2020-01-01"),
             label=None,
             genre=[],
         ),
         db,
     )
+
+
+def test_fetch_or_create_release_bad_date(db):
+    rls = fetch_or_create_release(
+        Mock(
+            album="Departure",
+            artist_album=["Bacchus"],
+            date=Mock(year=2020, date="0000-01-01"),
+            label=None,
+            genre=[],
+        ),
+        db,
+    )
+    assert rls.id == 4
+    assert rls.release_date is None
 
 
 def test_get_release_type_unknown():

@@ -17,7 +17,7 @@ export const Pagination: React.FC<{
   const top = React.useMemo(() => Math.min(curPage + 3, numPages), [curPage, numPages]);
 
   // If there are no pages, don't render pagination.
-  if (numPages === 0) return null;
+  if (numPages <= 1) return null;
 
   return (
     <div className={clsx(className, 'flex')}>

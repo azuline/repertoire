@@ -2,6 +2,7 @@
 import glob
 import logging
 import re
+from datetime import date
 from itertools import chain
 from sqlite3 import Cursor
 from typing import List, Optional
@@ -127,6 +128,11 @@ def fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
         logger.debug(f"Fetched `Unknown Release` for track `{tf.path}`.")
         return release.from_id(1, cursor)
 
+    try:
+        release_date = date.fromisoformat(tf.date.date)
+    except (TypeError, ValueError):
+        release_date = None
+
     # Try to create a release with the given title and album artists. If it raises a
     # duplicate error, return the duplicate entity.
     try:
@@ -137,7 +143,7 @@ def fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
             ],
             release_type=_get_release_type(tf),
             release_year=tf.date.year or 0,
-            release_date=tf.date.date or None,
+            release_date=release_date,
             cursor=cursor,
             allow_duplicate=False,
         )
