@@ -9,9 +9,9 @@ export const Selector: React.FC<{
   setter: (arg0: number[]) => void;
   results: ElementT[];
 }> = ({ className = '', setter, results }) => {
-  const [active, setActive] = React.useState<number>(0);
+  const [active, setActive] = React.useState<number | null>(null);
 
-  React.useEffect(() => setter(active !== 0 ? [active] : []), [active]);
+  React.useEffect(() => setter(active ? [active] : []), [active]);
 
   const updateActive = React.useCallback((e) => setActive(parseInt(e.currentTarget.value)), [
     setActive,
@@ -19,14 +19,13 @@ export const Selector: React.FC<{
 
   return (
     <Select
-      value={active}
+      value={active || ''}
       onChange={updateActive}
       label="Artist"
       name="select-artist"
       className={clsx(className, 'mx-1/24')}
       selectClassName="py-4"
     >
-      <option value={0}>All</option>
       {results.map((elem: ElementT) => (
         <option key={elem.id} value={elem.id}>
           {elem.name}

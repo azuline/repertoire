@@ -68,11 +68,11 @@ export const Sidebar: React.FC = () => {
       </div>
       {sections.map(({ name, routes }) => (
         <div key={name} className="my-6">
-          <div className="mb-4 px-4 text-bold text-sm uppercase">{name}</div>
+          <div className="mb-4 px-8 text-bold text-sm uppercase">{name}</div>
           {routes.map(({ path, label }, i) => (
             <NavLink
               key={i}
-              className="py-2 px-6"
+              className="py-2 px-8"
               url={path}
               activeRoute={activeRoute}
               label={label}

@@ -32,7 +32,7 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
                 {release.title}
               </div>
               <ArtistList
-                className="truncate mt-2 text-lg"
+                className="truncate opacity-80 mt-2 text-lg"
                 artists={release.artists as ArtistT[]}
               />
             </div>

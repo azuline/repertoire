@@ -7,20 +7,13 @@ import clsx from 'clsx';
 export type ElementT = { id: number; name: string };
 
 export const Element: React.FC<{
-  element: ElementT | null;
-  active: number;
+  element: ElementT;
+  active: number | null;
   setActive: (arg0: number) => void;
 }> = ({ element, active, setActive }) => {
-  const isActive = React.useMemo(
-    () => (active === 0 && !element) || (element && element.id === active),
-    [active, element],
-  );
+  const isActive = React.useMemo(() => element.id === active, [active, element]);
 
-  // prettier-ignore
-  const onClick = React.useCallback(
-    () => setActive(element ? element.id : 0),
-    [element, setActive],
-  );
+  const onClick = React.useCallback(() => setActive(element.id), [element, setActive]);
 
   return (
     <div
@@ -30,7 +23,7 @@ export const Element: React.FC<{
       )}
       onClick={onClick}
     >
-      {element ? element.name : 'All'}
+      {element.name}
     </div>
   );
 };

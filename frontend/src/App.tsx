@@ -3,7 +3,7 @@ import * as React from 'react';
 import { AuthorizationContext } from 'src/contexts';
 import { BrowserRouter } from 'react-router-dom';
 import { Footer } from 'src/components/Footer';
-import { GlobalContexts } from 'src/contexts';
+import { GlobalContexts, SidebarContext } from 'src/contexts';
 import { Header } from 'src/components/Header';
 import { Login } from 'src/pages';
 import { Routes } from 'src/Routes';
@@ -21,6 +21,7 @@ const App: React.FC = () => {
 
 const Body: React.FC = () => {
   const { token } = React.useContext(AuthorizationContext);
+  const { openBar } = React.useContext(SidebarContext);
 
   if (!token) {
     return <Login className="flex-1" />;
@@ -29,7 +30,7 @@ const Body: React.FC = () => {
       <div className="app w-full min-h-screen flex flex-col">
         <div className="flex-1 flex">
           <Sidebar />
-          <div style={{ width: 'calc(100% - 14rem)' }}>
+          <div style={{ width: openBar ? 'calc(100% - 14rem)' : '100%' }}>
             <Header />
             <Routes />
           </div>

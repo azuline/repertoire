@@ -4,9 +4,7 @@ import { usePagination, useViewOptions } from 'src/hooks';
 
 import { PagedReleases } from 'src/components/Releases';
 import { Pagination } from 'src/components/Pagination';
-import { ReleaseView } from 'src/types';
 import { ViewSettings } from 'src/components/ViewSettings';
-import clsx from 'clsx';
 import { fetchReleases } from 'src/lib';
 import { useToasts } from 'react-toast-notifications';
 
@@ -32,12 +30,7 @@ export const Releases: React.FC = (): React.ReactElement => {
 
   return (
     <div className="flex-1 py-4 w-full">
-      <div
-        className={clsx(
-          'mx-auto w-11/12',
-          viewOptions.releaseView === ReleaseView.ROW ? 'max-w-6xl' : '',
-        )}
-      >
+      <div className="mx-auto px-8">
         <ViewSettings className="my-4" viewOptions={viewOptions} pagination={pagination} />
         <PagedReleases view={viewOptions.releaseView} releases={results} />
         <Pagination className="my-4" pagination={pagination} />

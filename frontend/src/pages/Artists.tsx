@@ -5,10 +5,8 @@ import { usePagination, useViewOptions } from 'src/hooks';
 
 import { PagedReleases } from 'src/components/Releases';
 import { Pagination } from 'src/components/Pagination';
-import { ReleaseView } from 'src/types';
 import { SidebarContext } from 'src/contexts';
 import { ViewSettings } from 'src/components/ViewSettings';
-import clsx from 'clsx';
 import { fetchReleases } from 'src/lib';
 import { useToasts } from 'react-toast-notifications';
 
@@ -36,19 +34,21 @@ export const Artists: React.FC = () => {
   const bp = React.useMemo(() => (openBar ? 'lg' : 'md'), [openBar]);
 
   return (
-    <div className={`flex-1 w-full px-1/24 flex flex-col ${bp}:flex-row`}>
+    <div className={`flex-1 w-full px-8 flex flex-col ${bp}:flex-row`}>
       <ArtistChooser className={`flex-none mr-4 hidden ${bp}:block`} viewOptions={viewOptions} />
       <ArtistSelector className={`flex-none ${bp}:hidden`} viewOptions={viewOptions} />
-      <div
-        className={clsx(
-          'py-4 flex-1',
-          viewOptions.releaseView === ReleaseView.ROW ? 'max-w-6xl' : '',
-        )}
-      >
-        <ViewSettings className="my-4" viewOptions={viewOptions} pagination={pagination} partial />
-        <PagedReleases view={viewOptions.releaseView} releases={results} partial />
-        <Pagination className="my-4" pagination={pagination} />
-      </div>
+      {viewOptions.artistIds.length !== 0 && (
+        <div className="py-4 flex-1 overflow-x-hidden">
+          <ViewSettings
+            className="my-4"
+            viewOptions={viewOptions}
+            pagination={pagination}
+            partial
+          />
+          <PagedReleases view={viewOptions.releaseView} releases={results} partial />
+          <Pagination className="my-4" pagination={pagination} />
+        </div>
+      )}
     </div>
   );
 };

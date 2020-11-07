@@ -6,8 +6,8 @@ import clsx from 'clsx';
 // TODO: Implement a dropdown and stuff...
 
 export const Searchbar: React.FC<{
-  className?: string;
-}> = ({ className = '' }) => {
+  className?: string | undefined;
+}> = ({ className }) => {
   return (
     <div className={clsx(className, 'flex-1 relative')}>
       <div className="flex items-center h-full">

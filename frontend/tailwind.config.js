@@ -76,6 +76,6 @@ module.exports = {
     borderWidth: ['responsive', 'hover', 'focus'],
     display: ['responsive', 'hover'],
     opacity: ['hover'],
-    width: ['responsive', 'focus'],
+    maxWidth: ['responsive', 'focus'],
   },
 };

@@ -11,7 +11,7 @@ export const Header: React.FC = () => {
   const toggleOpen = React.useCallback(() => setOpenBar((o) => !o), [setOpenBar]);
 
   return (
-    <div className="flex items-center w-full h-20 px-1/24">
+    <div className="flex items-center w-full h-20 px-8">
       {!openBar && (
         <Icon className="w-6 mr-4 cursor-pointer" icon="hamburger" onClick={toggleOpen} />
       )}
