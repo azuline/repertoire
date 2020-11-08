@@ -1,8 +1,8 @@
 import * as React from 'react';
 
+import { useHistory } from 'react-router-dom';
 import { usePersistentState } from './persistentState';
 import { useQuery } from './query';
-import { useHistory } from 'react-router-dom';
 
 export type PaginationType = {
   curPage: number;

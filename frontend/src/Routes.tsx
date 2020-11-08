@@ -1,16 +1,16 @@
 import * as React from 'react';
 
 import {
-  NotFound,
   Artists,
   Collages,
   Genres,
   Home,
   Labels,
   Metadata,
+  NotFound,
   Playlists,
-  Releases,
   Release,
+  Releases,
 } from 'src/pages';
 import { Route, Switch } from 'react-router-dom';
 

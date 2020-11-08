@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import { ScrolledReleases } from 'src/components/Releases';
 import { SectionHeader } from 'src/components/common/SectionHeader';
-import { useHistory } from 'react-router-dom';
 import { fetchRecentlyAdded } from 'src/lib';
+import { useHistory } from 'react-router-dom';
 
 export const RecentlyAdded: React.FC = () => {
   const { status, data } = fetchRecentlyAdded();

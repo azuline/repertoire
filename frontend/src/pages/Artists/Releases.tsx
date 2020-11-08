@@ -1,9 +1,11 @@
 import * as React from 'react';
+
 import { usePagination, useViewOptions } from 'src/hooks';
-import { fetchReleases } from 'src/lib';
+
 import { PagedReleases } from 'src/components/Releases';
 import { Pagination } from 'src/components/Pagination';
 import { ViewSettings } from 'src/components/ViewSettings';
+import { fetchReleases } from 'src/lib';
 
 export const ArtistReleases: React.FC<{ active: number }> = ({ active }) => {
   const viewOptionsSeed = React.useMemo(() => {

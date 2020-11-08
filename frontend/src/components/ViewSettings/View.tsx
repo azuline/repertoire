@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { ViewOptionsType } from 'src/hooks';
 import { ReleaseView } from 'src/types';
 import { Select } from 'src/components/common/Select';
+import { ViewOptionsType } from 'src/hooks';
 
 const displays: { [k in ReleaseView]: string } = {
   [ReleaseView.ARTWORK]: 'Artwork',

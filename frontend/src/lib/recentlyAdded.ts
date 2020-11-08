@@ -1,7 +1,7 @@
-import { ReleaseT, GraphQLError, RequestError } from 'src/types';
+import { GraphQLError, ReleaseT, RequestError } from 'src/types';
 
-import { RELEASE_FIELDS } from './fragments';
 import { QueryResult } from 'react-query';
+import { RELEASE_FIELDS } from './fragments';
 import { useGQLQuery } from 'src/hooks';
 
 const QUERY = `

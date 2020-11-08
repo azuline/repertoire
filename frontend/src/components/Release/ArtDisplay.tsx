@@ -1,8 +1,8 @@
 import * as React from 'react';
 
+import { ArtistList, GenreList } from './Lists';
 import { ArtistT, CollectionT, ReleaseT } from 'src/types';
 
-import { ArtistList, GenreList } from './Lists';
 import { CoverArt } from './CoverArt';
 import { Link } from 'src/components/common/Link';
 import clsx from 'clsx';

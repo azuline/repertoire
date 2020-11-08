@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useHistory } from 'react-router-dom';
 
 import { Chooser } from 'src/components/Chooser';
 import { fetchArtists } from 'src/lib';
+import { useHistory } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 
 export const ArtistChooser: React.FC<{

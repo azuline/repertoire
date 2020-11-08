@@ -1,10 +1,9 @@
 import * as React from 'react';
 
 import { AutoSizer, List, WindowScroller } from 'react-virtualized';
-import { SidebarContext } from 'src/contexts';
-
 import { Element, ElementT } from './Element';
 
+import { SidebarContext } from 'src/contexts';
 import clsx from 'clsx';
 
 const style = { maxHeight: 'calc(100vh - 4rem)' };

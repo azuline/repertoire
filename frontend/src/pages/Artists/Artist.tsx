@@ -1,11 +1,11 @@
 import * as React from 'react';
+
+import { ArtistReleases } from './Releases';
 import { Icon } from 'src/components/common/Icon';
 import { SectionHeader } from 'src/components/common/SectionHeader';
-
-import { useToasts } from 'react-toast-notifications';
 import { fetchArtist } from 'src/lib';
-import { ArtistReleases } from './Releases';
 import { useHistory } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
 
 export const Artist: React.FC<{ active: number }> = ({ active }) => {
   const { addToast } = useToasts();

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Link } from 'src/components/common/Link';
 
+import { Link } from 'src/components/common/Link';
 import clsx from 'clsx';
 
 export type ElementT = { id: number; name: string };

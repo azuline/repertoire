@@ -1,9 +1,10 @@
 import * as React from 'react';
 
+import { GlobalContexts, SidebarContext } from 'src/contexts';
+
 import { AuthorizationContext } from 'src/contexts';
 import { BrowserRouter } from 'react-router-dom';
 import { Footer } from 'src/components/Footer';
-import { GlobalContexts, SidebarContext } from 'src/contexts';
 import { Header } from 'src/components/Header';
 import { Login } from 'src/pages';
 import { Routes } from 'src/Routes';
