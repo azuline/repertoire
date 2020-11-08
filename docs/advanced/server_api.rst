@@ -39,7 +39,7 @@ query/mutate them, the ``Authorization`` HTTP header must be configured.
 
 The playground should look something like:
 
-.. image:: playground_auth.png
+.. image:: /_static/playground_auth.png
 
 REST-Flavored Endpoints
 -----------------------

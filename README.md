@@ -10,9 +10,9 @@ Visit [the documentation](https://repertoire.readthedocs.io) to get started!
 
 Frontend is being rewritten, but it's currently something like:
 
-![example](.github/example1.png)
+![example](docs/_static/scrot1.png)
 
-![example](.github/example2.png)
+![example](docs/_static/scrot2.png)
 
 ## License
 
@@ -39,5 +39,3 @@ with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Since GQL API can create release, need to have functions to scan its tracks for
 cover art and/or upload art.
-
-Do a clean up because this whole artists thing is a bit complicated.

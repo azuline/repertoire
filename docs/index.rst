@@ -17,6 +17,10 @@ Getting Started
 For instructions on how to install repertoire, see :ref:`installation`. For
 instructions on how to configure repertoire, see :ref:`configuration`.
 
+.. image:: /_static/scrot1.png
+
+.. image:: /_static/scrot2.png
+
 Advanced Features
 -----------------
 
