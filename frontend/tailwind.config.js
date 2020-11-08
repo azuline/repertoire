@@ -71,6 +71,11 @@ module.exports = {
         width: 'width',
         height: 'height',
       },
+      borderWidth: {
+        10: '10px',
+        12: '12px',
+        14: '14px',
+      },
     },
   },
   variants: {

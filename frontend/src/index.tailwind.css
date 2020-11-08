@@ -29,11 +29,19 @@ html {
 }
 
 button {
-  @apply rounded font-normal px-2 py-1 bg-bg-alt2;
+  @apply rounded font-normal px-2 py-1 bg-transparent;
 }
 
 button:hover {
-  @apply bg-white bg-opacity-10;
+  @apply bg-white bg-opacity-5;
+}
+
+.text-btn {
+  @apply text-bold;
+}
+
+.text-btn:hover {
+  @apply text-gold-400 bg-transparent;
 }
 
 input {

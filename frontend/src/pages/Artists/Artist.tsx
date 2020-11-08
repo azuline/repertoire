@@ -35,8 +35,8 @@ export const Artist: React.FC<{ active: number }> = ({ active }) => {
 
   return (
     <div className="pl-8 py-4 flex-1 overflow-x-hidden">
-      <button className="flex items-center" onClick={setInactive}>
-        <Icon className="w-5 text-bold mr-1" icon="chevron-left-small" />
+      <button className="flex items-center text-btn" onClick={setInactive}>
+        <Icon className="w-5 -ml-3 mr-1" icon="chevron-left-small" />
         <div className="flex-shrink">Back</div>
       </button>
       <SectionHeader className="my-8">{artist.name}</SectionHeader>

@@ -2,9 +2,8 @@ import * as React from 'react';
 
 import { ArtistT, CollectionT, ReleaseT } from 'src/types';
 
-import { ArtistList } from './ArtistList';
+import { ArtistList, GenreList } from './Lists';
 import { CoverArt } from './CoverArt';
-import { GenreList } from './GenreList';
 import { Link } from 'src/components/common/Link';
 import clsx from 'clsx';
 import { secondsToLength } from 'src/common';
@@ -33,7 +32,7 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string | unde
               </div>
               <ArtistList
                 className="truncate opacity-80 mt-2 text-lg"
-                artists={release.artists as ArtistT[]}
+                elements={release.artists as ArtistT[]}
               />
             </div>
           </div>
@@ -45,7 +44,7 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string | unde
                 {release.numTracks} Track{release.numTracks !== 1 && 's'} / {runtime}
               </div>
               {(release.genres as CollectionT[]).length !== 0 ? (
-                <GenreList className="text-center truncate-2 mt-4" genres={release.genres} />
+                <GenreList className="text-center truncate-2 mt-4" elements={release.genres} />
               ) : null}
             </div>
           </div>

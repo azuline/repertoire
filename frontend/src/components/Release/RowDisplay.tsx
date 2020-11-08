@@ -2,9 +2,8 @@ import * as React from 'react';
 
 import { ArtistT, ReleaseT } from 'src/types';
 
-import { ArtistList } from './ArtistList';
+import { ArtistList, GenreList } from './Lists';
 import { CoverArt } from './CoverArt';
-import { GenreList } from './GenreList';
 import clsx from 'clsx';
 import { secondsToLength } from 'src/common';
 
@@ -41,9 +40,9 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string | unde
           </div>
         </div>
         <div className="flex">
-          <ArtistList className="truncate max-w-3/5 mr-8" artists={release.artists as ArtistT[]} />
+          <ArtistList className="truncate max-w-3/5 mr-8" elements={release.artists as ArtistT[]} />
           <div className="hidden md:block flex-1 overflow-hidden text-right rtl">
-            <GenreList className="truncate" genres={release.genres} />
+            <GenreList className="truncate" elements={release.genres} />
           </div>
         </div>
       </div>

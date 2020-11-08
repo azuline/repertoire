@@ -5,7 +5,6 @@ import { SidebarContext } from 'src/contexts';
 
 import { Element, ElementT } from './Element';
 
-import { Icon } from 'src/components/common/Icon';
 import clsx from 'clsx';
 
 const style = { maxHeight: 'calc(100vh - 4rem)' };
@@ -15,17 +14,12 @@ export const Chooser: React.FC<{
   results: ElementT[];
   active: number | null;
   makeUrl: (arg0: number) => string;
-  filter: string;
-  setFilter: (arg0: string) => void;
-}> = ({ className, results, active, makeUrl, filter, setFilter }) => {
+}> = ({ className, results, active, makeUrl }) => {
   const { openBar } = React.useContext(SidebarContext);
-
   const bp = React.useMemo(() => (openBar ? 'lg' : 'md'), [openBar]);
-  const updateFilter = React.useCallback((e) => setFilter(e.target.value), [setFilter]);
 
   // Virtual render setup.
   const scrollRef = React.useRef<WindowScroller>();
-
   const renderRow = React.useCallback(
     ({ index, key, style }) => {
       return (
@@ -36,12 +30,10 @@ export const Chooser: React.FC<{
     },
     [results, active, makeUrl],
   );
-
-  const scrollToIndex = React.useMemo(() => {
-    if (!active) return undefined;
-
-    return results.findIndex((elem) => elem.id === active);
-  }, [active, results]);
+  const scrollToIndex = React.useMemo(
+    () => (active ? results.findIndex((elem) => elem.id === active) : undefined),
+    [active, results],
+  );
 
   return (
     <div
@@ -52,17 +44,6 @@ export const Chooser: React.FC<{
       )}
       style={active ? style : {}}
     >
-      <div className="relative w-full pl-8 pr-4 mb-2 flex-none">
-        <input
-          className="w-full pl-9"
-          placeholder="Filter"
-          value={filter}
-          onChange={updateFilter}
-        />
-        <div className="h-full absolute top-0 left-0 ml-9 px-1 flex items-center pointer-events-none">
-          <Icon className="w-5 text-bold" icon="filter-small" />
-        </div>
-      </div>
       <div className={clsx('flex-auto hidden', active && `${bp}:block`)}>
         <AutoSizer>
           {({ width, height }): React.ReactNode => (

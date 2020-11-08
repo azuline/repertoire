@@ -14,7 +14,6 @@
     "@types/react-toast-notifications": "^2.4.0",
     "@types/react-virtualized": "^9.21.10",
     "clsx": "^1.1.1",
-    "fuse.js": "^6.4.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-query": "^2.25.2",
