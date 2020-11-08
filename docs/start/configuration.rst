@@ -5,9 +5,11 @@ Configuration
 
 All backend configuration and data is stored in a data directory. This
 directory is set by the ``DATA_PATH`` environment variable, which is sourced
-from the ``.env`` file.
+from the ``.env`` file. The ``.env`` file is located in the project root
+(``/path/to/repertoire/``).
 
-A good default value for ``DATA_PATH`` is ``/path/to/repertoire/data``.
+If you do not already have a location for the data directory, a good default
+value for ``DATA_PATH`` is ``/path/to/repertoire/data``.
 
 Once ``DATA_PATH`` is set, the backend can be configured with the command
 ``repertoire config``. This will open the configuration file in your

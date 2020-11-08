@@ -3,11 +3,14 @@
 Server API
 ==========
 
-The backend webserver API consists of several REST-flavored API endpoints and a
-GraphQL API.
+The backend webserver API consists of several REST API endpoints and a GraphQL
+API.
 
 The GraphQL API is available via ``POST`` requests to the ``/graphql``
 endpoint. The raw schema is documented at :ref:`graphql_schema`.
+
+For reference, the GraphQL queries executed by the frontend are available `on
+Github <https://github.com/azuline/repertoire/tree/master/frontend/src/lib>`_.
 
 Authentication
 --------------
@@ -41,10 +44,10 @@ The playground should look something like:
 
 .. image:: /_static/playground_auth.png
 
-REST-Flavored Endpoints
------------------------
+REST Endpoints
+--------------
 
-The REST flavored endpoints of the API are as follows:
+The REST endpoints of the API are as follows:
 
 File Serving
 ^^^^^^^^^^^^
