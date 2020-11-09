@@ -1,3 +1,8 @@
+# This is really just a convenience command... for real production use we probably don't
+# want to run this, as it doesn't restart any failed services. That's possibly something
+# TODO, or not, since it is way better to just create systemd units or openrc whatevers
+# for hypercorn and huey.
+
 import asyncio
 import logging
 from multiprocessing import Process
@@ -20,7 +25,7 @@ logger = logging.getLogger(__name__)
 @click.option("--port", "-p", default=45731, help="Port to listen on")
 @click.option("--workers", "-p", default=1, help="Number of task queue workers")
 def start(host: str, port: int, workers: int):
-    """Start the src."""
+    """Start the backend."""
     queue = Process(target=_start_task_queue, args=(workers,))
     webserver = Process(target=_start_webserver, args=(host, port))
 

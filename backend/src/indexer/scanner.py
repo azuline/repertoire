@@ -29,8 +29,8 @@ GENRE_DELIMITER_REGEX = re.compile(r"\\\\|\/|,|;")
 
 def scan_directories() -> None:
     """
-    Read the music directories to be indexed from the configuration and scan them for new
-    files.
+    Read the music directories to be indexed from the configuration and scan them for
+    new files.
     """
     music_directories = Config().music_directories
     logger.info(f"Found {len(music_directories)} directories to scan.")
@@ -78,8 +78,8 @@ def _in_database(filepath: str, cursor: Cursor) -> bool:
 def catalog_file(filepath: str, cursor: Cursor) -> None:
     """
     Given a file, enter its information into the database. If associated database
-    objects, e.g. artists and albums, don't exist, they are created with information from
-    the track.
+    objects, e.g. artists and albums, don't exist, they are created with information
+    from the track.
 
     If a track with this file's sha256 already exists in the database, the filepath of
     the existing database row will be updated to the new filepath. No metadata updating
@@ -280,12 +280,12 @@ def fix_release_types(cursor: Cursor) -> None:
     the database, fix them.
 
     Guess-timate the release type by the number of tracks in the release, a-la Tidal
-    (iirc, < 3 --> Single, < 6 --> EP, >= 6 --> Album). We are not worrying about getting
-    the release type exactly right. It's not very important.
+    (iirc, < 3 --> Single, < 6 --> EP, >= 6 --> Album). We are not worrying about
+    getting the release type exactly right. It's not very important.
 
-    We run function this after scanning a full directory, since we don't have information
-    on the number of tracks in a release when creating the release (track total tag is
-    sometimes inaccurate or missing).
+    We run function this after scanning a full directory, since we don't have
+    information on the number of tracks in a release when creating the release (track
+    total tag is sometimes inaccurate or missing).
     """
     logger.info("Fixing release types...")
 

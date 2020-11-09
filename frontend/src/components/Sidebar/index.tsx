@@ -7,6 +7,8 @@ import { NavLink } from './Link';
 import { SidebarContext } from 'src/contexts';
 import { matchPath } from 'react-router';
 
+type RouteT = { path: string; exact: boolean; label: string };
+
 const libraryRoutes = [
   { path: '/releases', exact: false, label: 'Releases' },
   { path: '/artists', exact: false, label: 'Artists' },
@@ -19,12 +21,16 @@ const collectionRoutes = [
   { path: '/collages', exact: false, label: 'Collages' },
 ];
 
-const adminRoutes = [{ path: '/metadata', exact: false, label: 'Metadata' }];
+const utilRoutes = [
+  { path: '/help', exact: false, label: 'Help' },
+  { path: '/metadata', exact: false, label: 'Metadata' },
+  { path: '/settings', exact: false, label: 'Settings' },
+];
 
 const sections = [
   { name: 'Library', routes: libraryRoutes },
   { name: 'Collections', routes: collectionRoutes },
-  { name: 'Admin', routes: adminRoutes },
+  { name: 'Utility', routes: utilRoutes },
 ];
 
 export const Sidebar: React.FC = () => {
@@ -33,9 +39,8 @@ export const Sidebar: React.FC = () => {
   const { openBar, setOpenBar } = React.useContext(SidebarContext);
 
   const activeRoute = React.useMemo(() => {
-    const active = libraryRoutes
-      .concat(collectionRoutes)
-      .concat(adminRoutes)
+    const active = sections
+      .reduce<RouteT[]>((acc, section) => acc.concat(section.routes), [])
       .find(({ path, exact }) => matchPath(location.pathname, { path, exact }));
 
     return active ? active.path : null;

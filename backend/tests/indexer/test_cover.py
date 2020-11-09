@@ -18,8 +18,8 @@ def test_save_pending_covers(db, snapshot):
     with CliRunner().isolated_filesystem():
         current_dir = Path.cwd()
 
-        # Create two releases, each with one track. Release 1 has no embedded art but has
-        # an external cover; release 2 has embedded art and no cover.
+        # Create two releases, each with one track. Release 1 has no embedded art but
+        # has an external cover; release 2 has embedded art and no cover.
         rls1_path = current_dir / "rls1"
         track1_path = rls1_path / "track1.flac"
         rls1_path.mkdir()

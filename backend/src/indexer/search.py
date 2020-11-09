@@ -13,8 +13,8 @@ def build_search_index() -> None:
     """
     Build the (shoddy) search index for releases.
 
-    Fetch the words associated with the release, its artists, and its tracks. Associate a
-    normalized and non-normalized form of each word with the release in the database.
+    Fetch the words associated with the release, its artists, and its tracks. Associate
+    a normalized and non-normalized form of each word with the release in the database.
     """
     logger.info("Rebuilding search index...")
 

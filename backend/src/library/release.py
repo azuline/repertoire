@@ -123,9 +123,9 @@ def search(
 
     :param search: A search string. We split this up into individual punctuation-less
                    words and return releases that contain each word.
-    :param collection_ids: A list of collection IDs. We match releases by the collections
-                           in this list. For a release to match, it must be in all
-                           collections in this list.
+    :param collection_ids: A list of collection IDs. We match releases by the
+                           collections in this list. For a release to match, it must be
+                           in all collections in this list.
     :param artist_ids: A list of artist IDs. We match releases by the artists in this
                        list. For a release to match, all artists in this list must be
                        included.

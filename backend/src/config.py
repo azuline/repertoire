@@ -99,8 +99,8 @@ class Config:
     """
     A "proxy singleton" that returns the same config instance when instantiated.
 
-    Other modules should only work with this singleton. This allows for code to fetch the
-    global configuration object when needed.
+    Other modules should only work with this singleton. This allows for code to fetch
+    the global configuration object when needed.
     """
 
     __config: _Config = None

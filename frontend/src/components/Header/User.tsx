@@ -20,7 +20,6 @@ export const User: React.FC<{ className?: string | undefined }> = ({ className }
     <div className={clsx(className, 'flex h-full items-center')}>
       <Icon className="w-5 mr-1" icon="user-medium" />
       <div className="mr-2">{status === 'success' && data ? data.user.username : 'Loading...'}</div>
-      <Icon className="w-5 mr-2 text-bold cursor-pointer" title="Settings" icon="cog-medium" />
       <Icon
         className="w-5 text-bold cursor-pointer"
         title="Logout"
