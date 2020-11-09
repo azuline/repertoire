@@ -1,9 +1,10 @@
 from dataclasses import asdict
+from pathlib import Path
 from unittest.mock import Mock, call, patch
 
 import pytest
 
-from src.enums import CollectionType, ReleaseType
+from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.indexer.scanner import (
     _get_release_type,
     _split_genres,
@@ -75,6 +76,36 @@ def test_catalog_file(mock_fetch_or_create_release, db, snapshot):
     snapshot.assert_match(track_dict)
     assert str(trk.filepath).endswith("/track1.flac")
     snapshot.assert_match(track.artists(trk, db))
+
+
+@patch("src.indexer.scanner.fetch_or_create_release")
+@patch("src.indexer.scanner.calculate_sha_256")
+@patch("src.indexer.scanner.TagFile")
+def test_catalog_file_null_title(
+    tagfile,
+    calc_sha,
+    mock_fetch_or_create_release,
+    db,
+    snapshot,
+):
+    filepath = "/tmp/music.m4a"
+
+    mock_fetch_or_create_release.return_value = Mock(id=3)
+    calc_sha.return_value = b"0" * 32
+    tagfile.return_value = Mock(
+        artist={ArtistRole.MAIN: ["art1"]},
+        title=None,
+        version=None,
+        path=Path(filepath),
+        mut=Mock(info=Mock(length=1)),
+        track_number="1",
+        disc_number="1",
+    )
+
+    catalog_file(filepath, db)
+
+    trk = track.from_filepath(filepath, db)
+    assert trk.title == "Untitled"
 
 
 def test_fetch_or_create_release_unknown(db):

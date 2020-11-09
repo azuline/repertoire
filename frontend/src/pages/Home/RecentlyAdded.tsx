@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { Link } from 'src/components/common/Link';
 import { ScrolledReleases } from 'src/components/Releases';
 import { SectionHeader } from 'src/components/common/SectionHeader';
 import { fetchRecentlyAdded } from 'src/lib';
@@ -20,9 +21,11 @@ export const RecentlyAdded: React.FC = () => {
 
   return (
     <div className="mt-8">
-      <SectionHeader className="mx-8 my-8 cursor-pointer" onClick={toRecentlyAdded}>
-        Recently Added
-      </SectionHeader>
+      <Link onClick={toRecentlyAdded} href="/releases">
+        <SectionHeader className="mx-8 my-8 cursor-pointer">
+          Recently Added <span className="text-bold text-2xl">(View All)</span>
+        </SectionHeader>
+      </Link>
       <ScrolledReleases
         className="rpr--home-recently-added px-8 py-4 overflow-x-auto"
         releases={releases}

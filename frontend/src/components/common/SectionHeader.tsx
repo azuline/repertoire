@@ -5,11 +5,6 @@ import clsx from 'clsx';
 export const SectionHeader: React.FC<{
   children: React.ReactNode;
   className?: string | undefined;
-  onClick?: () => void | undefined;
-}> = ({ children, className, onClick }) => {
-  return (
-    <div className={clsx(className, 'font-semibold text-3xl')} onClick={onClick}>
-      {children}
-    </div>
-  );
+}> = ({ children, className }) => {
+  return <div className={clsx(className, 'font-semibold text-3xl')}>{children}</div>;
 };

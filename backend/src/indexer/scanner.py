@@ -90,7 +90,15 @@ def catalog_file(filepath: str, cursor: Cursor) -> None:
     """
     tf = TagFile(filepath)
 
+    if tf.version:
+        title = f"{tf.title} ({tf.version})"
+    elif tf.title:
+        title = tf.title
+    else:
+        title = "Untitled"
+
     rls = fetch_or_create_release(tf, cursor)
+
     artists = [
         {"artist_id": fetch_or_create_artist(art, cursor).id, "role": role}
         for role, artists in tf.artist.items()
@@ -98,7 +106,7 @@ def catalog_file(filepath: str, cursor: Cursor) -> None:
     ]
 
     track.create(
-        title=f"{tf.title} ({tf.version})" if tf.version else tf.title,
+        title=title,
         filepath=tf.path,
         sha256=calculate_sha_256(tf.path),
         release_id=rls.id,

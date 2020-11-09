@@ -16,10 +16,7 @@ const libraryRoutes = [
   { path: '/labels', exact: false, label: 'Labels' },
 ];
 
-const collectionRoutes = [
-  { path: '/playlists', exact: false, label: 'Playlists' },
-  { path: '/collages', exact: false, label: 'Collages' },
-];
+const collectionRoutes = [{ path: '/collages', exact: false, label: 'Collages' }];
 
 const utilRoutes = [
   { path: '/help', exact: false, label: 'Help' },

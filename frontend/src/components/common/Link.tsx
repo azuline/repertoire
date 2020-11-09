@@ -6,19 +6,21 @@ export const Link: React.FC<{
   href: string;
   children: React.ReactNode;
   className?: string | undefined;
-}> = ({ href, children, className }) => {
+  onClick?: () => void | undefined;
+}> = ({ href, children, className, onClick }) => {
   const history = useHistory();
 
-  const onClick = React.useCallback(
+  const newOnClick = React.useCallback(
     (event) => {
       event.preventDefault();
+      if (onClick) onClick();
       history.push(href);
     },
-    [history, href],
+    [onClick, history, href],
   );
 
   return (
-    <a className={className} onClick={onClick} href={href}>
+    <a className={className} onClick={newOnClick} href={href}>
       {children}
     </a>
   );

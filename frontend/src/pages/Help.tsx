@@ -1,5 +1,5 @@
 import * as React from 'react';
 
-export const Playlists: React.FC = () => {
+export const Help: React.FC = () => {
   return <div />;
 };

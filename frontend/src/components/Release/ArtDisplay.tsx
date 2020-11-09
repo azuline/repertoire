@@ -27,11 +27,11 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string | unde
         <div className="two-sided rounded-lg full absolute z-10" style={textStyle}>
           <div className="front flex flex-col full justify-end overflow-hidden">
             <div className="p-4 overflow-hidden">
-              <div className="truncate font-medium text-xl" title={release.title}>
+              <div className="truncate font-medium text-lg" title={release.title}>
                 {release.title}
               </div>
               <ArtistList
-                className="truncate opacity-80 mt-2 text-lg"
+                className="truncate opacity-80 mt-2"
                 elements={release.artists as ArtistT[]}
               />
             </div>
