@@ -108,6 +108,36 @@ def test_catalog_file_null_title(
     assert trk.title == "Untitled"
 
 
+@patch("src.indexer.scanner.fetch_or_create_release")
+@patch("src.indexer.scanner.calculate_sha_256")
+@patch("src.indexer.scanner.TagFile")
+def test_catalog_file_duplicate_artist(
+    tagfile,
+    calc_sha,
+    mock_fetch_or_create_release,
+    db,
+    snapshot,
+):
+    filepath = "/tmp/music.m4a"
+
+    mock_fetch_or_create_release.return_value = Mock(id=3)
+    calc_sha.return_value = b"0" * 32
+    tagfile.return_value = Mock(
+        artist={ArtistRole.MAIN: ["art1", "art1"]},
+        title=None,
+        version=None,
+        path=Path(filepath),
+        mut=Mock(info=Mock(length=1)),
+        track_number="1",
+        disc_number="1",
+    )
+
+    catalog_file(filepath, db)
+
+    trk = track.from_filepath(filepath, db)
+    assert len(track.artists(trk, db)) == 1
+
+
 def test_fetch_or_create_release_unknown(db):
     assert release.from_id(1, db) == fetch_or_create_release(Mock(album=None), db)
 
@@ -129,6 +159,21 @@ def test_fetch_or_create_release_no_fetch(db):
         ),
         db,
     )
+
+
+def test_fetch_or_create_release_duplicate_artists(db):
+    rls = fetch_or_create_release(
+        Mock(
+            album="aaaaa",
+            artist_album=["Bacchus", "Bacchus"],
+            date=Mock(year=2020, date="2020-01-01"),
+            label=None,
+            genre=[],
+        ),
+        db,
+    )
+
+    assert len(release.artists(rls, db)) == 1
 
 
 def test_fetch_or_create_release_bad_date(db):

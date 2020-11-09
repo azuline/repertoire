@@ -13,7 +13,7 @@ from src.config import Config
 from src.enums import CollectionType, ReleaseType
 from src.errors import Duplicate
 from src.library import artist, collection, release, track
-from src.util import calculate_sha_256, database
+from src.util import calculate_sha_256, database, uniq_list
 
 logger = logging.getLogger()
 
@@ -90,19 +90,15 @@ def catalog_file(filepath: str, cursor: Cursor) -> None:
     """
     tf = TagFile(filepath)
 
-    if tf.version:
-        title = f"{tf.title} ({tf.version})"
-    elif tf.title:
-        title = tf.title
-    else:
-        title = "Untitled"
+    title = f"{tf.title} ({tf.version})" if tf.version else tf.title or "Untitled"
 
     rls = fetch_or_create_release(tf, cursor)
 
     artists = [
         {"artist_id": fetch_or_create_artist(art, cursor).id, "role": role}
         for role, artists in tf.artist.items()
-        for art in artists
+        # The track tags might contain duplicate artists...
+        for art in uniq_list(artists)
     ]
 
     track.create(
@@ -146,9 +142,10 @@ def fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
     try:
         rls = release.create(
             title=tf.album,
-            artist_ids=[
+            # The tags might contain duplicate artists..
+            artist_ids=uniq_list(
                 fetch_or_create_artist(art, cursor).id for art in tf.artist_album
-            ],
+            ),
             release_type=_get_release_type(tf),
             release_year=tf.date.year or 0,
             release_date=release_date,

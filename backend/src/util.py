@@ -5,7 +5,7 @@ from functools import wraps
 from hashlib import sha256
 from pathlib import Path
 from string import ascii_uppercase, punctuation
-from typing import Any, Callable, ContextManager, Dict, Union
+from typing import Any, Callable, ContextManager, Dict, List, Union
 
 from unidecode import unidecode
 
@@ -124,4 +124,35 @@ def camelCase_to_snake_case(string: str) -> str:
 
 # Generics when?
 def update_dataclass(dataclass: Any, **kwargs) -> Any:
+    """
+    Immutably update a dataclass with the changes passed in ``kwargs``. Each key in
+    ``kwargs`` updates the dataclass' attribute with the same name to its value.
+
+    :param dataclass: The dataclass to update.
+    :param kwargs: The changes to make.
+    :return: The updated dataclass.
+    """
     return dataclass.__class__(**dict(asdict(dataclass), **kwargs))
+
+
+def uniq_list(list_: List) -> List:
+    """
+    Given a list, return a new list with any duplicate elements removed. Preserves
+    order.
+
+    Elements must be hashable.
+
+    :param list_: The list to filter.
+    :return: The filtered list.
+    """
+    seen = set()
+    rval = []
+
+    for elem in list_:
+        if elem in seen:
+            continue
+
+        rval.append(elem)
+        seen.add(elem)
+
+    return rval

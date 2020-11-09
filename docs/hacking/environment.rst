@@ -11,7 +11,7 @@ Backend
 The Python backend uses Poetry to manage its dependencies and environment.
 See https://python-poetry.org/docs/#installation for installation instructions.
 
-In ``backend/``...
+In ``backend/``:
 
 - Run ``poetry install`` to install the dependencies into a virtual environment.
 - Run ``poetry shell`` to activate the virtual environment.
@@ -21,6 +21,7 @@ The debug backend webserver can be ran with
 .. code-block:: sh
 
    $ cd backend/
+   $ poetry shell
    $ QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" quart run
 
 The ``Makefile`` also contains some phony rules for commonly-used sets of

@@ -4,6 +4,7 @@ from src.util import (
     cached_property,
     parse_crontab,
     strip_punctuation,
+    uniq_list,
     update_dataclass,
     without_key,
 )
@@ -58,3 +59,7 @@ def test_update_dataclass():
     d2 = update_dataclass(d1, a=2)
     assert d1.a == 1
     assert d2.a == 2
+
+
+def test_uniq_list():
+    assert [1, 2, 3] == uniq_list([1, 1, 2, 3, 2, 1, 3])
