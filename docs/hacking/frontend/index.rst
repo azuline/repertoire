@@ -30,5 +30,7 @@ The frontend is laid out as follows:
    └── types.ts            // Common types used throughout the application.
 
 
-*Note: I still need to figure out the appropriate amount/type of documentation
-for a frontend. More will come when that happens. Sorry!*
+.. note::
+
+   I still need to figure out the appropriate amount/type of documentation for
+   a frontend. More will come when that happens. Sorry!

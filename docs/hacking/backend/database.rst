@@ -27,6 +27,11 @@ in the ``backend/`` directory to configure the ``yoyo`` command.
    verbosity = 0
    database = sqlite:///../data/db.sqlite3
 
+.. warning::
+
+   Commands such as ``yoyo reapply`` can cause data loss. Be very careful if
+   developing on a production instance.
+
 Schema
 ------
 
