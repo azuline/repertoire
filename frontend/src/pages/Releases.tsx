@@ -6,18 +6,12 @@ import { PagedReleases } from 'src/components/Releases';
 import { Pagination } from 'src/components/Pagination';
 import { ViewSettings } from 'src/components/ViewSettings';
 import { fetchReleases } from 'src/lib';
-import { useToasts } from 'react-toast-notifications';
 
 export const Releases: React.FC = (): React.ReactElement => {
   const viewOptions = useViewOptions();
   const pagination = usePagination({ useUrl: true });
-  const { addToast } = useToasts();
 
   const { status, data } = fetchReleases(viewOptions, pagination);
-
-  React.useEffect(() => {
-    if (status === 'loading') addToast('Loading releases...', { appearance: 'info' });
-  }, [status]);
 
   const { total, results } = React.useMemo(
     () => (data && status === 'success' ? data.releases : { total: 0, results: [] }),

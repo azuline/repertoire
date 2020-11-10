@@ -2,20 +2,12 @@ import * as React from 'react';
 
 import { Chooser } from 'src/components/Chooser';
 import { fetchArtists } from 'src/lib';
-import { useHistory } from 'react-router-dom';
-import { useToasts } from 'react-toast-notifications';
 
 export const ArtistChooser: React.FC<{
   active: number | null;
   className?: string | undefined;
 }> = ({ active, className }) => {
   const { status, data } = fetchArtists();
-  const history = useHistory();
-  const { addToast } = useToasts();
-
-  React.useEffect(() => {
-    if (status === 'loading') addToast('Loading artists...', { appearance: 'info' });
-  }, [status]);
 
   const results = React.useMemo(() => {
     if (!data || status !== 'success') return null;
@@ -25,7 +17,7 @@ export const ArtistChooser: React.FC<{
     return results;
   }, [data, status]);
 
-  const makeUrl = React.useCallback((id: number): string => `/artists/${id}`, [history]);
+  const makeUrl = React.useCallback((id: number): string => `/artists/${id}`, []);
 
   if (!results) return null;
 

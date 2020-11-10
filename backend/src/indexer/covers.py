@@ -5,7 +5,7 @@ from pathlib import Path
 from sqlite3 import Cursor
 from typing import Generator, List, Optional, Tuple
 
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 from tagfiles import TagFile
 
 from src.constants import COVER_ART_DIR
@@ -50,9 +50,12 @@ def save_pending_covers() -> None:
                 logger.debug(f"No image found for release {rls_id}.")
                 continue
 
-            generate_thumbnail(image_path)
+            try:
+                generate_thumbnail(image_path)
+                _update_image_path(rls_id, image_path, cursor)
+            except UnidentifiedImageError:
+                image_path.unlink()
 
-            _update_image_path(rls_id, image_path, cursor)
             _delete_release_from_pending(rls_id, cursor)
 
 

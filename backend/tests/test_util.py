@@ -1,35 +1,12 @@
 from dataclasses import dataclass
 
 from src.util import (
-    cached_property,
     parse_crontab,
     strip_punctuation,
     uniq_list,
     update_dataclass,
     without_key,
 )
-
-
-def test_cached_property():
-    var = 1
-
-    class Test:
-        @cached_property
-        def a(self):
-            return var
-
-        @cached_property
-        def b(self):
-            return var
-
-    test = Test()
-    assert test.a == 1
-    var = 2
-    assert test.a == 1
-
-    assert test.b == 2
-    var = 3
-    assert test.b == 2
 
 
 def test_without_key():

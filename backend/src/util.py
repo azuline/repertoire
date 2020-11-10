@@ -1,11 +1,10 @@
 import sqlite3
 from contextlib import contextmanager
 from dataclasses import asdict
-from functools import wraps
 from hashlib import sha256
 from pathlib import Path
 from string import ascii_uppercase, punctuation
-from typing import Any, Callable, ContextManager, Dict, List, Union
+from typing import Any, ContextManager, Dict, List, Union
 
 from unidecode import unidecode
 
@@ -37,29 +36,6 @@ def without_key(mapping: Union[Dict, sqlite3.Row], key: Any) -> Dict:
     :return: The dict without the passed-in key.
     """
     return {k: mapping[k] for k in mapping.keys() if k != key}
-
-
-def cached_property(func: Callable) -> property:
-    """
-    A replacement for `property` that caches the result for future accesses.
-
-    :param func: A function to turn into a property.
-    :return: A property object.
-    """
-
-    @wraps(func)
-    def wrapper(self):
-        try:
-            return self.__property_cache[func.__name__]
-        except AttributeError:
-            self.__property_cache = {}
-        except KeyError:
-            pass
-
-        rval = self.__property_cache[func.__name__] = func(self)
-        return rval
-
-    return property(wrapper)
 
 
 def parse_crontab(crontab: str) -> Dict:

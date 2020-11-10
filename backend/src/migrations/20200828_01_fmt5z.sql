@@ -87,7 +87,8 @@ CREATE TABLE music__tracks (
     duration INTEGER NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (release_id) REFERENCES music__releases (id),
-    UNIQUE (filepath)
+    UNIQUE (filepath),
+    UNIQUE (sha256)
 );
 
 CREATE TABLE music__tracks_artists (
@@ -103,12 +104,11 @@ CREATE TABLE music__tracks_artists (
 CREATE TABLE music__collections (
     id INTEGER NOT NULL,
     name VARCHAR COLLATE "NOCASE" NOT NULL,
-    -- Ghetto SQLite boolean!
     favorite BOOLEAN NOT NULL DEFAULT 0 CHECK (favorite IN (0, 1)),
     type INTEGER NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE (name, type),
-    FOREIGN KEY (type) REFERENCES music__collection_types(id)
+    FOREIGN KEY (type) REFERENCES music__collection_types(id),
+    UNIQUE (name, type)
 );
 
 CREATE TABLE music__collection_types (
