@@ -97,3 +97,6 @@ def test_generate_thumbnail():
 
         im = Image.open(Path.cwd() / "cover.thumbnail")
         assert im.size == (300, 300)
+
+
+# TODO: Add a test for cover art that isn't an image.

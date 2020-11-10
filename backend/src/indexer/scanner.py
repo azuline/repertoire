@@ -209,22 +209,23 @@ def fetch_or_create_artist(name: str, cursor: Cursor) -> artist.T:
         return e.entity
 
 
-def insert_into_inbox_collection(rls: release.T, cursor: Cursor) -> None:
+def insert_into_inbox_collection(rls: release.T, cursor: Cursor) -> release.T:
     """
     Insert a release into the inbox collection.
 
     :param rls: The release to add to the inbox collection.
     :param cursor: A cursor to the database.
+    :return: The updated release.
     """
     logger.debug(f"Adding release {rls.id} to the inbox collection.")
     # Inbox has ID 1--this is specified in the database schema.
     inbox = collection.from_id(1, cursor)
-    collection.add_release(inbox, rls.id, cursor)
+    return collection.add_release(inbox, rls.id, cursor)
 
 
 def insert_into_label_collection(
     rls: release.T, label: Optional[str], cursor: Cursor
-) -> None:
+) -> release.T:
     """
     Insert an release into a label collection. Create the collection if
     it doesn't already exist.
@@ -232,6 +233,7 @@ def insert_into_label_collection(
     :param rls: The release to add to the label collection.
     :param label: The label to add the release to.
     :param cursor: A cursor to the database.
+    :return: The updated release.
     """
     if not label:
         logger.debug(f"No label provided for release {rls.id}, skipping...")
@@ -242,12 +244,12 @@ def insert_into_label_collection(
     except Duplicate as e:
         col = e.entity
 
-    collection.add_release(col, rls.id, cursor)
+    return collection.add_release(col, rls.id, cursor)
 
 
 def insert_into_genre_collections(
     rls: release.T, genres: List[str], cursor: Cursor
-) -> None:
+) -> release.T:
     """
     Split each genre in the ``genres`` parameter on the defined genre delimiters. Insert
     the provided release into the corresponding collection for each split genre. Create
@@ -256,6 +258,7 @@ def insert_into_genre_collections(
     :param rls: The release to add to the genre collections.
     :param genres: The genre tags from the track.
     :param cursor: A cursor to the database.
+    :return: The updated release.
     """
     for genre in chain(*[_split_genres(g) for g in genres]):
         if not genre:
@@ -266,7 +269,9 @@ def insert_into_genre_collections(
         except Duplicate as e:
             col = e.entity
 
-        collection.add_release(col, rls.id, cursor)
+        rls = collection.add_release(col, rls.id, cursor)
+
+    return rls
 
 
 def _split_genres(genres: str) -> List[str]:
