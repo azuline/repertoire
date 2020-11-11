@@ -5,7 +5,6 @@ from src.library import artist, release, track
 
 def test_search_index(db):
     db.execute("DELETE FROM music__releases_search_index")
-    db.connection.commit()
 
     art1 = artist.create("artist1a artist1b", db)
     art2 = artist.create("Artist2a Artist2b", db)
@@ -34,6 +33,8 @@ def test_search_index(db):
         disc_number="1",
         cursor=db,
     )
+
+    db.connection.commit()
 
     build_search_index()
 

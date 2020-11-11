@@ -184,7 +184,6 @@ def create(
         "INSERT INTO music__collections (name, type, favorite) VALUES (?, ?, ?)",
         (name, type.value, favorite),
     )
-    cursor.connection.commit()
 
     logger.info(
         f'Created collection "{name}" of type {type} with ID {cursor.lastrowid}.'
@@ -240,7 +239,6 @@ def update(col: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
             col.id,
         ),
     )
-    cursor.connection.commit()
 
     logger.info(f"Updated collection {col.id} with {changes}.")
 
@@ -290,7 +288,6 @@ def add_release(col: T, release_id: int, cursor: Cursor) -> T:
         """,
         (col.id, release_id),
     )
-    cursor.connection.commit()
 
     return update_dataclass(
         col,
@@ -331,7 +328,6 @@ def del_release(col: T, release_id: int, cursor: Cursor) -> T:
         """,
         (col.id, release_id),
     )
-    cursor.connection.commit()
 
     return update_dataclass(
         col,

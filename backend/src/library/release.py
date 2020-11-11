@@ -314,7 +314,6 @@ def create(
         """,
         (title, image_path, release_type.value, release_year, release_date),
     )
-    cursor.connection.commit()
     id = cursor.lastrowid
 
     # Insert the release artists into the database.
@@ -325,7 +324,6 @@ def create(
             """,
             (id, artist_id),
         )
-    cursor.connection.commit()
 
     logger.info(f'Created release "{title}" with ID {id}.')
 
@@ -428,7 +426,6 @@ def update(rls: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
             rls.id,
         ),
     )
-    cursor.connection.commit()
 
     logger.info(f"Updated release {rls.id} with {changes}.")
 
@@ -500,7 +497,6 @@ def add_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
         "INSERT INTO music__releases_artists (release_id, artist_id) VALUES (?, ?)",
         (rls.id, artist_id),
     )
-    cursor.connection.commit()
 
     return rls
 
@@ -530,7 +526,6 @@ def del_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
         "DELETE FROM music__releases_artists WHERE release_id = ? AND artist_id = ?",
         (rls.id, artist_id),
     )
-    cursor.connection.commit()
 
     return rls
 

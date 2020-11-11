@@ -140,7 +140,6 @@ def create(name: str, cursor: Cursor, favorite: bool = False) -> T:
     cursor.execute(
         "INSERT INTO music__artists (name, favorite) VALUES (?, ?)", (name, favorite)
     )
-    cursor.connection.commit()
 
     logger.info(f'Created artist "{name}" with ID {cursor.lastrowid}')
 
@@ -178,7 +177,6 @@ def update(art: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
         """,
         (changes.get("name", art.name), changes.get("favorite", art.favorite), art.id),
     )
-    cursor.connection.commit()
 
     logger.info(f"Updated artist {art.id} with {changes}.")
 

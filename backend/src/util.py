@@ -20,7 +20,10 @@ def database() -> ContextManager[sqlite3.Connection]:
 
     :return: A context manager that yields a database connection.
     """
-    with sqlite3.connect(DATABASE_PATH, detect_types=sqlite3.PARSE_DECLTYPES) as conn:
+    with sqlite3.connect(
+        DATABASE_PATH,
+        detect_types=sqlite3.PARSE_DECLTYPES,
+    ) as conn:
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys = ON")
         yield conn

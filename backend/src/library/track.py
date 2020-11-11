@@ -153,7 +153,6 @@ def create(
             "UPDATE music__tracks SET filepath = ? WHERE id = ?",
             (str(filepath), row["id"]),
         )
-        cursor.connection.commit()
         return from_id(row["id"], cursor)
 
     # Track is not a duplicate, so we can insert and return.
@@ -165,8 +164,17 @@ def create(
         """,
         (title, str(filepath), sha256, release_id, track_number, disc_number, duration),
     )
-    cursor.connection.commit()
-    trk = from_id(cursor.lastrowid, cursor)
+
+    trk = T(
+        id=cursor.lastrowid,
+        title=title,
+        filepath=filepath,
+        sha256=sha256,
+        release_id=release_id,
+        duration=duration,
+        track_number=track_number,
+        disc_number=disc_number,
+    )
 
     # Insert artists.
     for mapping in artists:
@@ -216,7 +224,6 @@ def update(trk: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
             trk.id,
         ),
     )
-    cursor.connection.commit()
 
     logger.info(f"Updated track {trk.id} with {changes}.")
 
@@ -288,7 +295,6 @@ def add_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> T:
         """,
         (trk.id, artist_id, role.value),
     )
-    cursor.connection.commit()
 
     return trk
 
@@ -324,6 +330,5 @@ def del_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> T:
         """,
         (trk.id, artist_id, role.value),
     )
-    cursor.connection.commit()
 
     return trk

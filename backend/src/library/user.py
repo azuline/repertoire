@@ -131,7 +131,6 @@ def create(username: str, cursor: Cursor) -> Tuple[T, bytes]:
         """,
         (username, token_prefix, token_hash),
     )
-    cursor.connection.commit()
 
     logger.info(f"Created user {username} with ID {cursor.lastrowid}.")
 
@@ -198,7 +197,6 @@ def new_token(usr: T, cursor: Cursor) -> bytes:
         "UPDATE system__users SET token_prefix = ?, token_hash = ? WHERE id = ?",
         (token_prefix, token_hash, usr.id),
     )
-    cursor.connection.commit()
 
     logger.info(f"Updated token of user {usr.id}.")
 

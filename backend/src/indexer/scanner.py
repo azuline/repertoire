@@ -168,7 +168,6 @@ def fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
         "INSERT INTO music__releases_to_fetch_images (release_id) VALUES (?)",
         (rls.id,),
     )
-    cursor.connection.commit()
 
     return rls
 

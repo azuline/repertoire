@@ -98,7 +98,6 @@ def _update_image_path(rls_id: int, image_path: Path, cursor: Cursor) -> None:
         "UPDATE music__releases SET image_path = ? WHERE id = ?",
         (str(image_path), rls_id),
     )
-    cursor.connection.commit()
 
 
 def _delete_release_from_pending(rls_id: int, cursor: Cursor) -> None:
@@ -112,7 +111,6 @@ def _delete_release_from_pending(rls_id: int, cursor: Cursor) -> None:
     cursor.execute(
         "DELETE FROM music__releases_to_fetch_images WHERE release_id = ?", (rls_id,)
     )
-    cursor.connection.commit()
 
 
 def save_image(tf: TagFile) -> Optional[Path]:

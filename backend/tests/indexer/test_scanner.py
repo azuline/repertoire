@@ -47,6 +47,7 @@ def test_scan_directory(mock_catalog_file, mock_fix_release_types, db):
         disc_number="1",
         cursor=db,
     )
+    db.connection.commit()
 
     scan_directory(FAKE_MUSIC)
 

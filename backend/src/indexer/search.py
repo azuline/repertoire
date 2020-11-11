@@ -45,8 +45,6 @@ def build_search_index() -> None:
                     (rls["id"], word),
                 )
 
-        conn.commit()
-
 
 def _get_releases_to_index(cursor: Cursor) -> List[Row]:
     """
