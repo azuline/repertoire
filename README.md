@@ -39,3 +39,8 @@ with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Since GQL API can create release, need to have functions to scan its tracks for
 cover art and/or upload art.
+
+Make functions not meant to be exported more explicit with underscores.
+
+The problem with indexer efficiency is tied to reading the track from the
+drive. Best to offload hashing onto the task queue...

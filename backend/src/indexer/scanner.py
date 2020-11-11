@@ -305,5 +305,4 @@ def fix_release_types(cursor: Cursor) -> None:
         else:
             type_ = ReleaseType.ALBUM
 
-        logger.info(f"Setting release type of release {rls.id} to {type_.name}.")
         release.update(rls, cursor, release_type=type_)

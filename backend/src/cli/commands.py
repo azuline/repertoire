@@ -26,7 +26,7 @@ def shared_options(func: Callable) -> Callable:
 
     @click.option(
         "--log-level",
-        type=click.Choice(["DEBUG", "INFO"]),
+        type=click.Choice(["DEBUG", "INFO", "WARNING"]),
         default="INFO",
         help="Logging level",
     )
