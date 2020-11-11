@@ -1249,6 +1249,30 @@ snapshots['test_create_collection_duplicate 1'] = (
     }
 )
 
+snapshots['test_create_collection_no_auth 1'] = (
+    True,
+    {
+        'data': {
+            'createCollection': None
+        },
+        'errors': [
+            {
+                'locations': [
+                    {
+                        'column': 13,
+                        'line': 3
+                    }
+                ],
+                'message': 'Invalid authorization token.',
+                'path': [
+                    'createCollection'
+                ],
+                'type': 'NotAuthorized'
+            }
+        ]
+    }
+)
+
 snapshots['test_del_release_from_collection 1'] = (
     True,
     {
@@ -1392,30 +1416,6 @@ snapshots['test_del_release_from_collection_no_auth 1'] = (
                 'message': 'Invalid authorization token.',
                 'path': [
                     'delReleaseFromCollection'
-                ],
-                'type': 'NotAuthorized'
-            }
-        ]
-    }
-)
-
-snapshots['test_dreate_collection_no_auth 1'] = (
-    True,
-    {
-        'data': {
-            'createCollection': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Invalid authorization token.',
-                'path': [
-                    'createCollection'
                 ],
                 'type': 'NotAuthorized'
             }

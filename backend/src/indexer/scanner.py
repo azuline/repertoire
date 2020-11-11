@@ -113,6 +113,8 @@ def catalog_file(filepath: str, cursor: Cursor) -> None:
         cursor=cursor,
     )
 
+    cursor.connection.commit()
+
 
 def fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
     """

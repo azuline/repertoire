@@ -8,7 +8,7 @@ from src.enums import CollectionType, ReleaseType
 from src.errors import NotFound, ParseError
 from src.graphql.mutation import mutation
 from src.graphql.query import query
-from src.graphql.util import require_auth
+from src.graphql.util import commit, require_auth
 from src.library import artist, release
 from src.util import convert_keys_case
 
@@ -65,6 +65,7 @@ def resolve_collages(obj: release.T, info: GraphQLResolveInfo) -> List[Dict]:
 
 @mutation.field("createRelease")
 @require_auth
+@commit
 def resolve_create_release(
     _,
     info: GraphQLResolveInfo,
@@ -95,6 +96,7 @@ def resolve_create_release(
 
 @mutation.field("updateRelease")
 @require_auth
+@commit
 def resolve_update_release(
     _,
     info: GraphQLResolveInfo,
@@ -118,6 +120,7 @@ def resolve_update_release(
 
 @mutation.field("addArtistToRelease")
 @require_auth
+@commit
 def resolve_add_artist_to_release(
     _,
     info: GraphQLResolveInfo,
@@ -132,6 +135,7 @@ def resolve_add_artist_to_release(
 
 @mutation.field("delArtistFromRelease")
 @require_auth
+@commit
 def resolve_del_artist_from_release(
     _,
     info: GraphQLResolveInfo,

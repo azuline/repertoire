@@ -7,7 +7,7 @@ from src.enums import CollectionType
 from src.errors import NotFound
 from src.graphql.mutation import mutation
 from src.graphql.query import query
-from src.graphql.util import require_auth
+from src.graphql.util import commit, require_auth
 from src.library import collection, release
 from src.util import convert_keys_case
 
@@ -60,6 +60,7 @@ def resolve_top_genres(obj: collection.T, info: GraphQLResolveInfo) -> List[Dict
 
 @mutation.field("createCollection")
 @require_auth
+@commit
 def resolve_create_collection(
     _,
     info: GraphQLResolveInfo,
@@ -72,6 +73,7 @@ def resolve_create_collection(
 
 @mutation.field("updateCollection")
 @require_auth
+@commit
 def resolve_update_collection(
     _,
     info: GraphQLResolveInfo,
@@ -86,6 +88,7 @@ def resolve_update_collection(
 
 @mutation.field("addReleaseToCollection")
 @require_auth
+@commit
 def resolve_add_release_to_collection(
     _,
     info: GraphQLResolveInfo,
@@ -100,6 +103,7 @@ def resolve_add_release_to_collection(
 
 @mutation.field("delReleaseFromCollection")
 @require_auth
+@commit
 def resolve_del_release_from_collection(
     _,
     info: GraphQLResolveInfo,

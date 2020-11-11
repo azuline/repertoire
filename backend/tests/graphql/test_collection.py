@@ -1,6 +1,7 @@
 import pytest
 
 from src.library import collection
+from src.util import database
 
 COLLECTION_RESULT = """
     id
@@ -149,7 +150,9 @@ async def test_create_collection(db, graphql_query, snapshot):
         }}
     """
     snapshot.assert_match(await graphql_query(query, authed=True))
-    snapshot.assert_match(collection.from_id(21, db))
+
+    with database() as conn:
+        snapshot.assert_match(collection.from_id(21, conn.cursor()))
 
 
 @pytest.mark.asyncio
@@ -166,7 +169,7 @@ async def test_create_collection_duplicate(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_dreate_collection_no_auth(db, graphql_query, snapshot):
+async def test_create_collection_no_auth(db, graphql_query, snapshot):
     query = f"""
         mutation {{
             createCollection(name: "NewNewNew", type: GENRE) {{
@@ -187,7 +190,9 @@ async def test_update_collection(db, graphql_query, snapshot):
         }}
     """
     snapshot.assert_match(await graphql_query(query, authed=True))
-    snapshot.assert_match(collection.from_id(12, db))
+
+    with database() as conn:
+        snapshot.assert_match(collection.from_id(12, conn.cursor()))
 
 
 @pytest.mark.asyncio
@@ -250,7 +255,12 @@ async def test_add_release_to_collection(db, graphql_query, snapshot):
         }}
     """
     snapshot.assert_match(await graphql_query(query, authed=True))
-    snapshot.assert_match(collection.releases(collection.from_id(2, db), db))
+
+    with database() as conn:
+        cursor = conn.cursor()
+        snapshot.assert_match(
+            collection.releases(collection.from_id(2, cursor), cursor)
+        )
 
 
 @pytest.mark.asyncio
@@ -313,7 +323,12 @@ async def test_del_release_from_collection(db, graphql_query, snapshot):
         }}
     """
     snapshot.assert_match(await graphql_query(query, authed=True))
-    snapshot.assert_match(collection.releases(collection.from_id(1, db), db))
+
+    with database() as conn:
+        cursor = conn.cursor()
+        snapshot.assert_match(
+            collection.releases(collection.from_id(1, cursor), cursor)
+        )
 
 
 @pytest.mark.asyncio

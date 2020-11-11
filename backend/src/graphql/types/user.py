@@ -5,7 +5,7 @@ from ariadne import ObjectType
 from graphql.type import GraphQLResolveInfo
 from src.graphql.mutation import mutation
 from src.graphql.query import query
-from src.graphql.util import require_auth
+from src.graphql.util import commit, require_auth
 from src.library import user
 
 gql_user = ObjectType("User")
@@ -20,6 +20,7 @@ def resolve_user(obj: Any, info: GraphQLResolveInfo) -> user.T:
 
 @mutation.field("newToken")
 @require_auth
+@commit
 def resolve_new_token(_, info: GraphQLResolveInfo) -> user.T:
     return user.new_token(info.context.user, info.context.db)
 

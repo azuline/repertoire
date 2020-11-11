@@ -58,6 +58,8 @@ def save_pending_covers() -> None:
 
             _delete_release_from_pending(rls_id, cursor)
 
+        conn.commit()
+
 
 def _get_pending_releases(cursor: Cursor) -> List[int]:
     """

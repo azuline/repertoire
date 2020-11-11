@@ -1,5 +1,7 @@
 import pytest
 
+from src.util import database
+
 USER_QUERY = """
     query {
         user {
@@ -30,8 +32,18 @@ async def test_user_no_auth(db, graphql_query, snapshot):
 
 @pytest.mark.asyncio
 async def test_new_token(db, graphql_query):
+    db.execute("SELECT token_prefix FROM system__users WHERE id = 1")
+    old_prefix = db.fetchone()[0]
+
     _, result = await graphql_query(TOKEN_QUERY, authed=True)
     assert result["data"]["newToken"]["hex"]
+
+    with database() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT token_prefix FROM system__users WHERE id = 1")
+        new_prefix = cursor.fetchone()[0]
+
+    assert old_prefix != new_prefix
 
 
 @pytest.mark.asyncio

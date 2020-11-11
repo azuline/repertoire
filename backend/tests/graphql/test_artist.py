@@ -1,6 +1,7 @@
 import pytest
 
 from src.library import artist
+from src.util import database
 
 ARTIST_RESULT = """
     id
@@ -134,7 +135,9 @@ async def test_create_artist(db, graphql_query, snapshot):
         }}
     """
     snapshot.assert_match(await graphql_query(query, authed=True))
-    snapshot.assert_match(artist.from_id(6, db))
+
+    with database() as conn:
+        snapshot.assert_match(artist.from_id(6, conn.cursor()))
 
 
 @pytest.mark.asyncio
@@ -173,7 +176,9 @@ async def test_update_artist(db, graphql_query, snapshot):
         }}
     """
     snapshot.assert_match(await graphql_query(query, authed=True))
-    snapshot.assert_match(artist.from_id(4, db))
+
+    with database() as conn:
+        snapshot.assert_match(artist.from_id(4, conn.cursor()))
 
 
 @pytest.mark.asyncio

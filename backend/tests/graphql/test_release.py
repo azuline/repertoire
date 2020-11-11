@@ -1,6 +1,7 @@
 import pytest
 
 from src.library import release
+from src.util import database
 
 RELEASE_RESULT = """
     id
@@ -207,7 +208,8 @@ async def test_create_release(db, graphql_query, snapshot):
 
     snapshot.assert_match(response)
 
-    assert release.from_id(4, db) is not None
+    with database() as conn:
+        assert release.from_id(4, conn.cursor()) is not None
 
 
 @pytest.mark.asyncio
@@ -282,7 +284,9 @@ async def test_update_release(db, graphql_query, snapshot):
         }}
     """
     snapshot.assert_match(await graphql_query(query, authed=True))
-    snapshot.assert_match(release.from_id(2, db))
+
+    with database() as conn:
+        snapshot.assert_match(release.from_id(2, conn.cursor()))
 
 
 @pytest.mark.asyncio
@@ -341,7 +345,10 @@ async def test_add_artist_to_release(db, graphql_query, snapshot):
         }}
     """
     snapshot.assert_match(await graphql_query(query, authed=True))
-    snapshot.assert_match(release.artists(release.from_id(2, db), db))
+
+    with database() as conn:
+        cursor = conn.cursor()
+        snapshot.assert_match(release.artists(release.from_id(2, cursor), cursor))
 
 
 @pytest.mark.asyncio
@@ -404,7 +411,10 @@ async def test_del_artist_from_release(db, graphql_query, snapshot):
         }}
     """
     snapshot.assert_match(await graphql_query(query, authed=True))
-    snapshot.assert_match(release.artists(release.from_id(2, db), db))
+
+    with database() as conn:
+        cursor = conn.cursor()
+        snapshot.assert_match(release.artists(release.from_id(2, cursor), cursor))
 
 
 @pytest.mark.asyncio
