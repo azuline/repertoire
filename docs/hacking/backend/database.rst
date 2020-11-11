@@ -3,7 +3,7 @@
 Database
 ========
 
-We use SQLite as our database.
+We use SQLite for our database.
 
 Migrations
 ----------

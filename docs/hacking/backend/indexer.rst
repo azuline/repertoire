@@ -15,6 +15,12 @@ The indexer runs in three stages:
 #. **Extract album art** - Extract and store the album art from newly indexed
    releases. Generate thumbnails for the frontend.
 
+.. note::
+
+   The search index is currently extremely ad-hoc (i.e. a simple reverse
+   index). In the future, a more fully-featured search engine will be
+   integrated.
+
 The following function executes all three stages:
 
 .. autofunction:: src.indexer.run_indexer
