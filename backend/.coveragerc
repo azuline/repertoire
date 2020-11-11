@@ -1,3 +1,4 @@
 [run]
 omit =
     src/__main__.py
+    setup.py
