@@ -25,6 +25,11 @@ jobs:
           cd backend
           poetry run pytest --cov-report=xml --cov=. --cov-branch tests/
 
+      - name: Run backend type check.
+        run: |
+          cd backend
+          poetry run mypy src/
+
       - name: Run backend lint check.
         run: |
           cd backend

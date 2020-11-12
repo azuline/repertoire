@@ -4,17 +4,15 @@ from dataclasses import asdict
 from hashlib import sha256
 from pathlib import Path
 from string import ascii_uppercase, punctuation
-from typing import Any, ContextManager, Dict, List, Union
+from typing import Any, Dict, Iterable, List, Union
 
 from unidecode import unidecode
 
 from src.constants import DATABASE_PATH
 
-punctuation = set(punctuation)
-
 
 @contextmanager
-def database() -> ContextManager[sqlite3.Connection]:
+def database():
     """
     A simple wrapper for the sqlite3 connection context manager.
 
@@ -114,7 +112,7 @@ def update_dataclass(dataclass: Any, **kwargs) -> Any:
     return dataclass.__class__(**dict(asdict(dataclass), **kwargs))
 
 
-def uniq_list(list_: List) -> List:
+def uniq_list(list_: Iterable) -> List:
     """
     Given a list, return a new list with any duplicate elements removed. Preserves
     order.

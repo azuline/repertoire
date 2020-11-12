@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from sqlite3 import Cursor, Row
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 from src.enums import CollectionType
 from src.errors import Duplicate
@@ -40,7 +40,7 @@ def exists(id: int, cursor: Cursor) -> bool:
     return bool(cursor.fetchone())
 
 
-def from_row(row: Row) -> T:
+def from_row(row: Union[Dict, Row]) -> T:
     """
     Return an artist dataclass containing data from a row from the database.
 
@@ -75,6 +75,8 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     if row := cursor.fetchone():
         return from_row(row)
 
+    return None
+
 
 def from_name(name: str, cursor: Cursor) -> Optional[T]:
     """
@@ -100,6 +102,8 @@ def from_name(name: str, cursor: Cursor) -> Optional[T]:
 
     if row := cursor.fetchone():
         return from_row(row)
+
+    return None
 
 
 def all(cursor: Cursor) -> List[T]:
@@ -146,7 +150,7 @@ def create(name: str, cursor: Cursor, favorite: bool = False) -> T:
     return T(id=cursor.lastrowid, name=name, favorite=favorite, num_releases=0)
 
 
-def update(art: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
+def update(art: T, cursor: Cursor, **changes) -> T:
     """
     Update an artist and persist changes to the database. To update a value, pass it
     in as a keyword argument. To keep the original value, do not pass in a keyword

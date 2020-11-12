@@ -4,7 +4,7 @@ import logging
 from dataclasses import dataclass
 from pathlib import Path
 from sqlite3 import Cursor, Row
-from typing import Any, Dict, List, Optional, Union
+from typing import Dict, List, Optional, Union
 
 from src.enums import ArtistRole
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
@@ -49,7 +49,7 @@ def exists(id: int, cursor: Cursor) -> bool:
     return bool(cursor.fetchone())
 
 
-def from_row(row: Row) -> T:
+def from_row(row: Union[Dict, Row]) -> T:
     """
     Return a track dataclass containing data from a row in the database.
 
@@ -72,6 +72,8 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     if row := cursor.fetchone():
         return from_row(row)
 
+    return None
+
 
 def from_filepath(filepath: Union[Path, str], cursor: Cursor) -> Optional[T]:
     """
@@ -86,6 +88,8 @@ def from_filepath(filepath: Union[Path, str], cursor: Cursor) -> Optional[T]:
     if row := cursor.fetchone():
         return from_row(row)
 
+    return None
+
 
 def from_sha256(sha256: bytes, cursor: Cursor) -> Optional[T]:
     """
@@ -99,6 +103,8 @@ def from_sha256(sha256: bytes, cursor: Cursor) -> Optional[T]:
 
     if row := cursor.fetchone():
         return from_row(row)
+
+    return None
 
 
 def create(
@@ -153,7 +159,7 @@ def create(
             "UPDATE music__tracks SET filepath = ? WHERE id = ?",
             (str(filepath), row["id"]),
         )
-        return from_id(row["id"], cursor)
+        return from_id(row["id"], cursor)  # type: ignore
 
     # Track is not a duplicate, so we can insert and return.
     cursor.execute(
@@ -185,7 +191,7 @@ def create(
     return trk
 
 
-def update(trk: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
+def update(trk: T, cursor: Cursor, **changes) -> T:
     """
     Update a track and persist changes to the database. To update a value, pass it
     in as a keyword argument. To keep the original value, do not pass in a keyword

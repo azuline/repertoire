@@ -5,7 +5,7 @@ import secrets
 import string
 from dataclasses import dataclass
 from sqlite3 import Cursor, Row
-from typing import Optional, Tuple
+from typing import Dict, Optional, Tuple, Union
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -40,14 +40,14 @@ def exists(id: int, cursor: Cursor) -> bool:
     return bool(cursor.fetchone())
 
 
-def from_row(row: Row) -> T:
+def from_row(row: Union[Dict, Row]) -> T:
     """
     Return a user dataclass containing data from a row from the database.
 
     :param row: A row from the database.
     :return: A user dataclass.
     """
-    return T(**row)
+    return T(**row)  # type: ignore
 
 
 def from_id(id: int, cursor: Cursor) -> Optional[T]:
@@ -62,6 +62,8 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
 
     if row := cursor.fetchone():
         return from_row(row)
+
+    return None
 
 
 def from_username(username: str, cursor: Cursor) -> Optional[T]:
@@ -79,6 +81,8 @@ def from_username(username: str, cursor: Cursor) -> Optional[T]:
 
     if row := cursor.fetchone():
         return from_row(row)
+
+    return None
 
 
 def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
@@ -106,6 +110,8 @@ def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
         usr = from_row(row)
         if check_token(usr, token, cursor):
             return usr
+
+    return None
 
 
 def create(username: str, cursor: Cursor) -> Tuple[T, bytes]:

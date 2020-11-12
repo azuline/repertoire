@@ -11,7 +11,7 @@ from quart import Quart, Response
 from werkzeug.exceptions import HTTPException
 
 from src.constants import DATABASE_PATH, PROJECT_ROOT
-from src.webserver.routes import files, graphql
+from src.webserver.routes import files, graphql  # type: ignore
 
 STATIC_FOLDER = PROJECT_ROOT / "frontend" / "build"
 
@@ -89,9 +89,9 @@ def _register_database_handler(app: Quart):
         )
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys = ON")
-        quart.g.db = conn.cursor()
+        quart.g.db = conn.cursor()  # type: ignore
 
     @app.after_request
-    def close_db_connection(response: Response) -> None:
+    def close_db_connection(response: Response) -> Response:
         quart.g.db.connection.close()
         return response

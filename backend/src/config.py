@@ -1,7 +1,7 @@
 import json
 from configparser import ConfigParser
 from pathlib import Path
-from typing import Callable, List
+from typing import Callable, List, Optional
 
 from huey import crontab
 
@@ -103,14 +103,14 @@ class Config:
     the global configuration object when needed.
     """
 
-    __config: _Config = None
+    __config: Optional[_Config] = None
 
     #: Music directories to index.
     music_directories: List[str]
     #: Crontab to schedule library indexing. Its type is a Huey ``crontab``.
     index_crontab: Callable
 
-    def __new__(cls) -> _Config:
+    def __new__(cls) -> _Config:  # type: ignore
         if cls.__config is None:
             cls.__config = _Config()
         return cls.__config

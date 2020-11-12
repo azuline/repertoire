@@ -86,6 +86,8 @@ def _get_track_path_of_release(rls_id: int, cursor: Cursor) -> Optional[str]:
     if (track := cursor.fetchone()) and os.path.isfile(track[0]):
         return track[0]
 
+    return None
+
 
 def _update_image_path(rls_id: int, image_path: Path, cursor: Cursor) -> None:
     """
@@ -168,6 +170,8 @@ def _save_external_image(tf: TagFile) -> Optional[Path]:
         if filepath.exists():
             with filepath.open("rb") as f:
                 return _save_image_file(f.read(), ext)
+
+    return None
 
 
 def _get_possible_cover_paths(

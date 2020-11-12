@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Optional
 
 
 class BackendError(Exception):
@@ -15,11 +15,11 @@ class InvalidConfig(BackendError):
 
 class LibError(BackendError):
     #: The error message.
-    message: str
+    message: Optional[str]
 
-    def __init__(self, message: str = None, *args, **kwargs):
+    def __init__(self, message: Optional[str] = None, *args, **kwargs):
         self.message = message
-        super().__init__(message, *args, **kwargs)
+        super().__init__(message, *args, **kwargs)  # type: ignore
 
 
 class InvalidUsername(LibError):

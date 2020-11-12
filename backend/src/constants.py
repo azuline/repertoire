@@ -17,7 +17,7 @@ else:
 
 # Fetch the data path from `.env` and ensure that it exists and is writeable.
 try:
-    DATA_PATH = Path(os.getenv("DATA_PATH"))
+    DATA_PATH = Path(os.getenv("DATA_PATH"))  # type: ignore
 except TypeError:
     click.echo("Make sure `DATA_PATH` is correctly set in `.env`.")
     exit(1)

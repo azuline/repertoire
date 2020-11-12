@@ -1,9 +1,13 @@
 tests:
 	poetry run pytest --cov=. --cov-branch tests/
+	poetry run mypy src/
 	poetry run black --check .
 	poetry run isort -c .
 	poetry run flake8 .
 	poetry run coverage html
+
+check:
+	poetry run mypy src/
 
 lint:
 	poetry run black .
@@ -16,4 +20,4 @@ docs:
 setup.py:
 	dephell deps convert --from pyproject.toml --to setup.py
 
-.PHONY: tests lint docs setup.py
+.PHONY: tests check lint docs setup.py

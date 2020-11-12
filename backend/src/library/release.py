@@ -6,7 +6,7 @@ from datetime import date, datetime
 from itertools import chain, repeat
 from pathlib import Path
 from sqlite3 import Cursor, Row
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Dict, Iterator, List, Optional, Tuple, Union
 
 from unidecode import unidecode
 
@@ -57,7 +57,7 @@ def exists(id: int, cursor: Cursor) -> bool:
     return bool(cursor.fetchone())
 
 
-def from_row(row: Row) -> T:
+def from_row(row: Union[Dict, Row]) -> T:
     """
     Return a release dataclass containing data from a row from the database.
 
@@ -105,6 +105,8 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     if row := cursor.fetchone():
         return from_row(row)
 
+    return None
+
 
 def search(
     cursor: Cursor,
@@ -141,8 +143,8 @@ def search(
              current page.
     """
     # Dynamically generate the filter SQL and filter params.
-    filter_sql = []
-    filter_params = []
+    filter_sql: List[str] = []
+    filter_params: List[Union[str, int]] = []
 
     for sql, params in [
         _generate_collection_filter(collection_ids),
@@ -151,7 +153,7 @@ def search(
         _generate_search_filter(search),
     ]:
         filter_sql.extend(sql)
-        filter_params.extend(params)
+        filter_params.extend(params)  # type: ignore
 
     # Fetch the total number of releases matching this criteria (ignoring pages).
     cursor.execute(
@@ -195,7 +197,7 @@ def search(
 
 def _generate_collection_filter(
     collection_ids: List[int],
-) -> Tuple[List[str], List[int]]:
+) -> Tuple[Iterator[str], List[int]]:
     """
     Generate the SQL and params for filtering on collections.
 
@@ -212,7 +214,7 @@ def _generate_collection_filter(
     return repeat(sql, len(collection_ids)), collection_ids
 
 
-def _generate_artist_filter(artist_ids: List[int]) -> Tuple[List[str], List[int]]:
+def _generate_artist_filter(artist_ids: List[int]) -> Tuple[Iterator[str], List[int]]:
     """
     Generate the SQL and params for filtering on artists.
 
@@ -239,7 +241,7 @@ def _generate_release_types_filter(
     :return: The filter SQL and query parameters.
     """
     if not release_types:
-        return [], []
+        return [], []  # type: ignore
 
     filter_sql = [f"rls.release_type IN ({', '.join('?' * len(release_types))})"]
     filter_params = [rtype.value for rtype in release_types]
@@ -247,7 +249,7 @@ def _generate_release_types_filter(
     return filter_sql, filter_params
 
 
-def _generate_search_filter(search: str) -> Tuple[List[str], List[str]]:
+def _generate_search_filter(search: str) -> Tuple[Iterator[str], chain[str]]:
     """
     Generate the SQL and params for filtering on the search words.
 
@@ -328,7 +330,7 @@ def create(
     logger.info(f'Created release "{title}" with ID {id}.')
 
     # We fetch it from the database to also get the `added_on` column.
-    return from_id(id, cursor)
+    return from_id(id, cursor)  # type: ignore
 
 
 def _find_duplicate_release(
@@ -390,8 +392,10 @@ def _find_duplicate_release(
             # If they match, return this release, as it is a duplicate.
             return from_row(row)
 
+    return None
 
-def update(rls: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
+
+def update(rls: T, cursor: Cursor, **changes) -> T:
     """
     Update a release and persist changes to the database. To update a value, pass it
     in as a keyword argument. To keep the original value, do not pass in a keyword

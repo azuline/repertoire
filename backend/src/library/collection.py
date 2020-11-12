@@ -4,7 +4,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from sqlite3 import Cursor, Row
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 from src.enums import CollectionType
 from src.errors import (
@@ -54,7 +54,7 @@ def exists(id: int, cursor: Cursor) -> bool:
     return bool(cursor.fetchone())
 
 
-def from_row(row: Row) -> T:
+def from_row(row: Union[Dict, Row]) -> T:
     """
     Return a collection dataclass containing data from a row from the database.
 
@@ -68,7 +68,7 @@ def from_row(row: Row) -> T:
     try:
         last_updated_on = datetime.fromisoformat(row["last_updated_on"])
     except (KeyError, TypeError):
-        last_updated_on = None
+        last_updated_on = None  # type: ignore
 
     return T(
         **dict(
@@ -106,6 +106,8 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     if row := cursor.fetchone():
         return from_row(row)
 
+    return None
+
 
 def from_name_and_type(name: str, type: CollectionType, cursor: Cursor) -> Optional[T]:
     """
@@ -133,6 +135,8 @@ def from_name_and_type(name: str, type: CollectionType, cursor: Cursor) -> Optio
 
     if row := cursor.fetchone():
         return from_row(row)
+
+    return None
 
 
 def all(cursor: Cursor, type: CollectionType = None) -> List[T]:
@@ -198,7 +202,7 @@ def create(
     )
 
 
-def update(col: T, cursor: Cursor, **changes: Dict[str, Any]) -> T:
+def update(col: T, cursor: Cursor, **changes) -> T:
     """
     Update a collection and persist changes to the database. To update a value, pass it
     in as a keyword argument. To keep the original value, do not pass in a keyword
