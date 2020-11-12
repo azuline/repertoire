@@ -1,4 +1,4 @@
-.. _advanced_server_api:
+.. _server_api:
 
 Server API
 ==========

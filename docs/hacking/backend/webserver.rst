@@ -17,7 +17,7 @@ The package is laid out as follows:
         ├── files.py    # Contains the endpoints that return music/image files.
         └── graphql.py  # Contains the GraphQL endpoints.
 
-The endpoints are documented at :ref:`advanced_server_api`.
+The endpoints are documented at :ref:`server_api`.
 
 Utility Functions
 -----------------

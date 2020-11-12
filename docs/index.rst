@@ -13,6 +13,7 @@ Getting Started
 
    start/installation
    start/configuration
+   start/deployment
 
 For instructions on how to install repertoire, see :ref:`installation`. For
 instructions on how to configure repertoire, see :ref:`configuration`.
@@ -21,18 +22,27 @@ instructions on how to configure repertoire, see :ref:`configuration`.
 
 .. image:: /_static/scrot2.png
 
-Advanced Features
------------------
+Manual
+------
 
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: Advanced Features
+   :caption: Manual
 
-   advanced/server_api
+   manual/introduction
+   manual/settings
+   manual/keybinds
 
-For more advanced users, documentation covering learning and accessing the
-application API is available at :ref:`advanced_server_api`.
+Release Notes
+-------------
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Release Notes
+
+   release_notes/0.2.0
 
 Hacking
 -------
@@ -43,13 +53,9 @@ Hacking
    :caption: Hacking
 
    hacking/environment
+   hacking/server_api
    hacking/backend/index
    hacking/frontend/index
-
-For developers, we have documentation useful for developing, modifying, and
-debugging the application. :ref:`hacking_environment` covers setting up the
-development environment, and :ref:`backend` covers the backend source code
-while :ref:`frontend` covers the frontend source code.
 
 .. code-block::
 
