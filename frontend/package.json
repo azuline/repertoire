@@ -34,10 +34,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src --ext .ts,.tsx --fix",
-    "sort-imports": "find src/ -type f \\( -name '*.tsx' -o -name '*.ts' -o -name '*.js' \\) -exec import-sort --write '{}' \\;",
-    "prestorybook": "yarn build:css",
-    "storybook": "start-storybook -p 6006 -s public --no-dll",
-    "build-storybook": "build-storybook -s public --no-dll"
+    "sort-imports": "find src/ -type f \\( -name '*.tsx' -o -name '*.ts' -o -name '*.js' \\) -exec import-sort --write '{}' \\;"
   },
   "browserslist": {
     "production": [
@@ -53,12 +50,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
-    "@storybook/addon-actions": "^6.0.27",
-    "@storybook/addon-essentials": "^6.0.27",
-    "@storybook/addon-links": "^6.0.27",
-    "@storybook/node-logger": "^6.0.27",
-    "@storybook/preset-create-react-app": "^3.1.4",
-    "@storybook/react": "^6.0.27",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "autoprefixer": "^10.0.1",
