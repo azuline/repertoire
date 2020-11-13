@@ -1,0 +1,9 @@
+Release Notes
+=============
+
+Add a toctree here later :-)
+
+0.2.0
+-----
+
+- Rewritten MVP with core music player feature set.

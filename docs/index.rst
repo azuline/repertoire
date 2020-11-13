@@ -33,16 +33,7 @@ Manual
    manual/introduction
    manual/settings
    manual/keybinds
-
-Release Notes
--------------
-
-.. toctree::
-   :maxdepth: 2
-   :hidden:
-   :caption: Release Notes
-
-   release_notes/0.2.0
+   manual/release_notes
 
 Hacking
 -------
