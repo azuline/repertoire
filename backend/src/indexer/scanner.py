@@ -258,8 +258,7 @@ def insert_into_genre_collections(
     :param genres: The genre tags from the track.
     :param cursor: A cursor to the database.
     """
-    flattened_genres_itr = chain(*[_split_genres(g) for g in genres])
-    for genre in uniq_list(flattened_genres_itr):
+    for genre in uniq_list(chain(*[_split_genres(g) for g in genres])):
         if not genre:
             continue
 
