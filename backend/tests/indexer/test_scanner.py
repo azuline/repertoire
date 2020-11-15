@@ -252,7 +252,7 @@ def test_insert_into_label_collection_new(db):
 
 def test_insert_into_genre_collections(db):
     rls = release.from_id(1, db)
-    insert_into_genre_collections(rls, ["1, 2, 3", "4; 5"], db)
+    insert_into_genre_collections(rls, ["1, 2, 3", "2/3", "4; 5"], db)
 
     collections = release.collections(rls, db)
 
