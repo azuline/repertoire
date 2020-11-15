@@ -6,7 +6,7 @@ from datetime import date, datetime
 from itertools import chain, repeat
 from pathlib import Path
 from sqlite3 import Cursor, Row
-from typing import Dict, Iterator, List, Optional, Tuple, Union
+from typing import Dict, Iterable, List, Optional, Tuple, Union
 
 from unidecode import unidecode
 
@@ -197,7 +197,7 @@ def search(
 
 def _generate_collection_filter(
     collection_ids: List[int],
-) -> Tuple[Iterator[str], List[int]]:
+) -> Tuple[Iterable[str], Iterable[int]]:
     """
     Generate the SQL and params for filtering on collections.
 
@@ -214,7 +214,9 @@ def _generate_collection_filter(
     return repeat(sql, len(collection_ids)), collection_ids
 
 
-def _generate_artist_filter(artist_ids: List[int]) -> Tuple[Iterator[str], List[int]]:
+def _generate_artist_filter(
+    artist_ids: List[int],
+) -> Tuple[Iterable[str], Iterable[int]]:
     """
     Generate the SQL and params for filtering on artists.
 
@@ -233,7 +235,7 @@ def _generate_artist_filter(artist_ids: List[int]) -> Tuple[Iterator[str], List[
 
 def _generate_release_types_filter(
     release_types: List[ReleaseType],
-) -> Tuple[List[str], List[int]]:
+) -> Tuple[Iterable[str], Iterable[int]]:
     """
     Generate the SQL and params for filtering on the release types.
 
@@ -249,7 +251,7 @@ def _generate_release_types_filter(
     return filter_sql, filter_params
 
 
-def _generate_search_filter(search: str) -> Tuple[Iterator[str], chain[str]]:
+def _generate_search_filter(search: str) -> Tuple[Iterable[str], Iterable[str]]:
     """
     Generate the SQL and params for filtering on the search words.
 
