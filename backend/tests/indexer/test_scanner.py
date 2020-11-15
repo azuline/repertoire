@@ -252,11 +252,22 @@ def test_insert_into_label_collection_new(db):
 
 def test_insert_into_genre_collections(db):
     rls = release.from_id(1, db)
-    insert_into_genre_collections(rls, ["1, 2, 3", "2/3", "4; 5"], db)
+    insert_into_genre_collections(rls, ["1, 2, 3", "4; 5"], db)
 
     collections = release.collections(rls, db)
 
     for genre in ["1", "2", "3", "4", "5"]:
+        col = collection.from_name_and_type(genre, CollectionType.GENRE, db)
+        assert col in collections
+
+
+def test_duplicate_genre(db):
+    rls = release.from_id(1, db)
+    insert_into_genre_collections(rls, ["1, 2, 3", "2/3"], db)
+
+    collections = release.collections(rls, db)
+
+    for genre in ["1", "2", "3"]:
         col = collection.from_name_and_type(genre, CollectionType.GENRE, db)
         assert col in collections
 
