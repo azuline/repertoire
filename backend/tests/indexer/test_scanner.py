@@ -6,15 +6,15 @@ import pytest
 
 from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.indexer.scanner import (
+    _fetch_or_create_artist,
+    _fetch_or_create_release,
+    _fix_release_types,
     _get_release_type,
+    _insert_into_genre_collections,
+    _insert_into_inbox_collection,
+    _insert_into_label_collection,
     _split_genres,
     catalog_file,
-    fetch_or_create_artist,
-    fetch_or_create_release,
-    fix_release_types,
-    insert_into_genre_collections,
-    insert_into_inbox_collection,
-    insert_into_label_collection,
     scan_directories,
     scan_directory,
 )
@@ -32,7 +32,7 @@ def test_scan_directories(mock_scan_directory):
     mock_scan_directory.assert_has_calls([call("/dir1"), call("/dir2")])
 
 
-@patch("src.indexer.scanner.fix_release_types")
+@patch("src.indexer.scanner._fix_release_types")
 @patch("src.indexer.scanner.catalog_file")
 def test_scan_directory(mock_catalog_file, mock_fix_release_types, db):
     # Add one track to the library; it should be skipped in the scan.
@@ -61,7 +61,7 @@ def test_scan_directory(mock_catalog_file, mock_fix_release_types, db):
     assert filepaths == {c[1][0] for c in mock_catalog_file.mock_calls}
 
 
-@patch("src.indexer.scanner.fetch_or_create_release")
+@patch("src.indexer.scanner._fetch_or_create_release")
 def test_catalog_file(mock_fetch_or_create_release, db, snapshot):
     mock_fetch_or_create_release.return_value = Mock(id=3)
     filepath = NEW_ALBUM / "track1.flac"
@@ -79,7 +79,7 @@ def test_catalog_file(mock_fetch_or_create_release, db, snapshot):
     snapshot.assert_match(track.artists(trk, db))
 
 
-@patch("src.indexer.scanner.fetch_or_create_release")
+@patch("src.indexer.scanner._fetch_or_create_release")
 @patch("src.indexer.scanner.calculate_sha_256")
 @patch("src.indexer.scanner.TagFile")
 def test_catalog_file_null_title(
@@ -109,7 +109,7 @@ def test_catalog_file_null_title(
     assert trk.title == "Untitled"
 
 
-@patch("src.indexer.scanner.fetch_or_create_release")
+@patch("src.indexer.scanner._fetch_or_create_release")
 @patch("src.indexer.scanner.calculate_sha_256")
 @patch("src.indexer.scanner.TagFile")
 def test_catalog_file_duplicate_artist(
@@ -140,17 +140,17 @@ def test_catalog_file_duplicate_artist(
 
 
 def test_fetch_or_create_release_unknown(db):
-    assert release.from_id(1, db) == fetch_or_create_release(Mock(album=None), db)
+    assert release.from_id(1, db) == _fetch_or_create_release(Mock(album=None), db)
 
 
 def test_fetch_or_create_release_fetch(db):
-    assert release.from_id(3, db) == fetch_or_create_release(
+    assert release.from_id(3, db) == _fetch_or_create_release(
         Mock(album="Departure", artist_album=["Abakus", "Bacchus"]), db
     )
 
 
 def test_fetch_or_create_release_no_fetch(db):
-    assert release.from_id(3, db) != fetch_or_create_release(
+    assert release.from_id(3, db) != _fetch_or_create_release(
         Mock(
             album="Departure",
             artist_album=["Bacchus"],
@@ -163,7 +163,7 @@ def test_fetch_or_create_release_no_fetch(db):
 
 
 def test_fetch_or_create_release_duplicate_artists(db):
-    rls = fetch_or_create_release(
+    rls = _fetch_or_create_release(
         Mock(
             album="aaaaa",
             artist_album=["Bacchus", "Bacchus"],
@@ -178,7 +178,7 @@ def test_fetch_or_create_release_duplicate_artists(db):
 
 
 def test_fetch_or_create_release_bad_date(db):
-    rls = fetch_or_create_release(
+    rls = _fetch_or_create_release(
         Mock(
             album="Departure",
             artist_album=["Bacchus"],
@@ -207,11 +207,11 @@ def test_get_release_type_no_match():
 
 
 def test_fetch_or_create_artist_unknown(db):
-    assert artist.from_id(1, db) == fetch_or_create_artist("", db)
+    assert artist.from_id(1, db) == _fetch_or_create_artist("", db)
 
 
 def test_fetch_or_create_artist_duplicate(db):
-    assert artist.from_id(5, db) == fetch_or_create_artist("Bacchus", db)
+    assert artist.from_id(5, db) == _fetch_or_create_artist("Bacchus", db)
 
 
 def test_insert_into_inbox_collection(db):
@@ -220,21 +220,21 @@ def test_insert_into_inbox_collection(db):
 
     assert rls not in collection.releases(inbox, db)
 
-    insert_into_inbox_collection(rls, db)
+    _insert_into_inbox_collection(rls, db)
 
     assert release.from_id(1, db) in collection.releases(inbox, db)
 
 
 def test_insert_into_label_collection_nonexistent(db):
     rls = release.from_id(1, db)
-    insert_into_label_collection(rls, "", db)
+    _insert_into_label_collection(rls, "", db)
 
     assert not release.collections(rls, db)
 
 
 def test_insert_into_label_collection_existing(db):
     rls = release.from_id(1, db)
-    insert_into_label_collection(rls, "MyLabel", db)
+    _insert_into_label_collection(rls, "MyLabel", db)
 
     col = collection.from_id(20, db)
 
@@ -243,7 +243,7 @@ def test_insert_into_label_collection_existing(db):
 
 def test_insert_into_label_collection_new(db):
     rls = release.from_id(1, db)
-    insert_into_label_collection(rls, "asdf", db)
+    _insert_into_label_collection(rls, "asdf", db)
 
     col = collection.from_name_and_type("asdf", CollectionType.LABEL, db)
 
@@ -252,7 +252,7 @@ def test_insert_into_label_collection_new(db):
 
 def test_insert_into_genre_collections(db):
     rls = release.from_id(1, db)
-    insert_into_genre_collections(rls, ["1, 2, 3", "4; 5"], db)
+    _insert_into_genre_collections(rls, ["1, 2, 3", "4; 5"], db)
 
     collections = release.collections(rls, db)
 
@@ -263,7 +263,7 @@ def test_insert_into_genre_collections(db):
 
 def test_duplicate_genre(db):
     rls = release.from_id(1, db)
-    insert_into_genre_collections(rls, ["1, 2, 3", "2/3"], db)
+    _insert_into_genre_collections(rls, ["1, 2, 3", "2/3"], db)
 
     collections = release.collections(rls, db)
 
@@ -274,14 +274,14 @@ def test_duplicate_genre(db):
 
 def test_insert_into_genre_preexisting(db):
     rls = release.from_id(1, db)
-    insert_into_genre_collections(rls, ["Folk"], db)
+    _insert_into_genre_collections(rls, ["Folk"], db)
 
     assert collection.from_id(12, db) in release.collections(rls, db)
 
 
 def test_insert_into_genre_collections_nothing(db):
     rls = release.from_id(1, db)
-    insert_into_genre_collections(rls, "  ", db)
+    _insert_into_genre_collections(rls, "  ", db)
 
     assert not release.collections(rls, db)
 
@@ -329,7 +329,7 @@ def test_fix_release_types(db, num_tracks, release_type):
             cursor=db,
         )
 
-    fix_release_types(db)
+    _fix_release_types(db)
 
     print(release.from_id(1, db).num_tracks)
     assert release.from_id(1, db).release_type == release_type

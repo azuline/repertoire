@@ -58,7 +58,7 @@ def scan_directory(directory: str) -> None:
                 else:
                     logger.debug(f"File `{filepath}` already in database, skipping...")
 
-        fix_release_types(cursor)
+        _fix_release_types(cursor)
 
 
 def _in_database(filepath: str, cursor: Cursor) -> bool:
@@ -92,10 +92,10 @@ def catalog_file(filepath: str, cursor: Cursor) -> None:
 
     title = f"{tf.title} ({tf.version})" if tf.version else tf.title or "Untitled"
 
-    rls = fetch_or_create_release(tf, cursor)
+    rls = _fetch_or_create_release(tf, cursor)
 
     artists = [
-        {"artist_id": fetch_or_create_artist(art, cursor).id, "role": role}
+        {"artist_id": _fetch_or_create_artist(art, cursor).id, "role": role}
         for role, artists in tf.artist.items()
         # The track tags might contain duplicate artists...
         for art in uniq_list(artists)
@@ -116,7 +116,7 @@ def catalog_file(filepath: str, cursor: Cursor) -> None:
     cursor.connection.commit()
 
 
-def fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
+def _fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
     """
     Try to match the album and album artist fields of the tagfile against the database.
     If a matching release is found, return it. Otherwise, create and return a new
@@ -146,7 +146,7 @@ def fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
             title=tf.album,
             # The tags might contain duplicate artists..
             artist_ids=uniq_list(
-                fetch_or_create_artist(art, cursor).id for art in tf.artist_album
+                _fetch_or_create_artist(art, cursor).id for art in tf.artist_album
             ),
             release_type=_get_release_type(tf),
             release_year=tf.date.year or 0,
@@ -161,9 +161,9 @@ def fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
     logger.debug(f"Created new release {rls.id} for track `{tf.path}`.")
 
     # Add release to the inbox and its label/genres.
-    insert_into_inbox_collection(rls, cursor)
-    insert_into_label_collection(rls, tf.label, cursor)
-    insert_into_genre_collections(rls, tf.genre, cursor)
+    _insert_into_inbox_collection(rls, cursor)
+    _insert_into_label_collection(rls, tf.label, cursor)
+    _insert_into_genre_collections(rls, tf.genre, cursor)
 
     # Flag the release to have its cover art extracted and stored.
     cursor.execute(
@@ -192,7 +192,7 @@ def _get_release_type(tf: TagFile) -> ReleaseType:
     return ReleaseType.UNKNOWN
 
 
-def fetch_or_create_artist(name: str, cursor: Cursor) -> artist.T:
+def _fetch_or_create_artist(name: str, cursor: Cursor) -> artist.T:
     """
     Try to fetch an artist from the database with the given name. If one doesn't exist,
     create it. If ``name`` is empty or ``None``, return the Unknown Artist (ID: 1).
@@ -210,7 +210,7 @@ def fetch_or_create_artist(name: str, cursor: Cursor) -> artist.T:
         return e.entity
 
 
-def insert_into_inbox_collection(rls: release.T, cursor: Cursor) -> None:
+def _insert_into_inbox_collection(rls: release.T, cursor: Cursor) -> None:
     """
     Insert a release into the inbox collection.
 
@@ -223,7 +223,7 @@ def insert_into_inbox_collection(rls: release.T, cursor: Cursor) -> None:
     collection.add_release(inbox, rls.id, cursor)  # type: ignore
 
 
-def insert_into_label_collection(
+def _insert_into_label_collection(
     rls: release.T, label: Optional[str], cursor: Cursor
 ) -> None:
     """
@@ -246,7 +246,7 @@ def insert_into_label_collection(
     collection.add_release(col, rls.id, cursor)
 
 
-def insert_into_genre_collections(
+def _insert_into_genre_collections(
     rls: release.T, genres: List[str], cursor: Cursor
 ) -> None:
     """
@@ -280,7 +280,7 @@ def _split_genres(genres: str) -> List[str]:
     return [g.strip() for g in GENRE_DELIMITER_REGEX.split(genres)]
 
 
-def fix_release_types(cursor: Cursor) -> None:
+def _fix_release_types(cursor: Cursor) -> None:
     """
     Because release type is a fairly non-existent tag, for the UNKNOWN release types in
     the database, fix them.

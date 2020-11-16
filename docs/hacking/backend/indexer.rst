@@ -32,7 +32,6 @@ Scan music directories
 
 .. automodule:: src.indexer.scanner
    :members:
-   :private-members:
    :autosummary:
 
 Build search index
@@ -40,7 +39,6 @@ Build search index
 
 .. automodule:: src.indexer.search
    :members:
-   :private-members:
    :autosummary:
 
 Extract album art
@@ -48,5 +46,4 @@ Extract album art
 
 .. automodule:: src.indexer.covers
    :members:
-   :private-members:
    :autosummary:
