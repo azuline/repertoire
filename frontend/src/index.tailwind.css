@@ -135,3 +135,9 @@ input::placeholder {
   flex: 0 0 2rem;
   margin: 0 0 0 -1rem;
 }
+
+@media screen and (min-width: 1024px) {
+  .rpr--home-recently-added:after {
+    flex: 0 0 4rem;
+  }
+}

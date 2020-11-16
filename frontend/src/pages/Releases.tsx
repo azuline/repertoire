@@ -23,8 +23,8 @@ export const Releases: React.FC = (): React.ReactElement => {
   }, [total]);
 
   return (
-    <div className="py-4 full">
-      <div className="mx-auto px-8">
+    <div className="py-4 full flex-1">
+      <div className="mx-auto px-8 lg:px-12">
         <ViewSettings className="my-4" viewOptions={viewOptions} pagination={pagination} />
         <PagedReleases view={viewOptions.releaseView} releases={results} />
         <Pagination className="my-4" pagination={pagination} />

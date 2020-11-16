@@ -22,12 +22,12 @@ export const RecentlyAdded: React.FC = () => {
   return (
     <div className="mt-8">
       <Link onClick={toRecentlyAdded} href="/releases">
-        <SectionHeader className="mx-8 my-8 cursor-pointer">
+        <SectionHeader className="mx-8 lg:mx-12 my-8 cursor-pointer">
           Recently Added <span className="text-bold text-2xl">(View All)</span>
         </SectionHeader>
       </Link>
       <ScrolledReleases
-        className="rpr--home-recently-added px-8 py-4 overflow-x-auto"
+        className="rpr--home-recently-added px-8 lg:px-12 py-4 overflow-x-auto"
         releases={releases}
       />
     </div>

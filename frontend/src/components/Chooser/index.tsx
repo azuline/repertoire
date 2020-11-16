@@ -3,7 +3,6 @@ import * as React from 'react';
 import { AutoSizer, List, WindowScroller } from 'react-virtualized';
 import { Element, ElementT } from './Element';
 
-import { SidebarContext } from 'src/contexts';
 import clsx from 'clsx';
 
 const style = { maxHeight: 'calc(100vh - 4rem)' };
@@ -14,9 +13,6 @@ export const Chooser: React.FC<{
   active: number | null;
   makeUrl: (arg0: number) => string;
 }> = ({ className, results, active, makeUrl }) => {
-  const { openBar } = React.useContext(SidebarContext);
-  const bp = React.useMemo(() => (openBar ? 'lg' : 'md'), [openBar]);
-
   // Virtual render setup.
   const scrollRef = React.useRef<WindowScroller>();
   const renderRow = React.useCallback(
@@ -38,12 +34,12 @@ export const Chooser: React.FC<{
     <div
       className={clsx(
         className,
-        active ? `hidden ${bp}:flex ${bp}:flex-col w-64 ${bp}:sticky ${bp}:top-0` : 'w-full',
+        active ? 'hidden md:flex md:flex-col w-64 md:sticky md:top-0' : 'w-full',
         'py-4',
       )}
       style={active ? style : {}}
     >
-      <div className={clsx('flex-auto hidden', active && `${bp}:block`)}>
+      <div className={clsx('flex-auto hidden', active && 'md:block')}>
         <AutoSizer>
           {({ width, height }): React.ReactNode => (
             <List
@@ -58,7 +54,7 @@ export const Chooser: React.FC<{
           )}
         </AutoSizer>
       </div>
-      <div className={clsx('', active ? `${bp}:hidden` : undefined)}>
+      <div className={clsx('', active ? 'md:hidden' : undefined)}>
         <AutoSizer disableHeight>
           {({ width }): React.ReactNode => (
             <WindowScroller ref={scrollRef as React.RefObject<WindowScroller>}>

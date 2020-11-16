@@ -8,7 +8,7 @@ export const Artists: React.FC = () => {
   const active = useId();
 
   return (
-    <div className="full pr-8 flex">
+    <div className="flex-1 full px-8 lg:px-12 flex">
       <ArtistChooser active={active} />
       {active && <Artist active={active} />}
     </div>

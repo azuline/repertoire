@@ -7,7 +7,6 @@ import { Order } from './Order';
 import { Pagination } from 'src/components/Pagination';
 import { PerPage } from './PerPage';
 import { Popover } from 'src/components/common/Popover';
-import { SidebarContext } from 'src/contexts';
 import { Sort } from './Sort';
 import { View } from './View';
 import clsx from 'clsx';
@@ -18,17 +17,10 @@ export const ViewSettings: React.FC<{
   className?: string | undefined;
   partial?: boolean;
 }> = ({ viewOptions, pagination, className, partial = false }) => {
-  const { openBar } = React.useContext(SidebarContext);
-
-  const [responsiveFlex, responsiveHide] = React.useMemo(() => {
-    if (openBar && partial) {
-      return ['xl:flex', 'xl:hidden'];
-    } else if (openBar || partial) {
-      return ['lg:flex', 'lg:hidden'];
-    } else {
-      return ['md:flex', 'md:hidden'];
-    }
-  }, [openBar, partial]);
+  const [responsiveFlex, responsiveHide] = React.useMemo(
+    () => (partial ? ['lg:flex', 'lg:hidden'] : ['md:flex', 'md:hidden']),
+    [partial],
+  );
 
   return (
     <div className={clsx('flex', className)}>

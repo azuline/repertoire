@@ -3,7 +3,6 @@ import * as React from 'react';
 import { ArtRelease, RowRelease } from 'src/components/Release';
 import { ReleaseT, ReleaseView } from 'src/types';
 
-import { SidebarContext } from 'src/contexts';
 import clsx from 'clsx';
 
 // Partial here means that we have an artist/collection selector open.
@@ -11,30 +10,14 @@ import clsx from 'clsx';
 // prettier-ignore
 const gridFullCss = 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7';
 // prettier-ignore
-const gridOneCssSidebar = 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6';
-// prettier-ignore
-const gridOneCssPartial = 'grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6';
-// prettier-ignore
-const gridTwoCss = 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5';
+const gridPartialCss = 'grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6';
 
 export const PagedReleases: React.FC<{
   releases: ReleaseT[];
   view: ReleaseView;
   partial?: boolean;
 }> = ({ releases, view, partial = false }) => {
-  const { openBar } = React.useContext(SidebarContext);
-
-  const gridCss = React.useMemo(() => {
-    if (openBar && partial) {
-      return gridTwoCss;
-    } else if (openBar) {
-      return gridOneCssSidebar;
-    } else if (partial) {
-      return gridOneCssPartial;
-    } else {
-      return gridFullCss;
-    }
-  }, [openBar, partial]);
+  const gridCss = React.useMemo(() => (partial ? gridPartialCss : gridFullCss), [partial]);
 
   switch (view) {
     case ReleaseView.ROW:

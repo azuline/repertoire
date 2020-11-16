@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { Link } from 'src/components/common/Link';
 import { AuthorizationContext } from 'src/contexts';
 import { Icon } from 'src/components/common/Icon';
 import clsx from 'clsx';
@@ -19,7 +20,10 @@ export const User: React.FC<{ className?: string | undefined }> = ({ className }
   return (
     <div className={clsx(className, 'flex h-full items-center')}>
       <Icon className="w-5 mr-1" icon="user-medium" />
-      <div className="mr-2">{status === 'success' && data ? data.user.username : 'Loading...'}</div>
+      <div className="mr-3">{status === 'success' && data ? data.user.username : 'Loading...'}</div>
+      <Link href="/settings" className="mr-2">
+        <Icon className="w-5 text-bold cursor-pointer" title="Settings" icon="cog-medium" />
+      </Link>
       <Icon
         className="w-5 text-bold cursor-pointer"
         title="Logout"
