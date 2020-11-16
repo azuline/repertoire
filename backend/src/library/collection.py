@@ -34,7 +34,7 @@ class T:
     #:
     name: str
     #:
-    favorite: bool
+    starred: bool
     #:
     type: CollectionType
     #:
@@ -73,7 +73,7 @@ def from_row(row: Union[Dict, Row]) -> T:
     return T(
         **dict(
             row,
-            favorite=bool(row["favorite"]),
+            starred=bool(row["starred"]),
             type=CollectionType(row["type"]),
             last_updated_on=last_updated_on,
         )
@@ -164,16 +164,14 @@ def all(cursor: Cursor, type: CollectionType = None) -> List[T]:
     return [from_row(row) for row in cursor.fetchall()]
 
 
-def create(
-    name: str, type: CollectionType, cursor: Cursor, favorite: bool = False
-) -> T:
+def create(name: str, type: CollectionType, cursor: Cursor, starred: bool = False) -> T:
     """
     Create a collection and persist it to the database.
 
     :param name: The name of the collection.
     :param type: The type of the collection.
     :cursor: A cursor to the database.
-    :param favorite: Whether the collection is a favorite or not.
+    :param starred: Whether the collection is starred or not.
     :return: The newly created collection.
     :raises Duplicate: If an collection with the same name and type already exists. The
                        duplicate collection is passed as the ``entity`` argument.
@@ -185,8 +183,8 @@ def create(
         raise Duplicate(f'Collection "{name}" already exists.', col)
 
     cursor.execute(
-        "INSERT INTO music__collections (name, type, favorite) VALUES (?, ?, ?)",
-        (name, type.value, favorite),
+        "INSERT INTO music__collections (name, type, starred) VALUES (?, ?, ?)",
+        (name, type.value, starred),
     )
 
     logger.info(
@@ -197,7 +195,7 @@ def create(
         id=cursor.lastrowid,
         name=name,
         type=type,
-        favorite=favorite,
+        starred=starred,
         num_releases=0,
     )
 
@@ -214,8 +212,8 @@ def update(col: T, cursor: Cursor, **changes) -> T:
     :param cursor: A cursor to the database.
     :param name: New collection name.
     :type  name: :py:obj:`str`
-    :param favorite: New collection favorite.
-    :type  favorite: :py:obj:`bool`
+    :param starred: Whether ew collection is starred.
+    :type  starred: :py:obj:`bool`
     :return: The updated collection.
     :raises Immutable: If the collection cannot be updated.
     :raises Duplicate: If the new name conflicts with another collection.
@@ -234,12 +232,12 @@ def update(col: T, cursor: Cursor, **changes) -> T:
         """
         UPDATE music__collections
         SET name = ?,
-            favorite = ?
+            starred = ?
         WHERE id = ?
         """,
         (
             changes.get("name", col.name),
-            changes.get("favorite", col.favorite),
+            changes.get("starred", col.starred),
             col.id,
         ),
     )

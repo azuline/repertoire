@@ -12,7 +12,7 @@ snapshots['test_add_release_to_collection 1'] = (
     {
         'data': {
             'addReleaseToCollection': {
-                'favorite': False,
+                'starred': False,
                 'id': 2,
                 'lastUpdatedOn': None,
                 'name': 'Favorite',
@@ -166,7 +166,7 @@ snapshots['test_collection 1'] = (
     {
         'data': {
             'collection': {
-                'favorite': False,
+                'starred': False,
                 'id': 12,
                 'lastUpdatedOn': 1603067134,
                 'name': 'Folk',
@@ -213,7 +213,7 @@ snapshots['test_collection_from_name_and_type 1'] = (
     {
         'data': {
             'collectionFromNameAndType': {
-                'favorite': False,
+                'starred': False,
                 'id': 12,
                 'lastUpdatedOn': 1603067134,
                 'name': 'Folk',
@@ -358,7 +358,7 @@ snapshots['test_collections 1'] = (
             'collections': {
                 'results': [
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 1,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Inbox',
@@ -406,7 +406,7 @@ snapshots['test_collections 1'] = (
                         'type': 'SYSTEM'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 2,
                         'lastUpdatedOn': None,
                         'name': 'Favorite',
@@ -418,7 +418,7 @@ snapshots['test_collections 1'] = (
                         'type': 'SYSTEM'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 3,
                         'lastUpdatedOn': None,
                         'name': '1',
@@ -430,7 +430,7 @@ snapshots['test_collections 1'] = (
                         'type': 'RATING'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 4,
                         'lastUpdatedOn': None,
                         'name': '2',
@@ -442,7 +442,7 @@ snapshots['test_collections 1'] = (
                         'type': 'RATING'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 5,
                         'lastUpdatedOn': None,
                         'name': '3',
@@ -454,7 +454,7 @@ snapshots['test_collections 1'] = (
                         'type': 'RATING'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 6,
                         'lastUpdatedOn': None,
                         'name': '4',
@@ -466,7 +466,7 @@ snapshots['test_collections 1'] = (
                         'type': 'RATING'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 7,
                         'lastUpdatedOn': None,
                         'name': '5',
@@ -478,7 +478,7 @@ snapshots['test_collections 1'] = (
                         'type': 'RATING'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 8,
                         'lastUpdatedOn': None,
                         'name': '6',
@@ -490,7 +490,7 @@ snapshots['test_collections 1'] = (
                         'type': 'RATING'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 9,
                         'lastUpdatedOn': None,
                         'name': '7',
@@ -502,7 +502,7 @@ snapshots['test_collections 1'] = (
                         'type': 'RATING'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 10,
                         'lastUpdatedOn': None,
                         'name': '8',
@@ -514,7 +514,7 @@ snapshots['test_collections 1'] = (
                         'type': 'RATING'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 11,
                         'lastUpdatedOn': None,
                         'name': '9',
@@ -526,7 +526,7 @@ snapshots['test_collections 1'] = (
                         'type': 'RATING'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 12,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Folk',
@@ -565,7 +565,7 @@ snapshots['test_collections 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 13,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Rock',
@@ -604,7 +604,7 @@ snapshots['test_collections 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 14,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Country',
@@ -643,7 +643,7 @@ snapshots['test_collections 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 15,
                         'lastUpdatedOn': 1603067134,
                         'name': 'World',
@@ -682,7 +682,7 @@ snapshots['test_collections 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 16,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Downtempo',
@@ -721,7 +721,7 @@ snapshots['test_collections 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 17,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Electronic',
@@ -760,7 +760,7 @@ snapshots['test_collections 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 18,
                         'lastUpdatedOn': 1603067134,
                         'name': 'House',
@@ -799,7 +799,7 @@ snapshots['test_collections 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 19,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Ambient',
@@ -838,7 +838,7 @@ snapshots['test_collections 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 20,
                         'lastUpdatedOn': None,
                         'name': 'MyLabel',
@@ -886,7 +886,7 @@ snapshots['test_collections_type_param 1'] = (
             'collections': {
                 'results': [
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 12,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Folk',
@@ -925,7 +925,7 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 13,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Rock',
@@ -964,7 +964,7 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 14,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Country',
@@ -1003,7 +1003,7 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 15,
                         'lastUpdatedOn': 1603067134,
                         'name': 'World',
@@ -1042,7 +1042,7 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 16,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Downtempo',
@@ -1081,7 +1081,7 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 17,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Electronic',
@@ -1120,7 +1120,7 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 18,
                         'lastUpdatedOn': 1603067134,
                         'name': 'House',
@@ -1159,7 +1159,7 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 19,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Ambient',
@@ -1208,7 +1208,7 @@ snapshots['test_create_collection 1'] = (
     {
         'data': {
             'createCollection': {
-                'favorite': True,
+                'starred': True,
                 'id': 21,
                 'lastUpdatedOn': None,
                 'name': 'NewCollection',
@@ -1223,7 +1223,7 @@ snapshots['test_create_collection 1'] = (
     }
 )
 
-snapshots['test_create_collection 2'] = GenericRepr("T(id=21, name='NewCollection', favorite=True, type=<CollectionType.COLLAGE: 2>, num_releases=0, last_updated_on=None)")
+snapshots['test_create_collection 2'] = GenericRepr("T(id=21, name='NewCollection', starred=True, type=<CollectionType.COLLAGE: 2>, num_releases=0, last_updated_on=None)")
 
 snapshots['test_create_collection_duplicate 1'] = (
     True,
@@ -1278,7 +1278,7 @@ snapshots['test_del_release_from_collection 1'] = (
     {
         'data': {
             'delReleaseFromCollection': {
-                'favorite': False,
+                'starred': False,
                 'id': 1,
                 'lastUpdatedOn': 1603067134,
                 'name': 'Inbox',
@@ -1428,7 +1428,7 @@ snapshots['test_update_collection 1'] = (
     {
         'data': {
             'updateCollection': {
-                'favorite': True,
+                'starred': True,
                 'id': 12,
                 'lastUpdatedOn': 1603067134,
                 'name': 'NewCollection',
@@ -1470,7 +1470,7 @@ snapshots['test_update_collection 1'] = (
     }
 )
 
-snapshots['test_update_collection 2'] = GenericRepr("T(id=12, name='NewCollection', favorite=True, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
+snapshots['test_update_collection 2'] = GenericRepr("T(id=12, name='NewCollection', starred=True, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
 
 snapshots['test_update_collection_duplicate 1'] = (
     True,
@@ -1496,7 +1496,7 @@ snapshots['test_update_collection_duplicate 1'] = (
     }
 )
 
-snapshots['test_update_collection_duplicate 2'] = GenericRepr("T(id=16, name='Downtempo', favorite=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
+snapshots['test_update_collection_duplicate 2'] = GenericRepr("T(id=16, name='Downtempo', starred=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
 
 snapshots['test_update_collection_immutable 1'] = (
     True,
@@ -1522,7 +1522,7 @@ snapshots['test_update_collection_immutable 1'] = (
     }
 )
 
-snapshots['test_update_collection_immutable 2'] = GenericRepr("T(id=1, name='Inbox', favorite=False, type=<CollectionType.SYSTEM: 1>, num_releases=2, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
+snapshots['test_update_collection_immutable 2'] = GenericRepr("T(id=1, name='Inbox', starred=False, type=<CollectionType.SYSTEM: 1>, num_releases=2, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
 
 snapshots['test_update_collection_no_auth 1'] = (
     True,

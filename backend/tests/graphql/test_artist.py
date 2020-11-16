@@ -6,7 +6,7 @@ from src.util import database
 ARTIST_RESULT = """
     id
     name
-    favorite
+    starred
     numReleases
 
     releases {
@@ -129,7 +129,7 @@ async def test_artists_no_auth(db, graphql_query, snapshot):
 async def test_create_artist(db, graphql_query, snapshot):
     query = f"""
         mutation {{
-            createArtist(name: "New Artist", favorite: true) {{
+            createArtist(name: "New Artist", starred: true) {{
                 {ARTIST_RESULT}
             }}
         }}
@@ -144,7 +144,7 @@ async def test_create_artist(db, graphql_query, snapshot):
 async def test_create_artist_duplicate(db, graphql_query, snapshot):
     query = f"""
         mutation {{
-            createArtist(name: "Abakus", favorite: true) {{
+            createArtist(name: "Abakus", starred: true) {{
                 {ARTIST_RESULT}
             }}
         }}
@@ -170,7 +170,7 @@ async def test_create_artist_no_auth(db, graphql_query, snapshot):
 async def test_update_artist(db, graphql_query, snapshot):
     query = f"""
         mutation {{
-            updateArtist(id: 4, name: "New Name", favorite: true) {{
+            updateArtist(id: 4, name: "New Name", starred: true) {{
                 {ARTIST_RESULT}
             }}
         }}
@@ -185,7 +185,7 @@ async def test_update_artist(db, graphql_query, snapshot):
 async def test_update_artist_doesnt_exist(db, graphql_query, snapshot):
     query = f"""
         mutation {{
-            updateArtist(id: 999, name: "New Name", favorite: true) {{
+            updateArtist(id: 999, name: "New Name", starred: true) {{
                 {ARTIST_RESULT}
             }}
         }}
@@ -197,7 +197,7 @@ async def test_update_artist_doesnt_exist(db, graphql_query, snapshot):
 async def test_update_artist_duplicate(db, graphql_query, snapshot):
     query = f"""
         mutation {{
-            updateArtist(id: 4, name: "Bacchus", favorite: true) {{
+            updateArtist(id: 4, name: "Bacchus", starred: true) {{
                 {ARTIST_RESULT}
             }}
         }}
@@ -210,7 +210,7 @@ async def test_update_artist_duplicate(db, graphql_query, snapshot):
 async def test_update_artist_no_auth(db, graphql_query, snapshot):
     query = f"""
         mutation {{
-            updateArtist(id: 4, name: "Bacchus", favorite: true) {{
+            updateArtist(id: 4, name: "Bacchus", starred: true) {{
                 {ARTIST_RESULT}
             }}
         }}

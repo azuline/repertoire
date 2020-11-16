@@ -6,7 +6,7 @@ from src.util import database
 COLLECTION_RESULT = """
     id
     name
-    favorite
+    starred
     type
     numReleases
     lastUpdatedOn
@@ -144,7 +144,7 @@ async def test_collections_no_auth(db, graphql_query, snapshot):
 async def test_create_collection(db, graphql_query, snapshot):
     query = f"""
         mutation {{
-            createCollection(name: "NewCollection", type: COLLAGE, favorite: true) {{
+            createCollection(name: "NewCollection", type: COLLAGE, starred: true) {{
                 {COLLECTION_RESULT}
             }}
         }}
@@ -159,7 +159,7 @@ async def test_create_collection(db, graphql_query, snapshot):
 async def test_create_collection_duplicate(db, graphql_query, snapshot):
     query = f"""
         mutation {{
-            createCollection(name: "Folk", type: GENRE, favorite: true) {{
+            createCollection(name: "Folk", type: GENRE, starred: true) {{
                 {COLLECTION_RESULT}
             }}
         }}
@@ -184,7 +184,7 @@ async def test_create_collection_no_auth(db, graphql_query, snapshot):
 async def test_update_collection(db, graphql_query, snapshot):
     query = f"""
         mutation {{
-            updateCollection(id: 12, name: "NewCollection", favorite: true) {{
+            updateCollection(id: 12, name: "NewCollection", starred: true) {{
                 {COLLECTION_RESULT}
             }}
         }}
@@ -224,7 +224,7 @@ async def test_update_collection_not_found(db, graphql_query, snapshot):
 async def test_update_collection_immutable(db, graphql_query, snapshot):
     query = f"""
         mutation {{
-            updateCollection(id: 1, name: "NewCollection", favorite: true) {{
+            updateCollection(id: 1, name: "NewCollection", starred: true) {{
                 {COLLECTION_RESULT}
             }}
         }}
@@ -237,7 +237,7 @@ async def test_update_collection_immutable(db, graphql_query, snapshot):
 async def test_update_collection_no_auth(db, graphql_query, snapshot):
     query = f"""
         mutation {{
-            updateCollection(id: 12, name: "NewCollection", favorite: true) {{
+            updateCollection(id: 12, name: "NewCollection", starred: true) {{
                 {COLLECTION_RESULT}
             }}
         }}

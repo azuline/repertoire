@@ -66,9 +66,9 @@ def resolve_create_collection(
     info: GraphQLResolveInfo,
     name: str,
     type: CollectionType,
-    favorite: bool = False,
+    starred: bool = False,
 ) -> collection.T:
-    return collection.create(name, type, info.context.db, favorite=favorite)
+    return collection.create(name, type, info.context.db, starred=starred)
 
 
 @mutation.field("updateCollection")

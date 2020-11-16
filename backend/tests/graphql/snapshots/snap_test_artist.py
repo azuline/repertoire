@@ -12,7 +12,7 @@ snapshots['test_artist 1'] = (
     {
         'data': {
             'artist': {
-                'favorite': False,
+                'starred': False,
                 'id': 4,
                 'name': 'Abakus',
                 'numReleases': 1,
@@ -57,7 +57,7 @@ snapshots['test_artist_from_name 1'] = (
     {
         'data': {
             'artistFromName': {
-                'favorite': False,
+                'starred': False,
                 'id': 4,
                 'name': 'Abakus',
                 'numReleases': 1,
@@ -200,7 +200,7 @@ snapshots['test_artists 1'] = (
             'artists': {
                 'results': [
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 2,
                         'name': 'Aaron West and the Roaring Twenties',
                         'numReleases': 1,
@@ -237,7 +237,7 @@ snapshots['test_artists 1'] = (
                         ]
                     },
                     {
-                        'favorite': False,
+                        'starred': False,
                         'id': 4,
                         'name': 'Abakus',
                         'numReleases': 1,
@@ -274,7 +274,7 @@ snapshots['test_artists 1'] = (
                         ]
                     },
                     {
-                        'favorite': True,
+                        'starred': True,
                         'id': 5,
                         'name': 'Bacchus',
                         'numReleases': 1,
@@ -345,7 +345,7 @@ snapshots['test_create_artist 1'] = (
     {
         'data': {
             'createArtist': {
-                'favorite': True,
+                'starred': True,
                 'id': 6,
                 'name': 'New Artist',
                 'numReleases': 0,
@@ -358,7 +358,7 @@ snapshots['test_create_artist 1'] = (
     }
 )
 
-snapshots['test_create_artist 2'] = GenericRepr("T(id=6, name='New Artist', favorite=True, num_releases=0)")
+snapshots['test_create_artist 2'] = GenericRepr("T(id=6, name='New Artist', starred=True, num_releases=0)")
 
 snapshots['test_create_artist_duplicate 1'] = (
     True,
@@ -413,7 +413,7 @@ snapshots['test_update_artist 1'] = (
     {
         'data': {
             'updateArtist': {
-                'favorite': True,
+                'starred': True,
                 'id': 4,
                 'name': 'New Name',
                 'numReleases': 1,
@@ -453,7 +453,7 @@ snapshots['test_update_artist 1'] = (
     }
 )
 
-snapshots['test_update_artist 2'] = GenericRepr("T(id=4, name='New Name', favorite=True, num_releases=1)")
+snapshots['test_update_artist 2'] = GenericRepr("T(id=4, name='New Name', starred=True, num_releases=1)")
 
 snapshots['test_update_artist_doesnt_exist 1'] = (
     True,
@@ -503,7 +503,7 @@ snapshots['test_update_artist_duplicate 1'] = (
     }
 )
 
-snapshots['test_update_artist_duplicate 2'] = GenericRepr("T(id=4, name='Abakus', favorite=False, num_releases=1)")
+snapshots['test_update_artist_duplicate 2'] = GenericRepr("T(id=4, name='Abakus', starred=False, num_releases=1)")
 
 snapshots['test_update_artist_no_auth 1'] = (
     True,
@@ -529,4 +529,4 @@ snapshots['test_update_artist_no_auth 1'] = (
     }
 )
 
-snapshots['test_update_artist_no_auth 2'] = GenericRepr("T(id=4, name='Abakus', favorite=False, num_releases=1)")
+snapshots['test_update_artist_no_auth 2'] = GenericRepr("T(id=4, name='Abakus', starred=False, num_releases=1)")

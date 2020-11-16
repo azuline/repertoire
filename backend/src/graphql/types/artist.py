@@ -55,9 +55,9 @@ def resolve_create_artist(
     _,
     info: GraphQLResolveInfo,
     name: str,
-    favorite: bool = False,
+    starred: bool = False,
 ) -> artist.T:
-    return artist.create(name, info.context.db, favorite=favorite)
+    return artist.create(name, info.context.db, starred=starred)
 
 
 @mutation.field("updateArtist")

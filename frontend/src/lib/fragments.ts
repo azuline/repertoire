@@ -14,14 +14,14 @@ export const RELEASE_FIELDS = `
 export const ARTIST_FIELDS = `
 	id
 	name
-	favorite
+	starred
 	numReleases
 `;
 
 export const COLLECTION_FIELDS = `
 	id
 	name
-	favorite
+	starred
 	type
 	numReleases
 	lastUpdatedOn

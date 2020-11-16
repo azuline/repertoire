@@ -38,7 +38,7 @@ def test_all(db: Cursor, snapshot):
 
 
 def test_create(db: Cursor):
-    art = artist.create("new artist", favorite=True, cursor=db)
+    art = artist.create("new artist", starred=True, cursor=db)
     assert art.id == 6
     assert art == artist.from_id(6, db)
 
@@ -53,7 +53,7 @@ def test_update_fields(db: Cursor, snapshot):
         artist.from_id(2, db),
         cursor=db,
         name="New Name",
-        favorite=True,
+        starred=True,
     )
     snapshot.assert_match(col)
     assert col == artist.from_id(2, db)

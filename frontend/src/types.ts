@@ -38,7 +38,7 @@ export type ReleaseT = {
 export type ArtistT = {
   id: number;
   name: string;
-  favorite: boolean;
+  starred: boolean;
   numReleases: number;
 
   releases?: ReleaseT[];
@@ -48,7 +48,7 @@ export type ArtistT = {
 export type CollectionT = {
   id: number;
   name: string;
-  favorite: boolean;
+  starred: boolean;
   type: string;
   numReleases: number;
   lastUpdatedOn: number;

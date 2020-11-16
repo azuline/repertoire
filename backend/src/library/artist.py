@@ -24,7 +24,7 @@ class T:
     #:
     name: str
     #:
-    favorite: bool
+    starred: bool
     #: The number of releases attributed to the artist.
     num_releases: int
 
@@ -47,7 +47,7 @@ def from_row(row: Union[Dict, Row]) -> T:
     :param row: A row from the database.
     :return: An artist dataclass.
     """
-    return T(**dict(row, favorite=bool(row["favorite"])))
+    return T(**dict(row, starred=bool(row["starred"])))
 
 
 def from_id(id: int, cursor: Cursor) -> Optional[T]:
@@ -127,13 +127,13 @@ def all(cursor: Cursor) -> List[T]:
     return [from_row(row) for row in cursor.fetchall() if row["num_releases"]]
 
 
-def create(name: str, cursor: Cursor, favorite: bool = False) -> T:
+def create(name: str, cursor: Cursor, starred: bool = False) -> T:
     """
     Create an artist and persist it to the database.
 
     :param name: The name of the artist.
     :cursor: A cursor to the database.
-    :param favorite: Whether the artist is a favorite or not.
+    :param starred: Whether the artist is starred or not.
     :return: The newly created artist.
     :raises Duplicate: If an artist with the same name already exists. The duplicate
                        artist is passed as the ``entity`` argument.
@@ -142,12 +142,12 @@ def create(name: str, cursor: Cursor, favorite: bool = False) -> T:
         raise Duplicate(f'Artist "{name}" already exists.', art)
 
     cursor.execute(
-        "INSERT INTO music__artists (name, favorite) VALUES (?, ?)", (name, favorite)
+        "INSERT INTO music__artists (name, starred) VALUES (?, ?)", (name, starred)
     )
 
     logger.info(f'Created artist "{name}" with ID {cursor.lastrowid}')
 
-    return T(id=cursor.lastrowid, name=name, favorite=favorite, num_releases=0)
+    return T(id=cursor.lastrowid, name=name, starred=starred, num_releases=0)
 
 
 def update(art: T, cursor: Cursor, **changes) -> T:
@@ -160,8 +160,8 @@ def update(art: T, cursor: Cursor, **changes) -> T:
     :param cursor: A cursor to the database.
     :param name: New artist name.
     :type  name: :py:obj:`str`
-    :param favorite: New artist favorite.
-    :type  favorite: :py:obj:`bool`
+    :param starred: Whether new artist is starred.
+    :type  starred: :py:obj:`bool`
     :return: The updated artist.
     :raises Duplicate: If an artist already exists with the new name.
     """
@@ -176,10 +176,10 @@ def update(art: T, cursor: Cursor, **changes) -> T:
         """
         UPDATE music__artists
         SET name = ?,
-            favorite = ?
+            starred = ?
         WHERE id = ?
         """,
-        (changes.get("name", art.name), changes.get("favorite", art.favorite), art.id),
+        (changes.get("name", art.name), changes.get("starred", art.starred), art.id),
     )
 
     logger.info(f"Updated artist {art.id} with {changes}.")

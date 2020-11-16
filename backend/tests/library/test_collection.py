@@ -57,7 +57,7 @@ def test_all_filter_type(db: Cursor, snapshot):
     "type", [CollectionType.COLLAGE, CollectionType.LABEL, CollectionType.GENRE]
 )
 def test_create(db: Cursor, type):
-    col = collection.create("new collage", type, favorite=True, cursor=db)
+    col = collection.create("new collage", type, starred=True, cursor=db)
     assert col.id == 21
     assert col == collection.from_id(21, db)
 
@@ -78,7 +78,7 @@ def test_update_fields(db: Cursor, snapshot):
         collection.from_id(13, db),
         cursor=db,
         name="New Name",
-        favorite=True,
+        starred=True,
     )
     snapshot.assert_match(col)
     assert col == collection.from_id(13, db)
@@ -112,9 +112,9 @@ def test_update_nothing(db: Cursor):
     assert col == new_col
 
 
-def test_update_favorite(db: Cursor):
-    col = collection.update(collection.from_id(12, db), cursor=db, favorite=True)
-    assert col.favorite is True
+def test_update_starred(db: Cursor):
+    col = collection.update(collection.from_id(12, db), cursor=db, starred=True)
+    assert col.starred is True
     assert col == collection.from_id(12, db)
 
 

@@ -74,25 +74,25 @@ type Query {
 type Mutation {
     createArtist(
         name: String!
-        favorite: Boolean
+        starred: Boolean
     ): Artist
 
     updateArtist(
         id: Int!
         name: String
-        favorite: Boolean
+        starred: Boolean
     ): Artist
 
     createCollection(
         name: String!
         type: CollectionType!
-        favorite: Boolean
+        starred: Boolean
     ): Collection
 
     updateCollection(
         id: Int!
         name: String
-        favorite: Boolean
+        starred: Boolean
     ): Collection
 
     addReleaseToCollection(
@@ -165,7 +165,7 @@ type Mutation {
 type Artist {
     id: Int!
     name: String!
-    favorite: Boolean!
+    starred: Boolean!
     numReleases: Int!
 
     releases: [Release]
@@ -180,7 +180,7 @@ type Artists {
 type Collection {
     id: Int!
     name: String!
-    favorite: Boolean!
+    starred: Boolean!
     type: CollectionType!
     numReleases: Int
     "The last datetime a release was added to the collection."

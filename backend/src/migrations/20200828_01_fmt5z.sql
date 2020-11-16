@@ -43,7 +43,7 @@ INSERT INTO music__releases (id, title, release_type, added_on) VALUES
 CREATE TABLE music__artists (
     id INTEGER NOT NULL,
     name VARCHAR COLLATE "NOCASE" NOT NULL,
-    favorite BOOLEAN NOT NULL DEFAULT 0 CHECK (favorite IN (0, 1)),
+    starred BOOLEAN NOT NULL DEFAULT 0 CHECK (starred IN (0, 1)),
     PRIMARY KEY (id),
     UNIQUE (name) -- We will have this constraint for now...
 );
@@ -104,7 +104,7 @@ CREATE TABLE music__tracks_artists (
 CREATE TABLE music__collections (
     id INTEGER NOT NULL,
     name VARCHAR COLLATE "NOCASE" NOT NULL,
-    favorite BOOLEAN NOT NULL DEFAULT 0 CHECK (favorite IN (0, 1)),
+    starred BOOLEAN NOT NULL DEFAULT 0 CHECK (starred IN (0, 1)),
     type INTEGER NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (type) REFERENCES music__collection_types(id),

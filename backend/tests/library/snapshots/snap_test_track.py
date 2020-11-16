@@ -11,15 +11,15 @@ snapshots['test_add_artist 1'] = GenericRepr("T(id=10, filepath=PosixPath('/tmp/
 
 snapshots['test_add_artist 2'] = [
     {
-        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)"),
+        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)"),
         'role': GenericRepr('<ArtistRoles.MAIN: 1>')
     },
     {
-        'artist': GenericRepr("T(id=3, name='John Darnielle', favorite=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=3, name='John Darnielle', starred=False, num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.COMPOSER: 5>')
     },
     {
-        'artist': GenericRepr("T(id=4, name='Abakus', favorite=False, num_releases=1)"),
+        'artist': GenericRepr("T(id=4, name='Abakus', starred=False, num_releases=1)"),
         'role': GenericRepr('<ArtistRoles.MAIN: 1>')
     }
 ]
@@ -28,33 +28,33 @@ snapshots['test_add_artist_new_role 1'] = GenericRepr("T(id=10, filepath=PosixPa
 
 snapshots['test_add_artist_new_role 2'] = [
     {
-        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)"),
+        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)"),
         'role': GenericRepr('<ArtistRoles.MAIN: 1>')
     },
     {
-        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)"),
+        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)"),
         'role': GenericRepr('<ArtistRoles.REMIXER: 3>')
     },
     {
-        'artist': GenericRepr("T(id=3, name='John Darnielle', favorite=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=3, name='John Darnielle', starred=False, num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.COMPOSER: 5>')
     }
 ]
 
 snapshots['test_artists 1'] = [
     {
-        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)"),
+        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)"),
         'role': GenericRepr('<ArtistRoles.MAIN: 1>')
     },
     {
-        'artist': GenericRepr("T(id=3, name='John Darnielle', favorite=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=3, name='John Darnielle', starred=False, num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.COMPOSER: 5>')
     }
 ]
 
 snapshots['test_create 1'] = [
     {
-        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)"),
+        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)"),
         'role': GenericRepr('<ArtistRoles.MAIN: 1>')
     }
 ]
@@ -63,7 +63,7 @@ snapshots['test_del_artist 1'] = GenericRepr("T(id=10, filepath=PosixPath('/tmp/
 
 snapshots['test_del_artist 2'] = [
     {
-        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)"),
+        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)"),
         'role': GenericRepr('<ArtistRoles.MAIN: 1>')
     }
 ]

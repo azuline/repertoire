@@ -41,11 +41,11 @@ snapshots['test_add_artist_to_track 1'] = (
 
 snapshots['test_add_artist_to_track 2'] = [
     {
-        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)"),
+        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)"),
         'role': GenericRepr('<ArtistRoles.MAIN: 1>')
     },
     {
-        'artist': GenericRepr("T(id=3, name='John Darnielle', favorite=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=3, name='John Darnielle', starred=False, num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.MAIN: 1>')
     }
 ]
@@ -76,7 +76,7 @@ snapshots['test_add_artist_to_track_already_exists 1'] = (
 
 snapshots['test_add_artist_to_track_already_exists 2'] = [
     {
-        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)"),
+        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)"),
         'role': GenericRepr('<ArtistRoles.MAIN: 1>')
     }
 ]
@@ -107,7 +107,7 @@ snapshots['test_add_artist_to_track_bad_artist 1'] = (
 
 snapshots['test_add_artist_to_track_bad_artist 2'] = [
     {
-        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)"),
+        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)"),
         'role': GenericRepr('<ArtistRoles.MAIN: 1>')
     }
 ]
@@ -209,7 +209,7 @@ snapshots['test_del_artist_from_track_bad_artist 1'] = (
 
 snapshots['test_del_artist_from_track_bad_artist 2'] = [
     {
-        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', favorite=False, num_releases=1)"),
+        'artist': GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)"),
         'role': GenericRepr('<ArtistRoles.MAIN: 1>')
     }
 ]
