@@ -8,6 +8,18 @@ module.exports = {
       xl: '1280px',
       '2xl': '1440px',
     },
+    fontSize: {
+      xs: '0.75rem',
+      sm: '0.875rem',
+      base: '1rem',
+      lg: '1.125rem',
+      xl: '1.25rem',
+      '2xl': '1.5rem',
+      '3xl': '1.875rem',
+      '4xl': '2.25rem',
+      '5xl': '3rem',
+      '6xl': '4rem',
+    },
     extend: {
       colors: {
         fg: 'var(--color-fg)',
@@ -30,6 +42,21 @@ module.exports = {
           700: '#6E522A',
           800: '#523D20',
           900: '#372915',
+        },
+        black: '#000',
+        white: '#fff',
+        transparent: 'transparent',
+        current: 'currentColor',
+        green: {
+          100: '#f0fff4',
+          200: '#c6f6d5',
+          300: '#9ae6b4',
+          400: '#68d391',
+          500: '#48bb78',
+          600: '#38a169',
+          700: '#2f855a',
+          800: '#276749',
+          900: '#22543d',
         },
       },
       spacing: {
@@ -79,6 +106,9 @@ module.exports = {
     },
   },
   variants: {
+    extend: {
+      fontWeight: ['hover', 'focus']
+    },
     borderWidth: ['responsive', 'hover', 'focus'],
     display: ['responsive', 'hover'],
     opacity: ['hover'],
