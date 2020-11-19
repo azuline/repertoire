@@ -10,6 +10,11 @@ module.exports = {
     },
     extend: {
       colors: {
+        // The next four colors are for legacy Tailwind v1.0 compatibility.
+        black: '#000',
+        white: '#fff',
+        transparent: 'transparent',
+        current: 'currentColor',
         fg: 'var(--color-fg)',
         'fg-alt': 'var(--color-fg-alt)',
         bg: 'var(--color-bg)',
