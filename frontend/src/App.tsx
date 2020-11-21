@@ -1,6 +1,7 @@
 import * as React from 'react';
+import clsx from 'clsx';
 
-import { GlobalContexts, SidebarContext } from 'src/contexts';
+import { GlobalContexts, SidebarContext, ThemeContext } from 'src/contexts';
 
 import { AuthorizationContext } from 'src/contexts';
 import { BrowserRouter } from 'react-router-dom';
@@ -23,9 +24,10 @@ const App: React.FC = () => {
 const Body: React.FC = () => {
   const { token } = React.useContext(AuthorizationContext);
   const { openBar } = React.useContext(SidebarContext);
+  const { theme } = React.useContext(ThemeContext);
 
   return (
-    <div className="app w-full min-h-screen flex flex-col">
+    <div className={clsx(theme, 'app w-full min-h-screen flex flex-col')}>
       {!token ? (
         <Login className="flex-1" />
       ) : (

@@ -5,10 +5,12 @@ import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 import { AuthorizationProvider } from './Authorization';
 import { SidebarProvider } from './Sidebar';
 import { ToastProvider } from './Toaster';
+import { ThemeProvider } from './Theme';
 
 export * from './Authorization';
 export * from './Toaster';
 export * from './Sidebar';
+export * from './Theme';
 
 export const GlobalContexts: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const queryCache = new QueryCache();
@@ -17,7 +19,9 @@ export const GlobalContexts: React.FC<{ children: React.ReactNode }> = ({ childr
     <AuthorizationProvider>
       <ToastProvider>
         <ReactQueryCacheProvider queryCache={queryCache}>
-          <SidebarProvider>{children}</SidebarProvider>
+          <ThemeProvider>
+            <SidebarProvider>{children}</SidebarProvider>
+          </ThemeProvider>
         </ReactQueryCacheProvider>
       </ToastProvider>
     </AuthorizationProvider>

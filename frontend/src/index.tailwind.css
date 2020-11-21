@@ -2,9 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+html {
+  --lh: 1.4rem;
+  line-height: var(--lh);
+  font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+.app {
   /* TODO: Figure out a way to @apply these... */
-  --color-fg: #ffffff; /* white */
+  --color-fg: #fff; /* white */
   --color-fg-alt: #f7fafc; /* gray-100 */
   --color-bg: #101013;
   --color-bg-alt: #18181d;
@@ -14,18 +22,20 @@
   --color-bold: #b78846; /* gold-500 */
 }
 
-html {
-  background-color: var(--color-bg);
-  font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
-  --lh: 1.4rem;
-  line-height: var(--lh);
-  @apply text-fg;
+.app.light {
+  /* TODO: Figure out a way to @apply these... */
+  --color-fg: #000; /* black */
+  --color-fg-alt: #1e293b; /* blueGray-800 */
+  --color-bg: #f8fafc; /* blueGray-50 */
+  --color-bg-alt: #e2e8f0; /* blueGray-200 */
+  --color-bg-alt2: #cbd5e1; /* blueGray-300 */
+  --color-bg-embellish: #cdac7e; /* gold-400 */
+  --color-highlight: #b78846; /* gold-500 */
+  --color-bold: #a57a3f; /* gold-600 */
 }
 
 .app {
-  background-color: var(--color-bg);
+  @apply text-fg bg-bg;
 }
 
 button {
