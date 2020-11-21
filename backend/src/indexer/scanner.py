@@ -13,7 +13,7 @@ from src.config import Config
 from src.enums import CollectionType, ReleaseType
 from src.errors import Duplicate
 from src.library import artist, collection, release, track
-from src.util import calculate_sha_256, database, uniq_list
+from src.util import calculate_sha_256_full, calculate_sha_256_initial_16, database, uniq_list
 
 logger = logging.getLogger()
 
@@ -104,7 +104,7 @@ def catalog_file(filepath: str, cursor: Cursor) -> None:
     track.create(
         title=title,
         filepath=tf.path,
-        sha256=calculate_sha_256(tf.path),
+        initial_sha256=calculate_sha_256_initial_16(tf.path),
         release_id=rls.id,
         artists=artists,
         duration=int(tf.mut.info.length),

@@ -69,7 +69,13 @@ def strip_punctuation(string: str) -> str:
     return "".join(c for c in string if unidecode(c) not in punctuation)
 
 
-def calculate_sha_256(filepath: Path) -> bytes:
+def calculate_sha_256_initial_16(filepath: Path) -> bytes:
+    """Calculate the SHA256 of the first 512 bytes of the file."""
+    with filepath.open("rb") as fp:
+        return sha256(fp.read(16384)).digest()
+
+
+def calculate_sha_256_full(filepath: Path) -> bytes:
     """Calculate the SHA256 of a file."""
     hash_ = sha256()
     with filepath.open("rb") as fp:

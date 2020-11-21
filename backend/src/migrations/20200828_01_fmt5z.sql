@@ -80,7 +80,8 @@ CREATE TABLE music__releases_artists (
 CREATE TABLE music__tracks (
     id INTEGER NOT NULL,
     filepath VARCHAR NOT NULL,
-    sha256 BLOB NOT NULL,
+    initial_sha256 BLOB NOT NULL,
+    full_sha256 BLOB NULL,
     title VARCHAR NOT NULL DEFAULT "Untitled",
     release_id INTEGER NOT NULL DEFAULT 1,
     track_number VARCHAR NOT NULL DEFAULT 1,
@@ -89,7 +90,17 @@ CREATE TABLE music__tracks (
     PRIMARY KEY (id),
     FOREIGN KEY (release_id) REFERENCES music__releases (id),
     UNIQUE (filepath),
-    UNIQUE (sha256)
+    UNIQUE (full_sha256)
+);
+
+CREATE TABLE dupe_music__tracks (
+    id INTEGER NOT NULL,
+    dupe_track_id INTEGER NOT NULL,
+    filepath VARCHAR NOT NULL,
+    initial_sha256 BLOB NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (dupe_track_id) REFERENCES music__tracks (id),
+    UNIQUE (filepath)
 );
 
 CREATE TABLE music__tracks_artists (
