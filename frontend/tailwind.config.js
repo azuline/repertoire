@@ -80,9 +80,9 @@ module.exports = {
     },
   },
   variants: {
+    backgroundOpacity: ['dark', 'hover'],
     borderWidth: ['responsive', 'hover', 'focus'],
     display: ['responsive', 'hover'],
-    opacity: ['hover'],
     maxWidth: ['responsive', 'focus'],
   },
 };

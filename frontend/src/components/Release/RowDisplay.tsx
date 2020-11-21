@@ -17,7 +17,7 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string | unde
     <div
       className={clsx(
         className,
-        'w-full flex items-center py-3 hover:bg-white hover:bg-opacity-5 cursor-pointer',
+        'w-full flex items-center py-3 hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5 cursor-pointer',
       )}
       onClick={(): void => {}}
     >
@@ -34,9 +34,11 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string | unde
           </div>
           <div className="hidden sm:block flex-none ml-auto">
             {release.numTracks}&nbsp;
-            <span className="text-gray-300">{release.numTracks !== 1 ? 'tracks' : 'track'}</span>
+            <span className="text-gray-800 dark:text-gray-300">
+              {release.numTracks !== 1 ? 'tracks' : 'track'}
+            </span>
             &nbsp;/&nbsp;{runMinutes}&nbsp;
-            <span className="text-gray-300">minutes</span>
+            <span className="text-gray-800 dark:text-gray-300">minutes</span>
           </div>
         </div>
         <div className="flex">

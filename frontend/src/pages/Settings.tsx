@@ -10,7 +10,7 @@ export const Settings: React.FC = () => {
   );
 
   return (
-    <div>
+    <div className="px-8">
       Toggle theme: <button onClick={toggleTheme}>{theme}</button>
     </div>
   );
