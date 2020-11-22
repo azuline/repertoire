@@ -33,7 +33,7 @@ const utilRoutes = [
 const sections = [
   { name: 'Library', routes: libraryRoutes },
   { name: 'Collections', routes: collectionRoutes },
-  { name: 'Utility', routes: utilRoutes },
+  { name: 'Utilities', routes: utilRoutes },
 ];
 
 export const Sidebar: React.FC = () => {
