@@ -14,7 +14,18 @@ export const Header: React.FC<{ className?: string | undefined }> = ({ className
   return (
     <div className={clsx(className, 'relative z-20 flex items-center w-full h-20 px-8')}>
       {!openBar && (
-        <Icon className="-ml-2 w-6 mr-4 cursor-pointer" icon="hamburger" onClick={toggleOpen} />
+        <>
+          <Icon
+            className="hidden sm:block -ml-2 w-6 mr-4 cursor-pointer"
+            icon="hamburger"
+            onClick={toggleOpen}
+          />
+          <Icon
+            className="block sm:hidden -ml-2 w-6 mr-4 cursor-pointer"
+            icon="chevron-double-left-medium"
+            onClick={toggleOpen}
+          />
+        </>
       )}
       <Searchbar className="mr-6" />
       <User />

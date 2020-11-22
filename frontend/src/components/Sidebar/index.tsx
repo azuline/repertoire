@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { User } from 'src/components/Header/User';
+import { Searchbar } from 'src/components/Header/Searchbar';
 
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -54,7 +56,7 @@ export const Sidebar: React.FC = () => {
 
   return (
     <div
-      className="flex-none sticky bg-background-alt2 top-0 flex flex-col w-56"
+      className="flex-none sticky bg-background-alt2 top-0 flex flex-col w-full sm:w-56"
       style={{ height: 'calc(100vh - 4rem)' }}
     >
       <div className="my-6">
@@ -67,11 +69,13 @@ export const Sidebar: React.FC = () => {
           </div>
           <Icon
             icon="hamburger"
-            className="flex-none ml-auto w-6 pointer-cursor"
+            className="flex-none ml-auto w-6 pointer-cursor hidden sm:block"
             onClick={toggleOpen}
           />
+          <User className="sm:hidden" />
         </div>
       </div>
+      <Searchbar className="flex-none block sm:hidden h-16 mb-4 mx-8" shrink={false} />
       <NavLink className="py-2 px-8" url={'/'} activeRoute={activeRoute} label={'Home'} />
       {sections.map(({ name, routes }) => (
         <div key={name} className="my-6">

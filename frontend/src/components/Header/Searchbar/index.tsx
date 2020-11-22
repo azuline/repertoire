@@ -7,11 +7,15 @@ import clsx from 'clsx';
 
 export const Searchbar: React.FC<{
   className?: string | undefined;
-}> = ({ className }) => {
+  shrink?: boolean;
+}> = ({ className, shrink = true }) => {
   return (
     <div className={clsx(className, 'flex-1 relative')}>
       <div className="flex items-center h-full">
-        <input className="w-full max-w-xxs focus:max-w-none pl-9" placeholder="Search" />
+        <input
+          className={clsx('w-full pl-9', shrink && 'max-w-xxs focus:max-w-none')}
+          placeholder="Search"
+        />
         <div className="h-full absolute top-0 left-0 flex items-center pl-2 pr-1 pointer-events-none">
           <Icon icon="search-medium" className="w-5 text-primary" />
         </div>

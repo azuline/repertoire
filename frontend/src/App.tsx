@@ -35,7 +35,7 @@ const Body: React.FC = () => {
           <div className="flex-1 flex">
             <Sidebar />
             <div
-              className="flex flex-col"
+              className={clsx('flex flex-col', openBar && 'hidden sm:flex')}
               style={{ width: openBar ? 'calc(100% - 14rem)' : '100%' }}
             >
               <Header className="flex-none" />
