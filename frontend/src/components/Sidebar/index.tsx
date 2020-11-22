@@ -24,9 +24,8 @@ const collectionRoutes = [
 ];
 
 const utilRoutes = [
-  { path: '/help', exact: false, label: 'Help' },
-  { path: '/metadata', exact: false, label: 'Metadata' },
   { path: '/settings', exact: false, label: 'Settings' },
+  { path: '/metadata', exact: false, label: 'Metadata Tools' },
 ];
 
 const sections = [
