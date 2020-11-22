@@ -20,6 +20,7 @@ html {
   --color-primary: #b78846; /* gold-500 */
   --color-primary-alt: #6e522a; /* gold-700 */
   --color-primary-alt2: #523d20; /* gold-800 */
+  --color-primary-alt3: #daa520; /* gold-400 */
 }
 
 .app.light {
@@ -32,6 +33,7 @@ html {
   --color-primary: #6e522a; /* gold-700 */
   --color-primary-alt: #a57a3f; /* gold-600 */
   --color-primary-alt2: #b78846; /* gold-500 */
+  --color-primary-alt3: #523d20; /* gold-400 */
 }
 
 .app {

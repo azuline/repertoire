@@ -9,6 +9,8 @@ import { matchPath } from 'react-router';
 
 type RouteT = { path: string; exact: boolean; label: string };
 
+const homeRoute = { path: '/', exact: true, label: 'Home' };
+
 const libraryRoutes = [
   { path: '/releases', exact: false, label: 'Releases' },
   { path: '/artists', exact: false, label: 'Artists' },
@@ -16,7 +18,10 @@ const libraryRoutes = [
   { path: '/labels', exact: false, label: 'Labels' },
 ];
 
-const collectionRoutes = [{ path: '/collages', exact: false, label: 'Collages' }];
+const collectionRoutes = [
+  { path: '/collages', exact: false, label: 'Collages' },
+  { path: '/playlists', exact: false, label: 'Playlists' },
+];
 
 const utilRoutes = [
   { path: '/help', exact: false, label: 'Help' },
@@ -37,7 +42,7 @@ export const Sidebar: React.FC = () => {
 
   const activeRoute = React.useMemo(() => {
     const active = sections
-      .reduce<RouteT[]>((acc, section) => acc.concat(section.routes), [])
+      .reduce<RouteT[]>((acc, section) => acc.concat(section.routes), [homeRoute])
       .find(({ path, exact }) => matchPath(location.pathname, { path, exact }));
 
     return active ? active.path : null;
@@ -68,9 +73,10 @@ export const Sidebar: React.FC = () => {
           />
         </div>
       </div>
+      <NavLink className="py-2 px-8" url={'/'} activeRoute={activeRoute} label={'Home'} />
       {sections.map(({ name, routes }) => (
         <div key={name} className="my-6">
-          <div className="mb-4 px-8 text-primary text-sm uppercase">{name}</div>
+          <div className="mb-4 px-8 text-primary-alt3 text-sm uppercase">{name}</div>
           {routes.map(({ path, label }, i) => (
             <NavLink
               key={i}
