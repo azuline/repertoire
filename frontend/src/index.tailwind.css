@@ -16,7 +16,7 @@ html {
   --color-foreground-alt: #f7fafc; /* gray-100 */
   --color-background: #101013;
   --color-background-alt: #18181d;
-  --color-background-alt2: #23232a;
+  --color-background-alt2: #1e1e26;
   --color-primary: #b78846; /* gold-500 */
   --color-primary-alt: #6e522a; /* gold-700 */
   --color-primary-alt2: #523d20; /* gold-800 */
@@ -46,6 +46,10 @@ button {
 
 button:hover {
   @apply bg-black bg-opacity-5 dark:bg-white dark:bg-opacity-5;
+}
+
+button.large {
+  @apply px-4 py-2;
 }
 
 .text-btn {

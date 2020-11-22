@@ -1,4 +1,5 @@
 import * as React from 'react';
+import CSS from 'csstype';
 
 import { useHistory } from 'react-router-dom';
 
@@ -6,8 +7,9 @@ export const Link: React.FC<{
   href: string;
   children: React.ReactNode;
   className?: string | undefined;
+  style?: CSS.Properties | undefined;
   onClick?: () => void | undefined;
-}> = ({ href, children, className, onClick }) => {
+}> = ({ href, children, className, style, onClick }) => {
   const history = useHistory();
 
   const newOnClick = React.useCallback(
@@ -20,7 +22,7 @@ export const Link: React.FC<{
   );
 
   return (
-    <a className={className} onClick={newOnClick} href={href}>
+    <a className={className} onClick={newOnClick} style={style} href={href}>
       {children}
     </a>
   );

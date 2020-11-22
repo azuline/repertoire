@@ -3,7 +3,6 @@ import * as React from 'react';
 import { usePagination, useViewOptions } from 'src/hooks';
 
 import { PagedReleases } from 'src/components/Releases';
-import { Pagination } from 'src/components/Pagination';
 import { ViewSettings } from 'src/components/ViewSettings';
 import { fetchReleases } from 'src/lib';
 
@@ -23,11 +22,10 @@ export const Releases: React.FC = (): React.ReactElement => {
   }, [total]);
 
   return (
-    <div className="py-4 full">
-      <div className="mx-auto px-8">
-        <ViewSettings className="my-4" viewOptions={viewOptions} pagination={pagination} />
-        <PagedReleases view={viewOptions.releaseView} releases={results} />
-        <Pagination className="my-4" pagination={pagination} />
+    <div className="min-h-0 flex flex-col">
+      <ViewSettings className="px-8 my-4" viewOptions={viewOptions} pagination={pagination} />
+      <div className="overflow-y-auto">
+        <PagedReleases className="px-8 pb-8" view={viewOptions.releaseView} releases={results} />
       </div>
     </div>
   );

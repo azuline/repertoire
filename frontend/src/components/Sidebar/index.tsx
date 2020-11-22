@@ -55,10 +55,7 @@ export const Sidebar: React.FC = () => {
   if (!openBar) return null;
 
   return (
-    <div
-      className="flex-none sticky bg-background-alt2 top-0 flex flex-col w-full sm:w-56"
-      style={{ height: 'calc(100vh - 4rem)' }}
-    >
+    <div className="h-full flex-none sticky bg-background-alt2 top-0 flex flex-col w-full sm:w-56">
       <div className="my-6">
         <div className="flex items-center pl-6 pr-4 cursor-pointer">
           <div className="flex items-center flex-1" onClick={goHome}>

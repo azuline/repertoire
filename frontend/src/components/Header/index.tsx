@@ -12,7 +12,7 @@ export const Header: React.FC<{ className?: string | undefined }> = ({ className
   const toggleOpen = React.useCallback(() => setOpenBar((o) => !o), [setOpenBar]);
 
   return (
-    <div className={clsx(className, 'relative z-20 flex items-center w-full h-20 px-8')}>
+    <div className={clsx(className, 'relative z-10 flex items-center w-full h-20 px-8')}>
       {!openBar && (
         <>
           <Icon

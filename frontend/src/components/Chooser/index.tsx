@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import { AutoSizer, List, WindowScroller } from 'react-virtualized';
+import { AutoSizer, List } from 'react-virtualized';
 import { Element, ElementT } from './Element';
 
 import { SidebarContext } from 'src/contexts';
 import clsx from 'clsx';
 
-const style = { maxHeight: 'calc(100vh - 4rem)' };
+const style = { maxHeight: 'calc(100vh - 9rem)' };
 
 export const Chooser: React.FC<{
   className?: string | undefined;
@@ -17,7 +17,6 @@ export const Chooser: React.FC<{
   const { openBar } = React.useContext(SidebarContext);
 
   // Virtual render setup.
-  const scrollRef = React.useRef<WindowScroller>();
   const renderRow = React.useCallback(
     ({ index, key, style }) => {
       return (
@@ -48,11 +47,16 @@ export const Chooser: React.FC<{
     >
       <div
         className={clsx(
-          'flex-auto hidden bg-background-alt',
-          active && (openBar ? 'xl:block' : 'lg:block'),
+          'h-full flex-auto',
+          active && (openBar ? 'xl:bg-background-alt' : 'lg:bg-background-alt'),
         )}
       >
-        <div className="w-full -mt-24 h-24 bg-background-alt" />
+        <div
+          className={clsx(
+            'hidden w-full -mt-24 h-24 bg-background-alt',
+            active && (openBar ? 'xl:block' : 'lg:block'),
+          )}
+        />
         <AutoSizer>
           {({ width, height }): React.ReactNode => (
             <List
@@ -65,29 +69,6 @@ export const Chooser: React.FC<{
               scrollToIndex={scrollToIndex}
               width={width}
             />
-          )}
-        </AutoSizer>
-      </div>
-      <div className={active ? (openBar ? 'xl:hidden' : 'lg:hidden') : undefined}>
-        <AutoSizer disableHeight>
-          {({ width }): React.ReactNode => (
-            <WindowScroller ref={scrollRef as React.RefObject<WindowScroller>}>
-              {({ height, isScrolling, onChildScroll, scrollTop }): React.ReactNode => (
-                <List
-                  className="py-4"
-                  autoHeight
-                  height={height}
-                  isScrolling={isScrolling}
-                  onScroll={onChildScroll}
-                  overscanRowCount={8}
-                  rowCount={results.length}
-                  rowHeight={28.5}
-                  rowRenderer={renderRow}
-                  scrollTop={scrollTop}
-                  width={width}
-                />
-              )}
-            </WindowScroller>
           )}
         </AutoSizer>
       </div>

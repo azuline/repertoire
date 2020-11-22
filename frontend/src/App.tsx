@@ -27,19 +27,22 @@ const Body: React.FC = () => {
   const { theme } = React.useContext(ThemeContext);
 
   return (
-    <div className={clsx(theme, 'app w-full min-h-screen flex flex-col')}>
+    <div className={clsx(theme, 'app w-full h-screen flex flex-col')}>
       {!token ? (
         <Login className="flex-1" />
       ) : (
         <>
-          <div className="flex-1 flex">
+          <div
+            className="flex-1 flex"
+            style={{ height: 'calc(100vh - 4rem)', maxHeight: 'calc(100vh - 4rem)' }}
+          >
             <Sidebar />
             <div
               className={clsx('flex flex-col', openBar && 'hidden sm:flex')}
               style={{ width: openBar ? 'calc(100% - 14rem)' : '100%' }}
             >
               <Header className="flex-none" />
-              <Routes className="flex-1" />
+              <Routes />
             </div>
           </div>
           <Footer />

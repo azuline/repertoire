@@ -18,10 +18,11 @@ const gridOneCssPartial = 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-col
 const gridTwoCss = 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5';
 
 export const PagedReleases: React.FC<{
+  className?: string | undefined;
   releases: ReleaseT[];
   view: ReleaseView;
   partial?: boolean;
-}> = ({ releases, view, partial = false }) => {
+}> = ({ className, releases, view, partial = false }) => {
   const { openBar } = React.useContext(SidebarContext);
 
   const gridCss = React.useMemo(() => {
@@ -39,7 +40,9 @@ export const PagedReleases: React.FC<{
   switch (view) {
     case ReleaseView.ROW:
       return (
-        <div className="flex divide-y-2 divide-primary-alt2 flex-col bg-background">
+        <div
+          className={clsx(className, 'flex divide-y-2 divide-primary-alt2 flex-col bg-background')}
+        >
           {releases.map((rls) => (
             <div key={rls.id}>
               <RowRelease release={rls} className="px-4 py-4 rounded" />
@@ -50,7 +53,7 @@ export const PagedReleases: React.FC<{
     case ReleaseView.ARTWORK:
     default:
       return (
-        <div className={clsx('grid gap-6', gridCss)}>
+        <div className={clsx(className, 'grid gap-6', gridCss)}>
           {releases.map((rls) => (
             <ArtRelease key={rls.id} release={rls} />
           ))}
