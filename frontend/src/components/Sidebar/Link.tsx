@@ -18,7 +18,7 @@ export const NavLink: React.FC<{
     <div
       className={clsx(
         className,
-        active ? 'bg-bg-embellish' : 'hover:bg-gray-200 hover:bg-opacity-5',
+        active ? 'bg-primary-alt2' : 'hover:bg-gray-200 hover:bg-opacity-5',
         'cursor-pointer',
       )}
       onClick={handleClick}

@@ -50,7 +50,7 @@ export const Login: React.FC<{ className?: string | undefined }> = ({ className 
           ref={input}
           style={inputStyle}
         />
-        <button type="submit" className="px-4 py-2 bg-bold hover:bg-bold">
+        <button type="submit" className="px-4 py-2 bg-primary hover:bg-primary">
           Login
         </button>
       </form>

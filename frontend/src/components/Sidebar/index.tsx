@@ -50,15 +50,15 @@ export const Sidebar: React.FC = () => {
 
   return (
     <div
-      className="flex-none sticky bg-bg-alt top-0 flex flex-col w-56"
+      className="flex-none sticky bg-background-alt2 top-0 flex flex-col w-56"
       style={{ height: 'calc(100vh - 4rem)' }}
     >
       <div className="my-6">
         <div className="flex items-center pl-6 pr-4 cursor-pointer">
           <div className="flex items-center flex-1" onClick={goHome}>
-            <Icon className="text-bold w-8" icon="logo" />
+            <Icon className="text-primary w-8" icon="logo" />
             <div className="font-semibold ml-2">
-              <span className="text-bold">reper</span>toire
+              <span className="text-primary">reper</span>toire
             </div>
           </div>
           <Icon
@@ -70,7 +70,7 @@ export const Sidebar: React.FC = () => {
       </div>
       {sections.map(({ name, routes }) => (
         <div key={name} className="my-6">
-          <div className="mb-4 px-8 text-bold text-sm uppercase">{name}</div>
+          <div className="mb-4 px-8 text-primary text-sm uppercase">{name}</div>
           {routes.map(({ path, label }, i) => (
             <NavLink
               key={i}

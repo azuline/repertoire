@@ -23,7 +23,7 @@ export const RecentlyAdded: React.FC = () => {
     <div className="mt-8">
       <Link onClick={toRecentlyAdded} href="/releases">
         <SectionHeader className="mx-8 my-8 cursor-pointer">
-          Recently Added <span className="text-bold text-2xl">(View All)</span>
+          Recently Added <span className="text-primary text-2xl">(View All)</span>
         </SectionHeader>
       </Link>
       <ScrolledReleases

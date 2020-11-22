@@ -27,7 +27,7 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string | unde
       <div className="flex-1 overflow-hidden">
         <div className="flex">
           <div className="flex-shrink flex mr-4 truncate">
-            <div className="truncate font-semibold text-bold">{release.title}</div>
+            <div className="truncate font-semibold text-primary">{release.title}</div>
             {release.releaseYear ? (
               <div className="flex-none">&nbsp;&nbsp;[{release.releaseYear}]</div>
             ) : null}

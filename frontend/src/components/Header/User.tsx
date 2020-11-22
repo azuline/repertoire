@@ -21,7 +21,7 @@ export const User: React.FC<{ className?: string | undefined }> = ({ className }
       <Icon className="w-5 mr-1" icon="user-medium" />
       <div className="mr-2">{status === 'success' && data ? data.user.username : 'Loading...'}</div>
       <Icon
-        className="w-5 text-bold cursor-pointer"
+        className="w-5 text-primary cursor-pointer"
         title="Logout"
         icon="logout-medium"
         onClick={logout}
