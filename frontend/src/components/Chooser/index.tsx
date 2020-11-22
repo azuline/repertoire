@@ -15,7 +15,6 @@ export const Chooser: React.FC<{
   makeUrl: (arg0: number) => string;
 }> = ({ className, results, active, makeUrl }) => {
   const { openBar } = React.useContext(SidebarContext);
-  const bp = React.useMemo(() => (openBar ? 'xl' : 'lg'), [openBar]);
 
   // Virtual render setup.
   const scrollRef = React.useRef<WindowScroller>();
@@ -38,17 +37,26 @@ export const Chooser: React.FC<{
     <div
       className={clsx(
         className,
-        active ? `hidden ${bp}:flex ${bp}:flex-col ${bp}:sticky ${bp}:top-0` : 'w-full',
-        openBar ? 'w-80' : 'w-84',
+        active
+          ? openBar
+            ? 'hidden xl:flex xl:flex-col xl:sticky xl:top-0'
+            : 'hidden lg:flex lg:flex-col lg:sticky lg:top-0'
+          : 'w-full',
+        openBar ? 'w-80' : 'w-88',
       )}
       style={active ? style : {}}
     >
-      <div className={clsx('flex-auto hidden bg-background-alt', active && `${bp}:block`)}>
-        <div className="w-full -mt-24 h-24 bg-background-alt border-b-2 border-background-alt2" />
+      <div
+        className={clsx(
+          'flex-auto hidden bg-background-alt',
+          active && (openBar ? 'xl:block' : 'lg:block'),
+        )}
+      >
+        <div className="w-full -mt-24 h-24 bg-background-alt" />
         <AutoSizer>
           {({ width, height }): React.ReactNode => (
             <List
-              className="py-4"
+              className="chooser pt-4"
               height={height}
               overscanRowCount={8}
               rowCount={results.length}
@@ -60,7 +68,7 @@ export const Chooser: React.FC<{
           )}
         </AutoSizer>
       </div>
-      <div className={active ? `${bp}:hidden` : undefined}>
+      <div className={active ? (openBar ? 'xl:hidden' : 'lg:hidden') : undefined}>
         <AutoSizer disableHeight>
           {({ width }): React.ReactNode => (
             <WindowScroller ref={scrollRef as React.RefObject<WindowScroller>}>

@@ -1,14 +1,7 @@
 module.exports = {
   darkMode: 'class',
+  purge: ['./src/**/*.tsx', './src/**/*.html'],
   theme: {
-    screens: {
-      xs: '480px',
-      sm: '640px',
-      md: '768px',
-      lg: '1024px',
-      xl: '1280px',
-      '2xl': '1440px',
-    },
     extend: {
       colors: {
         foreground: 'var(--color-foreground)',
@@ -34,15 +27,13 @@ module.exports = {
         '1/24': '4.166666%',
       },
       width: {
-        84: '21rem',
+        88: '22rem',
       },
       inset: {
         '1/2': '50%',
       },
       borderWidth: {
         10: '10px',
-        12: '12px',
-        14: '14px',
       },
       maxWidth: {
         xxs: '16rem',
@@ -51,8 +42,7 @@ module.exports = {
   },
   variants: {
     backgroundOpacity: ['dark', 'hover'],
-    borderWidth: ['responsive', 'hover', 'focus'],
-    display: ['responsive', 'hover'],
+    display: ['responsive'],
     maxWidth: ['responsive', 'focus'],
   },
 };

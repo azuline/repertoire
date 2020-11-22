@@ -142,3 +142,7 @@ input::placeholder {
   flex: 0 0 2rem;
   margin: 0 0 0 -1rem;
 }
+
+.chooser > .ReactVirtualized__Grid__innerScrollContainer {
+  @apply mb-4;
+}
