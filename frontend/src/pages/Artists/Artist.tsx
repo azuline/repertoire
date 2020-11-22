@@ -18,10 +18,10 @@ export const Artist: React.FC<{ active: number }> = ({ active }) => {
   if (!artist) return null;
 
   return (
-    <div className="pl-8 py-4 flex-1 overflow-x-hidden">
+    <div className="px-8 py-4 flex-1 overflow-x-hidden">
       <Link href="/artists">
-        <button className="flex items-center text-btn">
-          <Icon className="w-5 -ml-3 mr-1" icon="chevron-left-small" />
+        <button className="-ml-2 flex items-center text-btn">
+          <Icon className="w-5 -ml-1 mr-1" icon="chevron-left-small" />
           <div className="flex-shrink">Back</div>
         </button>
       </Link>

@@ -21,9 +21,9 @@ export const ViewSettings: React.FC<{
   const { openBar } = React.useContext(SidebarContext);
 
   const [responsiveFlex, responsiveHide] = React.useMemo(() => {
-    if (openBar && partial) {
+    if (partial) {
       return ['xl:flex', 'xl:hidden'];
-    } else if (openBar || partial) {
+    } else if (openBar) {
       return ['lg:flex', 'lg:hidden'];
     } else {
       return ['md:flex', 'md:hidden'];
@@ -40,11 +40,11 @@ export const ViewSettings: React.FC<{
         <PerPage className="ml-2" pagination={pagination} />
       </div>
       <Popover click className={clsx('ml-auto cursor-pointer', responsiveHide)}>
-        <button className="flex items-center text-btn">
+        <button className="-mr-2 flex items-center text-btn">
           <div>Options</div>
-          <Icon className="w-4 ml-1 -mr-3" icon="chevron-down-small" />
+          <Icon className="w-4 ml-1 -mr-1" icon="chevron-down-small" />
         </button>
-        <div className="px-6 py-4 bg-bg-alt border-highlight border-2 rounded">
+        <div className="px-6 py-4 bg-background-alt border-primary-alt border-2 rounded">
           <View viewOptions={viewOptions} />
           <Sort viewOptions={viewOptions} />
           <Order viewOptions={viewOptions} />

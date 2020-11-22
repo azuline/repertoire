@@ -25,12 +25,12 @@ export const Select: React.FC<{
         onChange={onChange}
         className={clsx(
           selectClassName,
-          'py-1 bg-transparent leading-tight appearance-none text-bold cursor-pointer pr-4 z-10 flex-1',
+          'py-1 bg-transparent leading-tight appearance-none text-primary cursor-pointer pr-4 z-10 flex-1',
         )}
       >
         {children}
       </select>
-      <Icon className="w-4 text-bold absolute right-0 z-0 flex-none" icon="chevron-down-small" />
+      <Icon className="w-4 text-primary absolute right-0 z-0 flex-none" icon="chevron-down-small" />
     </div>
   );
 };

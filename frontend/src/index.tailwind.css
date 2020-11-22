@@ -2,42 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* TODO: Figure out a way to @apply these... */
-  --color-fg: #ffffff; /* white */
-  --color-fg-alt: #f7fafc; /* gray-100 */
-  --color-bg: #101013;
-  --color-bg-alt: #18181d;
-  --color-bg-alt2: #202026;
-  --color-bg-embellish: #523d20; /* gold-800 */
-  --color-highlight: #6e522a; /* gold-700 */
-  --color-bold: #b78846; /* gold-500 */
-}
-
 html {
-  background-color: var(--color-bg);
+  --lh: 1.4rem;
+  line-height: var(--lh);
   font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
-  --lh: 1.4rem;
-  line-height: var(--lh);
-  @apply text-fg;
 }
 
 .app {
-  background-color: var(--color-bg);
+  /* TODO: Figure out a way to @apply these... */
+  --color-foreground: #fff; /* white */
+  --color-foreground-alt: #f7fafc; /* gray-100 */
+  --color-background: #101013;
+  --color-background-alt: #18181d;
+  --color-background-alt2: #23232a;
+  --color-primary: #b78846; /* gold-500 */
+  --color-primary-alt: #6e522a; /* gold-700 */
+  --color-primary-alt2: #523d20; /* gold-800 */
+}
+
+.app.light {
+  /* TODO: Figure out a way to @apply these... */
+  --color-foreground: #000; /* black */
+  --color-foreground-alt: #1e293b; /* blueGray-800 */
+  --color-background: #f8fafc; /* blueGray-50 */
+  --color-background-alt: #e2e8f0; /* blueGray-200 */
+  --color-background-alt2: #cbd5e1; /* blueGray-300 */
+  --color-primary: #6e522a; /* gold-700 */
+  --color-primary-alt: #a57a3f; /* gold-600 */
+  --color-primary-alt2: #b78846; /* gold-500 */
+}
+
+.app {
+  @apply text-foreground bg-background;
 }
 
 button {
-  @apply rounded font-normal px-2 py-1 bg-transparent;
+  @apply rounded font-normal px-2 py-1 text-foreground bg-primary-alt2;
 }
 
 button:hover {
-  @apply bg-white bg-opacity-5;
+  @apply bg-black bg-opacity-5 dark:bg-white dark:bg-opacity-5;
 }
 
 .text-btn {
-  @apply text-bold;
+  @apply text-primary bg-transparent;
 }
 
 .text-btn:hover {
@@ -45,11 +55,11 @@ button:hover {
 }
 
 input {
-  @apply bg-transparent border-highlight border-b-2 px-4 py-2;
+  @apply bg-transparent border-primary-alt border-b-2 px-4 py-2;
 }
 
 input::placeholder {
-  @apply text-fg-alt;
+  @apply text-foreground-alt;
 }
 
 .block-important {
@@ -116,10 +126,6 @@ input::placeholder {
   display: block;
 }
 
-.react-toast-notifications__toast {
-  background-color: var(--color-bg-alt) !important;
-  color: var(--color-fg) !important;
-}
 .react-toast-notifications__toast__content,
 .react-toast-notifications__toast__dismiss-button,
 .react-toast-notifications__toast__icon-wrapper {

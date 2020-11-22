@@ -19,7 +19,9 @@ export const Element: React.FC<{
       <div
         className={clsx(
           'pl-8 pr-4 py-1 cursor-pointer truncate',
-          isActive ? 'bg-bg-embellish' : 'hover:bg-white hover:bg-opacity-5',
+          isActive
+            ? 'bg-primary-alt2'
+            : 'hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5',
         )}
       >
         {element.name}

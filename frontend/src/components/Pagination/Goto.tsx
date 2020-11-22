@@ -36,7 +36,7 @@ export const Goto: React.FC<{
           className="absolute right-0 h-full py-0 pl-1 bg-transparent hover:bg-transparent"
           type="submit"
         >
-          <Icon className="w-4 text-bold" icon="right-arrow-small" />
+          <Icon className="w-4 text-primary" icon="right-arrow-small" />
         </button>
       </div>
     </form>

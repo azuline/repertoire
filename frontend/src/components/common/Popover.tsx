@@ -3,7 +3,7 @@ import * as React from 'react';
 import clsx from 'clsx';
 
 const arrowStyle = {
-  borderColor: 'transparent var(--color-highlight) var(--color-highlight) transparent',
+  borderColor: 'transparent var(--color-primary-alt) var(--color-primary-alt) transparent',
 };
 
 export const Popover: React.FC<{

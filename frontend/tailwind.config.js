@@ -1,7 +1,8 @@
 module.exports = {
+  darkMode: 'class',
   theme: {
     screens: {
-      xsm: '480px',
+      xs: '480px',
       sm: '640px',
       md: '768px',
       lg: '1024px',
@@ -10,20 +11,14 @@ module.exports = {
     },
     extend: {
       colors: {
-        // The next four colors are for legacy Tailwind v1.0 compatibility.
-        black: '#000',
-        white: '#fff',
-        transparent: 'transparent',
-        current: 'currentColor',
-        fg: 'var(--color-fg)',
-        'fg-alt': 'var(--color-fg-alt)',
-        bg: 'var(--color-bg)',
-        'bg-alt': 'var(--color-bg-alt)',
-        'bg-alt2': 'var(--color-bg-alt2)',
-        'bg-embellish': 'var(--color-bg-embellish)',
-        highlight: 'var(--color-highlight)',
-        bold: 'var(--color-bold)',
-        success: 'var(--color-success)',
+        foreground: 'var(--color-foreground)',
+        'foreground-alt': 'var(--color-foreground-alt)',
+        background: 'var(--color-background)',
+        'background-alt': 'var(--color-background-alt)',
+        'background-alt2': 'var(--color-background-alt2)',
+        primary: 'var(--color-primary)',
+        'primary-alt': 'var(--color-primary-alt)',
+        'primary-alt2': 'var(--color-primary-alt2)',
         gold: {
           50: '#FBF9F6',
           100: '#F8F3ED',
@@ -38,55 +33,29 @@ module.exports = {
         },
       },
       spacing: {
-        7: '1.75rem',
-        9: '2.25rem',
         full: '100%',
         '1/24': '4.166666%',
       },
-      height: {
-        '1/2': '50%',
-      },
       width: {
-        14: '3.5rem',
-        28: '7rem',
-        36: '9rem',
-        44: '11rem',
-        52: '13rem',
-        60: '15rem',
-      },
-      opacity: {
-        2: '.02',
-        3: '.03',
-        4: '.04',
-        5: '.05',
-        10: '.1',
-        20: '.2',
-        30: '.3',
-        40: '.4',
-        50: '.5',
-        60: '.6',
-        70: '.7',
-        80: '.8',
-        90: '.9',
+        84: '21rem',
       },
       inset: {
         '1/2': '50%',
-      },
-      transitionProperty: {
-        width: 'width',
-        height: 'height',
       },
       borderWidth: {
         10: '10px',
         12: '12px',
         14: '14px',
       },
+      maxWidth: {
+        xxs: '16rem',
+      },
     },
   },
   variants: {
+    backgroundOpacity: ['dark', 'hover'],
     borderWidth: ['responsive', 'hover', 'focus'],
     display: ['responsive', 'hover'],
-    opacity: ['hover'],
     maxWidth: ['responsive', 'focus'],
   },
 };
