@@ -1,9 +1,10 @@
 import * as React from 'react';
 
+import { Icon } from 'src/components/common/Icon';
 import { Link } from 'src/components/common/Link';
 import clsx from 'clsx';
 
-export type ElementT = { id: number; name: string };
+export type ElementT = { id: number; name: string; starred: boolean };
 
 export const Element: React.FC<{
   element: ElementT;
@@ -15,16 +16,25 @@ export const Element: React.FC<{
   const url = React.useMemo(() => makeUrl(element.id), [element, makeUrl]);
 
   return (
-    <Link href={url}>
+    <div className="relative">
       <div
         className={clsx(
-          'pl-8 pr-10 py-1 cursor-pointer truncate',
-          'hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5',
-          isActive && 'text-primary font-bold',
+          'absolute flex items-center top-0 h-full left-0 ml-8 cursor-pointer',
+          element.starred ? 'text-primary-alt3 hover:text-foreground' : 'hover:text-primary-alt3',
         )}
       >
-        {element.name}
+        <Icon className="w-4" icon={element.starred ? 'star-small-filled' : 'star-small-outline'} />
       </div>
-    </Link>
+      <Link href={url}>
+        <div
+          className={clsx(
+            'pl-14 pr-10 py-1 cursor-pointer truncate hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5',
+            isActive && 'text-primary font-bold',
+          )}
+        >
+          {element.name}
+        </div>
+      </Link>
+    </div>
   );
 };

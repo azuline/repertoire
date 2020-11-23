@@ -24,6 +24,8 @@ export const JumpToLetter: React.FC<{
   const letterToIndexMap = React.useMemo(
     () =>
       results.reduce<LetterToIndexMapT>((map, elem, index) => {
+        if (elem.starred) return map; // Exclude starred elements from jumper.
+
         const key = getJumpLetter(elem.name);
         return key in map ? map : { ...map, [key]: (): void => setJumpTo(index) };
       }, {}),

@@ -18,27 +18,44 @@ export const Chooser: React.FC<{
   const { openBar } = React.useContext(SidebarContext);
   const [jumpTo, setJumpTo] = React.useState<number | null>(null);
 
+  // Sort the starred elements before the normal elements.
+  const sortedResults: ElementT[] = React.useMemo(() => {
+    const [starred, unstarred] = results.reduce<ElementT[][]>(
+      ([starred, unstarred], elem) => {
+        if (elem.starred) {
+          starred.push(elem);
+        } else {
+          unstarred.push(elem);
+        }
+        return [starred, unstarred];
+      },
+      [[], []],
+    );
+
+    return starred.concat(unstarred);
+  }, [results]);
+
   // Virtual render setup.
   const renderRow = React.useCallback(
     ({ index, key, style }) => {
       return (
         <div key={key} style={style}>
-          <Element element={results[index]} active={active} makeUrl={makeUrl} />
+          <Element element={sortedResults[index]} active={active} makeUrl={makeUrl} />
         </div>
       );
     },
-    [results, active, makeUrl],
+    [sortedResults, active, makeUrl],
   );
 
   const [scrollToIndex, scrollToAlignment] = React.useMemo(() => {
     if (jumpTo) {
       return [jumpTo, 'start'];
     } else if (active) {
-      return [results.findIndex((elem) => elem.id === active), 'auto'];
+      return [sortedResults.findIndex((elem) => elem.id === active), 'auto'];
     } else {
       return [undefined, 'auto'];
     }
-  }, [jumpTo, active, results]);
+  }, [jumpTo, active, sortedResults]);
 
   return (
     <div
@@ -65,14 +82,14 @@ export const Chooser: React.FC<{
             active && (openBar ? 'xl:block' : 'lg:block'),
           )}
         />
-        <JumpToLetter results={results} setJumpTo={setJumpTo} />
+        <JumpToLetter results={sortedResults} setJumpTo={setJumpTo} />
         <AutoSizer>
           {({ width, height }): React.ReactNode => (
             <List
               className="chooser"
               height={height}
               overscanRowCount={8}
-              rowCount={results.length}
+              rowCount={sortedResults.length}
               rowHeight={28.5}
               rowRenderer={renderRow}
               scrollToIndex={scrollToIndex}
