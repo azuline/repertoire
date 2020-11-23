@@ -19,7 +19,7 @@ export const Element: React.FC<{
     <div className="relative">
       <div
         className={clsx(
-          'absolute flex items-center top-0 h-full left-0 ml-8 cursor-pointer',
+          'absolute flex items-center top-0 h-full left-0 pl-8 cursor-pointer',
           element.starred ? 'text-primary-alt3 hover:text-foreground' : 'hover:text-primary-alt3',
         )}
       >
