@@ -27,16 +27,25 @@ def check_auth(func):
 
     @functools.wraps(func)
     async def wrapper(*args, **kwargs):
+        # First try to authenticate from the session.
+        try:
+            print(quart.session)
+            if usr := user.from_id(quart.session["user_id"], quart.g.db):
+                quart.g.user = usr
+                return await func(*args, **kwargs)
+        except KeyError:
+            pass
+
+        # Next try to authenticate from the token.
         try:
             token = bytes.fromhex(_get_token(quart.request.headers))
             quart.g.user = user.from_token(token, quart.g.db)
+            return await func(*args, **kwargs)
         except (TypeError, ValueError):
-            quart.g.user = None
+            pass
 
-        if not quart.g.user:
-            quart.abort(401)
-
-        return await func(*args, **kwargs)
+        # Failed to authenticate, abort!
+        quart.abort(401)
 
     return wrapper
 

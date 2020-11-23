@@ -70,18 +70,18 @@ async def quart_client(quart_app):
         return kwargs
 
     async with quart_app.app_context():
-        test_client = quart_app.test_client()
+        async with quart_app.test_client() as test_client:
 
-        async def authed_get(*args, **kwargs):
-            return await test_client.get(*args, **update_kwargs(kwargs))
+            async def authed_get(*args, **kwargs):
+                return await test_client.get(*args, **update_kwargs(kwargs))
 
-        async def authed_post(*args, **kwargs):
-            return await test_client.post(*args, **update_kwargs(kwargs))
+            async def authed_post(*args, **kwargs):
+                return await test_client.post(*args, **update_kwargs(kwargs))
 
-        test_client.authed_get = authed_get
-        test_client.authed_post = authed_post
+            test_client.authed_get = authed_get
+            test_client.authed_post = authed_post
 
-        yield test_client
+            yield test_client
 
 
 @pytest.fixture

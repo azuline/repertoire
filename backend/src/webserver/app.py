@@ -4,6 +4,7 @@ Quart app instance, call ``create_app()``.
 """
 
 import logging
+import secrets
 import sqlite3
 
 import quart
@@ -11,9 +12,11 @@ from quart import Quart, Response
 from werkzeug.exceptions import HTTPException
 
 from src.constants import DATABASE_PATH, PROJECT_ROOT
-from src.webserver.routes import files, graphql  # type: ignore
+from src.util import database
+from src.webserver.routes import files, graphql, session  # type: ignore
 
 STATIC_FOLDER = PROJECT_ROOT / "frontend" / "build"
+SECRET_LENGTH = 32
 
 logger = logging.getLogger(__name__)
 
@@ -29,6 +32,14 @@ def create_app() -> Quart:
     :return: The created Quart application.
     """
     app = Quart(__name__, static_folder=str(STATIC_FOLDER), static_url_path="/")
+
+    app.config.update(
+        SESSION_COOKIE_SECURE=True,
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE="Lax",
+    )
+
+    app.secret_key = _get_secret_key()
 
     # Disable CORS if we are in debug mode.
     if app.debug:  # pragma: no cover
@@ -48,6 +59,20 @@ def create_app() -> Quart:
     return app
 
 
+def _get_secret_key():
+    with database() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT key FROM system__secret_key LIMIT 1")
+        if row := cursor.fetchone():
+            return row[0]
+
+        secret_key = secrets.token_bytes(32)
+        cursor.execute("INSERT INTO system__secret_key (key) VALUES (?)", (secret_key,))
+        conn.commit()
+
+        return secret_key
+
+
 def _register_blueprints(app: Quart):
     """
     Find all blueprints in the ``src.webserver.routes`` package and register
@@ -57,6 +82,7 @@ def _register_blueprints(app: Quart):
     """
     app.register_blueprint(files.bp)
     app.register_blueprint(graphql.bp)
+    app.register_blueprint(session.bp)
 
 
 def _register_error_handler(app: Quart):

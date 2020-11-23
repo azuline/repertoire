@@ -172,3 +172,8 @@ CREATE TABLE system__users (
     UNIQUE (username),
     UNIQUE (token_prefix)
 );
+
+CREATE TABLE system__secret_key (
+    key BLOB NOT NULL,
+    PRIMARY KEY (key)
+);

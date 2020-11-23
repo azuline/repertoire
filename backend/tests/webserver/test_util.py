@@ -26,14 +26,23 @@ def validate_data_app(quart_app):
 
 
 @pytest.mark.asyncio
-async def test_check_auth_success(check_auth_app, quart_client):
+async def test_check_auth_token_success(check_auth_app, quart_client):
     response = await quart_client.authed_get("/testing")
 
     assert b"admin" == await response.get_data()
 
 
 @pytest.mark.asyncio
-async def test_check_auth_failure(check_auth_app, quart_client):
+async def test_check_auth_session_success(check_auth_app, quart_client):
+    async with quart_client.session_transaction() as sess:
+        sess["user_id"] = 1
+
+    response = await quart_client.get("/testing")
+    assert b"admin" == await response.get_data()
+
+
+@pytest.mark.asyncio
+async def test_check_auth_token_failure(check_auth_app, quart_client):
     response = await quart_client.get(
         "/testing", headers={"Authorization": "Token lol"}
     )
