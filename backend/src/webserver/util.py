@@ -12,7 +12,7 @@ from voluptuous import Invalid
 from src.library import user
 
 
-def check_auth(abort_if_unauthorized=True):
+def check_auth(func):
     """
     Ensure that the wrapped function can only be accessed by a request that
     passes a valid APIKey in the header. If the API Key is not present or
@@ -25,23 +25,20 @@ def check_auth(abort_if_unauthorized=True):
     :raises: HTTPException
     """
 
-    def decorator(func):
-        @functools.wraps(func)
-        async def wrapper(*args, **kwargs):
-            try:
-                token = bytes.fromhex(_get_token(quart.request.headers))
-                quart.g.user = user.from_token(token, quart.g.db)
-            except (TypeError, ValueError):
-                quart.g.user = None
+    @functools.wraps(func)
+    async def wrapper(*args, **kwargs):
+        try:
+            token = bytes.fromhex(_get_token(quart.request.headers))
+            quart.g.user = user.from_token(token, quart.g.db)
+        except (TypeError, ValueError):
+            quart.g.user = None
 
-            if not quart.g.user and abort_if_unauthorized:
-                quart.abort(401)
+        if not quart.g.user:
+            quart.abort(401)
 
-            return await func(*args, **kwargs)
+        return await func(*args, **kwargs)
 
-        return wrapper
-
-    return decorator
+    return wrapper
 
 
 def _get_token(headers):

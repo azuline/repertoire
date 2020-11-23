@@ -86,13 +86,13 @@ async def quart_client(quart_app):
 
 @pytest.fixture
 def graphql_query(db, quart_app):
-    async def executor(query, authed):
+    async def executor(query):
         async with quart_app.test_request_context("/testing", method="GET"):
             return await graphql(
                 schema=schema,
                 data={"operationName": None, "variables": {}, "query": query},
                 context_value=GraphQLContext(
-                    user=user.from_id(1, db) if authed else None,
+                    user=user.from_id(1, db),
                     db=db,
                     request=quart.request,
                 ),

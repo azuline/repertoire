@@ -7,7 +7,7 @@ from src.enums import ArtistRole
 from src.errors import NotFound
 from src.graphql.mutation import mutation
 from src.graphql.query import query
-from src.graphql.util import commit, require_auth
+from src.graphql.util import commit
 from src.library import release, track
 from src.util import convert_keys_case
 
@@ -15,7 +15,6 @@ gql_track = ObjectType("Track")
 
 
 @query.field("track")
-@require_auth
 def resolve_track(obj: Any, info: GraphQLResolveInfo, id: int) -> track.T:
     if trk := track.from_id(id, info.context.db):
         return trk
@@ -34,7 +33,6 @@ def resolve_top_genres(obj: track.T, info: GraphQLResolveInfo) -> List[Dict]:
 
 
 @mutation.field("updateTrack")
-@require_auth
 @commit
 def resolve_update_track(
     _,
@@ -49,7 +47,6 @@ def resolve_update_track(
 
 
 @mutation.field("addArtistToTrack")
-@require_auth
 @commit
 def resolve_add_artist_to_track(
     _,
@@ -65,7 +62,6 @@ def resolve_add_artist_to_track(
 
 
 @mutation.field("delArtistFromTrack")
-@require_auth
 @commit
 def resolve_del_artist_from_track(
     _,

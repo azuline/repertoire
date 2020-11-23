@@ -12,7 +12,6 @@ snapshots['test_artist 1'] = (
     {
         'data': {
             'artist': {
-                'starred': False,
                 'id': 4,
                 'name': 'Abakus',
                 'numReleases': 1,
@@ -21,6 +20,7 @@ snapshots['test_artist 1'] = (
                         'id': 3
                     }
                 ],
+                'starred': False,
                 'topGenres': [
                     {
                         'genre': {
@@ -57,7 +57,6 @@ snapshots['test_artist_from_name 1'] = (
     {
         'data': {
             'artistFromName': {
-                'starred': False,
                 'id': 4,
                 'name': 'Abakus',
                 'numReleases': 1,
@@ -66,6 +65,7 @@ snapshots['test_artist_from_name 1'] = (
                         'id': 3
                     }
                 ],
+                'starred': False,
                 'topGenres': [
                     {
                         'genre': {
@@ -97,30 +97,6 @@ snapshots['test_artist_from_name 1'] = (
     }
 )
 
-snapshots['test_artist_from_name_no_auth 1'] = (
-    True,
-    {
-        'data': {
-            'artistFromName': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Invalid authorization token.',
-                'path': [
-                    'artistFromName'
-                ],
-                'type': 'NotAuthorized'
-            }
-        ]
-    }
-)
-
 snapshots['test_artist_from_name_not_found 1'] = (
     True,
     {
@@ -140,30 +116,6 @@ snapshots['test_artist_from_name_not_found 1'] = (
                     'artistFromName'
                 ],
                 'type': 'NotFound'
-            }
-        ]
-    }
-)
-
-snapshots['test_artist_no_auth 1'] = (
-    True,
-    {
-        'data': {
-            'artist': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Invalid authorization token.',
-                'path': [
-                    'artist'
-                ],
-                'type': 'NotAuthorized'
             }
         ]
     }
@@ -200,7 +152,6 @@ snapshots['test_artists 1'] = (
             'artists': {
                 'results': [
                     {
-                        'starred': False,
                         'id': 2,
                         'name': 'Aaron West and the Roaring Twenties',
                         'numReleases': 1,
@@ -209,6 +160,7 @@ snapshots['test_artists 1'] = (
                                 'id': 2
                             }
                         ],
+                        'starred': False,
                         'topGenres': [
                             {
                                 'genre': {
@@ -237,7 +189,6 @@ snapshots['test_artists 1'] = (
                         ]
                     },
                     {
-                        'starred': False,
                         'id': 4,
                         'name': 'Abakus',
                         'numReleases': 1,
@@ -246,6 +197,7 @@ snapshots['test_artists 1'] = (
                                 'id': 3
                             }
                         ],
+                        'starred': False,
                         'topGenres': [
                             {
                                 'genre': {
@@ -274,7 +226,6 @@ snapshots['test_artists 1'] = (
                         ]
                     },
                     {
-                        'starred': True,
                         'id': 5,
                         'name': 'Bacchus',
                         'numReleases': 1,
@@ -283,6 +234,7 @@ snapshots['test_artists 1'] = (
                                 'id': 3
                             }
                         ],
+                        'starred': True,
                         'topGenres': [
                             {
                                 'genre': {
@@ -316,41 +268,17 @@ snapshots['test_artists 1'] = (
     }
 )
 
-snapshots['test_artists_no_auth 1'] = (
-    True,
-    {
-        'data': {
-            'artists': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Invalid authorization token.',
-                'path': [
-                    'artists'
-                ],
-                'type': 'NotAuthorized'
-            }
-        ]
-    }
-)
-
 snapshots['test_create_artist 1'] = (
     True,
     {
         'data': {
             'createArtist': {
-                'starred': True,
                 'id': 6,
                 'name': 'New Artist',
                 'numReleases': 0,
                 'releases': [
                 ],
+                'starred': True,
                 'topGenres': [
                 ]
             }
@@ -384,36 +312,11 @@ snapshots['test_create_artist_duplicate 1'] = (
     }
 )
 
-snapshots['test_create_artist_no_auth 1'] = (
-    True,
-    {
-        'data': {
-            'createArtist': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Invalid authorization token.',
-                'path': [
-                    'createArtist'
-                ],
-                'type': 'NotAuthorized'
-            }
-        ]
-    }
-)
-
 snapshots['test_update_artist 1'] = (
     True,
     {
         'data': {
             'updateArtist': {
-                'starred': True,
                 'id': 4,
                 'name': 'New Name',
                 'numReleases': 1,
@@ -422,6 +325,7 @@ snapshots['test_update_artist 1'] = (
                         'id': 3
                     }
                 ],
+                'starred': True,
                 'topGenres': [
                     {
                         'genre': {
@@ -504,29 +408,3 @@ snapshots['test_update_artist_duplicate 1'] = (
 )
 
 snapshots['test_update_artist_duplicate 2'] = GenericRepr("T(id=4, name='Abakus', starred=False, num_releases=1)")
-
-snapshots['test_update_artist_no_auth 1'] = (
-    True,
-    {
-        'data': {
-            'updateArtist': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Invalid authorization token.',
-                'path': [
-                    'updateArtist'
-                ],
-                'type': 'NotAuthorized'
-            }
-        ]
-    }
-)
-
-snapshots['test_update_artist_no_auth 2'] = GenericRepr("T(id=4, name='Abakus', starred=False, num_releases=1)")

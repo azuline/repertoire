@@ -12,7 +12,7 @@ bp = Blueprint("files", __name__, url_prefix="/files")
 
 
 @bp.route("/tracks/<track_id>", methods=["GET"])
-@check_auth()
+@check_auth
 async def get_track(track_id: int):
     """
     Returns a track's audio file.
@@ -39,7 +39,7 @@ async def get_track(track_id: int):
 
 
 @bp.route("/covers/<release_id>", methods=["GET"])
-@check_auth()
+@check_auth
 @validate_data(Schema({"thumbnail": StringBool}))
 async def get_cover(release_id: int, thumbnail: bool = False) -> Response:
     """

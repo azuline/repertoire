@@ -8,7 +8,7 @@ from src.webserver.util import check_auth, validate_data
 @pytest.fixture
 def check_auth_app(quart_app):
     @quart_app.route("/testing", methods=["GET"])
-    @check_auth()
+    @check_auth
     async def testing():
         return quart.g.user.username
 

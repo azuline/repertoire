@@ -59,9 +59,5 @@ class DoesNotExist(LibError):
     pass
 
 
-class NotAuthorized(LibError):
-    pass
-
-
 class ParseError(LibError):
     pass
