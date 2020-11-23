@@ -31,7 +31,7 @@ export const JumpToLetter: React.FC<{
   );
 
   return (
-    <div className="text-primary z-20 absolute top-0 right-0 pr-5 pt-4">
+    <div className="text-primary z-20 absolute top-0 right-0 pr-5">
       {Object.entries(letterToIndexMap).map(([letter, jumpFn]) => (
         <div className="cursor-pointer px-2 py-0.5 hover:font-bold" key={letter} onClick={jumpFn}>
           {letter}

@@ -69,7 +69,7 @@ export const Chooser: React.FC<{
         <AutoSizer>
           {({ width, height }): React.ReactNode => (
             <List
-              className="chooser pt-4"
+              className="chooser"
               height={height}
               overscanRowCount={8}
               rowCount={results.length}
