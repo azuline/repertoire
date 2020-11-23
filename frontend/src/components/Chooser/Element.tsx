@@ -18,10 +18,9 @@ export const Element: React.FC<{
     <Link href={url}>
       <div
         className={clsx(
-          'pl-8 pr-4 py-1 cursor-pointer truncate',
-          isActive
-            ? 'bg-primary-alt2'
-            : 'hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5',
+          'pl-8 pr-10 py-1 cursor-pointer truncate',
+          'hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5',
+          isActive && 'text-primary font-bold',
         )}
       >
         {element.name}

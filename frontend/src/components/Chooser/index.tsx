@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { AutoSizer, List } from 'react-virtualized';
 import { Element, ElementT } from './Element';
+import { JumpToLetter } from './JumpToLetter';
 
 import { SidebarContext } from 'src/contexts';
 import clsx from 'clsx';
@@ -15,6 +16,7 @@ export const Chooser: React.FC<{
   makeUrl: (arg0: number) => string;
 }> = ({ className, results, active, makeUrl }) => {
   const { openBar } = React.useContext(SidebarContext);
+  const [jumpTo, setJumpTo] = React.useState<number | null>(null);
 
   // Virtual render setup.
   const renderRow = React.useCallback(
@@ -27,10 +29,16 @@ export const Chooser: React.FC<{
     },
     [results, active, makeUrl],
   );
-  const scrollToIndex = React.useMemo(
-    () => (active ? results.findIndex((elem) => elem.id === active) : undefined),
-    [active, results],
-  );
+
+  const [scrollToIndex, scrollToAlignment] = React.useMemo(() => {
+    if (jumpTo) {
+      return [jumpTo, 'start'];
+    } else if (active) {
+      return [results.findIndex((elem) => elem.id === active), 'auto'];
+    } else {
+      return [undefined, 'auto'];
+    }
+  }, [jumpTo, active, results]);
 
   return (
     <div
@@ -47,7 +55,7 @@ export const Chooser: React.FC<{
     >
       <div
         className={clsx(
-          'h-full flex-auto',
+          'relative h-full flex-auto',
           active && (openBar ? 'xl:bg-background-alt' : 'lg:bg-background-alt'),
         )}
       >
@@ -57,6 +65,7 @@ export const Chooser: React.FC<{
             active && (openBar ? 'xl:block' : 'lg:block'),
           )}
         />
+        <JumpToLetter results={results} setJumpTo={setJumpTo} />
         <AutoSizer>
           {({ width, height }): React.ReactNode => (
             <List
@@ -67,6 +76,7 @@ export const Chooser: React.FC<{
               rowHeight={28.5}
               rowRenderer={renderRow}
               scrollToIndex={scrollToIndex}
+              scrollToAlignment={scrollToAlignment as 'start' | 'auto'}
               width={width}
             />
           )}

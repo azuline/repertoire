@@ -42,6 +42,7 @@ module.exports = {
   },
   variants: {
     backgroundOpacity: ['dark', 'hover'],
+    fontWeight: ['hover'],
     display: ['responsive'],
     maxWidth: ['responsive', 'focus'],
   },
