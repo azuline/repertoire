@@ -1,6 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 
+import { Header } from 'src/components/Header';
 import { SidebarContext } from 'src/contexts';
 import { ArtistReleases } from './Releases';
 import { BackButton } from 'src/components/common/BackButton';
@@ -21,15 +22,15 @@ export const Artist: React.FC<{ active: number }> = ({ active }) => {
   if (!artist) return null;
 
   return (
-    <div className="relative flex-1">
+    <div className="relative flex-1 flex flex-col">
+      <Header />
       <Link
-        className={clsx('px-8 hidden absolute z-40', openBar ? 'xl:block' : 'lg:block')}
-        style={{ top: '-3.75rem' }}
+        className={clsx('top-0 mt-5 px-8 hidden absolute z-40', openBar ? 'xl:block' : 'lg:block')}
         href="/artists"
       >
         <BackButton />
       </Link>
-      <div className="h-full overflow-y-auto">
+      <div className="overflow-y-auto">
         <div className="px-8 pb-8">
           <Link className={openBar ? 'xl:hidden' : 'lg:hidden'} href="/artists">
             <BackButton />

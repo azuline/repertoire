@@ -148,5 +148,5 @@ input::placeholder {
 }
 
 .chooser > .ReactVirtualized__Grid__innerScrollContainer {
-  @apply mb-4;
+  @apply mb-8;
 }

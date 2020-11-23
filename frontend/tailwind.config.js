@@ -35,9 +35,6 @@ module.exports = {
       borderWidth: {
         10: '10px',
       },
-      maxWidth: {
-        xxs: '16rem',
-      },
     },
   },
   variants: {

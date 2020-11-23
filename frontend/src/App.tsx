@@ -6,7 +6,6 @@ import { GlobalContexts, SidebarContext, ThemeContext } from 'src/contexts';
 import { AuthorizationContext } from 'src/contexts';
 import { BrowserRouter } from 'react-router-dom';
 import { Footer } from 'src/components/Footer';
-import { Header } from 'src/components/Header';
 import { Login } from 'src/pages';
 import { Routes } from 'src/Routes';
 import { Sidebar } from 'src/components/Sidebar';
@@ -38,10 +37,9 @@ const Body: React.FC = () => {
           >
             <Sidebar />
             <div
-              className={clsx('flex flex-col', openBar && 'hidden sm:flex')}
+              className={clsx(openBar && 'hidden sm:flex sm:flex-col')}
               style={{ width: openBar ? 'calc(100% - 14rem)' : '100%' }}
             >
-              <Header className="flex-none" />
               <Routes />
             </div>
           </div>

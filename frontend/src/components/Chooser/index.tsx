@@ -7,7 +7,7 @@ import { JumpToLetter } from './JumpToLetter';
 import { SidebarContext } from 'src/contexts';
 import clsx from 'clsx';
 
-const style = { maxHeight: 'calc(100vh - 9rem)' };
+const style = { maxHeight: 'calc(100vh - 4rem)' };
 
 export const Chooser: React.FC<{
   className?: string | undefined;
@@ -82,11 +82,15 @@ export const Chooser: React.FC<{
             active && (openBar ? 'xl:block' : 'lg:block'),
           )}
         />
-        <JumpToLetter results={sortedResults} setJumpTo={setJumpTo} />
+        <JumpToLetter
+          className={clsx(active && 'pt-8')}
+          results={sortedResults}
+          setJumpTo={setJumpTo}
+        />
         <AutoSizer>
           {({ width, height }): React.ReactNode => (
             <List
-              className="chooser"
+              className={clsx('chooser', active && 'pt-8')}
               height={height}
               overscanRowCount={8}
               rowCount={sortedResults.length}
