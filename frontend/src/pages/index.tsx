@@ -1,6 +1,5 @@
 export * from './Home';
 export * from './Login';
-export * from './LoggingIn';
 export * from './NotFound';
 export * from './Release';
 export * from './Releases';

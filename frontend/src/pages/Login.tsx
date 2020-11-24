@@ -53,7 +53,7 @@ export const Login: React.FC<{ className?: string | undefined }> = ({ className 
           </button>
         </div>
         <div className="mt-2 flex items-center">
-          <input className="mr-2 cursor-pointer" id="permanent" type="checkbox" ref={permanent} />
+          <input className="mx-2 cursor-pointer" id="permanent" type="checkbox" ref={permanent} />
           <label className="cursor-pointer" htmlFor="permanent">
             Rememeber me
           </label>

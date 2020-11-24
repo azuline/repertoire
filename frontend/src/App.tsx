@@ -6,7 +6,7 @@ import { GlobalContexts, SidebarContext, ThemeContext } from 'src/contexts';
 import { AuthorizationContext } from 'src/contexts';
 import { BrowserRouter } from 'react-router-dom';
 import { Footer } from 'src/components/Footer';
-import { Login, LoggingIn } from 'src/pages';
+import { Login } from 'src/pages';
 import { Routes } from 'src/Routes';
 import { Sidebar } from 'src/components/Sidebar';
 
@@ -27,9 +27,9 @@ const Body: React.FC = () => {
 
   return (
     <div className={clsx(theme, 'app w-full h-screen flex flex-col')}>
-      {loggedIn === null && <LoggingIn className="flex-1" />}
-      {loggedIn === false && <Login className="flex-1" />}
-      {loggedIn === true && (
+      {!loggedIn ? (
+        <Login className="flex-1" />
+      ) : (
         <>
           <div
             className="flex-1 flex"

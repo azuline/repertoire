@@ -5,12 +5,7 @@ import { RequestError } from 'src/types';
 
 type Request<T> = (
   url: string,
-  {
-    method,
-    token,
-    contentType,
-    body,
-  }?: { method?: string; token?: string; contentType?: string; body?: string },
+  opts?: { method?: string; token?: string; contentType?: string; body?: string },
 ) => Promise<T>;
 
 export const useRequest = (): Request<Response> => {

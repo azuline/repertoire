@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { useRequestJson } from 'src/hooks';
+import { useRequestJson, usePersistentState } from 'src/hooks';
 
 type ACType = {
-  loggedIn: boolean | null;
-  setLoggedIn: (arg0: boolean | null) => void;
+  loggedIn: boolean;
+  setLoggedIn: (arg0: boolean) => void;
   csrf: string | null;
   setCsrf: (arg0: string | null) => void;
 };
@@ -16,8 +16,8 @@ export const AuthorizationContext = React.createContext<ACType>({
 });
 
 export const AuthorizationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [loggedIn, setLoggedIn] = React.useState<boolean | null>(null);
-  const [csrf, setCsrf] = React.useState<string | null>(null);
+  const [loggedIn, setLoggedIn] = usePersistentState<boolean>('auth--loggedIn', false);
+  const [csrf, setCsrf] = usePersistentState<string | null>('auth--csrfToken', null);
   const requestJson = useRequestJson<{ csrfToken: string }>();
 
   const value = { loggedIn, setLoggedIn, csrf, setCsrf };
@@ -34,7 +34,6 @@ export const AuthorizationProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       } catch (e) {
         setLoggedIn(false);
-        return;
       }
     })();
   }, []);
