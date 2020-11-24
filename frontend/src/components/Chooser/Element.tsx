@@ -4,7 +4,7 @@ import { Icon } from 'src/components/common/Icon';
 import { Link } from 'src/components/common/Link';
 import clsx from 'clsx';
 
-export type ElementT = { id: number; name: string; starred: boolean };
+export type ElementT = { id: number; name: string; starred: boolean; type?: string };
 export type ToggleStarFactory = (elem: ElementT) => () => Promise<void>;
 
 export const Element: React.FC<{
@@ -14,6 +14,7 @@ export const Element: React.FC<{
   toggleStarFactory: ToggleStarFactory;
 }> = ({ element, active, urlFactory, toggleStarFactory }) => {
   const isActive = React.useMemo(() => element.id === active, [active, element]);
+  const isToggleable = React.useMemo(() => element.type !== 'SYSTEM', [element]);
 
   const url = React.useMemo(() => urlFactory(element.id), [element, urlFactory]);
   const toggleStar = React.useMemo(() => toggleStarFactory(element), [toggleStarFactory, element]);
@@ -22,8 +23,10 @@ export const Element: React.FC<{
     <div className="relative">
       <div
         className={clsx(
-          'absolute flex items-center top-0 h-full left-0 pl-8 cursor-pointer',
-          element.starred ? 'text-primary-alt3 hover:text-foreground' : 'hover:text-primary-alt3',
+          'absolute flex items-center top-0 h-full left-0 pl-8',
+          isToggleable && 'cursor-pointer',
+          element.starred && 'text-primary-alt3',
+          isToggleable && (element.starred ? 'hover:text-foreground' : 'hover:text-primary-alt3'),
         )}
         onClick={toggleStar}
       >
