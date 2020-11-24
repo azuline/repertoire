@@ -16,7 +16,7 @@ export const Chooser: React.FC<{
   urlFactory: (arg0: number) => string;
   toggleStarFactory: ToggleStarFactory;
 }> = ({ className, results, active, urlFactory, toggleStarFactory }) => {
-  const { openBar } = React.useContext(SidebarContext);
+  const { isSidebarOpen } = React.useContext(SidebarContext);
   const [jumpTo, setJumpTo] = React.useState<number | null>(null);
 
   // Virtual render setup.
@@ -52,24 +52,24 @@ export const Chooser: React.FC<{
       className={clsx(
         className,
         active
-          ? openBar
+          ? isSidebarOpen
             ? 'hidden xl:flex xl:flex-col xl:sticky xl:top-0'
             : 'hidden lg:flex lg:flex-col lg:sticky lg:top-0'
           : 'w-full',
-        openBar ? 'w-80' : 'w-88',
+        isSidebarOpen ? 'w-80' : 'w-88',
       )}
       style={active ? style : {}}
     >
       <div
         className={clsx(
           'relative h-full flex-auto',
-          active && (openBar ? 'xl:bg-background-alt' : 'lg:bg-background-alt'),
+          active && (isSidebarOpen ? 'xl:bg-background-alt' : 'lg:bg-background-alt'),
         )}
       >
         <div
           className={clsx(
             'hidden w-full -mt-24 h-24 bg-background-alt',
-            active && (openBar ? 'xl:block' : 'lg:block'),
+            active && (isSidebarOpen ? 'xl:block' : 'lg:block'),
           )}
         />
         <JumpToLetter className={clsx(active && 'pt-8')} results={results} setJumpTo={setJumpTo} />

@@ -11,9 +11,9 @@ export const NavLink: React.FC<{
   className?: string;
 }> = ({ url, label, activeRoute, className }) => {
   const active = React.useMemo(() => url === activeRoute, [activeRoute, url]);
-  const { setOpenBar } = React.useContext(SidebarContext);
+  const { setSidebarOpen } = React.useContext(SidebarContext);
 
-  const closeSidebar = React.useCallback(() => setOpenBar(false), [setOpenBar]);
+  const closeSidebar = React.useCallback(() => setSidebarOpen(false), [setSidebarOpen]);
 
   return (
     <>

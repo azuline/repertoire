@@ -25,7 +25,7 @@ export const PagedReleases: React.FC<{
   pagination: PaginationType;
   partial?: boolean;
 }> = ({ viewOptions, pagination, partial = false }) => {
-  const { openBar } = React.useContext(SidebarContext);
+  const { isSidebarOpen } = React.useContext(SidebarContext);
 
   const { status, data } = fetchReleases(viewOptions, pagination);
 
@@ -39,16 +39,16 @@ export const PagedReleases: React.FC<{
   }, [total]);
 
   const gridCss = React.useMemo(() => {
-    if (openBar && partial) {
+    if (isSidebarOpen && partial) {
       return gridTwoCss;
-    } else if (openBar) {
+    } else if (isSidebarOpen) {
       return gridOneCssSidebar;
     } else if (partial) {
       return gridOneCssPartial;
     } else {
       return gridFullCss;
     }
-  }, [openBar, partial]);
+  }, [isSidebarOpen, partial]);
 
   let releasesDiv = null;
 

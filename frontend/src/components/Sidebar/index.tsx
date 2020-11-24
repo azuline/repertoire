@@ -36,7 +36,7 @@ const sections = [
 export const Sidebar: React.FC = () => {
   const location = useLocation();
   const history = useHistory();
-  const { openBar, setOpenBar } = React.useContext(SidebarContext);
+  const { isSidebarOpen, setSidebarOpen } = React.useContext(SidebarContext);
 
   const activeRoute = React.useMemo(() => {
     const active = sections
@@ -47,9 +47,9 @@ export const Sidebar: React.FC = () => {
   }, [location]);
 
   const goHome = React.useCallback(() => history.push('/'), [history]);
-  const toggleOpen = React.useCallback(() => setOpenBar((o) => !o), [setOpenBar]);
+  const toggleOpen = React.useCallback(() => setSidebarOpen((o) => !o), [setSidebarOpen]);
 
-  if (!openBar) return null;
+  if (!isSidebarOpen) return null;
 
   return (
     <div className="h-full flex-none sticky bg-background-alt2 top-0 flex flex-col w-full sm:w-56">

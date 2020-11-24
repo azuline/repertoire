@@ -18,17 +18,17 @@ export const ViewSettings: React.FC<{
   className?: string;
   partial?: boolean;
 }> = ({ viewOptions, pagination, className, partial = false }) => {
-  const { openBar } = React.useContext(SidebarContext);
+  const { isSidebarOpen } = React.useContext(SidebarContext);
 
   const [responsiveFlex, responsiveHide] = React.useMemo(() => {
     if (partial) {
       return ['xl:flex', 'xl:hidden'];
-    } else if (openBar) {
+    } else if (isSidebarOpen) {
       return ['lg:flex', 'lg:hidden'];
     } else {
       return ['md:flex', 'md:hidden'];
     }
-  }, [openBar, partial]);
+  }, [isSidebarOpen, partial]);
 
   return (
     <div className={clsx('flex', className)}>
