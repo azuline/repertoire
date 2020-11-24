@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { AuthorizationContext } from 'src/contexts';
+import { Link } from 'src/components/common/Link';
 import { useRequest } from 'src/hooks';
 import { Icon } from 'src/components/common/Icon';
 import clsx from 'clsx';
@@ -28,6 +29,9 @@ export const User: React.FC<{ className?: string | undefined }> = ({ className }
     <div className={clsx(className, 'flex h-full items-center')}>
       <Icon className="w-5 mr-1" icon="user-medium" />
       <div className="mr-3">{status === 'success' && data ? data.user.username : 'Loading...'}</div>
+      <Link href="/settings">
+        <Icon className="w-5 mr-2 text-primary cursor-pointer" title="Settings" icon="cog-medium" />
+      </Link>
       <Icon
         className="w-5 text-primary cursor-pointer"
         title="Logout"

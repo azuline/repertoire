@@ -25,10 +25,7 @@ const collectionRoutes = [
   { path: '/playlists', exact: false, label: 'Playlists' },
 ];
 
-const utilRoutes = [
-  { path: '/settings', exact: false, label: 'Settings' },
-  { path: '/metadata', exact: false, label: 'Metadata Tools' },
-];
+const utilRoutes = [{ path: '/metadata', exact: false, label: 'Metadata Tools' }];
 
 const sections = [
   { name: 'Library', routes: libraryRoutes },

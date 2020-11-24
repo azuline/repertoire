@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { ThemeT, ThemeContext } from 'src/contexts';
+import { Header } from 'src/components/Header';
+import { SectionHeader } from 'src/components/common/SectionHeader';
 
 export const Settings: React.FC = () => {
   const { theme, setTheme } = React.useContext(ThemeContext);
@@ -10,8 +12,14 @@ export const Settings: React.FC = () => {
   );
 
   return (
-    <div className="px-8">
-      Toggle theme: <button onClick={toggleTheme}>{theme}</button>
-    </div>
+    <>
+      <Header searchbar={false} />
+      <div className="px-8">
+        <SectionHeader className="mt-4 mb-8">Settings</SectionHeader>
+        <div>
+          Toggle theme: <button onClick={toggleTheme}>{theme}</button>
+        </div>
+      </div>
+    </>
   );
 };

@@ -22,7 +22,7 @@ export const Artist: React.FC<{ active: number }> = ({ active }) => {
     <div className="relative flex-1 flex flex-col">
       <Header />
       <div className="overflow-y-auto">
-        <div className="px-8 pb-8">
+        <div className="px-8 pb-8 mt-1">
           <Link href="/artists">
             <BackButton />
           </Link>
