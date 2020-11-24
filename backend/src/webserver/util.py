@@ -62,7 +62,6 @@ def _check_session_auth(csrf: bool) -> bool:
     except KeyError:
         pass
 
-    # CSRF check.
     if quart.g.user and csrf and not _check_csrf():
         quart.abort(400)
 
@@ -102,7 +101,6 @@ def _check_token_auth() -> bool:
     except (TypeError, ValueError):
         pass
 
-    print(quart.g.user)
     return bool(quart.g.user)
 
 

@@ -8,13 +8,14 @@ import { useToasts } from 'react-toast-notifications';
 
 export const User: React.FC<{ className?: string | undefined }> = ({ className }) => {
   const { status, data } = fetchUser();
-  const { setToken } = React.useContext(AuthorizationContext);
+  const { setLoggedIn } = React.useContext(AuthorizationContext);
   const { addToast } = useToasts();
 
   const logout = React.useCallback(() => {
     addToast('Logged out!', { appearance: 'success' });
-    setToken(null);
-  }, [setToken, addToast]);
+    // TODO: Make a logout request (and add that endpoint to the server).
+    setLoggedIn(false);
+  }, [setLoggedIn, addToast]);
 
   return (
     <div className={clsx(className, 'flex h-full items-center')}>

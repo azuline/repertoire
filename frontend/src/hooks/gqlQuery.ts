@@ -3,53 +3,37 @@ import * as React from 'react';
 import { GraphQLError, RequestError } from 'src/types';
 import { QueryKey, QueryResult, useQuery } from 'react-query';
 
-import { API_URL } from 'src/constants';
 import { AuthorizationContext } from 'src/contexts';
 import { useToasts } from 'react-toast-notifications';
 
 type Options<V> = { variables?: V; authorization?: string };
 type ErrorType = { type: string; message: string };
-type RawGQLQuery<T, V> = (query: string, options: Options<V>) => Promise<T>;
-type Response<T> = { data: T; errors: GraphQLError[] };
-
-const GQL_URL = `${API_URL}/graphql`;
+type RawGQLQuery<T, V> = (query: string, variables: V | undefined) => Promise<T>;
 
 export const useGQLQuery = <T, V = undefined>(
   cacheKey: QueryKey,
   query: string,
-  { variables, authorization }: Options<V> = {},
+  { variables }: Options<V> = {},
 ): QueryResult<T, RequestError<GraphQLError>> => {
   const { addToast } = useToasts();
-  const { token, setToken } = React.useContext(AuthorizationContext);
+  const { loggedIn } = React.useContext(AuthorizationContext);
   const rawQuery = useRawGQLQuery<T, V>();
 
-  const options = React.useMemo(
-    () => ({
-      variables,
-      authorization: authorization ?? token ?? undefined,
-    }),
-    [variables, authorization, token],
-  );
-
   const handler = React.useCallback(async () => {
-    if (!token) {
-      throw new RequestError('Failed to authenticate');
+    if (!loggedIn) {
+      throw new RequestError('Not logged in.');
     }
 
     try {
-      return await rawQuery(query, options);
+      return await rawQuery(query, variables);
     } catch (e) {
-      e.errors.forEach(({ type, message }: ErrorType) => {
-        if (type === 'NotAuthorized') {
-          setToken(null);
-        }
-
+      e.errors.forEach(({ message }: ErrorType) => {
         addToast(message, { appearance: 'error' });
       });
 
       throw e;
     }
-  }, [options, addToast, token, setToken, rawQuery]);
+  }, [variables, addToast, loggedIn, rawQuery]);
 
   const queryKey = React.useMemo(() => [cacheKey, variables], [cacheKey, variables]);
 
@@ -57,31 +41,46 @@ export const useGQLQuery = <T, V = undefined>(
 };
 
 export const useRawGQLQuery = <T, V = undefined>(): RawGQLQuery<T, V> => {
+  const { csrf } = React.useContext(AuthorizationContext);
+  const { addToast } = useToasts();
+  const { loggedIn, setLoggedIn } = React.useContext(AuthorizationContext);
+
   const rawGqlQuery = React.useCallback(
-    async (query: string, { variables, authorization }: Options<V>): Promise<T> => {
+    async (query: string, variables: V | undefined): Promise<T> => {
+      if (!loggedIn) {
+        throw new RequestError('Not logged in.');
+      }
+
       const headers: Record<string, string> = {
-        Authorization: authorization ? `Token ${authorization}` : '',
+        'X-CSRF-Token': csrf ?? '',
         'Content-Type': 'application/json',
       };
 
-      const promise = await fetch(GQL_URL, {
+      const response = await fetch('/graphql', {
         method: 'POST',
         headers: headers,
+        credentials: 'same-origin',
         body: JSON.stringify({
           query: query,
           variables: variables,
         }),
       });
 
-      const response = await (promise.json() as Promise<Response<T>>);
-
-      if (response.errors) {
-        throw new RequestError<GraphQLError>('GraphQL Error', response.errors);
+      if (response.status == 401) {
+        addToast('Failed to authenticate.', { appearance: 'error' });
+        setLoggedIn(false);
+        throw new RequestError('Failed to authenticate.');
       }
 
-      return response.data;
+      const gqlData = await response.json();
+
+      if (gqlData.errors) {
+        throw new RequestError<GraphQLError>('GraphQL Error', gqlData.errors);
+      }
+
+      return gqlData.data;
     },
-    [],
+    [csrf, addToast, loggedIn, setLoggedIn],
   );
 
   return rawGqlQuery;

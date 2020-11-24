@@ -39,13 +39,10 @@ def create_app() -> Quart:
         SESSION_COOKIE_SAMESITE="Lax",
     )
 
+    if app.debug:
+        app.config.update(SESSION_COOKIE_SECURE=False)
+
     app.secret_key = _get_secret_key()
-
-    # Disable CORS if we are in debug mode.
-    if app.debug:  # pragma: no cover
-        from quart_cors import cors
-
-        cors(app)
 
     @app.route("/", methods=["GET"])
     @app.route("/<path>", methods=["GET"])

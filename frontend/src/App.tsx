@@ -21,13 +21,13 @@ const App: React.FC = () => {
 };
 
 const Body: React.FC = () => {
-  const { token } = React.useContext(AuthorizationContext);
+  const { loggedIn } = React.useContext(AuthorizationContext);
   const { openBar } = React.useContext(SidebarContext);
   const { theme } = React.useContext(ThemeContext);
 
   return (
     <div className={clsx(theme, 'app w-full h-screen flex flex-col')}>
-      {!token ? (
+      {!loggedIn ? (
         <Login className="flex-1" />
       ) : (
         <>

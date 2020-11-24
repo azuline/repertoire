@@ -2,6 +2,7 @@
   "name": "repertoire",
   "version": "0.2.0",
   "private": true,
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

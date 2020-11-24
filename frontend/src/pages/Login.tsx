@@ -1,26 +1,16 @@
 import * as React from 'react';
 
 import { AuthorizationContext } from 'src/contexts';
-import { UserT } from 'src/types';
 import clsx from 'clsx';
-import { useRawGQLQuery } from 'src/hooks';
+import { useRequestJson } from 'src/hooks';
 import { useToasts } from 'react-toast-notifications';
-
-const QUERY = `
-  query {
-    user {
-      id
-			username
-    }
-  }
-`;
 
 const inputStyle = { width: '50vw', minWidth: '300px', maxWidth: '600px' };
 
 export const Login: React.FC<{ className?: string | undefined }> = ({ className }) => {
   const input = React.useRef<HTMLInputElement>(null);
-  const { setToken } = React.useContext(AuthorizationContext);
-  const gqlQuery = useRawGQLQuery<UserT>();
+  const { setLoggedIn, setCsrf } = React.useContext(AuthorizationContext);
+  const requestJson = useRequestJson<{ csrfToken: string }>();
   const { addToast } = useToasts();
 
   const onSubmit = React.useCallback(
@@ -29,15 +19,20 @@ export const Login: React.FC<{ className?: string | undefined }> = ({ className 
 
       if (!input.current) return;
 
-      try {
-        await gqlQuery(QUERY, { authorization: input.current.value });
-        setToken(input.current.value);
+      const { csrfToken } = await requestJson('/session', {
+        method: 'POST',
+        token: input.current.value,
+      });
+
+      if (csrfToken) {
         addToast('Successfully logged in.', { appearance: 'success' });
-      } catch (errors) {
+        setCsrf(csrfToken);
+        setLoggedIn(true);
+      } else {
         addToast('Invalid authorization token.', { appearance: 'error' });
       }
     },
-    [input, gqlQuery, setToken, addToast],
+    [input, setLoggedIn, setCsrf, addToast],
   );
 
   return (
