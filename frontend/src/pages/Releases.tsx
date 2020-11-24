@@ -23,7 +23,7 @@ export const Releases: React.FC = (): React.ReactElement => {
   }, [total]);
 
   return (
-    <>
+    <div className="flex flex-col full">
       <Header />
       <div className="min-h-0 flex flex-col mt-4">
         <ViewSettings className="px-8 mb-4" viewOptions={viewOptions} pagination={pagination} />
@@ -31,6 +31,6 @@ export const Releases: React.FC = (): React.ReactElement => {
           <PagedReleases className="px-8 pb-8" view={viewOptions.releaseView} releases={results} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
