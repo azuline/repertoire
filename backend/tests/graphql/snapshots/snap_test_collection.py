@@ -21,7 +21,7 @@ snapshots['test_add_release_to_collection 1'] = (
                         'id': 2
                     }
                 ],
-                'starred': False,
+                'starred': True,
                 'topGenres': [
                     {
                         'genre': {
@@ -292,7 +292,7 @@ snapshots['test_collections 1'] = (
                         'numReleases': 0,
                         'releases': [
                         ],
-                        'starred': False,
+                        'starred': True,
                         'topGenres': [
                         ],
                         'type': 'SYSTEM'
@@ -310,7 +310,7 @@ snapshots['test_collections 1'] = (
                                 'id': 3
                             }
                         ],
-                        'starred': False,
+                        'starred': True,
                         'topGenres': [
                             {
                                 'genre': {
@@ -796,7 +796,7 @@ snapshots['test_collections_type_param 1'] = (
                         'numReleases': 0,
                         'releases': [
                         ],
-                        'starred': False,
+                        'starred': True,
                         'topGenres': [
                         ],
                         'type': 'SYSTEM'
@@ -814,7 +814,7 @@ snapshots['test_collections_type_param 1'] = (
                                 'id': 3
                             }
                         ],
-                        'starred': False,
+                        'starred': True,
                         'topGenres': [
                             {
                                 'genre': {
@@ -1227,7 +1227,7 @@ snapshots['test_del_release_from_collection 1'] = (
                         'id': 3
                     }
                 ],
-                'starred': False,
+                'starred': True,
                 'topGenres': [
                     {
                         'genre': {
@@ -1438,7 +1438,7 @@ snapshots['test_update_collection_immutable 1'] = (
     }
 )
 
-snapshots['test_update_collection_immutable 2'] = GenericRepr("T(id=1, name='Inbox', starred=False, type=<CollectionType.SYSTEM: 1>, num_releases=2, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
+snapshots['test_update_collection_immutable 2'] = GenericRepr("T(id=1, name='Inbox', starred=True, type=<CollectionType.SYSTEM: 1>, num_releases=2, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
 
 snapshots['test_update_collection_not_found 1'] = (
     True,

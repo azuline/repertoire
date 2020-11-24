@@ -14,8 +14,8 @@ snapshots['test_add_release 2'] = [
 ]
 
 snapshots['test_all 1'] = [
-    GenericRepr("T(id=2, name='Favorite', starred=False, type=<CollectionType.SYSTEM: 1>, num_releases=0, last_updated_on=None)"),
-    GenericRepr("T(id=1, name='Inbox', starred=False, type=<CollectionType.SYSTEM: 1>, num_releases=2, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))"),
+    GenericRepr("T(id=2, name='Favorite', starred=True, type=<CollectionType.SYSTEM: 1>, num_releases=0, last_updated_on=None)"),
+    GenericRepr("T(id=1, name='Inbox', starred=True, type=<CollectionType.SYSTEM: 1>, num_releases=2, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))"),
     GenericRepr("T(id=20, name='MyLabel', starred=False, type=<CollectionType.LABEL: 3>, num_releases=0, last_updated_on=None)"),
     GenericRepr("T(id=19, name='Ambient', starred=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))"),
     GenericRepr("T(id=14, name='Country', starred=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))"),
@@ -37,13 +37,13 @@ snapshots['test_all 1'] = [
 ]
 
 snapshots['test_all_filter_type 1'] = [
-    GenericRepr("T(id=2, name='Favorite', starred=False, type=<CollectionType.SYSTEM: 1>, num_releases=0, last_updated_on=None)"),
-    GenericRepr("T(id=1, name='Inbox', starred=False, type=<CollectionType.SYSTEM: 1>, num_releases=2, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
+    GenericRepr("T(id=2, name='Favorite', starred=True, type=<CollectionType.SYSTEM: 1>, num_releases=0, last_updated_on=None)"),
+    GenericRepr("T(id=1, name='Inbox', starred=True, type=<CollectionType.SYSTEM: 1>, num_releases=2, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
 ]
 
 snapshots['test_all_filter_type_multiple 1'] = [
-    GenericRepr("T(id=2, name='Favorite', starred=False, type=<CollectionType.SYSTEM: 1>, num_releases=0, last_updated_on=None)"),
-    GenericRepr("T(id=1, name='Inbox', starred=False, type=<CollectionType.SYSTEM: 1>, num_releases=2, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))"),
+    GenericRepr("T(id=2, name='Favorite', starred=True, type=<CollectionType.SYSTEM: 1>, num_releases=0, last_updated_on=None)"),
+    GenericRepr("T(id=1, name='Inbox', starred=True, type=<CollectionType.SYSTEM: 1>, num_releases=2, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))"),
     GenericRepr("T(id=19, name='Ambient', starred=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))"),
     GenericRepr("T(id=14, name='Country', starred=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))"),
     GenericRepr("T(id=16, name='Downtempo', starred=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))"),
