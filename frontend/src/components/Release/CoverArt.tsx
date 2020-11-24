@@ -1,27 +1,17 @@
 import * as React from 'react';
 
-import loading from 'src/assets/loading.png';
 import noArt from 'src/assets/noArt.jpg';
-import { useRequestBlob } from 'src/hooks';
 
 export const CoverArt: React.FC<{
   className: string;
   release: { id: number; hasCover: boolean };
 }> = ({ className, release: { id, hasCover } }) => {
-  // prettier-ignore
-  const [image, setImage] = React.useState<string>(loading);
-  const requestBlob = useRequestBlob();
+  const [src, setSrc] = React.useState(`/files/covers/${id}?thumbnail=true`);
+  const onError = React.useCallback(() => setSrc(noArt), [setSrc]);
 
-  React.useEffect(() => {
-    (async (): Promise<void> => {
-      if (!hasCover) {
-        setImage(noArt);
-      } else {
-        const blob = await requestBlob(`/files/covers/${id}?thumbnail=true`);
-        setImage(URL.createObjectURL(blob));
-      }
-    })();
-  }, [id, hasCover, setImage]);
-
-  return <img className={className} src={image} />;
+  if (!hasCover) {
+    return <img className={className} src={noArt} />;
+  } else {
+    return <img className={className} src={src} onError={onError} loading="lazy" />;
+  }
 };
