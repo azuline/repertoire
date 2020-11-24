@@ -70,29 +70,38 @@ async def quart_client(quart_app):
         return kwargs
 
     async with quart_app.app_context():
-        test_client = quart_app.test_client()
+        async with quart_app.test_client() as test_client:
 
-        async def authed_get(*args, **kwargs):
-            return await test_client.get(*args, **update_kwargs(kwargs))
+            async def delete(*args, **kwargs):
+                return await test_client.open(*args, **dict(kwargs, method="DELETE"))
 
-        async def authed_post(*args, **kwargs):
-            return await test_client.post(*args, **update_kwargs(kwargs))
+            test_client.delete = delete
 
-        test_client.authed_get = authed_get
-        test_client.authed_post = authed_post
+            async def authed_get(*args, **kwargs):
+                return await test_client.get(*args, **update_kwargs(kwargs))
 
-        yield test_client
+            async def authed_post(*args, **kwargs):
+                return await test_client.post(*args, **update_kwargs(kwargs))
+
+            async def authed_delete(*args, **kwargs):
+                return await test_client.delete(*args, **update_kwargs(kwargs))
+
+            test_client.authed_get = authed_get
+            test_client.authed_post = authed_post
+            test_client.authed_delete = authed_delete
+
+            yield test_client
 
 
 @pytest.fixture
 def graphql_query(db, quart_app):
-    async def executor(query, authed):
+    async def executor(query):
         async with quart_app.test_request_context("/testing", method="GET"):
             return await graphql(
                 schema=schema,
                 data={"operationName": None, "variables": {}, "query": query},
                 context_value=GraphQLContext(
-                    user=user.from_id(1, db) if authed else None,
+                    user=user.from_id(1, db),
                     db=db,
                     request=quart.request,
                 ),

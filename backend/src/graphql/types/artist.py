@@ -6,7 +6,7 @@ from graphql.type import GraphQLResolveInfo
 from src.errors import NotFound
 from src.graphql.mutation import mutation
 from src.graphql.query import query
-from src.graphql.util import commit, require_auth
+from src.graphql.util import commit
 from src.library import artist, release
 from src.util import convert_keys_case
 
@@ -15,7 +15,6 @@ gql_artists = ObjectType("Artists")
 
 
 @query.field("artist")
-@require_auth
 def resolve_artist(obj: Any, info: GraphQLResolveInfo, id: int) -> artist.T:
     if art := artist.from_id(id, info.context.db):
         return art
@@ -24,7 +23,6 @@ def resolve_artist(obj: Any, info: GraphQLResolveInfo, id: int) -> artist.T:
 
 
 @query.field("artistFromName")
-@require_auth
 def resolve_artist_from_name(obj: Any, info: GraphQLResolveInfo, name: str) -> artist.T:
     if art := artist.from_name(name, info.context.db):
         return art
@@ -33,7 +31,6 @@ def resolve_artist_from_name(obj: Any, info: GraphQLResolveInfo, name: str) -> a
 
 
 @query.field("artists")
-@require_auth
 def resolve_artists(obj: Any, info: GraphQLResolveInfo) -> List[artist.T]:
     return {"results": artist.all(info.context.db)}
 
@@ -49,7 +46,6 @@ def resolve_top_genres(obj: artist.T, info: GraphQLResolveInfo) -> List[Dict]:
 
 
 @mutation.field("createArtist")
-@require_auth
 @commit
 def resolve_create_artist(
     _,
@@ -61,7 +57,6 @@ def resolve_create_artist(
 
 
 @mutation.field("updateArtist")
-@require_auth
 @commit
 def resolve_update_artist(
     _,

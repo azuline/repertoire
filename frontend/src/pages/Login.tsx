@@ -1,58 +1,63 @@
 import * as React from 'react';
 
 import { AuthorizationContext } from 'src/contexts';
-import { UserT } from 'src/types';
 import clsx from 'clsx';
-import { useRawGQLQuery } from 'src/hooks';
+import { useRequestJson } from 'src/hooks';
 import { useToasts } from 'react-toast-notifications';
-
-const QUERY = `
-  query {
-    user {
-      id
-			username
-    }
-  }
-`;
 
 const inputStyle = { width: '50vw', minWidth: '300px', maxWidth: '600px' };
 
 export const Login: React.FC<{ className?: string | undefined }> = ({ className }) => {
   const input = React.useRef<HTMLInputElement>(null);
-  const { setToken } = React.useContext(AuthorizationContext);
-  const gqlQuery = useRawGQLQuery<UserT>();
+  const permanent = React.useRef<HTMLInputElement>(null);
+  const { setLoggedIn, setCsrf } = React.useContext(AuthorizationContext);
+  const requestJson = useRequestJson<{ csrfToken: string }>();
   const { addToast } = useToasts();
 
   const onSubmit = React.useCallback(
     async (event) => {
       event.preventDefault();
 
-      if (!input.current) return;
+      if (!input.current || !permanent.current) return;
 
-      try {
-        await gqlQuery(QUERY, { authorization: input.current.value });
-        setToken(input.current.value);
+      const { csrfToken } = await requestJson('/session/create', {
+        method: 'POST',
+        token: input.current.value,
+        body: JSON.stringify({ permanent: permanent.current.value === 'on' }),
+      });
+
+      if (csrfToken) {
         addToast('Successfully logged in.', { appearance: 'success' });
-      } catch (errors) {
+        setCsrf(csrfToken);
+        setLoggedIn(true);
+      } else {
         addToast('Invalid authorization token.', { appearance: 'error' });
       }
     },
-    [input, gqlQuery, setToken, addToast],
+    [input, permanent, setLoggedIn, setCsrf, addToast],
   );
 
   return (
     <div className={clsx(className, 'flex content-center')}>
       <form className="mx-auto self-center" onSubmit={onSubmit}>
-        <input
-          autoFocus
-          className="mr-6"
-          placeholder="Authorization token"
-          ref={input}
-          style={inputStyle}
-        />
-        <button type="submit" className="px-4 py-2 bg-primary hover:bg-primary">
-          Login
-        </button>
+        <div>
+          <input
+            autoFocus
+            className="mr-6"
+            placeholder="Authorization token"
+            ref={input}
+            style={inputStyle}
+          />
+          <button type="submit" className="px-4 py-2 bg-primary hover:bg-primary">
+            Login
+          </button>
+        </div>
+        <div className="mt-2 flex items-center">
+          <input className="mx-2 cursor-pointer" id="permanent" type="checkbox" ref={permanent} />
+          <label className="cursor-pointer" htmlFor="permanent">
+            Rememeber me
+          </label>
+        </div>
       </form>
     </div>
   );

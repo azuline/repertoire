@@ -7,7 +7,7 @@ from src.enums import CollectionType
 from src.errors import NotFound
 from src.graphql.mutation import mutation
 from src.graphql.query import query
-from src.graphql.util import commit, require_auth
+from src.graphql.util import commit
 from src.library import collection, release
 from src.util import convert_keys_case
 
@@ -16,7 +16,6 @@ gql_collections = ObjectType("Collections")
 
 
 @query.field("collection")
-@require_auth
 def resolve_collection(obj: Any, info: GraphQLResolveInfo, id: int) -> collection.T:
     if col := collection.from_id(id, info.context.db):
         return col
@@ -25,7 +24,6 @@ def resolve_collection(obj: Any, info: GraphQLResolveInfo, id: int) -> collectio
 
 
 @query.field("collectionFromNameAndType")
-@require_auth
 def resolve_collection_from_name_and_type(
     obj: Any,
     info: GraphQLResolveInfo,
@@ -39,7 +37,6 @@ def resolve_collection_from_name_and_type(
 
 
 @query.field("collections")
-@require_auth
 def resolve_collections(
     obj: Any,
     info: GraphQLResolveInfo,
@@ -59,7 +56,6 @@ def resolve_top_genres(obj: collection.T, info: GraphQLResolveInfo) -> List[Dict
 
 
 @mutation.field("createCollection")
-@require_auth
 @commit
 def resolve_create_collection(
     _,
@@ -72,7 +68,6 @@ def resolve_create_collection(
 
 
 @mutation.field("updateCollection")
-@require_auth
 @commit
 def resolve_update_collection(
     _,
@@ -87,7 +82,6 @@ def resolve_update_collection(
 
 
 @mutation.field("addReleaseToCollection")
-@require_auth
 @commit
 def resolve_add_release_to_collection(
     _,
@@ -102,7 +96,6 @@ def resolve_add_release_to_collection(
 
 
 @mutation.field("delReleaseFromCollection")
-@require_auth
 @commit
 def resolve_del_release_from_collection(
     _,

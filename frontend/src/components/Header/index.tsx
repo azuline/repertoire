@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { Icon } from 'src/components/common/Icon';
 import { Searchbar } from './Searchbar';
+import { User } from './User';
 import { SidebarContext } from 'src/contexts';
 import clsx from 'clsx';
 
@@ -29,7 +30,8 @@ export const Header: React.FC<{ className?: string | undefined; searchbar?: bool
           />
         </>
       )}
-      {searchbar && <Searchbar />}
+      {searchbar && <Searchbar className="mr-4" />}
+      <User />
     </div>
   );
 };

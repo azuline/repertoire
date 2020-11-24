@@ -35,7 +35,7 @@ async def graphql_playground() -> Response:  # pragma: no cover
 
 
 @bp.route("", methods=["POST"])
-@check_auth(abort_if_unauthorized=False)
+@check_auth(csrf=True)
 async def graphql_server() -> Response:
     """
     Execute and return a GraphQL API request.

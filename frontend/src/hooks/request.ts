@@ -1,35 +1,37 @@
 import * as React from 'react';
 
-import { API_URL } from 'src/constants';
 import { AuthorizationContext } from 'src/contexts';
 import { RequestError } from 'src/types';
-import { useToasts } from 'react-toast-notifications';
 
-type Request<T> = (url: string) => Promise<T>;
+type Request<T> = (
+  url: string,
+  opts?: { method?: string; token?: string; contentType?: string; body?: string },
+) => Promise<T>;
 
 export const useRequest = (): Request<Response> => {
-  const { token, setToken } = React.useContext(AuthorizationContext);
-  const { addToast } = useToasts();
+  const { loggedIn, setLoggedIn, csrf } = React.useContext(AuthorizationContext);
 
   const request = React.useCallback(
-    async (url) => {
-      if (!token) {
-        throw new RequestError('Failed to authenticate.');
-      }
-
-      const response = await fetch(`${API_URL}${url}`, {
-        headers: new Headers({ Authorization: `Token ${token}` }),
+    async (url, { method, token, contentType, body } = {}) => {
+      const response = await fetch(url, {
+        credentials: 'same-origin',
+        method: method,
+        body: body,
+        headers: new Headers({
+          Authorization: token && `Token ${token}`,
+          'X-CSRF-Token': method !== undefined && method !== 'GET' && csrf ? csrf : '',
+          'Content-Type': contentType,
+        }),
       });
 
       if (response.status === 401) {
-        addToast('Invalid authorization token.', { appearance: 'error' });
-        setToken(null);
+        setLoggedIn(false);
         throw new RequestError('Failed to authenticate.');
       }
 
       return response;
     },
-    [token, setToken, addToast],
+    [loggedIn, setLoggedIn, csrf],
   );
 
   return request;
@@ -39,9 +41,23 @@ export const useRequestBlob = (): Request<Blob> => {
   const request = useRequest();
 
   const requestBlob = React.useCallback(
-    async (url) => {
-      const response = await request(url);
+    async (url, opts = {}) => {
+      const response = await request(url, { ...opts, contentType: 'application/octet-stream' });
       return await response.blob();
+    },
+    [request],
+  );
+
+  return requestBlob;
+};
+
+export const useRequestJson = <T>(): Request<T> => {
+  const request = useRequest();
+
+  const requestBlob = React.useCallback(
+    async (url, opts = {}) => {
+      const response = await request(url, { ...opts, contentType: 'application/json' });
+      return await response.json();
     },
     [request],
   );

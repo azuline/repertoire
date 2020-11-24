@@ -136,30 +136,6 @@ snapshots['test_add_artist_to_track_bad_track 1'] = (
     }
 )
 
-snapshots['test_add_artist_to_track_no_auth 1'] = (
-    True,
-    {
-        'data': {
-            'addArtistToTrack': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Invalid authorization token.',
-                'path': [
-                    'addArtistToTrack'
-                ],
-                'type': 'NotAuthorized'
-            }
-        ]
-    }
-)
-
 snapshots['test_del_artist_from_track 1'] = (
     True,
     {
@@ -262,30 +238,6 @@ snapshots['test_del_artist_from_track_doesnt_exist 1'] = (
     }
 )
 
-snapshots['test_del_artist_from_track_no_auth 1'] = (
-    True,
-    {
-        'data': {
-            'delArtistFromTrack': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Invalid authorization token.',
-                'path': [
-                    'delArtistFromTrack'
-                ],
-                'type': 'NotAuthorized'
-            }
-        ]
-    }
-)
-
 snapshots['test_track 1'] = (
     True,
     {
@@ -315,30 +267,6 @@ snapshots['test_track 1'] = (
                 'trackNumber': '10'
             }
         }
-    }
-)
-
-snapshots['test_track_no_auth 1'] = (
-    True,
-    {
-        'data': {
-            'track': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Invalid authorization token.',
-                'path': [
-                    'track'
-                ],
-                'type': 'NotAuthorized'
-            }
-        ]
     }
 )
 
@@ -419,30 +347,6 @@ snapshots['test_update_track_bad_release_id 1'] = (
 )
 
 snapshots['test_update_track_bad_release_id 2'] = GenericRepr("T(id=2, filepath=PosixPath('/tmp/repertoire-library/Aaron West and the Roaring Twenties/2014. We Don’t Have Each Other/02. Grapefruit.m4a'), sha256=b'\\xb8^\\xf2tc\\x9c\\x13\\x1e\\xb69\\xe9\\x84;Q\\xc0\\xe0(\\xa8p\\xe3o\\xb4\\xe1\\xd8a\\xe48\\xd6\\x82\\x1f\\xaev', title='Grapefruit', release_id=2, duration=252, track_number='2', disc_number='1')")
-
-snapshots['test_update_track_no_auth 1'] = (
-    True,
-    {
-        'data': {
-            'updateTrack': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Invalid authorization token.',
-                'path': [
-                    'updateTrack'
-                ],
-                'type': 'NotAuthorized'
-            }
-        ]
-    }
-)
 
 snapshots['test_update_track_not_found 1'] = (
     True,

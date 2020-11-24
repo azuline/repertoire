@@ -20,7 +20,7 @@ export const Chooser: React.FC<{
 
   // Sort the starred elements before the normal elements.
   const sortedResults: ElementT[] = React.useMemo(() => {
-    const [starred, unstarred] = results.reduce<ElementT[][]>(
+    const [starred, unstarred] = results.reduce<[ElementT[], ElementT[]]>(
       ([starred, unstarred], elem) => {
         if (elem.starred) {
           starred.push(elem);
