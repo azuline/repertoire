@@ -11,7 +11,7 @@ import { secondsToLength } from 'src/common';
 const textStyle = {
   textShadow: '1px 1px black',
   background:
-    'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8))',
+    'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7))',
 };
 
 export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = ({
