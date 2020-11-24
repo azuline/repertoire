@@ -3,7 +3,7 @@ import * as React from 'react';
 import { AuthorizationContext } from 'src/contexts';
 import { RequestError } from 'src/types';
 
-type Request<T> = (
+export type Request<T> = (
   url: string,
   opts?: { method?: string; token?: string; contentType?: string; body?: string },
 ) => Promise<T>;
@@ -35,32 +35,4 @@ export const useRequest = (): Request<Response> => {
   );
 
   return request;
-};
-
-export const useRequestBlob = (): Request<Blob> => {
-  const request = useRequest();
-
-  const requestBlob = React.useCallback(
-    async (url, opts = {}) => {
-      const response = await request(url, { ...opts, contentType: 'application/octet-stream' });
-      return await response.blob();
-    },
-    [request],
-  );
-
-  return requestBlob;
-};
-
-export const useRequestJson = <T>(): Request<T> => {
-  const request = useRequest();
-
-  const requestBlob = React.useCallback(
-    async (url, opts = {}) => {
-      const response = await request(url, { ...opts, contentType: 'application/json' });
-      return await response.json();
-    },
-    [request],
-  );
-
-  return requestBlob;
 };

@@ -60,19 +60,6 @@ type Variables = {
   perPage: number;
 };
 
-export const fetchReleases = (
-  viewOptions: ViewOptionsType,
-  pagination: PaginationType,
-): QueryResult<ResultType, RequestError<GraphQLError>> => {
-  // prettier-ignore
-  const variables = React.useMemo(
-    () => extractVariables(viewOptions, pagination),
-    [viewOptions, pagination]
-  );
-
-  return useGQLQuery<ResultType, Variables>('releases', QUERY, { variables });
-};
-
 const extractVariables = (
   { search, collectionIds, artistIds, releaseTypes, sort, asc }: ViewOptionsType,
   { curPage, perPage }: PaginationType,
@@ -86,3 +73,16 @@ const extractVariables = (
   perPage,
   page: curPage,
 });
+
+export const fetchReleases = (
+  viewOptions: ViewOptionsType,
+  pagination: PaginationType,
+): QueryResult<ResultType, RequestError<GraphQLError>> => {
+  // prettier-ignore
+  const variables = React.useMemo(
+    () => extractVariables(viewOptions, pagination),
+    [viewOptions, pagination]
+  );
+
+  return useGQLQuery<ResultType, Variables>('releases', QUERY, variables);
+};

@@ -8,7 +8,8 @@ import { SectionHeader } from 'src/components/common/SectionHeader';
 import { fetchArtist } from 'src/lib';
 
 export const Artist: React.FC<{ active: number }> = ({ active }) => {
-  const { status, data } = fetchArtist(active);
+  const fetchVariables = React.useMemo(() => ({ id: active }), [active]);
+  const { status, data } = fetchArtist(fetchVariables);
 
   // prettier-ignore
   const artist = React.useMemo(
