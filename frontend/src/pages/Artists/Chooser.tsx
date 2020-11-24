@@ -12,14 +12,6 @@ export const ArtistChooser: React.FC<{
   const { status, data } = fetchArtists();
   const [mutateArtist] = useMutateArtist();
 
-  const results = React.useMemo(() => {
-    if (!data || status !== 'success') return null;
-
-    const results = data.artists.results;
-    results.sort((a, b) => a.name.localeCompare(b.name));
-    return results;
-  }, [data, status]);
-
   const toggleStarFactory = React.useCallback(
     ({ id, starred }: ElementT) => {
       return async (): Promise<void> => {
@@ -29,12 +21,12 @@ export const ArtistChooser: React.FC<{
     [mutateArtist],
   );
 
-  if (!results) return null;
+  if (!data || status !== 'success') return null;
 
   return (
     <Chooser
       className={className}
-      results={results}
+      results={data.artists.results}
       active={active}
       urlFactory={urlFactory}
       toggleStarFactory={toggleStarFactory}

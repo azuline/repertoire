@@ -8,9 +8,9 @@ from snapshottest import GenericRepr, Snapshot
 snapshots = Snapshot()
 
 snapshots['test_all 1'] = [
+    GenericRepr("T(id=5, name='Bacchus', starred=True, num_releases=1)"),
     GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)"),
-    GenericRepr("T(id=4, name='Abakus', starred=False, num_releases=1)"),
-    GenericRepr("T(id=5, name='Bacchus', starred=True, num_releases=1)")
+    GenericRepr("T(id=4, name='Abakus', starred=False, num_releases=1)")
 ]
 
 snapshots['test_from_id_success 1'] = GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)")

@@ -95,7 +95,7 @@ async def test_collections(db, graphql_query, snapshot):
 async def test_collections_type_param(db, graphql_query, snapshot):
     query = f"""
         query {{
-            collections(type: GENRE) {{
+            collections(types: [GENRE, SYSTEM]) {{
                 {COLLECTIONS_RESULT}
             }}
         }}

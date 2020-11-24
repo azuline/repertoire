@@ -19,30 +19,13 @@ export const Chooser: React.FC<{
   const { openBar } = React.useContext(SidebarContext);
   const [jumpTo, setJumpTo] = React.useState<number | null>(null);
 
-  // Sort the starred elements before the normal elements.
-  const sortedResults: ElementT[] = React.useMemo(() => {
-    const [starred, unstarred] = results.reduce<[ElementT[], ElementT[]]>(
-      ([starred, unstarred], elem) => {
-        if (elem.starred) {
-          starred.push(elem);
-        } else {
-          unstarred.push(elem);
-        }
-        return [starred, unstarred];
-      },
-      [[], []],
-    );
-
-    return starred.concat(unstarred);
-  }, [results]);
-
   // Virtual render setup.
   const renderRow = React.useCallback(
     ({ index, key, style }) => {
       return (
         <div key={key} style={style}>
           <Element
-            element={sortedResults[index]}
+            element={results[index]}
             active={active}
             urlFactory={urlFactory}
             toggleStarFactory={toggleStarFactory}
@@ -50,7 +33,7 @@ export const Chooser: React.FC<{
         </div>
       );
     },
-    [sortedResults, active, urlFactory],
+    [results, active, urlFactory],
   );
 
   const [scrollToIndex, scrollToAlignment] = React.useMemo(() => {
@@ -58,11 +41,11 @@ export const Chooser: React.FC<{
       return [jumpTo, 'start'];
     } else if (active) {
       // TODO: Perhaps construct a map of IDs to index for this sort of thing.
-      return [sortedResults.findIndex((elem) => elem.id === active), 'auto'];
+      return [results.findIndex((elem) => elem.id === active), 'auto'];
     } else {
       return [undefined, 'auto'];
     }
-  }, [jumpTo, active, sortedResults]);
+  }, [jumpTo, active, results]);
 
   return (
     <div
@@ -89,18 +72,14 @@ export const Chooser: React.FC<{
             active && (openBar ? 'xl:block' : 'lg:block'),
           )}
         />
-        <JumpToLetter
-          className={clsx(active && 'pt-8')}
-          results={sortedResults}
-          setJumpTo={setJumpTo}
-        />
+        <JumpToLetter className={clsx(active && 'pt-8')} results={results} setJumpTo={setJumpTo} />
         <AutoSizer>
           {({ width, height }): React.ReactNode => (
             <List
               className={clsx('chooser', active && 'pt-8')}
               height={height}
               overscanRowCount={8}
-              rowCount={sortedResults.length}
+              rowCount={results.length}
               rowHeight={28.5}
               rowRenderer={renderRow}
               scrollToIndex={scrollToIndex}

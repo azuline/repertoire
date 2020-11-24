@@ -5,8 +5,8 @@ import { QueryResult } from 'react-query';
 import { useGQLQuery } from 'src/hooks';
 
 const QUERY = `
-  query ($type: CollectionType) {
-		collections (type: $type) {
+  query ($types: [CollectionType]) {
+		collections (types: $types) {
 			results {
 				${COLLECTION_FIELDS}
 			}
@@ -15,9 +15,9 @@ const QUERY = `
 `;
 
 type Result = { collections: { results: CollectionT[] } };
-type Variables = { type?: CollectionType };
+type Variables = { types: CollectionType[] };
 type Return = QueryResult<Result, RequestError<GraphQLError>>;
 
-export const fetchCollections = (type?: CollectionType): Return => {
-  return useGQLQuery<Result, Variables>('collections', QUERY, { type });
+export const fetchCollections = (types: CollectionType[] = []): Return => {
+  return useGQLQuery<Result, Variables>('collections', QUERY, { types });
 };

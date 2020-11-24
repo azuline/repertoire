@@ -122,6 +122,9 @@ def all(cursor: Cursor) -> List[T]:
         LEFT JOIN music__releases_artists AS artsrls
             ON artsrls.artist_id = arts.id
         GROUP BY arts.id
+        ORDER BY
+            arts.starred DESC,
+            arts.name
         """
     )
     return [from_row(row) for row in cursor.fetchall() if row["num_releases"]]

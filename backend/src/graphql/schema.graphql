@@ -22,10 +22,10 @@ type Query {
     "Fetch all artists."
     artists: Artists
 
-    "Fetch all collections (of a type)."
+    "Fetch all collections (of one or more types)."
     collections(
-        "If provided, only collections of this type will be returned."
-        type: CollectionType
+        "If provided, only collections of these type will be returned."
+        types: [CollectionType]
     ): Collections
 
     "Search for releases matching a certain criteria."

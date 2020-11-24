@@ -286,6 +286,18 @@ snapshots['test_collections 1'] = (
             'collections': {
                 'results': [
                     {
+                        'id': 2,
+                        'lastUpdatedOn': None,
+                        'name': 'Favorite',
+                        'numReleases': 0,
+                        'releases': [
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                        ],
+                        'type': 'SYSTEM'
+                    },
+                    {
                         'id': 1,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Inbox',
@@ -334,16 +346,328 @@ snapshots['test_collections 1'] = (
                         'type': 'SYSTEM'
                     },
                     {
-                        'id': 2,
+                        'id': 20,
                         'lastUpdatedOn': None,
-                        'name': 'Favorite',
+                        'name': 'MyLabel',
                         'numReleases': 0,
                         'releases': [
                         ],
                         'starred': False,
                         'topGenres': [
                         ],
-                        'type': 'SYSTEM'
+                        'type': 'LABEL'
+                    },
+                    {
+                        'id': 19,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'Ambient',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 3
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 16
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 17
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 18
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 19
+                                },
+                                'numMatches': 1
+                            }
+                        ],
+                        'type': 'GENRE'
+                    },
+                    {
+                        'id': 14,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'Country',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 2
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 12
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 13
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 14
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 15
+                                },
+                                'numMatches': 1
+                            }
+                        ],
+                        'type': 'GENRE'
+                    },
+                    {
+                        'id': 16,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'Downtempo',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 3
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 16
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 17
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 18
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 19
+                                },
+                                'numMatches': 1
+                            }
+                        ],
+                        'type': 'GENRE'
+                    },
+                    {
+                        'id': 17,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'Electronic',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 3
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 16
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 17
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 18
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 19
+                                },
+                                'numMatches': 1
+                            }
+                        ],
+                        'type': 'GENRE'
+                    },
+                    {
+                        'id': 12,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'Folk',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 2
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 12
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 13
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 14
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 15
+                                },
+                                'numMatches': 1
+                            }
+                        ],
+                        'type': 'GENRE'
+                    },
+                    {
+                        'id': 18,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'House',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 3
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 16
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 17
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 18
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 19
+                                },
+                                'numMatches': 1
+                            }
+                        ],
+                        'type': 'GENRE'
+                    },
+                    {
+                        'id': 13,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'Rock',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 2
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 12
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 13
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 14
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 15
+                                },
+                                'numMatches': 1
+                            }
+                        ],
+                        'type': 'GENRE'
+                    },
+                    {
+                        'id': 15,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'World',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 2
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 12
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 13
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 14
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 15
+                                },
+                                'numMatches': 1
+                            }
+                        ],
+                        'type': 'GENRE'
                     },
                     {
                         'id': 3,
@@ -452,330 +776,6 @@ snapshots['test_collections 1'] = (
                         'topGenres': [
                         ],
                         'type': 'RATING'
-                    },
-                    {
-                        'id': 12,
-                        'lastUpdatedOn': 1603067134,
-                        'name': 'Folk',
-                        'numReleases': 1,
-                        'releases': [
-                            {
-                                'id': 2
-                            }
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                            {
-                                'genre': {
-                                    'id': 12
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 13
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 14
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 15
-                                },
-                                'numMatches': 1
-                            }
-                        ],
-                        'type': 'GENRE'
-                    },
-                    {
-                        'id': 13,
-                        'lastUpdatedOn': 1603067134,
-                        'name': 'Rock',
-                        'numReleases': 1,
-                        'releases': [
-                            {
-                                'id': 2
-                            }
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                            {
-                                'genre': {
-                                    'id': 12
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 13
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 14
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 15
-                                },
-                                'numMatches': 1
-                            }
-                        ],
-                        'type': 'GENRE'
-                    },
-                    {
-                        'id': 14,
-                        'lastUpdatedOn': 1603067134,
-                        'name': 'Country',
-                        'numReleases': 1,
-                        'releases': [
-                            {
-                                'id': 2
-                            }
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                            {
-                                'genre': {
-                                    'id': 12
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 13
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 14
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 15
-                                },
-                                'numMatches': 1
-                            }
-                        ],
-                        'type': 'GENRE'
-                    },
-                    {
-                        'id': 15,
-                        'lastUpdatedOn': 1603067134,
-                        'name': 'World',
-                        'numReleases': 1,
-                        'releases': [
-                            {
-                                'id': 2
-                            }
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                            {
-                                'genre': {
-                                    'id': 12
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 13
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 14
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 15
-                                },
-                                'numMatches': 1
-                            }
-                        ],
-                        'type': 'GENRE'
-                    },
-                    {
-                        'id': 16,
-                        'lastUpdatedOn': 1603067134,
-                        'name': 'Downtempo',
-                        'numReleases': 1,
-                        'releases': [
-                            {
-                                'id': 3
-                            }
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                            {
-                                'genre': {
-                                    'id': 16
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 17
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 18
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 19
-                                },
-                                'numMatches': 1
-                            }
-                        ],
-                        'type': 'GENRE'
-                    },
-                    {
-                        'id': 17,
-                        'lastUpdatedOn': 1603067134,
-                        'name': 'Electronic',
-                        'numReleases': 1,
-                        'releases': [
-                            {
-                                'id': 3
-                            }
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                            {
-                                'genre': {
-                                    'id': 16
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 17
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 18
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 19
-                                },
-                                'numMatches': 1
-                            }
-                        ],
-                        'type': 'GENRE'
-                    },
-                    {
-                        'id': 18,
-                        'lastUpdatedOn': 1603067134,
-                        'name': 'House',
-                        'numReleases': 1,
-                        'releases': [
-                            {
-                                'id': 3
-                            }
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                            {
-                                'genre': {
-                                    'id': 16
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 17
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 18
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 19
-                                },
-                                'numMatches': 1
-                            }
-                        ],
-                        'type': 'GENRE'
-                    },
-                    {
-                        'id': 19,
-                        'lastUpdatedOn': 1603067134,
-                        'name': 'Ambient',
-                        'numReleases': 1,
-                        'releases': [
-                            {
-                                'id': 3
-                            }
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                            {
-                                'genre': {
-                                    'id': 16
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 17
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 18
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 19
-                                },
-                                'numMatches': 1
-                            }
-                        ],
-                        'type': 'GENRE'
-                    },
-                    {
-                        'id': 20,
-                        'lastUpdatedOn': None,
-                        'name': 'MyLabel',
-                        'numReleases': 0,
-                        'releases': [
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                        ],
-                        'type': 'LABEL'
                     }
                 ]
             }
@@ -790,52 +790,28 @@ snapshots['test_collections_type_param 1'] = (
             'collections': {
                 'results': [
                     {
-                        'id': 12,
-                        'lastUpdatedOn': 1603067134,
-                        'name': 'Folk',
-                        'numReleases': 1,
+                        'id': 2,
+                        'lastUpdatedOn': None,
+                        'name': 'Favorite',
+                        'numReleases': 0,
                         'releases': [
-                            {
-                                'id': 2
-                            }
                         ],
                         'starred': False,
                         'topGenres': [
-                            {
-                                'genre': {
-                                    'id': 12
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 13
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 14
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 15
-                                },
-                                'numMatches': 1
-                            }
                         ],
-                        'type': 'GENRE'
+                        'type': 'SYSTEM'
                     },
                     {
-                        'id': 13,
+                        'id': 1,
                         'lastUpdatedOn': 1603067134,
-                        'name': 'Rock',
-                        'numReleases': 1,
+                        'name': 'Inbox',
+                        'numReleases': 2,
                         'releases': [
                             {
                                 'id': 2
+                            },
+                            {
+                                'id': 3
                             }
                         ],
                         'starred': False,
@@ -861,6 +837,51 @@ snapshots['test_collections_type_param 1'] = (
                             {
                                 'genre': {
                                     'id': 15
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 16
+                                },
+                                'numMatches': 1
+                            }
+                        ],
+                        'type': 'SYSTEM'
+                    },
+                    {
+                        'id': 19,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'Ambient',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 3
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 16
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 17
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 18
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 19
                                 },
                                 'numMatches': 1
                             }
@@ -871,45 +892,6 @@ snapshots['test_collections_type_param 1'] = (
                         'id': 14,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Country',
-                        'numReleases': 1,
-                        'releases': [
-                            {
-                                'id': 2
-                            }
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                            {
-                                'genre': {
-                                    'id': 12
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 13
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 14
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 15
-                                },
-                                'numMatches': 1
-                            }
-                        ],
-                        'type': 'GENRE'
-                    },
-                    {
-                        'id': 15,
-                        'lastUpdatedOn': 1603067134,
-                        'name': 'World',
                         'numReleases': 1,
                         'releases': [
                             {
@@ -1024,6 +1006,45 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
+                        'id': 12,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'Folk',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 2
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 12
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 13
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 14
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 15
+                                },
+                                'numMatches': 1
+                            }
+                        ],
+                        'type': 'GENRE'
+                    },
+                    {
                         'id': 18,
                         'lastUpdatedOn': 1603067134,
                         'name': 'House',
@@ -1063,38 +1084,77 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'id': 19,
+                        'id': 13,
                         'lastUpdatedOn': 1603067134,
-                        'name': 'Ambient',
+                        'name': 'Rock',
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 3
+                                'id': 2
                             }
                         ],
                         'starred': False,
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 16
+                                    'id': 12
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 17
+                                    'id': 13
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 18
+                                    'id': 14
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 19
+                                    'id': 15
+                                },
+                                'numMatches': 1
+                            }
+                        ],
+                        'type': 'GENRE'
+                    },
+                    {
+                        'id': 15,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'World',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 2
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 12
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 13
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 14
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 15
                                 },
                                 'numMatches': 1
                             }

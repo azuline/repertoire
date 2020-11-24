@@ -139,14 +139,16 @@ def from_name_and_type(name: str, type: CollectionType, cursor: Cursor) -> Optio
     return None
 
 
-def all(cursor: Cursor, type: CollectionType = None) -> List[T]:
+def all(cursor: Cursor, types: List[CollectionType] = []) -> List[T]:
     """
     Get all collections.
 
     :param cursor: A cursor to the database.
-    :param type: Filter by a collection type. Pass ``None`` to fetch all types.
+    :param types: Filter by collection types. Pass an empty list to fetch all types.
     :return: All collections stored on the src.
     """
+    filter_ = f"WHERE cols.type IN ({','.join('?' * len(types))})" if types else ""
+
     cursor.execute(
         f"""
         SELECT
@@ -156,10 +158,14 @@ def all(cursor: Cursor, type: CollectionType = None) -> List[T]:
         FROM music__collections AS cols
         LEFT JOIN music__collections_releases AS colsrls
             ON colsrls.collection_id = cols.id
-        {"WHERE cols.type = ?" if type else ""}
+        {filter_}
         GROUP BY cols.id
+        ORDER BY
+            cols.type,
+            cols.starred DESC,
+            cols.name
         """,
-        ((type.value,) if type else ()),
+        tuple(type_.value for type_ in types),
     )
     return [from_row(row) for row in cursor.fetchall()]
 

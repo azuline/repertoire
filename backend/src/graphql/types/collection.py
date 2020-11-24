@@ -40,9 +40,9 @@ def resolve_collection_from_name_and_type(
 def resolve_collections(
     obj: Any,
     info: GraphQLResolveInfo,
-    type: Optional[CollectionType] = None,
+    types: List[CollectionType] = [],
 ) -> List[collection.T]:
-    return {"results": collection.all(info.context.db, type=type)}
+    return {"results": collection.all(info.context.db, types=types)}
 
 
 @gql_collection.field("releases")

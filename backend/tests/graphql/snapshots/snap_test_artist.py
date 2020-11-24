@@ -152,6 +152,43 @@ snapshots['test_artists 1'] = (
             'artists': {
                 'results': [
                     {
+                        'id': 5,
+                        'name': 'Bacchus',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 3
+                            }
+                        ],
+                        'starred': True,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 16
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 17
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 18
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 19
+                                },
+                                'numMatches': 1
+                            }
+                        ]
+                    },
+                    {
                         'id': 2,
                         'name': 'Aaron West and the Roaring Twenties',
                         'numReleases': 1,
@@ -198,43 +235,6 @@ snapshots['test_artists 1'] = (
                             }
                         ],
                         'starred': False,
-                        'topGenres': [
-                            {
-                                'genre': {
-                                    'id': 16
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 17
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 18
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 19
-                                },
-                                'numMatches': 1
-                            }
-                        ]
-                    },
-                    {
-                        'id': 5,
-                        'name': 'Bacchus',
-                        'numReleases': 1,
-                        'releases': [
-                            {
-                                'id': 3
-                            }
-                        ],
-                        'starred': True,
                         'topGenres': [
                             {
                                 'genre': {

@@ -49,7 +49,14 @@ def test_all(db: Cursor, snapshot):
 
 
 def test_all_filter_type(db: Cursor, snapshot):
-    collections = collection.all(db, type=CollectionType.SYSTEM)
+    collections = collection.all(db, types=[CollectionType.SYSTEM])
+    snapshot.assert_match(collections)
+
+
+def test_all_filter_type_multiple(db: Cursor, snapshot):
+    collections = collection.all(
+        db, types=[CollectionType.SYSTEM, CollectionType.GENRE]
+    )
     snapshot.assert_match(collections)
 
 

@@ -5,21 +5,13 @@ import { fetchCollections, useMutateCollection } from 'src/lib';
 import { CollectionType } from 'src/types';
 
 export const CollectionChooser: React.FC<{
-  collectionType: CollectionType;
+  collectionTypes: CollectionType[];
   urlPrefix: string;
   active: number | null;
   className?: string;
-}> = ({ collectionType, urlPrefix, active, className }) => {
-  const { status, data } = fetchCollections(collectionType);
+}> = ({ collectionTypes, urlPrefix, active, className }) => {
+  const { status, data } = fetchCollections(collectionTypes);
   const [mutateCollection] = useMutateCollection();
-
-  const results = React.useMemo(() => {
-    if (!data || status !== 'success') return null;
-
-    const results = data.collections.results;
-    results.sort((a, b) => a.name.localeCompare(b.name));
-    return results;
-  }, [data, status]);
 
   const urlFactory = React.useCallback((id: number): string => `${urlPrefix}/${id}`, [urlPrefix]);
 
@@ -32,12 +24,12 @@ export const CollectionChooser: React.FC<{
     [mutateCollection],
   );
 
-  if (!results) return null;
+  if (!data || status !== 'success') return null;
 
   return (
     <Chooser
       className={className}
-      results={results}
+      results={data.collections.results}
       active={active}
       urlFactory={urlFactory}
       toggleStarFactory={toggleStarFactory}

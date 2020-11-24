@@ -6,6 +6,8 @@ import { Label } from './Label';
 import { CollectionChooser } from 'src/components/collection';
 import { useId } from 'src/hooks';
 
+const types = [CollectionType.LABEL];
+
 export const Labels: React.FC = () => {
   const active = useId();
 
@@ -13,11 +15,7 @@ export const Labels: React.FC = () => {
     <div className="full flex flex-col flex-1 min-h-0">
       {!active && <Header />}
       <div className="flex flex-1 min-h-0">
-        <CollectionChooser
-          collectionType={CollectionType.LABEL}
-          urlPrefix="/labels"
-          active={active}
-        />
+        <CollectionChooser collectionTypes={types} urlPrefix="/labels" active={active} />
         {active && <Label active={active} />}
       </div>
     </div>
