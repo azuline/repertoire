@@ -3,6 +3,7 @@ This module implements the Quart application function pattern. To create a new
 Quart app instance, call ``create_app()``.
 """
 
+import sys
 import logging
 import secrets
 import sqlite3
@@ -39,7 +40,7 @@ def create_app() -> Quart:
         SESSION_COOKIE_SAMESITE="Lax",
     )
 
-    if app.debug:
+    if app.debug:  # pragma: no cover
         app.config.update(SESSION_COOKIE_SECURE=False)
 
     app.secret_key = _get_secret_key()
@@ -57,6 +58,11 @@ def create_app() -> Quart:
 
 
 def _get_secret_key():
+    # This function is called whenever webserver starts, but when Sphinx is generating
+    # docs, we don't have a database. So just return random bytes.
+    if "sphinx" in sys.modules:  # pragma: no cover
+        return secrets.token_bytes(32)
+
     with database() as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT key FROM system__secret_key LIMIT 1")
