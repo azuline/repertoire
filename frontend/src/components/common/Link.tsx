@@ -6,9 +6,9 @@ import { useHistory } from 'react-router-dom';
 export const Link: React.FC<{
   href: string;
   children: React.ReactNode;
-  className?: string | undefined;
-  style?: CSS.Properties | undefined;
-  onClick?: () => void | undefined;
+  className?: string;
+  style?: CSS.Properties;
+  onClick?: () => void;
 }> = ({ href, children, className, style, onClick }) => {
   const history = useHistory();
 

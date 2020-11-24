@@ -125,9 +125,9 @@ const icons: { [k in IconT]: React.ReactNode } = {
 
 export const Icon: React.FC<{
   icon: IconT;
-  className?: string | undefined;
-  title?: string | undefined;
-  onClick?: () => void | undefined;
+  className?: string;
+  title?: string;
+  onClick?: () => void;
 }> = ({ icon, className, title, onClick }) => {
   return (
     <div className={className} title={title} onClick={onClick}>

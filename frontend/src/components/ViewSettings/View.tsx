@@ -9,7 +9,7 @@ const displays: { [k in ReleaseView]: string } = {
   [ReleaseView.ROW]: 'Row',
 };
 
-export const View: React.FC<{ viewOptions: ViewOptionsType; className?: string | undefined }> = ({
+export const View: React.FC<{ viewOptions: ViewOptionsType; className?: string }> = ({
   viewOptions,
   className,
 }) => {

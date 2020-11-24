@@ -6,7 +6,7 @@ import { User } from './User';
 import { SidebarContext } from 'src/contexts';
 import clsx from 'clsx';
 
-export const Header: React.FC<{ className?: string | undefined; searchbar?: boolean }> = ({
+export const Header: React.FC<{ className?: string; searchbar?: boolean }> = ({
   className,
   searchbar = true,
 }) => {

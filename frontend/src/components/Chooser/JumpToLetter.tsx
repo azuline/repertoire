@@ -19,7 +19,7 @@ const getJumpLetter = (string: string): string => {
 };
 
 export const JumpToLetter: React.FC<{
-  className?: string | undefined;
+  className?: string;
   results: ElementT[];
   setJumpTo: (arg0: number | null) => void;
 }> = ({ className, results, setJumpTo }) => {

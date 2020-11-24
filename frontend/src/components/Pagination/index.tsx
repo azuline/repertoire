@@ -7,7 +7,7 @@ import clsx from 'clsx';
 
 export const Pagination: React.FC<{
   pagination: PaginationType;
-  className?: string | undefined;
+  className?: string;
 }> = ({ pagination: { curPage, setCurPage, numPages }, className }) => {
   const bottom = React.useMemo(() => Math.max(curPage - 2, 2), [curPage]);
   const top = React.useMemo(() => Math.min(curPage + 3, numPages), [curPage, numPages]);

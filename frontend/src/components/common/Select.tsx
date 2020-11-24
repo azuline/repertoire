@@ -5,12 +5,12 @@ import clsx from 'clsx';
 
 export const Select: React.FC<{
   children: React.ReactNode;
-  value?: string | number | readonly string[] | undefined;
-  onChange?: (arg0: React.FormEvent<HTMLSelectElement>) => void | undefined;
-  className?: string | undefined;
+  value?: string | number | readonly string[];
+  onChange?: (arg0: React.FormEvent<HTMLSelectElement>) => void;
+  className?: string;
   selectClassName?: string;
-  label?: string | undefined;
-  name?: string | undefined;
+  label?: string;
+  name?: string;
 }> = ({ children, value, onChange, className, selectClassName = '', label, name }) => {
   return (
     <div className={clsx(className, 'flex items-center relative')}>

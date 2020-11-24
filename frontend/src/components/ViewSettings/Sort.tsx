@@ -11,7 +11,7 @@ const displays: { [k in ReleaseSort]: string } = {
   [ReleaseSort.RANDOM]: 'Random',
 };
 
-export const Sort: React.FC<{ viewOptions: ViewOptionsType; className?: string | undefined }> = ({
+export const Sort: React.FC<{ viewOptions: ViewOptionsType; className?: string }> = ({
   viewOptions,
   className,
 }) => {

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 export const SectionHeader: React.FC<{
   children: React.ReactNode;
-  className?: string | undefined;
+  className?: string;
 }> = ({ children, className }) => {
   return <div className={clsx(className, 'font-semibold text-3xl')}>{children}</div>;
 };

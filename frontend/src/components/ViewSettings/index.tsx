@@ -15,7 +15,7 @@ import clsx from 'clsx';
 export const ViewSettings: React.FC<{
   viewOptions: ViewOptionsType;
   pagination: PaginationType;
-  className?: string | undefined;
+  className?: string;
   partial?: boolean;
 }> = ({ viewOptions, pagination, className, partial = false }) => {
   const { openBar } = React.useContext(SidebarContext);

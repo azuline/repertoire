@@ -7,7 +7,7 @@ import { CoverArt } from './CoverArt';
 import clsx from 'clsx';
 import { secondsToLength } from 'src/common';
 
-export const RowRelease: React.FC<{ release: ReleaseT; className?: string | undefined }> = ({
+export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = ({
   release,
   className,
 }) => {

@@ -4,8 +4,8 @@ import { Link } from 'src/components/common/Link';
 
 type ElementT = { id: number; name: string };
 type ListT = React.FC<{
-  elements: ElementT[] | undefined;
-  className?: string | undefined;
+  elements?: ElementT[];
+  className?: string;
 }>;
 
 export const makeList = (urlPrefix: string): ListT => {

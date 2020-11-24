@@ -5,7 +5,7 @@ import { Select } from 'src/components/common/Select';
 
 const options = [5, 40, 80, 120, 160, 200];
 
-export const PerPage: React.FC<{ pagination: PaginationType; className?: string | undefined }> = ({
+export const PerPage: React.FC<{ pagination: PaginationType; className?: string }> = ({
   pagination,
   className,
 }) => {

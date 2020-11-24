@@ -18,7 +18,7 @@ const gridOneCssPartial = 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-col
 const gridTwoCss = 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5';
 
 export const PagedReleases: React.FC<{
-  className?: string | undefined;
+  className?: string;
   releases: ReleaseT[];
   view: ReleaseView;
   partial?: boolean;

@@ -5,7 +5,7 @@ import { fetchArtists } from 'src/lib';
 
 export const ArtistChooser: React.FC<{
   active: number | null;
-  className?: string | undefined;
+  className?: string;
 }> = ({ active, className }) => {
   const { status, data } = fetchArtists();
 

@@ -7,7 +7,7 @@ import { useToasts } from 'react-toast-notifications';
 
 const inputStyle = { width: '50vw', minWidth: '300px', maxWidth: '600px' };
 
-export const Login: React.FC<{ className?: string | undefined }> = ({ className }) => {
+export const Login: React.FC<{ className?: string }> = ({ className }) => {
   const input = React.useRef<HTMLInputElement>(null);
   const permanent = React.useRef<HTMLInputElement>(null);
   const { setLoggedIn, setCsrf } = React.useContext(AuthorizationContext);

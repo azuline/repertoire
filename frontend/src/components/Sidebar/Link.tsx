@@ -7,8 +7,8 @@ import { Link } from 'src/components/common/Link';
 export const NavLink: React.FC<{
   url: string;
   label: string;
-  activeRoute?: string | undefined | null;
-  className?: string | undefined;
+  activeRoute?: string | null;
+  className?: string;
 }> = ({ url, label, activeRoute, className }) => {
   const active = React.useMemo(() => url === activeRoute, [activeRoute, url]);
   const { setOpenBar } = React.useContext(SidebarContext);

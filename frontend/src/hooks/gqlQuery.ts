@@ -8,7 +8,7 @@ import { useToasts } from 'react-toast-notifications';
 
 type Options<V> = { variables?: V; authorization?: string };
 type ErrorType = { type: string; message: string };
-type RawGQLQuery<T, V> = (query: string, variables: V | undefined) => Promise<T>;
+type RawGQLQuery<T, V> = (query: string, variables?: V) => Promise<T>;
 
 export const useGQLQuery = <T, V = undefined>(
   cacheKey: QueryKey,
@@ -45,7 +45,7 @@ export const useRawGQLQuery = <T, V = undefined>(): RawGQLQuery<T, V> => {
   const { loggedIn, setLoggedIn } = React.useContext(AuthorizationContext);
 
   const rawGqlQuery = React.useCallback(
-    async (query: string, variables: V | undefined): Promise<T> => {
+    async (query: string, variables?: V): Promise<T> => {
       if (!loggedIn) {
         throw new RequestError('Not logged in.');
       }

@@ -7,7 +7,7 @@ import clsx from 'clsx';
 // and use that for width/whatnot.
 
 export const Searchbar: React.FC<{
-  className?: string | undefined;
+  className?: string;
   shrink?: boolean;
 }> = ({ className, shrink = true }) => {
   return (

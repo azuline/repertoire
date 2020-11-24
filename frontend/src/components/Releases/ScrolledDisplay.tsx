@@ -6,7 +6,7 @@ import clsx from 'clsx';
 
 export const ScrolledReleases: React.FC<{
   releases: ReleaseT[];
-  className?: string | undefined;
+  className?: string;
 }> = ({ releases, className }) => {
   return (
     <div className={clsx(className, 'flex w-full overflow-x-auto')}>

@@ -10,7 +10,7 @@ import clsx from 'clsx';
 const style = { maxHeight: 'calc(100vh - 4rem)' };
 
 export const Chooser: React.FC<{
-  className?: string | undefined;
+  className?: string;
   results: ElementT[];
   active: number | null;
   makeUrl: (arg0: number) => string;

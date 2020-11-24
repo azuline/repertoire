@@ -10,7 +10,7 @@ export const Popover: React.FC<{
   children: React.ReactNode[];
   hover?: boolean;
   click?: boolean;
-  className?: string | undefined;
+  className?: string;
 }> = ({ children, hover = false, click = false, className }) => {
   const [child1, child2] = children;
   const [open, setOpen] = React.useState<boolean>(false);
