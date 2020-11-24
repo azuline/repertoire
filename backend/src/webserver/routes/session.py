@@ -9,11 +9,20 @@ bp = Blueprint("session", __name__, url_prefix="/session")
 
 
 @bp.route("", methods=["POST"])
-@check_auth
+@check_auth()
 @validate_data(Schema({"permanent": StringBool}))
 async def create_session(permanent=False):
     """
     Generate and return a new session.
+
+    Returns the user's CSRF token as the response body. The response has the following
+    format:
+
+    .. code-block:: json
+
+       {
+         "csrfToken": "hex-encoded token"
+       }
 
     :reqheader Authorization: An authorization token.
     :status 201: Successfully generated a session.
@@ -21,4 +30,10 @@ async def create_session(permanent=False):
     """
     quart.session["user_id"] = quart.g.user.id
     quart.session.permanent = permanent
-    return "success", 201
+
+    quart.g.db.execute(
+        "SELECT csrf_token FROM system__users WHERE id = ?", (quart.g.user.id,)
+    )
+    csrf_token = quart.g.db.fetchone()[0]
+
+    return quart.jsonify({"csrfToken": csrf_token.hex()}), 201

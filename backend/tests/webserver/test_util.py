@@ -8,7 +8,17 @@ from src.webserver.util import check_auth, validate_data
 @pytest.fixture
 def check_auth_app(quart_app):
     @quart_app.route("/testing", methods=["GET"])
-    @check_auth
+    @check_auth()
+    async def testing():
+        return quart.g.user.username
+
+    return quart_app
+
+
+@pytest.fixture
+def check_csrf_app(quart_app):
+    @quart_app.route("/testing", methods=["POST"])
+    @check_auth(csrf=True)
     async def testing():
         return quart.g.user.username
 
@@ -65,6 +75,31 @@ async def test_check_auth_failure_bad_token(check_auth_app, quart_client, header
     response = await quart_client.get("/testing", headers=headers)
 
     assert response.status_code == 401
+
+
+@pytest.mark.asyncio
+async def test_token_csrf_bypass(check_csrf_app, quart_client):
+    response = await quart_client.authed_post("/testing")
+
+    assert b"admin" == await response.get_data()
+
+
+@pytest.mark.asyncio
+async def test_session_csrf_success(check_csrf_app, quart_client):
+    async with quart_client.session_transaction() as sess:
+        sess["user_id"] = 1
+
+    response = await quart_client.post("/testing", headers={"X-CSRF-Token": "01" * 32})
+    assert b"admin" == await response.get_data()
+
+
+@pytest.mark.asyncio
+async def test_session_csrf_failure(check_csrf_app, quart_client):
+    async with quart_client.session_transaction() as sess:
+        sess["user_id"] = 1
+
+    response = await quart_client.post("/testing")
+    assert response.status_code == 400
 
 
 @pytest.mark.asyncio

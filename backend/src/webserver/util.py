@@ -5,6 +5,7 @@ utilities for the web application package.
 
 import functools
 import json
+import secrets
 
 import quart
 from voluptuous import Invalid
@@ -12,7 +13,7 @@ from voluptuous import Invalid
 from src.library import user
 
 
-def check_auth(func):
+def check_auth(csrf=False):
     """
     Ensure that the wrapped function can only be accessed by a request that
     passes a valid APIKey in the header. If the API Key is not present or
@@ -25,29 +26,84 @@ def check_auth(func):
     :raises: HTTPException
     """
 
-    @functools.wraps(func)
-    async def wrapper(*args, **kwargs):
-        # First try to authenticate from the session.
-        try:
-            print(quart.session)
-            if usr := user.from_id(quart.session["user_id"], quart.g.db):
-                quart.g.user = usr
+    def decorator(func):
+        @functools.wraps(func)
+        async def wrapper(*args, **kwargs):
+            quart.g.user = None
+
+            if _check_session_auth(csrf):
                 return await func(*args, **kwargs)
-        except KeyError:
-            pass
 
-        # Next try to authenticate from the token.
-        try:
-            token = bytes.fromhex(_get_token(quart.request.headers))
-            quart.g.user = user.from_token(token, quart.g.db)
-            return await func(*args, **kwargs)
-        except (TypeError, ValueError):
-            pass
+            if _check_token_auth():
+                return await func(*args, **kwargs)
 
-        # Failed to authenticate, abort!
-        quart.abort(401)
+            # Failed to authenticate, abort!
+            quart.abort(401)
 
-    return wrapper
+        return wrapper
+
+    return decorator
+
+
+def _check_session_auth(csrf: bool) -> bool:
+    """
+    Check to see if the current request has valid session authentication. If ``csrf`` is
+    set, validate the CSRF header as well.
+
+    If it is valid, set `quart.g.user` and return ``True``, otherwise return ``False``.
+
+    :param csrf: Whether to validate the CSRF header.
+    :return: Whether current request has valid session authentication.
+    """
+    try:
+        quart.g.user = user.from_id(  # type: ignore
+            quart.session["user_id"], quart.g.db
+        )
+    except KeyError:
+        pass
+
+    # CSRF check.
+    if quart.g.user and csrf and not _check_csrf():
+        quart.abort(400)
+
+    return bool(quart.g.user)
+
+
+def _check_csrf():
+    """
+    Check if the current request contains a valid ``X-CSRF-Token`` header.
+
+    :return: Whether the current request contains a valid CSRF header.
+    """
+    try:
+        provided_csrf_token = bytes.fromhex(quart.request.headers["X-CSRF-Token"])
+    except (KeyError, TypeError, ValueError):
+        return False
+
+    quart.g.db.execute(
+        "SELECT csrf_token FROM system__users WHERE id = ?", (quart.g.user.id,)
+    )
+    stored_csrf_token = quart.g.db.fetchone()[0]
+
+    return secrets.compare_digest(provided_csrf_token, stored_csrf_token)
+
+
+def _check_token_auth() -> bool:
+    """
+    Check to see if the current request has valid token authentication.
+
+    If it is valid, set `quart.g.user` and return ``True``, otherwise return ``False``.
+
+    :return: Whether current request has valid token authentication.
+    """
+    try:
+        token = bytes.fromhex(_get_token(quart.request.headers))
+        quart.g.user = user.from_token(token, quart.g.db)  # type: ignore
+    except (TypeError, ValueError):
+        pass
+
+    print(quart.g.user)
+    return bool(quart.g.user)
 
 
 def _get_token(headers):

@@ -168,6 +168,7 @@ CREATE TABLE system__users (
     username VARCHAR NOT NULL,
     token_prefix BLOB NOT NULL,
     token_hash VARCHAR NOT NULL,
+    csrf_token BLOB NOT NULL,
     PRIMARY KEY (id),
     UNIQUE (username),
     UNIQUE (token_prefix)

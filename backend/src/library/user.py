@@ -131,11 +131,16 @@ def create(username: str, cursor: Cursor) -> Tuple[T, bytes]:
     token, token_prefix = _generate_token(cursor)
     token_hash = generate_password_hash(token)
 
+    # Generate a CSRF token.
+    csrf_token = secrets.token_bytes(TOKEN_LENGTH)
+
     cursor.execute(
         """
-        INSERT INTO system__users (username, token_prefix, token_hash) VALUES (?, ?, ?)
+        INSERT INTO system__users
+        (username, token_prefix, token_hash, csrf_token)
+        VALUES (?, ?, ?, ?)
         """,
-        (username, token_prefix, token_hash),
+        (username, token_prefix, token_hash, csrf_token),
     )
 
     logger.info(f"Created user {username} with ID {cursor.lastrowid}.")
