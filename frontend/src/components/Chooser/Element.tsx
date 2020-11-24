@@ -5,15 +5,18 @@ import { Link } from 'src/components/common/Link';
 import clsx from 'clsx';
 
 export type ElementT = { id: number; name: string; starred: boolean };
+export type ToggleStarFactory = (elem: ElementT) => () => Promise<void>;
 
 export const Element: React.FC<{
   element: ElementT;
   active: number | null;
-  makeUrl: (arg0: number) => string;
-}> = ({ element, active, makeUrl }) => {
+  urlFactory: (arg0: number) => string;
+  toggleStarFactory: ToggleStarFactory;
+}> = ({ element, active, urlFactory, toggleStarFactory }) => {
   const isActive = React.useMemo(() => element.id === active, [active, element]);
 
-  const url = React.useMemo(() => makeUrl(element.id), [element, makeUrl]);
+  const url = React.useMemo(() => urlFactory(element.id), [element, urlFactory]);
+  const toggleStar = React.useMemo(() => toggleStarFactory(element), [toggleStarFactory, element]);
 
   return (
     <div className="relative">
@@ -22,6 +25,7 @@ export const Element: React.FC<{
           'absolute flex items-center top-0 h-full left-0 pl-8 cursor-pointer',
           element.starred ? 'text-primary-alt3 hover:text-foreground' : 'hover:text-primary-alt3',
         )}
+        onClick={toggleStar}
       >
         <Icon className="w-4" icon={element.starred ? 'star-small-filled' : 'star-small-outline'} />
       </div>
