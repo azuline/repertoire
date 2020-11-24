@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { ArtistT, GraphQLError, RequestError } from 'src/types';
+import { CollectionT, GraphQLError, RequestError } from 'src/types';
 
-import { ARTIST_FIELDS } from 'src/lib/fragments';
+import { COLLECTION_FIELDS } from 'src/lib/fragments';
 import { MutationResultPair, useQueryCache } from 'react-query';
 import { useGQLMutation } from 'src/hooks';
 
@@ -12,24 +12,26 @@ const QUERY = `
     $name: String
     $starred: Boolean
   ) {
-    updateArtist (
+    updateCollection (
       id: $id
       name: $name
       starred: $starred
     ) {
-      ${ARTIST_FIELDS}
+      ${COLLECTION_FIELDS}
     }
   }
 `;
 
-type Result = { artist: ArtistT };
+type Result = { collection: CollectionT };
 type Variables = { id: number; name?: string; starred?: boolean };
 type Return = MutationResultPair<Result, RequestError<GraphQLError>, Variables, unknown>;
 
-export const useMutateArtist = (): Return => {
+export const useMutateCollection = (): Return => {
   const queryCache = useQueryCache();
 
-  const onSuccess = React.useCallback(() => queryCache.invalidateQueries('artists'), [queryCache]);
+  const onSuccess = React.useCallback(() => queryCache.invalidateQueries('collections'), [
+    queryCache,
+  ]);
 
   return useGQLMutation<Result, Variables>(QUERY, { onSuccess });
 };

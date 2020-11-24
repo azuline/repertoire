@@ -7,6 +7,5 @@ export * from './Artists';
 export * from './Collages';
 export * from './Labels';
 export * from './Genres';
-export * from './Help';
 export * from './Metadata';
 export * from './Settings';

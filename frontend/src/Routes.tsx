@@ -5,7 +5,6 @@ import {
   Collages,
   Genres,
   Home,
-  Help,
   Settings,
   Labels,
   Metadata,
@@ -23,10 +22,12 @@ export const Routes: React.FC = () => (
     <Route path="/releases" component={Releases} />
     <Route path="/artists/:id" component={Artists} />
     <Route path="/artists" component={Artists} />
+    <Route path="/collages/:id" component={Collages} />
     <Route path="/collages" component={Collages} />
+    <Route path="/labels/:id" component={Labels} />
     <Route path="/labels" component={Labels} />
+    <Route path="/genres/:id" component={Genres} />
     <Route path="/genres" component={Genres} />
-    <Route path="/help" component={Help} />
     <Route path="/metadata" component={Metadata} />
     <Route path="/settings" component={Settings} />
   </Switch>

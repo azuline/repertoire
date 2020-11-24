@@ -1,7 +1,10 @@
 import * as React from 'react';
 
 import { ArtRelease, RowRelease } from 'src/components/Release';
-import { ReleaseT, ReleaseView } from 'src/types';
+import { ViewSettings } from 'src/components/ViewSettings';
+import { fetchReleases } from 'src/lib';
+import { ReleaseView } from 'src/types';
+import { PaginationType, ViewOptionsType } from 'src/hooks';
 
 import { SidebarContext } from 'src/contexts';
 import clsx from 'clsx';
@@ -19,11 +22,22 @@ const gridTwoCss = 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:
 
 export const PagedReleases: React.FC<{
   className?: string;
-  releases: ReleaseT[];
-  view: ReleaseView;
+  viewOptions: ViewOptionsType;
+  pagination: PaginationType;
   partial?: boolean;
-}> = ({ className, releases, view, partial = false }) => {
+}> = ({ className, viewOptions, pagination, partial = false }) => {
   const { openBar } = React.useContext(SidebarContext);
+
+  const { status, data } = fetchReleases(viewOptions, pagination);
+
+  const { total, results } = React.useMemo(
+    () => (data && status === 'success' ? data.releases : { total: 0, results: [] }),
+    [status, data],
+  );
+
+  React.useEffect(() => {
+    if (total) pagination.setTotal(total);
+  }, [total]);
 
   const gridCss = React.useMemo(() => {
     if (openBar && partial) {
@@ -37,27 +51,37 @@ export const PagedReleases: React.FC<{
     }
   }, [openBar, partial]);
 
-  switch (view) {
+  let releasesDiv = null;
+
+  switch (viewOptions.releaseView) {
     case ReleaseView.ROW:
-      return (
+      releasesDiv = (
         <div
           className={clsx(className, 'flex divide-y-2 divide-primary-alt2 flex-col bg-background')}
         >
-          {releases.map((rls) => (
+          {results.map((rls) => (
             <div key={rls.id}>
               <RowRelease release={rls} className="px-4 py-4 rounded" />
             </div>
           ))}
         </div>
       );
+      break;
     case ReleaseView.ARTWORK:
     default:
-      return (
+      releasesDiv = (
         <div className={clsx(className, 'grid gap-6', gridCss)}>
-          {releases.map((rls) => (
+          {results.map((rls) => (
             <ArtRelease key={rls.id} release={rls} />
           ))}
         </div>
       );
   }
+
+  return (
+    <>
+      <ViewSettings className="mb-4" viewOptions={viewOptions} pagination={pagination} />
+      {releasesDiv}
+    </>
+  );
 };

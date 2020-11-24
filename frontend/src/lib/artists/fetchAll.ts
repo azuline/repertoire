@@ -4,7 +4,7 @@ import { ARTIST_FIELDS } from 'src/lib/fragments';
 import { QueryResult } from 'react-query';
 import { useGQLQuery } from 'src/hooks';
 
-const FETCH_ARTISTS_QUERY = `
+const QUERY = `
   query {
 		artists {
 			results {
@@ -18,5 +18,5 @@ type Result = { artists: { results: ArtistT[] } };
 type Return = QueryResult<Result, RequestError<GraphQLError>>;
 
 export const fetchArtists = (): Return => {
-  return useGQLQuery<Result>('artists', FETCH_ARTISTS_QUERY);
+  return useGQLQuery<Result>('artists', QUERY);
 };
