@@ -1,10 +1,10 @@
-.. _backend_backend:
+.. _backend_top_level:
 
-Backend
-=======
+Top-Level
+=========
 
 This page contains documentation for the top-level backend boilerplate and
-utility functions.
+utility code.
 
 Config
 ------

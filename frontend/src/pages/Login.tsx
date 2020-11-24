@@ -20,7 +20,7 @@ export const Login: React.FC<{ className?: string | undefined }> = ({ className 
 
       if (!input.current || !permanent.current) return;
 
-      const { csrfToken } = await requestJson('/session/create', {
+      const { csrfToken } = await requestJson('/session', {
         method: 'POST',
         token: input.current.value,
         body: JSON.stringify({ permanent: permanent.current.value === 'on' }),
@@ -55,7 +55,7 @@ export const Login: React.FC<{ className?: string | undefined }> = ({ className 
         <div className="mt-2 flex items-center">
           <input className="mx-2 cursor-pointer" id="permanent" type="checkbox" ref={permanent} />
           <label className="cursor-pointer" htmlFor="permanent">
-            Rememeber me
+            Remember me
           </label>
         </div>
       </form>

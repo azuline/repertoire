@@ -25,7 +25,7 @@ export const Releases: React.FC = (): React.ReactElement => {
   return (
     <>
       <Header />
-      <div className="min-h-0 flex flex-col">
+      <div className="min-h-0 flex flex-col mt-4">
         <ViewSettings className="px-8 mb-4" viewOptions={viewOptions} pagination={pagination} />
         <div className="overflow-y-auto">
           <PagedReleases className="px-8 pb-8" view={viewOptions.releaseView} releases={results} />

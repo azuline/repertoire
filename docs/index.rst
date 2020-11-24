@@ -22,13 +22,13 @@ instructions on how to configure repertoire, see :ref:`configuration`.
 
 .. image:: /_static/scrot2.png
 
-Manual
-------
+User Manual
+-----------
 
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: Manual
+   :caption: User Manual
 
    manual/introduction
    manual/settings

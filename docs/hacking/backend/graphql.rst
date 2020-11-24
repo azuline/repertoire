@@ -29,6 +29,7 @@ Schema
 For quick reference, the raw GraphQL schema is included below:
 
 .. literalinclude:: ../../../backend/src/graphql/schema.graphql
+   :linenos:
 
 Utility Functions
 -----------------

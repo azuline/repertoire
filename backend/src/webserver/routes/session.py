@@ -7,7 +7,7 @@ from src.webserver.util import check_auth, validate_data
 bp = Blueprint("session", __name__, url_prefix="/session")
 
 
-@bp.route("/create", methods=["POST"])
+@bp.route("", methods=["POST"])
 @check_auth()
 @validate_data(Schema({"permanent": bool}))
 async def create_session(permanent=False):
@@ -38,7 +38,7 @@ async def create_session(permanent=False):
     return quart.jsonify({"csrfToken": csrf_token.hex()}), 201
 
 
-@bp.route("/delete", methods=["DELETE"])
+@bp.route("", methods=["DELETE"])
 @check_auth(csrf=True)
 async def delete_session():
     """

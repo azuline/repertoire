@@ -32,6 +32,7 @@ commands.
    $ make tests    # Run tests & lint check. Generate HTML coverage report.
    $ make lint     # Lint the backend.
    $ make docs     # Regenerate the documentation in `docs/_build`.
+   $ make schema   # Regenerate the `schema.sql` file.
    $ make setup.py # Regenerate the `setup.py` file from the `pyproject.toml`.
 
 Frontend

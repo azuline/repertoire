@@ -15,7 +15,7 @@ export const User: React.FC<{ className?: string | undefined }> = ({ className }
 
   const logout = React.useCallback(() => {
     (async (): Promise<void> => {
-      await request('/session/delete', {
+      await request('/session', {
         method: 'DELETE',
       });
 

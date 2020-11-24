@@ -3,10 +3,10 @@ This module implements the Quart application function pattern. To create a new
 Quart app instance, call ``create_app()``.
 """
 
-import sys
 import logging
 import secrets
 import sqlite3
+import sys
 
 import quart
 from quart import Quart, Response

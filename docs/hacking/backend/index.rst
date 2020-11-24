@@ -29,12 +29,13 @@ The backend is laid out as follows:
 
 The backend can be split into several layers, from lowest to highest:
 
-- The Filesystem (Music Files, Bring Your Own!)
-- The Library Indexer (:ref:`backend_indexer`)
+- The Music Files (Music Files, Bring Your Own!)
 - The Database (:ref:`backend_database`)
+- The Library Indexer (:ref:`backend_indexer`)
 - The Library Interface (:ref:`backend_library`)
 - Consumer Interfaces:
 
+  - The Task Queue
   - The Command Line (:ref:`backend_command_line`)
   - The Webserver (:ref:`backend_webserver`)
 
@@ -42,21 +43,12 @@ The backend can be split into several layers, from lowest to highest:
 
 The next several pages document each major section of the backend codebase.
 
-- :ref:`backend_backend` documents the top-level backend boilerplate code.
-- :ref:`backend_command_line` documents the command line interface
-  implementation.
-- :ref:`backend_database` documents the database schema.
-- :ref:`backend_graphql` documents the GraphQL API.
-- :ref:`backend_indexer` documents the indexer implementation.
-- :ref:`backend_library` documents the internal library API.
-- :ref:`backend_webserver` documents the webserver.
-
 .. toctree::
    :maxdepth: 1
    :hidden:
    :caption: Backend
 
-   backend
+   top_level
    command_line
    database
    graphql

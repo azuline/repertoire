@@ -22,6 +22,17 @@ backend, this token should be included with every request as the
 A token can be generated for the ``admin`` user with the shell command ``$
 repertoire token``.
 
+Sessions
+^^^^^^^^
+
+In some situations, using an authorization token to authenticate every request.
+An alternative method of authentication--HTTP sessions--is available.
+
+This method of authentication requires a CSRF token to be sent alongside all
+non-GET requests. The CSRF token is returned upon session creation.
+
+See :ref:`server_api_session` for the related API endpoints.
+
 GraphQL Playground
 ------------------
 
@@ -37,7 +48,7 @@ and run the backend webserver in debug mode.
 Authentication
 ^^^^^^^^^^^^^^
 
-Most GraphQL resources are restricted to authenticated users. To be able to
+GraphQL resources are restricted to authenticated users. To be able to
 query/mutate them, the ``Authorization`` HTTP header must be configured.
 
 The playground should look something like:
@@ -48,6 +59,19 @@ REST Endpoints
 --------------
 
 The REST endpoints of the API are as follows:
+
+.. _server_api_session:
+
+Sessions
+^^^^^^^^
+
+These endpoints allow clients to generate sessions as an alternative
+method of authentication.
+
+.. autoflask:: src.webserver.app:create_app()
+   :modules: src.webserver.routes.session
+   :groupby: view
+   :order: path
 
 File Serving
 ^^^^^^^^^^^^
