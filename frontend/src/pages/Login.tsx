@@ -19,8 +19,8 @@ export const Login: React.FC<{ className?: string | undefined }> = ({ className 
 
       if (!input.current) return;
 
-      const { csrfToken } = await requestJson('/session', {
-        method: 'POST',
+      const { csrfToken } = await requestJson('/session/create', {
+        method: 'CREATE',
         token: input.current.value,
       });
 

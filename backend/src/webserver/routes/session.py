@@ -8,7 +8,7 @@ from src.webserver.validators import StringBool
 bp = Blueprint("session", __name__, url_prefix="/session")
 
 
-@bp.route("", methods=["POST"])
+@bp.route("/create", methods=["CREATE"])
 @check_auth()
 @validate_data(Schema({"permanent": StringBool}))
 async def create_session(permanent=False):
@@ -37,3 +37,19 @@ async def create_session(permanent=False):
     csrf_token = quart.g.db.fetchone()[0]
 
     return quart.jsonify({"csrfToken": csrf_token.hex()}), 201
+
+
+@bp.route("/delete", methods=["DELETE"])
+@check_auth(csrf=True)
+async def delete_session():
+    """
+    Delete the session cookie of the requesting user.
+
+    As our cookies are HTTPOnly, clients cannot delete their own sessions. Thus, we must
+    expose this endpoint.
+
+    :status 200: Successfully deleted the session.
+    """
+    quart.session.clear()
+
+    return "success"
