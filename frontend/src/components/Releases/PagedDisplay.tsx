@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { ArtRelease, RowRelease } from 'src/components/Release';
 import { ViewSettings } from 'src/components/ViewSettings';
+import { Pagination } from 'src/components/Pagination';
 import { fetchReleases } from 'src/lib';
 import { ReleaseView } from 'src/types';
 import { PaginationType, ViewOptionsType } from 'src/hooks';
@@ -79,6 +80,7 @@ export const PagedReleases: React.FC<{
     <>
       <ViewSettings className="mb-4" viewOptions={viewOptions} pagination={pagination} />
       {releasesDiv}
+      <Pagination className="mt-4" pagination={pagination} />
     </>
   );
 };
