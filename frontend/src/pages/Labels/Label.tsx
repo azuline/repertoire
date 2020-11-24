@@ -7,7 +7,7 @@ import { Link } from 'src/components/common/Link';
 import { SectionHeader } from 'src/components/common/SectionHeader';
 import { fetchCollection } from 'src/lib';
 
-export const Genre: React.FC<{ active: number }> = ({ active }) => {
+export const Label: React.FC<{ active: number }> = ({ active }) => {
   const { status, data } = fetchCollection(active);
 
   // prettier-ignore
@@ -23,7 +23,7 @@ export const Genre: React.FC<{ active: number }> = ({ active }) => {
       <Header />
       <div className="overflow-y-auto">
         <div className="px-8 pb-8 mt-1">
-          <Link href="/genres">
+          <Link href="/labels">
             <BackButton />
           </Link>
           <SectionHeader className="my-4">{collection.name}</SectionHeader>

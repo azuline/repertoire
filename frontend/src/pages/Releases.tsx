@@ -15,8 +15,10 @@ export const Releases: React.FC = (): React.ReactElement => {
     <div className="flex flex-col full">
       <Header />
       <div className="min-h-0 flex flex-col mt-4">
-        <div className="overflow-y-auto">
-          <PagedReleases className="px-8 pb-8" viewOptions={viewOptions} pagination={pagination} />
+        <div className="px-8 overflow-y-auto">
+          <div className="pb-8">
+            <PagedReleases viewOptions={viewOptions} pagination={pagination} />
+          </div>
         </div>
       </div>
     </div>

@@ -4,13 +4,12 @@ import { Chooser, ElementT } from 'src/components/Chooser';
 import { fetchCollections, useMutateCollection } from 'src/lib';
 import { CollectionType } from 'src/types';
 
-const urlFactory = (id: number): string => `/genres/${id}`;
-
 export const CollectionChooser: React.FC<{
   collectionType: CollectionType;
+  urlPrefix: string;
   active: number | null;
   className?: string;
-}> = ({ collectionType, active, className }) => {
+}> = ({ collectionType, urlPrefix, active, className }) => {
   const { status, data } = fetchCollections(collectionType);
   const [mutateCollection] = useMutateCollection();
 
@@ -21,6 +20,8 @@ export const CollectionChooser: React.FC<{
     results.sort((a, b) => a.name.localeCompare(b.name));
     return results;
   }, [data, status]);
+
+  const urlFactory = React.useCallback((id: number): string => `${urlPrefix}/${id}`, [urlPrefix]);
 
   const toggleStarFactory = React.useCallback(
     ({ id, starred }: ElementT) => {

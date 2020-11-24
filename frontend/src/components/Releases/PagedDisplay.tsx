@@ -21,11 +21,10 @@ const gridOneCssPartial = 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-col
 const gridTwoCss = 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5';
 
 export const PagedReleases: React.FC<{
-  className?: string;
   viewOptions: ViewOptionsType;
   pagination: PaginationType;
   partial?: boolean;
-}> = ({ className, viewOptions, pagination, partial = false }) => {
+}> = ({ viewOptions, pagination, partial = false }) => {
   const { openBar } = React.useContext(SidebarContext);
 
   const { status, data } = fetchReleases(viewOptions, pagination);
@@ -56,9 +55,7 @@ export const PagedReleases: React.FC<{
   switch (viewOptions.releaseView) {
     case ReleaseView.ROW:
       releasesDiv = (
-        <div
-          className={clsx(className, 'flex divide-y-2 divide-primary-alt2 flex-col bg-background')}
-        >
+        <div className="flex divide-y-2 divide-primary-alt2 flex-col bg-background">
           {results.map((rls) => (
             <div key={rls.id}>
               <RowRelease release={rls} className="px-4 py-4 rounded" />
@@ -70,7 +67,7 @@ export const PagedReleases: React.FC<{
     case ReleaseView.ARTWORK:
     default:
       releasesDiv = (
-        <div className={clsx(className, 'grid gap-6', gridCss)}>
+        <div className={clsx('grid gap-6', gridCss)}>
           {results.map((rls) => (
             <ArtRelease key={rls.id} release={rls} />
           ))}
