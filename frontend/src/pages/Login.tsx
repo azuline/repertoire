@@ -9,6 +9,7 @@ const inputStyle = { width: '50vw', minWidth: '300px', maxWidth: '600px' };
 
 export const Login: React.FC<{ className?: string | undefined }> = ({ className }) => {
   const input = React.useRef<HTMLInputElement>(null);
+  const permanent = React.useRef<HTMLInputElement>(null);
   const { setLoggedIn, setCsrf } = React.useContext(AuthorizationContext);
   const requestJson = useRequestJson<{ csrfToken: string }>();
   const { addToast } = useToasts();
@@ -17,11 +18,12 @@ export const Login: React.FC<{ className?: string | undefined }> = ({ className 
     async (event) => {
       event.preventDefault();
 
-      if (!input.current) return;
+      if (!input.current || !permanent.current) return;
 
       const { csrfToken } = await requestJson('/session/create', {
-        method: 'CREATE',
+        method: 'POST',
         token: input.current.value,
+        body: JSON.stringify({ permanent: permanent.current.value === 'on' }),
       });
 
       if (csrfToken) {
@@ -32,22 +34,30 @@ export const Login: React.FC<{ className?: string | undefined }> = ({ className 
         addToast('Invalid authorization token.', { appearance: 'error' });
       }
     },
-    [input, setLoggedIn, setCsrf, addToast],
+    [input, permanent, setLoggedIn, setCsrf, addToast],
   );
 
   return (
     <div className={clsx(className, 'flex content-center')}>
       <form className="mx-auto self-center" onSubmit={onSubmit}>
-        <input
-          autoFocus
-          className="mr-6"
-          placeholder="Authorization token"
-          ref={input}
-          style={inputStyle}
-        />
-        <button type="submit" className="px-4 py-2 bg-primary hover:bg-primary">
-          Login
-        </button>
+        <div>
+          <input
+            autoFocus
+            className="mr-6"
+            placeholder="Authorization token"
+            ref={input}
+            style={inputStyle}
+          />
+          <button type="submit" className="px-4 py-2 bg-primary hover:bg-primary">
+            Login
+          </button>
+        </div>
+        <div className="mt-2 flex items-center">
+          <input className="mr-2 cursor-pointer" id="permanent" type="checkbox" ref={permanent} />
+          <label className="cursor-pointer" htmlFor="permanent">
+            Rememeber me
+          </label>
+        </div>
       </form>
     </div>
   );

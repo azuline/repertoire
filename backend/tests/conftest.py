@@ -72,13 +72,9 @@ async def quart_client(quart_app):
     async with quart_app.app_context():
         async with quart_app.test_client() as test_client:
 
-            async def create(*args, **kwargs):
-                return await test_client.open(*args, **dict(kwargs, method="CREATE"))
-
             async def delete(*args, **kwargs):
                 return await test_client.open(*args, **dict(kwargs, method="DELETE"))
 
-            test_client.create = create
             test_client.delete = delete
 
             async def authed_get(*args, **kwargs):
@@ -87,15 +83,11 @@ async def quart_client(quart_app):
             async def authed_post(*args, **kwargs):
                 return await test_client.post(*args, **update_kwargs(kwargs))
 
-            async def authed_create(*args, **kwargs):
-                return await test_client.create(*args, **update_kwargs(kwargs))
-
             async def authed_delete(*args, **kwargs):
                 return await test_client.delete(*args, **update_kwargs(kwargs))
 
             test_client.authed_get = authed_get
             test_client.authed_post = authed_post
-            test_client.authed_create = authed_create
             test_client.authed_delete = authed_delete
 
             yield test_client
@@ -109,7 +101,9 @@ def graphql_query(db, quart_app):
                 schema=schema,
                 data={"operationName": None, "variables": {}, "query": query},
                 context_value=GraphQLContext(
-                    user=user.from_id(1, db), db=db, request=quart.request,
+                    user=user.from_id(1, db),
+                    db=db,
+                    request=quart.request,
                 ),
                 error_formatter=error_formatter,
                 debug=False,

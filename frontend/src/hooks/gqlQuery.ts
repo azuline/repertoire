@@ -42,7 +42,6 @@ export const useGQLQuery = <T, V = undefined>(
 
 export const useRawGQLQuery = <T, V = undefined>(): RawGQLQuery<T, V> => {
   const { csrf } = React.useContext(AuthorizationContext);
-  const { addToast } = useToasts();
   const { loggedIn, setLoggedIn } = React.useContext(AuthorizationContext);
 
   const rawGqlQuery = React.useCallback(
@@ -51,23 +50,20 @@ export const useRawGQLQuery = <T, V = undefined>(): RawGQLQuery<T, V> => {
         throw new RequestError('Not logged in.');
       }
 
-      const headers: Record<string, string> = {
-        'X-CSRF-Token': csrf ?? '',
-        'Content-Type': 'application/json',
-      };
-
       const response = await fetch('/graphql', {
         method: 'POST',
-        headers: headers,
         credentials: 'same-origin',
         body: JSON.stringify({
           query: query,
           variables: variables,
         }),
+        headers: new Headers({
+          'X-CSRF-Token': csrf ?? '',
+          'Content-Type': 'application/json',
+        }),
       });
 
       if (response.status == 401) {
-        addToast('Failed to authenticate.', { appearance: 'error' });
         setLoggedIn(false);
         throw new RequestError('Failed to authenticate.');
       }
@@ -80,7 +76,7 @@ export const useRawGQLQuery = <T, V = undefined>(): RawGQLQuery<T, V> => {
 
       return gqlData.data;
     },
-    [csrf, addToast, loggedIn, setLoggedIn],
+    [csrf, loggedIn, setLoggedIn],
   );
 
   return rawGqlQuery;

@@ -16,14 +16,14 @@ export const GlobalContexts: React.FC<{ children: React.ReactNode }> = ({ childr
   const queryCache = new QueryCache();
 
   return (
-    <AuthorizationProvider>
-      <ToastProvider>
-        <ReactQueryCacheProvider queryCache={queryCache}>
+    <ToastProvider>
+      <ReactQueryCacheProvider queryCache={queryCache}>
+        <AuthorizationProvider>
           <ThemeProvider>
             <SidebarProvider>{children}</SidebarProvider>
           </ThemeProvider>
-        </ReactQueryCacheProvider>
-      </ToastProvider>
-    </AuthorizationProvider>
+        </AuthorizationProvider>
+      </ReactQueryCacheProvider>
+    </ToastProvider>
   );
 };

@@ -6,7 +6,7 @@ import quart
 
 @pytest.mark.asyncio
 async def test_create_session(db, quart_client, snapshot):
-    response = await quart_client.authed_create("/session/create")
+    response = await quart_client.authed_post("/session/create")
     print(await response.get_data())
     assert response.status_code == 201
     data = json.loads(await response.get_data())
@@ -20,7 +20,7 @@ async def test_create_session(db, quart_client, snapshot):
 
 @pytest.mark.asyncio
 async def test_create_session_no_auth(db, quart_client):
-    response = await quart_client.create("/session/create")
+    response = await quart_client.post("/session/create")
     assert 401 == response.status_code
 
 

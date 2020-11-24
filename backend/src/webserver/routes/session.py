@@ -3,14 +3,13 @@ from quart import Blueprint
 from voluptuous import Schema
 
 from src.webserver.util import check_auth, validate_data
-from src.webserver.validators import StringBool
 
 bp = Blueprint("session", __name__, url_prefix="/session")
 
 
-@bp.route("/create", methods=["CREATE"])
+@bp.route("/create", methods=["POST"])
 @check_auth()
-@validate_data(Schema({"permanent": StringBool}))
+@validate_data(Schema({"permanent": bool}))
 async def create_session(permanent=False):
     """
     Generate and return a new session.
