@@ -38,7 +38,7 @@ export const Footer: React.FC = () => {
             onClick={rewind}
           />
           <Icon
-            className="w-9 mr-1 cursor-pointer hover:text-primary-alt3"
+            className="w-12 mr-1 cursor-pointer hover:text-primary-alt3"
             icon={isPlaying ? 'pause-small' : 'play-small'}
             onClick={togglePlay}
           />

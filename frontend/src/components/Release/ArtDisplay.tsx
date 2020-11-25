@@ -37,7 +37,7 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
           </div>
           <div className="back relative full">
             <div className="absolute rounded-lg top-0 left-0 full bg-black bg-opacity-75" />
-            <div className="absolute top-0 left-0 full z-10 p-4 flex flex-col justify-center items-center text-lg">
+            <div className="absolute top-0 left-0 full z-10 p-4 flex flex-col justify-center items-center text-md">
               {release.releaseYear ? <div className="py-1">{release.releaseYear}</div> : null}
               <div className="py-1">
                 {release.numTracks} Track{release.numTracks !== 1 && 's'} / {runtime}

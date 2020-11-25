@@ -26,7 +26,7 @@ export const Pagination: React.FC<{
   if (numPages <= 1) return null;
 
   return (
-    <div className={clsx(className, 'flex')}>
+    <div className={clsx(className, 'flex items-center')}>
       {numPages > 1 && <Arrow direction="left" onClick={goBackOnePage} />}
       <Page page={1} curPage={curPage} setCurPage={setCurPage} />
       {Array.from({ length: top - bottom }).map((_, i) => (

@@ -1,18 +1,12 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { CoverArt, Disclist, Header, Link } from 'src/components';
+import { Background, CoverArt, Disclist, Header, Link } from 'src/components';
 import { SidebarContext } from 'src/contexts';
 import { useId } from 'src/hooks';
 import { fetchRelease } from 'src/lib';
 import { CollectionT, TrackT } from 'src/types';
 
 import { Info } from './Info';
-
-// TODO: Light theme-ify support this.
-const backgroundStyle = {
-  background:
-    'linear-gradient(185deg, rgba(16, 16, 19, 0.2), rgba(16, 16, 19, 0.6), rgba(16, 16, 19, 0.7), rgba(16, 16, 19, 1), rgba(16, 16, 19, 1))',
-};
 
 export const Release: React.FC = () => {
   const { isSidebarOpen } = React.useContext(SidebarContext);
@@ -29,12 +23,9 @@ export const Release: React.FC = () => {
       <Header />
       {data && status === 'success' && (
         <>
-          <div className={clsx('absolute top-0 left-0 h-0 full')}>
-            <div className="absolute top-0 left-0 full z-0 opacity-50">
-              <CoverArt className="full object-cover" release={data.release} />
-            </div>
-            <div className="full max-h-screen absolute top-0 left-0" style={backgroundStyle} />
-          </div>
+          <Background>
+            <CoverArt className="full object-cover" release={data.release} />
+          </Background>
           <div className="overflow-y-auto flex flex-col mt-4 z-10">
             <div className="flex px-8 z-10">
               <CoverArt

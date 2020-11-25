@@ -1,3 +1,4 @@
+export * from './Background';
 export * from './Chooser';
 export * from './collection';
 export * from './common';
