@@ -10,6 +10,9 @@ import { Link } from 'src/components/common/Link';
 export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
   const whenReleased = React.useMemo(() => formatReleaseDate(release), [release]);
 
+  const genreLength = React.useMemo(() => (release.genres as CollectionT[]).length, [release]);
+  const labelLength = React.useMemo(() => (release.labels as CollectionT[]).length, [release]);
+
   return (
     <div className="flex flex-col">
       <SectionHeader className="truncate-2 mb-4">{release.title}</SectionHeader>
@@ -30,11 +33,11 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
       </div>
       <div className="text-lg mb-1 text-gray-800 dark:text-gray-300">{whenReleased}</div>
       <div className="text-lg truncate-2 mb-1 text-gray-800 dark:text-gray-300">
-        {(release.labels as CollectionT[]).length === 0 ? (
+        {labelLength === 0 ? (
           <span>No Label</span>
         ) : (
           <>
-            <span>Labels: </span>
+            <span>Label{labelLength > 1 ? 's' : ''}: </span>
             <LabelList
               className="inline"
               elementClassName="text-primary-alt3"
@@ -45,16 +48,16 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
         )}
       </div>
       <div className="text-lg truncate-2 mb-1 text-gray-800 dark:text-gray-300">
-        {(release.genres as CollectionT[]).length === 0 ? (
+        {genreLength === 0 ? (
           <span>No Genres</span>
         ) : (
           <>
-            <span>Genres: </span>
+            <span>Genre{genreLength > 1 ? 's' : ''}: </span>
             <GenreList
               className="inline"
               elementClassName="bg-primary-alt text-foreground px-2 py-1 mr-1 rounded leading-9"
               elements={release.genres}
-              delimiter={'  '}
+              delimiter=" "
               link
             />
           </>

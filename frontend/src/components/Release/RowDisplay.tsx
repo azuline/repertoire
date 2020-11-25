@@ -23,7 +23,7 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
       )}
     >
       <div className="flex-none relative w-12 h-12 mr-2">
-        <CoverArt className="absolute full object-cover rounded-lg" release={release} />
+        <CoverArt thumbnail className="absolute full object-cover rounded-lg" release={release} />
       </div>
       <div className="flex-1 overflow-hidden">
         <div className="flex">
