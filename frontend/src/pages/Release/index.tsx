@@ -4,9 +4,10 @@ import clsx from 'clsx';
 import { CoverArt } from 'src/components/Release';
 
 import { SidebarContext } from 'src/contexts';
-import { TrackT } from 'src/types';
+import { TrackT, CollectionT } from 'src/types';
 import { Disclist } from 'src/components/Tracklist';
 import { Header } from 'src/components/Header';
+import { Link } from 'src/components/common/Link';
 import { useId } from 'src/hooks';
 import { fetchRelease } from 'src/lib';
 import { Info } from './Info';
@@ -22,12 +23,17 @@ export const Release: React.FC = () => {
   const id = useId();
   const { data, status } = fetchRelease(id as number);
 
+  const collageLength = React.useMemo(
+    () => (data ? (data.release.collages as CollectionT[]).length : 0),
+    [data],
+  );
+
   return (
     <div className="relative flex flex-col full">
       <Header />
       {data && status === 'success' && (
         <>
-          <div className={clsx('absolute top-0 left-0 h-0 w-full pb-full')}>
+          <div className={clsx('absolute top-0 left-0 h-0 full')}>
             <div className="absolute top-0 left-0 full z-0 opacity-50">
               <CoverArt className="full object-cover" release={data.release} />
             </div>
@@ -45,6 +51,20 @@ export const Release: React.FC = () => {
               <Info release={data.release} />
             </div>
             <Disclist className="py-8" tracks={data.release.tracks as TrackT[]} />
+            <div className="px-8 w-full overflow-x-hidden">
+              {collageLength !== 0 && (
+                <>
+                  <div className="text-lg">Member of:</div>
+                  <ul>
+                    {(data.release.collages as CollectionT[]).map((collage) => (
+                      <li className="mt-1 text-primary text-lg" key={collage.id}>
+                        <Link href={`/collages/${collage.id}`}>{collage.name}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
           </div>
         </>
       )}
