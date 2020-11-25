@@ -6,17 +6,31 @@ import { secondsToLength, arrangeArtists } from 'src/common';
 import { ArtistList } from 'src/components/Lists';
 import { SidebarContext } from 'src/contexts';
 
-export const Track: React.FC<{ track: TrackT }> = ({ track }) => {
+export const Track: React.FC<{
+  track: TrackT;
+  index: number;
+  onClick?: (arg0: number) => void;
+  active?: boolean;
+}> = ({ track, index, onClick, active = false }) => {
   const { isSidebarOpen } = React.useContext(SidebarContext);
+  const trackOnClick = React.useCallback(() => onClick && onClick(index), [index, onClick]);
 
   return (
-    <div className="py-1.5 px-2 w-full rounded hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5 cursor-pointer">
+    <div
+      className={clsx(
+        'py-1.5 px-2 w-full rounded',
+        active && 'font-bold',
+        onClick &&
+          'hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5 cursor-pointer',
+      )}
+      onClick={trackOnClick}
+    >
       <div className="flex items-center">
         <Icon className="flex-none w-5 mr-3 text-primary cursor-pointer" icon="play-medium" />
         <div
           className={clsx(
-            'flex-1 w-72 mr-2 truncate',
-            isSidebarOpen ? 'md:flex-none' : 'sm-flex-none',
+            'flex-1 mr-2 truncate',
+            isSidebarOpen ? 'md:flex-none w-1/3' : 'sm:flex-none w-1/3',
           )}
           title={track.title}
         >

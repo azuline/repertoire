@@ -3,6 +3,7 @@ import * as React from 'react';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 
 import { AuthorizationProvider } from './Authorization';
+import { PlayQueueProvider } from './PlayQueue';
 import { SidebarProvider } from './Sidebar';
 import { ToastProvider } from './Toaster';
 import { ThemeProvider } from './Theme';
@@ -11,6 +12,7 @@ export * from './Authorization';
 export * from './Toaster';
 export * from './Sidebar';
 export * from './Theme';
+export * from './PlayQueue';
 
 export const GlobalContexts: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const queryCache = new QueryCache();
@@ -19,9 +21,11 @@ export const GlobalContexts: React.FC<{ children: React.ReactNode }> = ({ childr
     <ToastProvider>
       <ReactQueryCacheProvider queryCache={queryCache}>
         <AuthorizationProvider>
-          <ThemeProvider>
-            <SidebarProvider>{children}</SidebarProvider>
-          </ThemeProvider>
+          <PlayQueueProvider>
+            <ThemeProvider>
+              <SidebarProvider>{children}</SidebarProvider>
+            </ThemeProvider>
+          </PlayQueueProvider>
         </AuthorizationProvider>
       </ReactQueryCacheProvider>
     </ToastProvider>
