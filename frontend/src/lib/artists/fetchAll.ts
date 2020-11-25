@@ -6,12 +6,12 @@ import { useGQLQuery } from 'src/hooks';
 
 const QUERY = `
   query {
-		artists {
-			results {
-				${ARTIST_FIELDS}
-			}
-		}
-	}
+    artists {
+      results {
+        ${ARTIST_FIELDS}
+      }
+    }
+  }
 `;
 
 type Result = { artists: { results: ArtistT[] } };

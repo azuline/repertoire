@@ -3,10 +3,11 @@ import * as React from 'react';
 import noArt from 'src/assets/noArt.jpg';
 
 export const CoverArt: React.FC<{
-  className: string;
+  className?: string;
+  thumbnail?: boolean;
   release: { id: number; hasCover: boolean };
-}> = ({ className, release: { id, hasCover } }) => {
-  const [src, setSrc] = React.useState(`/files/covers/${id}?thumbnail=true`);
+}> = ({ className, thumbnail = false, release: { id, hasCover } }) => {
+  const [src, setSrc] = React.useState(`/files/covers/${id}?thumbnail=${thumbnail}`);
   const onError = React.useCallback(() => setSrc(noArt), [setSrc]);
 
   if (!hasCover) {

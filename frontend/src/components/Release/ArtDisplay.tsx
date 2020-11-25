@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ArtistList, GenreList } from './Lists';
+import { ArtistList, GenreList } from 'src/components/Lists';
 import { ArtistT, CollectionT, ReleaseT } from 'src/types';
 
 import { CoverArt } from './CoverArt';
@@ -23,7 +23,7 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
   return (
     <Link href={`/releases/${release.id}`}>
       <div className={clsx(className, 'relative h-0 pb-full text-white')}>
-        <CoverArt className="absolute full object-cover rounded-lg" release={release} />
+        <CoverArt thumbnail className="absolute full object-cover rounded-lg" release={release} />
         <div className="two-sided rounded-lg full absolute z-10" style={textStyle}>
           <div className="front flex flex-col full justify-end overflow-hidden">
             <div className="p-4 overflow-hidden">

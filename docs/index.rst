@@ -22,6 +22,8 @@ instructions on how to configure repertoire, see :ref:`configuration`.
 
 .. image:: /_static/scrot2.png
 
+.. image:: /_static/scrot3.png
+
 User Manual
 -----------
 

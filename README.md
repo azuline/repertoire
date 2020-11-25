@@ -14,6 +14,8 @@ Frontend is being rewritten, but it's currently something like:
 
 ![example](docs/_static/scrot2.png)
 
+![example](docs/_static/scrot3.png)
+
 ## License
 
 ```

@@ -6,10 +6,10 @@ import { useGQLQuery } from 'src/hooks';
 
 const QUERY = `
   query ($id: Int!) {
-		collection (id: $id) {
+    collection (id: $id) {
       ${COLLECTION_FIELDS}
-		}
-	}
+    }
+  }
 `;
 
 type Result = { collection: CollectionT };
