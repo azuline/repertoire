@@ -3,7 +3,7 @@ import * as React from 'react';
 import noArt from 'src/assets/noArt.jpg';
 
 export const CoverArt: React.FC<{
-  className: string;
+  className?: string;
   release: { id: number; hasCover: boolean };
 }> = ({ className, release: { id, hasCover } }) => {
   const [src, setSrc] = React.useState(`/files/covers/${id}?thumbnail=true`);
