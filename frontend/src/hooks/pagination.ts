@@ -6,9 +6,9 @@ import { useQuery } from './query';
 
 export type PaginationType = {
   curPage: number;
-  setCurPage: (arg0: number) => void;
+  setCurPage: (arg0: number | ((arg0: number) => number)) => void;
   perPage: number;
-  setPerPage: (arg0: number) => void;
+  setPerPage: (arg0: number | ((arg0: number) => number)) => void;
   total: number;
   setTotal: (arg0: number) => void;
   numPages: number;

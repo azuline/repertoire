@@ -13,10 +13,15 @@ type AudioPlayType = {
 };
 
 export const useAudio = (): AudioPlayType => {
-  const { playQueue, curIndex } = React.useContext(PlayQueueContext);
+  const { playQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
   const [audio, setAudio] = React.useState<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = React.useState<boolean>(false);
   const [curTime, setCurTime] = React.useState<number>(0);
+
+  const onTrackEnd = React.useCallback(
+    () => setCurIndex((idx) => (idx !== null && idx !== playQueue.length - 1 ? idx + 1 : null)),
+    [playQueue, setCurIndex],
+  );
 
   // prettier-ignore
   const curTrack = React.useMemo(
@@ -33,6 +38,9 @@ export const useAudio = (): AudioPlayType => {
     const newAudio = new Audio(`/files/tracks/${curTrack.id}`);
     setAudio(newAudio);
     setIsPlaying(true);
+
+    newAudio.addEventListener('ended', onTrackEnd);
+    return () => newAudio.removeEventListener('ended', onTrackEnd);
   }, [curTrack]);
 
   // Sync the isPlaying variable with the audio.

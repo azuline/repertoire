@@ -48,7 +48,7 @@ export const Footer: React.FC = () => {
             onClick={fastForward}
           />
         </div>
-        <div className="flex-none w-12 ml-8">
+        <div className="flex-none w-11 ml-8 md:ml-2">
           <div className="w-full h-0 pb-full relative">
             {curTrack && (
               <CoverArt
