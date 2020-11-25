@@ -31,7 +31,18 @@ export const Footer: React.FC = () => {
   return (
     <div className="relative z-30 flex-none w-full h-16 bg-background-alt2 border-t-2 border-gray-300 dark:border-gray-700">
       <div className="full flex items-center">
-        <div className="flex-none ml-8 md:ml-0 md:w-56 flex justify-center items-center text-primary">
+        <div className="ml-4 w-28 text-center hidden md:block flex-none">
+          {curTrack ? (
+            <>
+              {secondsToLength(curTime)}
+              <span> / </span>
+              {secondsToLength(curTrack.duration)}
+            </>
+          ) : (
+            <span>-:-- / -:--</span>
+          )}
+        </div>
+        <div className="flex-none mx-8 flex justify-center items-center text-primary">
           <Icon
             className="w-9 mr-1 cursor-pointer hover:text-primary-alt3"
             icon="rewind-small"
@@ -48,7 +59,7 @@ export const Footer: React.FC = () => {
             onClick={fastForward}
           />
         </div>
-        <div className="flex-none w-11 ml-8 md:ml-2">
+        <div className="flex-none w-11">
           <div className="w-full h-0 pb-full relative">
             {curTrack && (
               <CoverArt
@@ -66,17 +77,6 @@ export const Footer: React.FC = () => {
               className="truncate"
               elements={arrangeArtists(curTrack.artists as TrackArtistT[])}
             />
-          )}
-        </div>
-        <div className="mr-8 flex-none hidden sm:block">
-          {curTrack ? (
-            <>
-              {secondsToLength(curTime)}
-              <span> / </span>
-              {secondsToLength(curTrack.duration)}
-            </>
-          ) : (
-            <span>-:-- / -:--</span>
           )}
         </div>
       </div>

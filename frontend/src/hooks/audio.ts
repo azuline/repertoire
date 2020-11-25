@@ -40,13 +40,16 @@ export const useAudio = (): AudioPlayType => {
     setIsPlaying(true);
 
     newAudio.addEventListener('ended', onTrackEnd);
-    return () => newAudio.removeEventListener('ended', onTrackEnd);
+    return (): void => newAudio.removeEventListener('ended', onTrackEnd);
   }, [curTrack]);
 
   // Sync the isPlaying variable with the audio.
   // Return a timer to sync curTime with the track progress.
   React.useEffect(() => {
-    if (!audio) return;
+    if (!audio) {
+      setIsPlaying(false);
+      return;
+    }
 
     if (isPlaying) {
       if (audio.ended) audio.fastSeek(0);
