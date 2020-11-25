@@ -26,6 +26,10 @@ const QUERY = `
       }
       tracks {
         ${TRACK_FIELDS}
+        release {
+          id
+          hasCover
+        }
         artists {
           artist {
             id

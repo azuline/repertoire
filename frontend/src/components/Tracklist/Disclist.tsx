@@ -31,10 +31,13 @@ export const Disclist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
 
   const trackOnClick = React.useCallback(
     (index: number): void => {
-      setPlayQueue(sortedTracklist);
+      if (!areTrackListsMatching) {
+        setPlayQueue(sortedTracklist);
+      }
+
       setCurIndex(index);
     },
-    [setPlayQueue, setCurIndex, sortedTracklist],
+    [areTrackListsMatching, setPlayQueue, setCurIndex, sortedTracklist],
   );
 
   let trackIndex = -1;

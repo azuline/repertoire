@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Icon, ArtistList } from 'src/components';
-import { TrackArtistT } from 'src/types';
+import { CoverArt, Icon, ArtistList } from 'src/components';
+import { TrackArtistT, ReleaseT } from 'src/types';
 import { PlayQueueContext } from 'src/contexts';
 import { useAudio } from 'src/hooks';
 import { arrangeArtists, secondsToLength } from 'src/util';
@@ -14,6 +14,8 @@ export const Footer: React.FC = () => {
     () => (curIndex !== null ? playQueue[curIndex] : null),
     [playQueue, curIndex],
   );
+
+  console.log(curTrack);
 
   const togglePlay = React.useCallback(() => setIsPlaying((p: boolean) => !p), [setIsPlaying]);
   const fastForward = React.useCallback(
@@ -48,6 +50,17 @@ export const Footer: React.FC = () => {
             onClick={fastForward}
           />
         </div>
+        <div className="flex-none w-12 ml-8">
+          <div className="w-full h-0 pb-full relative">
+            {curTrack && (
+              <CoverArt
+                className="full absolute object-cover rounded"
+                release={curTrack.release as ReleaseT}
+                thumbnail
+              />
+            )}
+          </div>
+        </div>
         <div className="truncate mx-4 flex-1 flex flex-col text-center">
           <div className="truncate font-bold">{curTrack && curTrack.title}</div>
           {curTrack && (
@@ -57,7 +70,7 @@ export const Footer: React.FC = () => {
             />
           )}
         </div>
-        <div className="mr-8 ml-4 flex-none">
+        <div className="mr-8 flex-none hidden sm:block">
           {curTrack ? (
             <>
               {secondsToLength(curTime)}
