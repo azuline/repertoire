@@ -1,12 +1,14 @@
 import * as React from 'react';
-import { ArtistList, CoverArt, Icon } from 'src/components';
 import { PlayQueueContext } from 'src/contexts';
 import { useAudio } from 'src/hooks';
-import { ReleaseT, TrackArtistT } from 'src/types';
-import { arrangeArtists, secondsToLength } from 'src/util';
+
+import { ExpandPlaying } from './ExpandPlaying';
+import { PlayButtons } from './PlayButtons';
+import { Progress } from './Progress';
+import { TrackInfo } from './TrackInfo';
 
 export const Footer: React.FC = () => {
-  const { playQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
+  const { playQueue, curIndex } = React.useContext(PlayQueueContext);
   const { isPlaying, setIsPlaying, curTime, seek } = useAudio();
 
   // prettier-ignore
@@ -15,70 +17,23 @@ export const Footer: React.FC = () => {
     [playQueue, curIndex],
   );
 
-  const togglePlay = React.useCallback(() => setIsPlaying((p: boolean) => !p), [setIsPlaying]);
-  const fastForward = React.useCallback(
-    () => setCurIndex((idx) => (idx !== null && idx !== playQueue.length - 1 ? idx + 1 : null)),
-    [setIsPlaying],
-  );
-  const rewind = React.useCallback(() => {
-    if (isPlaying && curTime > 10) {
-      seek(0);
-    } else {
-      setCurIndex((idx) => (idx !== null && idx !== 0 ? idx - 1 : null));
-    }
-  }, [curTime, setIsPlaying]);
-
   return (
     <div className="relative z-30 flex-none w-full h-16 bg-background-alt2 border-t-2 border-gray-300 dark:border-gray-700">
       <div className="full flex items-center">
-        <div className="ml-4 w-28 text-center hidden md:block flex-none">
-          {curTrack ? (
-            <>
-              {secondsToLength(curTime)}
-              <span> / </span>
-              {secondsToLength(curTrack.duration)}
-            </>
-          ) : (
-            <span>-:-- / -:--</span>
-          )}
-        </div>
-        <div className="flex-none mx-8 flex justify-center items-center text-primary">
-          <Icon
-            className="w-9 mr-1 cursor-pointer hover:text-primary-alt3"
-            icon="rewind-small"
-            onClick={rewind}
-          />
-          <Icon
-            className="w-12 mr-1 cursor-pointer hover:text-primary-alt3"
-            icon={isPlaying ? 'pause-small' : 'play-small'}
-            onClick={togglePlay}
-          />
-          <Icon
-            className="w-9 cursor-pointer hover:text-primary-alt3"
-            icon="fast-forward-small"
-            onClick={fastForward}
-          />
-        </div>
-        <div className="flex-none w-11">
-          <div className="w-full h-0 pb-full relative">
-            {curTrack && (
-              <CoverArt
-                className="full absolute object-cover rounded"
-                release={curTrack.release as ReleaseT}
-                thumbnail
-              />
-            )}
-          </div>
-        </div>
-        <div className="truncate mx-4 flex-1 flex flex-col text-center">
-          <div className="truncate font-bold">{curTrack && curTrack.title}</div>
-          {curTrack && (
-            <ArtistList
-              className="truncate"
-              elements={arrangeArtists(curTrack.artists as TrackArtistT[])}
-            />
-          )}
-        </div>
+        <Progress
+          className="ml-4 hidden md:block flex-none"
+          curTrack={curTrack}
+          curTime={curTime}
+        />
+        <PlayButtons
+          className="flex-none mx-8"
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
+          curTime={curTime}
+          seek={seek}
+        />
+        <TrackInfo curTrack={curTrack} />
+        <ExpandPlaying />
       </div>
     </div>
   );

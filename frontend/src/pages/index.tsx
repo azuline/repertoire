@@ -6,6 +6,7 @@ export * from './Labels';
 export * from './Login';
 export * from './Metadata';
 export * from './NotFound';
+export * from './NowPlaying';
 export * from './Release';
 export * from './Releases';
 export * from './Settings';

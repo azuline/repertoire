@@ -1,18 +1,19 @@
 import * as React from 'react';
 import { PlayQueueContext } from 'src/contexts';
+import { SetBoolean, SetNumber } from 'src/types';
 
 // TODO: Preload next track?
 // TODO: Make sure that we aren't leaking memory from all these audio
 // objects... they better be garbage collected properly.
 
-type AudioPlayType = {
+export type AudioPlayT = {
   isPlaying: boolean;
-  setIsPlaying: (arg0: boolean | ((arg0: boolean) => boolean)) => void;
+  setIsPlaying: SetBoolean;
   curTime: number;
-  seek: (arg0: number) => void;
+  seek: SetNumber;
 };
 
-export const useAudio = (): AudioPlayType => {
+export const useAudio = (): AudioPlayT => {
   const { playQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
   const [audio, setAudio] = React.useState<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = React.useState<boolean>(false);

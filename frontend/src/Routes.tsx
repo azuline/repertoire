@@ -8,6 +8,7 @@ import {
   Labels,
   Metadata,
   NotFound,
+  NowPlaying,
   Release,
   Releases,
   Settings,
@@ -17,6 +18,7 @@ export const Routes: React.FC = () => (
   <Switch>
     <Route path="/" component={Home} exact />
     <Route path="/404" component={NotFound} />
+    <Route path="/playing" component={NowPlaying} />
     <Route path="/releases/:id" component={Release} />
     <Route path="/releases" component={Releases} />
     <Route path="/artists/:id" component={Artists} />

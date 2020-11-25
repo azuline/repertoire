@@ -1,6 +1,12 @@
 import * as React from 'react';
-import { SectionHeader } from 'src/components';
+import { Header, SectionHeader } from 'src/components';
 
 export const NotFound: React.FC = () => (
-  <SectionHeader className="my-8 px-8 text-center">You are lost :V</SectionHeader>
+  <>
+    <Header />
+    <div className="my-8 px-8 text-center">
+      <SectionHeader>404</SectionHeader>
+      <SectionHeader className="mt-4">you are lost ^.~</SectionHeader>
+    </div>
+  </>
 );

@@ -10,7 +10,10 @@ import { NavLink } from './Link';
 
 type RouteT = { path: string; exact: boolean; label: string };
 
-const homeRoute = { path: '/', exact: true, label: 'Home' };
+const unsortedRoutes = [
+  { path: '/', exact: true, label: 'Home' },
+  { path: '/playing', exact: false, label: 'Now Playing' },
+];
 
 const libraryRoutes = [
   { path: '/releases', exact: false, label: 'Releases' },
@@ -27,6 +30,7 @@ const collectionRoutes = [
 const utilRoutes = [{ path: '/metadata', exact: false, label: 'Metadata Tools' }];
 
 const sections = [
+  { name: null, routes: unsortedRoutes },
   { name: 'Library', routes: libraryRoutes },
   { name: 'Collections', routes: collectionRoutes },
   { name: 'Utilities', routes: utilRoutes },
@@ -39,7 +43,7 @@ export const Sidebar: React.FC = () => {
 
   const activeRoute = React.useMemo(() => {
     const active = sections
-      .reduce<RouteT[]>((acc, section) => acc.concat(section.routes), [homeRoute])
+      .reduce<RouteT[]>((acc, section) => acc.concat(section.routes), [])
       .find(({ path, exact }) => matchPath(location.pathname, { path, exact }));
 
     return active ? active.path : null;
@@ -69,10 +73,9 @@ export const Sidebar: React.FC = () => {
         </div>
       </div>
       <Searchbar className="flex-none block sm:hidden h-16 mb-4 mx-8" shrink={false} />
-      <NavLink className="py-2 px-8" url="/" activeRoute={activeRoute} label="Home" />
       {sections.map(({ name, routes }) => (
         <div key={name} className="my-6">
-          <div className="mb-4 px-8 text-primary-alt3 text-sm uppercase">{name}</div>
+          {name && <div className="mb-4 px-8 text-primary-alt3 text-sm uppercase">{name}</div>}
           {routes.map(({ path, label }, i) => (
             <NavLink
               key={i}
