@@ -6,7 +6,7 @@ import { SidebarContext } from 'src/contexts';
 import { Element, ElementT, ToggleStarFactory } from './Element';
 import { JumpToLetter } from './JumpToLetter';
 
-const style = { maxHeight: 'calc(100vh - 4rem)' };
+const chooserStyle = { maxHeight: 'calc(100vh - 4rem)' };
 
 export const Chooser: React.FC<{
   className?: string;
@@ -45,27 +45,22 @@ export const Chooser: React.FC<{
   const [scrollToIndex, scrollToAlignment] = React.useMemo(() => {
     if (jumpTo) {
       return [jumpTo, 'start'];
-    } else if (active) {
+    }
+    if (active) {
       // TODO: Perhaps construct a map of IDs to index for this sort of thing.
       return [results.findIndex((elem) => elem.id === active), 'center'];
-    } else {
-      return [undefined, 'center'];
     }
+    return [undefined, 'center'];
   }, [jumpTo, active, results]);
 
+  const extraChooserStyles = React.useMemo(() => {
+    if (active && isSidebarOpen) return 'hidden xl:flex xl:flex-col xl:sticky xl:top-0';
+    if (active) return 'hidden lg:flex lg:flex-col lg:sticky lg:top-0';
+    return 'w-full';
+  }, [active, isSidebarOpen]);
+
   return (
-    <div
-      className={clsx(
-        className,
-        active
-          ? isSidebarOpen
-            ? 'hidden xl:flex xl:flex-col xl:sticky xl:top-0'
-            : 'hidden lg:flex lg:flex-col lg:sticky lg:top-0'
-          : 'w-full',
-        isSidebarOpen ? 'w-80' : 'w-88',
-      )}
-      style={active ? style : {}}
-    >
+    <div className={clsx(className, 'w-80', extraChooserStyles)} style={active ? chooserStyle : {}}>
       <div
         className={clsx(
           'relative h-full flex-auto',

@@ -16,7 +16,11 @@ export const Page: React.FC<{
   );
 
   return (
-    <button className={clsx(className, theme, 'p-1 bg-transparent rounded-none')} onClick={onClick}>
+    <button
+      type="button"
+      className={clsx(className, theme, 'p-1 bg-transparent rounded-none')}
+      onClick={onClick}
+    >
       {page}
     </button>
   );

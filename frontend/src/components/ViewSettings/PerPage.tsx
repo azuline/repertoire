@@ -9,7 +9,7 @@ export const PerPage: React.FC<{ pagination: PaginationType; className?: string 
   className,
 }) => {
   const updatePerPage = React.useCallback(
-    (e) => pagination.setPerPage(parseInt(e.currentTarget.value)),
+    (e) => pagination.setPerPage(parseInt(e.currentTarget.value, 10)),
     [pagination],
   );
 

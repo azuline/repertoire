@@ -18,8 +18,8 @@ export const useGQLRequest = <T, V = undefined>(): GQLRequest<T, V> => {
         method: 'POST',
         credentials: 'same-origin',
         body: JSON.stringify({
-          query: query,
-          variables: variables,
+          query,
+          variables,
         }),
         headers: new Headers({
           'X-CSRF-Token': csrf ?? '',
@@ -27,7 +27,7 @@ export const useGQLRequest = <T, V = undefined>(): GQLRequest<T, V> => {
         }),
       });
 
-      if (response.status == 401) {
+      if (response.status === 401) {
         setLoggedIn(false);
         throw new RequestError('Failed to authenticate.');
       }

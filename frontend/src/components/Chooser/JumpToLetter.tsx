@@ -40,11 +40,11 @@ const getJumpLetter = (string: string): string => {
   const firstChar = string.charAt(0).toUpperCase();
   if (/[A-Z]/.test(firstChar)) {
     return firstChar;
-  } else if (/\d/.test(firstChar)) {
-    return '#';
-  } else {
-    return '?';
   }
+  if (/\d/.test(firstChar)) {
+    return '#';
+  }
+  return '?';
 };
 
 export const JumpToLetter: React.FC<{
@@ -55,7 +55,7 @@ export const JumpToLetter: React.FC<{
 }> = ({ className, active, results, setJumpTo }) => {
   const letterToIndexMap = React.useMemo(() => {
     const initialMap = jumpLetters.reduce<IndexMap>((map, jumpLetter) => {
-      map[jumpLetter] = undefined;
+      map[jumpLetter] = undefined; // eslint-disable-line no-param-reassign
       return map;
     }, {});
 
@@ -65,7 +65,7 @@ export const JumpToLetter: React.FC<{
       const key = getJumpLetter(elem.name);
 
       if (!map[key]) {
-        map[key] = (): void => setJumpTo(index);
+        map[key] = (): void => setJumpTo(index); // eslint-disable-line no-param-reassign
       }
 
       return map;

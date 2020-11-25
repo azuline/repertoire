@@ -28,7 +28,7 @@ export const arrangeArtists = (artists: TrackArtistT[]): ElementT[] => {
   // roles without any artists in them.
   const artistRoles = Object.entries(
     artists.reduce<{ [k in string]: ArtistT[] }>((accumulator, artist) => {
-      const role = artist.role;
+      const { role } = artist;
 
       accumulator[role] = accumulator[role] ?? [];
       (accumulator[role] as ArtistT[]).push(artist.artist);
@@ -48,12 +48,12 @@ export const arrangeArtists = (artists: TrackArtistT[]): ElementT[] => {
     ? { MAIN: 'performed by', ...dividerWordsRaw }
     : dividerWordsRaw;
 
-  return artistRoles.reduce<ElementT[]>((acc, [role, artists]) => {
+  return artistRoles.reduce<ElementT[]>((acc, [role, innerArtists]) => {
     if (dividerWords[role]) {
       acc.push({ id: 0, name: dividerWords[role] });
     }
 
-    acc.push(...artists);
+    acc.push(...innerArtists);
 
     return acc;
   }, []);

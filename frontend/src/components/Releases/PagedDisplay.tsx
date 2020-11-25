@@ -40,13 +40,14 @@ export const PagedReleases: React.FC<{
   const gridCss = React.useMemo(() => {
     if (isSidebarOpen && partial) {
       return gridTwoCss;
-    } else if (isSidebarOpen) {
-      return gridOneCssSidebar;
-    } else if (partial) {
-      return gridOneCssPartial;
-    } else {
-      return gridFullCss;
     }
+    if (isSidebarOpen) {
+      return gridOneCssSidebar;
+    }
+    if (partial) {
+      return gridOneCssPartial;
+    }
+    return gridFullCss;
   }, [isSidebarOpen, partial]);
 
   let releasesDiv = null;

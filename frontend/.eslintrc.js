@@ -6,8 +6,10 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
+    project: './tsconfig.json',
   },
   extends: [
+    'airbnb-typescript',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
@@ -23,25 +25,36 @@ module.exports = {
     jest: true,
   },
   rules: {
+    'arrow-body-style': ['warn', 'as-needed'],
+    'consistent-return': 'off',
+    'import/order': 'off',
+    'import/prefer-default-export': 'off',
+    indent: ['error', 2, { SwitchCase: 1 }],
+    'jsx-a11y/alt-text': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
+    'jsx-a11y/no-autofocus': 'off',
+    'linebreak-style': ['error', 'unix'],
+    'no-console': 'warn',
+    'no-unused-vars': 'warn',
+    'no-duplicate-imports': 'warn',
+    'no-empty': 'warn',
+    'no-plusplus': 'off',
+    'prettier/prettier': 'warn',
+    quotes: ['error', 'single', 'avoid-escape'],
+    'react/no-array-index-key': 'off', // Sometimes there's nothing else -_-
+    'react/prop-types': 'off', // Goes off even though components are typed.
     'simple-import-sort/imports': 'warn',
     'simple-import-sort/exports': 'warn',
-    'no-duplicate-imports': 'warn',
     'sort-imports': 'off',
-    'import/order': 'off',
-    'prettier/prettier': 'warn',
-    indent: ['error', 2, { SwitchCase: 1 }],
-    'linebreak-style': ['error', 'unix'],
-    quotes: ['error', 'single', 'avoid-escape'],
-    'no-console': 'warn',
-    'no-unused-vars': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'warn',
+    '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-unused-vars': [
       'warn',
       { vars: 'all', args: 'after-used', ignoreRestSiblings: false },
     ],
-    '@typescript-eslint/explicit-function-return-type': 'warn',
-    'no-empty': 'warn',
-    'react/prop-types': 'off', // Using React.FC, but this still goes off...?
-    '@typescript-eslint/no-empty-function': 'off', // Screw you >:(
+    '@typescript-eslint/no-use-before-define': 'off',
   },
   settings: {
     react: {

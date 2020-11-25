@@ -17,5 +17,5 @@ export const useId = (): number | null => {
     }
   }, [id, addToast, history]);
 
-  return isValid(id) ? parseInt(id) : null;
+  return isValid(id) ? parseInt(id, 10) : null;
 };

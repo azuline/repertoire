@@ -14,8 +14,8 @@ export const useRequest = (): Request<Response> => {
     async (url, { method, token, contentType, body } = {}) => {
       const response = await fetch(url, {
         credentials: 'same-origin',
-        method: method,
-        body: body,
+        method,
+        body,
         headers: new Headers({
           Authorization: token && `Token ${token}`,
           'X-CSRF-Token': method !== undefined && method !== 'GET' && csrf ? csrf : '',

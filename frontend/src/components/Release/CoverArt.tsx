@@ -16,7 +16,6 @@ export const CoverArt: React.FC<{
 
   if (!hasCover) {
     return <img className={className} src={noArt} />;
-  } else {
-    return <img className={className} src={src} onError={onError} loading="lazy" />;
   }
+  return <img className={className} src={src} onError={onError} loading="lazy" />;
 };

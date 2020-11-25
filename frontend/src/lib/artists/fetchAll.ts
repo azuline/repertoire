@@ -16,6 +16,4 @@ const QUERY = `
 type Result = { artists: { results: ArtistT[] } };
 type Return = QueryResult<Result, RequestError<GraphQLError>>;
 
-export const fetchArtists = (): Return => {
-  return useGQLQuery<Result>('artists', QUERY);
-};
+export const fetchArtists = (): Return => useGQLQuery<Result>('artists', QUERY);

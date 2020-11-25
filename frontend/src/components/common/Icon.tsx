@@ -198,10 +198,8 @@ export const Icon: React.FC<{
   className?: string;
   title?: string;
   onClick?: () => void;
-}> = ({ icon, className, title, onClick }) => {
-  return (
-    <div className={className} title={title} onClick={onClick}>
-      {icons[icon]}
-    </div>
-  );
-};
+}> = ({ icon, className, title, onClick }) => (
+  <div className={className} title={title} onClick={onClick}>
+    {icons[icon]}
+  </div>
+);

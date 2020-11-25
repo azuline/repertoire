@@ -6,15 +6,13 @@ import { AuthorizationContext, GlobalContexts, SidebarContext, ThemeContext } fr
 import { Login } from 'src/pages';
 import { Routes } from 'src/Routes';
 
-const App: React.FC = () => {
-  return (
-    <BrowserRouter>
-      <GlobalContexts>
-        <Body />
-      </GlobalContexts>
-    </BrowserRouter>
-  );
-};
+const App: React.FC = () => (
+  <BrowserRouter>
+    <GlobalContexts>
+      <Body />
+    </GlobalContexts>
+  </BrowserRouter>
+);
 
 const Body: React.FC = () => {
   const { loggedIn } = React.useContext(AuthorizationContext);

@@ -8,7 +8,7 @@ export const useRequestJson = <T>(): Request<T> => {
   const requestJson = React.useCallback(
     async (url, opts = {}) => {
       const response = await request(url, { ...opts, contentType: 'application/json' });
-      return await response.json();
+      return response.json();
     },
     [request],
   );

@@ -16,8 +16,8 @@ export const usePersistentState = <T>(
 
   const setPersistentValue = React.useCallback(
     (newValue: SetParam<T>, persist = true) => {
-      setValue((value: T) => {
-        const toStore = newValue instanceof Function ? newValue(value) : newValue;
+      setValue((innerValue: T) => {
+        const toStore = newValue instanceof Function ? newValue(innerValue) : newValue;
         if (persist) {
           localStorage.setItem(localStorageKey, JSON.stringify(toStore));
         }

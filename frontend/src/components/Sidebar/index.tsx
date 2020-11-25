@@ -69,7 +69,7 @@ export const Sidebar: React.FC = () => {
         </div>
       </div>
       <Searchbar className="flex-none block sm:hidden h-16 mb-4 mx-8" shrink={false} />
-      <NavLink className="py-2 px-8" url={'/'} activeRoute={activeRoute} label={'Home'} />
+      <NavLink className="py-2 px-8" url="/" activeRoute={activeRoute} label="Home" />
       {sections.map(({ name, routes }) => (
         <div key={name} className="my-6">
           <div className="mb-4 px-8 text-primary-alt3 text-sm uppercase">{name}</div>

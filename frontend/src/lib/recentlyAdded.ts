@@ -33,6 +33,5 @@ const QUERY = `
 
 type ResultType = { releases: { results: ReleaseT[] } };
 
-export const fetchRecentlyAdded = (): QueryResult<ResultType, RequestError<GraphQLError>> => {
-  return useGQLQuery<ResultType>('recently-added', QUERY);
-};
+export const fetchRecentlyAdded = (): QueryResult<ResultType, RequestError<GraphQLError>> =>
+  useGQLQuery<ResultType>('recently-added', QUERY);

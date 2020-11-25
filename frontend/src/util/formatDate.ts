@@ -3,12 +3,12 @@ import { ReleaseT } from 'src/types';
 export const formatReleaseDate = (release: ReleaseT): string => {
   if (!release.releaseDate && !release.releaseYear) {
     return 'Release date unknown.';
-  } else if (release.releaseDate) {
+  }
+  if (release.releaseDate) {
     const date = new Date(release.releaseDate);
     return `Released on ${formatDate(date)}`;
-  } else {
-    return `Released in ${release.releaseYear}`;
   }
+  return `Released in ${release.releaseYear}`;
 };
 
 const shortMonths = [

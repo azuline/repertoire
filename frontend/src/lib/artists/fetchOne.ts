@@ -15,6 +15,5 @@ type Result = { artist: ArtistT };
 type Variables = { id: number };
 type Return = QueryResult<Result, RequestError<GraphQLError>>;
 
-export const fetchArtist = (variables: Variables): Return => {
-  return useGQLQuery<Result, Variables>('artist', QUERY, variables);
-};
+export const fetchArtist = (variables: Variables): Return =>
+  useGQLQuery<Result, Variables>('artist', QUERY, variables);

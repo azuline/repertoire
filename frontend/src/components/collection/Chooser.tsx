@@ -15,10 +15,8 @@ export const CollectionChooser: React.FC<{
   const urlFactory = React.useCallback((id: number): string => `${urlPrefix}/${id}`, [urlPrefix]);
 
   const toggleStarFactory = React.useCallback(
-    ({ id, starred }: ElementT) => {
-      return async (): Promise<void> => {
-        mutateCollection({ id, starred: !starred });
-      };
+    ({ id, starred }: ElementT) => async (): Promise<void> => {
+      mutateCollection({ id, starred: !starred });
     },
     [mutateCollection],
   );

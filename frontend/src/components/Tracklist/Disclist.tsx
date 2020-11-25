@@ -44,12 +44,12 @@ export const Disclist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
 
   return (
     <div className={clsx(className, 'mx-8')}>
-      {Object.entries(discs).map(([discNumber, tracks], i) => (
+      {Object.entries(discs).map(([discNumber, discTracks], i) => (
         <React.Fragment key={discNumber}>
           {multiDisc && (
             <SectionHeader className={i > 0 ? 'my-4' : 'mb-4'}>Disc {discNumber}</SectionHeader>
           )}
-          {tracks.map((track) => {
+          {discTracks.map((track) => {
             trackIndex++;
             return (
               <Track
@@ -68,13 +68,13 @@ export const Disclist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
 };
 
 const sortTracksIntoDiscs = (tracks: TrackT[]): Discs => {
-  const discs = tracks.reduce<Discs>((discs, track) => {
+  const discs = tracks.reduce<Discs>((acc, track) => {
     const discNumber = track.discNumber || '1';
 
-    discs[discNumber] = discs[discNumber] ?? [];
-    discs[discNumber].push(track);
+    acc[discNumber] = acc[discNumber] ?? []; // eslint-disable-line no-param-reassign
+    acc[discNumber].push(track);
 
-    return discs;
+    return acc;
   }, {});
 
   Object.keys(discs).forEach((dn) => {

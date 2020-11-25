@@ -17,9 +17,7 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
 
   const logout = React.useCallback(() => {
     (async (): Promise<void> => {
-      await request('/session', {
-        method: 'DELETE',
-      });
+      await request('/session', { method: 'DELETE' });
 
       addToast('Logged out!', { appearance: 'success' });
       setLoggedIn(false);

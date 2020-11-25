@@ -45,6 +45,5 @@ type Result = { release: ReleaseT };
 type Variables = { id: number };
 type Return = QueryResult<Result, RequestError<GraphQLError>>;
 
-export const fetchRelease = (id: number): Return => {
-  return useGQLQuery<Result, Variables>('releases', QUERY, { id });
-};
+export const fetchRelease = (id: number): Return =>
+  useGQLQuery<Result, Variables>('releases', QUERY, { id });

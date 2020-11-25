@@ -11,8 +11,7 @@ const QUERY = `
   }
 `;
 
-type ResultType = { user: UserT };
+type Result = { user: UserT };
+type Return = QueryResult<Result, RequestError<GraphQLError>>;
 
-export const fetchUser = (): QueryResult<ResultType, RequestError<GraphQLError>> => {
-  return useGQLQuery<ResultType>('releases', QUERY);
-};
+export const fetchUser = (): Return => useGQLQuery<Result>('releases', QUERY);

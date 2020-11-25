@@ -14,7 +14,7 @@ export const Goto: React.FC<{
       event.preventDefault();
       if (!input.current || !/^\d+$/.test(input.current.value)) return;
 
-      const page = parseInt(input.current.value);
+      const page = parseInt(input.current.value, 10);
 
       if (page < 1 || page > numPages) {
         addToast('Invalid page number.', { appearance: 'error' });

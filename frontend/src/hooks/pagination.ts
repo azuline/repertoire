@@ -27,7 +27,7 @@ export const usePagination = ({ useUrl = false }: Params = {}): PaginationType =
       return 1;
     }
 
-    return parseInt(query.get('page') as string);
+    return parseInt(query.get('page') as string, 10);
   }, [useUrl, query]);
 
   const [curPage, setCurPage] = React.useState<number>(startPage);
@@ -41,7 +41,7 @@ export const usePagination = ({ useUrl = false }: Params = {}): PaginationType =
 
     history.push({
       pathname: '/releases',
-      search: '?' + query.toString(),
+      search: `?${query.toString()}`,
     });
   }, [curPage]);
 

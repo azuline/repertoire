@@ -10,26 +10,24 @@ export const Select: React.FC<{
   selectClassName?: string;
   label?: string;
   name?: string;
-}> = ({ children, value, onChange, className, selectClassName = '', label, name }) => {
-  return (
-    <div className={clsx(className, 'flex items-center relative')}>
-      {label && (
-        <label htmlFor={name} className="py-1 flex-none">
-          {label}:
-        </label>
+}> = ({ children, value, onChange, className, selectClassName = '', label, name }) => (
+  <div className={clsx(className, 'flex items-center relative')}>
+    {label && (
+      <label htmlFor={name} className="py-1 flex-none">
+        {label}:
+      </label>
+    )}
+    <select
+      id={name}
+      value={value}
+      onChange={onChange}
+      className={clsx(
+        selectClassName,
+        'py-1 bg-transparent leading-tight appearance-none text-primary cursor-pointer pr-4 z-10 flex-1',
       )}
-      <select
-        id={name}
-        value={value}
-        onChange={onChange}
-        className={clsx(
-          selectClassName,
-          'py-1 bg-transparent leading-tight appearance-none text-primary cursor-pointer pr-4 z-10 flex-1',
-        )}
-      >
-        {children}
-      </select>
-      <Icon className="w-4 text-primary absolute right-0 z-0 flex-none" icon="chevron-down-small" />
-    </div>
-  );
-};
+    >
+      {children}
+    </select>
+    <Icon className="w-4 text-primary absolute right-0 z-0 flex-none" icon="chevron-down-small" />
+  </div>
+);

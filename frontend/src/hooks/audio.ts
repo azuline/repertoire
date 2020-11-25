@@ -38,15 +38,16 @@ export const useAudio = (): AudioPlayType => {
   // Sync the isPlaying variable with the audio.
   // Return a timer to sync curTime with the track progress.
   React.useEffect(() => {
-    if (!audio) {
-      return;
-    } else if (audio && isPlaying) {
+    if (!audio) return;
+
+    if (isPlaying) {
       if (audio.ended) audio.fastSeek(0);
       if (audio.paused) audio.play();
 
       const timer = setInterval(() => setCurTime(Math.floor(audio.currentTime)), 1);
       return (): void => clearInterval(timer);
-    } else if (audio && !audio.ended) {
+    }
+    if (!audio.ended) {
       audio.pause();
     }
   }, [isPlaying, audio]);

@@ -15,6 +15,5 @@ type Result = { collection: CollectionT };
 type Variables = { id: number };
 type Return = QueryResult<Result, RequestError<GraphQLError>>;
 
-export const fetchCollection = (id: number): Return => {
-  return useGQLQuery<Result, Variables>('collection', QUERY, { id });
-};
+export const fetchCollection = (id: number): Return =>
+  useGQLQuery<Result, Variables>('collection', QUERY, { id });

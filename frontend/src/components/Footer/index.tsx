@@ -15,8 +15,6 @@ export const Footer: React.FC = () => {
     [playQueue, curIndex],
   );
 
-  console.log(curTrack);
-
   const togglePlay = React.useCallback(() => setIsPlaying((p: boolean) => !p), [setIsPlaying]);
   const fastForward = React.useCallback(
     () => setCurIndex((idx) => (idx !== null && idx !== playQueue.length - 1 ? idx + 1 : null)),

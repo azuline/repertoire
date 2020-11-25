@@ -12,10 +12,8 @@ export const ArtistChooser: React.FC<{
   const [mutateArtist] = useMutateArtist();
 
   const toggleStarFactory = React.useCallback(
-    ({ id, starred }: ElementT) => {
-      return async (): Promise<void> => {
-        mutateArtist({ id, starred: !starred });
-      };
+    ({ id, starred }: ElementT) => async (): Promise<void> => {
+      mutateArtist({ id, starred: !starred });
     },
     [mutateArtist],
   );
