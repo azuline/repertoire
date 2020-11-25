@@ -6,7 +6,7 @@ import { ArtistT, ReleaseT } from 'src/types';
 import { CoverArt } from './CoverArt';
 import { Link } from 'src/components/common';
 import clsx from 'clsx';
-import { secondsToLength } from 'src/common';
+import { secondsToLength } from 'src/util';
 
 export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = ({
   release,

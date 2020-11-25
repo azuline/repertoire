@@ -5,7 +5,8 @@ import { SectionHeader } from 'src/components/common';
 import { Track } from './Track';
 import { TrackT } from 'src/types';
 import clsx from 'clsx';
-import { stringNumberCompare } from 'src/common';
+import { stringNumberCompare } from 'src/util';
+import { checkMatchingTracklists } from './util';
 
 type Discs = { [dn in string]: TrackT[] };
 
@@ -23,15 +24,10 @@ export const Disclist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
 
   // Check to see if the current track list matches up with the play queue--if
   // it does, we are currently playing this Disclist.
-  const areTrackListsMatching = React.useMemo(() => {
-    if (playQueue.length !== sortedTracklist.length) return false;
-
-    for (let i = 0; i < playQueue.length; i++) {
-      if (playQueue[i] !== sortedTracklist[i]) return false;
-    }
-
-    return true;
-  }, [playQueue, sortedTracklist]);
+  const areTrackListsMatching = React.useMemo(
+    () => checkMatchingTracklists(playQueue, sortedTracklist),
+    [playQueue, sortedTracklist],
+  );
 
   const trackOnClick = React.useCallback(
     (index: number): void => {

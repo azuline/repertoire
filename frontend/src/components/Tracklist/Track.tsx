@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { TrackArtistT, TrackT } from 'src/types';
-import { arrangeArtists, secondsToLength } from 'src/common';
+import { arrangeArtists, secondsToLength } from 'src/util';
 
 import { ArtistList } from 'src/components/Lists';
 import { Icon } from 'src/components/common';
