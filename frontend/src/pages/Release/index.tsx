@@ -48,13 +48,13 @@ export const Release: React.FC = () => {
               <Info release={data.release} />
             </div>
             <Disclist className="py-8" tracks={data.release.tracks as TrackT[]} />
-            <div className="px-8 w-full overflow-x-hidden">
+            <div className="text-md px-8 w-full overflow-x-hidden">
               {collageLength !== 0 && (
                 <>
-                  <div className="text-lg">Member of:</div>
+                  <div className="mb-2">Member of</div>
                   <ul>
                     {(data.release.collages as CollectionT[]).map((collage) => (
-                      <li className="mt-1 text-primary text-lg" key={collage.id}>
+                      <li className="my-0.5 text-primary-alt3" key={collage.id}>
                         <Link href={`/collages/${collage.id}`}>{collage.name}</Link>
                       </li>
                     ))}

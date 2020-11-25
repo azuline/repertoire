@@ -13,7 +13,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
   return (
     <div className="flex flex-col">
       <SectionHeader className="truncate-2 mb-4">{release.title}</SectionHeader>
-      <div className="text-xl truncate-2 mb-2">
+      <div className="text-lg truncate-2 mb-2">
         {(release.artists as ArtistT[]).length === 0 ? (
           <Link href="/artists/1">Unknown Artist</Link>
         ) : (
@@ -28,8 +28,8 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           </>
         )}
       </div>
-      <div className="text-lg mb-1 text-gray-800 dark:text-gray-300">{whenReleased}</div>
-      <div className="text-lg truncate-2 mb-1 text-gray-800 dark:text-gray-300">
+      <div className="text-md mb-1 text-gray-800 dark:text-gray-300">{whenReleased}</div>
+      <div className="text-md truncate-2 mb-1 text-gray-800 dark:text-gray-300">
         {labelLength === 0 ? (
           <span>No Label</span>
         ) : (
@@ -44,14 +44,11 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           </>
         )}
       </div>
-      <div className="text-lg truncate-2 mb-1 text-gray-800 dark:text-gray-300">
-        {genreLength === 0 ? (
-          <span>No Genres</span>
-        ) : (
+      <div className="text-md truncate-2 text-gray-800 dark:text-gray-300">
+        {genreLength !== 0 && (
           <>
-            <span>Genre{genreLength > 1 ? 's' : ''}: </span>
             <GenreList
-              className="inline"
+              className="my-2"
               elementClassName="bg-primary-alt text-foreground px-2 py-1 mr-1 rounded leading-9"
               elements={release.genres}
               delimiter=" "
