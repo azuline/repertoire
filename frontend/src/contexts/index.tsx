@@ -5,8 +5,8 @@ import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 import { AuthorizationProvider } from './Authorization';
 import { PlayQueueProvider } from './PlayQueue';
 import { SidebarProvider } from './Sidebar';
-import { ToastProvider } from './Toaster';
 import { ThemeProvider } from './Theme';
+import { ToastProvider } from './Toaster';
 
 export * from './Authorization';
 export * from './Toaster';

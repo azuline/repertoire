@@ -5,12 +5,12 @@ import {
   Collages,
   Genres,
   Home,
-  Settings,
   Labels,
   Metadata,
   NotFound,
   Release,
   Releases,
+  Settings,
 } from 'src/pages';
 import { Route, Switch } from 'react-router-dom';
 

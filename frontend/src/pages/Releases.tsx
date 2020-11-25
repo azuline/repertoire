@@ -1,9 +1,7 @@
 import * as React from 'react';
 
+import { Header, PagedReleases } from 'src/components';
 import { usePagination, useViewOptions } from 'src/hooks';
-
-import { Header } from 'src/components/Header';
-import { PagedReleases } from 'src/components/Releases';
 
 const paginationOpts = { useUrl: true };
 

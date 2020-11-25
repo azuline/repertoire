@@ -29,6 +29,7 @@ module.exports = {
     quotes: ['error', 'single', 'avoid-escape'],
     'no-console': 'warn',
     'no-unused-vars': 'off',
+    'no-duplicate-imports': 'warn',
     '@typescript-eslint/no-unused-vars': [
       'warn',
       { vars: 'all', args: 'after-used', ignoreRestSiblings: false },

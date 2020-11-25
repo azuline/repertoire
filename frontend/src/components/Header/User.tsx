@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-import { SidebarContext, AuthorizationContext } from 'src/contexts';
-import { Link } from 'src/components/common/Link';
-import { useRequest } from 'src/hooks';
-import { Icon } from 'src/components/common/Icon';
+import { AuthorizationContext, SidebarContext } from 'src/contexts';
+
+import { Icon, Link } from 'src/components/common';
 import clsx from 'clsx';
 import { fetchUser } from 'src/lib';
+import { useRequest } from 'src/hooks';
 import { useToasts } from 'react-toast-notifications';
 
 export const User: React.FC<{ className?: string }> = ({ className }) => {

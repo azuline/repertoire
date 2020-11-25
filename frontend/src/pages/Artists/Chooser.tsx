@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Chooser, ElementT } from 'src/components/Chooser';
+import { Chooser, ElementT } from 'src/components';
 import { fetchArtists, useMutateArtist } from 'src/lib';
 
 const urlFactory = (id: number): string => `/artists/${id}`;

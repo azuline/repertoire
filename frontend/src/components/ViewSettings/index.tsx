@@ -1,12 +1,11 @@
 import * as React from 'react';
 
+import { Icon, Popover } from 'src/components/common';
 import { PaginationType, ViewOptionsType } from 'src/hooks';
 
-import { Icon } from 'src/components/common/Icon';
 import { Order } from './Order';
 import { Pagination } from 'src/components/Pagination';
 import { PerPage } from './PerPage';
-import { Popover } from 'src/components/common/Popover';
 import { SidebarContext } from 'src/contexts';
 import { Sort } from './Sort';
 import { View } from './View';

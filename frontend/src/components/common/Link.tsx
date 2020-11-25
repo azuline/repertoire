@@ -1,6 +1,6 @@
 import * as React from 'react';
-import CSS from 'csstype';
 
+import CSS from 'csstype';
 import { useHistory } from 'react-router-dom';
 
 export const Link: React.FC<{

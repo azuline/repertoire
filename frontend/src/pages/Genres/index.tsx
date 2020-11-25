@@ -1,9 +1,8 @@
 import * as React from 'react';
 
-import { Header } from 'src/components/Header';
+import { CollectionChooser, Header } from 'src/components';
 import { CollectionType } from 'src/types';
 import { Genre } from './Genre';
-import { CollectionChooser } from 'src/components/collection';
 import { useId } from 'src/hooks';
 
 const types = [CollectionType.GENRE];

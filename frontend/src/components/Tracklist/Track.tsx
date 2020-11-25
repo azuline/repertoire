@@ -1,10 +1,12 @@
 import * as React from 'react';
-import clsx from 'clsx';
-import { TrackT, TrackArtistT } from 'src/types';
-import { Icon } from 'src/components/common/Icon';
-import { secondsToLength, arrangeArtists } from 'src/common';
+
+import { TrackArtistT, TrackT } from 'src/types';
+import { arrangeArtists, secondsToLength } from 'src/common';
+
 import { ArtistList } from 'src/components/Lists';
+import { Icon } from 'src/components/common';
 import { SidebarContext } from 'src/contexts';
+import clsx from 'clsx';
 
 export const Track: React.FC<{
   track: TrackT;

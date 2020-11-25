@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 import { ArtistT, GraphQLError, RequestError } from 'src/types';
+import { MutationResultPair, useQueryCache } from 'react-query';
 
 import { ARTIST_FIELDS } from 'src/lib/fragments';
-import { MutationResultPair, useQueryCache } from 'react-query';
 import { useGQLMutation } from 'src/hooks';
 
 const QUERY = `

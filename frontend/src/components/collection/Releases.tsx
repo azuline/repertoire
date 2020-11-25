@@ -4,7 +4,7 @@ import { usePagination, useViewOptions } from 'src/hooks';
 
 import { PagedReleases } from 'src/components/Releases';
 
-export const Releases: React.FC<{ active: number }> = ({ active }) => {
+export const CollectionReleases: React.FC<{ active: number }> = ({ active }) => {
   const viewOptionsSeed = React.useMemo(() => ({ collectionIds: [active] }), [active]);
   const viewOptions = useViewOptions(viewOptionsSeed);
   const pagination = usePagination();

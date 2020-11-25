@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Icon } from 'src/components/common/Icon';
+import { Icon } from 'src/components/common';
 import clsx from 'clsx';
 
 // TODO: Implement a dropdown and stuff... get a way to monitor searchbar focus in react

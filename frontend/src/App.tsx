@@ -1,14 +1,12 @@
 import * as React from 'react';
-import clsx from 'clsx';
 
-import { GlobalContexts, SidebarContext, ThemeContext } from 'src/contexts';
+import { AuthorizationContext, GlobalContexts, SidebarContext, ThemeContext } from 'src/contexts';
+import { Footer, Sidebar } from 'src/components';
 
-import { AuthorizationContext } from 'src/contexts';
 import { BrowserRouter } from 'react-router-dom';
-import { Footer } from 'src/components/Footer';
 import { Login } from 'src/pages';
 import { Routes } from 'src/Routes';
-import { Sidebar } from 'src/components/Sidebar';
+import clsx from 'clsx';
 
 const App: React.FC = () => {
   return (

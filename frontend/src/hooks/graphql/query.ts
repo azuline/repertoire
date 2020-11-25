@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import { GraphQLError, RequestError } from 'src/types';
 import { QueryKey, QueryResult, useQuery } from 'react-query';
-import { useGQLRequest } from './request';
 
 import { AuthorizationContext } from 'src/contexts';
+import { useGQLRequest } from './request';
 import { useToasts } from 'react-toast-notifications';
 
 type Error = RequestError<GraphQLError>;

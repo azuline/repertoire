@@ -1,10 +1,7 @@
 import * as React from 'react';
 
-import { Header } from 'src/components/Header';
+import { BackButton, Header, Link, SectionHeader } from 'src/components';
 import { ArtistReleases } from './Releases';
-import { BackButton } from 'src/components/common/BackButton';
-import { Link } from 'src/components/common/Link';
-import { SectionHeader } from 'src/components/common/SectionHeader';
 import { fetchArtist } from 'src/lib';
 
 export const Artist: React.FC<{ active: number }> = ({ active }) => {

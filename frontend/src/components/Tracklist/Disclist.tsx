@@ -1,10 +1,11 @@
 import * as React from 'react';
-import clsx from 'clsx';
-import { TrackT } from 'src/types';
-import { SectionHeader } from 'src/components/common/SectionHeader';
-import { Track } from './Track';
-import { stringNumberCompare } from 'src/common';
+
 import { PlayQueueContext } from 'src/contexts';
+import { SectionHeader } from 'src/components/common';
+import { Track } from './Track';
+import { TrackT } from 'src/types';
+import clsx from 'clsx';
+import { stringNumberCompare } from 'src/common';
 
 type Discs = { [dn in string]: TrackT[] };
 

@@ -4,7 +4,7 @@ import { ArtistList, GenreList } from 'src/components/Lists';
 import { ArtistT, CollectionT, ReleaseT } from 'src/types';
 
 import { CoverArt } from './CoverArt';
-import { Link } from 'src/components/common/Link';
+import { Link } from 'src/components/common';
 import clsx from 'clsx';
 import { secondsToLength } from 'src/common';
 

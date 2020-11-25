@@ -1,4 +1,4 @@
-import { CollectionType, CollectionT, GraphQLError, RequestError } from 'src/types';
+import { CollectionT, CollectionType, GraphQLError, RequestError } from 'src/types';
 
 import { COLLECTION_FIELDS } from 'src/lib/fragments';
 import { QueryResult } from 'react-query';

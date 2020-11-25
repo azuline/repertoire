@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Icon } from 'src/components/common/Icon';
+import { Icon } from 'src/components/common';
 import { useToasts } from 'react-toast-notifications';
 
 export const Goto: React.FC<{

@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { Icon } from 'src/components/common/Icon';
+import { Icon } from 'src/components/common';
 import { Searchbar } from './Searchbar';
-import { User } from './User';
 import { SidebarContext } from 'src/contexts';
+import { User } from './User';
 import clsx from 'clsx';
 
 export const Header: React.FC<{ className?: string; searchbar?: boolean }> = ({

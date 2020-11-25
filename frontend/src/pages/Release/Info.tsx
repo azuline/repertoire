@@ -1,11 +1,8 @@
 import * as React from 'react';
-import { SectionHeader } from 'src/components/common/SectionHeader';
 
-import { ReleaseT } from 'src/types';
-import { ArtistList, GenreList, LabelList } from 'src/components/Lists';
-import { ArtistT, CollectionT } from 'src/types';
+import { ArtistList, GenreList, LabelList, Link, SectionHeader } from 'src/components';
+import { ArtistT, CollectionT, ReleaseT } from 'src/types';
 import { formatReleaseDate } from 'src/common';
-import { Link } from 'src/components/common/Link';
 
 export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
   const whenReleased = React.useMemo(() => formatReleaseDate(release), [release]);

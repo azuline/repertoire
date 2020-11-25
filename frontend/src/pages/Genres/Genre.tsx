@@ -1,10 +1,6 @@
 import * as React from 'react';
 
-import { Header } from 'src/components/Header';
-import { Releases } from 'src/components/collection';
-import { BackButton } from 'src/components/common/BackButton';
-import { Link } from 'src/components/common/Link';
-import { SectionHeader } from 'src/components/common/SectionHeader';
+import { BackButton, CollectionReleases, Header, Link, SectionHeader } from 'src/components';
 import { fetchCollection } from 'src/lib';
 
 export const Genre: React.FC<{ active: number }> = ({ active }) => {
@@ -27,7 +23,7 @@ export const Genre: React.FC<{ active: number }> = ({ active }) => {
             <BackButton />
           </Link>
           <SectionHeader className="my-4">{collection.name}</SectionHeader>
-          <Releases active={active} />
+          <CollectionReleases active={active} />
         </div>
       </div>
     </div>

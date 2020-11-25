@@ -1,9 +1,8 @@
 import * as React from 'react';
 
-import { Header } from 'src/components/Header';
-import { CollectionType } from 'src/types';
+import { CollectionChooser, Header } from 'src/components';
 import { Collage } from './Collage';
-import { CollectionChooser } from 'src/components/collection';
+import { CollectionType } from 'src/types';
 import { useId } from 'src/hooks';
 
 const types = [CollectionType.SYSTEM, CollectionType.COLLAGE];

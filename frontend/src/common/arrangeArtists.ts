@@ -1,4 +1,4 @@
-import { TrackArtistT, ArtistT } from 'src/types';
+import { ArtistT, TrackArtistT } from 'src/types';
 
 type ElementT = { id: number; name: string };
 

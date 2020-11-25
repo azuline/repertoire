@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { Link } from 'src/components/common/Link';
 import { ArtistList, GenreList } from 'src/components/Lists';
 import { ArtistT, ReleaseT } from 'src/types';
 
 import { CoverArt } from './CoverArt';
+import { Link } from 'src/components/common';
 import clsx from 'clsx';
 import { secondsToLength } from 'src/common';
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { ThemeT, ThemeContext } from 'src/contexts';
-import { Header } from 'src/components/Header';
-import { SectionHeader } from 'src/components/common/SectionHeader';
+
+import { Header, SectionHeader } from 'src/components';
+import { ThemeContext, ThemeT } from 'src/contexts';
 
 export const Settings: React.FC = () => {
   const { theme, setTheme } = React.useContext(ThemeContext);

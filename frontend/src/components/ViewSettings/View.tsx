@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { ReleaseView } from 'src/types';
-import { Select } from 'src/components/common/Select';
+import { Select } from 'src/components/common';
 import { ViewOptionsType } from 'src/hooks';
 
 const displays: { [k in ReleaseView]: string } = {

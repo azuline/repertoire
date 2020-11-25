@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-import { Link } from 'src/components/common/Link';
-import { ScrolledReleases } from 'src/components/Releases';
-import { SectionHeader } from 'src/components/common/SectionHeader';
+import { Link, ScrolledReleases, SectionHeader } from 'src/components';
 import { fetchRecentlyAdded } from 'src/lib';
 import { useHistory } from 'react-router-dom';
 

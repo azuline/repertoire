@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import clsx from 'clsx';
+import { Link } from 'src/components/common';
 import { SidebarContext } from 'src/contexts';
-import { Link } from 'src/components/common/Link';
+import clsx from 'clsx';
 
 export const NavLink: React.FC<{
   url: string;

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useRequestJson, usePersistentState } from 'src/hooks';
+
+import { usePersistentState, useRequestJson } from 'src/hooks';
 
 type ACType = {
   loggedIn: boolean;

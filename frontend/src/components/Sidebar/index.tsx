@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { User } from 'src/components/Header/User';
-import { Searchbar } from 'src/components/Header/Searchbar';
 
 import { useHistory, useLocation } from 'react-router-dom';
 
-import { Icon } from 'src/components/common/Icon';
+import { Icon } from 'src/components/common';
 import { NavLink } from './Link';
+import { Searchbar } from 'src/components/Header/Searchbar';
 import { SidebarContext } from 'src/contexts';
+import { User } from 'src/components/Header/User';
 import { matchPath } from 'react-router';
 
 type RouteT = { path: string; exact: boolean; label: string };

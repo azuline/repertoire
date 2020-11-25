@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useRequest, Request } from './request';
+
+import { Request, useRequest } from './request';
 
 export const useRequestJson = <T>(): Request<T> => {
   const request = useRequest();

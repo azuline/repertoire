@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import { Icon } from 'src/components/common/Icon';
-import { Link } from 'src/components/common/Link';
+import { Icon, Link } from 'src/components/common';
 import clsx from 'clsx';
 
 export type ElementT = { id: number; name: string; starred: boolean; type?: string };
