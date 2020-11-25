@@ -72,7 +72,12 @@ export const Chooser: React.FC<{
             active && (isSidebarOpen ? 'xl:block' : 'lg:block'),
           )}
         />
-        <JumpToLetter className={clsx(active && 'pt-8')} results={results} setJumpTo={setJumpTo} />
+        <JumpToLetter
+          className={clsx(active && 'pt-8')}
+          results={results}
+          active={active}
+          setJumpTo={setJumpTo}
+        />
         <AutoSizer>
           {({ width, height }): React.ReactNode => (
             <List
