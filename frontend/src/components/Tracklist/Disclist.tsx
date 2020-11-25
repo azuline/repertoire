@@ -20,7 +20,7 @@ export const Disclist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
           {multiDisc && (
             <SectionHeader className={i > 0 ? 'my-4' : 'mb-4'}>Disc {discNumber}</SectionHeader>
           )}
-          <div className="divide-primary-alt2 divide-y-2">
+          <div>
             {tracks.map((track, i) => (
               <Track key={i} track={track} />
             ))}

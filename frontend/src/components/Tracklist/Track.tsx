@@ -13,7 +13,13 @@ export const Track: React.FC<{ track: TrackT }> = ({ track }) => {
     <div className="py-1.5 px-2 w-full rounded hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5 cursor-pointer">
       <div className="flex items-center">
         <Icon className="flex-none w-5 mr-3 text-primary cursor-pointer" icon="play-medium" />
-        <div className="w-72 mr-2 truncate" title={track.title}>
+        <div
+          className={clsx(
+            'flex-1 w-72 mr-2 truncate',
+            isSidebarOpen ? 'md:flex-none' : 'sm-flex-none',
+          )}
+          title={track.title}
+        >
           {track.trackNumber && <span>{track.trackNumber}. </span>}
           {track.title}
         </div>
