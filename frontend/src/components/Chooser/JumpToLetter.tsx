@@ -76,7 +76,7 @@ export const JumpToLetter: React.FC<{
       className={clsx(
         className,
         'text-right z-20 absolute top-0 right-0 overflow-y-hidden',
-        active ? 'pr-5' : 'pr-8',
+        active ? 'mr-5' : 'mr-8',
       )}
       style={{ height: 'calc(100vh - 9rem)' }}
     >

@@ -73,7 +73,7 @@ export const Chooser: React.FC<{
           )}
         />
         <JumpToLetter
-          className={clsx(active && 'pt-8')}
+          className={clsx(active && 'mt-8')}
           results={results}
           active={active}
           setJumpTo={setJumpTo}
