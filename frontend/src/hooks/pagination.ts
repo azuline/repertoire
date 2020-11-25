@@ -31,7 +31,7 @@ export const usePagination = ({ useUrl = false }: Params = {}): PaginationType =
   }, [useUrl, query]);
 
   const [curPage, setCurPage] = React.useState<number>(startPage);
-  const [perPage, setPerPage] = usePersistentState<number>('pagination--perPage', 50);
+  const [perPage, setPerPage] = usePersistentState<number>('pagination--perPage', 40);
   const [total, setTotal] = React.useState<number>(0);
 
   React.useEffect(() => {

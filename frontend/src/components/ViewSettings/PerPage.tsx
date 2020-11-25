@@ -3,7 +3,7 @@ import * as React from 'react';
 import { PaginationType } from 'src/hooks';
 import { Select } from 'src/components/common/Select';
 
-const options = [5, 40, 80, 120, 160, 200];
+const options = [40, 80, 120, 160, 200];
 
 export const PerPage: React.FC<{ pagination: PaginationType; className?: string }> = ({
   pagination,
