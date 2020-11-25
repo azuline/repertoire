@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-import { ArtistList, GenreList } from './Lists';
+import { Link } from 'src/components/common/Link';
+import { ArtistList, GenreList } from 'src/components/Lists';
 import { ArtistT, ReleaseT } from 'src/types';
 
 import { CoverArt } from './CoverArt';
@@ -14,12 +15,12 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
   const runMinutes = React.useMemo(() => secondsToLength(release.runtime).split(':')[0], [release]);
 
   return (
-    <div
+    <Link
+      href={`/releases/${release.id}`}
       className={clsx(
         className,
         'w-full flex items-center py-3 hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5 cursor-pointer',
       )}
-      onClick={(): void => {}}
     >
       <div className="flex-none relative w-12 h-12 mr-2">
         <CoverArt className="absolute full object-cover rounded-lg" release={release} />
@@ -48,6 +49,6 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };

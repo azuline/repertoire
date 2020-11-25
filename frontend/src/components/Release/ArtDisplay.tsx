@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ArtistList, GenreList } from './Lists';
+import { ArtistList, GenreList } from 'src/components/Lists';
 import { ArtistT, CollectionT, ReleaseT } from 'src/types';
 
 import { CoverArt } from './CoverArt';
