@@ -1,13 +1,12 @@
+import clsx from 'clsx';
 import * as React from 'react';
-
+import { CoverArt, Disclist, Header, Link } from 'src/components';
+import { SidebarContext } from 'src/contexts';
+import { useId } from 'src/hooks';
+import { fetchRelease } from 'src/lib';
 import { CollectionT, TrackT } from 'src/types';
 
-import { CoverArt, Disclist, Header, Link } from 'src/components';
 import { Info } from './Info';
-import { SidebarContext } from 'src/contexts';
-import clsx from 'clsx';
-import { fetchRelease } from 'src/lib';
-import { useId } from 'src/hooks';
 
 // TODO: Light theme-ify support this.
 const backgroundStyle = {

@@ -1,11 +1,10 @@
-import * as React from 'react';
-
-import { AutoSizer, List } from 'react-virtualized';
-import { Element, ElementT, ToggleStarFactory } from './Element';
-
-import { JumpToLetter } from './JumpToLetter';
-import { SidebarContext } from 'src/contexts';
 import clsx from 'clsx';
+import * as React from 'react';
+import { AutoSizer, List } from 'react-virtualized';
+import { SidebarContext } from 'src/contexts';
+
+import { Element, ElementT, ToggleStarFactory } from './Element';
+import { JumpToLetter } from './JumpToLetter';
 
 const style = { maxHeight: 'calc(100vh - 4rem)' };
 

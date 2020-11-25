@@ -1,9 +1,8 @@
-import * as React from 'react';
-
-import { AuthorizationContext } from 'src/contexts';
 import clsx from 'clsx';
-import { useRequestJson } from 'src/hooks';
+import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
+import { AuthorizationContext } from 'src/contexts';
+import { useRequestJson } from 'src/hooks';
 
 const inputStyle = { width: '50vw', minWidth: '300px', maxWidth: '600px' };
 

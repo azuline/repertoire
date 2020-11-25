@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { Icon } from 'src/components/common/Icon';
 
 export const BackButton: React.FC = () => (

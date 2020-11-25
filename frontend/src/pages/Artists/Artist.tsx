@@ -1,8 +1,8 @@
 import * as React from 'react';
-
 import { BackButton, Header, Link, SectionHeader } from 'src/components';
-import { ArtistReleases } from './Releases';
 import { fetchArtist } from 'src/lib';
+
+import { ArtistReleases } from './Releases';
 
 export const Artist: React.FC<{ active: number }> = ({ active }) => {
   const fetchVariables = React.useMemo(() => ({ id: active }), [active]);

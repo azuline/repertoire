@@ -1,7 +1,6 @@
-import { GraphQLError, RequestError, UserT } from 'src/types';
-
 import { QueryResult } from 'react-query';
 import { useGQLQuery } from 'src/hooks';
+import { GraphQLError, RequestError, UserT } from 'src/types';
 
 const QUERY = `
   query {

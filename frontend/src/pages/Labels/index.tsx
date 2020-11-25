@@ -1,9 +1,9 @@
 import * as React from 'react';
-
 import { CollectionChooser, Header } from 'src/components';
-import { CollectionType } from 'src/types';
-import { Label } from './Label';
 import { useId } from 'src/hooks';
+import { CollectionType } from 'src/types';
+
+import { Label } from './Label';
 
 const types = [CollectionType.LABEL];
 

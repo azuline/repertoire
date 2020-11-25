@@ -1,8 +1,7 @@
-import { GraphQLError, ReleaseT, RequestError } from 'src/types';
-import { RELEASE_FIELDS, TRACK_FIELDS } from 'src/lib/fragments';
-
 import { QueryResult } from 'react-query';
 import { useGQLQuery } from 'src/hooks';
+import { RELEASE_FIELDS, TRACK_FIELDS } from 'src/lib/fragments';
+import { GraphQLError, ReleaseT, RequestError } from 'src/types';
 
 const QUERY = `
   query ($id: Int!) {

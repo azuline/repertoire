@@ -1,9 +1,9 @@
 import * as React from 'react';
-
 import { CollectionChooser, Header } from 'src/components';
-import { CollectionType } from 'src/types';
-import { Genre } from './Genre';
 import { useId } from 'src/hooks';
+import { CollectionType } from 'src/types';
+
+import { Genre } from './Genre';
 
 const types = [CollectionType.GENRE];
 export const Genres: React.FC = () => {

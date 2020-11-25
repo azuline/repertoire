@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { AuthorizationContext } from 'src/contexts';
 import { RequestError } from 'src/types';
 

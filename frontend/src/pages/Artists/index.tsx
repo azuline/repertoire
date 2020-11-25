@@ -1,9 +1,9 @@
 import * as React from 'react';
+import { Header } from 'src/components';
+import { useId } from 'src/hooks';
 
 import { Artist } from './Artist';
 import { ArtistChooser } from './Chooser';
-import { Header } from 'src/components';
-import { useId } from 'src/hooks';
 
 export const Artists: React.FC = () => {
   const active = useId();

@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { BackButton, CollectionReleases, Header, Link, SectionHeader } from 'src/components';
 import { fetchCollection } from 'src/lib';
 

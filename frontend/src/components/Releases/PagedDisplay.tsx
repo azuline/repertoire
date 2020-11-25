@@ -1,14 +1,12 @@
-import * as React from 'react';
-
-import { ArtRelease, RowRelease } from 'src/components/Release';
-import { PaginationType, ViewOptionsType } from 'src/hooks';
-
-import { Pagination } from 'src/components/Pagination';
-import { ReleaseView } from 'src/types';
-import { SidebarContext } from 'src/contexts';
-import { ViewSettings } from 'src/components/ViewSettings';
 import clsx from 'clsx';
+import * as React from 'react';
+import { Pagination } from 'src/components/Pagination';
+import { ArtRelease, RowRelease } from 'src/components/Release';
+import { ViewSettings } from 'src/components/ViewSettings';
+import { SidebarContext } from 'src/contexts';
+import { PaginationType, ViewOptionsType } from 'src/hooks';
 import { fetchReleases } from 'src/lib';
+import { ReleaseView } from 'src/types';
 
 // Partial here means that we have an artist/collection selector open.
 

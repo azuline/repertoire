@@ -1,10 +1,10 @@
-import * as React from 'react';
-
-import { Icon } from 'src/components/common';
-import { Searchbar } from './Searchbar';
-import { SidebarContext } from 'src/contexts';
-import { User } from './User';
 import clsx from 'clsx';
+import * as React from 'react';
+import { Icon } from 'src/components/common';
+import { SidebarContext } from 'src/contexts';
+
+import { Searchbar } from './Searchbar';
+import { User } from './User';
 
 export const Header: React.FC<{ className?: string; searchbar?: boolean }> = ({
   className,

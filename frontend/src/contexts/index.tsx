@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 
 import { AuthorizationProvider } from './Authorization';
@@ -9,10 +8,10 @@ import { ThemeProvider } from './Theme';
 import { ToastProvider } from './Toaster';
 
 export * from './Authorization';
-export * from './Toaster';
+export * from './PlayQueue';
 export * from './Sidebar';
 export * from './Theme';
-export * from './PlayQueue';
+export * from './Toaster';
 
 export const GlobalContexts: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const queryCache = new QueryCache();

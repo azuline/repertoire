@@ -1,8 +1,7 @@
-import { ArtistT, GraphQLError, RequestError } from 'src/types';
-
-import { ARTIST_FIELDS } from 'src/lib/fragments';
 import { QueryResult } from 'react-query';
 import { useGQLQuery } from 'src/hooks';
+import { ARTIST_FIELDS } from 'src/lib/fragments';
+import { ArtistT, GraphQLError, RequestError } from 'src/types';
 
 const QUERY = `
   query ($id: Int!) {

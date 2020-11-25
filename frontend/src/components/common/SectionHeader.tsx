@@ -1,6 +1,5 @@
-import * as React from 'react';
-
 import clsx from 'clsx';
+import * as React from 'react';
 
 export const SectionHeader: React.FC<{
   children: React.ReactNode;

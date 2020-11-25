@@ -1,12 +1,11 @@
+import clsx from 'clsx';
 import * as React from 'react';
-
+import { Link } from 'src/components/common';
 import { ArtistList, GenreList } from 'src/components/Lists';
 import { ArtistT, ReleaseT } from 'src/types';
+import { secondsToLength } from 'src/util';
 
 import { CoverArt } from './CoverArt';
-import { Link } from 'src/components/common';
-import clsx from 'clsx';
-import { secondsToLength } from 'src/util';
 
 export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = ({
   release,

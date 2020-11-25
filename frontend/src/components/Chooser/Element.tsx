@@ -1,7 +1,6 @@
-import * as React from 'react';
-
-import { Icon, Link } from 'src/components/common';
 import clsx from 'clsx';
+import * as React from 'react';
+import { Icon, Link } from 'src/components/common';
 
 export type ElementT = { id: number; name: string; starred: boolean; type?: string };
 export type ToggleStarFactory = (elem: ElementT) => () => Promise<void>;

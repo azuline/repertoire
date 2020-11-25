@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { ArtistList, GenreList, LabelList, Link, SectionHeader } from 'src/components';
 import { ArtistT, CollectionT, ReleaseT } from 'src/types';
 import { formatReleaseDate } from 'src/util';

@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { TrackT } from 'src/types';
 
 type PQType = {

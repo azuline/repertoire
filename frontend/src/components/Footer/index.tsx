@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { CoverArt, Icon, ArtistList } from 'src/components';
-import { TrackArtistT, ReleaseT } from 'src/types';
+import { ArtistList, CoverArt, Icon } from 'src/components';
 import { PlayQueueContext } from 'src/contexts';
 import { useAudio } from 'src/hooks';
+import { ReleaseT, TrackArtistT } from 'src/types';
 import { arrangeArtists, secondsToLength } from 'src/util';
 
 export const Footer: React.FC = () => {

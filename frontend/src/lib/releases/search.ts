@@ -1,10 +1,8 @@
 import * as React from 'react';
-
-import { GraphQLError, ReleaseSort, ReleaseT, ReleaseType, RequestError } from 'src/types';
-import { PaginationType, ViewOptionsType, useGQLQuery } from 'src/hooks';
-
 import { QueryResult } from 'react-query';
+import { PaginationType, useGQLQuery, ViewOptionsType } from 'src/hooks';
 import { RELEASE_FIELDS } from 'src/lib/fragments';
+import { GraphQLError, ReleaseSort, ReleaseT, ReleaseType, RequestError } from 'src/types';
 
 const QUERY = `
   query (

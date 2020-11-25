@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { usePersistentState, useRequestJson } from 'src/hooks';
 
 type ACType = {

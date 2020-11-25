@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { usePersistentState } from 'src/hooks';
 
 type CCType = {

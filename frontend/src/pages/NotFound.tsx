@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { SectionHeader } from 'src/components';
 
 export const NotFound: React.FC = () => {

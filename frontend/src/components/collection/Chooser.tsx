@@ -1,8 +1,6 @@
 import * as React from 'react';
-
 import { Chooser, ElementT } from 'src/components/Chooser';
 import { fetchCollections, useMutateCollection } from 'src/lib';
-
 import { CollectionType } from 'src/types';
 
 export const CollectionChooser: React.FC<{

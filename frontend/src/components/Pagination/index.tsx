@@ -1,9 +1,9 @@
+import clsx from 'clsx';
 import * as React from 'react';
+import { PaginationType } from 'src/hooks';
 
 import { Goto } from './Goto';
 import { Page } from './Page';
-import { PaginationType } from 'src/hooks';
-import clsx from 'clsx';
 
 export const Pagination: React.FC<{
   pagination: PaginationType;

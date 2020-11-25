@@ -1,15 +1,14 @@
+import clsx from 'clsx';
 import * as React from 'react';
-
 import { Icon, Popover } from 'src/components/common';
+import { Pagination } from 'src/components/Pagination';
+import { SidebarContext } from 'src/contexts';
 import { PaginationType, ViewOptionsType } from 'src/hooks';
 
 import { Order } from './Order';
-import { Pagination } from 'src/components/Pagination';
 import { PerPage } from './PerPage';
-import { SidebarContext } from 'src/contexts';
 import { Sort } from './Sort';
 import { View } from './View';
-import clsx from 'clsx';
 
 export const ViewSettings: React.FC<{
   viewOptions: ViewOptionsType;

@@ -1,9 +1,9 @@
-import * as React from 'react';
-
-import { PlayQueueContext } from 'src/contexts';
-import { Track } from './Track';
-import { TrackT } from 'src/types';
 import clsx from 'clsx';
+import * as React from 'react';
+import { PlayQueueContext } from 'src/contexts';
+import { TrackT } from 'src/types';
+
+import { Track } from './Track';
 import { checkMatchingTracklists } from './util';
 
 export const Tracklist: React.FC<{ className?: string; tracks: TrackT[] }> = ({

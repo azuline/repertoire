@@ -1,12 +1,10 @@
-import * as React from 'react';
-
-import { AuthorizationContext, SidebarContext } from 'src/contexts';
-
-import { Icon, Link } from 'src/components/common';
 import clsx from 'clsx';
-import { fetchUser } from 'src/lib';
-import { useRequest } from 'src/hooks';
+import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
+import { Icon, Link } from 'src/components/common';
+import { AuthorizationContext, SidebarContext } from 'src/contexts';
+import { useRequest } from 'src/hooks';
+import { fetchUser } from 'src/lib';
 
 export const User: React.FC<{ className?: string }> = ({ className }) => {
   const { setLoggedIn } = React.useContext(AuthorizationContext);

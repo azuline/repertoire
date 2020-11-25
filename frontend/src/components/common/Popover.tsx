@@ -1,6 +1,5 @@
-import * as React from 'react';
-
 import clsx from 'clsx';
+import * as React from 'react';
 
 const arrowStyle = {
   borderColor: 'transparent var(--color-primary-alt) var(--color-primary-alt) transparent',

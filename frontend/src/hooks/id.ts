@@ -1,7 +1,5 @@
 import * as React from 'react';
-
 import { useHistory, useParams } from 'react-router-dom';
-
 import { useToasts } from 'react-toast-notifications';
 
 const isValid = (id: string): boolean => /^\d+$/.test(id);

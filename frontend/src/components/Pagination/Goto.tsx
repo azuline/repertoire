@@ -1,7 +1,6 @@
 import * as React from 'react';
-
-import { Icon } from 'src/components/common';
 import { useToasts } from 'react-toast-notifications';
+import { Icon } from 'src/components/common';
 
 export const Goto: React.FC<{
   setCurPage: (arg0: number) => void;

@@ -1,8 +1,8 @@
+import { QueryResult } from 'react-query';
+import { useGQLQuery } from 'src/hooks';
 import { GraphQLError, ReleaseT, RequestError } from 'src/types';
 
-import { QueryResult } from 'react-query';
 import { RELEASE_FIELDS } from './fragments';
-import { useGQLQuery } from 'src/hooks';
 
 const QUERY = `
   query {

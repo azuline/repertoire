@@ -34,8 +34,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src --ext .ts,.tsx --fix",
-    "sort-imports": "find src/ -type f \\( -name '*.tsx' -o -name '*.ts' -o -name '*.js' \\) -exec import-sort --write '{}' \\;"
+    "lint": "eslint ./src --ext .ts,.tsx --fix"
   },
   "browserslist": {
     "production": [
@@ -63,7 +62,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "import-sort-cli": "^6.0.0",
+    "eslint-plugin-simple-import-sort": "^6.0.1",
     "postcss": "^8.1.7",
     "prettier": "2.1.2",
     "react-is": "^17.0.1"

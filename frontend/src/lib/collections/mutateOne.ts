@@ -1,10 +1,8 @@
 import * as React from 'react';
-
-import { CollectionT, GraphQLError, RequestError } from 'src/types';
 import { MutationResultPair, useQueryCache } from 'react-query';
-
-import { COLLECTION_FIELDS } from 'src/lib/fragments';
 import { useGQLMutation } from 'src/hooks';
+import { COLLECTION_FIELDS } from 'src/lib/fragments';
+import { CollectionT, GraphQLError, RequestError } from 'src/types';
 
 const QUERY = `
   mutation (

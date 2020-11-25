@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { Link } from 'src/components/common';
 
 type ElementT = { id: number; name: string };

@@ -1,7 +1,6 @@
 import * as React from 'react';
-
-import { PaginationType } from 'src/hooks';
 import { Select } from 'src/components/common';
+import { PaginationType } from 'src/hooks';
 
 const options = [40, 80, 120, 160, 200];
 

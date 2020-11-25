@@ -1,8 +1,6 @@
 import * as React from 'react';
-
-import { GraphQLError, RequestError } from 'src/types';
-
 import { AuthorizationContext } from 'src/contexts';
+import { GraphQLError, RequestError } from 'src/types';
 
 type GQLRequest<T, V> = (query: string, variables?: V) => Promise<T>;
 

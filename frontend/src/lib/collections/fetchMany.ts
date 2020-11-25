@@ -1,8 +1,7 @@
-import { CollectionT, CollectionType, GraphQLError, RequestError } from 'src/types';
-
-import { COLLECTION_FIELDS } from 'src/lib/fragments';
 import { QueryResult } from 'react-query';
 import { useGQLQuery } from 'src/hooks';
+import { COLLECTION_FIELDS } from 'src/lib/fragments';
+import { CollectionT, CollectionType, GraphQLError, RequestError } from 'src/types';
 
 const QUERY = `
   query ($types: [CollectionType]) {
