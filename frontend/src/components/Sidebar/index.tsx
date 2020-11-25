@@ -54,8 +54,8 @@ export const Sidebar: React.FC = () => {
   return (
     <div className="h-full flex-none sticky bg-background-alt2 top-0 flex flex-col w-full sm:w-56">
       <div className="my-6">
-        <div className="flex items-center pl-6 pr-4 cursor-pointer">
-          <div className="flex items-center flex-1" onClick={goHome}>
+        <div className="flex items-center pl-6 pr-8 sm:pr-4">
+          <div className="flex items-center pr-4 cursor-pointer" onClick={goHome}>
             <Icon className="text-primary w-8" icon="logo" />
             <div className="font-semibold ml-2">
               <span className="text-primary">reper</span>toire
@@ -63,10 +63,10 @@ export const Sidebar: React.FC = () => {
           </div>
           <Icon
             icon="hamburger"
-            className="flex-none ml-auto w-6 pointer-cursor hidden sm:block"
+            className="flex-none ml-auto w-6 cursor-pointer hidden sm:block"
             onClick={toggleOpen}
           />
-          <User className="sm:hidden" />
+          <User className="ml-auto sm:hidden" />
         </div>
       </div>
       <Searchbar className="flex-none block sm:hidden h-16 mb-4 mx-8" shrink={false} />

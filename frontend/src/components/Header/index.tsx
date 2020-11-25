@@ -31,7 +31,7 @@ export const Header: React.FC<{ className?: string; searchbar?: boolean }> = ({
         </>
       )}
       {searchbar && <Searchbar className="mr-4" />}
-      <User className="ml-auto" />
+      <User className="ml-auto hidden sm:flex" />
     </div>
   );
 };

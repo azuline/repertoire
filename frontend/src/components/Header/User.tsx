@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { AuthorizationContext } from 'src/contexts';
+import { SidebarContext, AuthorizationContext } from 'src/contexts';
 import { Link } from 'src/components/common/Link';
 import { useRequest } from 'src/hooks';
 import { Icon } from 'src/components/common/Icon';
@@ -9,10 +9,13 @@ import { fetchUser } from 'src/lib';
 import { useToasts } from 'react-toast-notifications';
 
 export const User: React.FC<{ className?: string }> = ({ className }) => {
-  const { status, data } = fetchUser();
   const { setLoggedIn } = React.useContext(AuthorizationContext);
+  const { setSidebarOpen } = React.useContext(SidebarContext);
   const { addToast } = useToasts();
+  const { status, data } = fetchUser();
   const request = useRequest();
+
+  const closeSidebar = React.useCallback(() => setSidebarOpen(false), [setSidebarOpen]);
 
   const logout = React.useCallback(() => {
     (async (): Promise<void> => {
@@ -29,7 +32,10 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
     <div className={clsx(className, 'flex h-full items-center')}>
       <Icon className="w-5 mr-1" icon="user-medium" />
       <div className="mr-3">{status === 'success' && data ? data.user.username : 'Loading...'}</div>
-      <Link href="/settings">
+      <Link className="sm:hidden" href="/settings" onClick={closeSidebar}>
+        <Icon className="w-5 mr-2 text-primary cursor-pointer" title="Settings" icon="cog-medium" />
+      </Link>
+      <Link className="hidden sm:block" href="/settings">
         <Icon className="w-5 mr-2 text-primary cursor-pointer" title="Settings" icon="cog-medium" />
       </Link>
       <Icon
