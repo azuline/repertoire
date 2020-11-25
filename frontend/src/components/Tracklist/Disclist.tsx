@@ -37,12 +37,12 @@ export const Disclist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
     [setPlayQueue, setCurIndex, sortedTracklist],
   );
 
-  let trackIndex = 0;
+  let trackIndex = -1;
 
   return (
     <div className={clsx(className, 'mx-8')}>
       {Object.entries(discs).map(([discNumber, tracks], i) => (
-        <>
+        <React.Fragment key={discNumber}>
           {multiDisc && (
             <SectionHeader className={i > 0 ? 'my-4' : 'mb-4'}>Disc {discNumber}</SectionHeader>
           )}
@@ -58,7 +58,7 @@ export const Disclist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
               />
             );
           })}
-        </>
+        </React.Fragment>
       ))}
     </div>
   );

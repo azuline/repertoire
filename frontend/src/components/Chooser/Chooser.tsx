@@ -22,6 +22,13 @@ export const Chooser: React.FC<{
   // Virtual render setup.
   const renderRow = React.useCallback(
     ({ index, key, style }) => {
+      // Because React-Virtualized has bungled scrollToIndex behavior when the
+      // containing div has margin/padding, we replaced the margin/padding with
+      // these blank elements on the bottom.
+      if (index === results.length || index === results.length + 1) {
+        return <div key={key} style={style} />;
+      }
+
       return (
         <div key={key} style={style}>
           <Element
@@ -41,9 +48,9 @@ export const Chooser: React.FC<{
       return [jumpTo, 'start'];
     } else if (active) {
       // TODO: Perhaps construct a map of IDs to index for this sort of thing.
-      return [results.findIndex((elem) => elem.id === active), 'auto'];
+      return [results.findIndex((elem) => elem.id === active), 'center'];
     } else {
-      return [undefined, 'auto'];
+      return [undefined, 'center'];
     }
   }, [jumpTo, active, results]);
 
@@ -84,7 +91,7 @@ export const Chooser: React.FC<{
               className={clsx('chooser', active && 'pt-8')}
               height={height}
               overscanRowCount={8}
-              rowCount={results.length}
+              rowCount={results.length + 2}
               rowHeight={28.5}
               rowRenderer={renderRow}
               scrollToIndex={scrollToIndex}

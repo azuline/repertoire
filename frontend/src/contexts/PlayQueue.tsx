@@ -6,7 +6,7 @@ type PQType = {
   playQueue: TrackT[];
   setPlayQueue: (arg0: TrackT[]) => void;
   curIndex: number | null;
-  setCurIndex: (arg0: number | null) => void;
+  setCurIndex: (arg0: number | null | ((arg0: number | null) => number | null)) => void;
 };
 
 export const PlayQueueContext = React.createContext<PQType>({
