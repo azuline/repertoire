@@ -1,3 +1,3 @@
-export * from './fetchAll';
+export * from './fetchMany';
 export * from './fetchOne';
 export * from './mutateOne';

@@ -6,12 +6,12 @@ import { useGQLQuery } from 'src/hooks';
 
 const QUERY = `
   query ($types: [CollectionType]) {
-		collections (types: $types) {
-			results {
-				${COLLECTION_FIELDS}
-			}
-		}
-	}
+    collections (types: $types) {
+      results {
+        ${COLLECTION_FIELDS}
+      }
+    }
+  }
 `;
 
 type Result = { collections: { results: CollectionT[] } };

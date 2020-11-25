@@ -6,10 +6,10 @@ import { useGQLQuery } from 'src/hooks';
 
 const QUERY = `
   query ($id: Int!) {
-		artist (id: $id) {
+    artist (id: $id) {
       ${ARTIST_FIELDS}
-		}
-	}
+    }
+  }
 `;
 
 type Result = { artist: ArtistT };
