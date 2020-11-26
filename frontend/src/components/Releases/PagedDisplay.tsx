@@ -4,8 +4,8 @@ import { Pagination } from 'src/components/Pagination';
 import { ArtRelease, RowRelease } from 'src/components/Release';
 import { ViewSettings } from 'src/components/ViewSettings';
 import { SidebarContext } from 'src/contexts';
-import { PaginationType, ViewOptionsType } from 'src/hooks';
-import { fetchReleases } from 'src/lib';
+import { PaginationT, ViewOptionsT } from 'src/hooks';
+import { searchReleases } from 'src/lib';
 import { ReleaseView } from 'src/types';
 
 // Partial here means that we have an artist/collection selector open.
@@ -20,13 +20,13 @@ const gridOneCssPartial = 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-col
 const gridTwoCss = 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5';
 
 export const PagedReleases: React.FC<{
-  viewOptions: ViewOptionsType;
-  pagination: PaginationType;
+  viewOptions: ViewOptionsT;
+  pagination: PaginationT;
   partial?: boolean;
 }> = ({ viewOptions, pagination, partial = false }) => {
   const { isSidebarOpen } = React.useContext(SidebarContext);
 
-  const { status, data } = fetchReleases(viewOptions, pagination);
+  const { status, data } = searchReleases(viewOptions, pagination);
 
   const { total, results } = React.useMemo(
     () => (data && status === 'success' ? data.releases : { total: 0, results: [] }),

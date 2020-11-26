@@ -6,3 +6,10 @@ export class RequestError<T> extends Error {
     this.errors = errors;
   }
 }
+
+export type GraphQLError = {
+  type: string;
+  message: string;
+  locations: { line: number; column: number }[];
+  path: string[];
+};

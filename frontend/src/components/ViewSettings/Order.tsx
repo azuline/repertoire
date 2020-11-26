@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Select } from 'src/components/common';
-import { ViewOptionsType } from 'src/hooks';
+import { ViewOptionsT } from 'src/hooks';
 
-export const Order: React.FC<{ viewOptions: ViewOptionsType; className?: string }> = ({
+export const Order: React.FC<{ viewOptions: ViewOptionsT; className?: string }> = ({
   viewOptions,
   className,
 }) => {

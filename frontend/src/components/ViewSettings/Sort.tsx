@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Select } from 'src/components/common';
-import { ViewOptionsType } from 'src/hooks';
+import { ViewOptionsT } from 'src/hooks';
 import { ReleaseSort } from 'src/types';
 
 const displays: { [k in ReleaseSort]: string } = {
@@ -10,7 +10,7 @@ const displays: { [k in ReleaseSort]: string } = {
   [ReleaseSort.RANDOM]: 'Random',
 };
 
-export const Sort: React.FC<{ viewOptions: ViewOptionsType; className?: string }> = ({
+export const Sort: React.FC<{ viewOptions: ViewOptionsT; className?: string }> = ({
   viewOptions,
   className,
 }) => {

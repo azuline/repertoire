@@ -20,16 +20,27 @@ const QUERY = `
   }
 `;
 
-type Result = { collection: CollectionT };
-type Variables = { id: number; name?: string; starred?: boolean };
-type Return = MutationResultPair<Result, RequestError<GraphQLError>, Variables, unknown>;
+type ResultT = { collection: CollectionT };
+export type MutateOneCollectionVariablesT = { id: number; name?: string; starred?: boolean };
 
-export const useMutateCollection = (): Return => {
+/**
+ * A wrapper around react-query to mutate a single collection.
+ *
+ * React-Query's  ``mutate`` function takes a variable of type ``MutateOneCollectionVariablesT``.
+ *
+ * @return The react-query mutation result.
+ */
+export const useMutateCollection = (): MutationResultPair<
+  ResultT,
+  RequestError<GraphQLError>,
+  MutateOneCollectionVariablesT,
+  unknown
+> => {
   const queryCache = useQueryCache();
 
   const onSuccess = React.useCallback(() => queryCache.invalidateQueries('collections'), [
     queryCache,
   ]);
 
-  return useGQLMutation<Result, Variables>(QUERY, { onSuccess });
+  return useGQLMutation<ResultT, MutateOneCollectionVariablesT>(QUERY, { onSuccess });
 };

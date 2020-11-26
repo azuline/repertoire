@@ -41,9 +41,14 @@ const QUERY = `
   }
 `;
 
-type Result = { release: ReleaseT };
-type Variables = { id: number };
-type Return = QueryResult<Result, RequestError<GraphQLError>>;
+type ResultT = { release: ReleaseT };
+type VariablesT = { id: number };
 
-export const fetchRelease = (id: number): Return =>
-  useGQLQuery<Result, Variables>('releases', QUERY, { id });
+/**
+ * A wrapper around react-query to fetch a single release.
+ *
+ * @param id The ID of the release to fetch.
+ * @return The react-query result.
+ */
+export const fetchRelease = (id: number): QueryResult<ResultT, RequestError<GraphQLError>> =>
+  useGQLQuery<ResultT, VariablesT>('releases', QUERY, { id });

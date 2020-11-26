@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Select } from 'src/components/common';
-import { ViewOptionsType } from 'src/hooks';
+import { ViewOptionsT } from 'src/hooks';
 import { ReleaseView } from 'src/types';
 
 const displays: { [k in ReleaseView]: string } = {
@@ -8,7 +8,7 @@ const displays: { [k in ReleaseView]: string } = {
   [ReleaseView.ROW]: 'Row',
 };
 
-export const View: React.FC<{ viewOptions: ViewOptionsType; className?: string }> = ({
+export const View: React.FC<{ viewOptions: ViewOptionsT; className?: string }> = ({
   viewOptions,
   className,
 }) => {

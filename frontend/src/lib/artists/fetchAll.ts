@@ -14,6 +14,11 @@ const QUERY = `
 `;
 
 type Result = { artists: { results: ArtistT[] } };
-type Return = QueryResult<Result, RequestError<GraphQLError>>;
 
-export const fetchArtists = (): Return => useGQLQuery<Result>('artists', QUERY);
+/**
+ * A wrapper around react-query to fetch all artists.
+ *
+ * @return The react-query result.
+ */
+export const fetchArtists = (): QueryResult<Result, RequestError<GraphQLError>> =>
+  useGQLQuery<Result>('artists', QUERY);

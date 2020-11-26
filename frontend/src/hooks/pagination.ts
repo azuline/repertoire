@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { usePersistentState } from './persistentState';
 import { useQuery } from './query';
 
-export type PaginationType = {
+export type PaginationT = {
   curPage: number;
   setCurPage: (arg0: number | ((arg0: number) => number)) => void;
   perPage: number;
@@ -18,7 +18,7 @@ type Params = {
   useUrl?: boolean;
 };
 
-export const usePagination = ({ useUrl = false }: Params = {}): PaginationType => {
+export const usePagination = ({ useUrl = false }: Params = {}): PaginationT => {
   const history = useHistory();
   const query = useQuery();
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { QueryResult } from 'react-query';
-import { PaginationType, useGQLQuery, ViewOptionsType } from 'src/hooks';
+import { PaginationT, useGQLQuery, ViewOptionsT } from 'src/hooks';
 import { RELEASE_FIELDS } from 'src/lib/fragments';
 import { GraphQLError, ReleaseSort, ReleaseT, ReleaseType, RequestError } from 'src/types';
 
@@ -45,8 +45,8 @@ const QUERY = `
   }
 `;
 
-type Result = { releases: { total: number; results: ReleaseT[] } };
-type Variables = {
+type ResultT = { releases: { total: number; results: ReleaseT[] } };
+type VariablesT = {
   search: string;
   collectionIds: number[];
   artistIds: number[];
@@ -56,22 +56,34 @@ type Variables = {
   page: number;
   perPage: number;
 };
-type Return = QueryResult<Result, RequestError<GraphQLError>>;
 
-export const fetchReleases = (viewOptions: ViewOptionsType, pagination: PaginationType): Return => {
+/**
+ * A wrapper around react-query to search for releases on the backend.
+ *
+ * @param viewOptions The view options parameters for the query.
+ * @param pagination The pagination for the query.
+ * @return The react-query result.
+ */
+export const searchReleases = (
+  viewOptions: ViewOptionsT,
+  pagination: PaginationT,
+): QueryResult<ResultT, RequestError<GraphQLError>> => {
   // prettier-ignore
   const variables = React.useMemo(
     () => extractVariables(viewOptions, pagination),
     [viewOptions, pagination]
   );
 
-  return useGQLQuery<Result, Variables>('releases', QUERY, variables);
+  return useGQLQuery<ResultT, VariablesT>('releases', QUERY, variables);
 };
 
+/**
+ * Extract variables from viewOptions and pagination to form the query variables.
+ */
 const extractVariables = (
-  { search, collectionIds, artistIds, releaseTypes, sort, asc }: ViewOptionsType,
-  { curPage, perPage }: PaginationType,
-): Variables => ({
+  { search, collectionIds, artistIds, releaseTypes, sort, asc }: ViewOptionsT,
+  { curPage, perPage }: PaginationT,
+): VariablesT => ({
   search,
   collectionIds,
   artistIds,

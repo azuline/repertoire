@@ -1,5 +1,11 @@
 import { ReleaseT } from 'src/types';
 
+/**
+ * Format the release date of a release.
+ *
+ * @param release The release to use.
+ * @return The formatted release date.
+ */
 export const formatReleaseDate = (release: ReleaseT): string => {
   if (release.releaseDate) {
     return `Released on ${formatDate(new Date(release.releaseDate))}`;

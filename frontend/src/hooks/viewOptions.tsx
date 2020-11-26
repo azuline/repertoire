@@ -3,7 +3,7 @@ import { ReleaseSort, ReleaseType, ReleaseView } from 'src/types';
 
 import { usePersistentState } from './persistentState';
 
-export type ViewOptionsType = {
+export type ViewOptionsT = {
   search: string;
   setSearch: (arg0: string) => void;
   collectionIds: number[];
@@ -38,7 +38,7 @@ export const useViewOptions = ({
   sort,
   asc,
   releaseView,
-}: Params = {}): ViewOptionsType => {
+}: Params = {}): ViewOptionsT => {
   const [searchState, setSearch] = React.useState<string>(search ?? '');
   const [collectionIdsState, setCollectionIds] = React.useState<number[]>(collectionIds ?? []);
   const [artistIdsState, setArtistIds] = React.useState<number[]>(artistIds ?? []);

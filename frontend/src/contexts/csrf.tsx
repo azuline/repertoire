@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { usePersistentState } from 'src/hooks';
 
-type CCType = {
+type ContextType = {
   csrfToken: string | null;
   setCsrfToken: (arg0: string | null, arg1?: boolean) => void;
 };
 
-export const CSRFContext = React.createContext<CCType>({
+export const CSRFContext = React.createContext<ContextType>({
   csrfToken: null,
   setCsrfToken: () => {},
 });

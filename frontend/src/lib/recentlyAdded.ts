@@ -31,7 +31,12 @@ const QUERY = `
   }
 `;
 
-type ResultType = { releases: { results: ReleaseT[] } };
+type ResultT = { releases: { results: ReleaseT[] } };
 
-export const fetchRecentlyAdded = (): QueryResult<ResultType, RequestError<GraphQLError>> =>
-  useGQLQuery<ResultType>('recently-added', QUERY);
+/**
+ * A wrapper around react-query to fetch the 10 most recently added releases.
+ *
+ * @return The react-query result.
+ */
+export const fetchRecentlyAdded = (): QueryResult<ResultT, RequestError<GraphQLError>> =>
+  useGQLQuery<ResultT>('recently-added', QUERY);

@@ -1,3 +1,9 @@
+/**
+ * This module contains GraphQL query fragments.
+ *
+ * Currently, there are only fragments for the fields of each type.
+ */
+
 export const RELEASE_FIELDS = `
   id
   title

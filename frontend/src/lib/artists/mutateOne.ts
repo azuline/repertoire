@@ -21,13 +21,24 @@ const QUERY = `
 `;
 
 type Result = { artist: ArtistT };
-type Variables = { id: number; name?: string; starred?: boolean };
-type Return = MutationResultPair<Result, RequestError<GraphQLError>, Variables, unknown>;
+export type MutateOneArtistVariablesT = { id: number; name?: string; starred?: boolean };
 
-export const useMutateArtist = (): Return => {
+/**
+ * A wrapper around react-query to mutate a single artist.
+ *
+ * React-Query's  ``mutate`` function takes a variable of type ``MutateOneArtistVariablesT``.
+ *
+ * @return The react-query mutation result.
+ */
+export const useMutateArtist = (): MutationResultPair<
+  Result,
+  RequestError<GraphQLError>,
+  MutateOneArtistVariablesT,
+  unknown
+> => {
   const queryCache = useQueryCache();
 
   const onSuccess = React.useCallback(() => queryCache.invalidateQueries('artists'), [queryCache]);
 
-  return useGQLMutation<Result, Variables>(QUERY, { onSuccess });
+  return useGQLMutation<Result, MutateOneArtistVariablesT>(QUERY, { onSuccess });
 };

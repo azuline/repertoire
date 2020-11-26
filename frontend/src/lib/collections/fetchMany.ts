@@ -13,9 +13,16 @@ const QUERY = `
   }
 `;
 
-type Result = { collections: { results: CollectionT[] } };
-type Variables = { types: CollectionType[] };
-type Return = QueryResult<Result, RequestError<GraphQLError>>;
+type ResultT = { collections: { results: CollectionT[] } };
+type VariablesT = { types: CollectionType[] };
 
-export const fetchCollections = (types: CollectionType[] = []): Return =>
-  useGQLQuery<Result, Variables>('collections', QUERY, { types });
+/**
+ * A wrapper around react-query to fetch all collections (of one or more types).
+ *
+ * @param types The types of collections to fetch. Leave empty to fetch all.
+ * @return The react-query result.
+ */
+export const fetchCollections = (
+  types: CollectionType[] = [],
+): QueryResult<ResultT, RequestError<GraphQLError>> =>
+  useGQLQuery<ResultT, VariablesT>('collections', QUERY, { types });

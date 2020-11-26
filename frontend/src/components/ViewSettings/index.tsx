@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Icon, Popover } from 'src/components/common';
 import { Pagination } from 'src/components/Pagination';
 import { SidebarContext } from 'src/contexts';
-import { PaginationType, ViewOptionsType } from 'src/hooks';
+import { PaginationT, ViewOptionsT } from 'src/hooks';
 
 import { Order } from './Order';
 import { PerPage } from './PerPage';
@@ -11,8 +11,8 @@ import { Sort } from './Sort';
 import { View } from './View';
 
 export const ViewSettings: React.FC<{
-  viewOptions: ViewOptionsType;
-  pagination: PaginationType;
+  viewOptions: ViewOptionsT;
+  pagination: PaginationT;
   className?: string;
   partial?: boolean;
 }> = ({ viewOptions, pagination, className, partial = false }) => {
