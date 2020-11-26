@@ -24,10 +24,10 @@ export const Release: React.FC = () => {
       {data && status === 'success' && (
         <>
           <Background>
-            <CoverArt className="full object-cover" release={data.release} />
+            <CoverArt className="object-cover full" release={data.release} />
           </Background>
-          <div className="overflow-y-auto flex flex-col mt-4 z-10">
-            <div className="flex px-8 z-10">
+          <div className="z-10 flex flex-col mt-4 overflow-y-auto">
+            <div className="z-10 flex px-8">
               <CoverArt
                 className={clsx(
                   'hidden flex-none w-64 h-64 mr-8 rounded-lg',
@@ -38,7 +38,7 @@ export const Release: React.FC = () => {
               <Info release={data.release} />
             </div>
             <Disclist className="py-8" tracks={data.release.tracks as TrackT[]} />
-            <div className="text-md px-8 w-full overflow-x-hidden">
+            <div className="w-full px-8 overflow-x-hidden text-md">
               {collageLength !== 0 && (
                 <>
                   <div className="mb-2">Member of</div>

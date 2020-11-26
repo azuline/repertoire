@@ -26,7 +26,7 @@ export const Popover: React.FC<{
       {toggler}
       <div className={clsx('relative z-40', open && click && 'block-important')}>
         <div className="absolute right-0 border-10" style={arrowStyle} />
-        <div className="absolute right-0 pt-4 z-10">{child2}</div>
+        <div className="absolute right-0 z-10 pt-4">{child2}</div>
       </div>
     </div>
   );

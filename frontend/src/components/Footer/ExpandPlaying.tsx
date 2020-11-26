@@ -10,14 +10,14 @@ export const ExpandPlaying: React.FC = () => {
   return (
     <>
       <Link
-        className="flex sm:hidden h-full items-center pl-2 pr-8 text-primary hover:text-primary-alt3"
+        className="flex items-center h-full pl-2 pr-8 sm:hidden text-primary hover:text-primary-alt3"
         href="/playing"
         onClick={closeSidebar}
       >
         <Icon icon="chevron-up-medium" className="w-6" />
       </Link>
       <Link
-        className="hidden sm:flex h-full items-center pl-2 pr-8 text-primary hover:text-primary-alt3"
+        className="items-center hidden h-full pl-2 pr-8 sm:flex text-primary hover:text-primary-alt3"
         href="/playing"
       >
         <Icon icon="chevron-up-medium" className="w-6" />

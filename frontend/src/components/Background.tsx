@@ -8,7 +8,7 @@ const backgroundStyle = {
 
 export const Background: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="absolute top-0 left-0 h-0 full">
-    <div className="absolute top-0 left-0 full z-0 opacity-50">{children}</div>
-    <div className="full max-h-screen absolute top-0 left-0" style={backgroundStyle} />
+    <div className="absolute top-0 left-0 z-0 opacity-50 full">{children}</div>
+    <div className="absolute top-0 left-0 max-h-screen full" style={backgroundStyle} />
   </div>
 );

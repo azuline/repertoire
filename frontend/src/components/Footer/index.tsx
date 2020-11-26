@@ -18,10 +18,10 @@ export const Footer: React.FC = () => {
   );
 
   return (
-    <div className="relative z-30 flex-none w-full h-16 bg-background-alt2 border-t-2 border-gray-300 dark:border-gray-700">
-      <div className="full flex items-center">
+    <div className="relative z-30 flex-none w-full h-16 border-t-2 border-gray-300 bg-background-alt2 dark:border-gray-700">
+      <div className="flex items-center full">
         <Progress
-          className="ml-4 hidden md:block flex-none"
+          className="flex-none hidden ml-4 md:block"
           curTrack={curTrack}
           curTime={curTime}
         />

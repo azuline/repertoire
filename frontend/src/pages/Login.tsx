@@ -38,7 +38,7 @@ export const Login: React.FC<{ className?: string }> = ({ className }) => {
 
   return (
     <div className={clsx(className, 'flex content-center')}>
-      <form className="mx-auto self-center" onSubmit={onSubmit}>
+      <form className="self-center mx-auto" onSubmit={onSubmit}>
         <div>
           <input
             autoFocus
@@ -51,7 +51,7 @@ export const Login: React.FC<{ className?: string }> = ({ className }) => {
             Login
           </button>
         </div>
-        <div className="mt-2 flex items-center">
+        <div className="flex items-center mt-2">
           <input className="mx-2 cursor-pointer" id="permanent" type="checkbox" ref={permanent} />
           <label className="cursor-pointer" htmlFor="permanent">
             Remember me

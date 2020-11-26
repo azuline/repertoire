@@ -22,28 +22,28 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
   return (
     <Link href={`/releases/${release.id}`}>
       <div className={clsx(className, 'relative h-0 pb-full text-white')}>
-        <CoverArt thumbnail className="absolute full object-cover rounded-lg" release={release} />
-        <div className="two-sided rounded-lg full absolute z-10" style={textStyle}>
-          <div className="front flex flex-col full justify-end overflow-hidden">
+        <CoverArt thumbnail className="absolute object-cover rounded-lg full" release={release} />
+        <div className="absolute z-10 rounded-lg two-sided full" style={textStyle}>
+          <div className="flex flex-col justify-end overflow-hidden front full">
             <div className="p-4 overflow-hidden">
-              <div className="truncate font-medium text-lg" title={release.title}>
+              <div className="text-lg font-medium truncate" title={release.title}>
                 {release.title}
               </div>
               <ArtistList
-                className="truncate opacity-80 mt-2"
+                className="mt-2 truncate opacity-80"
                 elements={release.artists as ArtistT[]}
               />
             </div>
           </div>
-          <div className="back relative full">
-            <div className="absolute rounded-lg top-0 left-0 full bg-black bg-opacity-75" />
-            <div className="absolute top-0 left-0 full z-10 p-4 flex flex-col justify-center items-center text-md">
+          <div className="relative back full">
+            <div className="absolute top-0 left-0 bg-black bg-opacity-75 rounded-lg full" />
+            <div className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center p-4 full text-md">
               {release.releaseYear ? <div className="py-1">{release.releaseYear}</div> : null}
               <div className="py-1">
                 {release.numTracks} Track{release.numTracks !== 1 && 's'} / {runtime}
               </div>
               {(release.genres as CollectionT[]).length !== 0 ? (
-                <GenreList className="text-center truncate-2 mt-4" elements={release.genres} />
+                <GenreList className="mt-4 text-center truncate-2" elements={release.genres} />
               ) : null}
             </div>
           </div>

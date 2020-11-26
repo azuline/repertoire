@@ -38,11 +38,11 @@ export const ViewSettings: React.FC<{
         <PerPage className="ml-2" pagination={pagination} />
       </div>
       <Popover click className={clsx('ml-auto cursor-pointer', responsiveHide)}>
-        <button type="button" className="-mr-2 flex items-center text-btn">
+        <button type="button" className="flex items-center -mr-2 text-btn">
           <div>Options</div>
           <Icon className="w-4 ml-1 -mr-1" icon="chevron-down-small" />
         </button>
-        <div className="px-6 py-4 bg-background-alt border-primary-alt border-2 rounded">
+        <div className="px-6 py-4 border-2 rounded bg-background-alt border-primary-alt">
           <View viewOptions={viewOptions} />
           <Sort viewOptions={viewOptions} />
           <Order viewOptions={viewOptions} />

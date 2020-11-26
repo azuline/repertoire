@@ -31,7 +31,7 @@ export const PlayButtons: React.FC<{
   return (
     <div className={clsx(className, 'flex justify-center items-center text-primary')}>
       <Icon
-        className="w-9 mr-1 cursor-pointer hover:text-primary-alt3"
+        className="mr-1 cursor-pointer w-9 hover:text-primary-alt3"
         icon="rewind-small"
         onClick={rewind}
       />
@@ -41,7 +41,7 @@ export const PlayButtons: React.FC<{
         onClick={togglePlay}
       />
       <Icon
-        className="w-9 cursor-pointer hover:text-primary-alt3"
+        className="cursor-pointer w-9 hover:text-primary-alt3"
         icon="fast-forward-small"
         onClick={fastForward}
       />

@@ -9,7 +9,7 @@ export const ScrolledReleases: React.FC<{
 }> = ({ releases, className }) => (
   <div className={clsx(className, 'flex w-full overflow-x-auto')}>
     {releases.map((rls) => (
-      <div key={rls.id} className="w-56 h-56 flex-shrink-0 mr-4">
+      <div key={rls.id} className="flex-shrink-0 w-56 h-56 mr-4">
         <ArtRelease release={rls} />
       </div>
     ))}

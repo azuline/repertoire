@@ -14,7 +14,7 @@ export const Collage: React.FC<{ active: number }> = ({ active }) => {
   if (!collection) return null;
 
   return (
-    <div className="relative flex-1 flex flex-col">
+    <div className="relative flex flex-col flex-1">
       <Header />
       <div className="overflow-y-auto">
         <div className="px-8 pb-8 mt-1">

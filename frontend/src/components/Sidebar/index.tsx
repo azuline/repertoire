@@ -55,31 +55,31 @@ export const Sidebar: React.FC = () => {
   if (!isSidebarOpen) return null;
 
   return (
-    <div className="h-full flex-none sticky bg-background-alt2 top-0 flex flex-col w-full sm:w-56">
+    <div className="sticky top-0 flex flex-col flex-none w-full h-full bg-background-alt2 sm:w-56">
       <div className="my-6">
         <div className="flex items-center pl-6 pr-8 sm:pr-4">
           <div className="flex items-center pr-4 cursor-pointer" onClick={goHome}>
-            <Icon className="text-primary w-8" icon="logo" />
-            <div className="font-semibold ml-2">
+            <Icon className="w-8 text-primary" icon="logo" />
+            <div className="ml-2 font-semibold">
               <span className="text-primary">reper</span>toire
             </div>
           </div>
           <Icon
             icon="hamburger"
-            className="flex-none ml-auto w-6 cursor-pointer hidden sm:block"
+            className="flex-none hidden w-6 ml-auto cursor-pointer sm:block"
             onClick={toggleOpen}
           />
           <User className="ml-auto sm:hidden" />
         </div>
       </div>
-      <Searchbar className="flex-none block sm:hidden h-16 mb-4 mx-8" shrink={false} />
+      <Searchbar className="flex-none block h-16 mx-8 mb-4 sm:hidden" shrink={false} />
       {sections.map(({ name, routes }) => (
         <div key={name} className="my-6">
-          {name && <div className="mb-4 px-8 text-primary-alt3 text-sm uppercase">{name}</div>}
+          {name && <div className="px-8 mb-4 text-sm uppercase text-primary-alt3">{name}</div>}
           {routes.map(({ path, label }, i) => (
             <NavLink
               key={i}
-              className="py-2 px-8"
+              className="px-8 py-2"
               url={path}
               activeRoute={activeRoute}
               label={label}

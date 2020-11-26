@@ -26,7 +26,7 @@ const Body: React.FC = () => {
       ) : (
         <>
           <div
-            className="flex-1 flex"
+            className="flex flex-1"
             style={{ height: 'calc(100vh - 4rem)', maxHeight: 'calc(100vh - 4rem)' }}
           >
             <Sidebar />

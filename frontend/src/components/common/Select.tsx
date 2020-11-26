@@ -13,7 +13,7 @@ export const Select: React.FC<{
 }> = ({ children, value, onChange, className, selectClassName = '', label, name }) => (
   <div className={clsx(className, 'flex items-center relative')}>
     {label && (
-      <label htmlFor={name} className="py-1 flex-none">
+      <label htmlFor={name} className="flex-none py-1">
         {label}:
       </label>
     )}
@@ -28,6 +28,6 @@ export const Select: React.FC<{
     >
       {children}
     </select>
-    <Icon className="w-4 text-primary absolute right-0 z-0 flex-none" icon="chevron-down-small" />
+    <Icon className="absolute right-0 z-0 flex-none w-4 text-primary" icon="chevron-down-small" />
   </div>
 );

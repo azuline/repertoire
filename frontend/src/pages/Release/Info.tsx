@@ -11,8 +11,8 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
 
   return (
     <div className="flex flex-col">
-      <SectionHeader className="truncate-2 mb-4">{release.title}</SectionHeader>
-      <div className="text-lg truncate-2 mb-2">
+      <SectionHeader className="mb-4 truncate-2">{release.title}</SectionHeader>
+      <div className="mb-2 text-lg truncate-2">
         {(release.artists as ArtistT[]).length === 0 ? (
           <Link href="/artists/1">Unknown Artist</Link>
         ) : (
@@ -27,8 +27,8 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           </>
         )}
       </div>
-      <div className="text-md mb-1 text-gray-800 dark:text-gray-300">{whenReleased}</div>
-      <div className="text-md truncate-2 mb-1 text-gray-800 dark:text-gray-300">
+      <div className="mb-1 text-gray-800 text-md dark:text-gray-300">{whenReleased}</div>
+      <div className="mb-1 text-gray-800 text-md truncate-2 dark:text-gray-300">
         {labelLength === 0 ? (
           <span>No Label</span>
         ) : (
@@ -43,7 +43,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           </>
         )}
       </div>
-      <div className="text-md truncate-2 text-gray-800 dark:text-gray-300">
+      <div className="text-gray-800 text-md truncate-2 dark:text-gray-300">
         {genreLength !== 0 && (
           <>
             <GenreList
