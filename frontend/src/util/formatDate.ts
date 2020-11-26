@@ -1,17 +1,18 @@
 import { ReleaseT } from 'src/types';
 
 export const formatReleaseDate = (release: ReleaseT): string => {
-  if (!release.releaseDate && !release.releaseYear) {
-    return 'Release date unknown.';
-  }
   if (release.releaseDate) {
-    const date = new Date(release.releaseDate);
-    return `Released on ${formatDate(date)}`;
+    return `Released on ${formatDate(new Date(release.releaseDate))}`;
   }
-  return `Released in ${release.releaseYear}`;
+
+  if (release.releaseYear) {
+    return `Released in ${release.releaseYear}`;
+  }
+
+  return 'Release date unknown.';
 };
 
-const shortMonths = [
+const SHORT_MONTHS = [
   'Jan',
   'Feb',
   'Mar',
@@ -27,7 +28,7 @@ const shortMonths = [
 ];
 
 const formatDate = (date: Date): string => {
-  const shortMonth = shortMonths[date.getMonth()];
+  const shortMonth = SHORT_MONTHS[date.getMonth()];
   const day = date.getDate();
   const year = date.getFullYear();
 

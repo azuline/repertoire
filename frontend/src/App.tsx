@@ -6,6 +6,8 @@ import { AuthorizationContext, GlobalContexts, SidebarContext, ThemeContext } fr
 import { Login } from 'src/pages';
 import { Routes } from 'src/Routes';
 
+const bodyStyle = { height: 'calc(100vh - 4rem)', maxHeight: 'calc(100vh - 4rem)' };
+
 const App: React.FC = () => (
   <BrowserRouter>
     <GlobalContexts>
@@ -25,10 +27,7 @@ const Body: React.FC = () => {
         <Login className="flex-1" />
       ) : (
         <>
-          <div
-            className="flex flex-1"
-            style={{ height: 'calc(100vh - 4rem)', maxHeight: 'calc(100vh - 4rem)' }}
-          >
+          <div className="flex flex-1" style={bodyStyle}>
             <Sidebar />
             <div
               className={clsx(isSidebarOpen && 'hidden sm:flex sm:flex-col')}
