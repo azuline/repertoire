@@ -4,7 +4,7 @@
  *
  * @param a Comparison element 1.
  * @param b Comparison element 2.
- * @return -1, 0, or 1 as per convention.
+ * @returns -1, 0, or 1 as per convention.
  */
 export const stringNumberCompare = (a: string, b: string): number => {
   const aTn = a.padStart(3, '0');

@@ -20,7 +20,7 @@ type VariablesT = { types: CollectionType[] };
  * A wrapper around react-query to fetch all collections (of one or more types).
  *
  * @param types The types of collections to fetch. Leave empty to fetch all.
- * @return The react-query result.
+ * @returns The react-query result.
  */
 export const fetchCollections = (
   types: CollectionType[] = [],

@@ -11,14 +11,14 @@ const QUERY = `
   }
 `;
 
-type Result = { collection: CollectionT };
-type Variables = { id: number };
+type ResultT = { collection: CollectionT };
+type VariablesT = { id: number };
 
 /**
  * A wrapper around react-query to fetch a single collection.
  *
  * @param id The ID of the collection to fetch.
- * @return The react-query result.
+ * @returns The react-query result.
  */
-export const fetchCollection = (id: number): QueryResult<Result, RequestError<GraphQLError>> =>
-  useGQLQuery<Result, Variables>('collection', QUERY, { id });
+export const fetchCollection = (id: number): QueryResult<ResultT, RequestError<GraphQLError>> =>
+  useGQLQuery<ResultT, VariablesT>('collection', QUERY, { id });

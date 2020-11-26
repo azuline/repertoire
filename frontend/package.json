@@ -63,6 +63,7 @@
     "eslint-config-airbnb-typescript": "^12.0.0",
     "eslint-config-prettier": "^6.14.0",
     "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsdoc": "^30.7.8",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.3",
@@ -71,6 +72,7 @@
     "postcss": "^8.1.7",
     "prettier": "2.1.2",
     "react-is": "^17.0.1",
-    "rustywind": "^0.6.7"
+    "rustywind": "^0.6.7",
+    "typedoc": "^0.19.2"
   }
 }

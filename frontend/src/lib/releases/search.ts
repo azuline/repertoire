@@ -62,7 +62,7 @@ type VariablesT = {
  *
  * @param viewOptions The view options parameters for the query.
  * @param pagination The pagination for the query.
- * @return The react-query result.
+ * @returns The react-query result.
  */
 export const searchReleases = (
   viewOptions: ViewOptionsT,
@@ -79,6 +79,17 @@ export const searchReleases = (
 
 /**
  * Extract variables from viewOptions and pagination to form the query variables.
+ *
+ * @param root0
+ * @param root0.search
+ * @param root0.collectionIds
+ * @param root0.artistIds
+ * @param root0.releaseTypes
+ * @param root0.sort
+ * @param root0.asc
+ * @param root1
+ * @param root1.curPage
+ * @param root1.perPage
  */
 const extractVariables = (
   { search, collectionIds, artistIds, releaseTypes, sort, asc }: ViewOptionsT,

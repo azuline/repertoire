@@ -28,7 +28,7 @@ export type MutateOneArtistVariablesT = { id: number; name?: string; starred?: b
  *
  * React-Query's  ``mutate`` function takes a variable of type ``MutateOneArtistVariablesT``.
  *
- * @return The react-query mutation result.
+ * @returns The react-query mutation result.
  */
 export const useMutateArtist = (): MutationResultPair<
   Result,

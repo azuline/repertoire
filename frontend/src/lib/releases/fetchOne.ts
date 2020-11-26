@@ -48,7 +48,7 @@ type VariablesT = { id: number };
  * A wrapper around react-query to fetch a single release.
  *
  * @param id The ID of the release to fetch.
- * @return The react-query result.
+ * @returns The react-query result.
  */
 export const fetchRelease = (id: number): QueryResult<ResultT, RequestError<GraphQLError>> =>
   useGQLQuery<ResultT, VariablesT>('releases', QUERY, { id });

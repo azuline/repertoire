@@ -16,7 +16,7 @@ type ResultT = { user: UserT };
 /**
  * A wrapper around react-query to fetch the current logged-in user.
  *
- * @return The react-query result.
+ * @returns The react-query result.
  */
 export const fetchUser = (): QueryResult<ResultT, RequestError<GraphQLError>> =>
   useGQLQuery<ResultT>('user', QUERY);

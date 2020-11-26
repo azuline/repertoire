@@ -6,14 +6,27 @@ import { SetBoolean, SetNumber } from 'src/types';
 // TODO: Make sure that we aren't leaking memory from all these audio
 // objects... they better be garbage collected properly.
 
-export type AudioPlayT = {
+export type AudioT = {
   isPlaying: boolean;
   setIsPlaying: SetBoolean;
   curTime: number;
   seek: SetNumber;
 };
 
-export const useAudio = (): AudioPlayT => {
+/**
+ * A hook to manage audio playback. This hook will play the current track in the queue if
+ * one exists. Upon track completion, the hook will auto-play the next track in the queue.
+ *
+ * This hook must exist below a ``PlayQueueProvider``.
+ *
+ * @returns An object with four keys:
+ *
+ * - ``isPlaying`` - Whether audio is playing.
+ * - ``setIsPlaying`` - Start/stop the audio. Does nothing if the play queue is empty.
+ * - ``curTime`` - The current time in the track.
+ * - ``seek`` - A function to jump to a certain track time in the audio.
+ */
+export const useAudio = (): AudioT => {
   const { playQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
   const [audio, setAudio] = React.useState<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = React.useState<boolean>(false);

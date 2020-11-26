@@ -17,8 +17,9 @@ module.exports = {
     'prettier/react',
     'plugin:react/recommended',
     'plugin:prettier/recommended',
+    'plugin:jsdoc/recommended',
   ],
-  plugins: ['@typescript-eslint', 'simple-import-sort'],
+  plugins: ['@typescript-eslint', 'simple-import-sort', 'jsdoc'],
   env: {
     es6: true,
     browser: true,
@@ -30,6 +31,12 @@ module.exports = {
     'import/order': 'off',
     'import/prefer-default-export': 'off',
     indent: ['error', 2, { SwitchCase: 1 }],
+    // We are using typescript and typedoc, so JSDoc types are unnecessary.
+    'jsdoc/check-types': 0,
+    'jsdoc/no-undefined-types': 0,
+    'jsdoc/require-param-type': 0,
+    'jsdoc/require-returns-type': 0,
+    // Not dealing with a11y at the moment.
     'jsx-a11y/alt-text': 'off',
     'jsx-a11y/no-static-element-interactions': 'off',
     'jsx-a11y/click-events-have-key-events': 'off',

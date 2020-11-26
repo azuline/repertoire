@@ -2,7 +2,7 @@
  * Convert the number of seconds into a MM:SS timestamp.
  *
  * @param totalSeconds How many seconds to convert.
- * @return string The corresponding MM:SS timestamp.
+ * @returns string The corresponding MM:SS timestamp.
  */
 export const secondsToLength = (totalSeconds: number): string => {
   const minutes = Math.floor(totalSeconds / 60);

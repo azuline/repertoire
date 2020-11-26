@@ -11,16 +11,14 @@ const QUERY = `
   }
 `;
 
-type Result = { artist: ArtistT };
-type Variables = { id: number };
+type ResultT = { artist: ArtistT };
+type VariablesT = { id: number };
 
 /**
  * A wrapper around react-query to fetch a single artist.
  *
  * @param id The ID of the artist to fetch.
- * @return The react-query result.
+ * @returns The react-query result.
  */
-export const fetchArtist = (
-  variables: Variables,
-): QueryResult<Result, RequestError<GraphQLError>> =>
-  useGQLQuery<Result, Variables>('artist', QUERY, variables);
+export const fetchArtist = (id: number): QueryResult<ResultT, RequestError<GraphQLError>> =>
+  useGQLQuery<ResultT, VariablesT>('artist', QUERY, { id });

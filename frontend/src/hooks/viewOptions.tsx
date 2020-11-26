@@ -30,6 +30,18 @@ type Params = {
   releaseView?: ReleaseView;
 };
 
+/**
+ * A hook to provide the viewOptions parameters for searching/browsing releases.
+ *
+ * @param root0
+ * @param root0.search
+ * @param root0.collectionIds
+ * @param root0.artistIds
+ * @param root0.releaseTypes
+ * @param root0.sort
+ * @param root0.asc
+ * @param root0.releaseView
+ */
 export const useViewOptions = ({
   search,
   collectionIds,

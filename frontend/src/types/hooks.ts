@@ -1,3 +1,5 @@
-export type SetBoolean = (arg0: boolean | ((arg0: boolean) => boolean)) => void;
+export type StateValue<T> = T | ((arg0: T) => T);
+export type SetValue<T> = (arg0: StateValue<T>) => void;
 
-export type SetNumber = (arg0: number | ((arg0: number) => number)) => void;
+export type SetBoolean = SetValue<boolean>;
+export type SetNumber = SetValue<number>;

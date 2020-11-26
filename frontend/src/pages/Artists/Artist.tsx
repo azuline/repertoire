@@ -5,8 +5,7 @@ import { fetchArtist } from 'src/lib';
 import { ArtistReleases } from './Releases';
 
 export const Artist: React.FC<{ active: number }> = ({ active }) => {
-  const fetchVariables = React.useMemo(() => ({ id: active }), [active]);
-  const { status, data } = fetchArtist(fetchVariables);
+  const { status, data } = fetchArtist(active);
 
   // prettier-ignore
   const artist = React.useMemo(

@@ -28,7 +28,7 @@ export type MutateOneCollectionVariablesT = { id: number; name?: string; starred
  *
  * React-Query's  ``mutate`` function takes a variable of type ``MutateOneCollectionVariablesT``.
  *
- * @return The react-query mutation result.
+ * @returns The react-query mutation result.
  */
 export const useMutateCollection = (): MutationResultPair<
   ResultT,
