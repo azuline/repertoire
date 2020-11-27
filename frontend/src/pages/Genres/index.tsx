@@ -13,7 +13,12 @@ export const Genres: React.FC = () => {
     <div className="flex flex-col flex-1 min-h-0 full">
       {!active && <Header />}
       <div className="flex flex-1 min-h-0">
-        <CollectionChooser collectionTypes={types} urlPrefix="/genres" active={active} />
+        <CollectionChooser
+          className="flex-none"
+          collectionTypes={types}
+          urlPrefix="/genres"
+          active={active}
+        />
         {active && <Genre active={active} />}
       </div>
     </div>

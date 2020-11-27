@@ -56,7 +56,7 @@ export const Sidebar: React.FC = () => {
 
   return (
     <div className="sticky top-0 flex flex-col flex-none w-full h-full bg-background-alt2 sm:w-56">
-      <div className="my-6">
+      <div className="mt-6 mb-4">
         <div className="flex items-center pl-6 pr-8 sm:pr-4">
           <div className="flex items-center pr-4 cursor-pointer" onClick={goHome}>
             <Icon className="w-8 text-primary" icon="logo" />
@@ -74,7 +74,7 @@ export const Sidebar: React.FC = () => {
       </div>
       <Searchbar className="flex-none block h-16 mx-8 mb-4 sm:hidden" shrink={false} />
       {sections.map(({ name, routes }) => (
-        <div key={name} className="my-6">
+        <div key={name} className="my-4">
           {name && <div className="px-8 mb-4 text-sm uppercase text-primary-alt3">{name}</div>}
           {routes.map(({ path, label }, i) => (
             <NavLink

@@ -13,7 +13,7 @@ export const Select: React.FC<{
 }> = ({ children, value, onChange, className, selectClassName = '', label, name }) => (
   <div className={clsx(className, 'relative flex items-center')}>
     {label && (
-      <label htmlFor={name} className="flex-none py-1">
+      <label htmlFor={name} className="flex-none pr-1">
         {label}:
       </label>
     )}
@@ -23,7 +23,7 @@ export const Select: React.FC<{
       onChange={onChange}
       className={clsx(
         selectClassName,
-        'z-10 flex-1 py-1 pr-4 leading-tight bg-transparent appearance-none cursor-pointer text-primary',
+        'z-10 flex-1 py-1 pr-4 bg-transparent appearance-none cursor-pointer text-primary',
       )}
     >
       {children}

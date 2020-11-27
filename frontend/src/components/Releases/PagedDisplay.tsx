@@ -52,7 +52,12 @@ export const PagedReleases: React.FC<{
 
   return (
     <>
-      <ViewSettings className="mb-4" viewOptions={viewOptions} pagination={pagination} />
+      <ViewSettings
+        className="mb-4"
+        viewOptions={viewOptions}
+        pagination={pagination}
+        partial={partial}
+      />
       {releasesDiv}
       <Pagination className="mt-4" pagination={pagination} />
     </>

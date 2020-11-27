@@ -19,13 +19,9 @@ export const ViewSettings: React.FC<{
   const { isSidebarOpen } = React.useContext(SidebarContext);
 
   const [responsiveFlex, responsiveHide] = React.useMemo(() => {
-    if (partial) {
-      return ['xl:flex', 'xl:hidden'];
-    }
-    if (isSidebarOpen) {
-      return ['lg:flex', 'lg:hidden'];
-    }
-    return ['md:flex', 'md:hidden'];
+    if (partial && isSidebarOpen) return ['2xl:flex', '2xl:hidden'];
+    if (partial || isSidebarOpen) return ['xl:flex', 'xl:hidden'];
+    return ['lg:flex', 'lg:hidden'];
   }, [isSidebarOpen, partial]);
 
   return (

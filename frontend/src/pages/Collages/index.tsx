@@ -14,7 +14,12 @@ export const Collages: React.FC = () => {
     <div className="flex flex-col flex-1 min-h-0 full">
       {!active && <Header />}
       <div className="flex flex-1 min-h-0">
-        <CollectionChooser collectionTypes={types} urlPrefix="/collages" active={active} />
+        <CollectionChooser
+          className="flex-none"
+          collectionTypes={types}
+          urlPrefix="/collages"
+          active={active}
+        />
         {active && <Collage active={active} />}
       </div>
     </div>

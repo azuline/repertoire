@@ -20,9 +20,11 @@ export const Artist: React.FC<{ active: number }> = ({ active }) => {
       <Header />
       <div className="overflow-y-auto">
         <div className="px-8 pb-8 mt-1">
-          <Link href="/artists">
-            <BackButton />
-          </Link>
+          <div className="flex justify-start">
+            <Link href="/artists">
+              <BackButton />
+            </Link>
+          </div>
           <SectionHeader className="my-4">{artist.name}</SectionHeader>
           <ArtistReleases active={active} />
         </div>

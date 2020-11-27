@@ -12,7 +12,7 @@ export const Artists: React.FC = () => {
     <div className="flex flex-col flex-1 min-h-0 full">
       {!active && <Header />}
       <div className="flex flex-1 min-h-0">
-        <ArtistChooser active={active} />
+        <ArtistChooser className="flex-none" active={active} />
         {active && <Artist active={active} />}
       </div>
     </div>

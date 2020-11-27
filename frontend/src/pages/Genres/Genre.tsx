@@ -18,9 +18,11 @@ export const Genre: React.FC<{ active: number }> = ({ active }) => {
       <Header />
       <div className="overflow-y-auto">
         <div className="px-8 pb-8 mt-1">
-          <Link href="/genres">
-            <BackButton />
-          </Link>
+          <div className="flex justify-start">
+            <Link href="/genres">
+              <BackButton />
+            </Link>
+          </div>
           <SectionHeader className="my-4">{collection.name}</SectionHeader>
           <CollectionReleases active={active} />
         </div>

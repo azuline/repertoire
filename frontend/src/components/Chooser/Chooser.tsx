@@ -57,10 +57,12 @@ const makeChooserStyles = (
     () =>
       clsx(
         className,
-        'w-80',
-        active && isSidebarOpen && 'hidden xl:flex xl:flex-col xl:sticky xl:top-0',
-        (active && isSidebarOpen) || 'hidden lg:flex lg:flex-col lg:sticky lg:top-0',
-        active || isSidebarOpen || 'w-full',
+        'w-72',
+        active // eslint-disable-line no-nested-ternary
+          ? isSidebarOpen
+            ? 'hidden xl:flex xl:flex-col xl:sticky xl:top-0'
+            : 'hidden lg:flex lg:flex-col lg:sticky lg:top-0'
+          : 'w-full',
       ),
     [className, active, isSidebarOpen],
   );

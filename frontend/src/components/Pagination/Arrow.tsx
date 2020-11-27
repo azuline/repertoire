@@ -5,10 +5,7 @@ export const Arrow: React.FC<{ direction: 'left' | 'right'; onClick: () => void 
   direction,
   onClick,
 }) => (
-  <div className="flex-none h-full px-1 cursor-pointer" onClick={onClick}>
-    <Icon
-      className="flex items-center w-4 h-full text-primary"
-      icon={`chevron-double-${direction}-small` as IconT}
-    />
+  <div className="flex items-center flex-none h-full px-1 cursor-pointer" onClick={onClick}>
+    <Icon className="w-4 text-primary" icon={`chevron-double-${direction}-small` as IconT} />
   </div>
 );
