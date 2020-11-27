@@ -55,6 +55,7 @@ module.exports = {
     'prettier/prettier': 'warn',
     quotes: ['error', 'single', 'avoid-escape'],
     'react/no-array-index-key': 'off', // Sometimes there's nothing else -_-
+    'react/jsx-props-no-spreading': 'off', // ...
     'react/prop-types': 'off', // Goes off even though components are typed.
     'simple-import-sort/imports': 'warn',
     'simple-import-sort/exports': 'warn',

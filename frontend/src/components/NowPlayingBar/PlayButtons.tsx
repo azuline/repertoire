@@ -2,15 +2,14 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { Icon } from 'src/components';
 import { PlayQueueContext } from 'src/contexts';
-import { SetBoolean, SetNumber } from 'src/types';
+import { SetValue } from 'src/types';
 
 export const PlayButtons: React.FC<{
-  className?: string;
   isPlaying: boolean;
-  setIsPlaying: SetBoolean;
+  setIsPlaying: SetValue<boolean>;
   curTime: number;
-  seek: SetNumber;
-}> = ({ className, isPlaying, setIsPlaying, curTime, seek }) => {
+  seek: SetValue<number>;
+}> = ({ isPlaying, setIsPlaying, curTime, seek }) => {
   const { playQueue, setCurIndex } = React.useContext(PlayQueueContext);
 
   const togglePlay = React.useCallback(() => setIsPlaying((p: boolean) => !p), [setIsPlaying]);
@@ -29,7 +28,7 @@ export const PlayButtons: React.FC<{
   }, [curTime, setIsPlaying]);
 
   return (
-    <div className={clsx(className, 'flex items-center justify-center text-primary')}>
+    <div className="flex items-center justify-center flex-none mx-8 text-primary">
       <Icon
         className="mr-1 cursor-pointer w-9 hover:text-primary-alt3"
         icon="rewind-small"

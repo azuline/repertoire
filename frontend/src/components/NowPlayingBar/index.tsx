@@ -6,6 +6,7 @@ import { ExpandPlaying } from './ExpandPlaying';
 import { PlayButtons } from './PlayButtons';
 import { Progress } from './Progress';
 import { TrackInfo } from './TrackInfo';
+import { VolumeControl } from './VolumeControl';
 
 export const NowPlayingBar: React.FC = () => {
   const { playQueue, curIndex } = React.useContext(PlayQueueContext);
@@ -20,19 +21,15 @@ export const NowPlayingBar: React.FC = () => {
   return (
     <div className="relative z-30 flex-none w-full h-16 border-t-2 border-gray-300 bg-background-alt2 dark:border-gray-700">
       <div className="flex items-center full">
-        <Progress
-          className="flex-none hidden ml-4 md:block"
-          curTrack={curTrack}
-          curTime={curTime}
-        />
+        <Progress curTrack={curTrack} curTime={curTime} />
         <PlayButtons
-          className="flex-none mx-8"
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
           curTime={curTime}
           seek={seek}
         />
         <TrackInfo curTrack={curTrack} />
+        <VolumeControl />
         <ExpandPlaying />
       </div>
     </div>

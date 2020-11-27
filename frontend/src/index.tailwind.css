@@ -125,6 +125,7 @@ input::placeholder {
   @apply full;
 }
 
+.hover-popover > :nth-child(2),
 .popover > :nth-child(2) {
   display: none;
 }
@@ -145,4 +146,17 @@ input::placeholder {
   content: '';
   flex: 0 0 2rem;
   margin: 0 0 0 -1rem;
+}
+
+.slider {
+  @apply flex items-center justify-center full;
+}
+.slider > .track-0 {
+  @apply w-2 bg-gray-400 rounded-lg;
+}
+.slider > .track-1 {
+  @apply w-2 bg-gray-600 rounded-lg;
+}
+.slider > .thumb {
+  @apply w-4 h-4 bg-primary-alt3 rounded-xl leading-4;
 }

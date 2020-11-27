@@ -20,7 +20,7 @@ export const Popover: React.FC<{
   );
 
   return (
-    <div className={clsx(className, 'popover', hover && 'hover-popover')}>
+    <div className={clsx(className, hover ? 'hover-popover' : 'popover')}>
       {toggler}
       <div className={clsx('relative z-40', open && click && 'block-important')}>
         <div className="absolute right-0 border-10" style={arrowStyle} />

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { PlayQueueContext } from 'src/contexts';
-import { SetBoolean, SetNumber } from 'src/types';
+import { PlayQueueContext, VolumeContext } from 'src/contexts';
+import { SetValue } from 'src/types';
 
 // TODO: Preload next track?
 // TODO: Make sure that we aren't leaking memory from all these audio
@@ -8,9 +8,9 @@ import { SetBoolean, SetNumber } from 'src/types';
 
 export type AudioT = {
   isPlaying: boolean;
-  setIsPlaying: SetBoolean;
+  setIsPlaying: SetValue<boolean>;
   curTime: number;
-  seek: SetNumber;
+  seek: SetValue<number>;
 };
 
 /**
@@ -28,6 +28,7 @@ export type AudioT = {
  */
 export const useAudio = (): AudioT => {
   const { playQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
+  const { volume, isMuted } = React.useContext(VolumeContext);
   const [audio, setAudio] = React.useState<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = React.useState<boolean>(false);
   const [curTime, setCurTime] = React.useState<number>(0);
@@ -50,6 +51,7 @@ export const useAudio = (): AudioT => {
     if (!curTrack) return;
 
     const newAudio = new Audio(`/files/tracks/${curTrack.id}`);
+    newAudio.volume = isMuted ? 0 : volume / 100;
     setAudio(newAudio);
     setIsPlaying(true);
 
@@ -76,6 +78,11 @@ export const useAudio = (): AudioT => {
       audio.pause();
     }
   }, [isPlaying, audio]);
+
+  // Sync the currently playing track with the volume.
+  React.useEffect(() => {
+    if (audio) audio.volume = isMuted ? 0 : volume / 100;
+  }, [isMuted, volume]);
 
   const seek = React.useCallback((seconds) => audio && audio.fastSeek(seconds), [audio]);
 

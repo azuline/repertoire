@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import { SetNumber } from 'src/types';
+import { SetValue } from 'src/types';
 
 import { usePersistentState } from './persistentState';
 import { useQuery } from './query';
 
 export type PaginationT = {
   curPage: number;
-  setCurPage: SetNumber;
+  setCurPage: SetValue<number>;
   perPage: number;
-  setPerPage: SetNumber;
+  setPerPage: SetValue<number>;
   numPages: number;
-  setTotal: SetNumber;
+  setTotal: SetValue<number>;
 };
 
 /**

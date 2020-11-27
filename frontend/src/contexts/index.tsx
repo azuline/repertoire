@@ -6,12 +6,14 @@ import { PlayQueueProvider } from './PlayQueue';
 import { SidebarProvider } from './Sidebar';
 import { ThemeProvider } from './Theme';
 import { ToastProvider } from './Toaster';
+import { VolumeProvider } from './Volume';
 
 export * from './Authorization';
 export * from './PlayQueue';
 export * from './Sidebar';
 export * from './Theme';
 export * from './Toaster';
+export * from './Volume';
 
 export const GlobalContexts: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const queryCache = new QueryCache();
@@ -22,7 +24,9 @@ export const GlobalContexts: React.FC<{ children: React.ReactNode }> = ({ childr
         <AuthorizationProvider>
           <PlayQueueProvider>
             <ThemeProvider>
-              <SidebarProvider>{children}</SidebarProvider>
+              <VolumeProvider>
+                <SidebarProvider>{children}</SidebarProvider>
+              </VolumeProvider>
             </ThemeProvider>
           </PlayQueueProvider>
         </AuthorizationProvider>
