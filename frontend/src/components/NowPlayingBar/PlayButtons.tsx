@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import * as React from 'react';
 import { Icon } from 'src/components';
 import { PlayQueueContext } from 'src/contexts';
@@ -28,7 +27,7 @@ export const PlayButtons: React.FC<{
   }, [curTime, setIsPlaying]);
 
   return (
-    <div className="flex items-center justify-center flex-none mx-8 text-primary">
+    <div className="flex items-center justify-center flex-none mx-4 sm:mx-8 text-primary">
       <Icon
         className="mr-1 cursor-pointer w-9 hover:text-primary-alt3"
         icon="rewind-small"

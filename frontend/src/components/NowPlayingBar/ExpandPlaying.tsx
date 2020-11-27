@@ -10,7 +10,7 @@ export const ExpandPlaying: React.FC = () => {
   return (
     <>
       <Link
-        className="block p-2 pr-8 sm:hidden text-primary hover:text-primary-alt3"
+        className="block p-2 pr-4 sm:pr-8 sm:hidden text-primary hover:text-primary-alt3"
         href="/playing"
         onClick={closeSidebar}
       >

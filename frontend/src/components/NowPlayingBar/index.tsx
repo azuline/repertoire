@@ -5,6 +5,7 @@ import { useAudio } from 'src/hooks';
 import { ExpandPlaying } from './ExpandPlaying';
 import { PlayButtons } from './PlayButtons';
 import { Progress } from './Progress';
+import { ProgressBar } from './ProgressBar';
 import { TrackInfo } from './TrackInfo';
 import { VolumeControl } from './VolumeControl';
 
@@ -19,7 +20,8 @@ export const NowPlayingBar: React.FC = () => {
   );
 
   return (
-    <div className="relative z-30 flex-none w-full h-16 border-t-2 border-gray-300 bg-background-alt2 dark:border-gray-700">
+    <div className="relative z-30 flex-none w-full h-16 bg-background-alt2">
+      <ProgressBar curTime={curTime} curTrack={curTrack} seek={seek} />
       <div className="flex items-center full">
         <Progress curTrack={curTrack} curTime={curTime} />
         <PlayButtons
@@ -28,7 +30,7 @@ export const NowPlayingBar: React.FC = () => {
           curTime={curTime}
           seek={seek}
         />
-        <TrackInfo curTrack={curTrack} />
+        {curTrack ? <TrackInfo curTrack={curTrack} /> : <div className="flex-1" />}
         <VolumeControl />
         <ExpandPlaying />
       </div>

@@ -19,13 +19,8 @@ export const Header: React.FC<{ className?: string; searchbar?: boolean }> = ({
       {!isSidebarOpen && (
         <>
           <Icon
-            className="hidden w-6 mr-4 -ml-2 cursor-pointer sm:block"
+            className="hidden w-6 mr-4 cursor-pointer sm:block"
             icon="hamburger"
-            onClick={toggleOpen}
-          />
-          <Icon
-            className="block w-6 mr-4 -ml-2 cursor-pointer sm:hidden"
-            icon="chevron-double-left-medium"
             onClick={toggleOpen}
           />
         </>

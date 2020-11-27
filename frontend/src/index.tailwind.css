@@ -13,7 +13,7 @@ html {
 .app {
   /* TODO: Figure out a way to @apply these... */
   --color-foreground: #fff; /* white */
-  --color-foreground-alt: #f7fafc; /* gray-100 */
+  --color-foreground-alt: #f9fafb; /* gray-50 */
   --color-background: #101013;
   --color-background-alt: #18181d;
   --color-background-alt2: #1e1e26;
@@ -152,11 +152,17 @@ input::placeholder {
   @apply flex items-center justify-center full;
 }
 .slider > .track-0 {
-  @apply w-2 bg-gray-400 rounded-lg;
+  @apply bg-gray-400;
 }
 .slider > .track-1 {
-  @apply w-2 bg-gray-600 rounded-lg;
+  @apply bg-gray-600;
 }
 .slider > .thumb {
-  @apply w-4 h-4 bg-primary-alt3 rounded-xl leading-4;
+  @apply w-4 h-4 cursor-pointer leading-4 hover:w-6 hover:h-6 hover:leading-6 focus:w-6 focus:h-6 focus:leading-6 bg-primary-alt3 rounded-2xl;
+}
+.playbar-slider > .track {
+  @apply h-1;
+}
+.volume-slider > .track {
+  @apply w-2 rounded-lg;
 }
