@@ -47,7 +47,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
               className="my-2"
               elementClassName="px-2 py-1 mr-1 rounded bg-primary-alt text-foreground leading-9"
               elements={release.genres}
-              delimiter=""
+              delimiter=" "
               link
             />
           </>

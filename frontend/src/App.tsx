@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { NowPlayingBar, Sidebar } from 'src/components';
-import { AuthorizationContext, GlobalContexts, SidebarContext, ThemeContext } from 'src/contexts';
+import { AuthorizationContext, GlobalContexts, ThemeContext } from 'src/contexts';
 import { Login, Routes } from 'src/pages';
 
 const bodyStyle = { height: 'calc(100vh - 4rem)', maxHeight: 'calc(100vh - 4rem)' };
@@ -17,7 +17,6 @@ const App: React.FC = () => (
 
 const Body: React.FC = () => {
   const { loggedIn } = React.useContext(AuthorizationContext);
-  const { isSidebarOpen } = React.useContext(SidebarContext);
   const { theme } = React.useContext(ThemeContext);
 
   return (
@@ -26,12 +25,9 @@ const Body: React.FC = () => {
         <Login className="flex-1" />
       ) : (
         <>
-          <div className="flex flex-1" style={bodyStyle}>
+          <div className="flex flex-1 w-screen" style={bodyStyle}>
             <Sidebar />
-            <div
-              className={clsx(isSidebarOpen && 'hidden sm:flex sm:flex-col')}
-              style={{ width: isSidebarOpen ? 'calc(100% - 14rem)' : '100%' }}
-            >
+            <div className="flex-1 w-full min-w-0 sm:flex sm:flex-col">
               <Routes />
             </div>
           </div>

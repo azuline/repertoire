@@ -8,6 +8,7 @@ export * from './NowPlayingBar';
 export * from './Pagination';
 export * from './Release';
 export * from './Releases';
+export * from './Routelist';
 export * from './Sidebar';
 export * from './Tracklist';
 export * from './ViewSettings';

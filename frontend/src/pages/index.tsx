@@ -7,6 +7,7 @@ import { Genres } from './Genres';
 import { Home } from './Home';
 import { Labels } from './Labels';
 import { Metadata } from './Metadata';
+import { Mobile } from './Mobile';
 import { NotFound } from './NotFound';
 import { NowPlaying } from './NowPlaying';
 import { Release } from './Release';
@@ -20,6 +21,7 @@ export const Routes: React.FC = () => (
     <Route path="/" component={Home} exact />
     <Route path="/404" component={NotFound} />
     <Route path="/playing" component={NowPlaying} />
+    <Route path="/mobile" component={Mobile} />
     <Route path="/releases/:id" component={Release} />
     <Route path="/releases" component={Releases} />
     <Route path="/artists/:id" component={Artists} />
