@@ -4,7 +4,6 @@ import { Background, CoverArt, Disclist, Header, Link } from 'src/components';
 import { SidebarContext } from 'src/contexts';
 import { useId } from 'src/hooks';
 import { fetchRelease } from 'src/lib';
-import { CollectionT, TrackT } from 'src/types';
 
 import { Info } from './Info';
 
@@ -13,10 +12,7 @@ export const Release: React.FC = () => {
   const id = useId();
   const { data, status } = fetchRelease(id as number);
 
-  const collageLength = React.useMemo(
-    () => (data ? (data.release.collages as CollectionT[]).length : 0),
-    [data],
-  );
+  const collageLength = React.useMemo(() => (data ? data.release.collages.length : 0), [data]);
 
   return (
     <div className="relative flex flex-col full">
@@ -37,13 +33,13 @@ export const Release: React.FC = () => {
               />
               <Info release={data.release} />
             </div>
-            <Disclist className="py-8" tracks={data.release.tracks as TrackT[]} />
+            <Disclist className="py-8" tracks={data.release.tracks} />
             <div className="w-full px-8 overflow-x-hidden text-md">
               {collageLength !== 0 && (
                 <>
                   <div className="mb-2">Member of</div>
                   <ul>
-                    {(data.release.collages as CollectionT[]).map((collage) => (
+                    {data.release.collages.map((collage) => (
                       <li className="my-0.5 text-primary-alt3" key={collage.id}>
                         <Link href={`/collages/${collage.id}`}>{collage.name}</Link>
                       </li>

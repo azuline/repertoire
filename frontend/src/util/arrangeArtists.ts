@@ -31,7 +31,7 @@ export const arrangeArtists = (artists: TrackArtistT[]): ElementT[] => {
       const { role } = artist;
 
       accumulator[role] = accumulator[role] ?? [];
-      (accumulator[role] as ArtistT[]).push(artist.artist);
+      accumulator[role].push(artist.artist);
 
       return accumulator;
     }, {}),

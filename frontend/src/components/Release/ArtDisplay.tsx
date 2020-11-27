@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { Link } from 'src/components/common';
 import { ArtistList, GenreList } from 'src/components/Lists';
-import { ArtistT, CollectionT, ReleaseT } from 'src/types';
+import { ReleaseT } from 'src/types';
 import { secondsToLength } from 'src/util';
 
 import { CoverArt } from './CoverArt';
@@ -29,10 +29,7 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
               <div className="text-lg font-medium truncate" title={release.title}>
                 {release.title}
               </div>
-              <ArtistList
-                className="mt-2 truncate opacity-80"
-                elements={release.artists as ArtistT[]}
-              />
+              <ArtistList className="mt-2 truncate opacity-80" elements={release.artists} />
             </div>
           </div>
           <div className="relative back full">
@@ -42,7 +39,7 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
               <div className="py-1">
                 {release.numTracks} Track{release.numTracks !== 1 && 's'} / {runtime}
               </div>
-              {(release.genres as CollectionT[]).length !== 0 ? (
+              {release.genres.length !== 0 ? (
                 <GenreList className="mt-4 text-center truncate-2" elements={release.genres} />
               ) : null}
             </div>

@@ -36,11 +36,9 @@ export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): Pa
   // Get the initial page. If ``useUrl`` is true, then source it from the URL.
   // Otherwise, return 1.
   const startPage = React.useMemo(() => {
-    if (!useUrl || !query.get('page') || !/^\d+$/.test(query.get('page') as string)) {
-      return 1;
-    }
+    const page = query.get('page');
 
-    return parseInt(query.get('page') as string, 10);
+    return useUrl && page && /^\d+$/.test(page) ? parseInt(page, 10) : 1;
   }, [useUrl, query]);
 
   const [curPage, setCurPage] = React.useState<number>(startPage);

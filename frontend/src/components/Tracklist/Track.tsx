@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Icon } from 'src/components/common';
 import { ArtistList } from 'src/components/Lists';
 import { SidebarContext } from 'src/contexts';
-import { TrackArtistT, TrackT } from 'src/types';
+import { TrackT } from 'src/types';
 import { arrangeArtists, secondsToLength } from 'src/util';
 
 export const Track: React.FC<{
@@ -38,14 +38,14 @@ export const Track: React.FC<{
           {track.title}
         </div>
         <ArtistList
-          elements={arrangeArtists(track.artists as TrackArtistT[])}
+          elements={arrangeArtists(track.artists)}
           className={clsx('flex-1 hidden truncate', isSidebarOpen ? 'md:block' : 'sm:block')}
           elementClassName="text-gray-800 dark:text-gray-400"
         />
         <div className="flex-none mx-2">{secondsToLength(track.duration)}</div>
       </div>
       <ArtistList
-        elements={arrangeArtists(track.artists as TrackArtistT[])}
+        elements={arrangeArtists(track.artists)}
         className={clsx('mt-1 ml-8 truncate', isSidebarOpen ? 'md:hidden' : 'sm:hidden')}
         elementClassName="text-gray-800 dark:text-gray-400"
       />
