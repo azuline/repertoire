@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'src/components/common';
+import { ElementT } from 'src/types/data';
 
-type ElementT = { id: number; name: string };
 type ListT = React.FC<{
   elements?: ElementT[];
   className?: string;
@@ -18,7 +18,7 @@ export const makeList = (urlPrefix: string): ListT => {
     delimiter = ', ',
     link = false,
   }) => {
-    if (!elements || elements.length === 0) return <div>&nbsp;</div>;
+    if (!elements || elements.length === 0) return <div> </div>;
 
     return (
       <div className={className}>
@@ -40,8 +40,3 @@ export const makeList = (urlPrefix: string): ListT => {
 
   return ElementList;
 };
-
-export const ArtistList = makeList('/artists');
-export const GenreList = makeList('/genres');
-export const LabelList = makeList('/labels');
-export const CollageList = makeList('/collages');

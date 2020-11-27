@@ -30,7 +30,7 @@ export const Release: React.FC = () => {
             <div className="z-10 flex px-8">
               <CoverArt
                 className={clsx(
-                  'hidden flex-none w-64 h-64 mr-8 rounded-lg',
+                  'flex-none hidden w-64 h-64 mr-8 rounded-lg',
                   isSidebarOpen ? 'md:block' : 'sm:block',
                 )}
                 release={data.release}

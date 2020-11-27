@@ -8,7 +8,7 @@ import { secondsToLength } from 'src/util';
 import { CoverArt } from './CoverArt';
 
 const textStyle = {
-  textShadow: '1px 1px black',
+  textShadow: '1px black',
   background:
     'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7))',
 };
@@ -21,9 +21,9 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
 
   return (
     <Link href={`/releases/${release.id}`}>
-      <div className={clsx(className, 'relative h-0 pb-full text-white')}>
+      <div className={clsx(className, 'relative h-0 text-white pb-full')}>
         <CoverArt thumbnail className="absolute object-cover rounded-lg full" release={release} />
-        <div className="absolute z-10 rounded-lg two-sided full" style={textStyle}>
+        <div className="absolute z-10 rounded-lg full two-sided" style={textStyle}>
           <div className="flex flex-col justify-end overflow-hidden front full">
             <div className="p-4 overflow-hidden">
               <div className="text-lg font-medium truncate" title={release.title}>
@@ -36,7 +36,7 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
             </div>
           </div>
           <div className="relative back full">
-            <div className="absolute top-0 left-0 bg-black bg-opacity-75 rounded-lg full" />
+            <div className="absolute top-0 left-0 bg-black rounded-lg bg-opacity-75 full" />
             <div className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center p-4 full text-md">
               {release.releaseYear ? <div className="py-1">{release.releaseYear}</div> : null}
               <div className="py-1">

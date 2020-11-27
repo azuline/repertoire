@@ -21,7 +21,7 @@ export const NavLink: React.FC<{
           className={clsx(
             className,
             active ? 'bg-primary-alt' : 'hover:bg-gray-200 hover:bg-opacity-5',
-            'text-foreground cursor-pointer',
+            'cursor-pointer text-foreground',
           )}
         >
           {label}
@@ -32,7 +32,7 @@ export const NavLink: React.FC<{
           className={clsx(
             className,
             active && 'sm:bg-primary-alt',
-            'text-foreground cursor-pointer hover:bg-gray-200 hover:bg-opacity-5',
+            'cursor-pointer text-foreground hover:bg-gray-200 hover:bg-opacity-5',
           )}
         >
           {label}

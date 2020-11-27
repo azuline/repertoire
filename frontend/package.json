@@ -41,6 +41,9 @@
     "lint": "eslint src/ --ext .ts,.tsx --fix",
     "sort-css": "rustywind --write src/"
   },
+  "headwind.classRegex": {
+    "javascriptreact": "(?:\\s*[\\\"\\'\\`]([_a-zA-Z0-9\\s\\-\\:\\/]+)[\\\"\\'\\`])|(?:\\btw\\s*`([_a-zA-Z0-9\\s\\-\\:\\/]*)`)"
+  },
   "browserslist": {
     "production": [
       ">0.2%",

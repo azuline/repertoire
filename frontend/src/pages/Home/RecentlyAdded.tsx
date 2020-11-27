@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Link, ScrolledReleases, SectionHeader } from 'src/components';
@@ -23,10 +24,7 @@ export const RecentlyAdded: React.FC = () => {
           Recently Added <span className="text-2xl text-primary">(View All)</span>
         </SectionHeader>
       </Link>
-      <ScrolledReleases
-        className="px-8 py-4 overflow-x-auto rpr--home-recently-added"
-        releases={releases}
-      />
+      <ScrolledReleases className="px-8 py-4 overflow-x-auto recently-added" releases={releases} />
     </div>
   );
 };

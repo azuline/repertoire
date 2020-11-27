@@ -17,24 +17,26 @@ export const Element: React.FC<{
   const url = React.useMemo(() => urlFactory(element.id), [element, urlFactory]);
   const toggleStar = React.useMemo(() => toggleStarFactory(element), [toggleStarFactory, element]);
 
+  const starClassName = React.useMemo(
+    () =>
+      clsx(
+        'absolute top-0 left-0 flex items-center h-full pl-8',
+        isToggleable && 'cursor-pointer',
+        element.starred && 'text-primary-alt3',
+        isToggleable && (element.starred ? 'hover:text-foreground' : 'hover:text-primary-alt3'),
+      ),
+    [isToggleable, element],
+  );
   return (
     <div className="relative">
-      <div
-        className={clsx(
-          'absolute flex items-center top-0 h-full left-0 pl-8',
-          isToggleable && 'cursor-pointer',
-          element.starred && 'text-primary-alt3',
-          isToggleable && (element.starred ? 'hover:text-foreground' : 'hover:text-primary-alt3'),
-        )}
-        onClick={toggleStar}
-      >
+      <div className={starClassName} onClick={toggleStar}>
         <Icon className="w-4" icon={element.starred ? 'star-small-filled' : 'star-small-outline'} />
       </div>
       <Link href={url}>
         <div
           className={clsx(
-            'pl-14 pr-10 py-1 cursor-pointer truncate hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5',
-            isActive && 'text-primary font-bold',
+            'py-1 pr-10 truncate cursor-pointer pl-14 hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5',
+            isActive && 'font-bold text-primary',
           )}
         >
           {element.name}

@@ -8,7 +8,7 @@ export const Progress: React.FC<{
   curTrack: TrackT | null;
   curTime: number;
 }> = ({ className, curTrack, curTime }) => (
-  <div className={clsx(className, 'w-28 text-center')}>
+  <div className={clsx(className, 'text-center w-28')}>
     {curTrack ? (
       <>
         {secondsToLength(curTime)}

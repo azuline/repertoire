@@ -63,13 +63,13 @@ export const Chooser: React.FC<{
     <div className={clsx(className, 'w-80', extraChooserStyles)} style={active ? chooserStyle : {}}>
       <div
         className={clsx(
-          'relative h-full flex-auto',
+          'relative flex-auto h-full',
           active && (isSidebarOpen ? 'xl:bg-background-alt' : 'lg:bg-background-alt'),
         )}
       >
         <div
           className={clsx(
-            'hidden w-full -mt-24 h-24 bg-background-alt',
+            'hidden w-full h-24 -mt-24 bg-background-alt',
             active && (isSidebarOpen ? 'xl:block' : 'lg:block'),
           )}
         />

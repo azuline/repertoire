@@ -18,7 +18,7 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
       href={`/releases/${release.id}`}
       className={clsx(
         className,
-        'w-full flex items-center py-3 hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5 cursor-pointer',
+        'flex items-center w-full py-3 cursor-pointer hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5',
       )}
     >
       <div className="relative flex-none w-12 h-12 mr-2">
@@ -42,7 +42,7 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
           </div>
         </div>
         <div className="flex">
-          <ArtistList className="truncate max-w-3/5 mr-8" elements={release.artists as ArtistT[]} />
+          <ArtistList className="mr-8 truncate max-w-3/5" elements={release.artists as ArtistT[]} />
           <div className="flex-1 hidden overflow-hidden text-right md:block rtl">
             <GenreList className="truncate" elements={release.genres} />
           </div>

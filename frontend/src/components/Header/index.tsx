@@ -15,7 +15,7 @@ export const Header: React.FC<{ className?: string; searchbar?: boolean }> = ({
   const toggleOpen = React.useCallback(() => setSidebarOpen((o) => !o), [setSidebarOpen]);
 
   return (
-    <div className={clsx(className, 'relative z-10 flex-none flex items-center w-full h-20 px-8')}>
+    <div className={clsx(className, 'relative z-10 flex items-center flex-none w-full h-20 px-8')}>
       {!isSidebarOpen && (
         <>
           <Icon

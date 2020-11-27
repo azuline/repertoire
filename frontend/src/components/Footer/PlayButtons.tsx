@@ -29,7 +29,7 @@ export const PlayButtons: React.FC<{
   }, [curTime, setIsPlaying]);
 
   return (
-    <div className={clsx(className, 'flex justify-center items-center text-primary')}>
+    <div className={clsx(className, 'flex items-center justify-center text-primary')}>
       <Icon
         className="mr-1 cursor-pointer w-9 hover:text-primary-alt3"
         icon="rewind-small"

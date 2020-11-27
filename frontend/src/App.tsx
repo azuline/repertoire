@@ -22,7 +22,7 @@ const Body: React.FC = () => {
   const { theme } = React.useContext(ThemeContext);
 
   return (
-    <div className={clsx(theme, 'app w-full h-screen flex flex-col')}>
+    <div className={clsx(theme, 'flex flex-col w-full h-screen app')}>
       {!loggedIn ? (
         <Login className="flex-1" />
       ) : (

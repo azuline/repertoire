@@ -76,7 +76,7 @@ export const JumpToLetter: React.FC<{
     <div
       className={clsx(
         className,
-        'text-right z-20 absolute top-0 right-0 overflow-y-hidden',
+        'absolute top-0 right-0 z-20 overflow-y-hidden text-right',
         active ? 'mr-5' : 'mr-8',
       )}
       style={{ height: 'calc(100vh - 9rem)' }}
@@ -86,7 +86,7 @@ export const JumpToLetter: React.FC<{
           className={clsx(
             'px-2',
             jumpFn
-              ? 'hover:font-bold cursor-pointer text-primary'
+              ? 'cursor-pointer hover:font-bold text-primary'
               : 'text-gold-200 dark:text-gold-800',
           )}
           key={letter}

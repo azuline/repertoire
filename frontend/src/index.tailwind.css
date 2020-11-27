@@ -41,7 +41,7 @@ html {
 }
 
 button {
-  @apply rounded font-normal px-2 py-1 text-foreground bg-primary-alt2;
+  @apply px-2 py-1 font-normal rounded text-foreground bg-primary-alt2;
 }
 
 button:hover {
@@ -53,15 +53,15 @@ button.large {
 }
 
 .text-btn {
-  @apply text-primary bg-transparent;
+  @apply bg-transparent text-primary;
 }
 
 .text-btn:hover {
-  @apply text-gold-400 bg-transparent;
+  @apply bg-transparent text-gold-400;
 }
 
 input {
-  @apply bg-transparent border-primary-alt border-b-2 px-4 py-2;
+  @apply px-4 py-2 bg-transparent border-b-2 border-primary-alt;
 }
 
 input::placeholder {
@@ -73,11 +73,11 @@ input::placeholder {
 }
 
 .full {
-  @apply h-full w-full;
+  @apply w-full h-full;
 }
 
 .empty {
-  @apply h-0 w-0;
+  @apply w-0 h-0;
 }
 
 .truncate-2 {
@@ -92,7 +92,7 @@ input::placeholder {
 }
 
 .square-btn {
-  @apply h-10 w-10;
+  @apply w-10 h-10;
 }
 
 .btn-group > button {
@@ -141,7 +141,7 @@ input::placeholder {
   @apply justify-center;
 }
 
-.rpr--home-recently-added:after {
+.recently-added:after {
   content: '';
   flex: 0 0 2rem;
   margin: 0 0 0 -1rem;

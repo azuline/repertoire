@@ -21,7 +21,7 @@ export const Track: React.FC<{
         'py-1.5 px-2 w-full rounded',
         active && 'font-bold',
         onClick &&
-          'hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5 cursor-pointer',
+          'cursor-pointer hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5',
       )}
       onClick={trackOnClick}
     >
@@ -30,7 +30,7 @@ export const Track: React.FC<{
         <div
           className={clsx(
             'flex-1 mr-2 truncate',
-            isSidebarOpen ? 'md:flex-none w-1/3' : 'sm:flex-none w-1/3',
+            isSidebarOpen ? 'md:flex-none w-1/3' : 'w-1/3 sm:flex-none',
           )}
           title={track.title}
         >
@@ -39,14 +39,14 @@ export const Track: React.FC<{
         </div>
         <ArtistList
           elements={arrangeArtists(track.artists as TrackArtistT[])}
-          className={clsx('flex-1 truncate hidden', isSidebarOpen ? 'md:block' : 'sm:block')}
+          className={clsx('flex-1 hidden truncate', isSidebarOpen ? 'md:block' : 'sm:block')}
           elementClassName="text-gray-800 dark:text-gray-400"
         />
         <div className="flex-none mx-2">{secondsToLength(track.duration)}</div>
       </div>
       <ArtistList
         elements={arrangeArtists(track.artists as TrackArtistT[])}
-        className={clsx('ml-8 mt-1 truncate', isSidebarOpen ? 'md:hidden' : 'sm:hidden')}
+        className={clsx('mt-1 ml-8 truncate', isSidebarOpen ? 'md:hidden' : 'sm:hidden')}
         elementClassName="text-gray-800 dark:text-gray-400"
       />
     </div>
