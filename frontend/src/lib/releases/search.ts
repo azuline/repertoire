@@ -60,8 +60,8 @@ type VariablesT = {
 /**
  * A wrapper around react-query to search for releases on the backend.
  *
- * @param viewOptions The view options parameters for the query.
- * @param pagination The pagination for the query.
+ * @param viewOptions - The view options parameters for the query.
+ * @param pagination - The pagination for the query.
  * @returns The react-query result.
  */
 export const searchReleases = (
@@ -80,16 +80,17 @@ export const searchReleases = (
 /**
  * Extract variables from viewOptions and pagination to form the query variables.
  *
- * @param root0
- * @param root0.search
- * @param root0.collectionIds
- * @param root0.artistIds
- * @param root0.releaseTypes
- * @param root0.sort
- * @param root0.asc
- * @param root1
- * @param root1.curPage
- * @param root1.perPage
+ * @param root0 - The ViewOptions object from the viewOptions hook.
+ * @param root0.search - N/A
+ * @param root0.collectionIds - N/A
+ * @param root0.artistIds - N/A
+ * @param root0.releaseTypes - N/A
+ * @param root0.sort - N/A
+ * @param root0.asc - N/A
+ * @param root1 - The Pagination object from the pagination hook.
+ * @param root1.curPage - N/A
+ * @param root1.perPage - N/A
+ * @returns Variables for the releases search query.
  */
 const extractVariables = (
   { search, collectionIds, artistIds, releaseTypes, sort, asc }: ViewOptionsT,

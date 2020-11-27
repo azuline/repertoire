@@ -5,7 +5,7 @@ import { useToasts } from 'react-toast-notifications';
 /**
  * Verify that a given string is a non-negative integer.
  *
- * @param id The string to check.
+ * @param id - The string to check.
  * @returns If the string is a non-negative integer.
  */
 const checkIsValid = (id: string): boolean => /^\d+$/.test(id);

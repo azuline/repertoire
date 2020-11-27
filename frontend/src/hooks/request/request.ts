@@ -2,12 +2,19 @@ import * as React from 'react';
 import { AuthorizationContext } from 'src/contexts';
 import { RequestError } from 'src/types';
 
-export type Request<T> = (
+export type RequestT<T> = (
   url: string,
   opts?: { method?: string; token?: string; contentType?: string; body?: string },
 ) => Promise<T>;
 
-export const useRequest = (): Request<Response> => {
+/**
+ * A hook that returns a function that makes a HTTP request to the backend. It automatically
+ * includes the session cookie and CSRF token on non-GET requests. It also accepts a token parameter
+ * for token-based authentication.
+ *
+ * @returns A function that makes a HTTP request to the backend.
+ */
+export const useRequest = (): RequestT<Response> => {
   const { loggedIn, setLoggedIn, csrf } = React.useContext(AuthorizationContext);
 
   const request = React.useCallback(

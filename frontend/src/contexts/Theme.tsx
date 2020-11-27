@@ -3,12 +3,12 @@ import { usePersistentState } from 'src/hooks';
 
 export type ThemeT = 'dark' | 'light';
 
-type ContextType = {
+type ContextT = {
   theme: ThemeT;
   setTheme: (arg0: ThemeT | ((arg0: ThemeT) => ThemeT), arg1?: boolean) => void;
 };
 
-export const ThemeContext = React.createContext<ContextType>({
+export const ThemeContext = React.createContext<ContextT>({
   theme: 'dark',
   setTheme: () => {},
 });

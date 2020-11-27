@@ -2,9 +2,14 @@ import * as React from 'react';
 import { AuthorizationContext } from 'src/contexts';
 import { GraphQLError, RequestError } from 'src/types';
 
-type GQLRequest<T, V> = (query: string, variables?: V) => Promise<T>;
+type GQLRequestT<T, V> = (query: string, variables?: V) => Promise<T>;
 
-export const useGQLRequest = <T, V = undefined>(): GQLRequest<T, V> => {
+/**
+ * A hook that returns a function that makes a GraphQL query to the backend.
+ *
+ * @returns A function to make a request.
+ */
+export const useGQLRequest = <T, V = undefined>(): GQLRequestT<T, V> => {
   const { csrf } = React.useContext(AuthorizationContext);
   const { loggedIn, setLoggedIn } = React.useContext(AuthorizationContext);
 

@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { TrackT } from 'src/types';
 
-type ContextType = {
+type ContextT = {
   playQueue: TrackT[];
   setPlayQueue: (arg0: TrackT[]) => void;
   curIndex: number | null;
   setCurIndex: (arg0: number | null | ((arg0: number | null) => number | null)) => void;
 };
 
-export const PlayQueueContext = React.createContext<ContextType>({
+export const PlayQueueContext = React.createContext<ContextT>({
   playQueue: [],
   setPlayQueue: () => {},
   curIndex: null,

@@ -6,13 +6,24 @@ import { GraphQLError, RequestError } from 'src/types';
 
 import { useGQLRequest } from './request';
 
-type Error = RequestError<GraphQLError>;
+type ErrorT = RequestError<GraphQLError>;
 
+/**
+ * A small wrapper around react-query's useQuery that makes a GraphQL query to the backend.
+ *
+ * The final cache key passed into ``useQuery`` will be calculated using the ``cacheKey`` and
+ * ``variables`` parameters.
+ *
+ * @param cacheKey - The root cache key for the query.
+ * @param query - The string GraphQL query.
+ * @param variables - Variables for the query.
+ * @returns A react-query query result.
+ */
 export const useGQLQuery = <T, V = undefined>(
   cacheKey: QueryKey,
   query: string,
   variables?: V,
-): QueryResult<T, Error> => {
+): QueryResult<T, ErrorT> => {
   const { addToast } = useToasts();
   const { loggedIn } = React.useContext(AuthorizationContext);
   const rawQuery = useGQLRequest<T, V>();

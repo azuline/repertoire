@@ -4,8 +4,8 @@ import { StateValue } from 'src/types';
 /**
  * A hook that persists the value of the state in localStorage.
  *
- * @param localStorageKey The key to use in localStorage.
- * @param defaultValue The default value for the state. Only used when localStorage does not have the
+ * @param localStorageKey - The key to use in localStorage.
+ * @param defaultValue - The default value for the state. Only used when localStorage does not have the
  *        key.
  *  @returns A 2-element list, containing the state value and a setter function.
  */

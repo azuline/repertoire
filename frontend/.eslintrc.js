@@ -34,7 +34,11 @@ module.exports = {
     // We are using typescript and typedoc, so JSDoc types are unnecessary.
     'jsdoc/check-types': 0,
     'jsdoc/no-undefined-types': 0,
+    'jsdoc/require-hyphen-before-param-description': 1,
+    'jsdoc/require-param': 0,
     'jsdoc/require-param-type': 0,
+    'jsdoc/require-property': 0,
+    'jsdoc/require-returns': 0,
     'jsdoc/require-returns-type': 0,
     // Not dealing with a11y at the moment.
     'jsx-a11y/alt-text': 'off',

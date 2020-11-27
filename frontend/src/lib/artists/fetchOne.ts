@@ -17,7 +17,7 @@ type VariablesT = { id: number };
 /**
  * A wrapper around react-query to fetch a single artist.
  *
- * @param id The ID of the artist to fetch.
+ * @param id - The ID of the artist to fetch.
  * @returns The react-query result.
  */
 export const fetchArtist = (id: number): QueryResult<ResultT, RequestError<GraphQLError>> =>

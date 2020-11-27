@@ -15,10 +15,10 @@ export type PaginationT = {
 };
 
 /**
- * A hook that handles pagination for arbitrary data.
+ * A mega-state hook that handles pagination for arbitrary data.
  *
- * @param root0 A configuration object.
- * @param root0.useUrl If true, then this hook will read the initial page from the URL
+ * @param root0 - A configuration object.
+ * @param root0.useUrl - If true, then this hook will read the initial page from the URL
  *        query string's ``page`` key and update that key whenever ``curpage``changes.
  * @returns An object with the following keys:
  *

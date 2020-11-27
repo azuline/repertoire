@@ -3,7 +3,7 @@ import { ReleaseT } from 'src/types';
 /**
  * Format the release date of a release.
  *
- * @param release The release to use.
+ * @param release - The release to use.
  * @returns The formatted release date.
  */
 export const formatReleaseDate = (release: ReleaseT): string => {

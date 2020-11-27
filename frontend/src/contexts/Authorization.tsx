@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { usePersistentState, useRequestJson } from 'src/hooks';
 
-type ContextType = {
+type ContextT = {
   loggedIn: boolean;
   setLoggedIn: (arg0: boolean) => void;
   csrf: string | null;
   setCsrf: (arg0: string | null) => void;
 };
 
-export const AuthorizationContext = React.createContext<ContextType>({
+export const AuthorizationContext = React.createContext<ContextT>({
   loggedIn: false,
   setLoggedIn: () => {},
   csrf: null,

@@ -1,7 +1,7 @@
 /**
  * Convert the number of seconds into a MM:SS timestamp.
  *
- * @param totalSeconds How many seconds to convert.
+ * @param totalSeconds - How many seconds to convert.
  * @returns string The corresponding MM:SS timestamp.
  */
 export const secondsToLength = (totalSeconds: number): string => {

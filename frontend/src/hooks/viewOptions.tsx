@@ -31,16 +31,18 @@ type Params = {
 };
 
 /**
- * A hook to provide the viewOptions parameters for searching/browsing releases.
+ * An aggregated state hook to provide the viewOptions parameters for searching/browsing
+ * releases.
  *
- * @param root0
- * @param root0.search
- * @param root0.collectionIds
- * @param root0.artistIds
- * @param root0.releaseTypes
- * @param root0.sort
- * @param root0.asc
- * @param root0.releaseView
+ * @param root0 - The "seed" object: initial values for the hook.
+ * @param root0.search - Initial search string.
+ * @param root0.collectionIds - Initial collection IDs to filter on.
+ * @param root0.artistIds - Initial artist IDs to filter on.
+ * @param root0.releaseTypes - Initial release types to filter on.
+ * @param root0.sort - Initial way to sort the releases.
+ * @param root0.asc - Initial sorting direction.
+ * @param root0.releaseView - Initial release view.
+ * @returns A mega-state object containing the viewOptions parameters.
  */
 export const useViewOptions = ({
   search,

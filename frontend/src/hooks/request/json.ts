@@ -1,8 +1,14 @@
 import * as React from 'react';
 
-import { Request, useRequest } from './request';
+import { RequestT, useRequest } from './request';
 
-export const useRequestJson = <T>(): Request<T> => {
+/**
+ * A wrapper around the ``request`` hook. This hook returns a function that make a HTTP request
+ * and parses the resulting JSON.
+ *
+ * @returns A requestJson function.
+ */
+export const useRequestJson = <T>(): RequestT<T> => {
   const request = useRequest();
 
   const requestJson = React.useCallback(
