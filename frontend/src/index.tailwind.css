@@ -158,7 +158,7 @@ input::placeholder {
   @apply bg-gray-600;
 }
 .slider > .thumb {
-  @apply w-4 h-4 cursor-pointer leading-4 hover:w-6 hover:h-6 hover:leading-6 focus:w-6 focus:h-6 focus:leading-6 bg-primary-alt3 rounded-2xl;
+  @apply w-4 h-4 cursor-pointer leading-4 hover:w-6 hover:h-6 hover:leading-6 bg-primary-alt3 rounded-2xl;
 }
 .playbar-slider > .track {
   @apply h-1;

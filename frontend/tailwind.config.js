@@ -49,9 +49,9 @@ module.exports = {
       backgroundOpacity: ['dark'],
       fontWeight: ['hover'],
       maxWidth: ['focus'],
-      width: ['focus', 'hover'],
-      height: ['focus', 'hover'],
-      lineHeight: ['focus', 'hover'],
+      width: ['hover'],
+      height: ['hover'],
+      lineHeight: ['hover'],
     },
   },
 };

@@ -3,8 +3,7 @@ import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { NowPlayingBar, Sidebar } from 'src/components';
 import { AuthorizationContext, GlobalContexts, SidebarContext, ThemeContext } from 'src/contexts';
-import { Login } from 'src/pages';
-import { Routes } from 'src/Routes';
+import { Login, Routes } from 'src/pages';
 
 const bodyStyle = { height: 'calc(100vh - 4rem)', maxHeight: 'calc(100vh - 4rem)' };
 
