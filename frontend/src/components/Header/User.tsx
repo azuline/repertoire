@@ -29,13 +29,21 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
       <Icon className="w-5 mr-1" icon="user-medium" />
       <div className="mr-3">{status === 'success' && data ? data.user.username : 'Loading...'}</div>
       <Link className="sm:hidden" href="/settings" onClick={closeSidebar}>
-        <Icon className="w-5 mr-2 cursor-pointer text-primary" title="Settings" icon="cog-medium" />
+        <Icon
+          className="w-5 mr-2 cursor-pointer text-primary hover:text-primary-alt3"
+          title="Settings"
+          icon="cog-medium"
+        />
       </Link>
       <Link className="hidden sm:block" href="/settings">
-        <Icon className="w-5 mr-2 cursor-pointer text-primary" title="Settings" icon="cog-medium" />
+        <Icon
+          className="w-5 mr-2 cursor-pointer text-primary hover:text-primary-alt3"
+          title="Settings"
+          icon="cog-medium"
+        />
       </Link>
       <Icon
-        className="w-5 cursor-pointer text-primary"
+        className="w-5 cursor-pointer text-primary hover:text-primary-alt3"
         title="Logout"
         icon="logout-medium"
         onClick={logout}

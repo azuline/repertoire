@@ -25,7 +25,7 @@ export const Sidebar: React.FC = () => {
           </div>
           <Icon
             icon="hamburger"
-            className="flex-none block w-6 ml-auto cursor-pointer"
+            className="flex-none block w-6 ml-auto cursor-pointer text-primary hover:text-primary-alt3"
             onClick={toggleOpen}
           />
         </div>

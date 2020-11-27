@@ -64,24 +64,15 @@ export const PagedReleases: React.FC<{
   );
 };
 
-// prettier-ignore
-const gridFullCss = 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7';
-// prettier-ignore
-const gridOneCssSidebar = 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6';
-// prettier-ignore
-const gridOneCssPartial = 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6';
-// prettier-ignore
-const gridTwoCss = 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5';
-
 const calculateGridCss = (isSidebarOpen: boolean, partial: boolean): string => {
   if (isSidebarOpen && partial) {
-    return gridTwoCss;
+    return 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5';
   }
   if (isSidebarOpen) {
-    return gridOneCssSidebar;
+    return 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6';
   }
   if (partial) {
-    return gridOneCssPartial;
+    return 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6';
   }
-  return gridFullCss;
+  return 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7';
 };
