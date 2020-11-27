@@ -31,10 +31,8 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "build:css": "tailwind build src/index.tailwind.css -o src/index.css",
-    "prestart": "yarn build:css",
     "start": "react-scripts start",
-    "prebuild": "yarn build:css",
+    "build:css": "tailwind build src/index.tailwind.css -o src/index.css",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

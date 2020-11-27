@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { AutoSizer, List } from 'react-virtualized';
 import { SidebarContext } from 'src/contexts';
 
-import { Element, ElementT, ToggleStarFactory } from './Element';
+import { ElementT, ToggleStarFactory } from './Element';
 import { JumpToLetter } from './JumpToLetter';
+import { VirtualList } from './VirtualList';
 
 const chooserStyle = { maxHeight: 'calc(100vh - 4rem)' };
 
@@ -18,49 +18,11 @@ export const Chooser: React.FC<{
   const { isSidebarOpen } = React.useContext(SidebarContext);
   const [jumpTo, setJumpTo] = React.useState<number | null>(null);
 
-  // Virtual render setup.
-  const renderRow = React.useCallback(
-    ({ index, key, style }) => {
-      // Because React-Virtualized has bungled scrollToIndex behavior when the
-      // containing div has margin/padding, we replaced the margin/padding with
-      // these blank elements on the bottom.
-      if (index === results.length || index === results.length + 1) {
-        return <div key={key} style={style} />;
-      }
-
-      return (
-        <div key={key} style={style}>
-          <Element
-            element={results[index]}
-            active={active}
-            urlFactory={urlFactory}
-            toggleStarFactory={toggleStarFactory}
-          />
-        </div>
-      );
-    },
-    [results, active, urlFactory],
-  );
-
-  const [scrollToIndex, scrollToAlignment] = React.useMemo(() => {
-    if (jumpTo) {
-      return [jumpTo, 'start'];
-    }
-    if (active) {
-      // TODO: Perhaps construct a map of IDs to index for this sort of thing.
-      return [results.findIndex((elem) => elem.id === active), 'center'];
-    }
-    return [undefined, 'center'];
-  }, [jumpTo, active, results]);
-
-  const extraChooserStyles = React.useMemo(() => {
-    if (active && isSidebarOpen) return 'hidden xl:flex xl:flex-col xl:sticky xl:top-0';
-    if (active) return 'hidden lg:flex lg:flex-col lg:sticky lg:top-0';
-    return 'w-full';
-  }, [active, isSidebarOpen]);
-
   return (
-    <div className={clsx(className, 'w-80', extraChooserStyles)} style={active ? chooserStyle : {}}>
+    <div
+      className={makeChooserStyles(className, active, isSidebarOpen)}
+      style={active ? chooserStyle : {}}
+    >
       <div
         className={clsx(
           'relative flex-auto h-full',
@@ -73,28 +35,32 @@ export const Chooser: React.FC<{
             active && (isSidebarOpen ? 'xl:block' : 'lg:block'),
           )}
         />
-        <JumpToLetter
-          className={clsx(active && 'mt-8')}
+        <JumpToLetter results={results} active={active} setJumpTo={setJumpTo} />
+        <VirtualList
           results={results}
           active={active}
-          setJumpTo={setJumpTo}
+          jumpTo={jumpTo}
+          urlFactory={urlFactory}
+          toggleStarFactory={toggleStarFactory}
         />
-        <AutoSizer>
-          {({ width, height }): React.ReactNode => (
-            <List
-              className={clsx('chooser', active && 'pt-8')}
-              height={height}
-              overscanRowCount={8}
-              rowCount={results.length + 2}
-              rowHeight={28.5}
-              rowRenderer={renderRow}
-              scrollToIndex={scrollToIndex}
-              scrollToAlignment={scrollToAlignment as 'start' | 'auto'}
-              width={width}
-            />
-          )}
-        </AutoSizer>
       </div>
     </div>
   );
 };
+
+const makeChooserStyles = (
+  className: string | undefined,
+  active: number | null,
+  isSidebarOpen: boolean,
+): string =>
+  React.useMemo(
+    () =>
+      clsx(
+        className,
+        'w-80',
+        active && isSidebarOpen && 'hidden xl:flex xl:flex-col xl:sticky xl:top-0',
+        (active && isSidebarOpen) || 'hidden lg:flex lg:flex-col lg:sticky lg:top-0',
+        active || isSidebarOpen || 'w-full',
+      ),
+    [className, active, isSidebarOpen],
+  );

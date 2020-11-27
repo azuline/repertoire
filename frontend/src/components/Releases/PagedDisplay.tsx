@@ -10,24 +10,13 @@ import { ReleaseView } from 'src/types';
 
 // Partial here means that we have an artist/collection selector open.
 
-// prettier-ignore
-const gridFullCss = 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7';
-// prettier-ignore
-const gridOneCssSidebar = 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6';
-// prettier-ignore
-const gridOneCssPartial = 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6';
-// prettier-ignore
-const gridTwoCss = 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5';
-
 export const PagedReleases: React.FC<{
   viewOptions: ViewOptionsT;
   pagination: PaginationT;
   partial?: boolean;
 }> = ({ viewOptions, pagination, partial = false }) => {
   const { isSidebarOpen } = React.useContext(SidebarContext);
-
   const { status, data } = searchReleases(viewOptions, pagination);
-
   const { total, results } = React.useMemo(
     () => (data && status === 'success' ? data.releases : { total: 0, results: [] }),
     [status, data],
@@ -37,43 +26,29 @@ export const PagedReleases: React.FC<{
     if (total) pagination.setTotal(total);
   }, [total]);
 
-  const gridCss = React.useMemo(() => {
-    if (isSidebarOpen && partial) {
-      return gridTwoCss;
+  const releasesDiv = React.useMemo(() => {
+    switch (viewOptions.releaseView) {
+      case ReleaseView.ROW:
+        return (
+          <div className="flex flex-col divide-y-2 divide-primary-alt2 bg-background">
+            {results.map((rls) => (
+              <div key={rls.id}>
+                <RowRelease release={rls} className="px-4 py-4 rounded" />
+              </div>
+            ))}
+          </div>
+        );
+      case ReleaseView.ARTWORK:
+      default:
+        return (
+          <div className={clsx('grid gap-6', calculateGridCss(isSidebarOpen, partial))}>
+            {results.map((rls) => (
+              <ArtRelease key={rls.id} release={rls} />
+            ))}
+          </div>
+        );
     }
-    if (isSidebarOpen) {
-      return gridOneCssSidebar;
-    }
-    if (partial) {
-      return gridOneCssPartial;
-    }
-    return gridFullCss;
-  }, [isSidebarOpen, partial]);
-
-  let releasesDiv = null;
-
-  switch (viewOptions.releaseView) {
-    case ReleaseView.ROW:
-      releasesDiv = (
-        <div className="flex flex-col divide-y-2 divide-primary-alt2 bg-background">
-          {results.map((rls) => (
-            <div key={rls.id}>
-              <RowRelease release={rls} className="px-4 py-4 rounded" />
-            </div>
-          ))}
-        </div>
-      );
-      break;
-    case ReleaseView.ARTWORK:
-    default:
-      releasesDiv = (
-        <div className={clsx('grid gap-6', gridCss)}>
-          {results.map((rls) => (
-            <ArtRelease key={rls.id} release={rls} />
-          ))}
-        </div>
-      );
-  }
+  }, [viewOptions, results, isSidebarOpen, partial]);
 
   return (
     <>
@@ -82,4 +57,26 @@ export const PagedReleases: React.FC<{
       <Pagination className="mt-4" pagination={pagination} />
     </>
   );
+};
+
+// prettier-ignore
+const gridFullCss = 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7';
+// prettier-ignore
+const gridOneCssSidebar = 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6';
+// prettier-ignore
+const gridOneCssPartial = 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6';
+// prettier-ignore
+const gridTwoCss = 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5';
+
+const calculateGridCss = (isSidebarOpen: boolean, partial: boolean): string => {
+  if (isSidebarOpen && partial) {
+    return gridTwoCss;
+  }
+  if (isSidebarOpen) {
+    return gridOneCssSidebar;
+  }
+  if (partial) {
+    return gridOneCssPartial;
+  }
+  return gridFullCss;
 };

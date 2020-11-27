@@ -17,31 +17,36 @@ export const Element: React.FC<{
   const url = React.useMemo(() => urlFactory(element.id), [element, urlFactory]);
   const toggleStar = React.useMemo(() => toggleStarFactory(element), [toggleStarFactory, element]);
 
-  const starClassName = React.useMemo(
-    () =>
-      clsx(
-        'absolute top-0 left-0 flex items-center h-full pl-8',
-        isToggleable && 'cursor-pointer',
-        element.starred && 'text-primary-alt3',
-        isToggleable && (element.starred ? 'hover:text-foreground' : 'hover:text-primary-alt3'),
-      ),
-    [isToggleable, element],
-  );
   return (
     <div className="relative">
-      <div className={starClassName} onClick={toggleStar}>
+      <div className={makeStarClassName(isToggleable, element.starred)} onClick={toggleStar}>
         <Icon className="w-4" icon={element.starred ? 'star-small-filled' : 'star-small-outline'} />
       </div>
       <Link href={url}>
-        <div
-          className={clsx(
-            'py-1 pr-10 truncate cursor-pointer pl-14 hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5',
-            isActive && 'font-bold text-primary',
-          )}
-        >
-          {element.name}
-        </div>
+        <div className={makeRowClassName(isActive)}>{element.name}</div>
       </Link>
     </div>
   );
 };
+
+const makeStarClassName = (isToggleable: boolean, starred: boolean): string =>
+  React.useMemo(
+    () =>
+      clsx(
+        'absolute top-0 left-0 flex items-center h-full pl-8',
+        isToggleable && 'cursor-pointer',
+        starred && 'text-primary-alt3',
+        isToggleable && (starred ? 'hover:text-foreground' : 'hover:text-primary-alt3'),
+      ),
+    [isToggleable, starred],
+  );
+
+const makeRowClassName = (isActive: boolean): string =>
+  React.useMemo(
+    () =>
+      clsx(
+        'py-1 pr-10 truncate cursor-pointer pl-14 hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5',
+        isActive && 'font-bold text-primary',
+      ),
+    [isActive],
+  );

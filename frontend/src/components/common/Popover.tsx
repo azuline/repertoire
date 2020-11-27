@@ -6,7 +6,7 @@ const arrowStyle = {
 };
 
 export const Popover: React.FC<{
-  children: React.ReactNode[];
+  children: [React.ReactNode, React.ReactNode];
   hover?: boolean;
   click?: boolean;
   className?: string;
@@ -14,11 +14,9 @@ export const Popover: React.FC<{
   const [child1, child2] = children;
   const [open, setOpen] = React.useState<boolean>(false);
 
-  const toggleOpen = React.useCallback(() => setOpen((o) => !o), [setOpen]);
-
   const toggler = React.useMemo(
-    () => React.cloneElement(child1 as React.ReactElement, { onClick: toggleOpen }),
-    [child1, toggleOpen],
+    () => React.cloneElement(child1 as React.ReactElement, { onClick: () => setOpen((o) => !o) }),
+    [child1, setOpen],
   );
 
   return (

@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { Footer, Sidebar } from 'src/components';
+import { NowPlayingBar, Sidebar } from 'src/components';
 import { AuthorizationContext, GlobalContexts, SidebarContext, ThemeContext } from 'src/contexts';
 import { Login } from 'src/pages';
 import { Routes } from 'src/Routes';
@@ -36,7 +36,7 @@ const Body: React.FC = () => {
               <Routes />
             </div>
           </div>
-          <Footer />
+          <NowPlayingBar />
         </>
       )}
     </div>

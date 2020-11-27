@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Link, ScrolledReleases, SectionHeader } from 'src/components';

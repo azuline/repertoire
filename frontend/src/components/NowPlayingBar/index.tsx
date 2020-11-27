@@ -7,7 +7,7 @@ import { PlayButtons } from './PlayButtons';
 import { Progress } from './Progress';
 import { TrackInfo } from './TrackInfo';
 
-export const Footer: React.FC = () => {
+export const NowPlayingBar: React.FC = () => {
   const { playQueue, curIndex } = React.useContext(PlayQueueContext);
   const { isPlaying, setIsPlaying, curTime, seek } = useAudio();
 

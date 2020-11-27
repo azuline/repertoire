@@ -47,4 +47,6 @@ A development server can be ran with
 .. code-block:: sh
 
    $ cd frontend/
+   $ yarn build:css # This will need to be re-run whenever `index.tailwind.css`
+                    # changes!
    $ yarn start
