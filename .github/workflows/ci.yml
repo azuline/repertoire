@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  test_backend:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,42 +15,48 @@ jobs:
       - uses: actions/setup-python@v2
       - uses: abatilo/actions-poetry@v2.1.0
 
-      - name: Install backend dependencies.
+      - name: Install dependencies.
         run: |
           cd backend
           poetry install
 
-      - name: Run backend tests.
+      - name: Run tests.
         run: |
           cd backend
           poetry run pytest --cov-report=xml --cov=. --cov-branch tests/
 
-      - name: Run backend type check.
+      - name: Run type check.
         run: |
           cd backend
           poetry run mypy src/
 
-      - name: Run backend lint check.
+      - name: Run lint check.
         run: |
           cd backend
           poetry run black --check .
           poetry run isort -c .
           poetry run flake8 .
 
-      - name: Install frontend dependencies.
+      - name: Upload coverage.
+        run: bash <(curl -s https://codecov.io/bash) -cF python
+
+  test_frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies.
         run: |
           cd frontend
           yarn install
 
-      - name: Run frontend type check.
+      - name: Run type check.
         run: |
           cd frontend
           yarn tsc
 
-      - name: Run frontend lint check.
+      - name: Run lint check.
         run: |
           cd frontend
           yarn eslint src/ --ext .ts,.tsx --max-warnings=0
-
-      - name: Upload coverage.
-        run: bash <(curl -s https://codecov.io/bash) -cF python
