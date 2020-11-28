@@ -10,6 +10,7 @@ import { Metadata } from './Metadata';
 import { Mobile } from './Mobile';
 import { NotFound } from './NotFound';
 import { NowPlaying } from './NowPlaying';
+import { Playlists } from './Playlists';
 import { Release } from './Release';
 import { Releases } from './Releases';
 import { Settings } from './Settings';
@@ -33,6 +34,8 @@ export const Routes: React.FC = () => (
       <Route path="/labels" component={Labels} />
       <Route path="/genres/:id" component={Genres} />
       <Route path="/genres" component={Genres} />
+      <Route path="/playlists/:id" component={Playlists} />
+      <Route path="/playlists" component={Playlists} />
       <Route path="/metadata" component={Metadata} />
       <Route path="/settings" component={Settings} />
     </Switch>

@@ -144,10 +144,10 @@ input::placeholder {
   @apply flex items-center justify-center full;
 }
 .slider > .track-0 {
-  @apply bg-gray-400;
+  @apply bg-gray-400 cursor-pointer;
 }
 .slider > .track-1 {
-  @apply bg-gray-600;
+  @apply bg-gray-600 cursor-pointer;
 }
 .slider > .thumb {
   @apply w-4 h-4 cursor-pointer leading-4 hover:w-6 hover:h-6 hover:leading-6 bg-primary-alt3 rounded-2xl;
