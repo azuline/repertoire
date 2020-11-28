@@ -28,7 +28,7 @@ class T:
     #: A hash of the beggining of the audio file.
     initial_sha256: bytes
     #: A hash of the audio file.
-    full_sha256: bytes
+    full_sha256: Optional[bytes] = None
     #:
     title: str
     #:
@@ -184,7 +184,6 @@ def create(
         title=title,
         filepath=filepath,
         initial_sha256=initial_sha256,
-        full_sha256=None,
         release_id=release_id,
         duration=duration,
         track_number=track_number,
@@ -202,7 +201,7 @@ def create(
 
 def _duplicate_track_handle(
     initial_sha256: bytes,
-    filepath: str,
+    filepath: Path,
     cursor: Cursor
 ) -> Optional[T]:
     """
