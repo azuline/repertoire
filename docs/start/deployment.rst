@@ -1,4 +1,4 @@
 Deployment
 ==========
 
-TODO. Log rotation, systemd, etc.
+TODO. Log rotation, systemd unit, etc.

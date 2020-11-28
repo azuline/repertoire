@@ -1,7 +1,7 @@
 .. _hacking_environment:
 
-Environment
-===========
+Development Environment
+=======================
 
 This page covers the development environment.
 

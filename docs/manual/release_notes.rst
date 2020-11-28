@@ -1,9 +1,14 @@
 Release Notes
 =============
 
-Add a toctree here later :-)
+0.2.0 (In Progress)
+-------------------
 
-0.2.0
+- Rewrote the MVP with a working core music player feature set. Code quality is
+  improved and frontend was rewritten without a UI component library.
+- Ready for general use. Existing features are relatively stable.
+
+0.1.0
 -----
 
-- Rewritten MVP with core music player feature set.
+- A haphazardly-written working MVP of a music server. It plays music o.O

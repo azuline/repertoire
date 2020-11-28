@@ -15,18 +15,17 @@ There are three installation options:
 Choose whichever is right for you! If you do not know which option to choose, I
 recommend :ref:`installation_poetry`.
 
-To compile the frontend, the ``yarn`` Javascript package manager is needed.
-
 .. _installation_poetry:
 
 Poetry
 ------
 
 This option uses Poetry to handle the virtual environment and install the
-backend.
+backend. See https://python-poetry.org/docs/#installation for instructions on
+installing Poetry.
 
-See https://python-poetry.org/docs/#installation for instructions on installing
-poetry.
+Yarn is used to build the frontend. See https://classic.yarnpkg.com/en/docs/install/ for instructions on installing
+Yarn.
 
 Installation with Poetry has the following steps:
 
@@ -64,7 +63,11 @@ Pip & Virtualenv
 ----------------
 
 This option directly works with the Python virtual environment and uses ``pip``
-to install the backend.
+to install the backend. You must have ``pip`` installed on your computer.
+
+Yarn is used to build the frontend. See
+https://classic.yarnpkg.com/en/docs/install/ for instructions on installing
+Yarn.
 
 Installation with Poetry has the following steps:
 
