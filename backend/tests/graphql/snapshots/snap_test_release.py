@@ -12,75 +12,131 @@ snapshots['test_add_artist_to_release 1'] = (
     {
         'data': {
             'addArtistToRelease': {
-                'addedOn': 1603067134,
-                'artists': [
-                    {
-                        'id': 2
-                    },
-                    {
-                        'id': 3
-                    }
-                ],
-                'collages': [
-                ],
-                'genres': [
-                    {
-                        'id': 12
-                    },
-                    {
-                        'id': 13
-                    },
-                    {
-                        'id': 14
-                    },
-                    {
-                        'id': 15
-                    }
-                ],
-                'id': 2,
-                'imageId': 1,
-                'inFavorites': False,
-                'inInbox': True,
-                'labels': [
-                ],
-                'numTracks': 10,
-                'releaseDate': '2014-07-08',
-                'releaseType': 'ALBUM',
-                'releaseYear': 2014,
-                'runtime': 2258,
-                'title': 'We Don’t Have Each Other',
-                'tracks': [
-                    {
-                        'id': 1
-                    },
-                    {
-                        'id': 2
-                    },
-                    {
-                        'id': 3
-                    },
-                    {
-                        'id': 4
-                    },
-                    {
-                        'id': 5
-                    },
-                    {
-                        'id': 6
-                    },
-                    {
-                        'id': 7
-                    },
-                    {
-                        'id': 8
-                    },
-                    {
-                        'id': 9
-                    },
-                    {
-                        'id': 10
-                    }
-                ]
+                'artist': {
+                    'id': 3,
+                    'name': 'John Darnielle',
+                    'numReleases': 1,
+                    'releases': [
+                        {
+                            'id': 2,
+                            'title': 'We Don’t Have Each Other'
+                        }
+                    ],
+                    'starred': False,
+                    'topGenres': [
+                        {
+                            'genre': {
+                                'id': 12
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 13
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 14
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 15
+                            },
+                            'numMatches': 1
+                        }
+                    ]
+                },
+                'release': {
+                    'addedOn': 1603067134,
+                    'artists': [
+                        {
+                            'id': 2,
+                            'name': 'Aaron West and the Roaring Twenties'
+                        },
+                        {
+                            'id': 3,
+                            'name': 'John Darnielle'
+                        }
+                    ],
+                    'collages': [
+                    ],
+                    'genres': [
+                        {
+                            'id': 12,
+                            'name': 'Folk'
+                        },
+                        {
+                            'id': 13,
+                            'name': 'Rock'
+                        },
+                        {
+                            'id': 14,
+                            'name': 'Country'
+                        },
+                        {
+                            'id': 15,
+                            'name': 'World'
+                        }
+                    ],
+                    'id': 2,
+                    'imageId': 1,
+                    'inFavorites': False,
+                    'inInbox': True,
+                    'labels': [
+                    ],
+                    'numTracks': 10,
+                    'releaseDate': '2014-07-08',
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 2014,
+                    'runtime': 2258,
+                    'title': 'We Don’t Have Each Other',
+                    'tracks': [
+                        {
+                            'id': 1,
+                            'title': 'Our Apartment'
+                        },
+                        {
+                            'id': 2,
+                            'title': 'Grapefruit'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'St. Joe Keeps Us Safe'
+                        },
+                        {
+                            'id': 4,
+                            'title': 'Runnin’ Scared'
+                        },
+                        {
+                            'id': 5,
+                            'title': 'Divorce and the American South'
+                        },
+                        {
+                            'id': 6,
+                            'title': 'The Thunderbird Inn'
+                        },
+                        {
+                            'id': 7,
+                            'title': 'Get Me Out of Here Alive'
+                        },
+                        {
+                            'id': 8,
+                            'title': 'You Ain’t No Saint'
+                        },
+                        {
+                            'id': 9,
+                            'title': 'Carolina Coast'
+                        },
+                        {
+                            'id': 10,
+                            'title': 'Going to Georgia'
+                        }
+                    ]
+                }
             }
         }
     }
@@ -176,10 +232,12 @@ snapshots['test_create_release 1'] = {
         'createRelease': {
             'artists': [
                 {
-                    'id': 2
+                    'id': 2,
+                    'name': 'Aaron West and the Roaring Twenties'
                 },
                 {
-                    'id': 3
+                    'id': 3,
+                    'name': 'John Darnielle'
                 }
             ],
             'collages': [
@@ -257,69 +315,95 @@ snapshots['test_del_artist_from_release 1'] = (
     {
         'data': {
             'delArtistFromRelease': {
-                'addedOn': 1603067134,
-                'artists': [
-                ],
-                'collages': [
-                ],
-                'genres': [
-                    {
-                        'id': 12
-                    },
-                    {
-                        'id': 13
-                    },
-                    {
-                        'id': 14
-                    },
-                    {
-                        'id': 15
-                    }
-                ],
-                'id': 2,
-                'imageId': 1,
-                'inFavorites': False,
-                'inInbox': True,
-                'labels': [
-                ],
-                'numTracks': 10,
-                'releaseDate': '2014-07-08',
-                'releaseType': 'ALBUM',
-                'releaseYear': 2014,
-                'runtime': 2258,
-                'title': 'We Don’t Have Each Other',
-                'tracks': [
-                    {
-                        'id': 1
-                    },
-                    {
-                        'id': 2
-                    },
-                    {
-                        'id': 3
-                    },
-                    {
-                        'id': 4
-                    },
-                    {
-                        'id': 5
-                    },
-                    {
-                        'id': 6
-                    },
-                    {
-                        'id': 7
-                    },
-                    {
-                        'id': 8
-                    },
-                    {
-                        'id': 9
-                    },
-                    {
-                        'id': 10
-                    }
-                ]
+                'artist': {
+                    'id': 2,
+                    'name': 'Aaron West and the Roaring Twenties',
+                    'numReleases': 0,
+                    'releases': [
+                    ],
+                    'starred': False,
+                    'topGenres': [
+                    ]
+                },
+                'release': {
+                    'addedOn': 1603067134,
+                    'artists': [
+                    ],
+                    'collages': [
+                    ],
+                    'genres': [
+                        {
+                            'id': 12,
+                            'name': 'Folk'
+                        },
+                        {
+                            'id': 13,
+                            'name': 'Rock'
+                        },
+                        {
+                            'id': 14,
+                            'name': 'Country'
+                        },
+                        {
+                            'id': 15,
+                            'name': 'World'
+                        }
+                    ],
+                    'id': 2,
+                    'imageId': 1,
+                    'inFavorites': False,
+                    'inInbox': True,
+                    'labels': [
+                    ],
+                    'numTracks': 10,
+                    'releaseDate': '2014-07-08',
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 2014,
+                    'runtime': 2258,
+                    'title': 'We Don’t Have Each Other',
+                    'tracks': [
+                        {
+                            'id': 1,
+                            'title': 'Our Apartment'
+                        },
+                        {
+                            'id': 2,
+                            'title': 'Grapefruit'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'St. Joe Keeps Us Safe'
+                        },
+                        {
+                            'id': 4,
+                            'title': 'Runnin’ Scared'
+                        },
+                        {
+                            'id': 5,
+                            'title': 'Divorce and the American South'
+                        },
+                        {
+                            'id': 6,
+                            'title': 'The Thunderbird Inn'
+                        },
+                        {
+                            'id': 7,
+                            'title': 'Get Me Out of Here Alive'
+                        },
+                        {
+                            'id': 8,
+                            'title': 'You Ain’t No Saint'
+                        },
+                        {
+                            'id': 9,
+                            'title': 'Carolina Coast'
+                        },
+                        {
+                            'id': 10,
+                            'title': 'Going to Georgia'
+                        }
+                    ]
+                }
             }
         }
     }
@@ -412,26 +496,32 @@ snapshots['test_release 1'] = (
                 'addedOn': 1603096174,
                 'artists': [
                     {
-                        'id': 4
+                        'id': 4,
+                        'name': 'Abakus'
                     },
                     {
-                        'id': 5
+                        'id': 5,
+                        'name': 'Bacchus'
                     }
                 ],
                 'collages': [
                 ],
                 'genres': [
                     {
-                        'id': 16
+                        'id': 16,
+                        'name': 'Downtempo'
                     },
                     {
-                        'id': 17
+                        'id': 17,
+                        'name': 'Electronic'
                     },
                     {
-                        'id': 18
+                        'id': 18,
+                        'name': 'House'
                     },
                     {
-                        'id': 19
+                        'id': 19,
+                        'name': 'Ambient'
                     }
                 ],
                 'id': 3,
@@ -448,37 +538,48 @@ snapshots['test_release 1'] = (
                 'title': 'Departure',
                 'tracks': [
                     {
-                        'id': 11
+                        'id': 11,
+                        'title': 'Airwaves'
                     },
                     {
-                        'id': 12
+                        'id': 12,
+                        'title': 'Liberated from the Negative'
                     },
                     {
-                        'id': 13
+                        'id': 13,
+                        'title': 'Hope'
                     },
                     {
-                        'id': 14
+                        'id': 14,
+                        'title': 'Dreamer'
                     },
                     {
-                        'id': 15
+                        'id': 15,
+                        'title': 'Stay with Me'
                     },
                     {
-                        'id': 16
+                        'id': 16,
+                        'title': 'Still a Soul in There'
                     },
                     {
-                        'id': 17
+                        'id': 17,
+                        'title': 'Lost Myself'
                     },
                     {
-                        'id': 18
+                        'id': 18,
+                        'title': 'The Beginning'
                     },
                     {
-                        'id': 19
+                        'id': 19,
+                        'title': 'Let Go'
                     },
                     {
-                        'id': 20
+                        'id': 20,
+                        'title': 'Storm'
                     },
                     {
-                        'id': 21
+                        'id': 21,
+                        'title': 'Kite'
                     }
                 ]
             }
@@ -543,23 +644,28 @@ snapshots['test_releases 1'] = (
                         'addedOn': 1603067134,
                         'artists': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'name': 'Aaron West and the Roaring Twenties'
                             }
                         ],
                         'collages': [
                         ],
                         'genres': [
                             {
-                                'id': 12
+                                'id': 12,
+                                'name': 'Folk'
                             },
                             {
-                                'id': 13
+                                'id': 13,
+                                'name': 'Rock'
                             },
                             {
-                                'id': 14
+                                'id': 14,
+                                'name': 'Country'
                             },
                             {
-                                'id': 15
+                                'id': 15,
+                                'name': 'World'
                             }
                         ],
                         'id': 2,
@@ -576,34 +682,44 @@ snapshots['test_releases 1'] = (
                         'title': 'We Don’t Have Each Other',
                         'tracks': [
                             {
-                                'id': 1
+                                'id': 1,
+                                'title': 'Our Apartment'
                             },
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'Grapefruit'
                             },
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'St. Joe Keeps Us Safe'
                             },
                             {
-                                'id': 4
+                                'id': 4,
+                                'title': 'Runnin’ Scared'
                             },
                             {
-                                'id': 5
+                                'id': 5,
+                                'title': 'Divorce and the American South'
                             },
                             {
-                                'id': 6
+                                'id': 6,
+                                'title': 'The Thunderbird Inn'
                             },
                             {
-                                'id': 7
+                                'id': 7,
+                                'title': 'Get Me Out of Here Alive'
                             },
                             {
-                                'id': 8
+                                'id': 8,
+                                'title': 'You Ain’t No Saint'
                             },
                             {
-                                'id': 9
+                                'id': 9,
+                                'title': 'Carolina Coast'
                             },
                             {
-                                'id': 10
+                                'id': 10,
+                                'title': 'Going to Georgia'
                             }
                         ]
                     },
@@ -611,26 +727,32 @@ snapshots['test_releases 1'] = (
                         'addedOn': 1603096174,
                         'artists': [
                             {
-                                'id': 4
+                                'id': 4,
+                                'name': 'Abakus'
                             },
                             {
-                                'id': 5
+                                'id': 5,
+                                'name': 'Bacchus'
                             }
                         ],
                         'collages': [
                         ],
                         'genres': [
                             {
-                                'id': 16
+                                'id': 16,
+                                'name': 'Downtempo'
                             },
                             {
-                                'id': 17
+                                'id': 17,
+                                'name': 'Electronic'
                             },
                             {
-                                'id': 18
+                                'id': 18,
+                                'name': 'House'
                             },
                             {
-                                'id': 19
+                                'id': 19,
+                                'name': 'Ambient'
                             }
                         ],
                         'id': 3,
@@ -647,37 +769,48 @@ snapshots['test_releases 1'] = (
                         'title': 'Departure',
                         'tracks': [
                             {
-                                'id': 11
+                                'id': 11,
+                                'title': 'Airwaves'
                             },
                             {
-                                'id': 12
+                                'id': 12,
+                                'title': 'Liberated from the Negative'
                             },
                             {
-                                'id': 13
+                                'id': 13,
+                                'title': 'Hope'
                             },
                             {
-                                'id': 14
+                                'id': 14,
+                                'title': 'Dreamer'
                             },
                             {
-                                'id': 15
+                                'id': 15,
+                                'title': 'Stay with Me'
                             },
                             {
-                                'id': 16
+                                'id': 16,
+                                'title': 'Still a Soul in There'
                             },
                             {
-                                'id': 17
+                                'id': 17,
+                                'title': 'Lost Myself'
                             },
                             {
-                                'id': 18
+                                'id': 18,
+                                'title': 'The Beginning'
                             },
                             {
-                                'id': 19
+                                'id': 19,
+                                'title': 'Let Go'
                             },
                             {
-                                'id': 20
+                                'id': 20,
+                                'title': 'Storm'
                             },
                             {
-                                'id': 21
+                                'id': 21,
+                                'title': 'Kite'
                             }
                         ]
                     }
@@ -698,23 +831,28 @@ snapshots['test_releases_filter_artists 1'] = (
                         'addedOn': 1603067134,
                         'artists': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'name': 'Aaron West and the Roaring Twenties'
                             }
                         ],
                         'collages': [
                         ],
                         'genres': [
                             {
-                                'id': 12
+                                'id': 12,
+                                'name': 'Folk'
                             },
                             {
-                                'id': 13
+                                'id': 13,
+                                'name': 'Rock'
                             },
                             {
-                                'id': 14
+                                'id': 14,
+                                'name': 'Country'
                             },
                             {
-                                'id': 15
+                                'id': 15,
+                                'name': 'World'
                             }
                         ],
                         'id': 2,
@@ -731,34 +869,44 @@ snapshots['test_releases_filter_artists 1'] = (
                         'title': 'We Don’t Have Each Other',
                         'tracks': [
                             {
-                                'id': 1
+                                'id': 1,
+                                'title': 'Our Apartment'
                             },
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'Grapefruit'
                             },
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'St. Joe Keeps Us Safe'
                             },
                             {
-                                'id': 4
+                                'id': 4,
+                                'title': 'Runnin’ Scared'
                             },
                             {
-                                'id': 5
+                                'id': 5,
+                                'title': 'Divorce and the American South'
                             },
                             {
-                                'id': 6
+                                'id': 6,
+                                'title': 'The Thunderbird Inn'
                             },
                             {
-                                'id': 7
+                                'id': 7,
+                                'title': 'Get Me Out of Here Alive'
                             },
                             {
-                                'id': 8
+                                'id': 8,
+                                'title': 'You Ain’t No Saint'
                             },
                             {
-                                'id': 9
+                                'id': 9,
+                                'title': 'Carolina Coast'
                             },
                             {
-                                'id': 10
+                                'id': 10,
+                                'title': 'Going to Georgia'
                             }
                         ]
                     }
@@ -779,23 +927,28 @@ snapshots['test_releases_filter_collections 1'] = (
                         'addedOn': 1603067134,
                         'artists': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'name': 'Aaron West and the Roaring Twenties'
                             }
                         ],
                         'collages': [
                         ],
                         'genres': [
                             {
-                                'id': 12
+                                'id': 12,
+                                'name': 'Folk'
                             },
                             {
-                                'id': 13
+                                'id': 13,
+                                'name': 'Rock'
                             },
                             {
-                                'id': 14
+                                'id': 14,
+                                'name': 'Country'
                             },
                             {
-                                'id': 15
+                                'id': 15,
+                                'name': 'World'
                             }
                         ],
                         'id': 2,
@@ -812,34 +965,44 @@ snapshots['test_releases_filter_collections 1'] = (
                         'title': 'We Don’t Have Each Other',
                         'tracks': [
                             {
-                                'id': 1
+                                'id': 1,
+                                'title': 'Our Apartment'
                             },
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'Grapefruit'
                             },
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'St. Joe Keeps Us Safe'
                             },
                             {
-                                'id': 4
+                                'id': 4,
+                                'title': 'Runnin’ Scared'
                             },
                             {
-                                'id': 5
+                                'id': 5,
+                                'title': 'Divorce and the American South'
                             },
                             {
-                                'id': 6
+                                'id': 6,
+                                'title': 'The Thunderbird Inn'
                             },
                             {
-                                'id': 7
+                                'id': 7,
+                                'title': 'Get Me Out of Here Alive'
                             },
                             {
-                                'id': 8
+                                'id': 8,
+                                'title': 'You Ain’t No Saint'
                             },
                             {
-                                'id': 9
+                                'id': 9,
+                                'title': 'Carolina Coast'
                             },
                             {
-                                'id': 10
+                                'id': 10,
+                                'title': 'Going to Georgia'
                             }
                         ]
                     }
@@ -860,23 +1023,28 @@ snapshots['test_releases_filter_types 1'] = (
                         'addedOn': 1603067134,
                         'artists': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'name': 'Aaron West and the Roaring Twenties'
                             }
                         ],
                         'collages': [
                         ],
                         'genres': [
                             {
-                                'id': 12
+                                'id': 12,
+                                'name': 'Folk'
                             },
                             {
-                                'id': 13
+                                'id': 13,
+                                'name': 'Rock'
                             },
                             {
-                                'id': 14
+                                'id': 14,
+                                'name': 'Country'
                             },
                             {
-                                'id': 15
+                                'id': 15,
+                                'name': 'World'
                             }
                         ],
                         'id': 2,
@@ -893,34 +1061,44 @@ snapshots['test_releases_filter_types 1'] = (
                         'title': 'We Don’t Have Each Other',
                         'tracks': [
                             {
-                                'id': 1
+                                'id': 1,
+                                'title': 'Our Apartment'
                             },
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'Grapefruit'
                             },
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'St. Joe Keeps Us Safe'
                             },
                             {
-                                'id': 4
+                                'id': 4,
+                                'title': 'Runnin’ Scared'
                             },
                             {
-                                'id': 5
+                                'id': 5,
+                                'title': 'Divorce and the American South'
                             },
                             {
-                                'id': 6
+                                'id': 6,
+                                'title': 'The Thunderbird Inn'
                             },
                             {
-                                'id': 7
+                                'id': 7,
+                                'title': 'Get Me Out of Here Alive'
                             },
                             {
-                                'id': 8
+                                'id': 8,
+                                'title': 'You Ain’t No Saint'
                             },
                             {
-                                'id': 9
+                                'id': 9,
+                                'title': 'Carolina Coast'
                             },
                             {
-                                'id': 10
+                                'id': 10,
+                                'title': 'Going to Georgia'
                             }
                         ]
                     }
@@ -941,26 +1119,32 @@ snapshots['test_releases_pagination 1'] = (
                         'addedOn': 1603096174,
                         'artists': [
                             {
-                                'id': 4
+                                'id': 4,
+                                'name': 'Abakus'
                             },
                             {
-                                'id': 5
+                                'id': 5,
+                                'name': 'Bacchus'
                             }
                         ],
                         'collages': [
                         ],
                         'genres': [
                             {
-                                'id': 16
+                                'id': 16,
+                                'name': 'Downtempo'
                             },
                             {
-                                'id': 17
+                                'id': 17,
+                                'name': 'Electronic'
                             },
                             {
-                                'id': 18
+                                'id': 18,
+                                'name': 'House'
                             },
                             {
-                                'id': 19
+                                'id': 19,
+                                'name': 'Ambient'
                             }
                         ],
                         'id': 3,
@@ -977,37 +1161,48 @@ snapshots['test_releases_pagination 1'] = (
                         'title': 'Departure',
                         'tracks': [
                             {
-                                'id': 11
+                                'id': 11,
+                                'title': 'Airwaves'
                             },
                             {
-                                'id': 12
+                                'id': 12,
+                                'title': 'Liberated from the Negative'
                             },
                             {
-                                'id': 13
+                                'id': 13,
+                                'title': 'Hope'
                             },
                             {
-                                'id': 14
+                                'id': 14,
+                                'title': 'Dreamer'
                             },
                             {
-                                'id': 15
+                                'id': 15,
+                                'title': 'Stay with Me'
                             },
                             {
-                                'id': 16
+                                'id': 16,
+                                'title': 'Still a Soul in There'
                             },
                             {
-                                'id': 17
+                                'id': 17,
+                                'title': 'Lost Myself'
                             },
                             {
-                                'id': 18
+                                'id': 18,
+                                'title': 'The Beginning'
                             },
                             {
-                                'id': 19
+                                'id': 19,
+                                'title': 'Let Go'
                             },
                             {
-                                'id': 20
+                                'id': 20,
+                                'title': 'Storm'
                             },
                             {
-                                'id': 21
+                                'id': 21,
+                                'title': 'Kite'
                             }
                         ]
                     }
@@ -1028,23 +1223,28 @@ snapshots['test_releases_search 1'] = (
                         'addedOn': 1603067134,
                         'artists': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'name': 'Aaron West and the Roaring Twenties'
                             }
                         ],
                         'collages': [
                         ],
                         'genres': [
                             {
-                                'id': 12
+                                'id': 12,
+                                'name': 'Folk'
                             },
                             {
-                                'id': 13
+                                'id': 13,
+                                'name': 'Rock'
                             },
                             {
-                                'id': 14
+                                'id': 14,
+                                'name': 'Country'
                             },
                             {
-                                'id': 15
+                                'id': 15,
+                                'name': 'World'
                             }
                         ],
                         'id': 2,
@@ -1061,34 +1261,44 @@ snapshots['test_releases_search 1'] = (
                         'title': 'We Don’t Have Each Other',
                         'tracks': [
                             {
-                                'id': 1
+                                'id': 1,
+                                'title': 'Our Apartment'
                             },
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'Grapefruit'
                             },
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'St. Joe Keeps Us Safe'
                             },
                             {
-                                'id': 4
+                                'id': 4,
+                                'title': 'Runnin’ Scared'
                             },
                             {
-                                'id': 5
+                                'id': 5,
+                                'title': 'Divorce and the American South'
                             },
                             {
-                                'id': 6
+                                'id': 6,
+                                'title': 'The Thunderbird Inn'
                             },
                             {
-                                'id': 7
+                                'id': 7,
+                                'title': 'Get Me Out of Here Alive'
                             },
                             {
-                                'id': 8
+                                'id': 8,
+                                'title': 'You Ain’t No Saint'
                             },
                             {
-                                'id': 9
+                                'id': 9,
+                                'title': 'Carolina Coast'
                             },
                             {
-                                'id': 10
+                                'id': 10,
+                                'title': 'Going to Georgia'
                             }
                         ]
                     }
@@ -1109,26 +1319,32 @@ snapshots['test_releases_sort 1'] = (
                         'addedOn': 1603096174,
                         'artists': [
                             {
-                                'id': 4
+                                'id': 4,
+                                'name': 'Abakus'
                             },
                             {
-                                'id': 5
+                                'id': 5,
+                                'name': 'Bacchus'
                             }
                         ],
                         'collages': [
                         ],
                         'genres': [
                             {
-                                'id': 16
+                                'id': 16,
+                                'name': 'Downtempo'
                             },
                             {
-                                'id': 17
+                                'id': 17,
+                                'name': 'Electronic'
                             },
                             {
-                                'id': 18
+                                'id': 18,
+                                'name': 'House'
                             },
                             {
-                                'id': 19
+                                'id': 19,
+                                'name': 'Ambient'
                             }
                         ],
                         'id': 3,
@@ -1145,37 +1361,48 @@ snapshots['test_releases_sort 1'] = (
                         'title': 'Departure',
                         'tracks': [
                             {
-                                'id': 11
+                                'id': 11,
+                                'title': 'Airwaves'
                             },
                             {
-                                'id': 12
+                                'id': 12,
+                                'title': 'Liberated from the Negative'
                             },
                             {
-                                'id': 13
+                                'id': 13,
+                                'title': 'Hope'
                             },
                             {
-                                'id': 14
+                                'id': 14,
+                                'title': 'Dreamer'
                             },
                             {
-                                'id': 15
+                                'id': 15,
+                                'title': 'Stay with Me'
                             },
                             {
-                                'id': 16
+                                'id': 16,
+                                'title': 'Still a Soul in There'
                             },
                             {
-                                'id': 17
+                                'id': 17,
+                                'title': 'Lost Myself'
                             },
                             {
-                                'id': 18
+                                'id': 18,
+                                'title': 'The Beginning'
                             },
                             {
-                                'id': 19
+                                'id': 19,
+                                'title': 'Let Go'
                             },
                             {
-                                'id': 20
+                                'id': 20,
+                                'title': 'Storm'
                             },
                             {
-                                'id': 21
+                                'id': 21,
+                                'title': 'Kite'
                             }
                         ]
                     },
@@ -1206,23 +1433,28 @@ snapshots['test_releases_sort 1'] = (
                         'addedOn': 1603067134,
                         'artists': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'name': 'Aaron West and the Roaring Twenties'
                             }
                         ],
                         'collages': [
                         ],
                         'genres': [
                             {
-                                'id': 12
+                                'id': 12,
+                                'name': 'Folk'
                             },
                             {
-                                'id': 13
+                                'id': 13,
+                                'name': 'Rock'
                             },
                             {
-                                'id': 14
+                                'id': 14,
+                                'name': 'Country'
                             },
                             {
-                                'id': 15
+                                'id': 15,
+                                'name': 'World'
                             }
                         ],
                         'id': 2,
@@ -1239,34 +1471,44 @@ snapshots['test_releases_sort 1'] = (
                         'title': 'We Don’t Have Each Other',
                         'tracks': [
                             {
-                                'id': 1
+                                'id': 1,
+                                'title': 'Our Apartment'
                             },
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'Grapefruit'
                             },
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'St. Joe Keeps Us Safe'
                             },
                             {
-                                'id': 4
+                                'id': 4,
+                                'title': 'Runnin’ Scared'
                             },
                             {
-                                'id': 5
+                                'id': 5,
+                                'title': 'Divorce and the American South'
                             },
                             {
-                                'id': 6
+                                'id': 6,
+                                'title': 'The Thunderbird Inn'
                             },
                             {
-                                'id': 7
+                                'id': 7,
+                                'title': 'Get Me Out of Here Alive'
                             },
                             {
-                                'id': 8
+                                'id': 8,
+                                'title': 'You Ain’t No Saint'
                             },
                             {
-                                'id': 9
+                                'id': 9,
+                                'title': 'Carolina Coast'
                             },
                             {
-                                'id': 10
+                                'id': 10,
+                                'title': 'Going to Georgia'
                             }
                         ]
                     }
@@ -1287,23 +1529,28 @@ snapshots['test_releases_sort_desc 1'] = (
                         'addedOn': 1603067134,
                         'artists': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'name': 'Aaron West and the Roaring Twenties'
                             }
                         ],
                         'collages': [
                         ],
                         'genres': [
                             {
-                                'id': 12
+                                'id': 12,
+                                'name': 'Folk'
                             },
                             {
-                                'id': 13
+                                'id': 13,
+                                'name': 'Rock'
                             },
                             {
-                                'id': 14
+                                'id': 14,
+                                'name': 'Country'
                             },
                             {
-                                'id': 15
+                                'id': 15,
+                                'name': 'World'
                             }
                         ],
                         'id': 2,
@@ -1320,34 +1567,44 @@ snapshots['test_releases_sort_desc 1'] = (
                         'title': 'We Don’t Have Each Other',
                         'tracks': [
                             {
-                                'id': 1
+                                'id': 1,
+                                'title': 'Our Apartment'
                             },
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'Grapefruit'
                             },
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'St. Joe Keeps Us Safe'
                             },
                             {
-                                'id': 4
+                                'id': 4,
+                                'title': 'Runnin’ Scared'
                             },
                             {
-                                'id': 5
+                                'id': 5,
+                                'title': 'Divorce and the American South'
                             },
                             {
-                                'id': 6
+                                'id': 6,
+                                'title': 'The Thunderbird Inn'
                             },
                             {
-                                'id': 7
+                                'id': 7,
+                                'title': 'Get Me Out of Here Alive'
                             },
                             {
-                                'id': 8
+                                'id': 8,
+                                'title': 'You Ain’t No Saint'
                             },
                             {
-                                'id': 9
+                                'id': 9,
+                                'title': 'Carolina Coast'
                             },
                             {
-                                'id': 10
+                                'id': 10,
+                                'title': 'Going to Georgia'
                             }
                         ]
                     },
@@ -1378,26 +1635,32 @@ snapshots['test_releases_sort_desc 1'] = (
                         'addedOn': 1603096174,
                         'artists': [
                             {
-                                'id': 4
+                                'id': 4,
+                                'name': 'Abakus'
                             },
                             {
-                                'id': 5
+                                'id': 5,
+                                'name': 'Bacchus'
                             }
                         ],
                         'collages': [
                         ],
                         'genres': [
                             {
-                                'id': 16
+                                'id': 16,
+                                'name': 'Downtempo'
                             },
                             {
-                                'id': 17
+                                'id': 17,
+                                'name': 'Electronic'
                             },
                             {
-                                'id': 18
+                                'id': 18,
+                                'name': 'House'
                             },
                             {
-                                'id': 19
+                                'id': 19,
+                                'name': 'Ambient'
                             }
                         ],
                         'id': 3,
@@ -1414,37 +1677,48 @@ snapshots['test_releases_sort_desc 1'] = (
                         'title': 'Departure',
                         'tracks': [
                             {
-                                'id': 11
+                                'id': 11,
+                                'title': 'Airwaves'
                             },
                             {
-                                'id': 12
+                                'id': 12,
+                                'title': 'Liberated from the Negative'
                             },
                             {
-                                'id': 13
+                                'id': 13,
+                                'title': 'Hope'
                             },
                             {
-                                'id': 14
+                                'id': 14,
+                                'title': 'Dreamer'
                             },
                             {
-                                'id': 15
+                                'id': 15,
+                                'title': 'Stay with Me'
                             },
                             {
-                                'id': 16
+                                'id': 16,
+                                'title': 'Still a Soul in There'
                             },
                             {
-                                'id': 17
+                                'id': 17,
+                                'title': 'Lost Myself'
                             },
                             {
-                                'id': 18
+                                'id': 18,
+                                'title': 'The Beginning'
                             },
                             {
-                                'id': 19
+                                'id': 19,
+                                'title': 'Let Go'
                             },
                             {
-                                'id': 20
+                                'id': 20,
+                                'title': 'Storm'
                             },
                             {
-                                'id': 21
+                                'id': 21,
+                                'title': 'Kite'
                             }
                         ]
                     }
@@ -1463,23 +1737,28 @@ snapshots['test_update_release 1'] = (
                 'addedOn': 1603067134,
                 'artists': [
                     {
-                        'id': 2
+                        'id': 2,
+                        'name': 'Aaron West and the Roaring Twenties'
                     }
                 ],
                 'collages': [
                 ],
                 'genres': [
                     {
-                        'id': 12
+                        'id': 12,
+                        'name': 'Folk'
                     },
                     {
-                        'id': 13
+                        'id': 13,
+                        'name': 'Rock'
                     },
                     {
-                        'id': 14
+                        'id': 14,
+                        'name': 'Country'
                     },
                     {
-                        'id': 15
+                        'id': 15,
+                        'name': 'World'
                     }
                 ],
                 'id': 2,
@@ -1496,34 +1775,44 @@ snapshots['test_update_release 1'] = (
                 'title': 'aa',
                 'tracks': [
                     {
-                        'id': 1
+                        'id': 1,
+                        'title': 'Our Apartment'
                     },
                     {
-                        'id': 2
+                        'id': 2,
+                        'title': 'Grapefruit'
                     },
                     {
-                        'id': 3
+                        'id': 3,
+                        'title': 'St. Joe Keeps Us Safe'
                     },
                     {
-                        'id': 4
+                        'id': 4,
+                        'title': 'Runnin’ Scared'
                     },
                     {
-                        'id': 5
+                        'id': 5,
+                        'title': 'Divorce and the American South'
                     },
                     {
-                        'id': 6
+                        'id': 6,
+                        'title': 'The Thunderbird Inn'
                     },
                     {
-                        'id': 7
+                        'id': 7,
+                        'title': 'Get Me Out of Here Alive'
                     },
                     {
-                        'id': 8
+                        'id': 8,
+                        'title': 'You Ain’t No Saint'
                     },
                     {
-                        'id': 9
+                        'id': 9,
+                        'title': 'Carolina Coast'
                     },
                     {
-                        'id': 10
+                        'id': 10,
+                        'title': 'Going to Georgia'
                     }
                 ]
             }

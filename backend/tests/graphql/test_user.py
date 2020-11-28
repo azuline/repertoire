@@ -6,8 +6,7 @@ from src.util import database
 USER_QUERY = """
     query {
         user {
-            id
-            nickname
+            ...UserFields
         }
     }
 """
@@ -31,8 +30,7 @@ async def test_update_user(db, graphql_query, snapshot):
     query = """
         mutation {
             updateUser(nickname: "not admin") {
-                id
-                nickname
+                ...UserFields
             }
         }
     """

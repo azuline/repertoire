@@ -12,43 +12,129 @@ snapshots['test_add_release_to_collection 1'] = (
     {
         'data': {
             'addReleaseToCollection': {
-                'id': 2,
-                'lastUpdatedOn': None,
-                'name': 'Favorites',
-                'numReleases': 1,
-                'releases': [
-                    {
-                        'id': 2
-                    }
-                ],
-                'starred': True,
-                'topGenres': [
-                    {
-                        'genre': {
-                            'id': 12
+                'collection': {
+                    'id': 2,
+                    'lastUpdatedOn': None,
+                    'name': 'Favorites',
+                    'numReleases': 1,
+                    'releases': [
+                        {
+                            'id': 2,
+                            'title': 'We Don’t Have Each Other'
+                        }
+                    ],
+                    'starred': True,
+                    'topGenres': [
+                        {
+                            'genre': {
+                                'id': 12
+                            },
+                            'numMatches': 1
                         },
-                        'numMatches': 1
-                    },
-                    {
-                        'genre': {
-                            'id': 13
+                        {
+                            'genre': {
+                                'id': 13
+                            },
+                            'numMatches': 1
                         },
-                        'numMatches': 1
-                    },
-                    {
-                        'genre': {
-                            'id': 14
+                        {
+                            'genre': {
+                                'id': 14
+                            },
+                            'numMatches': 1
                         },
-                        'numMatches': 1
-                    },
-                    {
-                        'genre': {
-                            'id': 15
+                        {
+                            'genre': {
+                                'id': 15
+                            },
+                            'numMatches': 1
+                        }
+                    ],
+                    'type': 'SYSTEM'
+                },
+                'release': {
+                    'addedOn': 1603067134,
+                    'artists': [
+                        {
+                            'id': 2,
+                            'name': 'Aaron West and the Roaring Twenties'
+                        }
+                    ],
+                    'collages': [
+                    ],
+                    'genres': [
+                        {
+                            'id': 12,
+                            'name': 'Folk'
                         },
-                        'numMatches': 1
-                    }
-                ],
-                'type': 'SYSTEM'
+                        {
+                            'id': 13,
+                            'name': 'Rock'
+                        },
+                        {
+                            'id': 14,
+                            'name': 'Country'
+                        },
+                        {
+                            'id': 15,
+                            'name': 'World'
+                        }
+                    ],
+                    'id': 2,
+                    'imageId': 1,
+                    'inFavorites': True,
+                    'inInbox': True,
+                    'labels': [
+                    ],
+                    'numTracks': 10,
+                    'releaseDate': '2014-07-08',
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 2014,
+                    'runtime': 2258,
+                    'title': 'We Don’t Have Each Other',
+                    'tracks': [
+                        {
+                            'id': 1,
+                            'title': 'Our Apartment'
+                        },
+                        {
+                            'id': 2,
+                            'title': 'Grapefruit'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'St. Joe Keeps Us Safe'
+                        },
+                        {
+                            'id': 4,
+                            'title': 'Runnin’ Scared'
+                        },
+                        {
+                            'id': 5,
+                            'title': 'Divorce and the American South'
+                        },
+                        {
+                            'id': 6,
+                            'title': 'The Thunderbird Inn'
+                        },
+                        {
+                            'id': 7,
+                            'title': 'Get Me Out of Here Alive'
+                        },
+                        {
+                            'id': 8,
+                            'title': 'You Ain’t No Saint'
+                        },
+                        {
+                            'id': 9,
+                            'title': 'Carolina Coast'
+                        },
+                        {
+                            'id': 10,
+                            'title': 'Going to Georgia'
+                        }
+                    ]
+                }
             }
         }
     }
@@ -148,7 +234,8 @@ snapshots['test_collection 1'] = (
                 'numReleases': 1,
                 'releases': [
                     {
-                        'id': 2
+                        'id': 2,
+                        'title': 'We Don’t Have Each Other'
                     }
                 ],
                 'starred': False,
@@ -195,7 +282,8 @@ snapshots['test_collection_from_name_and_type 1'] = (
                 'numReleases': 1,
                 'releases': [
                     {
-                        'id': 2
+                        'id': 2,
+                        'title': 'We Don’t Have Each Other'
                     }
                 ],
                 'starred': False,
@@ -304,10 +392,12 @@ snapshots['test_collections 1'] = (
                         'numReleases': 2,
                         'releases': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
                             },
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'Departure'
                             }
                         ],
                         'starred': True,
@@ -364,7 +454,8 @@ snapshots['test_collections 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'Departure'
                             }
                         ],
                         'starred': False,
@@ -403,7 +494,8 @@ snapshots['test_collections 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
                             }
                         ],
                         'starred': False,
@@ -442,7 +534,8 @@ snapshots['test_collections 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'Departure'
                             }
                         ],
                         'starred': False,
@@ -481,7 +574,8 @@ snapshots['test_collections 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'Departure'
                             }
                         ],
                         'starred': False,
@@ -520,7 +614,8 @@ snapshots['test_collections 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
                             }
                         ],
                         'starred': False,
@@ -559,7 +654,8 @@ snapshots['test_collections 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'Departure'
                             }
                         ],
                         'starred': False,
@@ -598,7 +694,8 @@ snapshots['test_collections 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
                             }
                         ],
                         'starred': False,
@@ -637,7 +734,8 @@ snapshots['test_collections 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
                             }
                         ],
                         'starred': False,
@@ -808,10 +906,12 @@ snapshots['test_collections_type_param 1'] = (
                         'numReleases': 2,
                         'releases': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
                             },
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'Departure'
                             }
                         ],
                         'starred': True,
@@ -856,7 +956,8 @@ snapshots['test_collections_type_param 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'Departure'
                             }
                         ],
                         'starred': False,
@@ -895,7 +996,8 @@ snapshots['test_collections_type_param 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
                             }
                         ],
                         'starred': False,
@@ -934,7 +1036,8 @@ snapshots['test_collections_type_param 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'Departure'
                             }
                         ],
                         'starred': False,
@@ -973,7 +1076,8 @@ snapshots['test_collections_type_param 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'Departure'
                             }
                         ],
                         'starred': False,
@@ -1012,7 +1116,8 @@ snapshots['test_collections_type_param 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
                             }
                         ],
                         'starred': False,
@@ -1051,7 +1156,8 @@ snapshots['test_collections_type_param 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'Departure'
                             }
                         ],
                         'starred': False,
@@ -1090,7 +1196,8 @@ snapshots['test_collections_type_param 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
                             }
                         ],
                         'starred': False,
@@ -1129,7 +1236,8 @@ snapshots['test_collections_type_param 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
                             }
                         ],
                         'starred': False,
@@ -1218,43 +1326,129 @@ snapshots['test_del_release_from_collection 1'] = (
     {
         'data': {
             'delReleaseFromCollection': {
-                'id': 1,
-                'lastUpdatedOn': 1603067134,
-                'name': 'Inbox',
-                'numReleases': 1,
-                'releases': [
-                    {
-                        'id': 3
-                    }
-                ],
-                'starred': True,
-                'topGenres': [
-                    {
-                        'genre': {
-                            'id': 16
+                'collection': {
+                    'id': 1,
+                    'lastUpdatedOn': 1603067134,
+                    'name': 'Inbox',
+                    'numReleases': 1,
+                    'releases': [
+                        {
+                            'id': 3,
+                            'title': 'Departure'
+                        }
+                    ],
+                    'starred': True,
+                    'topGenres': [
+                        {
+                            'genre': {
+                                'id': 16
+                            },
+                            'numMatches': 1
                         },
-                        'numMatches': 1
-                    },
-                    {
-                        'genre': {
-                            'id': 17
+                        {
+                            'genre': {
+                                'id': 17
+                            },
+                            'numMatches': 1
                         },
-                        'numMatches': 1
-                    },
-                    {
-                        'genre': {
-                            'id': 18
+                        {
+                            'genre': {
+                                'id': 18
+                            },
+                            'numMatches': 1
                         },
-                        'numMatches': 1
-                    },
-                    {
-                        'genre': {
-                            'id': 19
+                        {
+                            'genre': {
+                                'id': 19
+                            },
+                            'numMatches': 1
+                        }
+                    ],
+                    'type': 'SYSTEM'
+                },
+                'release': {
+                    'addedOn': 1603067134,
+                    'artists': [
+                        {
+                            'id': 2,
+                            'name': 'Aaron West and the Roaring Twenties'
+                        }
+                    ],
+                    'collages': [
+                    ],
+                    'genres': [
+                        {
+                            'id': 12,
+                            'name': 'Folk'
                         },
-                        'numMatches': 1
-                    }
-                ],
-                'type': 'SYSTEM'
+                        {
+                            'id': 13,
+                            'name': 'Rock'
+                        },
+                        {
+                            'id': 14,
+                            'name': 'Country'
+                        },
+                        {
+                            'id': 15,
+                            'name': 'World'
+                        }
+                    ],
+                    'id': 2,
+                    'imageId': 1,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                    ],
+                    'numTracks': 10,
+                    'releaseDate': '2014-07-08',
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 2014,
+                    'runtime': 2258,
+                    'title': 'We Don’t Have Each Other',
+                    'tracks': [
+                        {
+                            'id': 1,
+                            'title': 'Our Apartment'
+                        },
+                        {
+                            'id': 2,
+                            'title': 'Grapefruit'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'St. Joe Keeps Us Safe'
+                        },
+                        {
+                            'id': 4,
+                            'title': 'Runnin’ Scared'
+                        },
+                        {
+                            'id': 5,
+                            'title': 'Divorce and the American South'
+                        },
+                        {
+                            'id': 6,
+                            'title': 'The Thunderbird Inn'
+                        },
+                        {
+                            'id': 7,
+                            'title': 'Get Me Out of Here Alive'
+                        },
+                        {
+                            'id': 8,
+                            'title': 'You Ain’t No Saint'
+                        },
+                        {
+                            'id': 9,
+                            'title': 'Carolina Coast'
+                        },
+                        {
+                            'id': 10,
+                            'title': 'Going to Georgia'
+                        }
+                    ]
+                }
             }
         }
     }
@@ -1350,7 +1544,8 @@ snapshots['test_update_collection 1'] = (
                 'numReleases': 1,
                 'releases': [
                     {
-                        'id': 2
+                        'id': 2,
+                        'title': 'We Don’t Have Each Other'
                     }
                 ],
                 'starred': True,

@@ -12,6 +12,7 @@ from src.library import user
 from src.util import database
 from src.webserver.app import create_app
 from src.webserver.routes.graphql import GraphQLContext
+from tests.fragments import FRAGMENTS
 
 FAKE_DATA = Path(__file__).parent / "fake_data"
 DATABASE_PATH = FAKE_DATA / "db.sqlite3"
@@ -96,6 +97,9 @@ async def quart_client(quart_app):
 @pytest.fixture
 def graphql_query(db, quart_app):
     async def executor(query):
+        used_fragments = "\n".join(v for k, v in FRAGMENTS.items() if k in query)
+        query = f"{query}\n{used_fragments}"
+
         async with quart_app.test_request_context("/testing", method="GET"):
             return await graphql(
                 schema=schema,

@@ -17,7 +17,8 @@ snapshots['test_artist 1'] = (
                 'numReleases': 1,
                 'releases': [
                     {
-                        'id': 3
+                        'id': 3,
+                        'title': 'Departure'
                     }
                 ],
                 'starred': False,
@@ -62,7 +63,8 @@ snapshots['test_artist_from_name 1'] = (
                 'numReleases': 1,
                 'releases': [
                     {
-                        'id': 3
+                        'id': 3,
+                        'title': 'Departure'
                     }
                 ],
                 'starred': False,
@@ -157,7 +159,8 @@ snapshots['test_artists 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'Departure'
                             }
                         ],
                         'starred': True,
@@ -194,7 +197,8 @@ snapshots['test_artists 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 2
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
                             }
                         ],
                         'starred': False,
@@ -231,7 +235,8 @@ snapshots['test_artists 1'] = (
                         'numReleases': 1,
                         'releases': [
                             {
-                                'id': 3
+                                'id': 3,
+                                'title': 'Departure'
                             }
                         ],
                         'starred': False,
@@ -322,7 +327,8 @@ snapshots['test_update_artist 1'] = (
                 'numReleases': 1,
                 'releases': [
                     {
-                        'id': 3
+                        'id': 3,
+                        'title': 'Departure'
                     }
                 ],
                 'starred': True,

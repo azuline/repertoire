@@ -12,28 +12,46 @@ snapshots['test_add_artist_to_track 1'] = (
     {
         'data': {
             'addArtistToTrack': {
-                'artists': [
-                    {
-                        'artist': {
-                            'id': 2
+                'track': {
+                    'artists': [
+                        {
+                            'artist': {
+                                'id': 2,
+                                'name': 'Aaron West and the Roaring Twenties'
+                            },
+                            'role': 'MAIN'
                         },
-                        'role': 'MAIN'
+                        {
+                            'artist': {
+                                'id': 3,
+                                'name': 'John Darnielle'
+                            },
+                            'role': 'MAIN'
+                        }
+                    ],
+                    'discNumber': '1',
+                    'duration': 213,
+                    'id': 1,
+                    'release': {
+                        'id': 2,
+                        'title': 'We Don’t Have Each Other'
                     },
-                    {
-                        'artist': {
-                            'id': 3
-                        },
-                        'role': 'MAIN'
-                    }
-                ],
-                'discNumber': '1',
-                'duration': 213,
-                'id': 1,
-                'release': {
-                    'id': 2
+                    'title': 'Our Apartment',
+                    'trackNumber': '1'
                 },
-                'title': 'Our Apartment',
-                'trackNumber': '1'
+                'trackArtist': {
+                    'artist': {
+                        'id': 3,
+                        'name': 'John Darnielle',
+                        'numReleases': 0,
+                        'releases': [
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                        ]
+                    },
+                    'role': 'MAIN'
+                }
             }
         }
     }
@@ -141,16 +159,60 @@ snapshots['test_del_artist_from_track 1'] = (
     {
         'data': {
             'delArtistFromTrack': {
-                'artists': [
-                ],
-                'discNumber': '1',
-                'duration': 213,
-                'id': 1,
-                'release': {
-                    'id': 2
+                'track': {
+                    'artists': [
+                    ],
+                    'discNumber': '1',
+                    'duration': 213,
+                    'id': 1,
+                    'release': {
+                        'id': 2,
+                        'title': 'We Don’t Have Each Other'
+                    },
+                    'title': 'Our Apartment',
+                    'trackNumber': '1'
                 },
-                'title': 'Our Apartment',
-                'trackNumber': '1'
+                'trackArtist': {
+                    'artist': {
+                        'id': 2,
+                        'name': 'Aaron West and the Roaring Twenties',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 12
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 13
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 14
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 15
+                                },
+                                'numMatches': 1
+                            }
+                        ]
+                    },
+                    'role': 'MAIN'
+                }
             }
         }
     }
@@ -246,13 +308,15 @@ snapshots['test_track 1'] = (
                 'artists': [
                     {
                         'artist': {
-                            'id': 2
+                            'id': 2,
+                            'name': 'Aaron West and the Roaring Twenties'
                         },
                         'role': 'MAIN'
                     },
                     {
                         'artist': {
-                            'id': 3
+                            'id': 3,
+                            'name': 'John Darnielle'
                         },
                         'role': 'COMPOSER'
                     }
@@ -261,7 +325,8 @@ snapshots['test_track 1'] = (
                 'duration': 153,
                 'id': 10,
                 'release': {
-                    'id': 2
+                    'id': 2,
+                    'title': 'We Don’t Have Each Other'
                 },
                 'title': 'Going to Georgia',
                 'trackNumber': '10'
@@ -302,7 +367,8 @@ snapshots['test_update_track 1'] = (
                 'artists': [
                     {
                         'artist': {
-                            'id': 2
+                            'id': 2,
+                            'name': 'Aaron West and the Roaring Twenties'
                         },
                         'role': 'MAIN'
                     }
@@ -311,7 +377,8 @@ snapshots['test_update_track 1'] = (
                 'duration': 252,
                 'id': 2,
                 'release': {
-                    'id': 3
+                    'id': 3,
+                    'title': 'Departure'
                 },
                 'title': 'aa',
                 'trackNumber': '999'
