@@ -1,12 +1,13 @@
 import pytest
 
+from src.library import user
 from src.util import database
 
 USER_QUERY = """
     query {
         user {
             id
-            username
+            nickname
         }
     }
 """
@@ -23,6 +24,21 @@ TOKEN_QUERY = """
 @pytest.mark.asyncio
 async def test_user(db, graphql_query, snapshot):
     snapshot.assert_match(await graphql_query(USER_QUERY))
+
+
+@pytest.mark.asyncio
+async def test_update_user(db, graphql_query, snapshot):
+    query = """
+        mutation {
+            updateUser(nickname: "not admin") {
+                id
+                nickname
+            }
+        }
+    """
+
+    snapshot.assert_match(await graphql_query(query))
+    assert user.from_id(1, db).nickname == "not admin"
 
 
 @pytest.mark.asyncio

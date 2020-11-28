@@ -1,7 +1,6 @@
-import { QueryResult } from 'react-query';
 import { useGQLQuery } from 'src/hooks';
 import { RELEASE_FIELDS, TRACK_FIELDS } from 'src/lib/fragments';
-import { GraphQLError, ReleaseT, RequestError } from 'src/types';
+import { QueryReturn, ReleaseT } from 'src/types';
 
 const QUERY = `
   query ($id: Int!) {
@@ -50,5 +49,5 @@ type VariablesT = { id: number };
  * @param id - The ID of the release to fetch.
  * @returns The react-query result.
  */
-export const fetchRelease = (id: number): QueryResult<ResultT, RequestError<GraphQLError>> =>
+export const fetchRelease = (id: number): QueryReturn<ResultT> =>
   useGQLQuery<ResultT, VariablesT>('releases', QUERY, { id });

@@ -47,9 +47,7 @@ export const Login: React.FC<{ className?: string }> = ({ className }) => {
             ref={input}
             style={inputStyle}
           />
-          <button type="submit" className="px-4 py-2 bg-primary hover:bg-primary">
-            Login
-          </button>
+          <button type="submit">Login</button>
         </div>
         <div className="flex items-center mt-2">
           <input className="mx-2 cursor-pointer" id="permanent" type="checkbox" ref={permanent} />

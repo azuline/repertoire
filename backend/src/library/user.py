@@ -9,7 +9,8 @@ from typing import Dict, Optional, Tuple, Union
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from src.errors import InvalidUsername, TokenGenerationFailure
+from src.errors import InvalidNickname, TokenGenerationFailure
+from src.util import update_dataclass
 
 TOKEN_LENGTH = 32
 PREFIX_LENGTH = 12
@@ -26,7 +27,7 @@ class T:
     #:
     id: int
     #:
-    username: str
+    nickname: str
 
 
 def exists(id: int, cursor: Cursor) -> bool:
@@ -58,7 +59,7 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     :param cursor: A cursor to the database.
     :return: The user, if they exist.
     """
-    cursor.execute("SELECT id, username FROM system__users WHERE id = ?", (id,))
+    cursor.execute("SELECT id, nickname FROM system__users WHERE id = ?", (id,))
 
     if row := cursor.fetchone():
         return from_row(row)
@@ -66,17 +67,17 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     return None
 
 
-def from_username(username: str, cursor: Cursor) -> Optional[T]:
+def from_nickname(nickname: str, cursor: Cursor) -> Optional[T]:
     """
-    Get a user tuple from the user's username.
+    Get a user tuple from the user's nickname.
 
-    :param username: The username of the user to get.
+    :param nickname: The nickname of the user to get.
     :param cursor: A cursor to the database.
     :return: The user, if they exist.
     """
     cursor.execute(
-        "SELECT id, username FROM system__users WHERE username = ?",
-        (username,),
+        "SELECT id, nickname FROM system__users WHERE nickname = ?",
+        (nickname,),
     )
 
     if row := cursor.fetchone():
@@ -102,7 +103,7 @@ def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
     token_prefix = token[:PREFIX_LENGTH]
 
     cursor.execute(
-        "SELECT id, username FROM system__users WHERE token_prefix = ?",
+        "SELECT id, nickname FROM system__users WHERE token_prefix = ?",
         (token_prefix,),
     )
 
@@ -114,18 +115,18 @@ def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
     return None
 
 
-def create(username: str, cursor: Cursor) -> Tuple[T, bytes]:
+def create(nickname: str, cursor: Cursor) -> Tuple[T, bytes]:
     """
     Create a user.
 
-    :param username: The username of the user to create.
+    :param nickname: The nickname of the user to create.
     :param cursor: A cursor to the database.
     :return: The newly created user and their token.
-    :raises InvalidUsername: If the username is not alphanumeric.
+    :raises InvalidNickname: If the nickname is invalid.
     :raises TokenGenerationFailure: If we could not generate a suitable token.
     """
-    if not _validate_username(username, cursor):
-        raise InvalidUsername("Invalid username. Usernames must be alphanumeric.")
+    if not _validate_nickname(nickname):
+        raise InvalidNickname
 
     # Generate the token for the new user and hash it.
     token, token_prefix = _generate_token(cursor)
@@ -137,59 +138,44 @@ def create(username: str, cursor: Cursor) -> Tuple[T, bytes]:
     cursor.execute(
         """
         INSERT INTO system__users
-        (username, token_prefix, token_hash, csrf_token)
+        (nickname, token_prefix, token_hash, csrf_token)
         VALUES (?, ?, ?, ?)
         """,
-        (username, token_prefix, token_hash, csrf_token),
+        (nickname, token_prefix, token_hash, csrf_token),
     )
 
-    logger.info(f"Created user {username} with ID {cursor.lastrowid}.")
+    logger.info(f"Created user {nickname} with ID {cursor.lastrowid}.")
 
-    return T(id=cursor.lastrowid, username=username), token
+    return T(id=cursor.lastrowid, nickname=nickname), token
 
 
-def _validate_username(username: str, cursor: Cursor) -> bool:
+def update(usr: T, cursor: Cursor, **changes) -> T:
     """
-    Validate a potential username in two ways: ensure that it is unique and that it is
-    alphanumeric.
+    Update a user and persist changes to the database. To update a value, pass it
+    in as a keyword argument. To keep the original value, do not pass in a keyword
+    argument.
 
-    :param username: The username to validate.
+    :param usr: The user to update.
     :param cursor: A cursor to the database.
-    :return: Whether the username is valid.
+    :param nickname: New user nickname.
+    :type  nickname: :py:obj:`str`
+    :return: The updated user.
     """
-    # First check to see if the username is in-use.
-    cursor.execute("SELECT 1 FROM system__users WHERE username = ?", (username,))
-    if cursor.fetchone():
-        return False
+    if changes.get("nickname", None) and not _validate_nickname(changes["nickname"]):
+        raise InvalidNickname
 
-    # Finally, validate the contents of the username.
-    return all(c in VALID_USERNAME_CHARACTERS for c in username)
-
-
-def _generate_token(cursor: Cursor) -> Tuple[bytes, bytes]:
-    """
-    Generate a new token with a unique prefix. If we fail to generate a token with a
-    unique prefix after 64 rounds, ``TokenGenerationFailure`` will be raised.
-
-    :param cursor: A cursor to the database.
-    :return: The token and its prefix, in that order.
-    :raises TokenGenerationFailure: If a unique token prefix could not be found.
-    """
-    # Try to generate a suitable token 64 times.
-    for _ in range(64):
-        token = secrets.token_bytes(TOKEN_LENGTH)
-        prefix = token[:PREFIX_LENGTH]
-
-        # Check for token prefix uniqueness.
-        cursor.execute("SELECT 1 FROM system__users WHERE token_prefix = ?", (prefix,))
-        if not cursor.fetchone():
-            return token, prefix
-
-    # If we do not find a suitable token after 64 cycles, raise an exception.
-    logger.info("Failed to generate token after 64 cycles o.O")  # pragma: no cover
-    raise TokenGenerationFailure(  # pragma: no cover
-        "Failed to generate token after 64 cycles o.O"
+    cursor.execute(
+        """
+        UPDATE system__users
+        SET nickname = ?
+        WHERE id = ?
+        """,
+        (changes.get("nickname", usr.nickname), usr.id),
     )
+
+    logger.info(f"Updated user {usr.id} with {changes}.")
+
+    return update_dataclass(usr, **changes)
 
 
 def new_token(usr: T, cursor: Cursor) -> bytes:
@@ -228,3 +214,42 @@ def check_token(usr: T, token: bytes, cursor: Cursor) -> bool:
         return False
 
     return check_password_hash(row["token_hash"], token)
+
+
+def _validate_nickname(nickname: str) -> bool:
+    """
+    Validate a potential nickname:
+
+    - Ensure that it is less than 24 characters.
+
+    :param nickname: The nickname to validate.
+    :param cursor: A cursor to the database.
+    :return: Whether the nickname is valid.
+    """
+    return len(nickname) < 24
+
+
+def _generate_token(cursor: Cursor) -> Tuple[bytes, bytes]:
+    """
+    Generate a new token with a unique prefix. If we fail to generate a token with a
+    unique prefix after 64 rounds, ``TokenGenerationFailure`` will be raised.
+
+    :param cursor: A cursor to the database.
+    :return: The token and its prefix, in that order.
+    :raises TokenGenerationFailure: If a unique token prefix could not be found.
+    """
+    # Try to generate a suitable token 64 times.
+    for _ in range(64):
+        token = secrets.token_bytes(TOKEN_LENGTH)
+        prefix = token[:PREFIX_LENGTH]
+
+        # Check for token prefix uniqueness.
+        cursor.execute("SELECT 1 FROM system__users WHERE token_prefix = ?", (prefix,))
+        if not cursor.fetchone():
+            return token, prefix
+
+    # If we do not find a suitable token after 64 cycles, raise an exception.
+    logger.info("Failed to generate token after 64 cycles o.O")  # pragma: no cover
+    raise TokenGenerationFailure(  # pragma: no cover
+        "Failed to generate token after 64 cycles o.O"
+    )

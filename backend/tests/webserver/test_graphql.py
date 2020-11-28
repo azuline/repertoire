@@ -7,7 +7,7 @@ async def test_graphql_endpoint(quart_client, snapshot):
         query {
             user {
                 id
-                username
+                nickname
             }
         }
     """
@@ -24,7 +24,7 @@ async def test_graphql_endpoint_no_auth(quart_client, snapshot):
         query {
             user {
                 id
-                username
+                nickname
             }
         }
     """

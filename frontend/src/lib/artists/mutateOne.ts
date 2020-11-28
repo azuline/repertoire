@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { MutationResultPair, useQueryCache } from 'react-query';
+import { useQueryCache } from 'react-query';
 import { useGQLMutation } from 'src/hooks';
 import { ARTIST_FIELDS } from 'src/lib/fragments';
-import { ArtistT, GraphQLError, RequestError } from 'src/types';
+import { updateMutationConfig } from 'src/lib/util';
+import { ArtistT, GraphQLError, MutationHook, RequestError } from 'src/types';
 
 const QUERY = `
   mutation (
@@ -30,15 +31,14 @@ export type MutateOneArtistVariablesT = { id: number; name?: string; starred?: b
  *
  * @returns The react-query mutation result.
  */
-export const useMutateArtist = (): MutationResultPair<
-  Result,
-  RequestError<GraphQLError>,
-  MutateOneArtistVariablesT,
-  unknown
-> => {
+export const useMutateArtist: MutationHook<Result, MutateOneArtistVariablesT> = (config = {}) => {
   const queryCache = useQueryCache();
 
-  const onSuccess = React.useCallback(() => queryCache.invalidateQueries('artists'), [queryCache]);
+  const onSuccess = React.useCallback(() => {
+    queryCache.invalidateQueries('artists');
+  }, [queryCache]);
 
-  return useGQLMutation<Result, MutateOneArtistVariablesT>(QUERY, { onSuccess });
+  const newConfig = updateMutationConfig(config, { onSuccess });
+
+  return useGQLMutation<Result, MutateOneArtistVariablesT>(QUERY, newConfig);
 };

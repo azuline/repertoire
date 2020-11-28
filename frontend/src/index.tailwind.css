@@ -41,23 +41,15 @@ html {
 }
 
 button {
-  @apply px-2 py-1 font-normal rounded text-foreground bg-primary-alt2;
+  @apply px-4 py-2 font-normal rounded text-foreground bg-primary-alt hover:bg-primary;
 }
 
-button:hover {
-  @apply bg-black bg-opacity-5 dark:bg-white dark:bg-opacity-5;
-}
-
-button.large {
-  @apply px-4 py-2;
+.small-btn {
+  @apply px-2 py-1;
 }
 
 .text-btn {
-  @apply bg-transparent text-primary;
-}
-
-.text-btn:hover {
-  @apply bg-transparent text-gold-400;
+  @apply bg-transparent hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5 text-primary-alt3;
 }
 
 input {

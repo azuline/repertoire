@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Optional
 
 from ariadne import ObjectType
 
@@ -17,9 +17,23 @@ def resolve_user(obj: Any, info: GraphQLResolveInfo) -> user.T:
     return info.context.user
 
 
+@mutation.field("updateUser")
+@commit
+def resolve_update_user(
+    _,
+    info: GraphQLResolveInfo,
+    nickname: Optional[str],
+) -> user.T:
+    return user.update(
+        info.context.user,
+        info.context.db,
+        nickname=nickname,
+    )
+
+
 @mutation.field("newToken")
 @commit
-def resolve_new_token(_, info: GraphQLResolveInfo) -> user.T:
+def resolve_new_token(_, info: GraphQLResolveInfo) -> bytes:
     return user.new_token(info.context.user, info.context.db)
 
 

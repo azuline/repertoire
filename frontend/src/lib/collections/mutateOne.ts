@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { MutationResultPair, useQueryCache } from 'react-query';
+import { useQueryCache } from 'react-query';
 import { useGQLMutation } from 'src/hooks';
 import { COLLECTION_FIELDS } from 'src/lib/fragments';
-import { CollectionT, GraphQLError, RequestError } from 'src/types';
+import { updateMutationConfig } from 'src/lib/util';
+import { CollectionT, MutationHook } from 'src/types';
 
 const QUERY = `
   mutation (
@@ -30,17 +31,16 @@ export type MutateOneCollectionVariablesT = { id: number; name?: string; starred
  *
  * @returns The react-query mutation result.
  */
-export const useMutateCollection = (): MutationResultPair<
-  ResultT,
-  RequestError<GraphQLError>,
-  MutateOneCollectionVariablesT,
-  unknown
-> => {
+export const useMutateCollection: MutationHook<ResultT, MutateOneCollectionVariablesT> = (
+  config = {},
+) => {
   const queryCache = useQueryCache();
 
-  const onSuccess = React.useCallback(() => queryCache.invalidateQueries('collections'), [
-    queryCache,
-  ]);
+  const onSuccess = React.useCallback(() => {
+    queryCache.invalidateQueries('collections');
+  }, [queryCache]);
 
-  return useGQLMutation<ResultT, MutateOneCollectionVariablesT>(QUERY, { onSuccess });
+  const newConfig = updateMutationConfig(config, { onSuccess });
+
+  return useGQLMutation<ResultT, MutateOneCollectionVariablesT>(QUERY, newConfig);
 };

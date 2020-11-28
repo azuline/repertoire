@@ -9,7 +9,7 @@ from src.errors import NotFound, ParseError
 from src.graphql.mutation import mutation
 from src.graphql.query import query
 from src.graphql.util import commit
-from src.library import artist, release
+from src.library import artist, collection, release, track
 from src.util import convert_keys_case
 
 gql_release = ObjectType("Release")
@@ -37,22 +37,22 @@ def resolve_artists(obj: release.T, info: GraphQLResolveInfo) -> List[artist.T]:
 
 
 @gql_release.field("tracks")
-def resolve_top_genres(obj: release.T, info: GraphQLResolveInfo) -> List[Dict]:
+def resolve_tracks(obj: release.T, info: GraphQLResolveInfo) -> List[track.T]:
     return release.tracks(obj, info.context.db)
 
 
 @gql_release.field("genres")
-def resolve_genres(obj: release.T, info: GraphQLResolveInfo) -> List[Dict]:
+def resolve_genres(obj: release.T, info: GraphQLResolveInfo) -> List[collection.T]:
     return release.collections(obj, info.context.db, type=CollectionType.GENRE)
 
 
 @gql_release.field("labels")
-def resolve_labels(obj: release.T, info: GraphQLResolveInfo) -> List[Dict]:
+def resolve_labels(obj: release.T, info: GraphQLResolveInfo) -> List[collection.T]:
     return release.collections(obj, info.context.db, type=CollectionType.LABEL)
 
 
 @gql_release.field("collages")
-def resolve_collages(obj: release.T, info: GraphQLResolveInfo) -> List[Dict]:
+def resolve_collages(obj: release.T, info: GraphQLResolveInfo) -> List[collection.T]:
     return release.collections(obj, info.context.db, type=CollectionType.COLLAGE)
 
 
@@ -70,7 +70,7 @@ def resolve_create_release(
     # Convert the "releaseDate" field from a string to a `dat` object. If it is not in
     # the changes dict, do nothing.
     try:
-        releaseDate = date.fromisoformat(releaseDate)
+        parsedDate = date.fromisoformat(releaseDate)  # type: ignore
     except ValueError:
         raise ParseError("Invalid release date.")
     except TypeError:
@@ -82,7 +82,7 @@ def resolve_create_release(
         release_type=releaseType,
         release_year=releaseYear,
         cursor=info.context.db,
-        release_date=releaseDate,
+        release_date=parsedDate,
     )
 
 

@@ -154,6 +154,11 @@ type Mutation {
         role: ArtistRole!
     ): Track
 
+    "Update the authenticated user."
+    updateUser(
+      nickname: String
+    ): User
+
     """
     Generate a new authentication token for the current user. Invalidate the
     old one.
@@ -254,7 +259,7 @@ type TopGenre {
 
 type User {
     id: Int!
-    username: String!
+    nickname: String!
 }
 
 type Token {

@@ -8,7 +8,7 @@ from src.webserver.app import _get_secret_key
 async def test_database_handler(db, quart_app):
     async with quart_app.test_request_context("/", method="GET"):
         await quart_app.preprocess_request()
-        quart.g.db.execute("SELECT username FROM system__users WHERE id = 1")
+        quart.g.db.execute("SELECT nickname FROM system__users WHERE id = 1")
         assert "admin" == quart.g.db.fetchone()[0]
 
 

@@ -30,7 +30,7 @@ export const PagedReleases: React.FC<{
     switch (viewOptions.releaseView) {
       case ReleaseView.ROW:
         return (
-          <div className="flex flex-col divide-y-2 divide-primary-alt2 bg-background">
+          <div className="flex flex-col divide-y-2 divide-primary-alt2">
             {results.map((rls) => (
               <div key={rls.id}>
                 <RowRelease release={rls} className="px-4 py-4 rounded" />

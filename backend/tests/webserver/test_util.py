@@ -10,7 +10,7 @@ def check_auth_app(db, quart_app):
     @quart_app.route("/testing", methods=["GET"])
     @check_auth()
     async def testing():
-        return quart.g.user.username
+        return quart.g.user.nickname
 
     return quart_app
 
@@ -20,7 +20,7 @@ def check_csrf_app(db, quart_app):
     @quart_app.route("/testing", methods=["POST"])
     @check_auth(csrf=True)
     async def testing():
-        return quart.g.user.username
+        return quart.g.user.nickname
 
     return quart_app
 

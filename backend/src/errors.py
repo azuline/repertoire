@@ -22,8 +22,16 @@ class LibError(BackendError):
         super().__init__(message, *args, **kwargs)  # type: ignore
 
 
-class InvalidUsername(LibError):
-    pass
+class InvalidNickname(LibError):
+    """
+    This error does not accept a message as a part of its constructor.
+
+    The message is static to the exception.
+    """
+
+    def __init__(self, *args, **kwargs):
+        self.message = "Invalid nickname. Nicknames must be less than 24 characters."
+        super().__init__(self.message, *args, **kwargs)
 
 
 class TokenGenerationFailure(LibError):

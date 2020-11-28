@@ -27,7 +27,7 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <div className={clsx(className, 'flex items-center h-full')}>
       <Icon className="w-5 mr-1" icon="user-medium" />
-      <div className="mr-3">{status === 'success' && data ? data.user.username : 'Loading...'}</div>
+      <div className="mr-3">{status === 'success' && data ? data.user.nickname : 'Loading...'}</div>
       <Link className="sm:hidden" href="/settings" onClick={closeSidebar}>
         <Icon
           className="w-5 mr-2 cursor-pointer text-primary hover:text-primary-alt3"

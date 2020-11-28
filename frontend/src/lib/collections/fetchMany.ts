@@ -1,7 +1,6 @@
-import { QueryResult } from 'react-query';
 import { useGQLQuery } from 'src/hooks';
 import { COLLECTION_FIELDS } from 'src/lib/fragments';
-import { CollectionT, CollectionType, GraphQLError, RequestError } from 'src/types';
+import { CollectionT, CollectionType, QueryReturn } from 'src/types';
 
 const QUERY = `
   query ($types: [CollectionType]) {
@@ -22,7 +21,5 @@ type VariablesT = { types: CollectionType[] };
  * @param types - The types of collections to fetch. Leave empty to fetch all.
  * @returns The react-query result.
  */
-export const fetchCollections = (
-  types: CollectionType[] = [],
-): QueryResult<ResultT, RequestError<GraphQLError>> =>
+export const fetchCollections = (types: CollectionType[] = []): QueryReturn<ResultT> =>
   useGQLQuery<ResultT, VariablesT>('collections', QUERY, { types });

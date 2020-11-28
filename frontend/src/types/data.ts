@@ -11,7 +11,7 @@ import { ArtistRole } from './enums';
 // Rather than deal with that, I think it better to just eat the cost of less
 // type safety.
 
-export type UserT = { id: number; username: string };
+export type UserT = { id: number; nickname: string };
 
 export type ReleaseT = {
   id: number;
