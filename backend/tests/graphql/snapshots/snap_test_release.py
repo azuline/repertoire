@@ -440,11 +440,11 @@ snapshots['test_release 1'] = (
                 'inInbox': True,
                 'labels': [
                 ],
-                'numTracks': 11,
+                'numTracks': 12,
                 'releaseDate': None,
                 'releaseType': 'EP',
                 'releaseYear': 2016,
-                'runtime': 3513,
+                'runtime': 3515,
                 'title': 'Departure',
                 'tracks': [
                     {
@@ -479,6 +479,9 @@ snapshots['test_release 1'] = (
                     },
                     {
                         'id': 21
+                    },
+                    {
+                        'id': 22
                     }
                 ]
             }
@@ -639,11 +642,11 @@ snapshots['test_releases 1'] = (
                         'inInbox': True,
                         'labels': [
                         ],
-                        'numTracks': 11,
+                        'numTracks': 12,
                         'releaseDate': None,
                         'releaseType': 'EP',
                         'releaseYear': 2016,
-                        'runtime': 3513,
+                        'runtime': 3515,
                         'title': 'Departure',
                         'tracks': [
                             {
@@ -678,6 +681,9 @@ snapshots['test_releases 1'] = (
                             },
                             {
                                 'id': 21
+                            },
+                            {
+                                'id': 22
                             }
                         ]
                     }
@@ -969,11 +975,11 @@ snapshots['test_releases_pagination 1'] = (
                         'inInbox': True,
                         'labels': [
                         ],
-                        'numTracks': 11,
+                        'numTracks': 12,
                         'releaseDate': None,
                         'releaseType': 'EP',
                         'releaseYear': 2016,
-                        'runtime': 3513,
+                        'runtime': 3515,
                         'title': 'Departure',
                         'tracks': [
                             {
@@ -1008,6 +1014,9 @@ snapshots['test_releases_pagination 1'] = (
                             },
                             {
                                 'id': 21
+                            },
+                            {
+                                'id': 22
                             }
                         ]
                     }
@@ -1137,11 +1146,11 @@ snapshots['test_releases_sort 1'] = (
                         'inInbox': True,
                         'labels': [
                         ],
-                        'numTracks': 11,
+                        'numTracks': 12,
                         'releaseDate': None,
                         'releaseType': 'EP',
                         'releaseYear': 2016,
-                        'runtime': 3513,
+                        'runtime': 3515,
                         'title': 'Departure',
                         'tracks': [
                             {
@@ -1176,6 +1185,9 @@ snapshots['test_releases_sort 1'] = (
                             },
                             {
                                 'id': 21
+                            },
+                            {
+                                'id': 22
                             }
                         ]
                     },
@@ -1406,11 +1418,11 @@ snapshots['test_releases_sort_desc 1'] = (
                         'inInbox': True,
                         'labels': [
                         ],
-                        'numTracks': 11,
+                        'numTracks': 12,
                         'releaseDate': None,
                         'releaseType': 'EP',
                         'releaseYear': 2016,
-                        'runtime': 3513,
+                        'runtime': 3515,
                         'title': 'Departure',
                         'tracks': [
                             {
@@ -1445,6 +1457,9 @@ snapshots['test_releases_sort_desc 1'] = (
                             },
                             {
                                 'id': 21
+                            },
+                            {
+                                'id': 22
                             }
                         ]
                     }

@@ -39,7 +39,7 @@ def test_scan_directory(mock_catalog_file, mock_fix_release_types, db):
     track.create(
         title="a",
         filepath=NEW_ALBUM / "track1.flac",
-        sha256=b"0" * 32,
+        initial_sha256=b"0" * 32,
         release_id=1,
         artists=[],
         duration=4,
@@ -80,7 +80,7 @@ def test_catalog_file(mock_fetch_or_create_release, db, snapshot):
 
 
 @patch("src.indexer.scanner._fetch_or_create_release")
-@patch("src.indexer.scanner.calculate_sha_256")
+@patch("src.indexer.scanner.calculate_sha_256_initial_16")
 @patch("src.indexer.scanner.TagFile")
 def test_catalog_file_null_title(
     tagfile,
@@ -110,7 +110,7 @@ def test_catalog_file_null_title(
 
 
 @patch("src.indexer.scanner._fetch_or_create_release")
-@patch("src.indexer.scanner.calculate_sha_256")
+@patch("src.indexer.scanner.calculate_sha_256_initial_16")
 @patch("src.indexer.scanner.TagFile")
 def test_catalog_file_duplicate_artist(
     tagfile,
@@ -320,7 +320,7 @@ def test_fix_release_types(db, num_tracks, release_type):
         track.create(
             title="a",
             filepath=f"/lol{i}.flac",
-            sha256=bytes([i] * 32),
+            initial_sha256=bytes([i] * 32),
             release_id=rls.id,
             artists=[],
             duration=4,
