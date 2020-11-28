@@ -37,7 +37,7 @@ def test_from_filepath_failure(db: Cursor):
     assert track.from_filepath("lol!", db) is None
 
 
-def test_from_sha256_success(db: Cursor):
+def test_from_full_sha256_success(db: Cursor):
     sha256 = bytes.fromhex(
         "75ca14432165a9ee87ee63df654ef77f45d009bbe57da0610a453c48c6b26a1a"
     )
@@ -45,7 +45,19 @@ def test_from_sha256_success(db: Cursor):
     assert trk.id == 1
 
 
-def test_from_sha256_failure(db: Cursor):
+def test_from_full_sha256_failure(db: Cursor):
+    assert track.from_sha256(b"0" * 32, db) is None
+
+
+def test_from_initial_sha256_success(db: Cursor):
+    sha256 = bytes.fromhex(
+        "000000000000000000000000000000003"
+    )
+    trk = track.from_sha256(sha256, db)
+    assert trk.id == 3
+
+
+def test_from_initial_sha256_failure(db: Cursor):
     assert track.from_sha256(b"0" * 32, db) is None
 
 
@@ -55,7 +67,7 @@ def test_create(db: Cursor, snapshot):
     trk = track.create(
         title="new track",
         filepath=Path("/tmp/repertoire-library/09-track.m4a"),
-        sha256=b"0" * 32,
+        initial_sha256=b"0" * 32,
         release_id=2,
         artists=artists,
         duration=9001,

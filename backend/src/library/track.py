@@ -94,15 +94,31 @@ def from_filepath(filepath: Union[Path, str], cursor: Cursor) -> Optional[T]:
     return None
 
 
-def from_sha256(full_sha256: bytes, cursor: Cursor) -> Optional[T]:
+def from_full_sha256(full_sha256: bytes, cursor: Cursor) -> Optional[T]:
     """
     Return the track with the provided sha256 hash.
 
-    :param sha256: The sha256 hash of the track to fetch.
+    :param full_sha256: The sha256 hash of the track to fetch.
     :param cursor: A cursor to the database.
     :return: The track with the provided sha256 hash, if it exists.
     """
     cursor.execute("SELECT * FROM music__tracks WHERE full_sha256 = ?", (full_sha256,))
+
+    if row := cursor.fetchone():
+        return from_row(row)
+
+    return None
+
+
+def from_initial_sha256(initial_sha256: bytes, cursor: Cursor) -> Optional[T]:
+    """
+    Return the track with the provided sha256 hash.
+
+    :param initial_sha256: The sha256 hash of the track to fetch.
+    :param cursor: A cursor to the database.
+    :return: The track with the provided sha256 hash, if it exists.
+    """
+    cursor.execute("SELECT * FROM music__tracks WHERE initial_sha256 = ?", (initial_sha256,))
 
     if row := cursor.fetchone():
         return from_row(row)
@@ -242,7 +258,7 @@ def _duplicate_track_handle(
         if isfile(row["filepath"]):
             cursor.execute(
                 """
-                INSERT INTO dupe_music__tracks (
+                INSERT INTO music__dupe_tracks (
                     dupe_track_id, filepath, initial_sha256
                 ) VALUES (?, ?, ?)
                 """,
@@ -273,7 +289,7 @@ def _dupe_history_check(
     """
     cursor.execute(
         """SELECT dupe_track_id
-             FROM dupe_music__tracks
+             FROM music__dupe_tracks
             WHERE initial_sha256 = ?
               AND filepath = ?
         """,

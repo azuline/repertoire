@@ -93,7 +93,7 @@ CREATE TABLE music__tracks (
     UNIQUE (full_sha256)
 );
 
-CREATE TABLE dupe_music__tracks (
+CREATE TABLE music__dupe_tracks (
     id INTEGER NOT NULL,
     dupe_track_id INTEGER NOT NULL,
     filepath VARCHAR NOT NULL,
