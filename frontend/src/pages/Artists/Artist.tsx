@@ -34,7 +34,7 @@ export const Artist: React.FC<{ active: number }> = ({ active }) => {
               <BackButton />
             </Link>
           </div>
-          <SectionHeader className="my-4">{artist.name}</SectionHeader>
+          <SectionHeader className="mt-4 mb-8">{artist.name}</SectionHeader>
           <ArtistReleases active={active} />
         </div>
       </div>

@@ -32,7 +32,7 @@ export const Collage: React.FC<{ active: number }> = ({ active }) => {
               <BackButton />
             </Link>
           </div>
-          <SectionHeader className="my-4">{collection.name}</SectionHeader>
+          <SectionHeader className="mt-4 mb-8">{collection.name}</SectionHeader>
           <CollectionReleases active={active} />
         </div>
       </div>
