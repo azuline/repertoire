@@ -6,6 +6,11 @@ import { sleep } from 'src/util';
 // TODO: Make sure that we aren't leaking memory from all these audio
 // objects... they better be garbage collected properly.
 
+type NextAudio = {
+  trackId: number;
+  audio: HTMLAudioElement;
+};
+
 export type AudioT = {
   isPlaying: boolean;
   setIsPlaying: SetValue<boolean>;
@@ -31,7 +36,7 @@ export const useAudio = (): AudioT => {
   const { volume, isMuted } = React.useContext(VolumeContext);
 
   const [audio, setAudio] = React.useState<HTMLAudioElement | null>(null);
-  const [nextAudio, setNextAudio] = React.useState<HTMLAudioElement | null>(null);
+  const [nextAudio, setNextAudio] = React.useState<NextAudio | null>(null);
 
   const [isPlaying, setIsPlaying] = React.useState<boolean>(false);
   const [curTime, setCurTime] = React.useState<number>(0);
@@ -47,22 +52,37 @@ export const useAudio = (): AudioT => {
   React.useEffect(() => {
     if (audio) audio.pause();
 
-    if (!curTrack) return;
+    if (!curTrack) {
+      setIsPlaying(false);
+      return;
+    }
 
-    const newAudio = nextAudio || new Audio(`/files/tracks/${curTrack.id}`);
+    const newAudio =
+      nextAudio && nextAudio.trackId === curTrack.id
+        ? nextAudio.audio
+        : new Audio(`/files/tracks/${curTrack.id}`);
+
     newAudio.volume = isMuted ? 0 : volume / 100;
     setAudio(newAudio);
     setIsPlaying(true);
 
     // Set the next audio track for preloading.
-    if (curIndex && playQueue[curIndex + 1]) {
+    if (curIndex && curIndex !== playQueue.length - 1) {
       const nextTrack = playQueue[curIndex + 1];
-      const newNextAudio = new Audio(`/files/tracks/${nextTrack.id}`);
-      setNextAudio(newNextAudio);
+      const nextTrackAudio = new Audio(`/files/tracks/${nextTrack.id}`);
+      setNextAudio({ trackId: nextTrack.id, audio: nextTrackAudio });
     }
 
-    const onTrackEnd = (): void =>
-      setCurIndex((idx) => (idx !== null && idx !== playQueue.length - 1 ? idx + 1 : null));
+    const onTrackEnd = (): void => {
+      if (curIndex === playQueue.length - 1) {
+        setCurIndex(null);
+        setAudio(null);
+      } else {
+        setCurIndex((idx) => (idx as number) + 1);
+      }
+
+      setIsPlaying(false);
+    };
 
     newAudio.addEventListener('ended', onTrackEnd);
     return (): void => newAudio.removeEventListener('ended', onTrackEnd);
@@ -70,11 +90,14 @@ export const useAudio = (): AudioT => {
 
   React.useEffect(() => {
     if (!nextAudio) return;
+
     (async (): Promise<void> => {
       // Sleep for 8 seconds to not interfere with current track loading.
       // Do we even need to do this? Will browsers prioritize the playing track? Who knows!
       await sleep(8000);
-      nextAudio.load();
+      if (nextAudio.audio.paused) {
+        nextAudio.audio.load();
+      }
     })();
   }, [nextAudio]);
 

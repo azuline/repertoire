@@ -14,7 +14,7 @@ snapshots['test_add_release_to_collection 1'] = (
             'addReleaseToCollection': {
                 'id': 2,
                 'lastUpdatedOn': None,
-                'name': 'Favorite',
+                'name': 'Favorites',
                 'numReleases': 1,
                 'releases': [
                     {
@@ -288,7 +288,7 @@ snapshots['test_collections 1'] = (
                     {
                         'id': 2,
                         'lastUpdatedOn': None,
-                        'name': 'Favorite',
+                        'name': 'Favorites',
                         'numReleases': 0,
                         'releases': [
                         ],
@@ -792,7 +792,7 @@ snapshots['test_collections_type_param 1'] = (
                     {
                         'id': 2,
                         'lastUpdatedOn': None,
-                        'name': 'Favorite',
+                        'name': 'Favorites',
                         'numReleases': 0,
                         'releases': [
                         ],

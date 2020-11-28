@@ -9,13 +9,19 @@ export const PlayButtons: React.FC<{
   curTime: number;
   seek: SetValue<number>;
 }> = ({ isPlaying, setIsPlaying, curTime, seek }) => {
-  const { playQueue, setCurIndex } = React.useContext(PlayQueueContext);
+  const { playQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
 
-  const togglePlay = React.useCallback(() => setIsPlaying((p: boolean) => !p), [setIsPlaying]);
+  const togglePlay = React.useCallback(() => {
+    if (playQueue.length !== 0 && curIndex === null) {
+      setCurIndex(0);
+    } else {
+      setIsPlaying((p: boolean) => !p);
+    }
+  }, [playQueue, curIndex, setCurIndex, setIsPlaying]);
 
   const fastForward = React.useCallback(
     () => setCurIndex((idx) => (idx !== null && idx !== playQueue.length - 1 ? idx + 1 : null)),
-    [setIsPlaying],
+    [setCurIndex, playQueue],
   );
 
   const rewind = React.useCallback(() => {
@@ -24,7 +30,7 @@ export const PlayButtons: React.FC<{
     } else {
       setCurIndex((idx) => (idx !== null && idx !== 0 ? idx - 1 : null));
     }
-  }, [curTime, setIsPlaying]);
+  }, [curTime, setCurIndex, isPlaying]);
 
   return (
     <div className="flex items-center justify-center flex-none mx-4 sm:mx-8 text-primary-alt">

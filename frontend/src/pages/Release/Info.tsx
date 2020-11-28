@@ -12,7 +12,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
   return (
     <div className="flex flex-col">
       <SectionHeader className="mb-4 truncate-2">{release.title}</SectionHeader>
-      <div className="mb-2 text-lg truncate-2">
+      <div className="mb-4 text-lg truncate-2">
         {release.artists.length === 0 ? (
           <Link href="/artists/1">Unknown Artist</Link>
         ) : (

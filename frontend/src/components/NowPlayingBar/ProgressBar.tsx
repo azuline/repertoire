@@ -13,7 +13,7 @@ export const ProgressBar: React.FC<{
     <div className="absolute left-0 w-full h-1 -top-1">
       <ReactSlider
         className="slider playbar-slider"
-        value={curTime}
+        value={curTrack ? curTime : 0}
         onAfterChange={onSliderChange}
         max={curTrack ? curTrack.duration : undefined}
         thumbClassName={curTrack ? undefined : 'hidden'}

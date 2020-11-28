@@ -47,10 +47,10 @@ export const TrackArtistList: ListT = ({
   return (
     <div className={className}>
       {rolesToArtists.map(([role, arts], i) => (
-        <>
+        <React.Fragment key={role}>
           {(i > 0 && dividerWords[role]) ?? delimiter}
           {arts.map((art, j) => (
-            <React.Fragment key={i}>
+            <React.Fragment key={j}>
               {j > 0 && delimiter}
               {link ? (
                 <Link className={elementClassName} href={`artists/${art.id}`}>
@@ -61,7 +61,7 @@ export const TrackArtistList: ListT = ({
               )}
             </React.Fragment>
           ))}
-        </>
+        </React.Fragment>
       ))}
     </div>
   );
