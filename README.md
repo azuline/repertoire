@@ -3,12 +3,13 @@
 [![CI](https://img.shields.io/github/workflow/status/azuline/repertoire/CI)](https://github.com/azuline/repertoire/actions)
 [![Documentation Status](https://readthedocs.org/projects/repertoire/badge/?version=latest)](https://repertoire.readthedocs.io/en/latest/?badge=latest)
 [![codecov](https://img.shields.io/codecov/c/github/azuline/repertoire?token=98M8XQLWLH)](https://codecov.io/gh/azuline/repertoire)
+[![Discord](https://img.shields.io/discord/780852818835013653?color=blueviolet&label=Discord)](https://discord.gg/yaXtjgMzCe)
 
 A release-oriented music server. Work in progress!
 
 Visit [the documentation](https://repertoire.readthedocs.io) to get started!
 
-Frontend is being rewritten, but it's currently something like:
+## Screenshots
 
 ![example](docs/_static/scrot1.png)
 
@@ -39,8 +40,8 @@ with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ## Scratchpad
 
+We are binding TypeScript to version 4.0.3 right now because CRA is broken with
+the newest version. Will unbind when it is fixed.
+
 Since GQL API can create release, need to have functions to scan its tracks for
 cover art and/or upload art.
-
-Note: We are binding TypeScript to version 4.0.3 right now because CRA is
-broken with the newest version. Will unbind when it is fixed.
