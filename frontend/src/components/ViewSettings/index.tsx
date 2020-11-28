@@ -38,7 +38,7 @@ export const ViewSettings: React.FC<{
           <div>Options</div>
           <Icon className="w-4 ml-1 -mr-1" icon="chevron-down-small" />
         </button>
-        <div className="px-6 py-4 border-2 rounded bg-background-alt border-primary-alt">
+        <div className="px-6 py-4 border-2 rounded bg-background-alt border-primary-alt2">
           <View viewOptions={viewOptions} />
           <Sort viewOptions={viewOptions} />
           <Order viewOptions={viewOptions} />

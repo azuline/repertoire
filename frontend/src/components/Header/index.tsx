@@ -18,14 +18,14 @@ export const Header: React.FC<{ className?: string; searchbar?: boolean }> = ({
     <div className={clsx(className, 'relative z-10 flex items-center flex-none w-full h-20 px-8')}>
       {isSidebarOpen || (
         <Icon
-          className="hidden w-6 mr-4 cursor-pointer sm:block text-primary hover:text-primary-alt3"
+          className="hidden w-6 mr-4 cursor-pointer sm:block text-primary-alt hover:text-primary"
           icon="hamburger"
           onClick={toggleOpen}
         />
       )}
       <Link href="/mobile" className="block sm:hidden">
         <Icon
-          className="w-6 mr-4 cursor-pointer text-primary hover:text-primary-alt3"
+          className="w-6 mr-4 cursor-pointer text-primary-alt hover:text-primary"
           icon="home-small"
         />
       </Link>

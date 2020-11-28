@@ -30,7 +30,7 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
       <div className="flex-1 overflow-hidden">
         <div className="flex">
           <div className="flex flex-shrink mr-4 truncate">
-            <div className="font-semibold truncate text-primary">{release.title}</div>
+            <div className="font-semibold truncate text-primary-alt">{release.title}</div>
             {release.releaseYear ? <div className="flex-none"> [{release.releaseYear}]</div> : null}
           </div>
           <div className="flex-none hidden ml-auto sm:block">

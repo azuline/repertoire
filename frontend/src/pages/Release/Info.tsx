@@ -17,7 +17,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
             <span>By: </span>
             <ArtistList
               className="inline"
-              elementClassName="text-primary-alt3"
+              elementClassName="text-primary"
               elements={release.artists}
               link
             />
@@ -33,7 +33,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
             <span>{release.labels.length !== 1 ? 'Labels' : 'Label'}: </span>
             <LabelList
               className="inline"
-              elementClassName="text-primary-alt3"
+              elementClassName="text-primary"
               elements={release.labels}
               link
             />
@@ -45,7 +45,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           <>
             <GenreList
               className="my-2"
-              elementClassName="px-2 py-1 mr-1 rounded bg-primary-alt text-foreground hover:bg-primary leading-9"
+              elementClassName="px-2 py-1 mr-1 rounded bg-primary-alt2 text-foreground hover:bg-primary-alt leading-9"
               elements={release.genres}
               delimiter=" "
               link

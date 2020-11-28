@@ -17,10 +17,10 @@ html {
   --color-background: #101013;
   --color-background-alt: #18181d;
   --color-background-alt2: #1e1e26;
-  --color-primary: #b78846; /* gold-500 */
-  --color-primary-alt: #6e522a; /* gold-700 */
-  --color-primary-alt2: #523d20; /* gold-800 */
-  --color-primary-alt3: #daa520; /* gold-400 */
+  --color-primary: #daa520; /* gold-400 */
+  --color-primary-alt: #b78846; /* gold-500 */
+  --color-primary-alt2: #6e522a; /* gold-700 */
+  --color-primary-alt23: #523d20; /* gold-800 */
 }
 
 .app.light {
@@ -30,10 +30,10 @@ html {
   --color-background: #f8fafc; /* blueGray-50 */
   --color-background-alt: #e2e8f0; /* blueGray-200 */
   --color-background-alt2: #cbd5e1; /* blueGray-300 */
-  --color-primary: #6e522a; /* gold-700 */
-  --color-primary-alt: #a57a3f; /* gold-600 */
-  --color-primary-alt2: #b78846; /* gold-500 */
-  --color-primary-alt3: #523d20; /* gold-400 */
+  --color-primary: #523d20; /* gold-400 */
+  --color-primary-alt: #6e522a; /* gold-700 */
+  --color-primary-alt2: #a57a3f; /* gold-600 */
+  --color-primary-alt23: #b78846; /* gold-500 */
 }
 
 .app {
@@ -41,7 +41,7 @@ html {
 }
 
 button {
-  @apply px-4 py-2 font-normal rounded text-foreground bg-primary-alt hover:bg-primary;
+  @apply px-4 py-2 font-normal rounded text-foreground bg-primary-alt2 hover:bg-primary-alt;
 }
 
 .small-btn {
@@ -49,11 +49,11 @@ button {
 }
 
 .text-btn {
-  @apply bg-transparent hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5 text-primary-alt3;
+  @apply bg-transparent hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5 text-primary;
 }
 
 input {
-  @apply px-4 py-2 bg-transparent border-b-2 border-primary-alt;
+  @apply px-4 py-2 bg-transparent border-b-2 border-primary-alt2;
 }
 
 input::placeholder {
@@ -150,7 +150,7 @@ input::placeholder {
   @apply bg-gray-600 cursor-pointer;
 }
 .slider > .thumb {
-  @apply w-4 h-4 cursor-pointer leading-4 hover:w-6 hover:h-6 hover:leading-6 bg-primary-alt3 rounded-2xl;
+  @apply w-4 h-4 cursor-pointer leading-4 hover:w-6 hover:h-6 hover:leading-6 bg-primary rounded-2xl;
 }
 .playbar-slider > .track {
   @apply h-1;

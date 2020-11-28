@@ -18,14 +18,14 @@ export const Sidebar: React.FC = () => {
       <div className="mt-6 mb-4">
         <div className="flex items-center pl-6 pr-4">
           <div className="flex items-center pr-4 cursor-pointer" onClick={goHome}>
-            <Icon className="w-8 text-primary" icon="logo" />
+            <Icon className="w-8 text-primary-alt" icon="logo" />
             <div className="ml-2 font-semibold">
-              <span className="text-primary">reper</span>toire
+              <span className="text-primary-alt">reper</span>toire
             </div>
           </div>
           <Icon
             icon="hamburger"
-            className="flex-none block w-6 ml-auto cursor-pointer text-primary hover:text-primary-alt3"
+            className="flex-none block w-6 ml-auto cursor-pointer text-primary-alt hover:text-primary"
             onClick={toggleOpen}
           />
         </div>

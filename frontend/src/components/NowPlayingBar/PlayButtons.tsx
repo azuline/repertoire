@@ -27,19 +27,19 @@ export const PlayButtons: React.FC<{
   }, [curTime, setIsPlaying]);
 
   return (
-    <div className="flex items-center justify-center flex-none mx-4 sm:mx-8 text-primary">
+    <div className="flex items-center justify-center flex-none mx-4 sm:mx-8 text-primary-alt">
       <Icon
-        className="mr-1 cursor-pointer w-9 hover:text-primary-alt3"
+        className="mr-1 cursor-pointer w-9 hover:text-primary"
         icon="rewind-small"
         onClick={rewind}
       />
       <Icon
-        className="w-12 mr-1 cursor-pointer hover:text-primary-alt3"
+        className="w-12 mr-1 cursor-pointer hover:text-primary"
         icon={isPlaying ? 'pause-small' : 'play-small'}
         onClick={togglePlay}
       />
       <Icon
-        className="cursor-pointer w-9 hover:text-primary-alt3"
+        className="cursor-pointer w-9 hover:text-primary"
         icon="fast-forward-small"
         onClick={fastForward}
       />
