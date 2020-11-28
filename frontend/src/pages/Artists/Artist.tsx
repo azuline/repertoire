@@ -1,17 +1,26 @@
 import * as React from 'react';
 import { BackButton, Header, Link, SectionHeader } from 'src/components';
+import { BackgroundContext } from 'src/contexts';
 import { fetchArtist } from 'src/lib';
 
 import { ArtistReleases } from './Releases';
 
 export const Artist: React.FC<{ active: number }> = ({ active }) => {
   const { status, data } = fetchArtist(active);
+  const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
   // prettier-ignore
   const artist = React.useMemo(
     () => (data && status === 'success' ? data.artist : null),
     [status, data],
   );
+
+  React.useEffect(() => {
+    if (!data || status !== 'success') return;
+
+    setBackgroundImageId(data.artist.imageId);
+    return (): void => setBackgroundImageId(null);
+  }, [active, status]);
 
   if (!artist) return null;
 

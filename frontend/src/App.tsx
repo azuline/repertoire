@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { NowPlayingBar, Sidebar } from 'src/components';
+import { Background, NowPlayingBar, Sidebar } from 'src/components';
 import { AuthorizationContext, GlobalContexts, ThemeContext } from 'src/contexts';
 import { Login, Routes } from 'src/pages';
 
@@ -27,7 +27,8 @@ const Body: React.FC = () => {
         <>
           <div className="flex flex-1 w-screen" style={bodyStyle}>
             <Sidebar />
-            <div className="flex-1 w-full min-w-0 sm:flex sm:flex-col">
+            <div className="relative flex-1 w-full min-w-0 sm:flex sm:flex-col">
+              <Background />
               <Routes />
             </div>
           </div>

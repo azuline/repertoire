@@ -2,6 +2,7 @@ import * as React from 'react';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 
 import { AuthorizationProvider } from './Authorization';
+import { BackgroundProvider } from './Background';
 import { PlayQueueProvider } from './PlayQueue';
 import { SidebarProvider } from './Sidebar';
 import { ThemeProvider } from './Theme';
@@ -9,6 +10,7 @@ import { ToastProvider } from './Toaster';
 import { VolumeProvider } from './Volume';
 
 export * from './Authorization';
+export * from './Background';
 export * from './PlayQueue';
 export * from './Sidebar';
 export * from './Theme';
@@ -25,7 +27,9 @@ export const GlobalContexts: React.FC<{ children: React.ReactNode }> = ({ childr
           <PlayQueueProvider>
             <ThemeProvider>
               <VolumeProvider>
-                <SidebarProvider>{children}</SidebarProvider>
+                <SidebarProvider>
+                  <BackgroundProvider>{children}</BackgroundProvider>
+                </SidebarProvider>
               </VolumeProvider>
             </ThemeProvider>
           </PlayQueueProvider>

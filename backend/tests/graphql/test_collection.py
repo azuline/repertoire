@@ -92,6 +92,32 @@ async def test_collections(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
+async def test_collection_image(db, graphql_query, snapshot):
+    query = """
+        query {
+            collection(id: 12) {
+                imageId
+            }
+        }
+    """
+    _, result = await graphql_query(query)
+    assert isinstance(result["data"]["collection"]["imageId"], int)
+
+
+@pytest.mark.asyncio
+async def test_collection_image_nonexistent(db, graphql_query, snapshot):
+    query = """
+        query {
+            collection(id: 2) {
+                imageId
+            }
+        }
+    """
+    _, result = await graphql_query(query)
+    assert result["data"]["collection"]["imageId"] is None
+
+
+@pytest.mark.asyncio
 async def test_collections_type_param(db, graphql_query, snapshot):
     query = f"""
         query {{

@@ -9,7 +9,9 @@ from src.enums import CollectionType
 from src.errors import Duplicate
 from src.util import update_dataclass, without_key
 
-from . import collection, release
+from . import collection
+from . import image as libimage
+from . import release
 
 logger = logging.getLogger(__name__)
 
@@ -248,3 +250,33 @@ def top_genres(art: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
         }
         for row in cursor.fetchall()
     ]
+
+
+def image(art: T, cursor: Cursor) -> Optional[libimage.T]:
+    """
+    Return an image for an artist.
+
+    At the moment, artists do not have images, so we return a random cover image from
+    one of the artists' releases, if any exist.
+
+    :param art: The artist whose image to fetch.
+    :param cursor: A cursor to the database.
+    :return: The image, if it exists.
+    """
+    cursor.execute(
+        """
+        SELECT images.*
+        FROM images
+            JOIN music__releases AS rls ON rls.image_id = images.id
+            JOIN music__releases_artists AS rlsarts ON rlsarts.release_id = rls.id
+        WHERE rlsarts.artist_id = ?
+        ORDER BY RANDOM()
+        LIMIT 1
+        """,
+        (art.id,),
+    )
+
+    if row := cursor.fetchone():
+        return libimage.from_row(row)
+
+    return None

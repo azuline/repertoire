@@ -17,6 +17,7 @@ from src.errors import (
 )
 from src.util import update_dataclass, without_key
 
+from . import image as libimage
 from . import release
 
 ILLEGAL_UPDATE_TYPES = {CollectionType.SYSTEM, CollectionType.RATING}
@@ -394,3 +395,33 @@ def top_genres(col: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
         }
         for row in cursor.fetchall()
     ]
+
+
+def image(col: T, cursor: Cursor) -> Optional[libimage.T]:
+    """
+    Return an image for a collection.
+
+    Since collections do not have images, we return a random cover image from one of the
+    releases in the collection, if any exist.
+
+    :param col: The collection whose image to fetch.
+    :param cursor: A cursor to the database.
+    :return: The image, if it exists.
+    """
+    cursor.execute(
+        """
+        SELECT images.*
+        FROM images
+            JOIN music__releases AS rls ON rls.image_id = images.id
+            JOIN music__collections_releases AS rlscols ON rlscols.release_id = rls.id
+        WHERE rlscols.collection_id = ?
+        ORDER BY RANDOM()
+        LIMIT 1
+        """,
+        (col.id,),
+    )
+
+    if row := cursor.fetchone():
+        return libimage.from_row(row)
+
+    return None

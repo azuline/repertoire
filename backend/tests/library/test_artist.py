@@ -24,7 +24,7 @@ def test_from_id_failure(db: Cursor):
 
 def test_from_name_success(db: Cursor):
     art = artist.from_name("aaron west and the roaring twenties", db)
-    assert art.name == "Aaron West and the Roaring Twenties"
+    assert art.name == "Aaron West and the Roaring Twenties"  # type: ignore
 
 
 def test_from_name_failure(db: Cursor):
@@ -50,7 +50,7 @@ def test_create_duplicate(db: Cursor):
 
 def test_update_fields(db: Cursor, snapshot):
     col = artist.update(
-        artist.from_id(2, db),
+        artist.from_id(2, db),  # type: ignore
         cursor=db,
         name="New Name",
         starred=True,
@@ -62,7 +62,7 @@ def test_update_fields(db: Cursor, snapshot):
 def test_update_duplicate(db: Cursor, snapshot):
     with pytest.raises(Duplicate) as e:
         artist.update(
-            artist.from_id(5, db),
+            artist.from_id(5, db),  # type: ignore
             cursor=db,
             name="Abakus",
         )
@@ -72,15 +72,25 @@ def test_update_duplicate(db: Cursor, snapshot):
 
 def test_update_nothing(db: Cursor):
     col = artist.from_id(2, db)
-    new_col = artist.update(col, cursor=db)
+    new_col = artist.update(col, cursor=db)  # type: ignore
     assert col == new_col
 
 
 def test_releases(db: Cursor, snapshot):
     art = artist.from_id(2, db)
-    snapshot.assert_match(artist.releases(art, db))
+    snapshot.assert_match(artist.releases(art, db))  # type: ignore
 
 
 def test_top_genres(db: Cursor, snapshot):
     art = artist.from_id(2, db)
-    snapshot.assert_match(artist.top_genres(art, db))
+    snapshot.assert_match(artist.top_genres(art, db))  # type: ignore
+
+
+def test_image(db: Cursor):
+    art = artist.from_id(2, db)
+    assert artist.image(art, db).id == 1  # type: ignore
+
+
+def test_image_nonexistent(db: Cursor):
+    art = artist.from_id(1, db)
+    assert artist.image(art, db) is None  # type: ignore

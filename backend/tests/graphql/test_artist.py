@@ -90,6 +90,32 @@ async def test_artists(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
+async def test_artist_image(db, graphql_query, snapshot):
+    query = """
+        query {
+            artist(id: 2) {
+                imageId
+            }
+        }
+    """
+    _, result = await graphql_query(query)
+    assert isinstance(result["data"]["artist"]["imageId"], int)
+
+
+@pytest.mark.asyncio
+async def test_artist_image_nonexistent(db, graphql_query, snapshot):
+    query = """
+        query {
+            artist(id: 1) {
+                imageId
+            }
+        }
+    """
+    _, result = await graphql_query(query)
+    assert result["data"]["artist"]["imageId"] is None
+
+
+@pytest.mark.asyncio
 async def test_create_artist(db, graphql_query, snapshot):
     query = f"""
         mutation {{

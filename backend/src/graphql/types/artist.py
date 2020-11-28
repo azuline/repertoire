@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from ariadne import ObjectType
 
@@ -31,7 +31,7 @@ def resolve_artist_from_name(obj: Any, info: GraphQLResolveInfo, name: str) -> a
 
 
 @query.field("artists")
-def resolve_artists(obj: Any, info: GraphQLResolveInfo) -> List[artist.T]:
+def resolve_artists(obj: Any, info: GraphQLResolveInfo) -> Dict:
     return {"results": artist.all(info.context.db)}
 
 
@@ -43,6 +43,14 @@ def resolve_releases(obj: artist.T, info: GraphQLResolveInfo) -> List[release.T]
 @gql_artist.field("topGenres")
 def resolve_top_genres(obj: artist.T, info: GraphQLResolveInfo) -> List[Dict]:
     return artist.top_genres(obj, info.context.db)
+
+
+@gql_artist.field("imageId")
+def resolve_image_id(obj: artist.T, info: GraphQLResolveInfo) -> Optional[int]:
+    if img := artist.image(obj, info.context.db):
+        return img.id
+
+    return None
 
 
 @mutation.field("createArtist")

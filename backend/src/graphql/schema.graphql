@@ -167,10 +167,12 @@ type Artist {
     name: String!
     starred: Boolean!
     numReleases: Int!
+    "The image ID of one of the artist's releases. Potentially null."
+    imageId: Int
 
-    releases: [Release]
+    releases: [Release]!
     "The top genres of the artist, compiled from their releases."
-    topGenres: [TopGenre]
+    topGenres: [TopGenre]!
 }
 
 type Artists {
@@ -182,13 +184,15 @@ type Collection {
     name: String!
     starred: Boolean!
     type: CollectionType!
-    numReleases: Int
+    numReleases: Int!
     "The last datetime a release was added to the collection."
     lastUpdatedOn: PosixTime
+    "The image ID of the a release in the collection. Potentially null."
+    imageId: Int
 
-    releases: [Release]
+    releases: [Release]!
     "The top genres of the collection, compiled from its releases."
-    topGenres: [TopGenre]
+    topGenres: [TopGenre]!
 }
 
 type Collections {
@@ -210,11 +214,11 @@ type Release {
     "The image ID of the release's cover image. Potentially null."
     imageId: Int
 
-    artists: [Artist]
-    tracks: [Track]
-    genres: [Collection]
-    labels: [Collection]
-    collages: [Collection]
+    artists: [Artist]!
+    tracks: [Track]!
+    genres: [Collection]!
+    labels: [Collection]!
+    collages: [Collection]!
 }
 
 type Releases {
@@ -229,10 +233,10 @@ type Track {
     title: String!
     duration: Int!
     trackNumber: String!
-    discNumber: String
+    discNumber: String!
 
-    release: Release
-    artists: [TrackArtist]
+    release: Release!
+    artists: [TrackArtist]!
 }
 
 type TrackArtist {

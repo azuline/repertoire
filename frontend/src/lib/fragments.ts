@@ -22,6 +22,7 @@ export const ARTIST_FIELDS = `
   name
   starred
   numReleases
+  imageId
 `;
 
 export const COLLECTION_FIELDS = `
@@ -31,6 +32,7 @@ export const COLLECTION_FIELDS = `
   type
   numReleases
   lastUpdatedOn
+  imageId
 `;
 
 export const TRACK_FIELDS = `

@@ -22,7 +22,7 @@ export type ReleaseT = {
   releaseYear: number;
   numTracks: number;
   releaseDate: string;
-  imageId: number;
+  imageId: number | null;
   runtime: number;
 
   artists: ArtistT[];
@@ -42,6 +42,7 @@ export type ArtistT = {
   name: string;
   starred: boolean;
   numReleases: number;
+  imageId: number | null;
 
   releases: ReleaseT[];
   topGenres: TopGenreT[];
@@ -54,6 +55,7 @@ export type CollectionT = {
   type: string;
   numReleases: number;
   lastUpdatedOn: number;
+  imageId: number | null;
 
   releases: ReleaseT[];
   topGenres: TopGenreT[];

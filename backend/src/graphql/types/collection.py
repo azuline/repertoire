@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from ariadne import ObjectType
 
@@ -41,7 +41,7 @@ def resolve_collections(
     obj: Any,
     info: GraphQLResolveInfo,
     types: List[CollectionType] = [],
-) -> List[collection.T]:
+) -> Dict:
     return {"results": collection.all(info.context.db, types=types)}
 
 
@@ -53,6 +53,14 @@ def resolve_releases(obj: collection.T, info: GraphQLResolveInfo) -> List[releas
 @gql_collection.field("topGenres")
 def resolve_top_genres(obj: collection.T, info: GraphQLResolveInfo) -> List[Dict]:
     return collection.top_genres(obj, info.context.db)
+
+
+@gql_collection.field("imageId")
+def resolve_image_id(obj: collection.T, info: GraphQLResolveInfo) -> Optional[int]:
+    if img := collection.image(obj, info.context.db):
+        return img.id
+
+    return None
 
 
 @mutation.field("createCollection")

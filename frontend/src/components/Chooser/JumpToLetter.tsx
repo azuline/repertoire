@@ -62,9 +62,7 @@ export const JumpToLetter: React.FC<{
         <div
           className={clsx(
             'px-2',
-            jumpFn
-              ? 'cursor-pointer hover:font-bold text-primary'
-              : 'text-gold-200 dark:text-gold-800',
+            jumpFn ? 'cursor-pointer hover:font-bold text-primary' : 'text-primary-alt2',
           )}
           key={letter}
           onClick={jumpFn}
