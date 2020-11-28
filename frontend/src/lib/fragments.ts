@@ -4,81 +4,97 @@
  * Currently, there are only fragments for the fields of each type.
  */
 
-export const USER_FIELDS = `
-  id
-  nickname
+import { gql } from '@apollo/client';
+
+export const USER_FIELDS = gql`
+  fragment UserFields on User {
+    id
+    nickname
+  }
 `;
 
-export const RELEASE_FIELDS = `
-  id
-  title
-  releaseType
-  addedOn
-  inInbox
-  inFavorites
-  releaseYear
-  releaseDate
-  numTracks
-  runtime
-  imageId
+export const RELEASE_FIELDS = gql`
+  fragment ReleaseFields on Release {
+    id
+    title
+    releaseType
+    addedOn
+    inInbox
+    inFavorites
+    releaseYear
+    releaseDate
+    numTracks
+    runtime
+    imageId
+  }
 `;
 
-export const ARTIST_FIELDS = `
-  id
-  name
-  starred
-  numReleases
-  imageId
-`;
-
-export const COLLECTION_FIELDS = `
-  id
-  name
-  starred
-  type
-  numReleases
-  lastUpdatedOn
-  imageId
-`;
-
-export const TRACK_FIELDS = `
-  id
-  title
-  duration
-  trackNumber
-  discNumber
-`;
-
-export const FULL_RELEASE_FIELDS = `
-  ${RELEASE_FIELDS}
-  artists {
+export const ARTIST_FIELDS = gql`
+  fragment ArtistFields on Artist {
     id
     name
+    starred
+    numReleases
+    imageId
   }
-  collages {
+`;
+
+export const COLLECTION_FIELDS = gql`
+  fragment CollectionFields on Collection {
     id
     name
+    starred
+    type
+    numReleases
+    lastUpdatedOn
+    imageId
   }
-  labels {
+`;
+
+export const TRACK_FIELDS = gql`
+  fragment TrackFields on Track {
     id
-    name
+    title
+    duration
+    trackNumber
+    discNumber
   }
-  genres {
-    id
-    name
-  }
-  tracks {
-    ${TRACK_FIELDS}
-    release {
-      id
-      imageId
-    }
+`;
+
+export const FULL_RELEASE_FIELDS = gql`
+  fragment FullReleaseFields on Release {
+    ...ReleaseFields
     artists {
-      artist {
+      id
+      name
+    }
+    collages {
+      id
+      name
+    }
+    labels {
+      id
+      name
+    }
+    genres {
+      id
+      name
+    }
+    tracks {
+      ...TrackFields
+      release {
         id
-        name
+        imageId
       }
-      role
+      artists {
+        artist {
+          id
+          name
+        }
+        role
+      }
     }
   }
+  ${RELEASE_FIELDS}
+  ${TRACK_FIELDS}
 `;

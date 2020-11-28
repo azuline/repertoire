@@ -16,10 +16,12 @@ export const PagedReleases: React.FC<{
   partial?: boolean;
 }> = ({ viewOptions, pagination, partial = false }) => {
   const { isSidebarOpen } = React.useContext(SidebarContext);
-  const { status, data } = searchReleases(viewOptions, pagination);
+  const { data } = searchReleases(viewOptions, pagination);
+
+  // prettier-ignore
   const { total, results } = React.useMemo(
-    () => (data && status === 'success' ? data.releases : { total: 0, results: [] }),
-    [status, data],
+    () => (data?.releases || { total: 0, results: [] }),
+    [data],
   );
 
   React.useEffect(() => {

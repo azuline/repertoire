@@ -8,17 +8,17 @@ export const ArtistChooser: React.FC<{
   active: number | null;
   className?: string;
 }> = ({ active, className }) => {
-  const { status, data } = fetchArtists();
+  const { data, error, loading } = fetchArtists();
   const [mutateArtist] = useMutateArtist();
 
   const toggleStarFactory = React.useCallback(
     ({ id, starred }: ElementT) => async (): Promise<void> => {
-      mutateArtist({ id, starred: !starred });
+      mutateArtist({ variables: { id, starred: !starred } });
     },
     [mutateArtist],
   );
 
-  if (!data || status !== 'success') return null;
+  if (!data || error || loading) return null;
 
   return (
     <Chooser

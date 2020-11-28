@@ -1,23 +1,22 @@
-import { useGQLQuery } from 'src/hooks';
+import { gql, QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
+import * as React from 'react';
 import { FULL_RELEASE_FIELDS } from 'src/lib/fragments';
-import { QueryReturn, ReleaseT } from 'src/types';
+import { ReleaseT } from 'src/types';
 
-const QUERY = `
-  query ($id: Int!) {
-    release (id: $id) {
-      ${FULL_RELEASE_FIELDS}
+const QUERY = gql`
+  query($id: Int!) {
+    release(id: $id) {
+      ...FullReleaseFields
     }
   }
+  ${FULL_RELEASE_FIELDS}
 `;
 
-type ResultT = { release: ReleaseT };
-type VariablesT = { id: number };
+type T = { release: ReleaseT };
+type V = { id: number };
 
-/**
- * A wrapper around react-query to fetch a single release.
- *
- * @param id - The ID of the release to fetch.
- * @returns The react-query result.
- */
-export const fetchRelease = (id: number): QueryReturn<ResultT> =>
-  useGQLQuery<ResultT, VariablesT>('releases', QUERY, { id });
+export const fetchRelease = (id: number, options?: QueryHookOptions<T, V>): QueryResult<T, V> => {
+  const newOptions = React.useMemo(() => ({ ...options, variables: { id } }), [options, id]);
+
+  return useQuery<T, V>(QUERY, newOptions);
+};

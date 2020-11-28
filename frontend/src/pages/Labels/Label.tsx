@@ -4,21 +4,17 @@ import { BackgroundContext } from 'src/contexts';
 import { fetchCollection } from 'src/lib';
 
 export const Label: React.FC<{ active: number }> = ({ active }) => {
-  const { status, data } = fetchCollection(active);
+  const { data } = fetchCollection(active);
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
-  // prettier-ignore
-  const collection = React.useMemo(
-    () => (data && status === 'success' ? data.collection : null),
-    [status, data],
-  );
+  const collection = React.useMemo(() => data?.collection || null, [data]);
 
   React.useEffect(() => {
-    if (!data || status !== 'success') return;
+    if (!collection) return;
 
-    setBackgroundImageId(data.collection.imageId);
+    setBackgroundImageId(collection.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [active, status]);
+  }, [collection]);
 
   if (!collection) return null;
 

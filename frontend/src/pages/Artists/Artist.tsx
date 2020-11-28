@@ -6,21 +6,17 @@ import { fetchArtist } from 'src/lib';
 import { ArtistReleases } from './Releases';
 
 export const Artist: React.FC<{ active: number }> = ({ active }) => {
-  const { status, data } = fetchArtist(active);
+  const { data } = fetchArtist(active);
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
-  // prettier-ignore
-  const artist = React.useMemo(
-    () => (data && status === 'success' ? data.artist : null),
-    [status, data],
-  );
+  const artist = React.useMemo(() => data?.artist || null, [data]);
 
   React.useEffect(() => {
-    if (!data || status !== 'success') return;
+    if (!artist) return;
 
-    setBackgroundImageId(data.artist.imageId);
+    setBackgroundImageId(artist.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [active, status]);
+  }, [artist]);
 
   if (!artist) return null;
 

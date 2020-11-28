@@ -1,5 +1,4 @@
 export * from './audio';
-export * from './graphql';
 export * from './id';
 export * from './pagination';
 export * from './persistentState';

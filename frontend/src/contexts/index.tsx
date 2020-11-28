@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 
 import { AuthorizationProvider } from './Authorization';
 import { BackgroundProvider } from './Background';
+import { GraphQLProvider } from './GraphQL';
 import { PlayQueueProvider } from './PlayQueue';
 import { SidebarProvider } from './Sidebar';
 import { ThemeProvider } from './Theme';
@@ -17,24 +17,20 @@ export * from './Theme';
 export * from './Toaster';
 export * from './Volume';
 
-export const GlobalContexts: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const queryCache = new QueryCache();
-
-  return (
-    <ToastProvider>
-      <ReactQueryCacheProvider queryCache={queryCache}>
-        <AuthorizationProvider>
-          <PlayQueueProvider>
-            <ThemeProvider>
-              <VolumeProvider>
-                <SidebarProvider>
-                  <BackgroundProvider>{children}</BackgroundProvider>
-                </SidebarProvider>
-              </VolumeProvider>
-            </ThemeProvider>
-          </PlayQueueProvider>
-        </AuthorizationProvider>
-      </ReactQueryCacheProvider>
-    </ToastProvider>
-  );
-};
+export const GlobalContexts: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <ToastProvider>
+    <AuthorizationProvider>
+      <GraphQLProvider>
+        <PlayQueueProvider>
+          <ThemeProvider>
+            <VolumeProvider>
+              <SidebarProvider>
+                <BackgroundProvider>{children}</BackgroundProvider>
+              </SidebarProvider>
+            </VolumeProvider>
+          </ThemeProvider>
+        </PlayQueueProvider>
+      </GraphQLProvider>
+    </AuthorizationProvider>
+  </ToastProvider>
+);

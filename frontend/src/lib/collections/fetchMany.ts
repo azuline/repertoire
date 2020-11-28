@@ -1,25 +1,27 @@
-import { useGQLQuery } from 'src/hooks';
+import { gql, QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
+import * as React from 'react';
 import { COLLECTION_FIELDS } from 'src/lib/fragments';
-import { CollectionT, CollectionType, QueryReturn } from 'src/types';
+import { CollectionT, CollectionType } from 'src/types';
 
-const QUERY = `
-  query ($types: [CollectionType]) {
-    collections (types: $types) {
+const QUERY = gql`
+  query($types: [CollectionType]) {
+    collections(types: $types) {
       results {
-        ${COLLECTION_FIELDS}
+        ...CollectionFields
       }
     }
   }
+  ${COLLECTION_FIELDS}
 `;
 
-type ResultT = { collections: { results: CollectionT[] } };
-type VariablesT = { types: CollectionType[] };
+type T = { collections: { results: CollectionT[] } };
+type V = { types: CollectionType[] };
 
-/**
- * A wrapper around react-query to fetch all collections (of one or more types).
- *
- * @param types - The types of collections to fetch. Leave empty to fetch all.
- * @returns The react-query result.
- */
-export const fetchCollections = (types: CollectionType[] = []): QueryReturn<ResultT> =>
-  useGQLQuery<ResultT, VariablesT>('collections', QUERY, { types });
+export const fetchCollections = (
+  types: CollectionType[] = [],
+  options?: QueryHookOptions<T, V>,
+): QueryResult<T, V> => {
+  const newOptions = React.useMemo(() => ({ ...options, variables: { types } }), [options, types]);
+
+  return useQuery<T, V>(QUERY, newOptions);
+};

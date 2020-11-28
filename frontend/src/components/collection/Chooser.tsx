@@ -9,19 +9,19 @@ export const CollectionChooser: React.FC<{
   active: number | null;
   className?: string;
 }> = ({ collectionTypes, urlPrefix, active, className }) => {
-  const { status, data } = fetchCollections(collectionTypes);
+  const { data, error, loading } = fetchCollections(collectionTypes);
   const [mutateCollection] = useMutateCollection();
 
   const urlFactory = React.useCallback((id: number): string => `${urlPrefix}/${id}`, [urlPrefix]);
 
   const toggleStarFactory = React.useCallback(
     ({ id, starred }: ElementT) => async (): Promise<void> => {
-      mutateCollection({ id, starred: !starred });
+      mutateCollection({ variables: { id, starred: !starred } });
     },
     [mutateCollection],
   );
 
-  if (!data || status !== 'success') return null;
+  if (!data || loading || error) return null;
 
   return (
     <Chooser

@@ -4,10 +4,10 @@ import { Link, ScrolledReleases, SectionHeader } from 'src/components';
 import { fetchRecentlyAdded } from 'src/lib';
 
 export const RecentlyAdded: React.FC = () => {
-  const { status, data } = fetchRecentlyAdded();
+  const { data } = fetchRecentlyAdded();
   const history = useHistory();
 
-  const releases = data && status === 'success' ? data.releases.results : [];
+  const releases = data?.releases?.results || [];
 
   const toRecentlyAdded = React.useCallback(() => {
     // TODO: change these string keys to an enum.

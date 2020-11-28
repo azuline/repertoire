@@ -1,22 +1,19 @@
-import { useGQLQuery } from 'src/hooks';
+import { gql, QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
 import { ARTIST_FIELDS } from 'src/lib/fragments';
-import { ArtistT, QueryReturn } from 'src/types';
+import { ArtistT } from 'src/types';
 
-const QUERY = `
+const QUERY = gql`
   query {
     artists {
       results {
-        ${ARTIST_FIELDS}
+        ...ArtistFields
       }
     }
   }
+  ${ARTIST_FIELDS}
 `;
 
-type ResultT = { artists: { results: ArtistT[] } };
+type T = { artists: { results: ArtistT[] } };
 
-/**
- * A wrapper around react-query to fetch all artists.
- *
- * @returns The react-query result.
- */
-export const fetchArtists = (): QueryReturn<ResultT> => useGQLQuery<ResultT>('artists', QUERY);
+export const fetchArtists = (options?: QueryHookOptions<T>): QueryResult<T> =>
+  useQuery<T>(QUERY, options);

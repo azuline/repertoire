@@ -11,20 +11,22 @@ import { Info } from './Info';
 export const Release: React.FC = () => {
   const { isSidebarOpen } = React.useContext(SidebarContext);
   const id = useId();
-  const { data, status } = fetchRelease(id as number);
+  const { data } = fetchRelease(id as number);
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
-  React.useEffect(() => {
-    if (!data || status !== 'success') return;
+  const release = React.useMemo(() => data?.release || null, [data]);
 
-    setBackgroundImageId(data.release.imageId);
+  React.useEffect(() => {
+    if (!release) return;
+
+    setBackgroundImageId(release.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [data]);
+  }, [release]);
 
   return (
     <div className="flex flex-col full">
       <Header />
-      {data && status === 'success' && (
+      {release && (
         <div className="z-10 flex flex-col mt-4 overflow-y-auto">
           <div className="z-10 flex px-8">
             <Image
@@ -32,12 +34,12 @@ export const Release: React.FC = () => {
                 'flex-none hidden w-64 h-64 mr-8 rounded-lg',
                 isSidebarOpen ? 'md:block' : 'sm:block',
               )}
-              imageId={data.release.imageId}
+              imageId={release.imageId}
             />
-            <Info release={data.release} />
+            <Info release={release} />
           </div>
-          <Disclist className="py-8" tracks={data.release.tracks} />
-          <InCollages collages={data.release.collages} />
+          <Disclist className="py-8" tracks={release.tracks} />
+          <InCollages collages={release.collages} />
         </div>
       )}
     </div>

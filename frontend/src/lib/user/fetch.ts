@@ -1,20 +1,17 @@
-import { useGQLQuery } from 'src/hooks';
+import { gql, MutationHookOptions, QueryResult, useQuery } from '@apollo/client';
 import { USER_FIELDS } from 'src/lib/fragments';
-import { QueryReturn, UserT } from 'src/types';
+import { UserT } from 'src/types';
 
-const QUERY = `
+const QUERY = gql`
   query {
     user {
-      ${USER_FIELDS}
+      ...UserFields
     }
   }
+  ${USER_FIELDS}
 `;
 
-type ResultT = { user: UserT };
+type T = { user: UserT };
 
-/**
- * A wrapper around react-query to fetch the current logged-in user.
- *
- * @returns The react-query result.
- */
-export const fetchUser = (): QueryReturn<ResultT> => useGQLQuery<ResultT>('user', QUERY);
+export const fetchUser = (options?: MutationHookOptions<T>): QueryResult<T> =>
+  useQuery<T>(QUERY, options);

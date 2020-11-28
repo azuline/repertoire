@@ -1,23 +1,25 @@
-import { useGQLQuery } from 'src/hooks';
+import { gql, QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
+import * as React from 'react';
 import { COLLECTION_FIELDS } from 'src/lib/fragments';
-import { CollectionT, QueryReturn } from 'src/types';
+import { CollectionT } from 'src/types';
 
-const QUERY = `
-  query ($id: Int!) {
-    collection (id: $id) {
-      ${COLLECTION_FIELDS}
+const QUERY = gql`
+  query($id: Int!) {
+    collection(id: $id) {
+      ...CollectionFields
     }
   }
+  ${COLLECTION_FIELDS}
 `;
 
-type ResultT = { collection: CollectionT };
-type VariablesT = { id: number };
+type T = { collection: CollectionT };
+type V = { id: number };
 
-/**
- * A wrapper around react-query to fetch a single collection.
- *
- * @param id - The ID of the collection to fetch.
- * @returns The react-query result.
- */
-export const fetchCollection = (id: number): QueryReturn<ResultT> =>
-  useGQLQuery<ResultT, VariablesT>('collection', QUERY, { id });
+export const fetchCollection = (
+  id: number,
+  options?: QueryHookOptions<T, V>,
+): QueryResult<T, V> => {
+  const newOptions = React.useMemo(() => ({ ...options, variables: { id } }), [options, id]);
+
+  return useQuery<T, V>(QUERY, newOptions);
+};

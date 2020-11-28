@@ -1,23 +1,22 @@
-import { useGQLQuery } from 'src/hooks';
+import { gql, QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
+import * as React from 'react';
 import { ARTIST_FIELDS } from 'src/lib/fragments';
-import { ArtistT, QueryReturn } from 'src/types';
+import { ArtistT } from 'src/types';
 
-const QUERY = `
-  query ($id: Int!) {
-    artist (id: $id) {
-      ${ARTIST_FIELDS}
+const QUERY = gql`
+  query($id: Int!) {
+    artist(id: $id) {
+      ...ArtistFields
     }
   }
+  ${ARTIST_FIELDS}
 `;
 
-type ResultT = { artist: ArtistT };
-type VariablesT = { id: number };
+type T = { artist: ArtistT };
+type V = { id: number };
 
-/**
- * A wrapper around react-query to fetch a single artist.
- *
- * @param id - The ID of the artist to fetch.
- * @returns The react-query result.
- */
-export const fetchArtist = (id: number): QueryReturn<ResultT> =>
-  useGQLQuery<ResultT, VariablesT>('artist', QUERY, { id });
+export const fetchArtist = (id: number, options?: QueryHookOptions<T, V>): QueryResult<T, V> => {
+  const newOptions = React.useMemo(() => ({ ...options, variables: { id } }), [options, id]);
+
+  return useQuery<T, V>(QUERY, newOptions);
+};

@@ -7,11 +7,11 @@ export const UserSettings: React.FC = () => {
   const input = React.useRef<HTMLInputElement>(null);
   const { addToast } = useToasts();
 
-  const onSuccess = React.useCallback(() => {
+  const onCompleted = React.useCallback(() => {
     addToast('Successfully updated nickname.', { appearance: 'success' });
   }, [addToast]);
 
-  const [mutate] = useMutateUser({ onSuccess });
+  const [mutateUser] = useMutateUser({ onCompleted });
 
   const onSubmit = React.useCallback(
     (event) => {
@@ -19,9 +19,9 @@ export const UserSettings: React.FC = () => {
 
       if (!input || !input.current) return;
 
-      mutate({ nickname: input.current.value });
+      mutateUser({ variables: { nickname: input.current.value } });
     },
-    [mutate, input],
+    [mutateUser, input],
   );
 
   return (

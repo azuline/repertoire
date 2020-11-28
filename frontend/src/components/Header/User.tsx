@@ -10,7 +10,7 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
   const { setLoggedIn } = React.useContext(AuthorizationContext);
   const { setSidebarOpen } = React.useContext(SidebarContext);
   const { addToast } = useToasts();
-  const { status, data } = fetchUser();
+  const { data } = fetchUser();
   const request = useRequest();
 
   const closeSidebar = React.useCallback(() => setSidebarOpen(false), [setSidebarOpen]);
@@ -27,9 +27,7 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <div className={clsx(className, 'flex items-center h-full min-w-0')}>
       <Icon className="flex-none w-5 mr-1" icon="user-medium" />
-      <div className="mr-3 truncate">
-        {status === 'success' && data ? data.user.nickname : 'Loading...'}
-      </div>
+      <div className="mr-3 truncate">{data?.user?.nickname || 'Loading...'}</div>
       <Link className="flex-none sm:hidden" href="/settings" onClick={closeSidebar}>
         <Icon
           className="w-5 mr-2 cursor-pointer text-primary-alt hover:text-primary"

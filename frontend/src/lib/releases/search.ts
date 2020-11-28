@@ -1,11 +1,11 @@
+import { gql, QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
 import * as React from 'react';
-import { QueryResult } from 'react-query';
-import { PaginationT, useGQLQuery, ViewOptionsT } from 'src/hooks';
+import { PaginationT, ViewOptionsT } from 'src/hooks';
 import { RELEASE_FIELDS } from 'src/lib/fragments';
-import { GraphQLError, ReleaseSort, ReleaseT, ReleaseType, RequestError } from 'src/types';
+import { ReleaseSort, ReleaseT, ReleaseType } from 'src/types';
 
-const QUERY = `
-  query (
+const QUERY = gql`
+  query(
     $search: String
     $collectionIds: [Int]
     $artistIds: [Int]
@@ -27,12 +27,8 @@ const QUERY = `
     ) {
       total
       results {
-        ${RELEASE_FIELDS}
+        ...ReleaseFields
         artists {
-          id
-          name
-        }
-        labels {
           id
           name
         }
@@ -43,10 +39,11 @@ const QUERY = `
       }
     }
   }
+  ${RELEASE_FIELDS}
 `;
 
-type ResultT = { releases: { total: number; results: ReleaseT[] } };
-type VariablesT = {
+type T = { releases: { total: number; results: ReleaseT[] } };
+type V = {
   search: string;
   collectionIds: number[];
   artistIds: number[];
@@ -57,45 +54,26 @@ type VariablesT = {
   perPage: number;
 };
 
-/**
- * A wrapper around react-query to search for releases on the backend.
- *
- * @param viewOptions - The view options parameters for the query.
- * @param pagination - The pagination for the query.
- * @returns The react-query result.
- */
 export const searchReleases = (
   viewOptions: ViewOptionsT,
   pagination: PaginationT,
-): QueryResult<ResultT, RequestError<GraphQLError>> => {
-  // prettier-ignore
-  const variables = React.useMemo(
-    () => extractVariables(viewOptions, pagination),
-    [viewOptions, pagination]
+  options?: QueryHookOptions<T, V>,
+): QueryResult<T, V> => {
+  const newOptions = React.useMemo(
+    () => ({ ...options, variables: extractVariables(viewOptions, pagination) }),
+    [options, viewOptions, pagination],
   );
 
-  return useGQLQuery<ResultT, VariablesT>('releases', QUERY, variables);
+  return useQuery<T, V>(QUERY, newOptions);
 };
 
 /**
  * Extract variables from viewOptions and pagination to form the query variables.
- *
- * @param root0 - The ViewOptions object from the viewOptions hook.
- * @param root0.search - N/A
- * @param root0.collectionIds - N/A
- * @param root0.artistIds - N/A
- * @param root0.releaseTypes - N/A
- * @param root0.sort - N/A
- * @param root0.asc - N/A
- * @param root1 - The Pagination object from the pagination hook.
- * @param root1.curPage - N/A
- * @param root1.perPage - N/A
- * @returns Variables for the releases search query.
  */
 const extractVariables = (
   { search, collectionIds, artistIds, releaseTypes, sort, asc }: ViewOptionsT,
   { curPage, perPage }: PaginationT,
-): VariablesT => ({
+): V => ({
   search,
   collectionIds,
   artistIds,
