@@ -37,8 +37,8 @@ snapshots['test_add_artist_to_release 1'] = (
                         'id': 15
                     }
                 ],
-                'hasCover': True,
                 'id': 2,
+                'imageId': 1,
                 'inInbox': True,
                 'labels': [
                 ],
@@ -185,8 +185,8 @@ snapshots['test_create_release 1'] = {
             ],
             'genres': [
             ],
-            'hasCover': False,
             'id': 4,
+            'imageId': None,
             'inInbox': False,
             'labels': [
             ],
@@ -274,8 +274,8 @@ snapshots['test_del_artist_from_release 1'] = (
                         'id': 15
                     }
                 ],
-                'hasCover': True,
                 'id': 2,
+                'imageId': 1,
                 'inInbox': True,
                 'labels': [
                 ],
@@ -431,8 +431,8 @@ snapshots['test_release 1'] = (
                         'id': 19
                     }
                 ],
-                'hasCover': True,
                 'id': 3,
+                'imageId': 2,
                 'inInbox': True,
                 'labels': [
                 ],
@@ -520,8 +520,8 @@ snapshots['test_releases 1'] = (
                         ],
                         'genres': [
                         ],
-                        'hasCover': False,
                         'id': 1,
+                        'imageId': None,
                         'inInbox': False,
                         'labels': [
                         ],
@@ -557,8 +557,8 @@ snapshots['test_releases 1'] = (
                                 'id': 15
                             }
                         ],
-                        'hasCover': True,
                         'id': 2,
+                        'imageId': 1,
                         'inInbox': True,
                         'labels': [
                         ],
@@ -627,8 +627,8 @@ snapshots['test_releases 1'] = (
                                 'id': 19
                             }
                         ],
-                        'hasCover': True,
                         'id': 3,
+                        'imageId': 2,
                         'inInbox': True,
                         'labels': [
                         ],
@@ -710,8 +710,8 @@ snapshots['test_releases_filter_artists 1'] = (
                                 'id': 15
                             }
                         ],
-                        'hasCover': True,
                         'id': 2,
+                        'imageId': 1,
                         'inInbox': True,
                         'labels': [
                         ],
@@ -790,8 +790,8 @@ snapshots['test_releases_filter_collections 1'] = (
                                 'id': 15
                             }
                         ],
-                        'hasCover': True,
                         'id': 2,
+                        'imageId': 1,
                         'inInbox': True,
                         'labels': [
                         ],
@@ -870,8 +870,8 @@ snapshots['test_releases_filter_types 1'] = (
                                 'id': 15
                             }
                         ],
-                        'hasCover': True,
                         'id': 2,
+                        'imageId': 1,
                         'inInbox': True,
                         'labels': [
                         ],
@@ -953,8 +953,8 @@ snapshots['test_releases_pagination 1'] = (
                                 'id': 19
                             }
                         ],
-                        'hasCover': True,
                         'id': 3,
+                        'imageId': 2,
                         'inInbox': True,
                         'labels': [
                         ],
@@ -1036,8 +1036,8 @@ snapshots['test_releases_search 1'] = (
                                 'id': 15
                             }
                         ],
-                        'hasCover': True,
                         'id': 2,
+                        'imageId': 1,
                         'inInbox': True,
                         'labels': [
                         ],
@@ -1119,8 +1119,8 @@ snapshots['test_releases_sort 1'] = (
                                 'id': 19
                             }
                         ],
-                        'hasCover': True,
                         'id': 3,
+                        'imageId': 2,
                         'inInbox': True,
                         'labels': [
                         ],
@@ -1174,8 +1174,8 @@ snapshots['test_releases_sort 1'] = (
                         ],
                         'genres': [
                         ],
-                        'hasCover': False,
                         'id': 1,
+                        'imageId': None,
                         'inInbox': False,
                         'labels': [
                         ],
@@ -1211,8 +1211,8 @@ snapshots['test_releases_sort 1'] = (
                                 'id': 15
                             }
                         ],
-                        'hasCover': True,
                         'id': 2,
+                        'imageId': 1,
                         'inInbox': True,
                         'labels': [
                         ],
@@ -1291,8 +1291,8 @@ snapshots['test_releases_sort_desc 1'] = (
                                 'id': 15
                             }
                         ],
-                        'hasCover': True,
                         'id': 2,
+                        'imageId': 1,
                         'inInbox': True,
                         'labels': [
                         ],
@@ -1343,8 +1343,8 @@ snapshots['test_releases_sort_desc 1'] = (
                         ],
                         'genres': [
                         ],
-                        'hasCover': False,
                         'id': 1,
+                        'imageId': None,
                         'inInbox': False,
                         'labels': [
                         ],
@@ -1383,8 +1383,8 @@ snapshots['test_releases_sort_desc 1'] = (
                                 'id': 19
                             }
                         ],
-                        'hasCover': True,
                         'id': 3,
+                        'imageId': 2,
                         'inInbox': True,
                         'labels': [
                         ],
@@ -1464,8 +1464,8 @@ snapshots['test_update_release 1'] = (
                         'id': 15
                     }
                 ],
-                'hasCover': True,
                 'id': 2,
+                'imageId': 1,
                 'inInbox': True,
                 'labels': [
                 ],
@@ -1512,7 +1512,7 @@ snapshots['test_update_release 1'] = (
     }
 )
 
-snapshots['test_update_release 2'] = GenericRepr("T(id=2, title='aa', release_type=<ReleaseType.SINGLE: 2>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2020, num_tracks=10, in_inbox=True, runtime=2258, release_date=datetime.date(2020, 10, 23), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'))")
+snapshots['test_update_release 2'] = GenericRepr("T(id=2, title='aa', release_type=<ReleaseType.SINGLE: 2>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2020, num_tracks=10, in_inbox=True, runtime=2258, release_date=datetime.date(2020, 10, 23), image_id=1)")
 
 snapshots['test_update_release_bad_date 1'] = (
     True,
@@ -1538,7 +1538,7 @@ snapshots['test_update_release_bad_date 1'] = (
     }
 )
 
-snapshots['test_update_release_bad_date 2'] = GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, runtime=2258, release_date=datetime.date(2014, 7, 8), image_path=PosixPath('/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg'))")
+snapshots['test_update_release_bad_date 2'] = GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, runtime=2258, release_date=datetime.date(2014, 7, 8), image_id=1)")
 
 snapshots['test_update_release_not_found 1'] = (
     True,

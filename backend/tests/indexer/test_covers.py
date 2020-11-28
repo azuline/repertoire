@@ -2,10 +2,9 @@ import shutil
 from pathlib import Path
 
 from click.testing import CliRunner
-from PIL import Image
 
 from src.enums import ReleaseType
-from src.indexer.covers import generate_thumbnail, save_pending_covers
+from src.indexer.covers import save_pending_covers
 from src.library import release, track
 from tests.conftest import FAKE_DATA
 
@@ -75,7 +74,7 @@ def test_save_pending_covers(db, snapshot):
 
         db.execute(
             """
-            INSERT INTO music__releases_to_fetch_images (release_id)
+            INSERT INTO images__music_releases_to_fetch (release_id)
             VALUES (?), (?), (?)
             """,
             (1, rls1.id, rls2.id),
@@ -87,16 +86,3 @@ def test_save_pending_covers(db, snapshot):
 
         assert len(saved_covers) == 4
         snapshot.assert_match(saved_covers)
-
-
-def test_generate_thumbnail():
-    with CliRunner().isolated_filesystem():
-        image_path = Path.cwd() / "cover.jpg"
-        shutil.copyfile(FAKE_COVER, image_path)
-        generate_thumbnail(image_path)
-
-        im = Image.open(Path.cwd() / "cover.thumbnail")
-        assert im.size == (300, 300)
-
-
-# TODO: Add a test for cover art that isn't an image.

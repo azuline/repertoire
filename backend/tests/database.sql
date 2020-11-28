@@ -1,8 +1,8 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 
-INSERT INTO music__releases VALUES(2,'We Don’t Have Each Other',1,2014,'2014-07-08','/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg','2020-10-19 00:25:34');
-INSERT INTO music__releases VALUES(3,'Departure',3,2016,NULL,'/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg','2020-10-19 08:29:34');
+INSERT INTO music__releases VALUES(2,'We Don’t Have Each Other',1,2014,'2014-07-08',1,'2020-10-19 00:25:34');
+INSERT INTO music__releases VALUES(3,'Departure',3,2016,NULL,2,'2020-10-19 08:29:34');
 
 INSERT INTO music__artists VALUES(2,'Aaron West and the Roaring Twenties',0);
 INSERT INTO music__artists VALUES(3,'John Darnielle',0);
@@ -150,6 +150,9 @@ INSERT INTO music__releases_search_index VALUES(68,3,'Soul');
 INSERT INTO music__releases_search_index VALUES(69,3,'Airwaves');
 INSERT INTO music__releases_search_index VALUES(70,3,'Myself');
 INSERT INTO music__releases_search_index VALUES(71,3,'Storm');
+
+INSERT INTO images VALUES(1, '/data/cover_art/fb21f22d84bb812bb8bd1988ee89c3a91f1d41e92cf988ef774423e9d85e3292.jpg');
+INSERT INTO images VALUES(2,'/data/cover_art/d832df509b44cb7c560e2579453178016c391cd2ab8d6eab3de2bbbdf75c4ac0.jpg');
 
 -- admin token: 62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc8
 INSERT INTO system__users VALUES (1, "admin", X'62ec24e7d70d3a55dfd823b8', "pbkdf2:sha256:150000$0lH2wS00$28cd8fb44dade0da081f610ade308e9528ec0b0cb7cdc697b4d20406bb201410", X'0101010101010101010101010101010101010101010101010101010101010101');

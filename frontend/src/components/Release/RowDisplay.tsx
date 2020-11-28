@@ -1,11 +1,10 @@
 import clsx from 'clsx';
 import * as React from 'react';
 import { Link } from 'src/components/common';
+import { Image } from 'src/components/Image';
 import { ArtistList, GenreList } from 'src/components/Lists';
 import { ReleaseT } from 'src/types';
 import { secondsToLength } from 'src/util';
-
-import { CoverArt } from './CoverArt';
 
 export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = ({
   release,
@@ -22,7 +21,11 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
       )}
     >
       <div className="relative flex-none w-12 h-12 mr-2">
-        <CoverArt thumbnail className="absolute object-cover rounded-lg full" release={release} />
+        <Image
+          className="absolute object-cover rounded-lg full"
+          imageId={release.imageId}
+          thumbnail
+        />
       </div>
       <div className="flex-1 overflow-hidden">
         <div className="flex">

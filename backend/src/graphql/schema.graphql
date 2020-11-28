@@ -207,8 +207,8 @@ type Release {
     numTracks: Int!
     "The total runtime (sum of track durations)."
     runtime: Int!
-    "Whether this release has a cover image."
-    hasCover: Boolean!
+    "The image ID of the release's cover image. Potentially null."
+    imageId: Int
 
     artists: [Artist]
     tracks: [Track]

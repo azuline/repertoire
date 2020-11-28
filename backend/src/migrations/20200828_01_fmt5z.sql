@@ -7,10 +7,11 @@ CREATE TABLE music__releases (
     release_type INTEGER NOT NULL DEFAULT 1,
     release_year INTEGER NOT NULL DEFAULT 0,
     release_date DATE,
-    image_path VARCHAR,
+    image_id INTEGER,
     added_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (release_type) REFERENCES music__release_types(id)
+    FOREIGN KEY (release_type) REFERENCES music__release_types(id),
+    FOREIGN KEY (image_id) REFERENCES images(id)
 );
 
 CREATE TABLE music__release_types (
@@ -157,7 +158,14 @@ CREATE TABLE music__releases_search_index (
     FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE
 );
 
-CREATE TABLE music__releases_to_fetch_images (
+CREATE TABLE images (
+    id INTEGER NOT NULL,
+    path VARCHAR NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE (path)
+);
+
+CREATE TABLE images__music_releases_to_fetch (
     release_id INTEGER NOT NULL,
     PRIMARY KEY (release_id),
     FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE

@@ -26,14 +26,9 @@ def resolve_release(obj: Any, info: GraphQLResolveInfo, id: int) -> release.T:
 
 
 @query.field("releases")
-def resolve_releases(obj: Any, info: GraphQLResolveInfo, **kwargs) -> List[release.T]:
+def resolve_releases(obj: Any, info: GraphQLResolveInfo, **kwargs) -> Dict:
     total, releases = release.search(info.context.db, **convert_keys_case(kwargs))
     return {"total": total, "results": releases}
-
-
-@gql_release.field("hasCover")
-def resolve_has_cover(obj: release.T, info: GraphQLResolveInfo) -> bool:
-    return bool(obj.image_path)
 
 
 @gql_release.field("artists")

@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { Background, CoverArt, Disclist, Header } from 'src/components';
+import { Background, Disclist, Header, Image } from 'src/components';
 import { SidebarContext } from 'src/contexts';
 import { useId } from 'src/hooks';
 import { fetchRelease } from 'src/lib';
@@ -19,16 +19,16 @@ export const Release: React.FC = () => {
       {data && status === 'success' && (
         <>
           <Background>
-            <CoverArt className="object-cover full" release={data.release} />
+            <Image className="object-cover full" imageId={data.release.imageId} />
           </Background>
           <div className="z-10 flex flex-col mt-4 overflow-y-auto">
             <div className="z-10 flex px-8">
-              <CoverArt
+              <Image
                 className={clsx(
                   'flex-none hidden w-64 h-64 mr-8 rounded-lg',
                   isSidebarOpen ? 'md:block' : 'sm:block',
                 )}
-                release={data.release}
+                imageId={data.release.imageId}
               />
               <Info release={data.release} />
             </div>

@@ -5,10 +5,11 @@ from pathlib import Path
 from sqlite3 import Cursor
 from typing import Generator, List, Optional, Tuple
 
-from PIL import Image, UnidentifiedImageError
 from tagfiles import TagFile
 
 from src.constants import COVER_ART_DIR
+from src.errors import Duplicate
+from src.library import image
 from src.util import database
 
 logger = logging.getLogger()
@@ -44,18 +45,15 @@ def save_pending_covers() -> None:
 
             if not (track_path := _get_track_path_of_release(rls_id, cursor)):
                 logger.debug(f"No tracks found for release {rls_id}.")
+                _delete_release_from_pending(rls_id, cursor)
                 continue
 
-            if not (image_path := save_image(TagFile(track_path))):
+            if not (img := save_image(TagFile(track_path), cursor)):
                 logger.debug(f"No image found for release {rls_id}.")
+                _delete_release_from_pending(rls_id, cursor)
                 continue
 
-            try:
-                generate_thumbnail(image_path)
-                _update_image_path(rls_id, image_path, cursor)
-            except UnidentifiedImageError:
-                image_path.unlink()
-
+            _update_release_image(rls_id, img, cursor)
             _delete_release_from_pending(rls_id, cursor)
 
         conn.commit()
@@ -68,7 +66,7 @@ def _get_pending_releases(cursor: Cursor) -> List[int]:
     :param cursor: A cursor to the database.
     :return: Release IDs pending extraction.
     """
-    cursor.execute("SELECT release_id FROM music__releases_to_fetch_images")
+    cursor.execute("SELECT release_id FROM images__music_releases_to_fetch")
     return [row[0] for row in cursor.fetchall()]
 
 
@@ -89,7 +87,7 @@ def _get_track_path_of_release(rls_id: int, cursor: Cursor) -> Optional[str]:
     return None
 
 
-def _update_image_path(rls_id: int, image_path: Path, cursor: Cursor) -> None:
+def _update_release_image(rls_id: int, img: image.T, cursor: Cursor) -> None:
     """
     Update the image path of a release with the given ID in the database.
 
@@ -99,8 +97,7 @@ def _update_image_path(rls_id: int, image_path: Path, cursor: Cursor) -> None:
     """
     logger.debug(f"Setting image for release {rls_id}.")
     cursor.execute(
-        "UPDATE music__releases SET image_path = ? WHERE id = ?",
-        (str(image_path), rls_id),
+        "UPDATE music__releases SET image_id = ? WHERE id = ?", (img.id, rls_id)
     )
 
 
@@ -113,11 +110,11 @@ def _delete_release_from_pending(rls_id: int, cursor: Cursor) -> None:
     """
     logger.debug(f"Removing release {rls_id} from pending cover extraction.")
     cursor.execute(
-        "DELETE FROM music__releases_to_fetch_images WHERE release_id = ?", (rls_id,)
+        "DELETE FROM images__music_releases_to_fetch WHERE release_id = ?", (rls_id,)
     )
 
 
-def save_image(tf: TagFile) -> Optional[Path]:
+def save_image(tf: TagFile, cursor: Cursor) -> Optional[image.T]:
     """
     If the track has attached cover art, save it to the cover_arts dir with
     the sha256 of the cover art as the filename.
@@ -131,7 +128,13 @@ def save_image(tf: TagFile) -> Optional[Path]:
     :param tf: The tagfile whose image we want to save.
     :return: The filepath of the saved image, if one was saved.
     """
-    return _save_embedded_image(tf) or _save_external_image(tf)
+    if not (image_path := _save_embedded_image(tf) or _save_external_image(tf)):
+        return None
+
+    try:
+        return image.create(image_path, cursor)
+    except Duplicate as e:
+        return e.entity
 
 
 def _save_embedded_image(tf: TagFile) -> Optional[Path]:
@@ -210,16 +213,3 @@ def _save_image_file(data: bytes, extension: str) -> Path:
             f.write(data)
 
     return filepath
-
-
-def generate_thumbnail(image_path: Path) -> None:
-    """
-    Given a path to a saved image file, generate a 300x300 thumbnail and save it to
-    ``{image_path}.extension``.
-
-    :param image_path: The path to the original image file.
-    """
-    logger.debug(f"Generating thumbnail for {image_path}.")
-    image = Image.open(image_path).convert("RGB")
-    image.thumbnail((300, 300))
-    image.save(image_path.with_suffix(".thumbnail"), "JPEG")

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ArtistList, CoverArt, Link } from 'src/components';
+import { ArtistList, Image, Link } from 'src/components';
 import { TrackT } from 'src/types';
 import { arrangeArtists } from 'src/util';
 
@@ -8,9 +8,9 @@ export const TrackInfo: React.FC<{ curTrack: TrackT }> = ({ curTrack }) => (
     <Link href={`/releases/${curTrack.release.id}`} className="flex flex-1 truncate">
       <div className="flex-none hidden sm:block w-11">
         <div className="relative w-full h-0 pb-full">
-          <CoverArt
+          <Image
             className="absolute object-cover rounded full"
-            release={curTrack.release}
+            imageId={curTrack.release.imageId}
             thumbnail
           />
         </div>

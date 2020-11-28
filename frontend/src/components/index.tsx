@@ -3,6 +3,7 @@ export * from './Chooser';
 export * from './collection';
 export * from './common';
 export * from './Header';
+export * from './Image';
 export * from './Lists';
 export * from './NowPlayingBar';
 export * from './Pagination';

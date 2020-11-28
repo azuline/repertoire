@@ -11,6 +11,7 @@ DROP TABLE music__collections;
 DROP TABLE music__collection_types;
 DROP TABLE music__collections_releases;
 DROP TABLE music__releases_search_index;
-DROP TABLE music__releases_to_fetch_images;
+DROP TABLE images;
+DROP TABLE images__music_releases_to_fetch;
 DROP TABLE system__users;
 DROP TABLE system__secret_key;

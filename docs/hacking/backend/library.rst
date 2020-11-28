@@ -61,3 +61,10 @@ User
 .. automodule:: src.library.user
    :members:
    :autosummary:
+
+Image
+-----
+
+.. automodule:: src.library.image
+   :members:
+   :autosummary:

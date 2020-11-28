@@ -4,7 +4,7 @@ import quart
 from quart import Blueprint, Response
 from voluptuous import Schema
 
-from src.library import release, track
+from src.library import image, track
 from src.webserver.util import check_auth, validate_data
 from src.webserver.validators import StringBool
 
@@ -38,29 +38,29 @@ async def get_track(track_id: int):
         quart.abort(404)
 
 
-@bp.route("/covers/<release_id>", methods=["GET"])
+@bp.route("/images/<id>", methods=["GET"])
 @check_auth()
 @validate_data(Schema({"thumbnail": StringBool}))
-async def get_cover(release_id: int, thumbnail: bool = False) -> Response:
+async def get_cover(id: int, thumbnail: bool = False) -> Response:
     """
-    Returns a release's cover art image.
+    Returns an image stored on the backend.
 
-    :param release_id: The ID of the release whose cover to fetch.
+    :param id: The ID of the image to fetch.
     :query thumbnail: Whether to return a thumbnail (300x300) version of the image.
 
     :reqheader Authorization: An authorization token.
-    :status 200: Cover image exists and is returned.
-    :status 404: Release or cover image does not exist.
+    :status 200: Image exists and is returned.
+    :status 404: Image does not exist.
     """
-    if not (rls := release.from_id(release_id, quart.g.db)):
+    if not (img := image.from_id(id, quart.g.db)):
         quart.abort(404)
 
-    ext = os.path.splitext(rls.image_path)[1]
+    ext = os.path.splitext(img.path)[1]
 
     try:
         return await quart.send_file(
-            rls.image_path.with_suffix(".thumbnail") if thumbnail else rls.image_path,
-            attachment_filename=f"cover{ext}",
+            image.thumbnail_path(img) if thumbnail else img.path,
+            attachment_filename=f"image{ext}",
             cache_timeout=604_800,
         )
     except FileNotFoundError:

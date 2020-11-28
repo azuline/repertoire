@@ -61,3 +61,7 @@ class DoesNotExist(LibError):
 
 class ParseError(LibError):
     pass
+
+
+class InvalidImage(LibError):
+    pass

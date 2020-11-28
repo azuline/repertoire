@@ -167,7 +167,7 @@ def _fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
 
     # Flag the release to have its cover art extracted and stored.
     cursor.execute(
-        "INSERT INTO music__releases_to_fetch_images (release_id) VALUES (?)",
+        "INSERT INTO images__music_releases_to_fetch (release_id) VALUES (?)",
         (rls.id,),
     )
 

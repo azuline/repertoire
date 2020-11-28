@@ -4,7 +4,6 @@ import logging
 from dataclasses import dataclass
 from datetime import date, datetime
 from itertools import chain, repeat
-from pathlib import Path
 from sqlite3 import Cursor, Row
 from typing import Dict, Iterable, List, Optional, Tuple, Union
 
@@ -43,7 +42,7 @@ class T:
     #: The date this release was released.
     release_date: Optional[date] = None
     #: The filepath of the album cover.
-    image_path: Optional[Path] = None
+    image_id: Optional[int] = None
 
 
 def exists(id: int, cursor: Cursor) -> bool:
@@ -70,7 +69,6 @@ def from_row(row: Union[Dict, Row]) -> T:
             runtime=row["runtime"] or 0,
             release_type=ReleaseType(row["release_type"]),
             in_inbox=bool(row["in_inbox"]),
-            image_path=Path(row["image_path"]) if row["image_path"] else None,
         )
     )
 
@@ -280,7 +278,7 @@ def create(
     release_year: int,
     cursor: Cursor,
     release_date: Optional[date] = None,
-    image_path: Optional[Path] = None,
+    image_id: Optional[int] = None,
     allow_duplicate: bool = True,
 ) -> T:
     """
@@ -292,7 +290,7 @@ def create(
     :param release_year: The year the release came out.
     :param cursor: A cursor to the database.
     :param release_date: The date the release came out.
-    :param image_path: A path to the release's cover art.
+    :param image_id: An ID of an image to serve as cover art.
     :param allow_duplicate: Whether to allow creation of a duplicate release or not. If
                              this is ``False``, then ``Duplicate`` will never be raised.
                              All releases will be created.
@@ -313,10 +311,10 @@ def create(
     cursor.execute(
         """
         INSERT INTO music__releases (
-            title, image_path, release_type, release_year, release_date
+            title, image_id, release_type, release_year, release_date
         ) VALUES (?, ?, ?, ?, ?)
         """,
-        (title, image_path, release_type.value, release_year, release_date),
+        (title, image_id, release_type.value, release_year, release_date),
     )
     id = cursor.lastrowid
 

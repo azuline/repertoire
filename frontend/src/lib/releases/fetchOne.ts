@@ -27,7 +27,7 @@ const QUERY = `
         ${TRACK_FIELDS}
         release {
           id
-          hasCover
+          imageId
         }
         artists {
           artist {

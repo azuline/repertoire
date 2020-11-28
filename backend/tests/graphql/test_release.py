@@ -13,7 +13,7 @@ RELEASE_RESULT = """
     numTracks
     runtime
     releaseDate
-    hasCover
+    imageId
 
     artists {
         id

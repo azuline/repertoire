@@ -1,11 +1,10 @@
 import clsx from 'clsx';
 import * as React from 'react';
 import { Link } from 'src/components/common';
+import { Image } from 'src/components/Image';
 import { ArtistList, GenreList } from 'src/components/Lists';
 import { ReleaseT } from 'src/types';
 import { secondsToLength } from 'src/util';
-
-import { CoverArt } from './CoverArt';
 
 const textStyle = {
   textShadow: '1px black',
@@ -22,7 +21,11 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
   return (
     <Link href={`/releases/${release.id}`}>
       <div className={clsx(className, 'relative h-0 text-white pb-full')}>
-        <CoverArt thumbnail className="absolute object-cover rounded-lg full" release={release} />
+        <Image
+          className="absolute object-cover rounded-lg full"
+          imageId={release.imageId}
+          thumbnail
+        />
         <div className="absolute z-10 rounded-lg full two-sided" style={textStyle}>
           <div className="flex flex-col justify-end overflow-hidden front full">
             <div className="p-4 overflow-hidden">

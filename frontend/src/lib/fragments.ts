@@ -14,7 +14,7 @@ export const RELEASE_FIELDS = `
   releaseDate
   numTracks
   runtime
-  hasCover
+  imageId
 `;
 
 export const ARTIST_FIELDS = `

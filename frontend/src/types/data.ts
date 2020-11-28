@@ -22,7 +22,7 @@ export type ReleaseT = {
   releaseYear: number;
   numTracks: number;
   releaseDate: string;
-  hasCover: boolean;
+  imageId: number;
   runtime: number;
 
   artists: ArtistT[];

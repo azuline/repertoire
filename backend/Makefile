@@ -12,6 +12,7 @@ check:
 lint:
 	poetry run black .
 	poetry run isort .
+	poetry run flake8 .
 
 docs:
 	rm -rf ../docs/_build/html ../docs/_build/doctrees
