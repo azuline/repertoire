@@ -16,7 +16,7 @@ snapshots['test_all 1'] = [
 snapshots['test_from_id_success 1'] = GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)")
 
 snapshots['test_releases 1'] = [
-    GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, runtime=2258, release_date=datetime.date(2014, 7, 8), image_id=1)")
+    GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, in_favorites=False, runtime=2258, release_date=datetime.date(2014, 7, 8), image_id=1)")
 ]
 
 snapshots['test_top_genres 1'] = [

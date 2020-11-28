@@ -10,7 +10,7 @@ snapshots = Snapshot()
 snapshots['test_add_release 1'] = GenericRepr("T(id=3, name='1', starred=False, type=<CollectionType.RATING: 5>, num_releases=1, last_updated_on=None)")
 
 snapshots['test_add_release 2'] = [
-    GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, runtime=2258, release_date=datetime.date(2014, 7, 8), image_id=1)")
+    GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, in_favorites=False, runtime=2258, release_date=datetime.date(2014, 7, 8), image_id=1)")
 ]
 
 snapshots['test_all 1'] = [
@@ -62,7 +62,7 @@ snapshots['test_del_release 2'] = [
 snapshots['test_from_id_success 1'] = GenericRepr("T(id=16, name='Downtempo', starred=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
 
 snapshots['test_releases 1'] = [
-    GenericRepr("T(id=3, title='Departure', release_type=<ReleaseType.EP: 3>, added_on=datetime.datetime(2020, 10, 19, 8, 29, 34), release_year=2016, num_tracks=11, in_inbox=True, runtime=3513, release_date=None, image_id=2)")
+    GenericRepr("T(id=3, title='Departure', release_type=<ReleaseType.EP: 3>, added_on=datetime.datetime(2020, 10, 19, 8, 29, 34), release_year=2016, num_tracks=11, in_inbox=True, in_favorites=False, runtime=3513, release_date=None, image_id=2)")
 ]
 
 snapshots['test_top_genres 1'] = [

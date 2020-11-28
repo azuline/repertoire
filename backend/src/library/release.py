@@ -35,8 +35,10 @@ class T:
     release_year: int
     #: The number of tracks that this release has.
     num_tracks: int
-    # Whether this release is in the inbox.
+    #: Whether this release is in the inbox collection.
     in_inbox: bool
+    #: Whether this release is in the favorites collection.
+    in_favorites: bool
     # The total runtime of the release (sum of track durations).
     runtime: int
     #: The date this release was released.
@@ -69,6 +71,7 @@ def from_row(row: Union[Dict, Row]) -> T:
             runtime=row["runtime"] or 0,
             release_type=ReleaseType(row["release_type"]),
             in_inbox=bool(row["in_inbox"]),
+            in_favorites=bool(row["in_favorites"]),
         )
     )
 
@@ -91,7 +94,12 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
                 SELECT 1
                 FROM music__collections_releases
                 WHERE release_id = rls.id AND collection_id = 1
-            ) AS in_inbox
+            ) AS in_inbox,
+            (
+                SELECT 1
+                FROM music__collections_releases
+                WHERE release_id = rls.id AND collection_id = 2
+            ) AS in_favorites
         FROM music__releases AS rls
             LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
         WHERE rls.id = ?
@@ -179,7 +187,12 @@ def search(
                 SELECT 1
                 FROM music__collections_releases
                 WHERE release_id = rls.id AND collection_id = 1
-            ) AS in_inbox
+            ) AS in_inbox,
+            (
+                SELECT 1
+                FROM music__collections_releases
+                WHERE release_id = rls.id AND collection_id = 2
+            ) AS in_favorites
         FROM music__releases AS rls
             LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
         {"WHERE " + " AND ".join(filter_sql) if filter_sql else ""}
@@ -358,7 +371,12 @@ def _find_duplicate_release(
                 SELECT 1
                 FROM music__collections_releases
                 WHERE release_id = rls.id AND collection_id = 1
-            ) AS in_inbox
+            ) AS in_inbox,
+            (
+                SELECT 1
+                FROM music__collections_releases
+                WHERE release_id = rls.id AND collection_id = 2
+            ) AS in_favorites
         FROM music__releases AS rls
             LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
         WHERE rls.title = ?

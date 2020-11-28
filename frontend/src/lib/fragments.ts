@@ -15,6 +15,7 @@ export const RELEASE_FIELDS = `
   releaseType
   addedOn
   inInbox
+  inFavorites
   releaseYear
   releaseDate
   numTracks
@@ -46,4 +47,38 @@ export const TRACK_FIELDS = `
   duration
   trackNumber
   discNumber
+`;
+
+export const FULL_RELEASE_FIELDS = `
+  ${RELEASE_FIELDS}
+  artists {
+    id
+    name
+  }
+  collages {
+    id
+    name
+  }
+  labels {
+    id
+    name
+  }
+  genres {
+    id
+    name
+  }
+  tracks {
+    ${TRACK_FIELDS}
+    release {
+      id
+      imageId
+    }
+    artists {
+      artist {
+        id
+        name
+      }
+      role
+    }
+  }
 `;

@@ -210,6 +210,7 @@ type Release {
     releaseType: ReleaseType!
     addedOn: PosixTime!
     inInbox: Boolean!
+    inFavorites: Boolean!
     releaseYear: Int!
     "The date that the release was released in YYYY-MM-DD format (Optional)."
     releaseDate: String

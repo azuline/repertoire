@@ -3,6 +3,9 @@ import { ArtistList, GenreList, LabelList, Link, SectionHeader } from 'src/compo
 import { ReleaseT } from 'src/types';
 import { formatReleaseDate } from 'src/util';
 
+import { InFavorites } from './InFavorites';
+import { InInbox } from './InInbox';
+
 export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
   const whenReleased = React.useMemo(() => formatReleaseDate(release), [release]);
 
@@ -52,6 +55,10 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
             />
           </>
         )}
+      </div>
+      <div className="flex items-center my-2">
+        <InFavorites release={release} />
+        <InInbox release={release} />
       </div>
     </div>
   );

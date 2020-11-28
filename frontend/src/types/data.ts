@@ -19,6 +19,7 @@ export type ReleaseT = {
   releaseType: string;
   addedOn: number;
   inInbox: boolean;
+  inFavorites: boolean;
   releaseYear: number;
   numTracks: number;
   releaseDate: string;

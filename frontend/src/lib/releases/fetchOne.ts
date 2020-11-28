@@ -1,41 +1,11 @@
 import { useGQLQuery } from 'src/hooks';
-import { RELEASE_FIELDS, TRACK_FIELDS } from 'src/lib/fragments';
+import { FULL_RELEASE_FIELDS } from 'src/lib/fragments';
 import { QueryReturn, ReleaseT } from 'src/types';
 
 const QUERY = `
   query ($id: Int!) {
     release (id: $id) {
-      ${RELEASE_FIELDS}
-      artists {
-        id
-        name
-      }
-      collages {
-        id
-        name
-      }
-      labels {
-        id
-        name
-      }
-      genres {
-        id
-        name
-      }
-      tracks {
-        ${TRACK_FIELDS}
-        release {
-          id
-          imageId
-        }
-        artists {
-          artist {
-            id
-            name
-          }
-          role
-        }
-      }
+      ${FULL_RELEASE_FIELDS}
     }
   }
 `;

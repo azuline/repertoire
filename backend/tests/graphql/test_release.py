@@ -9,6 +9,7 @@ RELEASE_RESULT = """
     releaseType
     addedOn
     inInbox
+    inFavorites
     releaseYear
     numTracks
     runtime

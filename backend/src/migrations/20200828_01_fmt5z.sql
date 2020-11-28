@@ -130,7 +130,7 @@ INSERT INTO music__collection_types (id, type) VALUES
 -- Insert a system inbox collection.
 INSERT INTO music__collections (id, name, type, starred) VALUES
     (1, "Inbox", 1, 1),
-    (2, "Favorite", 1, 1),
+    (2, "Favorites", 1, 1),
     (3, "1", 5, 0),
     (4, "2", 5, 0),
     (5, "3", 5, 0),
