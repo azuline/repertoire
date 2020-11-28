@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { ArtistList, Image, Link } from 'src/components';
+import { Image, Link, TrackArtistList } from 'src/components';
 import { TrackT } from 'src/types';
-import { arrangeArtists } from 'src/util';
 
 export const TrackInfo: React.FC<{ curTrack: TrackT }> = ({ curTrack }) => (
   <>
@@ -17,7 +16,7 @@ export const TrackInfo: React.FC<{ curTrack: TrackT }> = ({ curTrack }) => (
       </div>
       <div className="flex flex-col flex-1 mx-1 text-center truncate sm:mx-4">
         <div className="font-bold truncate">{curTrack.title}</div>
-        <ArtistList className="truncate" elements={arrangeArtists(curTrack.artists)} />
+        <TrackArtistList className="truncate" artists={curTrack.artists} />
       </div>
     </Link>
   </>

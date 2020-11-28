@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'src/components/common';
-import { ElementT } from 'src/types/data';
+import { ElementT } from 'src/types';
 
 type ListT = React.FC<{
   elements?: ElementT[];

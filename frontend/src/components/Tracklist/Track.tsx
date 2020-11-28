@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import * as React from 'react';
 import { Icon } from 'src/components/common';
-import { ArtistList } from 'src/components/Lists';
+import { TrackArtistList } from 'src/components/Lists';
 import { SidebarContext } from 'src/contexts';
 import { TrackT } from 'src/types';
-import { arrangeArtists, secondsToLength } from 'src/util';
+import { secondsToLength } from 'src/util';
 
 export const Track: React.FC<{
   track: TrackT;
@@ -37,17 +37,21 @@ export const Track: React.FC<{
           {track.trackNumber && <span>{track.trackNumber}. </span>}
           {track.title}
         </div>
-        <ArtistList
-          elements={arrangeArtists(track.artists)}
-          className={clsx('flex-1 hidden truncate', isSidebarOpen ? 'md:block' : 'sm:block')}
-          elementClassName="text-gray-800 dark:text-gray-400"
+        <TrackArtistList
+          artists={track.artists}
+          className={clsx(
+            'flex-1 hidden truncate text-gray-800 dark:text-gray-400',
+            isSidebarOpen ? 'md:block' : 'sm:block',
+          )}
         />
         <div className="flex-none mx-2">{secondsToLength(track.duration)}</div>
       </div>
-      <ArtistList
-        elements={arrangeArtists(track.artists)}
-        className={clsx('mt-1 ml-8 truncate', isSidebarOpen ? 'md:hidden' : 'sm:hidden')}
-        elementClassName="text-gray-800 dark:text-gray-400"
+      <TrackArtistList
+        artists={track.artists}
+        className={clsx(
+          'mt-1 ml-8 truncate text-gray-800 dark:text-gray-400',
+          isSidebarOpen ? 'md:hidden' : 'sm:hidden',
+        )}
       />
     </div>
   );
