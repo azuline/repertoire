@@ -17,7 +17,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
             <span>By: </span>
             <ArtistList
               className="inline"
-              elementClassName="text-primary hover:text-primary-alt3"
+              elementClassName="text-primary-alt3"
               elements={release.artists}
               link
             />

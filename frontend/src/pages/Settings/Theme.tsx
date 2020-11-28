@@ -12,7 +12,7 @@ export const ThemeSettings: React.FC = () => {
 
   return (
     <div className="flex items-center my-4">
-      <div className="w-32">Toggle theme:</div>
+      <div className="w-28">Theme:</div>
       <button type="button" onClick={toggleTheme}>
         {theme}
       </button>

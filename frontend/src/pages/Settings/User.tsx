@@ -11,11 +11,7 @@ export const UserSettings: React.FC = () => {
     addToast('Successfully updated nickname.', { appearance: 'success' });
   }, [addToast]);
 
-  const onError = React.useCallback(() => {
-    addToast('Failed to update nickname.', { appearance: 'error' });
-  }, [addToast]);
-
-  const [mutate] = useMutateUser({ onSuccess, onError });
+  const [mutate] = useMutateUser({ onSuccess });
 
   const onSubmit = React.useCallback(
     (event) => {
@@ -29,10 +25,10 @@ export const UserSettings: React.FC = () => {
   );
 
   return (
-    <div className="flex items-center my-2">
-      <div className="flex-none w-32">Nickname:</div>
-      <form className="flex items-center flex-1 max-w-sm" onSubmit={onSubmit}>
-        <input className="flex-1 mr-4" ref={input} placeholder={data?.user?.nickname} />
+    <div className="flex items-center min-w-0 my-2">
+      <div className="flex-none w-28">Nickname:</div>
+      <form className="flex items-center flex-1 max-w-sm min-w-0" onSubmit={onSubmit}>
+        <input className="flex-1 min-w-0 mr-4" ref={input} placeholder={data?.user?.nickname} />
         <button className="flex-none" type="submit">
           Save
         </button>

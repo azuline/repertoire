@@ -5,5 +5,5 @@ export const SectionHeader: React.FC<{
   children: React.ReactNode;
   className?: string;
 }> = ({ children, className }) => (
-  <div className={clsx(className, 'text-3xl font-semibold')}>{children}</div>
+  <div className={clsx(className, 'text-2xl sm:text-3xl font-semibold')}>{children}</div>
 );

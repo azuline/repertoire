@@ -25,17 +25,19 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
   }, [request, setLoggedIn, addToast]);
 
   return (
-    <div className={clsx(className, 'flex items-center h-full')}>
-      <Icon className="w-5 mr-1" icon="user-medium" />
-      <div className="mr-3">{status === 'success' && data ? data.user.nickname : 'Loading...'}</div>
-      <Link className="sm:hidden" href="/settings" onClick={closeSidebar}>
+    <div className={clsx(className, 'flex items-center h-full min-w-0')}>
+      <Icon className="flex-none w-5 mr-1" icon="user-medium" />
+      <div className="mr-3 truncate">
+        {status === 'success' && data ? data.user.nickname : 'Loading...'}
+      </div>
+      <Link className="flex-none sm:hidden" href="/settings" onClick={closeSidebar}>
         <Icon
           className="w-5 mr-2 cursor-pointer text-primary hover:text-primary-alt3"
           title="Settings"
           icon="cog-medium"
         />
       </Link>
-      <Link className="hidden sm:block" href="/settings">
+      <Link className="flex-none hidden sm:block" href="/settings">
         <Icon
           className="w-5 mr-2 cursor-pointer text-primary hover:text-primary-alt3"
           title="Settings"
@@ -43,7 +45,7 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
         />
       </Link>
       <Icon
-        className="w-5 cursor-pointer text-primary hover:text-primary-alt3"
+        className="flex-none w-5 cursor-pointer text-primary hover:text-primary-alt3"
         title="Logout"
         icon="logout-medium"
         onClick={logout}

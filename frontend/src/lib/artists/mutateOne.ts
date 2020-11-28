@@ -3,7 +3,7 @@ import { useQueryCache } from 'react-query';
 import { useGQLMutation } from 'src/hooks';
 import { ARTIST_FIELDS } from 'src/lib/fragments';
 import { updateMutationConfig } from 'src/lib/util';
-import { ArtistT, GraphQLError, MutationHook, RequestError } from 'src/types';
+import { ArtistT, MutationHook } from 'src/types';
 
 const QUERY = `
   mutation (

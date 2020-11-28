@@ -27,7 +27,7 @@ const Body: React.FC = () => {
         <>
           <div className="flex flex-1 w-screen" style={bodyStyle}>
             <Sidebar />
-            <div className="relative flex-1 w-full min-w-0 sm:flex sm:flex-col">
+            <div className="relative flex flex-col flex-1 w-full min-w-0">
               <Background />
               <Routes />
             </div>
