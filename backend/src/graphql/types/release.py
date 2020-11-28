@@ -116,11 +116,14 @@ def resolve_add_artist_to_release(
     info: GraphQLResolveInfo,
     releaseId: int,
     artistId: int,
-) -> release.T:
+) -> Dict:
     if not (rls := release.from_id(releaseId, info.context.db)):
         raise NotFound(f"Release {releaseId} does not exist.")
 
-    return release.add_artist(rls, artistId, info.context.db)
+    rls = release.add_artist(rls, artistId, info.context.db)
+    art = artist.from_id(artistId, info.context.db)
+
+    return {"release": rls, "artist": art}
 
 
 @mutation.field("delArtistFromRelease")
@@ -130,8 +133,11 @@ def resolve_del_artist_from_release(
     info: GraphQLResolveInfo,
     releaseId: int,
     artistId: int,
-) -> release.T:
+) -> Dict:
     if not (rls := release.from_id(releaseId, info.context.db)):
         raise NotFound(f"Release {releaseId} does not exist.")
 
-    return release.del_artist(rls, artistId, info.context.db)
+    rls = release.del_artist(rls, artistId, info.context.db)
+    art = artist.from_id(artistId, info.context.db)
+
+    return {"release": rls, "artist": art}

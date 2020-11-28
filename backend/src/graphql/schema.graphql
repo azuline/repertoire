@@ -1,308 +1,323 @@
 scalar PosixTime
 
 type Query {
-    artist(id: Int!): Artist
+  artist(id: Int!): Artist
 
-    artistFromName(name: String!): Artist
+  artistFromName(name: String!): Artist
 
-    collection(id: Int!): Collection
+  collection(id: Int!): Collection
 
-    collectionFromNameAndType(
-        name: String!
-        type: CollectionType!
-    ): Collection
+  collectionFromNameAndType(
+    name: String!
+    type: CollectionType!
+  ): Collection
 
-    release(id: Int!): Release
+  release(id: Int!): Release
 
-    track(id: Int!): Track
+  track(id: Int!): Track
 
-    "Fetch the currently authenticated user."
-    user: User
+  "Fetch the currently authenticated user."
+  user: User
 
-    "Fetch all artists."
-    artists: Artists
+  "Fetch all artists."
+  artists: Artists
 
-    "Fetch all collections (of one or more types)."
-    collections(
-        "If provided, only collections of these type will be returned."
-        types: [CollectionType]
-    ): Collections
+  "Fetch all collections (of one or more types)."
+  collections(
+    "If provided, only collections of these type will be returned."
+    types: [CollectionType]
+  ): Collections
 
-    "Search for releases matching a certain criteria."
-    releases(
-        """
-        A search string. We split this up into individual punctuation-less
-        words and return releases that contain each word.
-        """
-        search: String
-        """
-        A list of collection IDs. We match releases by the collections in this
-        list. For a release to match, it must be in all collections in this
-        list.
-        """
-        collectionIds: [Int]
-        """
-        A list of artist IDs. We match releases by the artists in this list.
-        For a release to match, all artists in this list must be included.
-        """
-        artistIds: [Int]
-        """
-        A list of release types. Filter out releases that do not match one of
-        the release types in this list.
-        """
-        releaseTypes: [ReleaseType]
-        """
-        Which page of releases to return.
-        """
-        page: Int
-        """
-        The number of releases per-page. Leave null to return all releases
-        (this will ignore `page`).
-        """
-        perPage: Int
-        """
-        How to sort the matching releases.
-        """
-        sort: ReleaseSort
-        """
-        If true, sort in ascending order. If false, descending.
-        """
-        asc: Boolean
-    ): Releases
+  "Search for releases matching a certain criteria."
+  releases(
+    """
+    A search string. We split this up into individual punctuation-less
+    words and return releases that contain each word.
+    """
+    search: String
+    """
+    A list of collection IDs. We match releases by the collections in this
+    list. For a release to match, it must be in all collections in this
+    list.
+    """
+    collectionIds: [Int]
+    """
+    A list of artist IDs. We match releases by the artists in this list.
+    For a release to match, all artists in this list must be included.
+    """
+    artistIds: [Int]
+    """
+    A list of release types. Filter out releases that do not match one of
+    the release types in this list.
+    """
+    releaseTypes: [ReleaseType]
+    """
+    Which page of releases to return.
+    """
+    page: Int
+    """
+    The number of releases per-page. Leave null to return all releases
+    (this will ignore `page`).
+    """
+    perPage: Int
+    """
+    How to sort the matching releases.
+    """
+    sort: ReleaseSort
+    """
+    If true, sort in ascending order. If false, descending.
+    """
+    asc: Boolean
+  ): Releases
 }
 
 type Mutation {
-    createArtist(
-        name: String!
-        starred: Boolean
-    ): Artist
+  createArtist(
+    name: String!
+    starred: Boolean
+  ): Artist
 
-    updateArtist(
-        id: Int!
-        name: String
-        starred: Boolean
-    ): Artist
+  updateArtist(
+    id: Int!
+    name: String
+    starred: Boolean
+  ): Artist
 
-    createCollection(
-        name: String!
-        type: CollectionType!
-        starred: Boolean
-    ): Collection
+  createCollection(
+    name: String!
+    type: CollectionType!
+    starred: Boolean
+  ): Collection
 
-    updateCollection(
-        id: Int!
-        name: String
-        starred: Boolean
-    ): Collection
+  updateCollection(
+    id: Int!
+    name: String
+    starred: Boolean
+  ): Collection
 
-    addReleaseToCollection(
-        collectionId: Int!
-        releaseId: Int!
-    ): Collection
+  addReleaseToCollection(
+    collectionId: Int!
+    releaseId: Int!
+  ): CollectionAndRelease
 
-    delReleaseFromCollection(
-        collectionId: Int!
-        releaseId: Int!
-    ): Collection
+  delReleaseFromCollection(
+    collectionId: Int!
+    releaseId: Int!
+  ): CollectionAndRelease
 
-    createRelease(
-        title: String!
-        "A list of artist IDs--the album artists on the release."
-        artistIds: [Int]!
-        releaseType: ReleaseType!
-        releaseYear: Int!
-        "A date in YYYY-MM-DD format."
-        releaseDate: String
-    ): Release
+  createRelease(
+    title: String!
+    "A list of artist IDs--the album artists on the release."
+    artistIds: [Int]!
+    releaseType: ReleaseType!
+    releaseYear: Int!
+    "A date in YYYY-MM-DD format."
+    releaseDate: String
+  ): Release
 
-    updateRelease(
-        id: Int!
-        title: String
-        releaseType: ReleaseType,
-        releaseYear: Int
-        "A date in YYYY-MM-DD format."
-        releaseDate: String
-    ): Release
+  updateRelease(
+    id: Int!
+    title: String
+    releaseType: ReleaseType,
+    releaseYear: Int
+    "A date in YYYY-MM-DD format."
+    releaseDate: String
+  ): Release
 
-    addArtistToRelease(
-        releaseId: Int!
-        artistId: Int!
-    ): Release
+  addArtistToRelease(
+    releaseId: Int!
+    artistId: Int!
+  ): ReleaseAndArtist
 
-    delArtistFromRelease(
-        releaseId: Int!
-        artistId: Int!
-    ): Release
+  delArtistFromRelease(
+    releaseId: Int!
+    artistId: Int!
+  ): ReleaseAndArtist
 
-    updateTrack(
-        id: Int!
-        title: String
-        releaseId: Int
-        trackNumber: String
-        discNumber: String
-    ): Track
+  updateTrack(
+    id: Int!
+    title: String
+    releaseId: Int
+    trackNumber: String
+    discNumber: String
+  ): Track
 
-    addArtistToTrack(
-        trackId: Int!
-        artistId: Int!
-        role: ArtistRole!
-    ): Track
+  addArtistToTrack(
+    trackId: Int!
+    artistId: Int!
+    role: ArtistRole!
+  ): TrackAndArtist
 
-    delArtistFromTrack(
-        trackId: Int!
-        artistId: Int!
-        role: ArtistRole!
-    ): Track
+  delArtistFromTrack(
+    trackId: Int!
+    artistId: Int!
+    role: ArtistRole!
+  ): TrackAndArtist
 
-    "Update the authenticated user."
-    updateUser(
-      nickname: String
-    ): User
+  "Update the authenticated user."
+  updateUser(
+    nickname: String
+  ): User
 
-    """
-    Generate a new authentication token for the current user. Invalidate the
-    old one.
-    """
-    newToken: Token
+  """
+  Generate a new authentication token for the current user. Invalidate the
+  old one.
+  """
+  newToken: Token
 
 }
 
 type Artist {
-    id: Int!
-    name: String!
-    starred: Boolean!
-    numReleases: Int!
-    "The image ID of one of the artist's releases. Potentially null."
-    imageId: Int
+  id: Int!
+  name: String!
+  starred: Boolean!
+  numReleases: Int!
+  "The image ID of one of the artist's releases. Potentially null."
+  imageId: Int
 
-    releases: [Release]!
-    "The top genres of the artist, compiled from their releases."
-    topGenres: [TopGenre]!
+  releases: [Release]!
+  "The top genres of the artist, compiled from their releases."
+  topGenres: [TopGenre]!
 }
 
 type Artists {
-    results: [Artist]!
+  results: [Artist]!
 }
 
 type Collection {
-    id: Int!
-    name: String!
-    starred: Boolean!
-    type: CollectionType!
-    numReleases: Int!
-    "The last datetime a release was added to the collection."
-    lastUpdatedOn: PosixTime
-    "The image ID of the a release in the collection. Potentially null."
-    imageId: Int
+  id: Int!
+  name: String!
+  starred: Boolean!
+  type: CollectionType!
+  numReleases: Int!
+  "The last datetime a release was added to the collection."
+  lastUpdatedOn: PosixTime
+  "The image ID of the a release in the collection. Potentially null."
+  imageId: Int
 
-    releases: [Release]!
-    "The top genres of the collection, compiled from its releases."
-    topGenres: [TopGenre]!
+  releases: [Release]!
+  "The top genres of the collection, compiled from its releases."
+  topGenres: [TopGenre]!
 }
 
 type Collections {
-    results: [Collection]!
+  results: [Collection]!
 }
 
 type Release {
-    id: Int!
-    title: String!
-    releaseType: ReleaseType!
-    addedOn: PosixTime!
-    inInbox: Boolean!
-    inFavorites: Boolean!
-    releaseYear: Int!
-    "The date that the release was released in YYYY-MM-DD format (Optional)."
-    releaseDate: String
-    numTracks: Int!
-    "The total runtime (sum of track durations)."
-    runtime: Int!
-    "The image ID of the release's cover image. Potentially null."
-    imageId: Int
+  id: Int!
+  title: String!
+  releaseType: ReleaseType!
+  addedOn: PosixTime!
+  inInbox: Boolean!
+  inFavorites: Boolean!
+  releaseYear: Int!
+  "The date that the release was released in YYYY-MM-DD format (Optional)."
+  releaseDate: String
+  numTracks: Int!
+  "The total runtime (sum of track durations)."
+  runtime: Int!
+  "The image ID of the release's cover image. Potentially null."
+  imageId: Int
 
-    artists: [Artist]!
-    tracks: [Track]!
-    genres: [Collection]!
-    labels: [Collection]!
-    collages: [Collection]!
+  artists: [Artist]!
+  tracks: [Track]!
+  genres: [Collection]!
+  labels: [Collection]!
+  collages: [Collection]!
 }
 
 type Releases {
-    "The total number of releases matching the query across all pages."
-    total: Int!
-    "The releases on the current page."
-    results: [Release]!
+  "The total number of releases matching the query across all pages."
+  total: Int!
+  "The releases on the current page."
+  results: [Release]!
 }
 
 type Track {
-    id: Int!
-    title: String!
-    duration: Int!
-    trackNumber: String!
-    discNumber: String!
+  id: Int!
+  title: String!
+  duration: Int!
+  trackNumber: String!
+  discNumber: String!
 
-    release: Release!
-    artists: [TrackArtist]!
+  release: Release!
+  artists: [TrackArtist]!
 }
 
 type TrackArtist {
-    artist: Artist!
-    "The role that the artist has on the track."
-    role: ArtistRole!
+  artist: Artist!
+  "The role that the artist has on the track."
+  role: ArtistRole!
 }
 
 "A type that represents the top genres of an artist/collection."
 type TopGenre {
-    genre: Collection!
-    "The number of releases in the artist/collection that match this genre."
-    numMatches: Int!
+  genre: Collection!
+  "The number of releases in the artist/collection that match this genre."
+  numMatches: Int!
 }
 
 type User {
-    id: Int!
-    nickname: String!
+  id: Int!
+  nickname: String!
 }
 
 type Token {
-    hex: String!
+  hex: String!
+}
+
+type CollectionAndRelease {
+  collection: Collection!
+  release: Release!
+}
+
+type ReleaseAndArtist {
+  release: Release!
+  artist: Artist!
+}
+
+type TrackAndArtist {
+  track: Track!
+  trackArtist: TrackArtist!
 }
 
 enum ArtistRole {
-    MAIN
-    FEATURE
-    REMIXER
-    PRODUCER
-    COMPOSER
-    CONDUCTOR
-    DJMIXER
+  MAIN
+  FEATURE
+  REMIXER
+  PRODUCER
+  COMPOSER
+  CONDUCTOR
+  DJMIXER
 }
 
 enum ReleaseType {
-    ALBUM
-    SINGLE
-    EP
-    COMPILATION
-    SOUNDTRACK
-    SPOKENWORD
-    LIVE
-    REMIX
-    DJMIX
-    MIXTAPE
-    OTHER
-    UNKNOWN
+  ALBUM
+  SINGLE
+  EP
+  COMPILATION
+  SOUNDTRACK
+  SPOKENWORD
+  LIVE
+  REMIX
+  DJMIX
+  MIXTAPE
+  OTHER
+  UNKNOWN
 }
 
 enum CollectionType {
-    SYSTEM
-    COLLAGE
-    LABEL
-    GENRE
-    RATING
+  SYSTEM
+  COLLAGE
+  LABEL
+  GENRE
+  RATING
 }
 
 enum ReleaseSort {
-    RECENTLY_ADDED
-    TITLE
-    YEAR
-    RANDOM
+  RECENTLY_ADDED
+  TITLE
+  YEAR
+  RANDOM
 }

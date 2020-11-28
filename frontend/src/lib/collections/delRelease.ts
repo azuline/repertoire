@@ -1,14 +1,20 @@
 import { gql, MutationHookOptions, MutationTuple, useMutation } from '@apollo/client';
-import { COLLECTION_FIELDS } from 'src/lib/fragments';
+import { COLLECTION_FIELDS, RELEASE_FIELDS } from 'src/lib/fragments';
 import { CollectionT } from 'src/types';
 
 const MUTATION = gql`
   mutation($collectionId: Int!, $releaseId: Int!) {
     delReleaseFromCollection(collectionId: $collectionId, releaseId: $releaseId) {
-      ...CollectionFields
+      collection {
+        ...CollectionFields
+      }
+      release {
+        ...ReleaseFields
+      }
     }
   }
   ${COLLECTION_FIELDS}
+  ${RELEASE_FIELDS}
 `;
 
 type T = { collection: CollectionT };

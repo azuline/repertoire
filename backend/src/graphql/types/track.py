@@ -8,7 +8,7 @@ from src.errors import NotFound
 from src.graphql.mutation import mutation
 from src.graphql.query import query
 from src.graphql.util import commit
-from src.library import release, track
+from src.library import release, track, artist
 from src.util import convert_keys_case
 
 gql_track = ObjectType("Track")
@@ -58,7 +58,10 @@ def resolve_add_artist_to_track(
     if not (trk := track.from_id(trackId, info.context.db)):
         raise NotFound("Track does not exist.")
 
-    return track.add_artist(trk, artistId, role, info.context.db)
+    trk = track.add_artist(trk, artistId, role, info.context.db)
+    art = artist.from_id(artistId, info.context.db)
+    
+    return {"track": trk, "trackArtist": {"role": role, "artist": art}}
 
 
 @mutation.field("delArtistFromTrack")
@@ -73,4 +76,7 @@ def resolve_del_artist_from_track(
     if not (trk := track.from_id(trackId, info.context.db)):
         raise NotFound("Track does not exist.")
 
-    return track.del_artist(trk, artistId, role, info.context.db)
+    trk = track.del_artist(trk, artistId, role, info.context.db)
+    art = artist.from_id(artistId, info.context.db)
+    
+    return {"track": trk, "trackArtist": {"role": role, "artist": art}}

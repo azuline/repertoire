@@ -96,11 +96,14 @@ def resolve_add_release_to_collection(
     info: GraphQLResolveInfo,
     collectionId: int,
     releaseId: int,
-) -> collection.T:
+) -> Dict:
     if not (col := collection.from_id(collectionId, info.context.db)):
         raise NotFound(f"Collection {collectionId} does not exist.")
 
-    return collection.add_release(col, releaseId, info.context.db)
+    col = collection.add_release(col, releaseId, info.context.db)
+    rls = release.from_id(releaseId, info.context.db)
+
+    return {"collection": col, "release": rls}
 
 
 @mutation.field("delReleaseFromCollection")
@@ -110,8 +113,11 @@ def resolve_del_release_from_collection(
     info: GraphQLResolveInfo,
     collectionId: int,
     releaseId: int,
-) -> collection.T:
+) -> Dict:
     if not (col := collection.from_id(collectionId, info.context.db)):
         raise NotFound(f"Collection {collectionId} does not exist.")
 
-    return collection.del_release(col, releaseId, info.context.db)
+    col = collection.del_release(col, releaseId, info.context.db)
+    rls = release.from_id(releaseId, info.context.db)
+
+    return {"collection": col, "release": rls}
