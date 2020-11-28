@@ -22,7 +22,7 @@ def test_search_index(db):
     track.create(
         title="i got a hát title",
         filepath="/1.flac",
-        sha256=b"0" * 32,
+        initial_sha256=b"0" * 32,
         release_id=rls.id,
         artists=[
             {"artist_id": art1.id, "role": ArtistRole.MAIN},

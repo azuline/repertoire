@@ -41,24 +41,24 @@ def test_from_full_sha256_success(db: Cursor):
     sha256 = bytes.fromhex(
         "75ca14432165a9ee87ee63df654ef77f45d009bbe57da0610a453c48c6b26a1a"
     )
-    trk = track.from_sha256(sha256, db)
+    trk = track.from_full_sha256(sha256, db)
     assert trk.id == 1
 
 
 def test_from_full_sha256_failure(db: Cursor):
-    assert track.from_sha256(b"0" * 32, db) is None
+    assert track.from_full_sha256(b"0" * 32, db) is None
 
 
 def test_from_initial_sha256_success(db: Cursor):
     sha256 = bytes.fromhex(
-        "000000000000000000000000000000003"
+        "0000000000000000000000000000000000000000000000000000000000000003"
     )
-    trk = track.from_sha256(sha256, db)
+    trk = track.from_initial_sha256(sha256, db)
     assert trk.id == 3
 
 
 def test_from_initial_sha256_failure(db: Cursor):
-    assert track.from_sha256(b"0" * 32, db) is None
+    assert track.from_initial_sha256(b"0" * 32, db) is None
 
 
 def test_create(db: Cursor, snapshot):
@@ -76,29 +76,29 @@ def test_create(db: Cursor, snapshot):
         cursor=db,
     )
 
-    assert trk.id == 22
-    assert trk == track.from_id(22, db)
+    assert trk.id == 23
+    assert trk == track.from_id(23, db)
     snapshot.assert_match(track.artists(trk, db))
 
-
-def test_create_same_sha256(db: Cursor):
-    filepath = Path("/tmp/repertoire-library/09-track.m4a")
-    trk = track.create(
-        title="new track",
-        filepath=filepath,
-        sha256=bytes.fromhex(
-            "75ca14432165a9ee87ee63df654ef77f45d009bbe57da0610a453c48c6b26a1a"
-        ),
-        release_id=2,
-        artists=[{"artist_id": 2, "role": ArtistRole.MAIN}],
-        duration=9001,
-        track_number="1",
-        disc_number="2",
-        cursor=db,
-    )
-    assert trk.id == 1
-    assert trk.filepath == filepath
-    assert trk == track.from_id(1, db)
+# Use this as basis for new testing behavior
+# def test_create_same_sha256_missing_file(db: Cursor):
+#     filepath = Path("/tmp/repertoire-library/09-track.m4a")
+#     trk = track.create(
+#         title="new track",
+#         filepath=filepath,
+#         initial_sha256=bytes.fromhex(
+#             "a53be3b50c52f0804511263bafbcabbac518bfe45c2779d33e45551568d105"
+#         ),
+#         release_id=2,
+#         artists=[{"artist_id": 2, "role": ArtistRole.MAIN}],
+#         duration=9001,
+#         track_number="1",
+#         disc_number="2",
+#         cursor=db,
+#     )
+#     assert trk.id == 2
+#     assert trk.filepath == filepath
+#     assert trk == track.from_id(1, db)
 
 
 def test_create_duplicate_filepath(db: Cursor):
@@ -108,7 +108,7 @@ def test_create_duplicate_filepath(db: Cursor):
             filepath=Path(
                 "/tmp/repertoire-library/Abakus/2016. Departure/11. Airwaves.m4a"
             ),
-            sha256=b"0" * 32,
+            initial_sha256=b"0" * 32,
             release_id=3,
             artists=[{"artist_id": 2, "role": ArtistRole.MAIN}],
             duration=9001,
@@ -123,7 +123,7 @@ def test_create_bad_release_id(db: Cursor, snapshot):
         track.create(
             title="new track",
             filepath=Path("/tmp/repertoire-library/09-track.m4a"),
-            sha256=b"0" * 32,
+            initial_sha256=b"0" * 32,
             release_id=999,
             artists=[{"artist_id": 2, "role": ArtistRole.MAIN}],
             duration=9001,
@@ -140,7 +140,7 @@ def test_create_bad_artist_ids(db: Cursor, snapshot):
         track.create(
             title="new track",
             filepath=Path("/tmp/repertoire-library/09-track.m4a"),
-            sha256=b"0" * 32,
+            initial_sha256=b"0" * 32,
             release_id=2,
             artists=[
                 {"artist_id": 2, "role": ArtistRole.MAIN},

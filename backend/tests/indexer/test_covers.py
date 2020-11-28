@@ -38,7 +38,7 @@ def test_save_pending_covers(db, snapshot):
         track.create(
             title="a",
             filepath=track1_path,
-            sha256=b"0" * 32,
+            initial_sha256=b"0" * 32,
             release_id=rls1.id,
             artists=[],
             duration=100,
@@ -63,7 +63,7 @@ def test_save_pending_covers(db, snapshot):
         track.create(
             title="b",
             filepath=track2_path,
-            sha256=b"1" * 32,
+            initial_sha256=b"1" * 32,
             release_id=rls2.id,
             artists=[],
             duration=100,
