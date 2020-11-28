@@ -34,6 +34,7 @@ INSERT INTO music__tracks VALUES(18,'/tmp/repertoire-library/Abakus/2016. Depart
 INSERT INTO music__tracks VALUES(19,'/tmp/repertoire-library/Abakus/2016. Departure/01. Let Go.m4a',X'0000000000000000000000000000000000000000000000000000000000000019',X'9e2910b0d20491f09d1ceee783aedd5fae04009e633ab6d186112e0762e86c24','Let Go',3,'1','0',312);
 INSERT INTO music__tracks VALUES(20,'/tmp/repertoire-library/Abakus/2016. Departure/02. Storm.m4a',X'0000000000000000000000000000000000000000000000000000000000000020',X'081bda368a599334ac1038d8fd9658e06a1f6c35d4a27dc723d2d691970ff48a','Storm',3,'2','0',268);
 INSERT INTO music__tracks VALUES(21,'/tmp/repertoire-library/Abakus/2016. Departure/03. Kite.m4a',X'0000000000000000000000000000000000000000000000000000000000000021',X'f642599488e7ee9c41d0bfb87444a8daf0094c6da6dbddc915ff6d53e607e3d0','Kite',3,'3','0',320);
+INSERT INTO music__tracks VALUES(22,'/tmp/repertoire-library/dupe-track/track1.flac',X'a53be3b50c52f0804511263bafbcabbac518bfe45c2779d33e45551568d105',X'b9918cb7fd2d5fd151559d1598474b8b412cf35058bc3345c115a11490d080bc','Track 1 (Artist AB Remix)',3,'4','0',2);
 
 INSERT INTO music__tracks_artists VALUES(1,2,1);
 INSERT INTO music__tracks_artists VALUES(2,2,1);

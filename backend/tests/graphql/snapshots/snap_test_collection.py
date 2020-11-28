@@ -1261,7 +1261,7 @@ snapshots['test_del_release_from_collection 1'] = (
 )
 
 snapshots['test_del_release_from_collection 2'] = [
-    GenericRepr("T(id=3, title='Departure', release_type=<ReleaseType.EP: 3>, added_on=datetime.datetime(2020, 10, 19, 8, 29, 34), release_year=2016, num_tracks=11, in_inbox=True, in_favorites=False, runtime=3513, release_date=None, image_id=2)")
+    GenericRepr("T(id=3, title='Departure', release_type=<ReleaseType.EP: 3>, added_on=datetime.datetime(2020, 10, 19, 8, 29, 34), release_year=2016, num_tracks=12, in_inbox=True, in_favorites=False, runtime=3515, release_date=None, image_id=2)")
 ]
 
 snapshots['test_del_release_from_collection_bad_collection 1'] = (
