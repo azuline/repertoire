@@ -7,6 +7,7 @@ export * from './Image';
 export * from './Lists';
 export * from './NowPlayingBar';
 export * from './Pagination';
+export * from './PlayButtons';
 export * from './Release';
 export * from './Releases';
 export * from './Routelist';

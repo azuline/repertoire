@@ -49,12 +49,13 @@ export const Disclist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
           {multiDisc && (
             <SectionHeader className={i > 0 ? 'my-4' : 'mb-4'}>Disc {discNumber}</SectionHeader>
           )}
-          {discTracks.map((track) => {
+          {discTracks.map((track, trackNumber) => {
             trackIndex++;
             return (
               <Track
                 key={trackIndex}
                 track={track}
+                trackNumber={trackNumber + 1}
                 index={trackIndex}
                 onClick={trackOnClick}
                 active={areTrackListsMatching && curIndex === trackIndex}

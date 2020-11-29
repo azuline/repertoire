@@ -8,10 +8,11 @@ import { secondsToLength } from 'src/util';
 
 export const Track: React.FC<{
   track: TrackT;
+  trackNumber: number;
   index: number;
   onClick?: (arg0: number) => void;
   active?: boolean;
-}> = ({ track, index, onClick, active = false }) => {
+}> = ({ track, trackNumber, index, onClick, active = false }) => {
   const { isSidebarOpen } = React.useContext(SidebarContext);
   const trackOnClick = React.useCallback(() => onClick && onClick(index), [index, onClick]);
 
@@ -34,7 +35,7 @@ export const Track: React.FC<{
           )}
           title={track.title}
         >
-          {track.trackNumber && <span>{track.trackNumber}. </span>}
+          <span>{trackNumber}. </span>
           {track.title}
         </div>
         <TrackArtistList

@@ -34,6 +34,7 @@ export const Tracklist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
         <Track
           key={idx}
           track={track}
+          trackNumber={idx + 1}
           index={idx}
           onClick={trackOnClick}
           active={areTrackListsMatching && curIndex === idx}
