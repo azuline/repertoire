@@ -3,11 +3,11 @@ import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
 export const Link: React.FC<{
-  href: string;
   children: React.ReactNode;
   className?: string;
-  style?: CSS.Properties;
+  href: string;
   onClick?: () => void;
+  style?: CSS.Properties;
 }> = ({ href, children, className, style, onClick }) => {
   const history = useHistory();
 
@@ -21,7 +21,7 @@ export const Link: React.FC<{
   );
 
   return (
-    <a className={className} onClick={newOnClick} style={style} href={href}>
+    <a className={className} href={href} style={style} onClick={newOnClick}>
       {children}
     </a>
   );

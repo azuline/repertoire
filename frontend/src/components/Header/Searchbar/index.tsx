@@ -16,7 +16,7 @@ export const Searchbar: React.FC<{
         placeholder="Search"
       />
       <div className="absolute top-0 left-0 flex items-center h-full pl-2 pr-1 pointer-events-none">
-        <Icon icon="search-medium" className="w-5 text-primary-400" />
+        <Icon className="w-5 text-primary-400" icon="search-medium" />
       </div>
     </div>
   </div>

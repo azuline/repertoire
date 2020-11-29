@@ -23,12 +23,12 @@ export const NowPlayingBar: React.FC = () => {
     <div className="relative z-30 flex-none w-full h-16 bg-background-900">
       <ProgressBar curTime={curTime} curTrack={curTrack} seek={seek} />
       <div className="flex items-center full">
-        <Progress curTrack={curTrack} curTime={curTime} />
+        <Progress curTime={curTime} curTrack={curTrack} />
         <PlayButtons
-          isPlaying={isPlaying}
-          setIsPlaying={setIsPlaying}
           curTime={curTime}
+          isPlaying={isPlaying}
           seek={seek}
+          setIsPlaying={setIsPlaying}
         />
         {curTrack ? <TrackInfo curTrack={curTrack} /> : <div className="flex-1" />}
         <VolumeControl />

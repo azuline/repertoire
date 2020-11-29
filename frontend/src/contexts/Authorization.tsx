@@ -9,10 +9,10 @@ type ContextT = {
 };
 
 export const AuthorizationContext = React.createContext<ContextT>({
-  loggedIn: false,
-  setLoggedIn: () => {},
   csrf: null,
+  loggedIn: false,
   setCsrf: () => {},
+  setLoggedIn: () => {},
 });
 
 export const AuthorizationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -20,7 +20,7 @@ export const AuthorizationProvider: React.FC<{ children: React.ReactNode }> = ({
   const [csrf, setCsrf] = usePersistentState<string | null>('auth--csrfToken', null);
   const requestJson = useRequestJson<{ csrfToken: string }>();
 
-  const value = { loggedIn, setLoggedIn, csrf, setCsrf };
+  const value = { csrf, loggedIn, setCsrf, setLoggedIn };
 
   React.useEffect(() => {
     (async (): Promise<void> => {

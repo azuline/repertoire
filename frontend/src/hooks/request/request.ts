@@ -20,14 +20,14 @@ export const useRequest = (): RequestT<Response> => {
   const request = React.useCallback(
     async (url, { method, token, contentType, body } = {}) => {
       const response = await fetch(url, {
-        credentials: 'same-origin',
-        method,
         body,
+        credentials: 'same-origin',
         headers: new Headers({
           Authorization: token && `Token ${token}`,
-          'X-CSRF-Token': method !== undefined && method !== 'GET' && csrf ? csrf : '',
           'Content-Type': contentType,
+          'X-CSRF-Token': method !== undefined && method !== 'GET' && csrf ? csrf : '',
         }),
+        method,
       });
 
       if (response.status === 401) {

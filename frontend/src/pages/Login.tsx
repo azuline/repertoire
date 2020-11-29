@@ -4,7 +4,7 @@ import { useToasts } from 'react-toast-notifications';
 import { AuthorizationContext } from 'src/contexts';
 import { useRequestJson } from 'src/hooks';
 
-const inputStyle = { width: '50vw', minWidth: '300px', maxWidth: '600px' };
+const inputStyle = { maxWidth: '600px', minWidth: '300px', width: '50vw' };
 
 export const Login: React.FC<{ className?: string }> = ({ className }) => {
   const input = React.useRef<HTMLInputElement>(null);
@@ -20,9 +20,9 @@ export const Login: React.FC<{ className?: string }> = ({ className }) => {
       if (!input.current || !permanent.current) return;
 
       const { csrfToken } = await requestJson('/session', {
+        body: JSON.stringify({ permanent: permanent.current.value === 'on' }),
         method: 'POST',
         token: input.current.value,
-        body: JSON.stringify({ permanent: permanent.current.value === 'on' }),
       });
 
       if (csrfToken) {
@@ -41,16 +41,16 @@ export const Login: React.FC<{ className?: string }> = ({ className }) => {
       <form className="self-center mx-auto" onSubmit={onSubmit}>
         <div>
           <input
+            ref={input}
             autoFocus
             className="mr-6"
             placeholder="Authorization token"
-            ref={input}
             style={inputStyle}
           />
           <button type="submit">Login</button>
         </div>
         <div className="flex items-center mt-2">
-          <input className="mx-2 cursor-pointer" id="permanent" type="checkbox" ref={permanent} />
+          <input ref={permanent} className="mx-2 cursor-pointer" id="permanent" type="checkbox" />
           <label className="cursor-pointer" htmlFor="permanent">
             Remember me
           </label>

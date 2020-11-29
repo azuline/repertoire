@@ -33,11 +33,11 @@ export const Tracklist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
       {tracks.map((track, idx) => (
         <Track
           key={idx}
+          active={areTrackListsMatching && curIndex === idx}
+          index={idx}
           track={track}
           trackNumber={idx + 1}
-          index={idx}
           onClick={trackOnClick}
-          active={areTrackListsMatching && curIndex === idx}
         />
       ))}
     </div>

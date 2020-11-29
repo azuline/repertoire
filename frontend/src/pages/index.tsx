@@ -20,24 +20,24 @@ export * from './Login';
 export const Routes: React.FC = () => (
   <div className="z-10 flex-1 min-h-0">
     <Switch>
-      <Route path="/" component={Explore} exact />
-      <Route path="/404" component={NotFound} />
-      <Route path="/playing" component={NowPlaying} />
-      <Route path="/mobile" component={Mobile} />
-      <Route path="/releases/:id" component={Release} />
-      <Route path="/releases" component={Releases} />
-      <Route path="/artists/:id" component={Artists} />
-      <Route path="/artists" component={Artists} />
-      <Route path="/collages/:id" component={Collages} />
-      <Route path="/collages" component={Collages} />
-      <Route path="/labels/:id" component={Labels} />
-      <Route path="/labels" component={Labels} />
-      <Route path="/genres/:id" component={Genres} />
-      <Route path="/genres" component={Genres} />
-      <Route path="/playlists/:id" component={Playlists} />
-      <Route path="/playlists" component={Playlists} />
-      <Route path="/metadata" component={Metadata} />
-      <Route path="/settings" component={Settings} />
+      <Route exact component={Explore} path="/" />
+      <Route component={NotFound} path="/404" />
+      <Route component={NowPlaying} path="/playing" />
+      <Route component={Mobile} path="/mobile" />
+      <Route component={Release} path="/releases/:id" />
+      <Route component={Releases} path="/releases" />
+      <Route component={Artists} path="/artists/:id" />
+      <Route component={Artists} path="/artists" />
+      <Route component={Collages} path="/collages/:id" />
+      <Route component={Collages} path="/collages" />
+      <Route component={Labels} path="/labels/:id" />
+      <Route component={Labels} path="/labels" />
+      <Route component={Genres} path="/genres/:id" />
+      <Route component={Genres} path="/genres" />
+      <Route component={Playlists} path="/playlists/:id" />
+      <Route component={Playlists} path="/playlists" />
+      <Route component={Metadata} path="/metadata" />
+      <Route component={Settings} path="/settings" />
     </Switch>
   </div>
 );

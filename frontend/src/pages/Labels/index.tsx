@@ -15,10 +15,10 @@ export const Labels: React.FC = () => {
       {!active && <Header />}
       <div className="flex flex-1 min-h-0">
         <CollectionChooser
+          active={active}
           className="flex-none"
           collectionTypes={types}
           urlPrefix="/labels"
-          active={active}
         />
         {active && <Label active={active} />}
       </div>

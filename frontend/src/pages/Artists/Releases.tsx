@@ -7,5 +7,5 @@ export const ArtistReleases: React.FC<{ active: number }> = ({ active }) => {
   const viewOptions = useViewOptions(viewOptionsSeed);
   const pagination = usePagination();
 
-  return <PagedReleases viewOptions={viewOptions} pagination={pagination} partial />;
+  return <PagedReleases partial pagination={pagination} viewOptions={viewOptions} />;
 };

@@ -35,13 +35,13 @@ export const Chooser: React.FC<{
             active && (isSidebarOpen ? 'xl:block' : 'lg:block'),
           )}
         />
-        <JumpToLetter results={results} active={active} setJumpTo={setJumpTo} />
+        <JumpToLetter active={active} results={results} setJumpTo={setJumpTo} />
         <VirtualList
-          results={results}
           active={active}
           jumpTo={jumpTo}
-          urlFactory={urlFactory}
+          results={results}
           toggleStarFactory={toggleStarFactory}
+          urlFactory={urlFactory}
         />
       </div>
     </div>

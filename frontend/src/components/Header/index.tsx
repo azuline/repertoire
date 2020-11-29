@@ -23,7 +23,7 @@ export const Header: React.FC<{ className?: string; searchbar?: boolean }> = ({
           onClick={toggleOpen}
         />
       )}
-      <Link href="/mobile" className="block sm:hidden">
+      <Link className="block sm:hidden" href="/mobile">
         <Icon
           className="w-6 mr-4 cursor-pointer hover:text-primary-400 text-primary-500"
           icon="home-small"

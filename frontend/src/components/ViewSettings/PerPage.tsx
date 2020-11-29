@@ -16,9 +16,9 @@ export const PerPage: React.FC<{ pagination: PaginationT; className?: string }> 
   return (
     <Select
       className={className}
-      value={pagination.perPage}
       label="Per Page"
       name="select-perPage"
+      value={pagination.perPage}
       onChange={updatePerPage}
     >
       {options.map((value) => (

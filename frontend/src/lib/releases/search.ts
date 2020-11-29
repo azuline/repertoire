@@ -74,12 +74,12 @@ const extractVariables = (
   { search, collectionIds, artistIds, releaseTypes, sort, asc }: ViewOptionsT,
   { curPage, perPage }: PaginationT,
 ): V => ({
-  search,
-  collectionIds,
   artistIds,
-  releaseTypes,
-  sort,
   asc,
-  perPage,
+  collectionIds,
   page: curPage,
+  perPage,
+  releaseTypes,
+  search,
+  sort,
 });

@@ -28,7 +28,7 @@ export const UserSettings: React.FC = () => {
     <div className="flex items-center min-w-0 my-2">
       <div className="flex-none w-28">Nickname:</div>
       <form className="flex items-center flex-1 max-w-sm min-w-0" onSubmit={onSubmit}>
-        <input className="flex-1 min-w-0 mr-4" ref={input} placeholder={data?.user?.nickname} />
+        <input ref={input} className="flex-1 min-w-0 mr-4" placeholder={data?.user?.nickname} />
         <button className="flex-none" type="submit">
           Save
         </button>

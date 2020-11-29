@@ -31,21 +31,21 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
       <Link className="flex-none sm:hidden" href="/settings" onClick={closeSidebar}>
         <Icon
           className="w-5 mr-2 cursor-pointer hover:text-primary-400 text-primary-500"
-          title="Settings"
           icon="cog-medium"
+          title="Settings"
         />
       </Link>
       <Link className="flex-none hidden sm:block" href="/settings">
         <Icon
           className="w-5 mr-2 cursor-pointer hover:text-primary-400 text-primary-500"
-          title="Settings"
           icon="cog-medium"
+          title="Settings"
         />
       </Link>
       <Icon
         className="flex-none w-5 cursor-pointer hover:text-primary-400 text-primary-500"
-        title="Logout"
         icon="logout-medium"
+        title="Logout"
         onClick={logout}
       />
     </div>

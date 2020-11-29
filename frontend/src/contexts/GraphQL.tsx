@@ -9,16 +9,16 @@ export const GraphQLProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const link = React.useMemo(
     () =>
       new HttpLink({
-        uri: '/graphql',
         credentials: 'same-origin',
         headers: { 'X-CSRF-Token': csrf as string },
+        uri: '/graphql',
       }),
     [csrf],
   );
 
   const cache = React.useMemo(() => new InMemoryCache(), []);
 
-  const client = React.useMemo(() => new ApolloClient({ link, cache }), [link, cache]);
+  const client = React.useMemo(() => new ApolloClient({ cache, link }), [link, cache]);
 
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };

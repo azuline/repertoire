@@ -17,8 +17,8 @@ export const Page: React.FC<{
 
   return (
     <button
-      type="button"
       className={clsx(className, theme, 'p-1 text-btn rounded-none')}
+      type="button"
       onClick={onClick}
     >
       {page}

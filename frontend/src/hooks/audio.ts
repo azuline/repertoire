@@ -22,7 +22,7 @@ type AudioReducerState = {
 
 type AudioReducerPayload = { track: TrackT | null; nextTrack: TrackT | null };
 
-const INITIAL_AUDIO_STATE = { audio: null, trackId: null, nextAudio: null, nextTrackId: null };
+const INITIAL_AUDIO_STATE = { audio: null, nextAudio: null, nextTrackId: null, trackId: null };
 
 const audioReducer = (
   state: AudioReducerState,
@@ -36,9 +36,9 @@ const audioReducer = (
       state.nextAudio && state.nextTrackId === payload.track.id
         ? state.nextAudio
         : new Audio(`/files/tracks/${payload.track.id}`),
-    trackId: payload.track.id,
     nextAudio: payload.nextTrack ? new Audio(`/files/tracks/${payload.nextTrack.id}`) : null,
     nextTrackId: payload.nextTrack?.id ?? null,
+    trackId: payload.track.id,
   };
 };
 
@@ -69,7 +69,7 @@ export const useAudio = (): AudioT => {
     const nextTrack =
       curIndex !== null && curIndex !== playQueue.length - 1 ? playQueue[curIndex + 1] : null;
 
-    audioDispatch({ track, nextTrack });
+    audioDispatch({ nextTrack, track });
     setIsPlaying(!!track);
   }, [playQueue, curIndex]);
 
@@ -144,5 +144,5 @@ export const useAudio = (): AudioT => {
     [audioState],
   );
 
-  return { isPlaying, setIsPlaying, curTime, seek };
+  return { curTime, isPlaying, seek, setIsPlaying };
 };

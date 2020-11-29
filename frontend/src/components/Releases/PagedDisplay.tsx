@@ -20,7 +20,7 @@ export const PagedReleases: React.FC<{
 
   // prettier-ignore
   const { total, results } = React.useMemo(
-    () => (data?.releases || { total: 0, results: [] }),
+    () => (data?.releases || { results: [], total: 0 }),
     [data],
   );
 
@@ -35,7 +35,7 @@ export const PagedReleases: React.FC<{
           <div className="flex flex-col">
             {results.map((rls) => (
               <div key={rls.id}>
-                <RowRelease release={rls} className="p-3 rounded-lg" />
+                <RowRelease className="p-3 rounded-lg" release={rls} />
               </div>
             ))}
           </div>
@@ -56,9 +56,9 @@ export const PagedReleases: React.FC<{
     <>
       <ViewSettings
         className="mb-4"
-        viewOptions={viewOptions}
         pagination={pagination}
         partial={partial}
+        viewOptions={viewOptions}
       />
       {releasesDiv}
       <Pagination className="mt-4" pagination={pagination} />

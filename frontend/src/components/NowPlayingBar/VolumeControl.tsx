@@ -22,11 +22,11 @@ export const VolumeControl: React.FC = () => {
       </div>
       <div className="absolute w-10 h-56 px-2 py-4 border-2 border-gray-300 rounded-lg bg-background-900 dark:border-gray-700 -top-56">
         <ReactSlider
+          invert
           className="slider volume-slider"
+          orientation="vertical"
           value={volume}
           onChange={onSliderChange}
-          orientation="vertical"
-          invert
         />
       </div>
     </div>

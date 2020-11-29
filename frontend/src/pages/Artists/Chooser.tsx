@@ -22,11 +22,11 @@ export const ArtistChooser: React.FC<{
 
   return (
     <Chooser
+      active={active}
       className={className}
       results={data.artists.results}
-      active={active}
-      urlFactory={urlFactory}
       toggleStarFactory={toggleStarFactory}
+      urlFactory={urlFactory}
     />
   );
 };

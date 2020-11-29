@@ -25,11 +25,11 @@ export const CollectionChooser: React.FC<{
 
   return (
     <Chooser
+      active={active}
       className={className}
       results={data.collections.results}
-      active={active}
-      urlFactory={urlFactory}
       toggleStarFactory={toggleStarFactory}
+      urlFactory={urlFactory}
     />
   );
 };

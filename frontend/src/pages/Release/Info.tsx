@@ -19,10 +19,10 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           <>
             <span>By: </span>
             <ArtistList
+              link
               className="inline"
               elementClassName="text-primary-400"
               elements={release.artists}
-              link
             />
           </>
         )}
@@ -35,10 +35,10 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           <>
             <span>{release.labels.length !== 1 ? 'Labels' : 'Label'}: </span>
             <LabelList
+              link
               className="inline"
               elementClassName="text-primary-400"
               elements={release.labels}
-              link
             />
           </>
         )}
@@ -47,11 +47,11 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
         {release.genres.length !== 0 && (
           <>
             <GenreList
+              link
               className="my-2"
+              delimiter=" "
               elementClassName="px-2 py-1 mr-1 rounded bg-primary-700 text-foreground hover:bg-primary-600 leading-9"
               elements={release.genres}
-              delimiter=" "
-              link
             />
           </>
         )}

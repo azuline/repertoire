@@ -71,5 +71,5 @@ export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): Pa
     return Math.ceil(total / perPage);
   }, [total, perPage]);
 
-  return { curPage, setCurPage, perPage, setPerPage, numPages, setTotal };
+  return { curPage, numPages, perPage, setCurPage, setPerPage, setTotal };
 };

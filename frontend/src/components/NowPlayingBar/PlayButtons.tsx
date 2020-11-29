@@ -11,8 +11,8 @@ export const PlayButtons: React.FC<{
   <div className="flex items-center justify-center flex-none mx-4 text-primary-500 sm:mx-8">
     <Rewind
       className="mr-1 cursor-pointer hover:text-primary-400 w-9"
-      isPlaying={isPlaying}
       curTime={curTime}
+      isPlaying={isPlaying}
       seek={seek}
     />
     <PlayPause

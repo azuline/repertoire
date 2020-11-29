@@ -28,13 +28,13 @@ export const Pagination: React.FC<{
   return (
     <div className={clsx(className, 'flex items-center')}>
       {numPages > 1 && <Arrow direction="left" onClick={goBackOnePage} />}
-      <Page page={1} curPage={curPage} setCurPage={setCurPage} />
+      <Page curPage={curPage} page={1} setCurPage={setCurPage} />
       {Array.from({ length: top - bottom }).map((_, i) => (
-        <Page key={bottom + i} page={bottom + i} curPage={curPage} setCurPage={setCurPage} />
+        <Page key={bottom + i} curPage={curPage} page={bottom + i} setCurPage={setCurPage} />
       ))}
-      {numPages > 1 && <Page page={numPages} curPage={curPage} setCurPage={setCurPage} />}
+      {numPages > 1 && <Page curPage={curPage} page={numPages} setCurPage={setCurPage} />}
       {numPages > 1 && <Arrow direction="right" onClick={goForwardOnePage} />}
-      {numPages > 4 && <Goto setCurPage={setCurPage} numPages={numPages} />}
+      {numPages > 4 && <Goto numPages={numPages} setCurPage={setCurPage} />}
     </div>
   );
 };

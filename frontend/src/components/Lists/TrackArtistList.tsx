@@ -26,10 +26,10 @@ const ROLE_RANKINGS: string[] = [
 ];
 
 const DIVIDER_WORDS_RAW: { [k in string]: string } = {
-  FEATURE: ' feat. ',
-  REMIXER: ' remixed by ',
-  PRODUCER: ' produced by ',
   DJMIXER: ' mixed by ',
+  FEATURE: ' feat. ',
+  PRODUCER: ' produced by ',
+  REMIXER: ' remixed by ',
 };
 
 export const TrackArtistList: ListT = ({

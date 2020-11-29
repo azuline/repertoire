@@ -20,11 +20,11 @@ export const View: React.FC<{ viewOptions: ViewOptionsT; className?: string }> =
 
   return (
     <Select
-      onChange={updateView}
-      value={viewOptions.releaseView}
+      className={className}
       label="View"
       name="select-view"
-      className={className}
+      value={viewOptions.releaseView}
+      onChange={updateView}
     >
       {Object.values(ReleaseView).map((value) => (
         <option key={value} value={value}>

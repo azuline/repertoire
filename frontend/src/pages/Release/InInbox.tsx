@@ -12,9 +12,9 @@ export const InInbox: React.FC<{ release: ReleaseT }> = ({ release }) => {
 
   const toggleInbox = React.useCallback(() => {
     if (release.inInbox) {
-      mutateDel({ variables: { releaseId: release.id, collectionId: INBOX_COLLECTION_ID } });
+      mutateDel({ variables: { collectionId: INBOX_COLLECTION_ID, releaseId: release.id } });
     } else {
-      mutateAdd({ variables: { releaseId: release.id, collectionId: INBOX_COLLECTION_ID } });
+      mutateAdd({ variables: { collectionId: INBOX_COLLECTION_ID, releaseId: release.id } });
     }
   }, [mutateAdd, mutateDel, release]);
 

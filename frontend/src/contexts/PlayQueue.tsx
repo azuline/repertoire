@@ -9,17 +9,17 @@ type ContextT = {
 };
 
 export const PlayQueueContext = React.createContext<ContextT>({
-  playQueue: [],
-  setPlayQueue: () => {},
   curIndex: null,
+  playQueue: [],
   setCurIndex: () => {},
+  setPlayQueue: () => {},
 });
 
 export const PlayQueueProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [playQueue, setPlayQueue] = React.useState<TrackT[]>([]);
   const [curIndex, setCurIndex] = React.useState<number | null>(null);
 
-  const value = { playQueue, setPlayQueue, curIndex, setCurIndex };
+  const value = { curIndex, playQueue, setCurIndex, setPlayQueue };
 
   return <PlayQueueContext.Provider value={value}>{children}</PlayQueueContext.Provider>;
 };

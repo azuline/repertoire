@@ -10,27 +10,27 @@ const sections = [
   {
     name: null,
     routes: [
-      { path: '/', exact: true, label: 'Explore' },
-      { path: '/playing', exact: false, label: 'Now Playing' },
+      { exact: true, label: 'Explore', path: '/' },
+      { exact: false, label: 'Now Playing', path: '/playing' },
     ],
   },
   {
     name: 'Library',
     routes: [
-      { path: '/releases', exact: false, label: 'Releases' },
-      { path: '/artists', exact: false, label: 'Artists' },
-      { path: '/genres', exact: false, label: 'Genres' },
-      { path: '/labels', exact: false, label: 'Labels' },
+      { exact: false, label: 'Releases', path: '/releases' },
+      { exact: false, label: 'Artists', path: '/artists' },
+      { exact: false, label: 'Genres', path: '/genres' },
+      { exact: false, label: 'Labels', path: '/labels' },
     ],
   },
   {
     name: 'Collections',
     routes: [
-      { path: '/collages', exact: false, label: 'Collages' },
-      { path: '/playlists', exact: false, label: 'Playlists' },
+      { exact: false, label: 'Collages', path: '/collages' },
+      { exact: false, label: 'Playlists', path: '/playlists' },
     ],
   },
-  { name: 'Utilities', routes: [{ path: '/metadata', exact: false, label: 'Metadata Tools' }] },
+  { name: 'Utilities', routes: [{ exact: false, label: 'Metadata Tools', path: '/metadata' }] },
 ];
 
 export const RouteList: React.FC = () => {
@@ -39,7 +39,7 @@ export const RouteList: React.FC = () => {
   const activeRoute = React.useMemo(() => {
     const active = sections
       .reduce<RouteT[]>((acc, section) => acc.concat(section.routes), [])
-      .find(({ path, exact }) => matchPath(location.pathname, { path, exact }));
+      .find(({ path, exact }) => matchPath(location.pathname, { exact, path }));
 
     return active ? active.path : null;
   }, [location]);
@@ -52,10 +52,10 @@ export const RouteList: React.FC = () => {
           {routes.map(({ path, label }, i) => (
             <NavLink
               key={i}
-              className="px-8 py-2"
-              url={path}
               activeRoute={activeRoute}
+              className="px-8 py-2"
               label={label}
+              url={path}
             />
           ))}
         </div>

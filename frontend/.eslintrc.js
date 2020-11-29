@@ -19,7 +19,7 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:jsdoc/recommended',
   ],
-  plugins: ['@typescript-eslint', 'simple-import-sort', 'jsdoc'],
+  plugins: ['@typescript-eslint', 'simple-import-sort', 'jsdoc', 'sort-keys-fix'],
   env: {
     es6: true,
     browser: true,
@@ -32,15 +32,15 @@ module.exports = {
     'import/prefer-default-export': 'off',
     indent: ['error', 2, { SwitchCase: 1 }],
     // We are using typescript and typedoc, so JSDoc types are unnecessary.
-    'jsdoc/check-types': 0,
-    'jsdoc/no-undefined-types': 0,
-    'jsdoc/require-hyphen-before-param-description': 1,
-    'jsdoc/require-param': 0,
-    'jsdoc/require-param-type': 0,
-    'jsdoc/require-property': 0,
-    'jsdoc/require-returns': 0,
-    'jsdoc/require-returns-type': 0,
-    // Not dealing with a11y at the moment.
+    'jsdoc/check-types': 'off',
+    'jsdoc/no-undefined-types': 'off',
+    'jsdoc/require-hyphen-before-param-description': 'warn',
+    'jsdoc/require-param': 'off',
+    'jsdoc/require-param-type': 'off',
+    'jsdoc/require-property': 'off',
+    'jsdoc/require-returns': 'off',
+    'jsdoc/require-returns-type': 'off',
+    // Not dealing with a'warn''warn'y at the moment.
     'jsx-a11y/alt-text': 'off',
     'jsx-a11y/no-static-element-interactions': 'off',
     'jsx-a11y/click-events-have-key-events': 'off',
@@ -57,9 +57,18 @@ module.exports = {
     'react/no-array-index-key': 'off', // Sometimes there's nothing else -_-
     'react/jsx-props-no-spreading': 'off', // ...
     'react/prop-types': 'off', // Goes off even though components are typed.
+    'react/jsx-sort-props': [
+      'warn',
+      {
+        callbacksLast: true,
+        shorthandFirst: true,
+        reservedFirst: true,
+      },
+    ],
     'simple-import-sort/imports': 'warn',
     'simple-import-sort/exports': 'warn',
     'sort-imports': 'off',
+    'sort-keys-fix/sort-keys-fix': 'warn',
     '@typescript-eslint/explicit-function-return-type': 'warn',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-unused-vars': [

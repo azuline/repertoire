@@ -54,11 +54,11 @@ export const Disclist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
             return (
               <Track
                 key={trackIndex}
+                active={areTrackListsMatching && curIndex === trackIndex}
+                index={trackIndex}
                 track={track}
                 trackNumber={trackNumber + 1}
-                index={trackIndex}
                 onClick={trackOnClick}
-                active={areTrackListsMatching && curIndex === trackIndex}
               />
             );
           })}

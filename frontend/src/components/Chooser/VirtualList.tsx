@@ -23,10 +23,10 @@ export const VirtualList: React.FC<{
       return (
         <div key={key} style={style}>
           <Element
-            element={results[index]}
             active={active}
-            urlFactory={urlFactory}
+            element={results[index]}
             toggleStarFactory={toggleStarFactory}
+            urlFactory={urlFactory}
           />
         </div>
       );
@@ -55,8 +55,8 @@ export const VirtualList: React.FC<{
           rowCount={results.length + 2}
           rowHeight={28.5}
           rowRenderer={renderRow}
-          scrollToIndex={scrollToIndex}
           scrollToAlignment={scrollToAlignment as 'start' | 'auto'}
+          scrollToIndex={scrollToIndex}
           width={width}
         />
       )}

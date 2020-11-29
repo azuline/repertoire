@@ -85,19 +85,19 @@ export const useViewOptions = ({
   React.useEffect(() => releaseView && setReleaseView(releaseView), [releaseView, setReleaseView]);
 
   return {
-    search: searchState,
-    setSearch,
-    collectionIds: collectionIdsState,
-    setCollectionIds,
     artistIds: artistIdsState,
-    setArtistIds,
-    releaseTypes: releaseTypesState,
-    setReleaseTypes,
-    sort: sortState,
-    setSort,
     asc: ascState,
-    setAsc,
+    collectionIds: collectionIdsState,
+    releaseTypes: releaseTypesState,
     releaseView: releaseViewState,
+    search: searchState,
+    setArtistIds,
+    setAsc,
+    setCollectionIds,
+    setReleaseTypes,
     setReleaseView,
+    setSearch,
+    setSort,
+    sort: sortState,
   };
 };

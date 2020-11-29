@@ -18,5 +18,5 @@ export const Image: React.FC<{
   if (!imageId) {
     return <img alt={alt} className={className} src={noArt} />;
   }
-  return <img alt={alt} className={className} src={src} onError={onError} loading="lazy" />;
+  return <img alt={alt} className={className} loading="lazy" src={src} onError={onError} />;
 };

@@ -12,9 +12,9 @@ export const InFavorites: React.FC<{ release: ReleaseT }> = ({ release }) => {
 
   const toggleFavorite = React.useCallback(() => {
     if (release.inFavorites) {
-      mutateDel({ variables: { releaseId: release.id, collectionId: FAVORITES_COLLECTION_ID } });
+      mutateDel({ variables: { collectionId: FAVORITES_COLLECTION_ID, releaseId: release.id } });
     } else {
-      mutateAdd({ variables: { releaseId: release.id, collectionId: FAVORITES_COLLECTION_ID } });
+      mutateAdd({ variables: { collectionId: FAVORITES_COLLECTION_ID, releaseId: release.id } });
     }
   }, [mutateAdd, mutateDel, release]);
 

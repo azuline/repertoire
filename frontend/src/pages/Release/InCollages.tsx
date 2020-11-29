@@ -9,7 +9,7 @@ export const InCollages: React.FC<{ collages: CollectionT[] }> = ({ collages }) 
         <div className="mb-4 font-semibold">In Collages</div>
         <ul>
           {collages.map((collage) => (
-            <li className="my-1 text-primary-500" key={collage.id}>
+            <li key={collage.id} className="my-1 text-primary-500">
               <Link href={`/collages/${collage.id}`}>{collage.name}</Link>
             </li>
           ))}

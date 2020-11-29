@@ -3,19 +3,19 @@ import { Link } from 'src/components/common';
 import { ElementT } from 'src/types';
 
 type ListT = React.FC<{
-  elements?: ElementT[];
   className?: string;
-  elementClassName?: string;
   delimiter?: string;
+  elementClassName?: string;
+  elements?: ElementT[];
   link?: boolean;
 }>;
 
 export const makeList = (urlPrefix: string): ListT => {
   const ElementList: ListT = ({
-    elements,
     className,
-    elementClassName,
     delimiter = ', ',
+    elementClassName,
+    elements,
     link = false,
   }) => {
     if (!elements || elements.length === 0) return <div> </div>;

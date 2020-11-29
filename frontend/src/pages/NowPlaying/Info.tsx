@@ -37,10 +37,10 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
             <>
               <span>By: </span>
               <TrackArtistList
+                link
+                artists={track.artists}
                 className="inline"
                 elementClassName="text-primary-400"
-                artists={track.artists}
-                link
               />
             </>
           )}
@@ -55,11 +55,11 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
           {parentRelease && parentRelease.genres.length !== 0 && (
             <>
               <GenreList
+                link
                 className="my-2"
+                delimiter=" "
                 elementClassName="px-2 py-1 mr-1 rounded bg-primary-700 text-foreground hover:bg-primary-600 leading-9"
                 elements={parentRelease.genres}
-                delimiter=" "
-                link
               />
             </>
           )}

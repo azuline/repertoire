@@ -60,11 +60,11 @@ export const JumpToLetter: React.FC<{
     >
       {Object.entries(letterToIndexMap).map(([letter, jumpFn]) => (
         <div
+          key={letter}
           className={clsx(
             'px-2',
             jumpFn ? 'cursor-pointer hover:font-bold text-primary-500' : 'text-primary-700',
           )}
-          key={letter}
           onClick={jumpFn}
         >
           {letter}

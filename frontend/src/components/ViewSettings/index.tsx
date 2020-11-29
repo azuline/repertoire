@@ -34,7 +34,7 @@ export const ViewSettings: React.FC<{
         <PerPage className="ml-2" pagination={pagination} />
       </div>
       <Popover click className={clsx('ml-auto cursor-pointer', responsiveHide)}>
-        <button type="button" className="flex items-center -mr-2 small-btn text-btn">
+        <button className="flex items-center -mr-2 small-btn text-btn" type="button">
           <div>Options</div>
           <Icon className="w-4 ml-1 -mr-1" icon="chevron-down-small" />
         </button>

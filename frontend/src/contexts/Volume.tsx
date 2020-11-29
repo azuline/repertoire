@@ -10,17 +10,17 @@ type ContextT = {
 };
 
 export const VolumeContext = React.createContext<ContextT>({
-  volume: 100,
-  setVolume: () => {},
   isMuted: false,
   setIsMuted: () => {},
+  setVolume: () => {},
+  volume: 100,
 });
 
 export const VolumeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [volume, setVolume] = usePersistentState<number>('volume--volume', 100);
   const [isMuted, setIsMuted] = usePersistentState<boolean>('volume--muted', false);
 
-  const value = { volume, setVolume, isMuted, setIsMuted };
+  const value = { isMuted, setIsMuted, setVolume, volume };
 
   return <VolumeContext.Provider value={value}>{children}</VolumeContext.Provider>;
 };
