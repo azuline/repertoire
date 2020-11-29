@@ -40,8 +40,9 @@ with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ## Scratchpad
 
-We are binding TypeScript to version 4.0.3 right now because CRA is broken with
-the newest version. Will unbind when it is fixed.
+CRA 4.0.1 has horrible hot reload times for TypeScript, so we currently are
+on 3.4.x. Will upgrade back once this is resolved. This also caps our version
+of ESLint and TypeScript for compatibility reasons.
 
 Since GQL API can create release, need to have functions to scan its tracks for
 cover art and/or upload art.
