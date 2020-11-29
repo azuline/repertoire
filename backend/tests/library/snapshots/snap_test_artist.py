@@ -21,19 +21,19 @@ snapshots['test_releases 1'] = [
 
 snapshots['test_top_genres 1'] = [
     {
-        'genre': GenericRepr("T(id=12, name='Folk', starred=False, type=<CollectionType.GENRE: 4>, num_releases=None, last_updated_on=None)"),
+        'genre': GenericRepr("T(id=3, name='Folk', starred=False, type=<CollectionType.GENRE: 4>, num_releases=None, last_updated_on=None)"),
         'num_matches': 1
     },
     {
-        'genre': GenericRepr("T(id=13, name='Rock', starred=False, type=<CollectionType.GENRE: 4>, num_releases=None, last_updated_on=None)"),
+        'genre': GenericRepr("T(id=4, name='Rock', starred=False, type=<CollectionType.GENRE: 4>, num_releases=None, last_updated_on=None)"),
         'num_matches': 1
     },
     {
-        'genre': GenericRepr("T(id=14, name='Country', starred=False, type=<CollectionType.GENRE: 4>, num_releases=None, last_updated_on=None)"),
+        'genre': GenericRepr("T(id=5, name='Country', starred=False, type=<CollectionType.GENRE: 4>, num_releases=None, last_updated_on=None)"),
         'num_matches': 1
     },
     {
-        'genre': GenericRepr("T(id=15, name='World', starred=False, type=<CollectionType.GENRE: 4>, num_releases=None, last_updated_on=None)"),
+        'genre': GenericRepr("T(id=6, name='World', starred=False, type=<CollectionType.GENRE: 4>, num_releases=None, last_updated_on=None)"),
         'num_matches': 1
     }
 ]

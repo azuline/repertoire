@@ -27,25 +27,25 @@ snapshots['test_add_release_to_collection 1'] = (
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 12
+                                'id': 3
                             },
                             'numMatches': 1
                         },
                         {
                             'genre': {
-                                'id': 13
+                                'id': 4
                             },
                             'numMatches': 1
                         },
                         {
                             'genre': {
-                                'id': 14
+                                'id': 5
                             },
                             'numMatches': 1
                         },
                         {
                             'genre': {
-                                'id': 15
+                                'id': 6
                             },
                             'numMatches': 1
                         }
@@ -64,19 +64,19 @@ snapshots['test_add_release_to_collection 1'] = (
                     ],
                     'genres': [
                         {
-                            'id': 12,
+                            'id': 3,
                             'name': 'Folk'
                         },
                         {
-                            'id': 13,
+                            'id': 4,
                             'name': 'Rock'
                         },
                         {
-                            'id': 14,
+                            'id': 5,
                             'name': 'Country'
                         },
                         {
-                            'id': 15,
+                            'id': 6,
                             'name': 'World'
                         }
                     ],
@@ -228,7 +228,7 @@ snapshots['test_collection 1'] = (
     {
         'data': {
             'collection': {
-                'id': 12,
+                'id': 3,
                 'lastUpdatedOn': 1603067134,
                 'name': 'Folk',
                 'numReleases': 1,
@@ -242,25 +242,25 @@ snapshots['test_collection 1'] = (
                 'topGenres': [
                     {
                         'genre': {
-                            'id': 12
+                            'id': 3
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 13
+                            'id': 4
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 14
+                            'id': 5
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 15
+                            'id': 6
                         },
                         'numMatches': 1
                     }
@@ -276,7 +276,7 @@ snapshots['test_collection_from_name_and_type 1'] = (
     {
         'data': {
             'collectionFromNameAndType': {
-                'id': 12,
+                'id': 3,
                 'lastUpdatedOn': 1603067134,
                 'name': 'Folk',
                 'numReleases': 1,
@@ -290,25 +290,25 @@ snapshots['test_collection_from_name_and_type 1'] = (
                 'topGenres': [
                     {
                         'genre': {
-                            'id': 12
+                            'id': 3
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 13
+                            'id': 4
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 14
+                            'id': 5
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 15
+                            'id': 6
                         },
                         'numMatches': 1
                     }
@@ -404,31 +404,31 @@ snapshots['test_collections 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 12
+                                    'id': 3
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 13
+                                    'id': 4
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 14
+                                    'id': 5
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 15
+                                    'id': 6
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 16
+                                    'id': 7
                                 },
                                 'numMatches': 1
                             }
@@ -436,7 +436,7 @@ snapshots['test_collections 1'] = (
                         'type': 'SYSTEM'
                     },
                     {
-                        'id': 20,
+                        'id': 11,
                         'lastUpdatedOn': None,
                         'name': 'MyLabel',
                         'numReleases': 0,
@@ -448,7 +448,7 @@ snapshots['test_collections 1'] = (
                         'type': 'LABEL'
                     },
                     {
-                        'id': 19,
+                        'id': 10,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Ambient',
                         'numReleases': 1,
@@ -462,25 +462,25 @@ snapshots['test_collections 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 16
+                                    'id': 7
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 17
+                                    'id': 8
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 18
+                                    'id': 9
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 19
+                                    'id': 10
                                 },
                                 'numMatches': 1
                             }
@@ -488,7 +488,7 @@ snapshots['test_collections 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'id': 14,
+                        'id': 5,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Country',
                         'numReleases': 1,
@@ -502,25 +502,25 @@ snapshots['test_collections 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 12
+                                    'id': 3
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 13
+                                    'id': 4
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 14
+                                    'id': 5
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 15
+                                    'id': 6
                                 },
                                 'numMatches': 1
                             }
@@ -528,7 +528,7 @@ snapshots['test_collections 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'id': 16,
+                        'id': 7,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Downtempo',
                         'numReleases': 1,
@@ -542,25 +542,25 @@ snapshots['test_collections 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 16
+                                    'id': 7
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 17
+                                    'id': 8
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 18
+                                    'id': 9
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 19
+                                    'id': 10
                                 },
                                 'numMatches': 1
                             }
@@ -568,7 +568,7 @@ snapshots['test_collections 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'id': 17,
+                        'id': 8,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Electronic',
                         'numReleases': 1,
@@ -582,25 +582,25 @@ snapshots['test_collections 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 16
+                                    'id': 7
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 17
+                                    'id': 8
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 18
+                                    'id': 9
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 19
+                                    'id': 10
                                 },
                                 'numMatches': 1
                             }
@@ -608,7 +608,7 @@ snapshots['test_collections 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'id': 12,
+                        'id': 3,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Folk',
                         'numReleases': 1,
@@ -622,25 +622,25 @@ snapshots['test_collections 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 12
+                                    'id': 3
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 13
+                                    'id': 4
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 14
+                                    'id': 5
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 15
+                                    'id': 6
                                 },
                                 'numMatches': 1
                             }
@@ -648,7 +648,7 @@ snapshots['test_collections 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'id': 18,
+                        'id': 9,
                         'lastUpdatedOn': 1603067134,
                         'name': 'House',
                         'numReleases': 1,
@@ -662,25 +662,25 @@ snapshots['test_collections 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 16
+                                    'id': 7
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 17
+                                    'id': 8
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 18
+                                    'id': 9
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 19
+                                    'id': 10
                                 },
                                 'numMatches': 1
                             }
@@ -688,7 +688,7 @@ snapshots['test_collections 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'id': 13,
+                        'id': 4,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Rock',
                         'numReleases': 1,
@@ -702,25 +702,25 @@ snapshots['test_collections 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 12
+                                    'id': 3
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 13
+                                    'id': 4
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 14
+                                    'id': 5
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 15
+                                    'id': 6
                                 },
                                 'numMatches': 1
                             }
@@ -728,7 +728,7 @@ snapshots['test_collections 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'id': 15,
+                        'id': 6,
                         'lastUpdatedOn': 1603067134,
                         'name': 'World',
                         'numReleases': 1,
@@ -742,138 +742,30 @@ snapshots['test_collections 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 12
+                                    'id': 3
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 13
+                                    'id': 4
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 14
+                                    'id': 5
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 15
+                                    'id': 6
                                 },
                                 'numMatches': 1
                             }
                         ],
                         'type': 'GENRE'
-                    },
-                    {
-                        'id': 3,
-                        'lastUpdatedOn': None,
-                        'name': '1',
-                        'numReleases': 0,
-                        'releases': [
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                        ],
-                        'type': 'RATING'
-                    },
-                    {
-                        'id': 4,
-                        'lastUpdatedOn': None,
-                        'name': '2',
-                        'numReleases': 0,
-                        'releases': [
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                        ],
-                        'type': 'RATING'
-                    },
-                    {
-                        'id': 5,
-                        'lastUpdatedOn': None,
-                        'name': '3',
-                        'numReleases': 0,
-                        'releases': [
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                        ],
-                        'type': 'RATING'
-                    },
-                    {
-                        'id': 6,
-                        'lastUpdatedOn': None,
-                        'name': '4',
-                        'numReleases': 0,
-                        'releases': [
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                        ],
-                        'type': 'RATING'
-                    },
-                    {
-                        'id': 7,
-                        'lastUpdatedOn': None,
-                        'name': '5',
-                        'numReleases': 0,
-                        'releases': [
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                        ],
-                        'type': 'RATING'
-                    },
-                    {
-                        'id': 8,
-                        'lastUpdatedOn': None,
-                        'name': '6',
-                        'numReleases': 0,
-                        'releases': [
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                        ],
-                        'type': 'RATING'
-                    },
-                    {
-                        'id': 9,
-                        'lastUpdatedOn': None,
-                        'name': '7',
-                        'numReleases': 0,
-                        'releases': [
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                        ],
-                        'type': 'RATING'
-                    },
-                    {
-                        'id': 10,
-                        'lastUpdatedOn': None,
-                        'name': '8',
-                        'numReleases': 0,
-                        'releases': [
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                        ],
-                        'type': 'RATING'
-                    },
-                    {
-                        'id': 11,
-                        'lastUpdatedOn': None,
-                        'name': '9',
-                        'numReleases': 0,
-                        'releases': [
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                        ],
-                        'type': 'RATING'
                     }
                 ]
             }
@@ -918,31 +810,31 @@ snapshots['test_collections_type_param 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 12
+                                    'id': 3
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 13
+                                    'id': 4
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 14
+                                    'id': 5
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 15
+                                    'id': 6
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 16
+                                    'id': 7
                                 },
                                 'numMatches': 1
                             }
@@ -950,7 +842,7 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'SYSTEM'
                     },
                     {
-                        'id': 19,
+                        'id': 10,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Ambient',
                         'numReleases': 1,
@@ -964,25 +856,25 @@ snapshots['test_collections_type_param 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 16
+                                    'id': 7
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 17
+                                    'id': 8
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 18
+                                    'id': 9
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 19
+                                    'id': 10
                                 },
                                 'numMatches': 1
                             }
@@ -990,7 +882,7 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'id': 14,
+                        'id': 5,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Country',
                         'numReleases': 1,
@@ -1004,25 +896,25 @@ snapshots['test_collections_type_param 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 12
+                                    'id': 3
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 13
+                                    'id': 4
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 14
+                                    'id': 5
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 15
+                                    'id': 6
                                 },
                                 'numMatches': 1
                             }
@@ -1030,7 +922,7 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'id': 16,
+                        'id': 7,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Downtempo',
                         'numReleases': 1,
@@ -1044,25 +936,25 @@ snapshots['test_collections_type_param 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 16
+                                    'id': 7
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 17
+                                    'id': 8
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 18
+                                    'id': 9
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 19
+                                    'id': 10
                                 },
                                 'numMatches': 1
                             }
@@ -1070,7 +962,7 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'id': 17,
+                        'id': 8,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Electronic',
                         'numReleases': 1,
@@ -1084,25 +976,25 @@ snapshots['test_collections_type_param 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 16
+                                    'id': 7
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 17
+                                    'id': 8
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 18
+                                    'id': 9
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 19
+                                    'id': 10
                                 },
                                 'numMatches': 1
                             }
@@ -1110,7 +1002,7 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'id': 12,
+                        'id': 3,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Folk',
                         'numReleases': 1,
@@ -1124,25 +1016,25 @@ snapshots['test_collections_type_param 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 12
+                                    'id': 3
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 13
+                                    'id': 4
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 14
+                                    'id': 5
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 15
+                                    'id': 6
                                 },
                                 'numMatches': 1
                             }
@@ -1150,7 +1042,7 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'id': 18,
+                        'id': 9,
                         'lastUpdatedOn': 1603067134,
                         'name': 'House',
                         'numReleases': 1,
@@ -1164,25 +1056,25 @@ snapshots['test_collections_type_param 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 16
+                                    'id': 7
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 17
+                                    'id': 8
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 18
+                                    'id': 9
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 19
+                                    'id': 10
                                 },
                                 'numMatches': 1
                             }
@@ -1190,7 +1082,7 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'id': 13,
+                        'id': 4,
                         'lastUpdatedOn': 1603067134,
                         'name': 'Rock',
                         'numReleases': 1,
@@ -1204,25 +1096,25 @@ snapshots['test_collections_type_param 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 12
+                                    'id': 3
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 13
+                                    'id': 4
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 14
+                                    'id': 5
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 15
+                                    'id': 6
                                 },
                                 'numMatches': 1
                             }
@@ -1230,7 +1122,7 @@ snapshots['test_collections_type_param 1'] = (
                         'type': 'GENRE'
                     },
                     {
-                        'id': 15,
+                        'id': 6,
                         'lastUpdatedOn': 1603067134,
                         'name': 'World',
                         'numReleases': 1,
@@ -1244,25 +1136,25 @@ snapshots['test_collections_type_param 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 12
+                                    'id': 3
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 13
+                                    'id': 4
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 14
+                                    'id': 5
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 15
+                                    'id': 6
                                 },
                                 'numMatches': 1
                             }
@@ -1280,7 +1172,7 @@ snapshots['test_create_collection 1'] = (
     {
         'data': {
             'createCollection': {
-                'id': 21,
+                'id': 12,
                 'lastUpdatedOn': None,
                 'name': 'NewCollection',
                 'numReleases': 0,
@@ -1295,7 +1187,7 @@ snapshots['test_create_collection 1'] = (
     }
 )
 
-snapshots['test_create_collection 2'] = GenericRepr("T(id=21, name='NewCollection', starred=True, type=<CollectionType.COLLAGE: 2>, num_releases=0, last_updated_on=None)")
+snapshots['test_create_collection 2'] = GenericRepr("T(id=12, name='NewCollection', starred=True, type=<CollectionType.COLLAGE: 2>, num_releases=0, last_updated_on=None)")
 
 snapshots['test_create_collection_duplicate 1'] = (
     True,
@@ -1341,25 +1233,25 @@ snapshots['test_del_release_from_collection 1'] = (
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 16
+                                'id': 7
                             },
                             'numMatches': 1
                         },
                         {
                             'genre': {
-                                'id': 17
+                                'id': 8
                             },
                             'numMatches': 1
                         },
                         {
                             'genre': {
-                                'id': 18
+                                'id': 9
                             },
                             'numMatches': 1
                         },
                         {
                             'genre': {
-                                'id': 19
+                                'id': 10
                             },
                             'numMatches': 1
                         }
@@ -1378,19 +1270,19 @@ snapshots['test_del_release_from_collection 1'] = (
                     ],
                     'genres': [
                         {
-                            'id': 12,
+                            'id': 3,
                             'name': 'Folk'
                         },
                         {
-                            'id': 13,
+                            'id': 4,
                             'name': 'Rock'
                         },
                         {
-                            'id': 14,
+                            'id': 5,
                             'name': 'Country'
                         },
                         {
-                            'id': 15,
+                            'id': 6,
                             'name': 'World'
                         }
                     ],
@@ -1538,7 +1430,7 @@ snapshots['test_update_collection 1'] = (
     {
         'data': {
             'updateCollection': {
-                'id': 12,
+                'id': 3,
                 'lastUpdatedOn': 1603067134,
                 'name': 'NewCollection',
                 'numReleases': 1,
@@ -1552,25 +1444,25 @@ snapshots['test_update_collection 1'] = (
                 'topGenres': [
                     {
                         'genre': {
-                            'id': 12
+                            'id': 3
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 13
+                            'id': 4
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 14
+                            'id': 5
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 15
+                            'id': 6
                         },
                         'numMatches': 1
                     }
@@ -1581,7 +1473,7 @@ snapshots['test_update_collection 1'] = (
     }
 )
 
-snapshots['test_update_collection 2'] = GenericRepr("T(id=12, name='NewCollection', starred=True, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
+snapshots['test_update_collection 2'] = GenericRepr("T(id=3, name='NewCollection', starred=True, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
 
 snapshots['test_update_collection_duplicate 1'] = (
     True,
@@ -1607,7 +1499,7 @@ snapshots['test_update_collection_duplicate 1'] = (
     }
 )
 
-snapshots['test_update_collection_duplicate 2'] = GenericRepr("T(id=16, name='Downtempo', starred=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
+snapshots['test_update_collection_duplicate 2'] = GenericRepr("T(id=7, name='Downtempo', starred=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
 
 snapshots['test_update_collection_immutable 1'] = (
     True,
@@ -1623,7 +1515,7 @@ snapshots['test_update_collection_immutable 1'] = (
                         'line': 3
                     }
                 ],
-                'message': 'System and rating collections cannot be modified.',
+                'message': 'System collections cannot be modified.',
                 'path': [
                     'updateCollection'
                 ],

@@ -312,7 +312,6 @@ enum CollectionType {
   COLLAGE
   LABEL
   GENRE
-  RATING
 }
 
 enum ReleaseSort {

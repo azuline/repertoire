@@ -25,25 +25,25 @@ snapshots['test_artist 1'] = (
                 'topGenres': [
                     {
                         'genre': {
-                            'id': 16
+                            'id': 7
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 17
+                            'id': 8
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 18
+                            'id': 9
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 19
+                            'id': 10
                         },
                         'numMatches': 1
                     }
@@ -71,25 +71,25 @@ snapshots['test_artist_from_name 1'] = (
                 'topGenres': [
                     {
                         'genre': {
-                            'id': 16
+                            'id': 7
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 17
+                            'id': 8
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 18
+                            'id': 9
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 19
+                            'id': 10
                         },
                         'numMatches': 1
                     }
@@ -167,25 +167,25 @@ snapshots['test_artists 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 16
+                                    'id': 7
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 17
+                                    'id': 8
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 18
+                                    'id': 9
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 19
+                                    'id': 10
                                 },
                                 'numMatches': 1
                             }
@@ -205,25 +205,25 @@ snapshots['test_artists 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 12
+                                    'id': 3
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 13
+                                    'id': 4
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 14
+                                    'id': 5
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 15
+                                    'id': 6
                                 },
                                 'numMatches': 1
                             }
@@ -243,25 +243,25 @@ snapshots['test_artists 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 16
+                                    'id': 7
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 17
+                                    'id': 8
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 18
+                                    'id': 9
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 19
+                                    'id': 10
                                 },
                                 'numMatches': 1
                             }
@@ -335,25 +335,25 @@ snapshots['test_update_artist 1'] = (
                 'topGenres': [
                     {
                         'genre': {
-                            'id': 16
+                            'id': 7
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 17
+                            'id': 8
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 18
+                            'id': 9
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 19
+                            'id': 10
                         },
                         'numMatches': 1
                     }

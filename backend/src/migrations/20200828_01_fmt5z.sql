@@ -124,22 +124,12 @@ INSERT INTO music__collection_types (id, type) VALUES
     (1, "System"),
     (2, "Collage"),
     (3, "Label"),
-    (4, "Genre"),
-    (5, "Rating");
+    (4, "Genre");
 
 -- Insert a system inbox collection.
 INSERT INTO music__collections (id, name, type, starred) VALUES
     (1, "Inbox", 1, 1),
-    (2, "Favorites", 1, 1),
-    (3, "1", 5, 0),
-    (4, "2", 5, 0),
-    (5, "3", 5, 0),
-    (6, "4", 5, 0),
-    (7, "5", 5, 0),
-    (8, "6", 5, 0),
-    (9, "7", 5, 0),
-    (10, "8", 5, 0),
-    (11, "9", 5, 0);
+    (2, "Favorites", 1, 1);
 
 CREATE TABLE music__collections_releases (
     collection_id INTEGER NOT NULL,

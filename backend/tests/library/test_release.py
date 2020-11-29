@@ -84,7 +84,7 @@ def test_release_search_filter_collections(db: Cursor, snapshot):
     assert total == 2
     snapshot.assert_match(inbox)
 
-    total, folk = release.search(db, collection_ids=[12])
+    total, folk = release.search(db, collection_ids=[3])
 
     assert total == 1
     snapshot.assert_match(folk)

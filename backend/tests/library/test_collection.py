@@ -22,7 +22,7 @@ def test_does_not_exist(db: Cursor):
 
 
 def test_from_id_success(db: Cursor, snapshot):
-    snapshot.assert_match(collection.from_id(16, db))
+    snapshot.assert_match(collection.from_id(7, db))
 
 
 def test_from_id_failure(db: Cursor):
@@ -65,8 +65,8 @@ def test_all_filter_type_multiple(db: Cursor, snapshot):
 )
 def test_create(db: Cursor, type):
     col = collection.create("new collage", type, starred=True, cursor=db)
-    assert col.id == 21
-    assert col == collection.from_id(21, db)
+    assert col.id == 12
+    assert col == collection.from_id(12, db)
 
 
 def test_create_duplicate(db: Cursor):
@@ -74,101 +74,98 @@ def test_create_duplicate(db: Cursor):
         collection.create("Folk", CollectionType.GENRE, db)
 
 
-@pytest.mark.parametrize("type", [CollectionType.SYSTEM, CollectionType.RATING])
-def test_create_invalid_type(db: Cursor, type):
+def test_create_invalid_type(db: Cursor):
     with pytest.raises(InvalidCollectionType):
-        collection.create("new collage", type, cursor=db)
+        collection.create("new collage", CollectionType.SYSTEM, cursor=db)
 
 
 def test_update_fields(db: Cursor, snapshot):
     col = collection.update(
-        collection.from_id(13, db),  # type: ignore
+        collection.from_id(4, db),  # type: ignore
         cursor=db,
         name="New Name",
         starred=True,
     )
     snapshot.assert_match(col)
-    assert col == collection.from_id(13, db)
+    assert col == collection.from_id(4, db)
 
 
-@pytest.mark.parametrize("col_id", [1, 5])
-def test_update_immutable(db: Cursor, col_id):
+def test_update_immutable(db: Cursor):
     with pytest.raises(Immutable):
         collection.update(
-            collection.from_id(6, db),  # type: ignore
+            collection.from_id(1, db),  # type: ignore
             cursor=db,
             name="New Name",
         )
 
 
-@pytest.mark.parametrize("col_id", [1, 5])
-def test_update_duplicate(db: Cursor, col_id):
+def test_update_duplicate(db: Cursor):
     with pytest.raises(Duplicate) as e:
         collection.update(
-            collection.from_id(18, db),  # type: ignore
+            collection.from_id(9, db),  # type: ignore
             cursor=db,
             name="Folk",
         )
 
-    assert e.value.entity.id == 12
+    assert e.value.entity.id == 3
 
 
 def test_update_nothing(db: Cursor):
-    col = collection.from_id(13, db)
+    col = collection.from_id(4, db)
     new_col = collection.update(col, cursor=db)  # type: ignore
     assert col == new_col
 
 
 def test_update_starred(db: Cursor):
     col = collection.update(
-        collection.from_id(12, db),  # type: ignore
+        collection.from_id(3, db),  # type: ignore
         cursor=db,
         starred=True,
     )
     assert col.starred is True
-    assert col == collection.from_id(12, db)
+    assert col == collection.from_id(3, db)
 
 
 def test_releases(db: Cursor, snapshot):
-    art = collection.from_id(16, db)
+    art = collection.from_id(7, db)
     snapshot.assert_match(collection.releases(art, db))  # type: ignore
 
 
 def test_add_release(db: Cursor, snapshot):
-    col = collection.from_id(3, db)
+    col = collection.from_id(2, db)
 
     snapshot.assert_match(collection.add_release(col, 2, db))  # type: ignore
     snapshot.assert_match(collection.releases(col, db))  # type: ignore
 
 
 def test_add_release_failure(db: Cursor):
-    col = collection.from_id(12, db)
+    col = collection.from_id(3, db)
 
     with pytest.raises(AlreadyExists):
         collection.add_release(col, 2, db)  # type: ignore
 
 
 def test_del_release(db: Cursor, snapshot):
-    col = collection.from_id(12, db)
+    col = collection.from_id(3, db)
 
     snapshot.assert_match(collection.del_release(col, 2, db))  # type: ignore
     snapshot.assert_match(collection.releases(col, db))  # type: ignore
 
 
 def test_del_release_failure(db: Cursor):
-    col = collection.from_id(3, db)
+    col = collection.from_id(2, db)
 
     with pytest.raises(DoesNotExist):
         collection.del_release(col, 2, db)  # type: ignore
 
 
 def test_top_genres(db: Cursor, snapshot):
-    art = collection.from_id(16, db)
+    art = collection.from_id(7, db)
     snapshot.assert_match(collection.top_genres(art, db))  # type: ignore
 
 
 def test_image(db: Cursor):
-    col = collection.from_id(12, db)
+    col = collection.from_id(3, db)
     assert collection.image(col, db).id == 1  # type: ignore
 
 

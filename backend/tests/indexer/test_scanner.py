@@ -236,7 +236,7 @@ def test_insert_into_label_collection_existing(db):
     rls = release.from_id(1, db)
     _insert_into_label_collection(rls, "MyLabel", db)
 
-    col = collection.from_id(20, db)
+    col = collection.from_id(11, db)
 
     assert col in release.collections(rls, db)
 
@@ -276,7 +276,7 @@ def test_insert_into_genre_preexisting(db):
     rls = release.from_id(1, db)
     _insert_into_genre_collections(rls, ["Folk"], db)
 
-    assert collection.from_id(12, db) in release.collections(rls, db)
+    assert collection.from_id(3, db) in release.collections(rls, db)
 
 
 def test_insert_into_genre_collections_nothing(db):

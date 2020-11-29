@@ -26,25 +26,25 @@ snapshots['test_add_artist_to_release 1'] = (
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 12
+                                'id': 3
                             },
                             'numMatches': 1
                         },
                         {
                             'genre': {
-                                'id': 13
+                                'id': 4
                             },
                             'numMatches': 1
                         },
                         {
                             'genre': {
-                                'id': 14
+                                'id': 5
                             },
                             'numMatches': 1
                         },
                         {
                             'genre': {
-                                'id': 15
+                                'id': 6
                             },
                             'numMatches': 1
                         }
@@ -66,19 +66,19 @@ snapshots['test_add_artist_to_release 1'] = (
                     ],
                     'genres': [
                         {
-                            'id': 12,
+                            'id': 3,
                             'name': 'Folk'
                         },
                         {
-                            'id': 13,
+                            'id': 4,
                             'name': 'Rock'
                         },
                         {
-                            'id': 14,
+                            'id': 5,
                             'name': 'Country'
                         },
                         {
-                            'id': 15,
+                            'id': 6,
                             'name': 'World'
                         }
                     ],
@@ -333,19 +333,19 @@ snapshots['test_del_artist_from_release 1'] = (
                     ],
                     'genres': [
                         {
-                            'id': 12,
+                            'id': 3,
                             'name': 'Folk'
                         },
                         {
-                            'id': 13,
+                            'id': 4,
                             'name': 'Rock'
                         },
                         {
-                            'id': 14,
+                            'id': 5,
                             'name': 'Country'
                         },
                         {
-                            'id': 15,
+                            'id': 6,
                             'name': 'World'
                         }
                     ],
@@ -508,19 +508,19 @@ snapshots['test_release 1'] = (
                 ],
                 'genres': [
                     {
-                        'id': 16,
+                        'id': 7,
                         'name': 'Downtempo'
                     },
                     {
-                        'id': 17,
+                        'id': 8,
                         'name': 'Electronic'
                     },
                     {
-                        'id': 18,
+                        'id': 9,
                         'name': 'House'
                     },
                     {
-                        'id': 19,
+                        'id': 10,
                         'name': 'Ambient'
                     }
                 ],
@@ -652,19 +652,19 @@ snapshots['test_releases 1'] = (
                         ],
                         'genres': [
                             {
-                                'id': 12,
+                                'id': 3,
                                 'name': 'Folk'
                             },
                             {
-                                'id': 13,
+                                'id': 4,
                                 'name': 'Rock'
                             },
                             {
-                                'id': 14,
+                                'id': 5,
                                 'name': 'Country'
                             },
                             {
-                                'id': 15,
+                                'id': 6,
                                 'name': 'World'
                             }
                         ],
@@ -739,19 +739,19 @@ snapshots['test_releases 1'] = (
                         ],
                         'genres': [
                             {
-                                'id': 16,
+                                'id': 7,
                                 'name': 'Downtempo'
                             },
                             {
-                                'id': 17,
+                                'id': 8,
                                 'name': 'Electronic'
                             },
                             {
-                                'id': 18,
+                                'id': 9,
                                 'name': 'House'
                             },
                             {
-                                'id': 19,
+                                'id': 10,
                                 'name': 'Ambient'
                             }
                         ],
@@ -839,19 +839,19 @@ snapshots['test_releases_filter_artists 1'] = (
                         ],
                         'genres': [
                             {
-                                'id': 12,
+                                'id': 3,
                                 'name': 'Folk'
                             },
                             {
-                                'id': 13,
+                                'id': 4,
                                 'name': 'Rock'
                             },
                             {
-                                'id': 14,
+                                'id': 5,
                                 'name': 'Country'
                             },
                             {
-                                'id': 15,
+                                'id': 6,
                                 'name': 'World'
                             }
                         ],
@@ -935,19 +935,19 @@ snapshots['test_releases_filter_collections 1'] = (
                         ],
                         'genres': [
                             {
-                                'id': 12,
+                                'id': 3,
                                 'name': 'Folk'
                             },
                             {
-                                'id': 13,
+                                'id': 4,
                                 'name': 'Rock'
                             },
                             {
-                                'id': 14,
+                                'id': 5,
                                 'name': 'Country'
                             },
                             {
-                                'id': 15,
+                                'id': 6,
                                 'name': 'World'
                             }
                         ],
@@ -1031,19 +1031,19 @@ snapshots['test_releases_filter_types 1'] = (
                         ],
                         'genres': [
                             {
-                                'id': 12,
+                                'id': 3,
                                 'name': 'Folk'
                             },
                             {
-                                'id': 13,
+                                'id': 4,
                                 'name': 'Rock'
                             },
                             {
-                                'id': 14,
+                                'id': 5,
                                 'name': 'Country'
                             },
                             {
-                                'id': 15,
+                                'id': 6,
                                 'name': 'World'
                             }
                         ],
@@ -1131,19 +1131,19 @@ snapshots['test_releases_pagination 1'] = (
                         ],
                         'genres': [
                             {
-                                'id': 16,
+                                'id': 7,
                                 'name': 'Downtempo'
                             },
                             {
-                                'id': 17,
+                                'id': 8,
                                 'name': 'Electronic'
                             },
                             {
-                                'id': 18,
+                                'id': 9,
                                 'name': 'House'
                             },
                             {
-                                'id': 19,
+                                'id': 10,
                                 'name': 'Ambient'
                             }
                         ],
@@ -1231,19 +1231,19 @@ snapshots['test_releases_search 1'] = (
                         ],
                         'genres': [
                             {
-                                'id': 12,
+                                'id': 3,
                                 'name': 'Folk'
                             },
                             {
-                                'id': 13,
+                                'id': 4,
                                 'name': 'Rock'
                             },
                             {
-                                'id': 14,
+                                'id': 5,
                                 'name': 'Country'
                             },
                             {
-                                'id': 15,
+                                'id': 6,
                                 'name': 'World'
                             }
                         ],
@@ -1331,19 +1331,19 @@ snapshots['test_releases_sort 1'] = (
                         ],
                         'genres': [
                             {
-                                'id': 16,
+                                'id': 7,
                                 'name': 'Downtempo'
                             },
                             {
-                                'id': 17,
+                                'id': 8,
                                 'name': 'Electronic'
                             },
                             {
-                                'id': 18,
+                                'id': 9,
                                 'name': 'House'
                             },
                             {
-                                'id': 19,
+                                'id': 10,
                                 'name': 'Ambient'
                             }
                         ],
@@ -1441,19 +1441,19 @@ snapshots['test_releases_sort 1'] = (
                         ],
                         'genres': [
                             {
-                                'id': 12,
+                                'id': 3,
                                 'name': 'Folk'
                             },
                             {
-                                'id': 13,
+                                'id': 4,
                                 'name': 'Rock'
                             },
                             {
-                                'id': 14,
+                                'id': 5,
                                 'name': 'Country'
                             },
                             {
-                                'id': 15,
+                                'id': 6,
                                 'name': 'World'
                             }
                         ],
@@ -1537,19 +1537,19 @@ snapshots['test_releases_sort_desc 1'] = (
                         ],
                         'genres': [
                             {
-                                'id': 12,
+                                'id': 3,
                                 'name': 'Folk'
                             },
                             {
-                                'id': 13,
+                                'id': 4,
                                 'name': 'Rock'
                             },
                             {
-                                'id': 14,
+                                'id': 5,
                                 'name': 'Country'
                             },
                             {
-                                'id': 15,
+                                'id': 6,
                                 'name': 'World'
                             }
                         ],
@@ -1647,19 +1647,19 @@ snapshots['test_releases_sort_desc 1'] = (
                         ],
                         'genres': [
                             {
-                                'id': 16,
+                                'id': 7,
                                 'name': 'Downtempo'
                             },
                             {
-                                'id': 17,
+                                'id': 8,
                                 'name': 'Electronic'
                             },
                             {
-                                'id': 18,
+                                'id': 9,
                                 'name': 'House'
                             },
                             {
-                                'id': 19,
+                                'id': 10,
                                 'name': 'Ambient'
                             }
                         ],
@@ -1745,19 +1745,19 @@ snapshots['test_update_release 1'] = (
                 ],
                 'genres': [
                     {
-                        'id': 12,
+                        'id': 3,
                         'name': 'Folk'
                     },
                     {
-                        'id': 13,
+                        'id': 4,
                         'name': 'Rock'
                     },
                     {
-                        'id': 14,
+                        'id': 5,
                         'name': 'Country'
                     },
                     {
-                        'id': 15,
+                        'id': 6,
                         'name': 'World'
                     }
                 ],

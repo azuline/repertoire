@@ -8,7 +8,7 @@ from src.util import database
 async def test_collection(db, graphql_query, snapshot):
     query = """
         query {
-            collection(id: 12) {
+            collection(id: 3) {
                 ...CollectionFields
             }
         }
@@ -71,7 +71,7 @@ async def test_collections(db, graphql_query, snapshot):
 async def test_collection_image(db, graphql_query, snapshot):
     query = """
         query {
-            collection(id: 12) {
+            collection(id: 3) {
                 imageId
             }
         }
@@ -120,7 +120,7 @@ async def test_create_collection(db, graphql_query, snapshot):
     snapshot.assert_match(await graphql_query(query))
 
     with database() as conn:
-        snapshot.assert_match(collection.from_id(21, conn.cursor()))
+        snapshot.assert_match(collection.from_id(12, conn.cursor()))
 
 
 @pytest.mark.asyncio
@@ -133,14 +133,14 @@ async def test_create_collection_duplicate(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    assert collection.from_id(21, db) is None
+    assert collection.from_id(12, db) is None
 
 
 @pytest.mark.asyncio
 async def test_update_collection(db, graphql_query, snapshot):
     query = """
         mutation {
-            updateCollection(id: 12, name: "NewCollection", starred: true) {
+            updateCollection(id: 3, name: "NewCollection", starred: true) {
                 ...CollectionFields
             }
         }
@@ -148,20 +148,20 @@ async def test_update_collection(db, graphql_query, snapshot):
     snapshot.assert_match(await graphql_query(query))
 
     with database() as conn:
-        snapshot.assert_match(collection.from_id(12, conn.cursor()))
+        snapshot.assert_match(collection.from_id(3, conn.cursor()))
 
 
 @pytest.mark.asyncio
 async def test_update_collection_duplicate(db, graphql_query, snapshot):
     query = """
         mutation {
-            updateCollection(id: 16, name: "Folk") {
+            updateCollection(id: 7, name: "Folk") {
                 ...CollectionFields
             }
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(collection.from_id(16, db))
+    snapshot.assert_match(collection.from_id(7, db))
 
 
 @pytest.mark.asyncio
@@ -251,7 +251,7 @@ async def test_add_release_to_collection_bad_release(db, graphql_query, snapshot
 async def test_add_release_to_collection_already_exists(db, graphql_query, snapshot):
     query = """
         mutation {
-            addReleaseToCollection(collectionId: 12, releaseId: 2) {
+            addReleaseToCollection(collectionId: 3, releaseId: 2) {
                 collection {
                     ...CollectionFields
                 }
@@ -262,7 +262,7 @@ async def test_add_release_to_collection_already_exists(db, graphql_query, snaps
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(collection.releases(collection.from_id(12, db), db))
+    snapshot.assert_match(collection.releases(collection.from_id(3, db), db))
 
 
 @pytest.mark.asyncio

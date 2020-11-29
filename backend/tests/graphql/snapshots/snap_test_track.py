@@ -187,25 +187,25 @@ snapshots['test_del_artist_from_track 1'] = (
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 12
+                                    'id': 3
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 13
+                                    'id': 4
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 14
+                                    'id': 5
                                 },
                                 'numMatches': 1
                             },
                             {
                                 'genre': {
-                                    'id': 15
+                                    'id': 6
                                 },
                                 'numMatches': 1
                             }

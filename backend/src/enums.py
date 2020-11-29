@@ -43,8 +43,6 @@ class CollectionType(Enum):
     LABEL = 3
     #:
     GENRE = 4
-    #:
-    RATING = 5
 
 
 class ReleaseSort(Enum):

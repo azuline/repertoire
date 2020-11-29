@@ -20,8 +20,6 @@ from src.util import update_dataclass, without_key
 from . import image as libimage
 from . import release
 
-ILLEGAL_UPDATE_TYPES = {CollectionType.SYSTEM, CollectionType.RATING}
-
 logger = logging.getLogger(__name__)
 
 
@@ -183,8 +181,8 @@ def create(name: str, type: CollectionType, cursor: Cursor, starred: bool = Fals
     :raises Duplicate: If an collection with the same name and type already exists. The
                        duplicate collection is passed as the ``entity`` argument.
     """
-    if type in [CollectionType.SYSTEM, CollectionType.RATING]:
-        raise InvalidCollectionType("Cannot modify system or rating collections.")
+    if type == CollectionType.SYSTEM:
+        raise InvalidCollectionType("Cannot create system collections.")
 
     if col := from_name_and_type(name, type, cursor):
         raise Duplicate(f'Collection "{name}" already exists.', col)
@@ -225,8 +223,8 @@ def update(col: T, cursor: Cursor, **changes) -> T:
     :raises Immutable: If the collection cannot be updated.
     :raises Duplicate: If the new name conflicts with another collection.
     """
-    if col.type in [CollectionType.SYSTEM, CollectionType.RATING]:
-        raise Immutable("System and rating collections cannot be modified.")
+    if col.type == CollectionType.SYSTEM:
+        raise Immutable("System collections cannot be modified.")
 
     if (
         "name" in changes
