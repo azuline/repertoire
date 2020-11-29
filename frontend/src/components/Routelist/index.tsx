@@ -10,7 +10,7 @@ const sections = [
   {
     name: null,
     routes: [
-      { path: '/', exact: true, label: 'Welcome' },
+      { path: '/', exact: true, label: 'Explore' },
       { path: '/playing', exact: false, label: 'Now Playing' },
     ],
   },

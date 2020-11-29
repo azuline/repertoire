@@ -3,9 +3,10 @@ import { Header } from 'src/components';
 
 import { RecentlyAdded } from './RecentlyAdded';
 
-export const Home: React.FC = (): React.ReactElement => (
+export const Explore: React.FC = (): React.ReactElement => (
   <>
     <Header />
     <RecentlyAdded />
+    <span className="p-8">More to come later~</span>
   </>
 );

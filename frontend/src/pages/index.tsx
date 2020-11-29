@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import { Artists } from './Artists';
 import { Collages } from './Collages';
 import { Genres } from './Genres';
-import { Home } from './Home';
+import { Explore } from './Explore';
 import { Labels } from './Labels';
 import { Metadata } from './Metadata';
 import { Mobile } from './Mobile';
@@ -20,7 +20,7 @@ export * from './Login';
 export const Routes: React.FC = () => (
   <div className="z-10 flex-1 min-h-0">
     <Switch>
-      <Route path="/" component={Home} exact />
+      <Route path="/" component={Explore} exact />
       <Route path="/404" component={NotFound} />
       <Route path="/playing" component={NowPlaying} />
       <Route path="/mobile" component={Mobile} />
