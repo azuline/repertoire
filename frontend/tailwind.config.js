@@ -12,7 +12,10 @@ module.exports = {
     extend: {
       colors: {
         foreground: 'var(--color-foreground)',
-        'foreground-alt': 'var(--color-foreground-alt)',
+        'foreground-100': 'var(--color-foreground-100)',
+        'foreground-200': 'var(--color-foreground-200)',
+        'foreground-300': 'var(--color-foreground-300)',
+        'foreground-400': 'var(--color-foreground-400)',
         'background-700': 'var(--color-background-700)',
         'background-800': 'var(--color-background-800)',
         'background-900': 'var(--color-background-900)',

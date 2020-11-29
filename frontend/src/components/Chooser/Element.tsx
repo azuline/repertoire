@@ -35,8 +35,8 @@ const useStarClassName = (isToggleable: boolean, starred: boolean): string =>
       clsx(
         'absolute top-0 left-0 flex items-center h-full pl-8',
         isToggleable && 'cursor-pointer',
-        starred && 'text-primary-400',
-        isToggleable && (starred ? 'hover:text-foreground' : 'hover:text-primary-400'),
+        starred ? 'text-primary-500' : 'text-gray-500',
+        isToggleable && (starred ? 'hover:text-gray-500' : 'hover:text-primary-400'),
       ),
     [isToggleable, starred],
   );
@@ -45,8 +45,8 @@ const useRowClassName = (isActive: boolean): string =>
   React.useMemo(
     () =>
       clsx(
-        'py-1 pr-10 truncate cursor-pointer pl-14 hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5',
-        isActive && 'font-bold text-primary-500',
+        'py-1 pr-10 truncate cursor-pointer pl-14 hover-emph-bg',
+        isActive ? 'font-bold text-primary-400' : 'text-foreground',
       ),
     [isActive],
   );

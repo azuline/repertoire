@@ -20,7 +20,7 @@ export const NavLink: React.FC<{
         <div
           className={clsx(
             className,
-            active ? 'bg-primary-700' : 'hover:bg-gray-200 hover:bg-opacity-5',
+            active ? 'bg-primary-700' : 'hover-emph-bg',
             'cursor-pointer text-foreground',
           )}
         >
@@ -28,13 +28,7 @@ export const NavLink: React.FC<{
         </div>
       </Link>
       <Link className="block sm:hidden" href={url} onClick={closeSidebar}>
-        <div
-          className={clsx(
-            className,
-            active && 'sm:bg-primary-700',
-            'cursor-pointer text-foreground hover:bg-gray-200 hover:bg-opacity-5',
-          )}
-        >
+        <div className={clsx(className, 'cursor-pointer text-foreground hover-emph-bg')}>
           {label}
         </div>
       </Link>

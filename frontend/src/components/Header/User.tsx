@@ -26,7 +26,7 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
 
   return (
     <div className={clsx(className, 'flex items-center h-full min-w-0')}>
-      <Icon className="flex-none w-5 mr-1" icon="user-medium" />
+      <Icon className="flex-none w-5 mr-1 text-foreground-300" icon="user-medium" />
       <div className="mr-3 truncate">{data?.user?.nickname || 'Loading...'}</div>
       <Link className="flex-none sm:hidden" href="/settings" onClick={closeSidebar}>
         <Icon

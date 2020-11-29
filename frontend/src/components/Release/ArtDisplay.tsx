@@ -20,7 +20,7 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
 
   return (
     <Link href={`/releases/${release.id}`}>
-      <div className={clsx(className, 'relative h-0 text-white pb-full')}>
+      <div className={clsx(className, 'relative h-0 pb-full')}>
         <Image
           className="absolute object-cover rounded-lg full"
           imageId={release.imageId}
@@ -29,15 +29,15 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
         <div className="absolute z-10 rounded-lg full two-sided" style={textStyle}>
           <div className="flex flex-col justify-end overflow-hidden front full">
             <div className="p-3 overflow-hidden">
-              <div className="text-lg font-semibold truncate" title={release.title}>
+              <div className="text-lg font-semibold text-white truncate" title={release.title}>
                 {release.title}
               </div>
-              <ArtistList className="truncate opacity-80" elements={release.artists} />
+              <ArtistList className="text-gray-200 truncate" elements={release.artists} />
             </div>
           </div>
           <div className="relative back full">
             <div className="absolute top-0 left-0 bg-black rounded-lg bg-opacity-75 full" />
-            <div className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center p-4 full text-md">
+            <div className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center p-4 text-white full text-md">
               {release.releaseYear ? <div className="py-1">{release.releaseYear}</div> : null}
               <div className="py-1">
                 {release.numTracks} Track{release.numTracks !== 1 && 's'} / {runtime}

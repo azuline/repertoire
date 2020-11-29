@@ -12,8 +12,11 @@ html {
 
 .app {
   /* TODO: Figure out a way to @apply these... */
-  --color-foreground: #fff; /* white */
-  --color-foreground-alt: #f9fafb; /* gray-50 */
+  --color-foreground: #f9fafb;
+  --color-foreground-100: #f3f4f6;
+  --color-foreground-200: #e5e7eb;
+  --color-foreground-300: #d1d5db;
+  --color-foreground-400: #9ca3af;
   --color-background-700: #101013;
   --color-background-800: #18181d;
   --color-background-900: #1b1b21;
@@ -26,11 +29,14 @@ html {
 
 .app.light {
   /* TODO: Figure out a way to @apply these... */
-  --color-foreground: #000; /* black */
-  --color-foreground-alt: #1e293b; /* blueGray-800 */
-  --color-background-700: #f8fafc; /* blueGray-50 */
-  --color-background-800: #e2e8f0; /* blueGray-200 */
-  --color-background-900: #cbd5e1; /* blueGray-300 */
+  --color-foreground: #111827; /* coolgray-900 */
+  --color-foreground-100: #1f2937; /* coolgray-800 */
+  --color-foreground-200: #374151; /* coolgray-700 */
+  --color-foreground-300: #4b5563; /* coolgray-600 */
+  --color-foreground-400: #6b7280; /* coolgray-500 */
+  --color-background-700: #f9fafb; /* coolgray-50 */
+  --color-background-800: #e5e7eb; /* coolgray-200 */
+  --color-background-900: #d1d5db; /* coolgray-300 */
   --color-primary-400: #523d20;
   --color-primary-500: #6e522a;
   --color-primary-600: #96703a;
@@ -39,7 +45,7 @@ html {
 }
 
 .app {
-  @apply bg-background-700text-foreground;
+  @apply bg-background-700 text-foreground;
 }
 
 button {
@@ -59,7 +65,7 @@ input {
 }
 
 input::placeholder {
-  @apply text-foreground-alt;
+  @apply text-foreground-100;
 }
 
 .block-important {
@@ -100,6 +106,10 @@ input::placeholder {
 }
 .btn-group > button:last-child {
   @apply rounded-r;
+}
+
+.hover-emph-bg {
+  @apply hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5;
 }
 
 .two-sided {
@@ -146,10 +156,10 @@ input::placeholder {
   @apply flex items-center justify-center full;
 }
 .slider > .track-0 {
-  @apply bg-gray-400 cursor-pointer;
+  @apply cursor-pointer bg-foreground-200;
 }
 .slider > .track-1 {
-  @apply bg-gray-600 cursor-pointer;
+  @apply bg-gray-500 cursor-pointer;
 }
 .slider > .thumb {
   @apply w-4 h-4 cursor-pointer bg-primary-400 rounded-2xl hover:h-6 leading-4 hover:leading-6 hover:w-6;
@@ -158,5 +168,5 @@ input::placeholder {
   @apply h-1;
 }
 .volume-slider > .track {
-  @apply rounded-lg w-2;
+  @apply w-2 rounded-lg;
 }

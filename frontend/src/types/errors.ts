@@ -1,15 +1,5 @@
-export class RequestError<T> extends Error {
-  errors: T[];
-
-  constructor(message = 'uwu request error', errors: T[] = []) {
+export class RequestError extends Error {
+  constructor(message = 'uwu request error') {
     super(message);
-    this.errors = errors;
   }
 }
-
-export type GraphQLError = {
-  type: string;
-  message: string;
-  locations: { line: number; column: number }[];
-  path: string[];
-};

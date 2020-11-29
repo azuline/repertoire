@@ -41,16 +41,16 @@ export const Track: React.FC<{
         <TrackArtistList
           artists={track.artists}
           className={clsx(
-            'flex-1 hidden truncate text-gray-800 dark:text-gray-400',
+            'flex-1 hidden truncate text-foreground-400',
             isSidebarOpen ? 'md:block' : 'sm:block',
           )}
         />
-        <div className="flex-none mx-2">{secondsToLength(track.duration)}</div>
+        <div className="flex-none mx-2 text-foreground-400">{secondsToLength(track.duration)}</div>
       </div>
       <TrackArtistList
         artists={track.artists}
         className={clsx(
-          'mt-1 ml-8 truncate text-gray-800 dark:text-gray-400',
+          'mt-1 ml-8 truncate text-foreground-400',
           isSidebarOpen ? 'md:hidden' : 'sm:hidden',
         )}
       />

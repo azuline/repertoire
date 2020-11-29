@@ -1,15 +1,17 @@
-import { ArtistRole } from './enums';
+/**
+ * In reality, a lot of these object attributes are "optional", in that we can
+ * have objects of the type without them. However, if we mark them as optional,
+ * then we end up with a lot of type casting to not-undefined in our code.
+ *
+ * Furthermore, this all describes data received from the backend during
+ * runtime, and I'm too lazy to explicitly type every detail from the output of
+ * the GraphQL queries.
+ *
+ * Rather than deal with that, I think it better to just eat the cost of less
+ * type safety.
+ */
 
-// In reality, a lot of these object attributes are "optional", in that we can
-// have objects of the type without them. However, if we mark them as optional,
-// then we end up with a lot of type casting to not-undefined in our code.
-//
-// Furthermore, this all describes data received from the backend during
-// runtime, and I'm too lazy to explicitly type every detail from the output of
-// the GraphQL queries.
-//
-// Rather than deal with that, I think it better to just eat the cost of less
-// type safety.
+import { ArtistRole } from './enums';
 
 export type UserT = { id: number; nickname: string };
 

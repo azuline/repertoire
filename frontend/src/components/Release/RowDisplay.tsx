@@ -15,10 +15,7 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
   return (
     <Link
       href={`/releases/${release.id}`}
-      className={clsx(
-        className,
-        'flex items-center w-full py-3 cursor-pointer hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5',
-      )}
+      className={clsx(className, 'flex items-center w-full py-3 cursor-pointer hover-emph-bg')}
     >
       <div className="relative flex-none w-12 h-12 mr-2">
         <Image
@@ -29,20 +26,16 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
       </div>
       <div className="flex-1 overflow-hidden">
         <div className="flex">
-          <div className="flex flex-shrink mr-4 truncate">
-            <div className="font-semibold truncate text-primary-500">{release.title}</div>
-            {release.releaseYear ? <div className="flex-none"> [{release.releaseYear}]</div> : null}
+          <div className="flex flex-shrink mb-0.5 mr-4 truncate">
+            <div className="font-semibold truncate text-primary-400">{release.title}</div>
+            {release.releaseYear ? (
+              <div className="flex-none ml-1 text-foreground-200"> [{release.releaseYear}]</div>
+            ) : null}
           </div>
-          <div className="flex-none hidden ml-auto sm:block">
-            <span>{release.numTracks} </span>
-            <span className="text-gray-800 dark:text-gray-300">
-              {release.numTracks !== 1 ? 'tracks' : 'track'}
-            </span>
-            <span> / {runMinutes} </span>
-            <span className="text-gray-800 dark:text-gray-300">minutes</span>
-          </div>
+          <div className="flex-none hidden ml-auto sm:block" />
+          {/* TODO: Maybe show release rating here? */}
         </div>
-        <div className="flex">
+        <div className="flex text-foreground-300">
           <ArtistList className="mr-8 truncate max-w-3/5" elements={release.artists} />
           <div className="flex-1 hidden overflow-hidden text-right md:block rtl">
             <GenreList className="truncate" elements={release.genres} />
