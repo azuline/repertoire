@@ -39,6 +39,8 @@ class T:
     in_inbox: bool
     #: Whether this release is in the favorites collection.
     in_favorites: bool
+    #: The track rating (if exists, in the interval [1, 10]).
+    rating: Optional[int]
     # The total runtime of the release (sum of track durations).
     runtime: int
     #: The date this release was released.
@@ -291,6 +293,7 @@ def create(
     release_year: int,
     cursor: Cursor,
     release_date: Optional[date] = None,
+    rating: Optional[int] = None,
     image_id: Optional[int] = None,
     allow_duplicate: bool = True,
 ) -> T:
@@ -303,6 +306,7 @@ def create(
     :param release_year: The year the release came out.
     :param cursor: A cursor to the database.
     :param release_date: The date the release came out.
+    :param rating: A rating for the release.
     :param image_id: An ID of an image to serve as cover art.
     :param allow_duplicate: Whether to allow creation of a duplicate release or not. If
                              this is ``False``, then ``Duplicate`` will never be raised.
@@ -324,10 +328,10 @@ def create(
     cursor.execute(
         """
         INSERT INTO music__releases (
-            title, image_id, release_type, release_year, release_date
-        ) VALUES (?, ?, ?, ?, ?)
+            title, image_id, release_type, release_year, release_date, rating
+        ) VALUES (?, ?, ?, ?, ?, ?)
         """,
-        (title, image_id, release_type.value, release_year, release_date),
+        (title, image_id, release_type.value, release_year, release_date, rating),
     )
     id = cursor.lastrowid
 
@@ -429,15 +433,23 @@ def update(rls: T, cursor: Cursor, **changes) -> T:
     :type  release_year: :py:obj:`int`
     :param release_date: New release date.
     :type  release_date: :py:obj:`datetime.date`
+    :param rating: New release rating. Pass in 0 to delete existing rating. Passing in
+                   ``None`` does not change the existing rating.
+    :type rating: :py:obj:`int`
     :return: The updated release.
     """
+    rating = changes.get("rating", rls.rating)
+    if rating == 0:
+        rating = None
+
     cursor.execute(
         """
         UPDATE music__releases
         SET title = ?,
             release_type = ?,
             release_year = ?,
-            release_date = ?
+            release_date = ?,
+            rating = ?
         WHERE id = ?
         """,
         (
@@ -445,6 +457,7 @@ def update(rls: T, cursor: Cursor, **changes) -> T:
             changes.get("release_type", rls.release_type).value,
             changes.get("release_year", rls.release_year),
             changes.get("release_date", rls.release_date),
+            rating,
             rls.id,
         ),
     )

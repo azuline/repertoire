@@ -1,8 +1,8 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 
-INSERT INTO music__releases VALUES(2,'We Don’t Have Each Other',1,2014,'2014-07-08',1,'2020-10-19 00:25:34');
-INSERT INTO music__releases VALUES(3,'Departure',3,2016,NULL,2,'2020-10-19 08:29:34');
+INSERT INTO music__releases VALUES(2,'We Don’t Have Each Other',1,2014,'2014-07-08',1,'2020-10-19 00:25:34',6);
+INSERT INTO music__releases VALUES(3,'Departure',3,2016,NULL,2,'2020-10-19 08:29:34',NULL);
 
 INSERT INTO music__artists VALUES(2,'Aaron West and the Roaring Twenties',0);
 INSERT INTO music__artists VALUES(3,'John Darnielle',0);

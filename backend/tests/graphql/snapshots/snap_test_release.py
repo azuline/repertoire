@@ -1820,7 +1820,7 @@ snapshots['test_update_release 1'] = (
     }
 )
 
-snapshots['test_update_release 2'] = GenericRepr("T(id=2, title='aa', release_type=<ReleaseType.SINGLE: 2>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2020, num_tracks=10, in_inbox=True, in_favorites=False, runtime=2258, release_date=datetime.date(2020, 10, 23), image_id=1)")
+snapshots['test_update_release 2'] = GenericRepr("T(id=2, title='aa', release_type=<ReleaseType.SINGLE: 2>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2020, num_tracks=10, in_inbox=True, in_favorites=False, rating=1, runtime=2258, release_date=datetime.date(2020, 10, 23), image_id=1)")
 
 snapshots['test_update_release_bad_date 1'] = (
     True,
@@ -1846,7 +1846,7 @@ snapshots['test_update_release_bad_date 1'] = (
     }
 )
 
-snapshots['test_update_release_bad_date 2'] = GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, in_favorites=False, runtime=2258, release_date=datetime.date(2014, 7, 8), image_id=1)")
+snapshots['test_update_release_bad_date 2'] = GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, in_favorites=False, rating=6, runtime=2258, release_date=datetime.date(2014, 7, 8), image_id=1)")
 
 snapshots['test_update_release_not_found 1'] = (
     True,

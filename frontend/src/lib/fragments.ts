@@ -23,6 +23,7 @@ export const RELEASE_FIELDS = gql`
     inFavorites
     releaseYear
     releaseDate
+    rating
     numTracks
     runtime
     imageId

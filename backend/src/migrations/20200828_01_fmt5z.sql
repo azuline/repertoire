@@ -9,6 +9,7 @@ CREATE TABLE music__releases (
     release_date DATE,
     image_id INTEGER,
     added_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+    rating INTEGER CHECK (rating >= 1 AND rating <=10),
     PRIMARY KEY (id),
     FOREIGN KEY (release_type) REFERENCES music__release_types(id),
     FOREIGN KEY (image_id) REFERENCES images(id)

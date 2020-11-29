@@ -66,6 +66,7 @@ def resolve_create_release(
     releaseType: ReleaseType,
     releaseYear: int,
     releaseDate: Optional[str] = None,
+    rating: Optional[int] = None,
 ) -> release.T:
     # Convert the "releaseDate" field from a string to a `dat` object. If it is not in
     # the changes dict, do nothing.
@@ -83,6 +84,7 @@ def resolve_create_release(
         release_year=releaseYear,
         cursor=info.context.db,
         release_date=parsedDate,
+        rating=rating,
     )
 
 

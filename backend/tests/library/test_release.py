@@ -184,6 +184,7 @@ def test_update_fields(db: Cursor, snapshot):
         release_type=ReleaseType.COMPILATION,
         release_year=2040,
         release_date=date(2040, 10, 28),
+        rating=1,
     )
     snapshot.assert_match(rls)
     assert rls == release.from_id(2, db)

@@ -220,6 +220,7 @@ async def test_update_release(db, graphql_query, snapshot):
                 releaseType: SINGLE
                 releaseYear: 2020
                 releaseDate: "2020-10-23"
+                rating: 1
             ) {
                 ...ReleaseFields
             }

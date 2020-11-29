@@ -141,7 +141,7 @@ snapshots['test_add_release_to_collection 1'] = (
 )
 
 snapshots['test_add_release_to_collection 2'] = [
-    GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, in_favorites=True, runtime=2258, release_date=datetime.date(2014, 7, 8), image_id=1)")
+    GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, in_favorites=True, rating=6, runtime=2258, release_date=datetime.date(2014, 7, 8), image_id=1)")
 ]
 
 snapshots['test_add_release_to_collection_already_exists 1'] = (
@@ -169,7 +169,7 @@ snapshots['test_add_release_to_collection_already_exists 1'] = (
 )
 
 snapshots['test_add_release_to_collection_already_exists 2'] = [
-    GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, in_favorites=False, runtime=2258, release_date=datetime.date(2014, 7, 8), image_id=1)")
+    GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, in_favorites=False, rating=6, runtime=2258, release_date=datetime.date(2014, 7, 8), image_id=1)")
 ]
 
 snapshots['test_add_release_to_collection_bad_collection 1'] = (
@@ -1347,7 +1347,7 @@ snapshots['test_del_release_from_collection 1'] = (
 )
 
 snapshots['test_del_release_from_collection 2'] = [
-    GenericRepr("T(id=3, title='Departure', release_type=<ReleaseType.EP: 3>, added_on=datetime.datetime(2020, 10, 19, 8, 29, 34), release_year=2016, num_tracks=11, in_inbox=True, in_favorites=False, runtime=3513, release_date=None, image_id=2)")
+    GenericRepr("T(id=3, title='Departure', release_type=<ReleaseType.EP: 3>, added_on=datetime.datetime(2020, 10, 19, 8, 29, 34), release_year=2016, num_tracks=11, in_inbox=True, in_favorites=False, rating=None, runtime=3513, release_date=None, image_id=2)")
 ]
 
 snapshots['test_del_release_from_collection_bad_collection 1'] = (

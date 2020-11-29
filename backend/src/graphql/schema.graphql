@@ -113,6 +113,8 @@ type Mutation {
     releaseYear: Int!
     "A date in YYYY-MM-DD format."
     releaseDate: String
+    "A rating on the interval [1, 10]."
+    rating: Int
   ): Release
 
   updateRelease(
@@ -122,6 +124,8 @@ type Mutation {
     releaseYear: Int
     "A date in YYYY-MM-DD format."
     releaseDate: String
+    "A rating--pass 0 to delete the existing rating."
+    rating: Int
   ): Release
 
   addArtistToRelease(
@@ -214,6 +218,8 @@ type Release {
   releaseYear: Int!
   "The date that the release was released in YYYY-MM-DD format (Optional)."
   releaseDate: String
+  "The release rating, either null or an int on the interval [1, 10]."
+  rating: Int
   numTracks: Int!
   "The total runtime (sum of track durations)."
   runtime: Int!

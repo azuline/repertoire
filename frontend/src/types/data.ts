@@ -23,8 +23,9 @@ export type ReleaseT = {
   inInbox: boolean;
   inFavorites: boolean;
   releaseYear: number;
+  releaseDate: string | null;
+  rating: number | null;
   numTracks: number;
-  releaseDate: string;
   imageId: number | null;
   runtime: number;
 
