@@ -8,19 +8,19 @@ export const PlayButtons: React.FC<{
   curTime: number;
   seek: SetValue<number>;
 }> = ({ isPlaying, setIsPlaying, curTime, seek }) => (
-  <div className="flex items-center justify-center flex-none mx-4 sm:mx-8 text-primary-alt">
+  <div className="flex items-center justify-center flex-none mx-4 sm:mx-8 text-primary-600">
     <Rewind
-      className="mr-1 cursor-pointer w-9 hover:text-primary"
+      className="mr-1 cursor-pointer w-9 hover:text-primary-400"
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
       curTime={curTime}
       seek={seek}
     />
     <PlayPause
-      className="w-12 mr-1 cursor-pointer hover:text-primary"
+      className="w-12 mr-1 cursor-pointer hover:text-primary-400"
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
     />
-    <FastForward className="cursor-pointer w-9 hover:text-primary" />
+    <FastForward className="cursor-pointer w-9 hover:text-primary-400" />
   </div>
 );

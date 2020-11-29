@@ -20,7 +20,7 @@ export const NowPlayingBar: React.FC = () => {
   );
 
   return (
-    <div className="relative z-30 flex-none w-full h-16 bg-background-alt2">
+    <div className="relative z-30 flex-none w-full h-16 bg-background-900">
       <ProgressBar curTime={curTime} curTrack={curTrack} seek={seek} />
       <div className="flex items-center full">
         <Progress curTrack={curTrack} curTime={curTime} />

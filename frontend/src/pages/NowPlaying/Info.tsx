@@ -38,7 +38,7 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
               <span>By: </span>
               <TrackArtistList
                 className="inline"
-                elementClassName="text-primary"
+                elementClassName="text-primary-400"
                 artists={track.artists}
                 link
               />
@@ -48,7 +48,7 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
         <div className="mb-2 text-md">
           <span className="text-gray-800 dark:text-gray-300">From </span>
           <Link href={`/releases/${track.release.id}`}>
-            <span className="text-primary">{parentRelease?.title || 'Loading...'}</span>
+            <span className="text-primary-400">{parentRelease?.title || 'Loading...'}</span>
           </Link>
         </div>
         <div className="text-gray-800 text-md truncate-2 dark:text-gray-300">
@@ -56,7 +56,7 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
             <>
               <GenreList
                 className="my-2"
-                elementClassName="px-2 py-1 mr-1 rounded bg-primary-alt2 text-foreground hover:bg-primary-alt leading-9"
+                elementClassName="px-2 py-1 mr-1 rounded bg-primary-700 text-foreground hover:bg-primary-600 leading-9"
                 elements={parentRelease.genres}
                 delimiter=" "
                 link

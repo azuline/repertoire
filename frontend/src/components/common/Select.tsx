@@ -23,13 +23,13 @@ export const Select: React.FC<{
       onChange={onChange}
       className={clsx(
         selectClassName,
-        'z-10 flex-1 py-1 pr-4 bg-transparent appearance-none cursor-pointer text-primary-alt',
+        'z-10 flex-1 py-1 pr-4 bg-transparent appearance-none cursor-pointer text-primary-600',
       )}
     >
       {children}
     </select>
     <Icon
-      className="absolute right-0 z-0 flex-none w-4 text-primary-alt"
+      className="absolute right-0 z-0 flex-none w-4 text-primary-600"
       icon="chevron-down-small"
     />
   </div>

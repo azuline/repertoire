@@ -22,7 +22,7 @@ export const Rewind: React.FC<{
 
   return (
     <Icon
-      className="mr-1 cursor-pointer w-9 hover:text-primary"
+      className="mr-1 cursor-pointer w-9 hover:text-primary-400"
       icon="rewind-small"
       onClick={rewind}
     />

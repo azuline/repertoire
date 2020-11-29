@@ -32,7 +32,7 @@ export const Goto: React.FC<{
       <div className="relative ml-1">
         <input className="w-16 p-0 py-1 text-center pr-7" placeholder="Go" ref={input} />
         <button className="absolute right-0 h-full py-0 pl-1 pr-2 text-btn" type="submit">
-          <Icon className="w-4 text-primary-alt" icon="right-arrow-small" />
+          <Icon className="w-4 text-primary-600" icon="right-arrow-small" />
         </button>
       </div>
     </form>

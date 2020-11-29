@@ -6,6 +6,6 @@ export const Arrow: React.FC<{ direction: 'left' | 'right'; onClick: () => void 
   onClick,
 }) => (
   <div className="flex items-center flex-none h-full px-1 cursor-pointer" onClick={onClick}>
-    <Icon className="w-4 text-primary-alt" icon={`chevron-double-${direction}-small` as IconT} />
+    <Icon className="w-4 text-primary-600" icon={`chevron-double-${direction}-small` as IconT} />
   </div>
 );

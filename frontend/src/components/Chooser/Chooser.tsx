@@ -26,12 +26,12 @@ export const Chooser: React.FC<{
       <div
         className={clsx(
           'relative flex-auto h-full',
-          active && (isSidebarOpen ? 'xl:bg-background-alt' : 'lg:bg-background-alt'),
+          active && (isSidebarOpen ? 'xl:bg-background-800' : 'lg:bg-background-800'),
         )}
       >
         <div
           className={clsx(
-            'hidden w-full h-24 -mt-24 bg-background-alt',
+            'hidden w-full h-24 -mt-24 bg-background-800',
             active && (isSidebarOpen ? 'xl:block' : 'lg:block'),
           )}
         />

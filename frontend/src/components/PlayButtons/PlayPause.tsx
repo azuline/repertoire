@@ -21,7 +21,7 @@ export const PlayPause: React.FC<{
 
   return (
     <Icon
-      className={clsx(className, 'mr-1 cursor-pointer hover:text-primary')}
+      className={clsx(className, 'mr-1 cursor-pointer hover:text-primary-400')}
       icon={isPlaying ? 'pause-small' : 'play-small'}
       onClick={togglePlay}
     />

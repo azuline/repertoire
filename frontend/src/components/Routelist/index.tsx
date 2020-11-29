@@ -48,7 +48,7 @@ export const RouteList: React.FC = () => {
     <div>
       {sections.map(({ name, routes }) => (
         <div key={name} className="py-4">
-          {name && <div className="px-8 pb-4 text-sm uppercase text-primary">{name}</div>}
+          {name && <div className="px-8 pb-4 text-sm uppercase text-primary-400">{name}</div>}
           {routes.map(({ path, label }, i) => (
             <NavLink
               key={i}

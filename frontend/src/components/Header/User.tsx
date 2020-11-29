@@ -30,20 +30,20 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
       <div className="mr-3 truncate">{data?.user?.nickname || 'Loading...'}</div>
       <Link className="flex-none sm:hidden" href="/settings" onClick={closeSidebar}>
         <Icon
-          className="w-5 mr-2 cursor-pointer text-primary-alt hover:text-primary"
+          className="w-5 mr-2 cursor-pointer text-primary-600 hover:text-primary-400"
           title="Settings"
           icon="cog-medium"
         />
       </Link>
       <Link className="flex-none hidden sm:block" href="/settings">
         <Icon
-          className="w-5 mr-2 cursor-pointer text-primary-alt hover:text-primary"
+          className="w-5 mr-2 cursor-pointer text-primary-600 hover:text-primary-400"
           title="Settings"
           icon="cog-medium"
         />
       </Link>
       <Icon
-        className="flex-none w-5 cursor-pointer text-primary-alt hover:text-primary"
+        className="flex-none w-5 cursor-pointer text-primary-600 hover:text-primary-400"
         title="Logout"
         icon="logout-medium"
         onClick={logout}
