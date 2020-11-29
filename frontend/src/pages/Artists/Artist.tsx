@@ -16,7 +16,7 @@ export const Artist: React.FC<{ active: number }> = ({ active }) => {
 
     setBackgroundImageId(artist.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [artist]);
+  }, [artist, setBackgroundImageId]);
 
   if (!artist) return null;
 

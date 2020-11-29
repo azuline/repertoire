@@ -17,7 +17,7 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
 
     setBackgroundImageId(parentRelease.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [parentRelease]);
+  }, [parentRelease, setBackgroundImageId]);
 
   return (
     <div className="z-10 flex px-8">

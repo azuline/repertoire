@@ -1,6 +1,5 @@
-import clsx from 'clsx';
 import * as React from 'react';
-import { Header, Image, SectionHeader, Tracklist } from 'src/components';
+import { Header, SectionHeader, Tracklist } from 'src/components';
 import { PlayQueueContext } from 'src/contexts';
 
 import { Info } from './Info';

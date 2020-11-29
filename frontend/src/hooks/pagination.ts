@@ -56,7 +56,7 @@ export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): Pa
       pathname: '/releases',
       search: `?${query.toString()}`,
     });
-  }, [curPage]);
+  }, [curPage, useUrl]);
 
   // Calculate the number of pages.
   const numPages = React.useMemo(() => {

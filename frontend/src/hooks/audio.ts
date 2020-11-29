@@ -42,15 +42,12 @@ export const useAudio = (): AudioT => {
   const [curTime, setCurTime] = React.useState<number>(0);
 
   // prettier-ignore
-  const curTrack = React.useMemo(
-    () => (curIndex !== null ? playQueue[curIndex] : null),
-    [playQueue, curIndex],
-  );
-
   // Whenever we switch to a new track, load the corresponding audio file and begin playing it.
   // For gapless playback, we preload the next track shortly after playing this track.
   React.useEffect(() => {
     if (audio) audio.pause();
+
+    const curTrack = (curIndex !== null ? playQueue[curIndex] : null);
 
     if (!curTrack) {
       setIsPlaying(false);
@@ -62,7 +59,6 @@ export const useAudio = (): AudioT => {
         ? nextAudio.audio
         : new Audio(`/files/tracks/${curTrack.id}`);
 
-    newAudio.volume = isMuted ? 0 : volume / 100;
     setAudio(newAudio);
     setIsPlaying(true);
 
@@ -86,7 +82,7 @@ export const useAudio = (): AudioT => {
 
     newAudio.addEventListener('ended', onTrackEnd);
     return (): void => newAudio.removeEventListener('ended', onTrackEnd);
-  }, [curTrack]);
+  }, [playQueue, curIndex, setCurIndex]);
 
   React.useEffect(() => {
     if (!nextAudio) return;
@@ -124,7 +120,7 @@ export const useAudio = (): AudioT => {
   // Sync the currently playing track with the volume.
   React.useEffect(() => {
     if (audio) audio.volume = isMuted ? 0 : volume / 100;
-  }, [isMuted, volume]);
+  }, [audio, isMuted, volume]);
 
   const seek = React.useCallback((seconds) => audio && audio.fastSeek(seconds), [audio]);
 

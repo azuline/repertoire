@@ -10,7 +10,7 @@ export const Rewind: React.FC<{
   curTime: number;
   seek: SetValue<number>;
 }> = ({ className, isPlaying, setIsPlaying, curTime, seek }) => {
-  const { playQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
+  const { setCurIndex } = React.useContext(PlayQueueContext);
 
   const rewind = React.useCallback(() => {
     if (isPlaying && curTime > 10) {

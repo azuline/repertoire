@@ -67,13 +67,22 @@ export const useViewOptions = ({
     releaseView ?? ReleaseView.ARTWORK,
   );
 
-  React.useEffect(() => (search !== undefined ? setSearch(search) : undefined), [search]);
-  React.useEffect(() => collectionIds && setCollectionIds(collectionIds), [collectionIds]);
-  React.useEffect(() => artistIds && setArtistIds(artistIds), [artistIds]);
-  React.useEffect(() => releaseTypes && setReleaseTypes(releaseTypes), [releaseTypes]);
-  React.useEffect(() => sort && setSort(sort), [sort]);
-  React.useEffect(() => (asc !== undefined ? setAsc(asc) : undefined), [asc]);
-  React.useEffect(() => releaseView && setReleaseView(releaseView), [releaseView]);
+  React.useEffect(() => (search !== undefined ? setSearch(search) : undefined), [
+    search,
+    setSearch,
+  ]);
+  React.useEffect(() => collectionIds && setCollectionIds(collectionIds), [
+    collectionIds,
+    setCollectionIds,
+  ]);
+  React.useEffect(() => artistIds && setArtistIds(artistIds), [artistIds, setArtistIds]);
+  React.useEffect(() => releaseTypes && setReleaseTypes(releaseTypes), [
+    releaseTypes,
+    setReleaseView,
+  ]);
+  React.useEffect(() => sort && setSort(sort), [sort, setSort]);
+  React.useEffect(() => (asc !== undefined ? setAsc(asc) : undefined), [asc, setAsc]);
+  React.useEffect(() => releaseView && setReleaseView(releaseView), [releaseView, setReleaseView]);
 
   return {
     search: searchState,

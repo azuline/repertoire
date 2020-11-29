@@ -21,7 +21,7 @@ export const Release: React.FC = () => {
 
     setBackgroundImageId(release.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [release]);
+  }, [release, setBackgroundImageId]);
 
   return (
     <div className="flex flex-col full">

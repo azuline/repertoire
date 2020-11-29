@@ -26,7 +26,7 @@ export const PagedReleases: React.FC<{
 
   React.useEffect(() => {
     if (total) pagination.setTotal(total);
-  }, [total]);
+  }, [total, pagination]);
 
   const releasesDiv = React.useMemo(() => {
     switch (viewOptions.releaseView) {

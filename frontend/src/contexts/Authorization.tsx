@@ -36,7 +36,7 @@ export const AuthorizationProvider: React.FC<{ children: React.ReactNode }> = ({
         setLoggedIn(false);
       }
     })();
-  }, []);
+  }, [requestJson, setCsrf, setLoggedIn]);
 
   return <AuthorizationContext.Provider value={value}>{children}</AuthorizationContext.Provider>;
 };
