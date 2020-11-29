@@ -20,7 +20,7 @@ export const Chooser: React.FC<{
 
   return (
     <div
-      className={makeChooserStyles(className, active, isSidebarOpen)}
+      className={useChooserStyles(className, active, isSidebarOpen)}
       style={active ? chooserStyle : {}}
     >
       <div
@@ -48,7 +48,7 @@ export const Chooser: React.FC<{
   );
 };
 
-const makeChooserStyles = (
+const useChooserStyles = (
   className: string | undefined,
   active: number | null,
   isSidebarOpen: boolean,

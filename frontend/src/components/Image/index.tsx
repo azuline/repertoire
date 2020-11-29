@@ -6,16 +6,17 @@ const urlFactory = (id: number | null, thumbnail: boolean): string =>
 
 export const Image: React.FC<{
   className?: string;
+  alt?: string | undefined;
   thumbnail?: boolean;
   imageId: number | null;
-}> = ({ className, thumbnail = false, imageId }) => {
+}> = ({ className, alt, thumbnail = false, imageId }) => {
   const [src, setSrc] = React.useState(urlFactory(imageId, thumbnail));
   const onError = React.useCallback(() => setSrc(noArt), [setSrc]);
 
   React.useEffect(() => setSrc(urlFactory(imageId, thumbnail)), [imageId, thumbnail]);
 
   if (!imageId) {
-    return <img className={className} src={noArt} />;
+    return <img alt={alt} className={className} src={noArt} />;
   }
-  return <img className={className} src={src} onError={onError} loading="lazy" />;
+  return <img alt={alt} className={className} src={src} onError={onError} loading="lazy" />;
 };

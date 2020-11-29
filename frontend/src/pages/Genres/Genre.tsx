@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { BackButton, CollectionReleases, Header, Link, SectionHeader } from 'src/components';
 import { BackgroundContext } from 'src/contexts';
-import { fetchCollection } from 'src/lib';
+import { useFetchCollection } from 'src/lib';
 
 export const Genre: React.FC<{ active: number }> = ({ active }) => {
-  const { data } = fetchCollection(active);
+  const { data } = useFetchCollection(active);
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
   const collection = React.useMemo(() => data?.collection || null, [data]);

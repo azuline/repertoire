@@ -13,7 +13,7 @@ export const Tracklist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
   const { playQueue, setPlayQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
 
   // Check to see if the current track list matches up with the play queue--if
-  // it does, we are currently playing this Disclist.
+  // it does, we are currently playing this Tracklist.
   // prettier-ignore
   const areTrackListsMatching = React.useMemo(
     () => checkMatchingTracklists(playQueue, tracks),
@@ -28,22 +28,17 @@ export const Tracklist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
     [setPlayQueue, setCurIndex, tracks],
   );
 
-  let trackIndex = 0;
-
   return (
     <div className={clsx(className, 'mx-8')}>
-      {tracks.map((track) => {
-        trackIndex++;
-        return (
-          <Track
-            key={trackIndex}
-            track={track}
-            index={trackIndex}
-            onClick={trackOnClick}
-            active={areTrackListsMatching && curIndex === trackIndex}
-          />
-        );
-      })}
+      {tracks.map((track, idx) => (
+        <Track
+          key={idx}
+          track={track}
+          index={idx}
+          onClick={trackOnClick}
+          active={areTrackListsMatching && curIndex === idx}
+        />
+      ))}
     </div>
   );
 };

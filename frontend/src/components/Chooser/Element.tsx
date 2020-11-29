@@ -19,17 +19,17 @@ export const Element: React.FC<{
 
   return (
     <div className="relative">
-      <div className={makeStarClassName(isToggleable, element.starred)} onClick={toggleStar}>
+      <div className={useStarClassName(isToggleable, element.starred)} onClick={toggleStar}>
         <Icon className="w-4" icon={element.starred ? 'star-small-filled' : 'star-small-outline'} />
       </div>
       <Link href={url}>
-        <div className={makeRowClassName(isActive)}>{element.name}</div>
+        <div className={useRowClassName(isActive)}>{element.name}</div>
       </Link>
     </div>
   );
 };
 
-const makeStarClassName = (isToggleable: boolean, starred: boolean): string =>
+const useStarClassName = (isToggleable: boolean, starred: boolean): string =>
   React.useMemo(
     () =>
       clsx(
@@ -41,7 +41,7 @@ const makeStarClassName = (isToggleable: boolean, starred: boolean): string =>
     [isToggleable, starred],
   );
 
-const makeRowClassName = (isActive: boolean): string =>
+const useRowClassName = (isActive: boolean): string =>
   React.useMemo(
     () =>
       clsx(

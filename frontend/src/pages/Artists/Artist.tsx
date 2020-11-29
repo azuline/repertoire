@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { BackButton, Header, Link, SectionHeader } from 'src/components';
 import { BackgroundContext } from 'src/contexts';
-import { fetchArtist } from 'src/lib';
+import { useFetchArtist } from 'src/lib';
 
 import { ArtistReleases } from './Releases';
 
 export const Artist: React.FC<{ active: number }> = ({ active }) => {
-  const { data } = fetchArtist(active);
+  const { data } = useFetchArtist(active);
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
   const artist = React.useMemo(() => data?.artist || null, [data]);

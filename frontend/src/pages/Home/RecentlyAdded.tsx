@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Link, ScrolledReleases, SectionHeader } from 'src/components';
-import { fetchRecentlyAdded } from 'src/lib';
+import { useFetchRecentlyAdded } from 'src/lib';
 
 export const RecentlyAdded: React.FC = () => {
-  const { data } = fetchRecentlyAdded();
+  const { data } = useFetchRecentlyAdded();
   const history = useHistory();
 
   const releases = data?.releases?.results || [];

@@ -39,10 +39,10 @@ export const TrackArtistList: ListT = ({
   delimiter = ', ',
   link = false,
 }) => {
-  if (!artists || artists.length === 0) return <div> </div>;
-
   const rolesToArtists = React.useMemo(() => mapRolesToArtists(artists), [artists]);
   const dividerWords = React.useMemo(() => determineDividerWords(rolesToArtists), [rolesToArtists]);
+
+  if (!artists || artists.length === 0) return <div> </div>;
 
   return (
     <div className={className}>
@@ -67,7 +67,9 @@ export const TrackArtistList: ListT = ({
   );
 };
 
-export const mapRolesToArtists = (artists: TrackArtistT[]): RolesArtistsMapEntries => {
+export const mapRolesToArtists = (artists?: TrackArtistT[]): RolesArtistsMapEntries => {
+  if (!artists) return [];
+
   // Get a map of artist roles to the artists in that role, filtering out
   // roles without any artists in them.
   const rolesToArtists = Object.entries(

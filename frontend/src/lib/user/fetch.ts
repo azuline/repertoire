@@ -13,5 +13,5 @@ const QUERY = gql`
 
 type T = { user: UserT };
 
-export const fetchUser = (options?: MutationHookOptions<T>): QueryResult<T> =>
+export const useFetchUser = (options?: MutationHookOptions<T>): QueryResult<T> =>
   useQuery<T>(QUERY, options);

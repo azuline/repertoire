@@ -4,13 +4,13 @@ import { useToasts } from 'react-toast-notifications';
 import { Icon, Link } from 'src/components/common';
 import { AuthorizationContext, SidebarContext } from 'src/contexts';
 import { useRequest } from 'src/hooks';
-import { fetchUser } from 'src/lib';
+import { useFetchUser } from 'src/lib';
 
 export const User: React.FC<{ className?: string }> = ({ className }) => {
   const { setLoggedIn } = React.useContext(AuthorizationContext);
   const { setSidebarOpen } = React.useContext(SidebarContext);
   const { addToast } = useToasts();
-  const { data } = fetchUser();
+  const { data } = useFetchUser();
   const request = useRequest();
 
   const closeSidebar = React.useCallback(() => setSidebarOpen(false), [setSidebarOpen]);

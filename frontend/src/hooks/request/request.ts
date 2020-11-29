@@ -15,7 +15,7 @@ export type RequestT<T> = (
  * @returns A function that makes a HTTP request to the backend.
  */
 export const useRequest = (): RequestT<Response> => {
-  const { loggedIn, setLoggedIn, csrf } = React.useContext(AuthorizationContext);
+  const { setLoggedIn, csrf } = React.useContext(AuthorizationContext);
 
   const request = React.useCallback(
     async (url, { method, token, contentType, body } = {}) => {
@@ -37,7 +37,7 @@ export const useRequest = (): RequestT<Response> => {
 
       return response;
     },
-    [loggedIn, setLoggedIn, csrf],
+    [setLoggedIn, csrf],
   );
 
   return request;

@@ -15,11 +15,11 @@ export const Pagination: React.FC<{
 
   const goBackOnePage = React.useCallback(
     () => setCurPage((page) => Math.min(Math.max(1, page - 1), numPages)),
-    [numPages],
+    [numPages, setCurPage],
   );
   const goForwardOnePage = React.useCallback(
     () => setCurPage((page) => Math.min(Math.max(1, page + 1), numPages)),
-    [numPages],
+    [numPages, setCurPage],
   );
 
   // If there are no pages, don't render pagination.

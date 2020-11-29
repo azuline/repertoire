@@ -24,7 +24,7 @@ export const Goto: React.FC<{
       input.current.value = '';
       setCurPage(page);
     },
-    [setCurPage, numPages],
+    [setCurPage, numPages, addToast],
   );
 
   return (

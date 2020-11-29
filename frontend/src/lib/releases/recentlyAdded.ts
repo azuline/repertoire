@@ -23,5 +23,5 @@ const QUERY = gql`
 
 type T = { releases: { results: ReleaseT[] } };
 
-export const fetchRecentlyAdded = (options?: MutationHookOptions<T>): QueryResult<T> =>
+export const useFetchRecentlyAdded = (options?: MutationHookOptions<T>): QueryResult<T> =>
   useQuery<T>(QUERY, options);

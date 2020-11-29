@@ -30,7 +30,7 @@ export const PlayButtons: React.FC<{
     } else {
       setCurIndex((idx) => (idx !== null && idx !== 0 ? idx - 1 : null));
     }
-  }, [curTime, setCurIndex, isPlaying]);
+  }, [curTime, setCurIndex, isPlaying, seek]);
 
   return (
     <div className="flex items-center justify-center flex-none mx-4 sm:mx-8 text-primary-alt">

@@ -1,27 +1,10 @@
 import * as React from 'react';
-import { Icon, Link } from 'src/components';
-import { SidebarContext } from 'src/contexts';
+import { Icon } from 'src/components';
 
-export const ExpandPlaying: React.FC = () => {
-  const { setSidebarOpen } = React.useContext(SidebarContext);
+import { RedirectToNowPlaying } from './RedirectToNowPlaying';
 
-  const closeSidebar = React.useCallback(() => setSidebarOpen(false), [setSidebarOpen]);
-
-  return (
-    <>
-      <Link
-        className="block p-2 pr-4 sm:pr-8 sm:hidden text-primary-alt hover:text-primary"
-        href="/playing"
-        onClick={closeSidebar}
-      >
-        <Icon icon="chevron-up-medium" className="w-6" />
-      </Link>
-      <Link
-        className="hidden p-2 pr-8 sm:block text-primary-alt hover:text-primary"
-        href="/playing"
-      >
-        <Icon icon="chevron-up-medium" className="w-6" />
-      </Link>
-    </>
-  );
-};
+export const ExpandPlaying: React.FC = () => (
+  <RedirectToNowPlaying className="p-2 pr-4 sm:pr-8 text-primary-alt hover:text-primary">
+    <Icon icon="chevron-up-medium" className="w-6" />
+  </RedirectToNowPlaying>
+);

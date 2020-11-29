@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Chooser, ElementT } from 'src/components';
-import { fetchArtists, useMutateArtist } from 'src/lib';
+import { useFetchArtists, useMutateArtist } from 'src/lib';
 
 const urlFactory = (id: number): string => `/artists/${id}`;
 
@@ -8,7 +8,7 @@ export const ArtistChooser: React.FC<{
   active: number | null;
   className?: string;
 }> = ({ active, className }) => {
-  const { data, error, loading } = fetchArtists();
+  const { data, error, loading } = useFetchArtists();
   const [mutateArtist] = useMutateArtist();
 
   const toggleStarFactory = React.useCallback(

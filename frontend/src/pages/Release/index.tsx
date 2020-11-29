@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Disclist, Header, Image } from 'src/components';
 import { BackgroundContext, SidebarContext } from 'src/contexts';
 import { useId } from 'src/hooks';
-import { fetchRelease } from 'src/lib';
+import { useFetchRelease } from 'src/lib';
 
 import { InCollages } from './InCollages';
 import { Info } from './Info';
@@ -11,7 +11,7 @@ import { Info } from './Info';
 export const Release: React.FC = () => {
   const { isSidebarOpen } = React.useContext(SidebarContext);
   const id = useId();
-  const { data } = fetchRelease(id as number);
+  const { data } = useFetchRelease(id as number);
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
   const release = React.useMemo(() => data?.release || null, [data]);

@@ -17,7 +17,7 @@ const QUERY = gql`
 type T = { collections: { results: CollectionT[] } };
 type V = { types: CollectionType[] };
 
-export const fetchCollections = (
+export const useFetchCollections = (
   types: CollectionType[] = [],
   options?: QueryHookOptions<T, V>,
 ): QueryResult<T, V> => {

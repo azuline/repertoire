@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
-import { fetchUser, useMutateUser } from 'src/lib';
+import { useFetchUser, useMutateUser } from 'src/lib';
 
 export const UserSettings: React.FC = () => {
-  const { data } = fetchUser();
+  const { data } = useFetchUser();
   const input = React.useRef<HTMLInputElement>(null);
   const { addToast } = useToasts();
 

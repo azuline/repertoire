@@ -15,7 +15,10 @@ const QUERY = gql`
 type T = { release: ReleaseT };
 type V = { id: number };
 
-export const fetchRelease = (id: number, options?: QueryHookOptions<T, V>): QueryResult<T, V> => {
+export const useFetchRelease = (
+  id: number,
+  options?: QueryHookOptions<T, V>,
+): QueryResult<T, V> => {
   const newOptions = React.useMemo(() => ({ ...options, variables: { id } }), [options, id]);
 
   return useQuery<T, V>(QUERY, newOptions);

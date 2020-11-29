@@ -31,7 +31,7 @@ export const VirtualList: React.FC<{
         </div>
       );
     },
-    [results, active, urlFactory],
+    [results, active, urlFactory, toggleStarFactory],
   );
 
   const [scrollToIndex, scrollToAlignment] = React.useMemo(() => {

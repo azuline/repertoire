@@ -15,7 +15,7 @@ const QUERY = gql`
 type T = { artist: ArtistT };
 type V = { id: number };
 
-export const fetchArtist = (id: number, options?: QueryHookOptions<T, V>): QueryResult<T, V> => {
+export const useFetchArtist = (id: number, options?: QueryHookOptions<T, V>): QueryResult<T, V> => {
   const newOptions = React.useMemo(() => ({ ...options, variables: { id } }), [options, id]);
 
   return useQuery<T, V>(QUERY, newOptions);

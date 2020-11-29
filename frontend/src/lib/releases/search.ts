@@ -54,7 +54,7 @@ type V = {
   perPage: number;
 };
 
-export const searchReleases = (
+export const useSearchReleases = (
   viewOptions: ViewOptionsT,
   pagination: PaginationT,
   options?: QueryHookOptions<T, V>,

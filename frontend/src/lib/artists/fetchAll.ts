@@ -15,5 +15,5 @@ const QUERY = gql`
 
 type T = { artists: { results: ArtistT[] } };
 
-export const fetchArtists = (options?: QueryHookOptions<T>): QueryResult<T> =>
+export const useFetchArtists = (options?: QueryHookOptions<T>): QueryResult<T> =>
   useQuery<T>(QUERY, options);

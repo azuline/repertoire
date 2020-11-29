@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Chooser, ElementT } from 'src/components/Chooser';
-import { fetchCollections, useMutateCollection } from 'src/lib';
+import { useFetchCollections, useMutateCollection } from 'src/lib';
 import { CollectionType } from 'src/types';
 
 export const CollectionChooser: React.FC<{
@@ -9,7 +9,7 @@ export const CollectionChooser: React.FC<{
   active: number | null;
   className?: string;
 }> = ({ collectionTypes, urlPrefix, active, className }) => {
-  const { data, error, loading } = fetchCollections(collectionTypes);
+  const { data, error, loading } = useFetchCollections(collectionTypes);
   const [mutateCollection] = useMutateCollection();
 
   const urlFactory = React.useCallback((id: number): string => `${urlPrefix}/${id}`, [urlPrefix]);

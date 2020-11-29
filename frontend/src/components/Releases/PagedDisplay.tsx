@@ -5,7 +5,7 @@ import { ArtRelease, RowRelease } from 'src/components/Release';
 import { ViewSettings } from 'src/components/ViewSettings';
 import { SidebarContext } from 'src/contexts';
 import { PaginationT, ViewOptionsT } from 'src/hooks';
-import { searchReleases } from 'src/lib';
+import { useSearchReleases } from 'src/lib';
 import { ReleaseView } from 'src/types';
 
 // Partial here means that we have an artist/collection selector open.
@@ -16,7 +16,7 @@ export const PagedReleases: React.FC<{
   partial?: boolean;
 }> = ({ viewOptions, pagination, partial = false }) => {
   const { isSidebarOpen } = React.useContext(SidebarContext);
-  const { data } = searchReleases(viewOptions, pagination);
+  const { data } = useSearchReleases(viewOptions, pagination);
 
   // prettier-ignore
   const { total, results } = React.useMemo(

@@ -33,7 +33,7 @@ export const Login: React.FC<{ className?: string }> = ({ className }) => {
         addToast('Invalid authorization token.', { appearance: 'error' });
       }
     },
-    [input, permanent, setLoggedIn, setCsrf, addToast],
+    [input, permanent, setLoggedIn, setCsrf, addToast, requestJson],
   );
 
   return (
