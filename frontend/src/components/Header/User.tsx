@@ -26,28 +26,26 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
 
   return (
     <div className={clsx(className, 'flex items-center h-full min-w-0')}>
-      <Icon className="flex-none w-5 mr-1 text-foreground-300" icon="user-medium" />
-      <div className="mr-3 truncate">{data?.user?.nickname || 'Loading...'}</div>
-      <Link className="flex-none sm:hidden" href="/settings" onClick={closeSidebar}>
-        <Icon
-          className="w-5 mr-2 cursor-pointer hover:text-primary-400 text-primary-500"
-          icon="cog-medium"
-          title="Settings"
-        />
+      <div className="mr-2 truncate">{data?.user?.nickname || 'Loading...'}</div>
+      <Link
+        className="flex-none px-1 py-2 cursor-pointer hover:text-primary-400 text-primary-500 sm:hidden"
+        href="/settings"
+        onClick={closeSidebar}
+      >
+        <Icon className="w-6" icon="cog-medium" title="Settings" />
       </Link>
-      <Link className="flex-none hidden sm:block" href="/settings">
-        <Icon
-          className="w-5 mr-2 cursor-pointer hover:text-primary-400 text-primary-500"
-          icon="cog-medium"
-          title="Settings"
-        />
+      <Link
+        className="flex-none hidden px-1 py-2 cursor-pointer hover:text-primary-400 text-primary-500 sm:block"
+        href="/settings"
+      >
+        <Icon className="w-6" icon="cog-medium" title="Settings" />
       </Link>
-      <Icon
-        className="flex-none w-5 cursor-pointer hover:text-primary-400 text-primary-500"
-        icon="logout-medium"
-        title="Logout"
+      <div
+        className="flex-none px-2 py-1 cursor-pointer hover:text-primary-400 text-primary-500"
         onClick={logout}
-      />
+      >
+        <Icon className="w-6" icon="logout-medium" title="Logout" />
+      </div>
     </div>
   );
 };

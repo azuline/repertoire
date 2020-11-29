@@ -26,7 +26,6 @@ module.exports = {
     jest: true,
   },
   rules: {
-    'arrow-body-style': ['warn', 'as-needed'],
     'consistent-return': 'off',
     'import/order': 'off',
     'import/prefer-default-export': 'off',

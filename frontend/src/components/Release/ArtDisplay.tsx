@@ -6,6 +6,8 @@ import { ArtistList, GenreList } from 'src/components/Lists';
 import { ReleaseT } from 'src/types';
 import { secondsToLength } from 'src/util';
 
+import { InInboxIndicator } from './InInboxIndicator';
+
 const textStyle = {
   background:
     'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9))',
@@ -29,8 +31,9 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
         <div className="absolute z-10 rounded-lg full two-sided" style={textStyle}>
           <div className="flex flex-col justify-end overflow-hidden front full">
             <div className="p-3 overflow-hidden">
-              <div className="text-lg font-semibold text-white truncate" title={release.title}>
-                {release.title}
+              <div className="flex min-w-0 text-lg font-semibold text-white" title={release.title}>
+                <div className="truncate flex-0">{release.title}</div>
+                {release.inInbox && <InInboxIndicator className="pl-2" />}
               </div>
               <ArtistList className="text-gray-200 truncate" elements={release.artists} />
             </div>
