@@ -15,7 +15,7 @@ export const FastForward: React.FC<{
 
   return (
     <Icon
-      className={clsx(className, 'cursor-pointer w-9 hover:text-primary-400')}
+      className={clsx(className, 'cursor-pointer hover:text-primary-400')}
       icon="fast-forward-small"
       onClick={fastForward}
     />

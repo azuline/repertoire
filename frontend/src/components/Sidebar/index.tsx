@@ -14,18 +14,18 @@ export const Sidebar: React.FC = () => {
   if (!isSidebarOpen) return null;
 
   return (
-    <div className="sticky top-0 flex-col flex-none hidden w-56 h-full sm:flex bg-background-900">
+    <div className="sticky top-0 flex-col flex-none hidden w-56 h-full bg-background-900 sm:flex">
       <div className="mt-6 mb-4">
         <div className="flex items-center pl-6 pr-4">
           <div className="flex items-center pr-4 cursor-pointer" onClick={goHome}>
-            <Icon className="w-8 text-primary-600" icon="logo" />
+            <Icon className="w-8 text-primary-500" icon="logo" />
             <div className="ml-2 font-semibold">
-              <span className="text-primary-600">reper</span>toire
+              <span className="text-primary-500">reper</span>toire
             </div>
           </div>
           <Icon
             icon="hamburger"
-            className="flex-none block w-6 ml-auto cursor-pointer text-primary-600 hover:text-primary-400"
+            className="flex-none block w-6 ml-auto cursor-pointer hover:text-primary-400 text-primary-500"
             onClick={toggleOpen}
           />
         </div>

@@ -18,8 +18,8 @@ html {
   --color-background-800: #18181d;
   --color-background-900: #1b1b21;
   --color-primary-400: #daa520;
-  --color-primary-500: #b78846;
-  --color-primary-600: #a47b40;
+  --color-primary-500: #a47b40;
+  --color-primary-600: #96703a;
   --color-primary-700: #6e522a;
   --color-primary-800: #523d20;
 }
@@ -33,17 +33,17 @@ html {
   --color-background-900: #cbd5e1; /* blueGray-300 */
   --color-primary-400: #523d20;
   --color-primary-500: #6e522a;
-  --color-primary-600: #a47b40;
-  --color-primary-700: #a57a3f;
+  --color-primary-600: #96703a;
+  --color-primary-700: #a47b40;
   --color-primary-800: #b78846;
 }
 
 .app {
-  @apply text-foreground bg-background-700;
+  @apply bg-background-700text-foreground;
 }
 
 button {
-  @apply px-4 py-2 font-normal rounded text-foreground bg-primary-700 hover:bg-primary-600;
+  @apply px-4 py-2 font-normal rounded hover:bg-primary-600 bg-primary-700 text-foreground;
 }
 
 .small-btn {
@@ -51,7 +51,7 @@ button {
 }
 
 .text-btn {
-  @apply bg-transparent hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5 text-primary-400;
+  @apply bg-transparent hover:bg-black hover:bg-opacity-5 text-primary-400 dark:hover:bg-white dark:hover:bg-opacity-5;
 }
 
 input {
@@ -152,11 +152,11 @@ input::placeholder {
   @apply bg-gray-600 cursor-pointer;
 }
 .slider > .thumb {
-  @apply w-4 h-4 cursor-pointer leading-4 hover:w-6 hover:h-6 hover:leading-6 bg-primary-400 rounded-2xl;
+  @apply w-4 h-4 cursor-pointer bg-primary-400 rounded-2xl hover:h-6 leading-4 hover:leading-6 hover:w-6;
 }
 .playbar-slider > .track {
   @apply h-1;
 }
 .volume-slider > .track {
-  @apply w-2 rounded-lg;
+  @apply rounded-lg w-2;
 }

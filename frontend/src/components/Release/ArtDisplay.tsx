@@ -9,7 +9,7 @@ import { secondsToLength } from 'src/util';
 const textStyle = {
   textShadow: '1px black',
   background:
-    'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7))',
+    'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9))',
 };
 
 export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = ({
@@ -28,11 +28,11 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
         />
         <div className="absolute z-10 rounded-lg full two-sided" style={textStyle}>
           <div className="flex flex-col justify-end overflow-hidden front full">
-            <div className="p-4 overflow-hidden">
-              <div className="text-lg font-medium truncate" title={release.title}>
+            <div className="p-3 overflow-hidden">
+              <div className="text-lg font-semibold truncate" title={release.title}>
                 {release.title}
               </div>
-              <ArtistList className="mt-2 truncate opacity-80" elements={release.artists} />
+              <ArtistList className="truncate opacity-80" elements={release.artists} />
             </div>
           </div>
           <div className="relative back full">

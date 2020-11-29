@@ -3,8 +3,8 @@ import { Route, Switch } from 'react-router-dom';
 
 import { Artists } from './Artists';
 import { Collages } from './Collages';
-import { Genres } from './Genres';
 import { Explore } from './Explore';
+import { Genres } from './Genres';
 import { Labels } from './Labels';
 import { Metadata } from './Metadata';
 import { Mobile } from './Mobile';

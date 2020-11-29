@@ -6,7 +6,7 @@ import { RedirectToNowPlaying } from './RedirectToNowPlaying';
 
 export const TrackInfo: React.FC<{ curTrack: TrackT }> = ({ curTrack }) => (
   <div className="flex flex-1 truncate">
-    <Link href={`/releases/${curTrack.release.id}`} className="flex-none hidden sm:block w-11">
+    <Link href={`/releases/${curTrack.release.id}`} className="flex-none hidden w-11 sm:block">
       <div className="relative w-full h-0 pb-full">
         <Image
           className="absolute object-cover rounded full"

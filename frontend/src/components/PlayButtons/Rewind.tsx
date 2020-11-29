@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import * as React from 'react';
 import { Icon } from 'src/components';
 import { PlayQueueContext } from 'src/contexts';
@@ -6,10 +7,9 @@ import { SetValue } from 'src/types';
 export const Rewind: React.FC<{
   className?: string;
   isPlaying: boolean;
-  setIsPlaying: SetValue<boolean>;
   curTime: number;
   seek: SetValue<number>;
-}> = ({ className, isPlaying, setIsPlaying, curTime, seek }) => {
+}> = ({ className, isPlaying, curTime, seek }) => {
   const { setCurIndex } = React.useContext(PlayQueueContext);
 
   const rewind = React.useCallback(() => {
@@ -22,7 +22,7 @@ export const Rewind: React.FC<{
 
   return (
     <Icon
-      className="mr-1 cursor-pointer w-9 hover:text-primary-400"
+      className={clsx(className, 'cursor-pointer mr-1 hover:text-primary-400')}
       icon="rewind-small"
       onClick={rewind}
     />

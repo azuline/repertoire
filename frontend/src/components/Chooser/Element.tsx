@@ -46,7 +46,7 @@ const useRowClassName = (isActive: boolean): string =>
     () =>
       clsx(
         'py-1 pr-10 truncate cursor-pointer pl-14 hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5',
-        isActive && 'font-bold text-primary-600',
+        isActive && 'font-bold text-primary-500',
       ),
     [isActive],
   );

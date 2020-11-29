@@ -27,7 +27,7 @@ export const Track: React.FC<{
       onClick={trackOnClick}
     >
       <div className="flex items-center">
-        <Icon className="flex-none w-5 mr-3 cursor-pointer text-primary-600" icon="play-medium" />
+        <Icon className="flex-none w-5 mr-3 cursor-pointer text-primary-500" icon="play-medium" />
         <div
           className={clsx(
             'flex-1 mr-2 truncate',

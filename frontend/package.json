@@ -72,7 +72,7 @@
     "eslint-plugin-react-hooks": "^4.0.8",
     "eslint-plugin-simple-import-sort": "^6.0.1",
     "postcss": "^8.1.7",
-    "prettier": "2.1.2",
+    "prettier": "^2.2.1",
     "react-is": "^17.0.1",
     "rustywind": "^0.6.7",
     "typedoc": "^0.19.2"

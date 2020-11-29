@@ -27,8 +27,8 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           </>
         )}
       </div>
-      <div className="mb-1 text-gray-800 text-md dark:text-gray-300">{whenReleased}</div>
-      <div className="mb-1 text-gray-800 text-md truncate-2 dark:text-gray-300">
+      <div className="mb-1 text-gray-800 dark:text-gray-300 text-md">{whenReleased}</div>
+      <div className="mb-1 text-gray-800 dark:text-gray-300 text-md truncate-2">
         {release.labels.length === 0 ? (
           <span>No Label</span>
         ) : (
@@ -43,7 +43,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           </>
         )}
       </div>
-      <div className="text-gray-800 text-md truncate-2 dark:text-gray-300">
+      <div className="text-gray-800 dark:text-gray-300 text-md truncate-2">
         {release.genres.length !== 0 && (
           <>
             <GenreList

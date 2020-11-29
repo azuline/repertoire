@@ -51,7 +51,7 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
             <span className="text-primary-400">{parentRelease?.title || 'Loading...'}</span>
           </Link>
         </div>
-        <div className="text-gray-800 text-md truncate-2 dark:text-gray-300">
+        <div className="text-gray-800 dark:text-gray-300 text-md truncate-2">
           {parentRelease && parentRelease.genres.length !== 0 && (
             <>
               <GenreList
