@@ -1,21 +1,45 @@
 import * as React from 'react';
 import { PlayQueueContext, VolumeContext } from 'src/contexts';
-import { SetValue } from 'src/types';
+import { SetValue, TrackT } from 'src/types';
 import { sleep } from 'src/util';
 
 // TODO: Make sure that we aren't leaking memory from all these audio
 // objects... they better be garbage collected properly.
-
-type NextAudio = {
-  trackId: number;
-  audio: HTMLAudioElement;
-};
 
 export type AudioT = {
   isPlaying: boolean;
   setIsPlaying: SetValue<boolean>;
   curTime: number;
   seek: SetValue<number>;
+};
+
+type AudioReducerState = {
+  audio: HTMLAudioElement | null;
+  trackId: number | null;
+  nextAudio: HTMLAudioElement | null;
+  nextTrackId: number | null;
+};
+
+type AudioReducerPayload = { track: TrackT | null; nextTrack: TrackT | null };
+
+const INITIAL_AUDIO_STATE = { audio: null, trackId: null, nextAudio: null, nextTrackId: null };
+
+const audioReducer = (
+  state: AudioReducerState,
+  payload: AudioReducerPayload,
+): AudioReducerState => {
+  if (state.audio) state.audio.pause();
+  if (!payload.track) return INITIAL_AUDIO_STATE;
+
+  return {
+    audio:
+      state.nextAudio && state.nextTrackId === payload.track.id
+        ? state.nextAudio
+        : new Audio(`/files/tracks/${payload.track.id}`),
+    trackId: payload.track.id,
+    nextAudio: payload.nextTrack ? new Audio(`/files/tracks/${payload.nextTrack.id}`) : null,
+    nextTrackId: payload.nextTrack?.id ?? null,
+  };
 };
 
 /**
@@ -34,45 +58,41 @@ export type AudioT = {
 export const useAudio = (): AudioT => {
   const { playQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
   const { volume, isMuted } = React.useContext(VolumeContext);
-
-  const [audio, setAudio] = React.useState<HTMLAudioElement | null>(null);
-  const [nextAudio, setNextAudio] = React.useState<NextAudio | null>(null);
-
+  const [audioState, audioDispatch] = React.useReducer(audioReducer, INITIAL_AUDIO_STATE);
   const [isPlaying, setIsPlaying] = React.useState<boolean>(false);
   const [curTime, setCurTime] = React.useState<number>(0);
 
-  // prettier-ignore
   // Whenever we switch to a new track, load the corresponding audio file and begin playing it.
   // For gapless playback, we preload the next track shortly after playing this track.
   React.useEffect(() => {
-    if (audio) audio.pause();
+    const track = curIndex !== null ? playQueue[curIndex] : null;
+    const nextTrack =
+      curIndex !== null && curIndex !== playQueue.length - 1 ? playQueue[curIndex + 1] : null;
 
-    const curTrack = (curIndex !== null ? playQueue[curIndex] : null);
+    audioDispatch({ track, nextTrack });
+    setIsPlaying(!!track);
+  }, [playQueue, curIndex]);
 
-    if (!curTrack) {
-      setIsPlaying(false);
-      return;
-    }
+  // Preload the next audio track. To not compete for bandwidth with the
+  // current track, sleep 8 seconds before invoking load.
+  //
+  // Do we even need to do this? Will browsers prioritize the playing track? Who knows!
+  React.useEffect(() => {
+    (async (): Promise<void> => {
+      await sleep(8000);
+      if (audioState?.nextAudio?.paused) {
+        audioState.nextAudio.load();
+      }
+    })();
+  }, [audioState]);
 
-    const newAudio =
-      nextAudio && nextAudio.trackId === curTrack.id
-        ? nextAudio.audio
-        : new Audio(`/files/tracks/${curTrack.id}`);
-
-    setAudio(newAudio);
-    setIsPlaying(true);
-
-    // Set the next audio track for preloading.
-    if (curIndex && curIndex !== playQueue.length - 1) {
-      const nextTrack = playQueue[curIndex + 1];
-      const nextTrackAudio = new Audio(`/files/tracks/${nextTrack.id}`);
-      setNextAudio({ trackId: nextTrack.id, audio: nextTrackAudio });
-    }
+  // Set up an event on the current playing audio that handles when a track finishes playing.
+  React.useEffect(() => {
+    if (!audioState?.audio) return;
 
     const onTrackEnd = (): void => {
       if (curIndex === playQueue.length - 1) {
         setCurIndex(null);
-        setAudio(null);
       } else {
         setCurIndex((idx) => (idx as number) + 1);
       }
@@ -80,49 +100,49 @@ export const useAudio = (): AudioT => {
       setIsPlaying(false);
     };
 
-    newAudio.addEventListener('ended', onTrackEnd);
-    return (): void => newAudio.removeEventListener('ended', onTrackEnd);
-  }, [playQueue, curIndex, setCurIndex]);
+    audioState.audio.addEventListener('ended', onTrackEnd);
+    return (): void => {
+      if (audioState?.audio) audioState.audio.removeEventListener('ended', onTrackEnd);
+    };
+  }, [audioState, playQueue, curIndex, setCurIndex]);
 
+  // Sync the isPlaying variable with the audio. Return a timer to sync curTime with the track
+  // progress.
   React.useEffect(() => {
-    if (!nextAudio) return;
-
-    (async (): Promise<void> => {
-      // Sleep for 8 seconds to not interfere with current track loading.
-      // Do we even need to do this? Will browsers prioritize the playing track? Who knows!
-      await sleep(8000);
-      if (nextAudio.audio.paused) {
-        nextAudio.audio.load();
-      }
-    })();
-  }, [nextAudio]);
-
-  // Sync the isPlaying variable with the audio.
-  // Return a timer to sync curTime with the track progress.
-  React.useEffect(() => {
-    if (!audio) {
+    if (!audioState.audio) {
       setIsPlaying(false);
       return;
     }
 
     if (isPlaying) {
-      if (audio.ended) audio.fastSeek(0);
-      if (audio.paused) audio.play();
+      if (audioState.audio.ended) audioState.audio.fastSeek(0);
+      if (audioState.audio.paused) audioState.audio.play();
 
-      const timer = setInterval(() => setCurTime(Math.floor(audio.currentTime)), 1);
+      const timer = setInterval(() => {
+        if (audioState.audio) {
+          setCurTime(Math.floor(audioState.audio.currentTime));
+        } else {
+          setCurTime(0);
+        }
+      }, 1);
       return (): void => clearInterval(timer);
     }
-    if (!audio.ended) {
-      audio.pause();
+
+    if (!audioState.audio.ended) {
+      audioState.audio.pause();
     }
-  }, [isPlaying, audio]);
+  }, [isPlaying, audioState]);
 
   // Sync the currently playing track with the volume.
   React.useEffect(() => {
-    if (audio) audio.volume = isMuted ? 0 : volume / 100;
-  }, [audio, isMuted, volume]);
+    if (audioState.audio) audioState.audio.volume = isMuted ? 0 : volume / 100;
+  }, [audioState, isMuted, volume]);
 
-  const seek = React.useCallback((seconds) => audio && audio.fastSeek(seconds), [audio]);
+  // A seek function to set the curTime on the track.
+  const seek = React.useCallback(
+    (seconds) => audioState.audio && audioState.audio.fastSeek(seconds),
+    [audioState],
+  );
 
   return { isPlaying, setIsPlaying, curTime, seek };
 };

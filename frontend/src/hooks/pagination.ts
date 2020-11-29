@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import { SetValue } from 'src/types';
+import { SetValue, StateValue } from 'src/types';
 
 import { usePersistentState } from './persistentState';
 import { useQuery } from './query';
@@ -41,22 +41,28 @@ export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): Pa
     return useUrl && page && /^\d+$/.test(page) ? parseInt(page, 10) : 1;
   }, [useUrl, query]);
 
-  const [curPage, setCurPage] = React.useState<number>(startPage);
+  const [curPage, rawSetCurPage] = React.useState<number>(startPage);
   const [perPage, setPerPage] = usePersistentState<number>('pagination--perPage', 40);
   const [total, setTotal] = React.useState<number>(0);
 
-  // If ``useUrl`` is true, then sync the URL's page parameter whenever ``curPage``
-  // changes.
-  React.useEffect(() => {
-    if (!useUrl) return;
+  // We wrap the setCurPage function to sync the URL with the state. If ``useUrl`` is true, then
+  // sync!
+  const setCurPage = React.useCallback(
+    (value: StateValue<number>) => {
+      const calculatedValue = value instanceof Function ? value(curPage) : value;
 
-    query.set('page', `${curPage}`);
+      if (useUrl) {
+        query.set('page', `${calculatedValue}`);
+        history.push({
+          pathname: '/releases',
+          search: `?${query.toString()}`,
+        });
+      }
 
-    history.push({
-      pathname: '/releases',
-      search: `?${query.toString()}`,
-    });
-  }, [curPage, useUrl]);
+      rawSetCurPage(calculatedValue);
+    },
+    [curPage, history, query, useUrl, rawSetCurPage],
+  );
 
   // Calculate the number of pages.
   const numPages = React.useMemo(() => {
