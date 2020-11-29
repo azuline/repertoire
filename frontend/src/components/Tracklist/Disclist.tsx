@@ -47,7 +47,9 @@ export const Disclist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
       {Object.entries(discs).map(([discNumber, discTracks], i) => (
         <React.Fragment key={discNumber}>
           {multiDisc && (
-            <SectionHeader className={i > 0 ? 'my-4' : 'mb-4'}>Disc {discNumber}</SectionHeader>
+            <SectionHeader className={clsx('text-foreground-300', i > 0 ? 'my-4' : 'mb-4')}>
+              Disc {discNumber}
+            </SectionHeader>
           )}
           {discTracks.map((track, trackNumber) => {
             trackIndex++;
