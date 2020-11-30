@@ -23,7 +23,9 @@ export const Element: React.FC<{
         <Icon className="w-4" icon={element.starred ? 'star-small-filled' : 'star-small-outline'} />
       </div>
       <Link href={url}>
-        <div className={useRowClassName(isActive)}>{element.name}</div>
+        <div className={useRowClassName(isActive)}>
+          <div className="min-w-0 truncate">{element.name}</div>
+        </div>
       </Link>
     </div>
   );
@@ -45,7 +47,7 @@ const useRowClassName = (isActive: boolean): string =>
   React.useMemo(
     () =>
       clsx(
-        'py-1 pr-10 truncate cursor-pointer pl-14 hover-emph-bg',
+        'pr-10 h-8 flex items-center cursor-pointer pl-14 hover-emph-bg',
         isActive ? 'font-bold text-primary-400' : 'text-foreground',
       ),
     [isActive],

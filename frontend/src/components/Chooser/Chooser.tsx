@@ -26,15 +26,9 @@ export const Chooser: React.FC<{
       <div
         className={clsx(
           'relative flex-auto h-full',
-          active && (isSidebarOpen ? 'xl:bg-background-800' : 'lg:bg-background-800'),
+          active && (isSidebarOpen ? 'lg:bg-background-800' : 'md:bg-background-800'),
         )}
       >
-        <div
-          className={clsx(
-            'hidden w-full h-24 -mt-24 bg-background-800',
-            active && (isSidebarOpen ? 'xl:block' : 'lg:block'),
-          )}
-        />
         <JumpToLetter active={active} results={results} setJumpTo={setJumpTo} />
         <VirtualList
           active={active}
@@ -60,8 +54,8 @@ const useChooserStyles = (
         'w-72',
         active // eslint-disable-line no-nested-ternary
           ? isSidebarOpen
-            ? 'hidden xl:flex xl:flex-col xl:sticky xl:top-0'
-            : 'hidden lg:flex lg:flex-col lg:sticky lg:top-0'
+            ? 'hidden lg:flex lg:flex-col lg:sticky lg:top-0'
+            : 'hidden md:flex md:flex-col md:sticky md:top-0'
           : 'w-full',
       ),
     [className, active, isSidebarOpen],

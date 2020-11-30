@@ -6,6 +6,8 @@ import { SidebarContext } from 'src/contexts';
 import { TrackT } from 'src/types';
 import { secondsToLength } from 'src/util';
 
+const trackStyle = { width: 'calc(100% + 1.5rem)' };
+
 export const Track: React.FC<{
   track: TrackT;
   trackNumber: number;
@@ -19,11 +21,11 @@ export const Track: React.FC<{
   return (
     <div
       className={clsx(
-        'py-1.5 px-2 w-full rounded',
+        'py-1.5 px-3 -mx-3 rounded',
         active && 'font-bold',
-        onClick &&
-          'cursor-pointer hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5',
+        onClick && 'cursor-pointer hover-emph-bg',
       )}
+      style={trackStyle}
       onClick={trackOnClick}
     >
       <div className="flex items-center">
@@ -45,7 +47,7 @@ export const Track: React.FC<{
             isSidebarOpen ? 'md:block' : 'sm:block',
           )}
         />
-        <div className="flex-none mx-2 text-foreground-400">{secondsToLength(track.duration)}</div>
+        <div className="flex-none ml-2 text-foreground-400">{secondsToLength(track.duration)}</div>
       </div>
       <TrackArtistList
         artists={track.artists}

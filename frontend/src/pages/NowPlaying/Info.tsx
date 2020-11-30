@@ -35,12 +35,12 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
         )}
       >
         <SectionHeader className="flex-none mb-3 truncate-2">{track.title}</SectionHeader>
-        <div className="flex-none mb-2 text-xl truncate-2">
+        <div className="flex-none mb-1 text-lg truncate-2">
           {track.artists.length === 0 ? (
             <Link href="/artists/1">Unknown Artist</Link>
           ) : (
             <>
-              <span className="text-foreground-400">By: </span>
+              <span className="text-foreground-400">By </span>
               <TrackArtistList
                 link
                 artists={track.artists}
@@ -56,12 +56,16 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
             <span className="text-primary-400">{parentRelease?.title ?? 'Loading...'}</span>
           </Link>
         </div>
-        <div className="flex-none mt-auto text-md truncate-2">
+        <div
+          className={clsx(
+            'flex-none mt-4 text-md truncate-2',
+            isSidebarOpen ? 'md:mt-auto' : 'sm:mt-auto',
+          )}
+        >
           {parentRelease && parentRelease.genres.length !== 0 && (
             <>
               <GenreList
                 link
-                className="my-2"
                 delimiter=" "
                 elementClassName="px-2 py-1 mr-1 rounded bg-primary-700 text-foreground hover:bg-primary-600 leading-9"
                 elements={parentRelease.genres}

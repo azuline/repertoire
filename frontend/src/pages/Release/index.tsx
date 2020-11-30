@@ -27,10 +27,10 @@ export const Release: React.FC = () => {
   }, [release, setBackgroundImageId]);
 
   return (
-    <div className="flex flex-col full">
+    <div className="flex flex-col">
       <Header />
       {release && (
-        <div className="z-10 flex flex-col mt-4 overflow-y-auto">
+        <div className="z-10 flex flex-col mt-4">
           <div className="z-10 flex px-8">
             <Image
               className={clsx(
@@ -41,10 +41,12 @@ export const Release: React.FC = () => {
             />
             <Info release={release} />
           </div>
-          <div className="flex items-center px-8 mt-4">
+          <div
+            className={clsx('flex items-center px-8 mt-4', isSidebarOpen ? 'md:mt-6' : 'sm:mt-6')}
+          >
             <div
               className={clsx(
-                'hidden items-center flex-none w-52 mr-8 -ml-1',
+                'hidden items-center flex-none w-52 mr-9 -ml-1 ',
                 isSidebarOpen ? 'md:flex' : 'sm:flex',
               )}
             >

@@ -25,7 +25,7 @@ export const InFavorites: React.FC<{ className?: string; release: ReleaseT }> = 
     <Icon
       className={clsx(
         className,
-        'w-9 cursor-pointer',
+        'w-8 cursor-pointer',
         release.inFavorites ? 'text-pink-500' : 'text-gray-500',
       )}
       icon="heart-medium"

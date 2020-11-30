@@ -11,7 +11,7 @@ export const Page: React.FC<{
 
   // prettier-ignore
   const theme = React.useMemo(
-    () => (page === curPage ? 'text-primary-500' : 'text-black dark:text-white'),
+    () => (page === curPage ? 'font-bold text-primary-500' : 'text-black dark:text-white'),
     [page, curPage]
   );
 

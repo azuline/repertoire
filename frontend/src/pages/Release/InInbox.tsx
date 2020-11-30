@@ -25,7 +25,7 @@ export const InInbox: React.FC<{ className?: string; release: ReleaseT }> = ({
     <Icon
       className={clsx(
         className,
-        'ml-2 w-9 cursor-pointer',
+        'w-8 ml-2 cursor-pointer',
         release.inInbox ? 'text-blue-500' : 'text-gray-500',
       )}
       icon="inbox-medium"

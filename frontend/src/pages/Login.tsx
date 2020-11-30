@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
-import { AuthorizationContext } from 'src/contexts';
+import { AuthorizationContext, ThemeContext } from 'src/contexts';
 import { useRequestJson } from 'src/hooks';
 
 const inputStyle = { maxWidth: '600px', minWidth: '300px', width: '50vw' };
@@ -12,6 +12,7 @@ export const Login: React.FC<{ className?: string }> = ({ className }) => {
   const { setLoggedIn, setCsrf } = React.useContext(AuthorizationContext);
   const requestJson = useRequestJson<{ csrfToken: string }>();
   const { addToast } = useToasts();
+  const { theme } = React.useContext(ThemeContext);
 
   const onSubmit = React.useCallback(
     async (event) => {
@@ -37,7 +38,7 @@ export const Login: React.FC<{ className?: string }> = ({ className }) => {
   );
 
   return (
-    <div className={clsx(className, 'flex content-center')}>
+    <div className={clsx(theme, 'flex content-center app h-screen w-full items-center')}>
       <form className="self-center mx-auto" onSubmit={onSubmit}>
         <div>
           <input

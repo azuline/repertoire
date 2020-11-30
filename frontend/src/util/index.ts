@@ -1,3 +1,3 @@
-export * from './formatDate';
+export * from './remToPixels';
 export * from './secondsToLength';
 export * from './stringNumberCompare';

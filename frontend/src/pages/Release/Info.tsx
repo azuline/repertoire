@@ -3,14 +3,13 @@ import * as React from 'react';
 import { ArtistList, GenreList, LabelList, Link, SectionHeader } from 'src/components';
 import { SidebarContext } from 'src/contexts';
 import { ReleaseT } from 'src/types';
-import { formatReleaseDate } from 'src/util';
 
 import { InFavorites } from './InFavorites';
 import { InInbox } from './InInbox';
+import { WhenReleased } from './WhenReleased';
 
 export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
   const { isSidebarOpen } = React.useContext(SidebarContext);
-  const whenReleased = React.useMemo(() => formatReleaseDate(release), [release]);
 
   return (
     <div
@@ -21,7 +20,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
     >
       <SectionHeader className="flex-none mb-3 truncate-2">
         <div>
-          <div className={clsx('w-20 float-right', isSidebarOpen ? 'md:hidden' : 'sm:hidden')}>
+          <div className={clsx('w-18 ml-2 float-right', isSidebarOpen ? 'md:hidden' : 'sm:hidden')}>
             <div className="flex">
               <InFavorites className="flex-none" release={release} />
               <InInbox className="flex-none" release={release} />
@@ -30,12 +29,12 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           {release.title}
         </div>
       </SectionHeader>
-      <div className="flex-none mb-2 text-xl truncate-2">
+      <div className="flex-none mb-1 text-lg truncate-2">
         {release.artists.length === 0 ? (
           <Link href="/artists/1">Unknown Artist</Link>
         ) : (
           <>
-            <span className="text-foreground-400">By: </span>
+            <span className="text-foreground-400">By </span>
             <ArtistList
               link
               className="inline"
@@ -45,8 +44,8 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           </>
         )}
       </div>
-      <div className="flex-none mb-1 text-lg truncate text-foreground-300">
-        <span>{whenReleased}</span>
+      <div className="flex-none text-lg truncate text-foreground-300">
+        <WhenReleased release={release} />
         <span className="text-foreground-400"> on </span>
         {release.labels.length === 0 ? (
           <span>No Label</span>
@@ -62,12 +61,16 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           </>
         )}
       </div>
-      <div className="flex-none mt-auto text-md truncate-2">
+      <div
+        className={clsx(
+          'mt-4 flex-none text-md truncate-2',
+          isSidebarOpen ? 'md:mt-auto' : 'sm:mt-auto',
+        )}
+      >
         {release.genres.length !== 0 && (
           <>
             <GenreList
               link
-              className="my-2"
               delimiter=" "
               elementClassName="px-2 py-1 mr-1 rounded bg-primary-700 text-foreground hover:bg-primary-600 leading-9"
               elements={release.genres}

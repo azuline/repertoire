@@ -54,7 +54,7 @@ export const JumpToLetter: React.FC<{
     <div
       className={clsx(
         'absolute top-0 right-0 z-20 overflow-y-hidden text-right',
-        active ? 'mt-8 mr-5' : 'mr-8',
+        active ? 'mt-10 mr-5' : 'mr-8',
       )}
       style={jumpStyle}
     >

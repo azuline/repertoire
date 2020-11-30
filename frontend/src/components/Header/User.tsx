@@ -41,7 +41,7 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
         <Icon className="w-6" icon="cog-medium" title="Settings" />
       </Link>
       <div
-        className="flex-none px-2 py-1 cursor-pointer hover:text-primary-400 text-primary-500"
+        className="flex-none px-2 py-1 -mr-2 cursor-pointer hover:text-primary-400 text-primary-500"
         onClick={logout}
       >
         <Icon className="w-6" icon="logout-medium" title="Logout" />

@@ -19,13 +19,11 @@ export const Label: React.FC<{ active: number }> = ({ active }) => {
   if (!collection) return null;
 
   return (
-    <div className="relative flex flex-col flex-1">
+    <div className="flex flex-col w-full">
       <Header />
-      <div className="overflow-y-auto">
-        <div className="px-8 pb-8 mt-1">
-          <SectionHeader className="mt-4 mb-8">{collection.name}</SectionHeader>
-          <CollectionReleases active={active} />
-        </div>
+      <div className="z-20 px-8">
+        <SectionHeader className="mt-4 mb-8">{collection.name}</SectionHeader>
+        <CollectionReleases active={active} />
       </div>
     </div>
   );

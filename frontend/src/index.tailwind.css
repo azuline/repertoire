@@ -68,6 +68,10 @@ input::placeholder {
   @apply text-foreground-100;
 }
 
+input.searchbar::placeholder {
+  opacity: 70%;
+}
+
 .block-important {
   display: block !important; /* troll */
 }

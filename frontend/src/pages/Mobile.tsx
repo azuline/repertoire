@@ -23,7 +23,7 @@ export const Mobile: React.FC = () => {
           <User className="ml-auto" />
         </div>
       </div>
-      <Searchbar className="flex-none block h-16 mx-8 mb-4" shrink={false} />
+      <Searchbar className="flex-none block h-16 px-8 mb-4" shrink={false} />
       <RouteList />
     </div>
   );

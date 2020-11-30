@@ -9,14 +9,10 @@ export const Releases: React.FC = (): React.ReactElement => {
   const pagination = usePagination(paginationOpts);
 
   return (
-    <div className="flex flex-col full">
+    <div className="flex flex-col">
       <Header />
-      <div className="flex flex-col min-h-0">
-        <div className="px-8 pt-4 overflow-y-auto">
-          <div className="pb-8">
-            <PagedReleases pagination={pagination} viewOptions={viewOptions} />
-          </div>
-        </div>
+      <div className="px-8 pt-4">
+        <PagedReleases pagination={pagination} viewOptions={viewOptions} />
       </div>
     </div>
   );

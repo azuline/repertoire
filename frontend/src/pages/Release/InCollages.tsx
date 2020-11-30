@@ -3,7 +3,7 @@ import { Link } from 'src/components';
 import { CollectionT } from 'src/types';
 
 export const InCollages: React.FC<{ collages: CollectionT[] }> = ({ collages }) => (
-  <div className="flex-none w-full px-8 pb-8 overflow-x-hidden text-md">
+  <div className="flex-none w-full px-8 truncate text-md">
     {collages.length !== 0 && (
       <>
         <div className="mb-4 font-semibold">In Collages</div>

@@ -53,7 +53,7 @@ export const PagedReleases: React.FC<{
   }, [viewOptions, results, isSidebarOpen, partial]);
 
   return (
-    <>
+    <div className="pb-8">
       <ViewSettings
         className="mb-4"
         pagination={pagination}
@@ -62,7 +62,7 @@ export const PagedReleases: React.FC<{
       />
       {releasesDiv}
       <Pagination className="mt-4" pagination={pagination} />
-    </>
+    </div>
   );
 };
 
