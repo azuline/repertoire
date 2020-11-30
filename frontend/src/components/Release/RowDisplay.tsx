@@ -36,7 +36,7 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
           ) : null}
         </div>
         <div className="flex-none ml-auto">
-          <Rating release={release} />
+          {release.rating && <Rating rating={rating} />
         </div>
       </div>
       <div className="flex text-foreground-300">

@@ -44,7 +44,7 @@ export const Release: React.FC = () => {
           <div className="flex items-center px-8 mt-4">
             <div
               className={clsx(
-                'hidden items-center flex-none w-48 mr-8 -ml-1',
+                'hidden items-center flex-none w-52 mr-8 -ml-1',
                 isSidebarOpen ? 'md:flex' : 'sm:flex',
               )}
             >
