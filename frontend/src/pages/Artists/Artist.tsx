@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BackButton, Header, Link, SectionHeader } from 'src/components';
+import { Header, Link, SectionHeader } from 'src/components';
 import { BackgroundContext } from 'src/contexts';
 import { useFetchArtist } from 'src/lib';
 
@@ -25,11 +25,6 @@ export const Artist: React.FC<{ active: number }> = ({ active }) => {
       <Header />
       <div className="overflow-y-auto">
         <div className="px-8 pb-8 mt-1">
-          <div className="flex justify-start">
-            <Link href="/artists">
-              <BackButton />
-            </Link>
-          </div>
           <SectionHeader className="mt-4 mb-8">{artist.name}</SectionHeader>
           <ArtistReleases active={active} />
         </div>

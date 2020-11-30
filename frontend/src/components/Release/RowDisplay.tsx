@@ -16,7 +16,7 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
     className={clsx(className, 'flex items-center w-full py-3 cursor-pointer hover-emph-bg')}
     href={`/releases/${release.id}`}
   >
-    {release.inInbox ? <InInboxIndicator className="w-6 -ml-3" /> : <div className="w-6" />}
+    {release.inInbox ? <InInboxIndicator className="w-6 -ml-3" /> : <div className="w-3" />}
     <div className="relative flex-none w-12 h-12 mr-2">
       <Image
         thumbnail
