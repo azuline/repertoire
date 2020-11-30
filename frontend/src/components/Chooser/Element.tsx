@@ -20,7 +20,7 @@ export const Element: React.FC<{
   return (
     <div className="relative">
       <div className={useStarClassName(isToggleable, element.starred)} onClick={toggleStar}>
-        <Icon className="w-4" icon={element.starred ? 'star-small-filled' : 'star-small-outline'} />
+        <Icon className="w-4" icon="star-small" />
       </div>
       <Link href={url}>
         <div className={useRowClassName(isActive)}>
@@ -37,8 +37,11 @@ const useStarClassName = (isToggleable: boolean, starred: boolean): string =>
       clsx(
         'absolute top-0 left-0 flex items-center h-full pl-8',
         isToggleable && 'cursor-pointer',
-        starred ? 'text-primary-500' : 'text-gray-500',
-        isToggleable && (starred ? 'hover:text-gray-500' : 'hover:text-primary-400'),
+        starred ? 'text-primary-500 fill-current' : 'text-gray-500 stroke-current',
+        isToggleable &&
+          (starred
+            ? 'hover:text-gray-500 hover:fill-transparent hover:stroke-current'
+            : 'hover:text-primary-400 hover:fill-current'),
       ),
     [isToggleable, starred],
   );

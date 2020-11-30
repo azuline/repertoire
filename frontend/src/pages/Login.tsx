@@ -6,7 +6,7 @@ import { useRequestJson } from 'src/hooks';
 
 const inputStyle = { maxWidth: '600px', minWidth: '300px', width: '50vw' };
 
-export const Login: React.FC<{ className?: string }> = ({ className }) => {
+export const Login: React.FC = () => {
   const input = React.useRef<HTMLInputElement>(null);
   const permanent = React.useRef<HTMLInputElement>(null);
   const { setLoggedIn, setCsrf } = React.useContext(AuthorizationContext);

@@ -50,6 +50,9 @@ module.exports = {
       borderWidth: {
         10: '10px',
       },
+      fill: {
+        transparent: 'rgba(0, 0, 0, 0)',
+      },
     },
   },
   variants: {
@@ -60,6 +63,8 @@ module.exports = {
       width: ['hover'],
       height: ['hover'],
       lineHeight: ['hover'],
+      fill: ['hover'],
+      stroke: ['hover'],
     },
   },
 };

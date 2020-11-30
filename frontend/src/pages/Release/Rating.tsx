@@ -27,7 +27,7 @@ export const Rating: React.FC<{ release: ReleaseT }> = ({ release }) => {
               active ? 'star-active' : 'star-inactive',
             )}
             icon="star-medium"
-            onClick={() => setRating(i + 1)}
+            onClick={(): void => setRating(i + 1)}
           />
         );
       })}
