@@ -171,10 +171,10 @@ input::placeholder {
   @apply w-2 rounded-lg;
 }
 
-.release-ratings > .star-active {
+.star-active {
   fill: var(--color-primary-400);
 }
-.release-ratings > .star-inactive {
+.star-inactive {
   stroke: #6b7280;
   fill: rgba(0, 0, 0, 0);
 }

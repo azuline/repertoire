@@ -30,6 +30,7 @@ const audioReducer = (
 ): AudioReducerState => {
   if (state.audio) state.audio.pause();
   if (!payload.track) return INITIAL_AUDIO_STATE;
+  if (state.trackId === payload.track.id) return state;
 
   return {
     audio:

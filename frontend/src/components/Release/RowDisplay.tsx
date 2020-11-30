@@ -6,6 +6,7 @@ import { ArtistList, GenreList } from 'src/components/Lists';
 import { ReleaseT } from 'src/types';
 
 import { InInboxIndicator } from './InInboxIndicator';
+import { Rating } from './Rating';
 
 export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = ({
   release,
@@ -15,7 +16,7 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
     className={clsx(className, 'flex items-center w-full py-3 cursor-pointer hover-emph-bg')}
     href={`/releases/${release.id}`}
   >
-    {release.inInbox ? <InInboxIndicator className="w-6" /> : <div className="w-6" />}
+    {release.inInbox ? <InInboxIndicator className="w-6 -ml-3" /> : <div className="w-6" />}
     <div className="relative flex-none w-12 h-12 mr-2">
       <Image
         thumbnail
@@ -25,14 +26,18 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
     </div>
     <div className="flex-1 overflow-hidden">
       <div className="flex">
-        <div className="flex flex-shrink mb-0.5 mr-4 truncate">
+        <div className="flex flex-1 mb-0.5 mr-4 truncate">
           <div className="font-semibold truncate text-primary-400">{release.title}</div>
           {release.releaseYear ? (
-            <div className="flex-none ml-1 text-foreground-200"> [{release.releaseYear}]</div>
+            <div className="flex-none hidden ml-1 sm:block text-foreground-200">
+              {' '}
+              [{release.releaseYear}]
+            </div>
           ) : null}
         </div>
-        <div className="flex-none hidden ml-auto sm:block" />
-        {/* TODO: Maybe show release rating here? */}
+        <div className="flex-none ml-auto">
+          <Rating release={release} />
+        </div>
       </div>
       <div className="flex text-foreground-300">
         <ArtistList className="mr-8 truncate max-w-3/5" elements={release.artists} />
