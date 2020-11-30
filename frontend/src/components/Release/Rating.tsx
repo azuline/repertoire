@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Icon } from 'src/components';
-import { ReleaseT } from 'src/types';
 
 export const Rating: React.FC<{ rating: number }> = ({ rating }) => (
   <>

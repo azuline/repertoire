@@ -35,7 +35,7 @@ export const PagedReleases: React.FC<{
           <div className="flex flex-col">
             {results.map((rls) => (
               <div key={rls.id}>
-                <RowRelease className="p-3 rounded-lg" release={rls} />
+                <RowRelease className="-mx-3 rounded-lg" release={rls} />
               </div>
             ))}
           </div>

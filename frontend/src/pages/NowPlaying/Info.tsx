@@ -23,19 +23,24 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
     <div className="z-10 flex px-8">
       <Image
         className={clsx(
-          'flex-none hidden w-44 h-44 mr-8 rounded-lg',
+          'flex-none hidden w-48 h-48 mr-8 rounded-lg',
           isSidebarOpen ? 'md:block' : 'sm:block',
         )}
         imageId={track.release.imageId}
       />
-      <div className="flex flex-col">
-        <SectionHeader className="mb-2 truncate-2">{track.title}</SectionHeader>
-        <div className="mb-4 text-xl truncate-2">
+      <div
+        className={clsx(
+          'flex flex-col flex-1 min-w-0',
+          isSidebarOpen ? 'md:min-h-48' : 'sm:min-h-48',
+        )}
+      >
+        <SectionHeader className="flex-none mb-3 truncate-2">{track.title}</SectionHeader>
+        <div className="flex-none mb-2 text-xl truncate-2">
           {track.artists.length === 0 ? (
             <Link href="/artists/1">Unknown Artist</Link>
           ) : (
             <>
-              <span>By: </span>
+              <span className="text-foreground-400">By: </span>
               <TrackArtistList
                 link
                 artists={track.artists}
@@ -45,13 +50,13 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
             </>
           )}
         </div>
-        <div className="mb-2 text-md">
-          <span className="text-gray-800 dark:text-gray-300">From </span>
+        <div className="flex-none mb-2 text-lg">
+          <span className="text-foreground-400">From </span>
           <Link href={`/releases/${track.release.id}`}>
-            <span className="text-primary-400">{parentRelease?.title || 'Loading...'}</span>
+            <span className="text-primary-400">{parentRelease?.title ?? 'Loading...'}</span>
           </Link>
         </div>
-        <div className="text-gray-800 dark:text-gray-300 text-md truncate-2">
+        <div className="flex-none mt-auto text-md truncate-2">
           {parentRelease && parentRelease.genres.length !== 0 && (
             <>
               <GenreList
