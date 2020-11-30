@@ -156,7 +156,7 @@ input::placeholder {
   @apply flex items-center justify-center full;
 }
 .slider > .track-0 {
-  @apply cursor-pointer bg-foreground-200;
+  @apply cursor-pointer bg-foreground-300;
 }
 .slider > .track-1 {
   @apply bg-gray-500 cursor-pointer;
@@ -169,4 +169,20 @@ input::placeholder {
 }
 .volume-slider > .track {
   @apply w-2 rounded-lg;
+}
+
+.release-ratings > .star-active {
+  fill: var(--color-primary-400);
+}
+.release-ratings > .star-inactive {
+  stroke: #6b7280;
+  fill: rgba(0, 0, 0, 0);
+}
+.release-ratings:hover > .star {
+  fill: var(--color-primary-400);
+  stroke: var(--color-primary-400);
+}
+.release-ratings:hover > .star:hover ~ .star {
+  fill: rgba(0, 0, 0, 0);
+  stroke: #6b7280;
 }

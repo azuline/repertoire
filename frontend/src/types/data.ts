@@ -13,6 +13,8 @@
 
 import { ArtistRole } from './enums';
 
+export type RatingInt = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | null;
+
 export type UserT = { id: number; nickname: string };
 
 export type ReleaseT = {
@@ -24,7 +26,7 @@ export type ReleaseT = {
   inFavorites: boolean;
   releaseYear: number;
   releaseDate: string | null;
-  rating: number | null;
+  rating: RatingInt;
   numTracks: number;
   imageId: number | null;
   runtime: number;

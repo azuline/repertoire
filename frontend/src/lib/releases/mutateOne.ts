@@ -9,6 +9,7 @@ const MUTATION = gql`
     $releaseType: ReleaseType
     $releaseYear: Int
     $releaseDate: String
+    $rating: Int
   ) {
     updateRelease(
       id: $id
@@ -16,6 +17,7 @@ const MUTATION = gql`
       releaseType: $releaseType
       releaseYear: $releaseYear
       releaseDate: $releaseDate
+      rating: $rating
     ) {
       ...FullReleaseFields
     }
@@ -30,6 +32,7 @@ type V = {
   releaseType?: ReleaseType;
   releaseYear?: number;
   releaseDate?: string;
+  rating?: number;
 };
 
 export const useMutateRelease = (options?: MutationHookOptions<T, V>): MutationTuple<T, V> =>

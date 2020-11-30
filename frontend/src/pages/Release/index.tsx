@@ -6,7 +6,10 @@ import { useId } from 'src/hooks';
 import { useFetchRelease } from 'src/lib';
 
 import { InCollages } from './InCollages';
+import { InFavorites } from './InFavorites';
 import { Info } from './Info';
+import { InInbox } from './InInbox';
+import { Rating } from './Rating';
 
 export const Release: React.FC = () => {
   const { isSidebarOpen } = React.useContext(SidebarContext);
@@ -31,12 +34,24 @@ export const Release: React.FC = () => {
           <div className="z-10 flex px-8">
             <Image
               className={clsx(
-                'flex-none hidden w-64 h-64 mr-8 rounded-lg',
+                'flex-none hidden w-52 h-52 mr-8 rounded-lg',
                 isSidebarOpen ? 'md:block' : 'sm:block',
               )}
               imageId={release.imageId}
             />
             <Info release={release} />
+          </div>
+          <div className="flex items-center px-8 mt-4">
+            <div
+              className={clsx(
+                'hidden items-center flex-none w-48 mr-8 -ml-1',
+                isSidebarOpen ? 'md:flex' : 'sm:flex',
+              )}
+            >
+              <InFavorites release={release} />
+              <InInbox release={release} />
+            </div>
+            <Rating release={release} />
           </div>
           <Disclist className="py-8" tracks={release.tracks} />
           <InCollages collages={release.collages} />

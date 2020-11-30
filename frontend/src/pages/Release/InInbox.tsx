@@ -6,7 +6,10 @@ import { ReleaseT } from 'src/types';
 
 const INBOX_COLLECTION_ID = 1;
 
-export const InInbox: React.FC<{ release: ReleaseT }> = ({ release }) => {
+export const InInbox: React.FC<{ className?: string; release: ReleaseT }> = ({
+  className,
+  release,
+}) => {
   const [mutateAdd] = useAddReleaseToCollection();
   const [mutateDel] = useDelReleaseFromCollection();
 
@@ -21,6 +24,7 @@ export const InInbox: React.FC<{ release: ReleaseT }> = ({ release }) => {
   return (
     <Icon
       className={clsx(
+        className,
         'ml-2 w-9 cursor-pointer',
         release.inInbox ? 'text-blue-500' : 'text-gray-500',
       )}

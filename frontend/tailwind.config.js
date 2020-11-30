@@ -38,7 +38,11 @@ module.exports = {
         '1/24': '4.166666%',
       },
       width: {
+        7.5: '1.875rem',
         88: '22rem',
+      },
+      minHeight: {
+        52: '13rem',
       },
       inset: {
         '1/2': '50%',

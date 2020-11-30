@@ -6,7 +6,10 @@ import { ReleaseT } from 'src/types';
 
 const FAVORITES_COLLECTION_ID = 2;
 
-export const InFavorites: React.FC<{ release: ReleaseT }> = ({ release }) => {
+export const InFavorites: React.FC<{ className?: string; release: ReleaseT }> = ({
+  className,
+  release,
+}) => {
   const [mutateAdd] = useAddReleaseToCollection();
   const [mutateDel] = useDelReleaseFromCollection();
 
@@ -21,6 +24,7 @@ export const InFavorites: React.FC<{ release: ReleaseT }> = ({ release }) => {
   return (
     <Icon
       className={clsx(
+        className,
         'w-9 cursor-pointer',
         release.inFavorites ? 'text-pink-500' : 'text-gray-500',
       )}
