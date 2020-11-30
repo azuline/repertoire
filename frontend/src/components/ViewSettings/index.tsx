@@ -33,12 +33,12 @@ export const ViewSettings: React.FC<{
         <Order className="ml-2" viewOptions={viewOptions} />
         <PerPage className="ml-2" pagination={pagination} />
       </div>
-      <Popover click className={clsx('ml-auto cursor-pointer', responsiveHide)}>
-        <button className="flex items-center -mr-2 small-btn text-btn" type="button">
+      <Popover click className={clsx('ml-auto -mr-2', responsiveHide)}>
+        <button className="flex items-center small-btn text-btn" type="button">
           <div>Options</div>
           <Icon className="w-4 ml-1 -mr-0.5" icon="chevron-down-small" />
         </button>
-        <div className="px-6 py-4 border-2 rounded bg-background-800 border-primary-700">
+        <div>
           <View viewOptions={viewOptions} />
           <Sort viewOptions={viewOptions} />
           <Order viewOptions={viewOptions} />
