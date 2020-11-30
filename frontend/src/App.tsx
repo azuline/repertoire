@@ -20,12 +20,15 @@ const Body: React.FC = () => {
   if (!loggedIn) return <Login />;
 
   return (
-    <div className={clsx(theme, 'w-full min-h-screen app')}>
-      <div className="flex w-full pb-16">
+    <div className={clsx(theme, 'w-full min-h-0 flex flex-col h-screen app')}>
+      <div
+        className="flex flex-1 w-full"
+        style={{ height: 'calc(100% - 4rem)', minHeight: 'calc(100% - 4rem)' }}
+      >
         <Sidebar />
-        <div className="relative w-full min-w-0">
+        <div className="relative flex flex-col min-w-0 full">
           <Background />
-          <div className="z-10 flex-1 full">
+          <div className="relative flex flex-col min-h-0 overflow-y-auto full">
             <Routes />
           </div>
         </div>

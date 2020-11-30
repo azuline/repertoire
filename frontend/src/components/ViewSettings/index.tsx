@@ -36,7 +36,7 @@ export const ViewSettings: React.FC<{
       <Popover click className={clsx('ml-auto cursor-pointer', responsiveHide)}>
         <button className="flex items-center -mr-2 small-btn text-btn" type="button">
           <div>Options</div>
-          <Icon className="w-4 ml-1 -mr-1" icon="chevron-down-small" />
+          <Icon className="w-4 ml-1 -mr-0.5" icon="chevron-down-small" />
         </button>
         <div className="px-6 py-4 border-2 rounded bg-background-800 border-primary-700">
           <View viewOptions={viewOptions} />

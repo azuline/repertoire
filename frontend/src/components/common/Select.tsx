@@ -20,7 +20,7 @@ export const Select: React.FC<{
     <select
       className={clsx(
         selectClassName,
-        'z-10 flex-1 py-1 pr-4 bg-transparent appearance-none cursor-pointer text-primary-500',
+        'z-10 flex-1 py-1 pr-4 bg-transparent appearance-none cursor-pointer text-primary-400',
       )}
       id={name}
       value={value}
@@ -28,9 +28,6 @@ export const Select: React.FC<{
     >
       {children}
     </select>
-    <Icon
-      className="absolute right-0 z-0 flex-none w-4 text-primary-500"
-      icon="chevron-down-small"
-    />
+    <Icon className="absolute right-0 flex-none w-4 text-primary-500" icon="chevron-down-small" />
   </div>
 );

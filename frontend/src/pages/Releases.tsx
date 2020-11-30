@@ -9,11 +9,11 @@ export const Releases: React.FC = (): React.ReactElement => {
   const pagination = usePagination(paginationOpts);
 
   return (
-    <div className="flex flex-col">
+    <>
       <Header />
       <div className="px-8 pt-4">
         <PagedReleases pagination={pagination} viewOptions={viewOptions} />
       </div>
-    </div>
+    </>
   );
 };

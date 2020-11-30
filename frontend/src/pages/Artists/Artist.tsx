@@ -23,7 +23,7 @@ export const Artist: React.FC<{ active: number }> = ({ active }) => {
   return (
     <div className="flex flex-col w-full">
       <Header />
-      <div className="z-20 px-8">
+      <div className="px-8">
         <SectionHeader className="mt-4 mb-8">{artist.name}</SectionHeader>
         <ArtistReleases active={active} />
       </div>

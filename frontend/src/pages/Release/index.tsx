@@ -30,8 +30,8 @@ export const Release: React.FC = () => {
     <div className="flex flex-col">
       <Header />
       {release && (
-        <div className="z-10 flex flex-col mt-4">
-          <div className="z-10 flex px-8">
+        <div className="flex flex-col mt-4">
+          <div className="flex px-8">
             <Image
               className={clsx(
                 'flex-none hidden w-52 h-52 mr-8 rounded-lg',

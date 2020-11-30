@@ -10,9 +10,9 @@ export const Genres: React.FC = () => {
   const active = useId();
 
   return (
-    <div className="flex flex-col flex-1 min-h-0 full">
+    <>
       {!active && <Header />}
-      <div className="flex flex-1 min-h-0">
+      <div className="flex flex-1">
         <CollectionChooser
           active={active}
           className="flex-none"
@@ -21,6 +21,6 @@ export const Genres: React.FC = () => {
         />
         {active && <Genre active={active} />}
       </div>
-    </div>
+    </>
   );
 };

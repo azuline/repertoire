@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { AutoSizer, List, WindowScroller } from 'react-virtualized';
-import { SidebarContext } from 'src/contexts';
+import { AutoSizer, List } from 'react-virtualized';
 import { convertRemToPixels } from 'src/util';
 
 import { Element, ElementT, ToggleStarFactory } from './Element';
@@ -13,10 +12,6 @@ export const VirtualList: React.FC<{
   toggleStarFactory: ToggleStarFactory;
   urlFactory: (arg0: number) => string;
 }> = ({ results, active, jumpTo, urlFactory, toggleStarFactory }) => {
-  const { isSidebarOpen } = React.useContext(SidebarContext);
-
-  const rowHeight = React.useMemo(() => convertRemToPixels(2), []);
-  const scrollRef = React.useRef<WindowScroller>();
   const renderRow = React.useCallback(
     ({ index, key, style }) => {
       // Because React-Virtualized has bungled scrollToIndex behavior when the
@@ -40,6 +35,8 @@ export const VirtualList: React.FC<{
     [results, active, urlFactory, toggleStarFactory],
   );
 
+  const rowHeight = React.useMemo(() => convertRemToPixels(2), []);
+
   const [scrollToIndex, scrollToAlignment] = React.useMemo(() => {
     if (jumpTo) {
       return [jumpTo, 'start'];
@@ -52,45 +49,20 @@ export const VirtualList: React.FC<{
   }, [jumpTo, active, results]);
 
   return (
-    <>
-      <AutoSizer className={clsx('hidden', active && (isSidebarOpen ? 'lg:block' : 'md:block'))}>
-        {({ width, height }): React.ReactNode => (
-          <List
-            className={clsx('chooser', active && 'pt-8')}
-            height={height}
-            overscanRowCount={8}
-            rowCount={results.length + 2}
-            rowHeight={rowHeight}
-            rowRenderer={renderRow}
-            scrollToAlignment={scrollToAlignment as 'start' | 'auto'}
-            scrollToIndex={scrollToIndex}
-            width={width}
-          />
-        )}
-      </AutoSizer>
-      <AutoSizer
-        disableHeight
-        className={clsx('mt-4', active && (isSidebarOpen ? 'lg:hidden' : 'md:hidden'))}
-      >
-        {({ width }): React.ReactNode => (
-          <WindowScroller ref={scrollRef as React.RefObject<WindowScroller>}>
-            {({ height, isScrolling, onChildScroll, scrollTop }): React.ReactNode => (
-              <List
-                autoHeight
-                height={height}
-                isScrolling={isScrolling}
-                overscanRowCount={8}
-                rowCount={results.length + 1}
-                rowHeight={rowHeight}
-                rowRenderer={renderRow}
-                scrollTop={scrollTop}
-                width={width}
-                onScroll={onChildScroll}
-              />
-            )}
-          </WindowScroller>
-        )}
-      </AutoSizer>
-    </>
+    <AutoSizer>
+      {({ width, height }): React.ReactNode => (
+        <List
+          className={clsx('chooser', active && 'pt-8')}
+          height={height}
+          overscanRowCount={8}
+          rowCount={results.length + (active ? 2 : 1)}
+          rowHeight={rowHeight}
+          rowRenderer={renderRow}
+          scrollToAlignment={scrollToAlignment as 'start' | 'auto'}
+          scrollToIndex={scrollToIndex}
+          width={width}
+        />
+      )}
+    </AutoSizer>
   );
 };

@@ -9,12 +9,12 @@ export const Artists: React.FC = () => {
   const active = useId();
 
   return (
-    <div className="flex flex-col full">
+    <>
       {!active && <Header />}
-      <div className="flex flex-1 full">
+      <div className="flex flex-1">
         <ArtistChooser active={active} className="flex-none" />
         {active && <Artist active={active} />}
       </div>
-    </div>
+    </>
   );
 };
