@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Header, Link, SectionHeader } from 'src/components';
+import { Header, SectionHeader } from 'src/components';
 import { BackgroundContext } from 'src/contexts';
 import { useFetchArtist } from 'src/lib';
 

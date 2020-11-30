@@ -11,11 +11,13 @@ Visit [the documentation](https://repertoire.readthedocs.io) to get started!
 
 ## Screenshots
 
-![example](docs/_static/scrot1.png)
+![scrot1](docs/_static/scrot1.png)
 
-![example](docs/_static/scrot2.png)
+![scrot2](docs/_static/scrot2.png)
 
-![example](docs/_static/scrot3.png)
+![scrot3](docs/_static/scrot3.png)
+
+<img src="docs/_static/scrot4.png" width="200" />
 
 ## License
 
