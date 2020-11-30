@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { PlayQueueContext, VolumeContext } from 'src/contexts';
 import { SetValue, TrackT } from 'src/types';
-import { sleep } from 'src/util';
 
 // TODO: Make sure that we aren't leaking memory from all these audio
 // objects... they better be garbage collected properly.
@@ -73,19 +72,6 @@ export const useAudio = (): AudioT => {
     audioDispatch({ nextTrack, track });
     setIsPlaying(!!track);
   }, [playQueue, curIndex]);
-
-  // Preload the next audio track. To not compete for bandwidth with the
-  // current track, sleep 8 seconds before invoking load.
-  //
-  // Do we even need to do this? Will browsers prioritize the playing track? Who knows!
-  React.useEffect(() => {
-    (async (): Promise<void> => {
-      await sleep(8000);
-      if (audioState?.nextAudio?.paused) {
-        audioState.nextAudio.load();
-      }
-    })();
-  }, [audioState]);
 
   // Set up an event on the current playing audio that handles when a track finishes playing.
   React.useEffect(() => {
