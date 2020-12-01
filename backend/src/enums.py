@@ -56,7 +56,7 @@ class ReleaseSort(Enum):
     #:
     TITLE = "rls.title"
     #:
-    YEAR = "rls.release_year"
+    YEAR = "rls.release_year IS NULL, rls.release_year"
     #:
     RATING = "rls.rating IS NULL, rls.rating"
     #:

@@ -32,7 +32,7 @@ class T:
     #: When this release was added to the server.
     added_on: datetime
     #: The year this release was released.
-    release_year: int
+    release_year: Optional[int]
     #: The number of tracks that this release has.
     num_tracks: int
     #: Whether this release is in the inbox collection.
@@ -123,6 +123,8 @@ def search(
     collection_ids: List[int] = [],
     artist_ids: List[int] = [],
     release_types: List[ReleaseType] = [],
+    years: List[int] = [],
+    ratings: List[int] = [],
     page: int = 1,
     per_page: Optional[int] = None,
     sort: ReleaseSort = ReleaseSort.RECENTLY_ADDED,
@@ -141,6 +143,10 @@ def search(
                        included.
     :param release_types: A list of release types. Filter out releases that do not match
                           one of the release types in this list.
+    :param years: A list of years. Filter out releases to do not match one of the years
+                  in this list.
+    :param ratings: A list of ratings. Filter out releases that do not match one of the
+                    ratings in this list.
     :param page: Which page of releases to return.
     :param per_page: The number of releases per-page. Pass ``None`` to return all
                      releases (this will ignore ``page``).
@@ -158,6 +164,8 @@ def search(
         _generate_collection_filter(collection_ids),
         _generate_artist_filter(artist_ids),
         _generate_release_types_filter(release_types),
+        _generate_year_filter(years),
+        _generate_rating_filter(ratings),
         _generate_search_filter(search),
     ]:
         filter_sql.extend(sql)
@@ -264,6 +272,32 @@ def _generate_release_types_filter(
     return filter_sql, filter_params
 
 
+def _generate_year_filter(years: List[int]) -> Tuple[Iterable[str], Iterable[int]]:
+    """
+    Generate the SQL and params for filtering on the years.
+
+    :param years: The years to filter on.
+    :return: The filter SQL and query parameters.
+    """
+    if not years:
+        return [], []  # type: ignore
+
+    return [f"rls.release_year IN ({', '.join('?' * len(years))})"], years
+
+
+def _generate_rating_filter(ratings: List[int]) -> Tuple[Iterable[str], Iterable[int]]:
+    """
+    Generate the SQL and params for filtering on the ratings.
+
+    :param ratings: The ratings to filter on.
+    :return: The filter SQL and query parameters.
+    """
+    if not ratings:
+        return [], []  # type: ignore
+
+    return [f"rls.rating IN ({', '.join('?' * len(ratings))})"], ratings
+
+
 def _generate_search_filter(search: str) -> Tuple[Iterable[str], Iterable[str]]:
     """
     Generate the SQL and params for filtering on the search words.
@@ -290,7 +324,7 @@ def create(
     title: str,
     artist_ids: List[int],
     release_type: ReleaseType,
-    release_year: int,
+    release_year: Optional[int],
     cursor: Cursor,
     release_date: Optional[date] = None,
     rating: Optional[int] = None,
@@ -598,3 +632,20 @@ def collections(
         (rls.id, *((type.value,) if type else ())),
     )
     return [collection.from_row(row) for row in cursor.fetchall()]
+
+
+def all_years(cursor: Cursor) -> List[int]:
+    """
+    Get all release years stored in the database, sorted in descending order.
+
+    :param cursor: A cursor to the database.
+    """
+    cursor.execute(
+        """
+        SELECT DISTINCT release_year
+        FROM music__releases
+        WHERE release_year IS NOT NULL
+        ORDER BY release_year DESC
+        """
+    )
+    return [r[0] for r in cursor.fetchall()]

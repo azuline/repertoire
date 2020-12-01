@@ -24,7 +24,7 @@ export type ReleaseT = {
   addedOn: number;
   inInbox: boolean;
   inFavorites: boolean;
-  releaseYear: number;
+  releaseYear: number | null;
   releaseDate: string | null;
   rating: RatingInt;
   numTracks: number;

@@ -61,9 +61,12 @@ def test_release_search_sort_title(db: Cursor):
 
 def test_release_search_sort_year(db: Cursor):
     _, releases = release.search(sort=ReleaseSort.YEAR, asc=True, cursor=db)
-    years = [rls.release_year for rls in releases]
+    assert [rls.release_year for rls in releases] == [2014, 2016, None]
 
-    assert years == sorted(years)
+
+def test_release_search_sort_year_desc(db: Cursor):
+    _, releases = release.search(sort=ReleaseSort.YEAR, asc=False, cursor=db)
+    assert [rls.release_year for rls in releases] == [2016, 2014, None]
 
 
 def test_release_search_sort_random(db: Cursor):
@@ -78,30 +81,44 @@ def test_release_search_asc(db: Cursor, snapshot):
     assert asc_true == asc_false[::-1]
 
 
-def test_release_search_filter_collections(db: Cursor, snapshot):
+def test_release_search_filter_collections(db: Cursor):
     total, inbox = release.search(db, collection_ids=[1])
 
     assert total == 2
-    snapshot.assert_match(inbox)
+    assert {r.id for r in inbox} == {2, 3}
 
     total, folk = release.search(db, collection_ids=[3])
 
     assert total == 1
-    snapshot.assert_match(folk)
+    assert {r.id for r in folk} == {2}
 
 
-def test_release_search_filter_artists(db: Cursor, snapshot):
+def test_release_search_filter_artists(db: Cursor):
     total, releases = release.search(db, artist_ids=[4, 5])
 
     assert total == 1
-    snapshot.assert_match(releases)
+    assert {r.id for r in releases} == {3}
 
 
-def test_release_search_filter_release_type(db: Cursor, snapshot):
+def test_release_search_filter_release_type(db: Cursor):
     total, releases = release.search(db, release_types=[ReleaseType.EP])
 
     assert total == 1
-    snapshot.assert_match(releases)
+    assert {r.id for r in releases} == {3}
+
+
+def test_release_search_filter_year(db: Cursor):
+    total, releases = release.search(db, years=[2014])
+
+    assert total == 1
+    assert {r.id for r in releases} == {2}
+
+
+def test_release_search_filter_rating(db: Cursor):
+    total, releases = release.search(db, ratings=[6, 4])
+
+    assert total == 1
+    assert {r.id for r in releases} == {2}
 
 
 def test_create(db: Cursor):
@@ -240,3 +257,8 @@ def test_release_collections_filter_type(db: Cursor, snapshot):
 
     assert len(collections) == 1
     snapshot.assert_match(collections)
+
+
+def test_all_years(db: Cursor):
+    years = release.all_years(db)
+    assert years == [2016, 2014]

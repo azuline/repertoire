@@ -48,27 +48,34 @@ type Query {
     artistIds: [Int]
     """
     A list of release types. Filter out releases that do not match one of
-    the release types in this list.
+    these release types.
     """
     releaseTypes: [ReleaseType]
     """
-    Which page of releases to return.
+    A list of years. Filter out releases that do not match one of these
+    years.
     """
+    years: [Int]
+    """
+    A list of release types. Filter out releases that do not match one
+    of these ratings.
+    """
+    ratings: [Int]
+    "Which page of releases to return."
     page: Int
     """
     The number of releases per-page. Leave null to return all releases
-    (this will ignore `page`).
+    (and ignore `page`).
     """
     perPage: Int
-    """
-    How to sort the matching releases.
-    """
+    "How to sort the matching releases."
     sort: ReleaseSort
-    """
-    If true, sort in ascending order. If false, descending.
-    """
+    "If true, sort in ascending order. If false, descending."
     asc: Boolean
   ): Releases
+
+  "Fetch all existing release years sorted in descending order."
+  releaseYears: [Int]
 }
 
 type Mutation {
@@ -215,7 +222,7 @@ type Release {
   addedOn: PosixTime!
   inInbox: Boolean!
   inFavorites: Boolean!
-  releaseYear: Int!
+  releaseYear: Int
   "The date that the release was released in YYYY-MM-DD format (Optional)."
   releaseDate: String
   "The release rating, either null or an int on the interval [1, 10]."

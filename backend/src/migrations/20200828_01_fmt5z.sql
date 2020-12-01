@@ -5,7 +5,7 @@ CREATE TABLE music__releases (
     id INTEGER NOT NULL,
     title VARCHAR COLLATE "NOCASE" NOT NULL,
     release_type INTEGER NOT NULL DEFAULT 1,
-    release_year INTEGER NOT NULL DEFAULT 0,
+    release_year INTEGER,
     release_date DATE,
     image_id INTEGER,
     added_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,

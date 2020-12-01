@@ -18,7 +18,7 @@ gql_releases = ObjectType("Releases")
 
 
 @query.field("release")
-def resolve_release(obj: Any, info: GraphQLResolveInfo, id: int) -> release.T:
+def resolve_release(_: Any, info: GraphQLResolveInfo, id: int) -> release.T:
     if rls := release.from_id(id, info.context.db):
         return rls
 
@@ -26,7 +26,7 @@ def resolve_release(obj: Any, info: GraphQLResolveInfo, id: int) -> release.T:
 
 
 @query.field("releases")
-def resolve_releases(obj: Any, info: GraphQLResolveInfo, **kwargs) -> Dict:
+def resolve_releases(_: Any, info: GraphQLResolveInfo, **kwargs) -> Dict:
     total, releases = release.search(info.context.db, **convert_keys_case(kwargs))
     return {"total": total, "results": releases}
 
@@ -56,6 +56,11 @@ def resolve_collages(obj: release.T, info: GraphQLResolveInfo) -> List[collectio
     return release.collections(obj, info.context.db, type=CollectionType.COLLAGE)
 
 
+@query.field("releaseYears")
+def resolve_release_years(_: release.T, info: GraphQLResolveInfo) -> List[int]:
+    return release.all_years(info.context.db)
+
+
 @mutation.field("createRelease")
 @commit
 def resolve_create_release(
@@ -64,7 +69,7 @@ def resolve_create_release(
     title: str,
     artistIds: List[int],
     releaseType: ReleaseType,
-    releaseYear: int,
+    releaseYear: Optional[int],
     releaseDate: Optional[str] = None,
     rating: Optional[int] = None,
 ) -> release.T:

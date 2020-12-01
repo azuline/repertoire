@@ -634,7 +634,7 @@ snapshots['test_releases 1'] = (
                         'numTracks': 0,
                         'releaseDate': None,
                         'releaseType': 'UNKNOWN',
-                        'releaseYear': 0,
+                        'releaseYear': None,
                         'runtime': 0,
                         'title': 'Unknown Release',
                         'tracks': [
@@ -1423,7 +1423,7 @@ snapshots['test_releases_sort 1'] = (
                         'numTracks': 0,
                         'releaseDate': None,
                         'releaseType': 'UNKNOWN',
-                        'releaseYear': 0,
+                        'releaseYear': None,
                         'runtime': 0,
                         'title': 'Unknown Release',
                         'tracks': [
@@ -1625,7 +1625,7 @@ snapshots['test_releases_sort_desc 1'] = (
                         'numTracks': 0,
                         'releaseDate': None,
                         'releaseType': 'UNKNOWN',
-                        'releaseYear': 0,
+                        'releaseYear': None,
                         'runtime': 0,
                         'title': 'Unknown Release',
                         'tracks': [

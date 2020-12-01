@@ -149,7 +149,7 @@ def _fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
                 _fetch_or_create_artist(art, cursor).id for art in tf.artist_album
             ),
             release_type=_get_release_type(tf),
-            release_year=tf.date.year or 0,
+            release_year=tf.date.year,
             release_date=release_date,
             cursor=cursor,
             allow_duplicate=False,
