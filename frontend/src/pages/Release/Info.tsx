@@ -18,7 +18,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
         isSidebarOpen ? 'md:min-h-52' : 'sm:min-h-52',
       )}
     >
-      <SectionHeader className="flex-none mb-3 truncate-2">
+      <SectionHeader className="flex-none mb-4 truncate-2">
         <div>
           <div className={clsx('w-18 ml-2 float-right', isSidebarOpen ? 'md:hidden' : 'sm:hidden')}>
             <div className="flex">
@@ -44,7 +44,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           </>
         )}
       </div>
-      <div className="flex-none text-lg truncate text-foreground-300">
+      <div className="flex-none text-lg truncate-2 text-foreground-300">
         <WhenReleased release={release} />
         <span className="text-foreground-400"> on </span>
         {release.labels.length === 0 ? (

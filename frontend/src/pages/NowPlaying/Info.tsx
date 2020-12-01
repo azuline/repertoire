@@ -34,7 +34,7 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
           isSidebarOpen ? 'md:min-h-48' : 'sm:min-h-48',
         )}
       >
-        <SectionHeader className="flex-none mb-3 truncate-2">{track.title}</SectionHeader>
+        <SectionHeader className="flex-none mb-4 truncate-2">{track.title}</SectionHeader>
         <div className="flex-none mb-1 text-lg truncate-2">
           {track.artists.length === 0 ? (
             <Link href="/artists/1">Unknown Artist</Link>
