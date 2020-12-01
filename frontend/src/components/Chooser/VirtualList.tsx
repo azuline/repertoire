@@ -9,9 +9,10 @@ export const VirtualList: React.FC<{
   active: number | null;
   jumpTo: number | null;
   results: ElementT[];
+  starrable?: boolean;
   toggleStarFactory: ToggleStarFactory;
   urlFactory: (arg0: number) => string;
-}> = ({ results, active, jumpTo, urlFactory, toggleStarFactory }) => {
+}> = ({ results, active, jumpTo, urlFactory, starrable, toggleStarFactory }) => {
   const renderRow = React.useCallback(
     ({ index, key, style }) => {
       // Because React-Virtualized has bungled scrollToIndex behavior when the
@@ -26,13 +27,14 @@ export const VirtualList: React.FC<{
           <Element
             active={active}
             element={results[index]}
+            starrable={starrable}
             toggleStarFactory={toggleStarFactory}
             urlFactory={urlFactory}
           />
         </div>
       );
     },
-    [results, active, urlFactory, toggleStarFactory],
+    [results, active, urlFactory, toggleStarFactory, starrable],
   );
 
   const rowHeight = React.useMemo(() => convertRemToPixels(2), []);

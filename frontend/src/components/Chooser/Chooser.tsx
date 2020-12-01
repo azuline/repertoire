@@ -27,8 +27,9 @@ export const Chooser: React.FC<{
   results: ElementT[];
   active: number | null;
   urlFactory: (arg0: number) => string;
+  starrable?: boolean;
   toggleStarFactory: ToggleStarFactory;
-}> = ({ className, results, active, urlFactory, toggleStarFactory }) => {
+}> = ({ className, results, active, urlFactory, starrable, toggleStarFactory }) => {
   const { isSidebarOpen } = React.useContext(SidebarContext);
   const [jumpTo, setJumpTo] = React.useState<number | null>(null);
 
@@ -51,6 +52,7 @@ export const Chooser: React.FC<{
           active={active}
           jumpTo={jumpTo}
           results={results}
+          starrable={starrable}
           toggleStarFactory={toggleStarFactory}
           urlFactory={urlFactory}
         />

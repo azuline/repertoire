@@ -1,23 +1,30 @@
 import * as React from 'react';
-import { ReleaseSort, ReleaseType, ReleaseView } from 'src/types';
+import { ReleaseSort, ReleaseType, ReleaseView, SetValue } from 'src/types';
 
 import { usePersistentState } from './persistentState';
 
+// TODO: Refactor this mess... I'm thinking that we should ditch all the useEffects here and just
+// let the callers create their own useEffects.
+
 export type ViewOptionsT = {
   search: string;
-  setSearch: (arg0: string) => void;
+  setSearch: SetValue<string>;
   collectionIds: number[];
-  setCollectionIds: (arg0: number[]) => void;
+  setCollectionIds: SetValue<number[]>;
   artistIds: number[];
-  setArtistIds: (arg0: number[]) => void;
+  setArtistIds: SetValue<number[]>;
   releaseTypes: ReleaseType[];
-  setReleaseTypes: (arg0: ReleaseType[]) => void;
+  setReleaseTypes: SetValue<ReleaseType[]>;
+  years: number[];
+  setYears: SetValue<number[]>;
+  ratings: number[];
+  setRatings: SetValue<number[]>;
   sort: ReleaseSort;
-  setSort: (arg0: ReleaseSort) => void;
+  setSort: SetValue<ReleaseSort>;
   asc: boolean;
-  setAsc: (arg0: boolean) => void;
+  setAsc: SetValue<boolean>;
   releaseView: ReleaseView;
-  setReleaseView: (arg0: ReleaseView) => void;
+  setReleaseView: SetValue<ReleaseView>;
 };
 
 type Params = {
@@ -25,6 +32,8 @@ type Params = {
   collectionIds?: number[];
   artistIds?: number[];
   releaseTypes?: ReleaseType[];
+  years?: number[];
+  ratings?: number[];
   sort?: ReleaseSort;
   asc?: boolean;
   releaseView?: ReleaseView;
@@ -35,13 +44,6 @@ type Params = {
  * releases.
  *
  * @param root0 - The "seed" object: initial values for the hook.
- * @param root0.search - Initial search string.
- * @param root0.collectionIds - Initial collection IDs to filter on.
- * @param root0.artistIds - Initial artist IDs to filter on.
- * @param root0.releaseTypes - Initial release types to filter on.
- * @param root0.sort - Initial way to sort the releases.
- * @param root0.asc - Initial sorting direction.
- * @param root0.releaseView - Initial release view.
  * @returns A mega-state object containing the viewOptions parameters.
  */
 export const useViewOptions = ({
@@ -49,6 +51,8 @@ export const useViewOptions = ({
   collectionIds,
   artistIds,
   releaseTypes,
+  years,
+  ratings,
   sort,
   asc,
   releaseView,
@@ -57,6 +61,8 @@ export const useViewOptions = ({
   const [collectionIdsState, setCollectionIds] = React.useState<number[]>(collectionIds ?? []);
   const [artistIdsState, setArtistIds] = React.useState<number[]>(artistIds ?? []);
   const [releaseTypesState, setReleaseTypes] = React.useState<ReleaseType[]>(releaseTypes ?? []);
+  const [yearsState, setYears] = React.useState<number[]>(years ?? []);
+  const [ratingsState, setRatings] = React.useState<number[]>(ratings ?? []);
   const [sortState, setSort] = usePersistentState<ReleaseSort>(
     'release-view-options--sort',
     sort ?? ReleaseSort.RECENTLY_ADDED,
@@ -78,8 +84,10 @@ export const useViewOptions = ({
   React.useEffect(() => artistIds && setArtistIds(artistIds), [artistIds, setArtistIds]);
   React.useEffect(() => releaseTypes && setReleaseTypes(releaseTypes), [
     releaseTypes,
-    setReleaseView,
+    setReleaseTypes,
   ]);
+  React.useEffect(() => years && setYears(years), [years, setYears]);
+  React.useEffect(() => ratings && setRatings(ratings), [ratings, setRatings]);
   React.useEffect(() => sort && setSort(sort), [sort, setSort]);
   React.useEffect(() => (asc !== undefined ? setAsc(asc) : undefined), [asc, setAsc]);
   React.useEffect(() => releaseView && setReleaseView(releaseView), [releaseView, setReleaseView]);
@@ -88,16 +96,20 @@ export const useViewOptions = ({
     artistIds: artistIdsState,
     asc: ascState,
     collectionIds: collectionIdsState,
+    ratings: ratingsState,
     releaseTypes: releaseTypesState,
     releaseView: releaseViewState,
     search: searchState,
     setArtistIds,
     setAsc,
     setCollectionIds,
+    setRatings,
     setReleaseTypes,
     setReleaseView,
     setSearch,
     setSort,
+    setYears,
     sort: sortState,
+    years: yearsState,
   };
 };

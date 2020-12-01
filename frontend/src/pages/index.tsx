@@ -14,6 +14,7 @@ import { Playlists } from './Playlists';
 import { Release } from './Release';
 import { Releases } from './Releases';
 import { Settings } from './Settings';
+import { Years } from './Years';
 
 export * from './Login';
 
@@ -27,12 +28,14 @@ export const Routes: React.FC = () => (
     <Route component={Releases} path="/releases" />
     <Route component={Artists} path="/artists/:id" />
     <Route component={Artists} path="/artists" />
-    <Route component={Collages} path="/collages/:id" />
-    <Route component={Collages} path="/collages" />
     <Route component={Labels} path="/labels/:id" />
     <Route component={Labels} path="/labels" />
     <Route component={Genres} path="/genres/:id" />
     <Route component={Genres} path="/genres" />
+    <Route component={Years} path="/years/:id" />
+    <Route component={Years} path="/years" />
+    <Route component={Collages} path="/collages/:id" />
+    <Route component={Collages} path="/collages" />
     <Route component={Playlists} path="/playlists/:id" />
     <Route component={Playlists} path="/playlists" />
     <Route component={Metadata} path="/metadata" />

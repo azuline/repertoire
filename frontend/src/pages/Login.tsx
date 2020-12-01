@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 import { AuthorizationContext, ThemeContext } from 'src/contexts';
 import { useRequestJson } from 'src/hooks';
+import { RequestError } from 'src/types';
 
 const inputStyle = { maxWidth: '600px', minWidth: '300px', width: '50vw' };
 
@@ -20,18 +21,22 @@ export const Login: React.FC = () => {
 
       if (!input.current || !permanent.current) return;
 
-      const { csrfToken } = await requestJson('/session', {
-        body: JSON.stringify({ permanent: permanent.current.value === 'on' }),
-        method: 'POST',
-        token: input.current.value,
-      });
+      try {
+        const { csrfToken } = await requestJson('/session', {
+          body: JSON.stringify({ permanent: permanent.current.value === 'on' }),
+          method: 'POST',
+          token: input.current.value,
+        });
 
-      if (csrfToken) {
-        addToast('Successfully logged in.', { appearance: 'success' });
-        setCsrf(csrfToken);
-        setLoggedIn(true);
-      } else {
-        addToast('Invalid authorization token.', { appearance: 'error' });
+        if (csrfToken) {
+          addToast('Successfully logged in.', { appearance: 'success' });
+          setCsrf(csrfToken);
+          setLoggedIn(true);
+        } else {
+          throw new RequestError('Invalid authorization token.');
+        }
+      } catch {
+        addToast('Login failed.', { appearance: 'error' });
       }
     },
     [input, permanent, setLoggedIn, setCsrf, addToast, requestJson],

@@ -10,6 +10,8 @@ const QUERY = gql`
     $collectionIds: [Int]
     $artistIds: [Int]
     $releaseTypes: [ReleaseType]
+    $years: [Int]
+    $ratings: [Int]
     $page: Int
     $perPage: Int
     $sort: ReleaseSort
@@ -20,6 +22,8 @@ const QUERY = gql`
       collectionIds: $collectionIds
       artistIds: $artistIds
       releaseTypes: $releaseTypes
+      years: $years
+      ratings: $ratings
       page: $page
       perPage: $perPage
       sort: $sort
@@ -48,6 +52,8 @@ type V = {
   collectionIds: number[];
   artistIds: number[];
   releaseTypes: ReleaseType[];
+  years: number[];
+  ratings: number[];
   sort: ReleaseSort;
   asc: boolean;
   page: number;
@@ -71,7 +77,7 @@ export const useSearchReleases = (
  * Extract variables from viewOptions and pagination to form the query variables.
  */
 const extractVariables = (
-  { search, collectionIds, artistIds, releaseTypes, sort, asc }: ViewOptionsT,
+  { search, collectionIds, artistIds, releaseTypes, years, ratings, sort, asc }: ViewOptionsT,
   { curPage, perPage }: PaginationT,
 ): V => ({
   artistIds,
@@ -79,7 +85,9 @@ const extractVariables = (
   collectionIds,
   page: curPage,
   perPage,
+  ratings,
   releaseTypes,
   search,
   sort,
+  years,
 });

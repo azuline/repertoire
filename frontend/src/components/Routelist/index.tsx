@@ -21,6 +21,7 @@ const sections = [
       { exact: false, label: 'Artists', path: '/artists' },
       { exact: false, label: 'Genres', path: '/genres' },
       { exact: false, label: 'Labels', path: '/labels' },
+      { exact: false, label: 'Years', path: '/years' },
     ],
   },
   {
