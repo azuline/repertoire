@@ -324,5 +324,6 @@ enum ReleaseSort {
   RECENTLY_ADDED
   TITLE
   YEAR
+  RATING
   RANDOM
 }

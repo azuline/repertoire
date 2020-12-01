@@ -3,7 +3,7 @@
 
 CREATE TABLE music__releases (
     id INTEGER NOT NULL,
-    title VARCHAR NOT NULL,
+    title VARCHAR COLLATE "NOCASE" NOT NULL,
     release_type INTEGER NOT NULL DEFAULT 1,
     release_year INTEGER NOT NULL DEFAULT 0,
     release_date DATE,
@@ -14,6 +14,12 @@ CREATE TABLE music__releases (
     FOREIGN KEY (release_type) REFERENCES music__release_types(id),
     FOREIGN KEY (image_id) REFERENCES images(id)
 );
+
+CREATE INDEX idx__music__releases__title ON music__releases (title);
+CREATE INDEX idx__music__releases__release_type ON music__releases (release_type);
+CREATE INDEX idx__music__releases__added_on ON music__releases (added_on);
+CREATE INDEX idx__music__releases__release_year ON music__releases (release_year);
+CREATE INDEX idx__music__releases__rating ON music__releases (rating);
 
 CREATE TABLE music__release_types (
     id INTEGER NOT NULL,
@@ -46,9 +52,10 @@ CREATE TABLE music__artists (
     id INTEGER NOT NULL,
     name VARCHAR COLLATE "NOCASE" NOT NULL,
     starred BOOLEAN NOT NULL DEFAULT 0 CHECK (starred IN (0, 1)),
-    PRIMARY KEY (id),
-    UNIQUE (name) -- We will have this constraint for now...
+    PRIMARY KEY (id)
 );
+
+CREATE INDEX idx__music__artists__sorting ON music__artists (starred DESC, name);
 
 -- Create an Unknown artist.
 INSERT INTO music__artists (id, name) VALUES (1, "Unknown Artist");
@@ -113,6 +120,9 @@ CREATE TABLE music__collections (
     UNIQUE (name, type)
 );
 
+CREATE INDEX idx__music__collections__sorting ON
+    music__collections (type, starred DESC, name);
+
 CREATE TABLE music__collection_types (
     id INTEGER NOT NULL,
     type VARCHAR NOT NULL,
@@ -148,6 +158,9 @@ CREATE TABLE music__releases_search_index (
     PRIMARY KEY (id),
     FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE
 );
+
+CREATE INDEX idx__music__releases_search_index__word ON
+    music__releases_search_index (word);
 
 CREATE TABLE images (
     id INTEGER NOT NULL,

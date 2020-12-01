@@ -35,6 +35,7 @@ export enum ReleaseSort {
   RECENTLY_ADDED = 'RECENTLY_ADDED',
   TITLE = 'TITLE',
   YEAR = 'YEAR',
+  RATING = 'RATING',
   RANDOM = 'RANDOM',
 }
 

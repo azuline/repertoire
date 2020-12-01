@@ -58,4 +58,6 @@ class ReleaseSort(Enum):
     #:
     YEAR = "rls.release_year"
     #:
+    RATING = "rls.rating IS NULL, rls.rating"
+    #:
     RANDOM = "RANDOM()"

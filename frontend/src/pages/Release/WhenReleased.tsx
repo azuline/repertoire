@@ -6,7 +6,7 @@ export const WhenReleased: React.FC<{ release: ReleaseT }> = ({ release }) => {
     return (
       <>
         <span className="text-foreground-400">Released on </span>
-        <span className="text-foreground">{formatDate(new Date(release.releaseDate))}</span>
+        <span>{formatDate(new Date(release.releaseDate))}</span>
       </>
     );
   }
@@ -15,7 +15,7 @@ export const WhenReleased: React.FC<{ release: ReleaseT }> = ({ release }) => {
     return (
       <>
         <span className="text-foreground-400">Released in </span>
-        <span className="text-foreground">{release.releaseYear}</span>
+        <span>{release.releaseYear}</span>
       </>
     );
   }

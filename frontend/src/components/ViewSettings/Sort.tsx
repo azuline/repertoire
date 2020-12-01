@@ -7,6 +7,7 @@ const displays: { [k in ReleaseSort]: string } = {
   [ReleaseSort.RECENTLY_ADDED]: 'Recently Added',
   [ReleaseSort.TITLE]: 'Title',
   [ReleaseSort.YEAR]: 'Year',
+  [ReleaseSort.RATING]: 'Rating',
   [ReleaseSort.RANDOM]: 'Random',
 };
 

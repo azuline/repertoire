@@ -39,7 +39,11 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
           ) : null}
         </div>
         <div className="flex-none ml-auto">
-          {release.rating && <Rating rating={release.rating} />}
+          {release.rating ? (
+            <Rating rating={release.rating} />
+          ) : (
+            <span className="text-foreground-400">No Rating</span>
+          )}
         </div>
       </div>
       <div className="flex text-foreground-300">
