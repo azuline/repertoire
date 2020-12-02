@@ -20,7 +20,7 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
     style={rowStyle}
   >
     {release.inInbox ? <InInboxIndicator className="w-5" /> : <div className="w-5" />}
-    <div className="relative flex-none w-12 h-12 mr-2">
+    <div className="relative flex-none w-12 h-12 mr-3">
       <Image
         thumbnail
         className="absolute object-cover rounded-lg full"
