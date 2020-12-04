@@ -35,7 +35,9 @@ export const Sidebar: React.FC = () => {
           />
         </div>
       </div>
-      <RouteList />
+      <div className="px-6 overflow-y-auto md:px-8">
+        <RouteList />
+      </div>
     </div>
   );
 };

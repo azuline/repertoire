@@ -28,7 +28,9 @@ export const NavLink: React.FC<{
         </div>
       </Link>
       <Link className="block sm:hidden" href={url} onClick={closeSidebar}>
-        <div className="px-8 py-2 cursor-pointer text-foreground hover-emph-bg">{label}</div>
+        <div className="px-6 py-2 cursor-pointer md:px-8 text-foreground hover-emph-bg">
+          {label}
+        </div>
       </Link>
     </>
   );

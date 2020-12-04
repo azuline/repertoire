@@ -116,6 +116,15 @@ input.searchbar::placeholder {
   @apply hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5;
 }
 
+.w-fullpad {
+  width: calc(100% + 3rem);
+}
+@media screen and (min-width: 1024px) {
+  .w-fullpad {
+    width: calc(100% + 4rem);
+  }
+}
+
 .two-sided {
   /* TODO: Make the transitions like... work. */
   transition: all 0.4s;

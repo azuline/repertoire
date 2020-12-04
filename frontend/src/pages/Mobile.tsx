@@ -12,7 +12,7 @@ export const Mobile: React.FC = () => {
 
   return (
     <div className="flex flex-col flex-1 pb-6">
-      <div className="flex items-center px-8 mt-6 mb-4">
+      <div className="flex items-center mt-6 mb-4">
         <div className="flex items-center pr-4 cursor-pointer" onClick={goHome}>
           <Icon className="w-8 text-primary-500" icon="logo" />
           <div className="ml-2 font-semibold">
@@ -21,7 +21,7 @@ export const Mobile: React.FC = () => {
         </div>
         <User className="ml-auto" />
       </div>
-      <Searchbar className="flex-none block h-16 px-8 mb-4" shrink={false} />
+      <Searchbar className="flex-none block h-16 mb-4" shrink={false} />
       <RouteList />
     </div>
   );

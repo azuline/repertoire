@@ -22,7 +22,7 @@ export const Element: React.FC<{
       {starrable && (
         <div
           className={clsx(
-            'absolute top-0 left-0 flex items-center h-full pl-8',
+            'absolute top-0 left-0 flex items-center h-full pl-6 md:pl-8',
             toggleStar && 'cursor-pointer',
             element.starred ? 'text-primary-500 fill-current' : 'text-gray-500 stroke-current',
             toggleStar &&
@@ -38,8 +38,8 @@ export const Element: React.FC<{
       <Link href={url}>
         <div
           className={clsx(
-            'pr-10 h-8 flex items-center cursor-pointer hover-emph-bg',
-            starrable ? 'pl-14' : 'pl-8',
+            'pr-8 md:pr-10 h-8 flex items-center cursor-pointer hover-emph-bg',
+            starrable ? 'pl-12 md:pl-14' : 'pl-6 md:pl-8',
             isActive ? 'font-bold text-primary-400' : 'text-foreground',
           )}
         >

@@ -43,7 +43,7 @@ export const PagedReleases: React.FC<{
       case ReleaseView.ARTWORK:
       default:
         return (
-          <div className={clsx('grid gap-6', calculateGridCss(isSidebarOpen, partial))}>
+          <div className={clsx('grid gap-4 md:gap-6', calculateGridCss(isSidebarOpen, partial))}>
             {results.map((rls) => (
               <ArtRelease key={rls.id} release={rls} />
             ))}
@@ -55,13 +55,13 @@ export const PagedReleases: React.FC<{
   return (
     <div className="pb-8">
       <ViewSettings
-        className="mb-4"
+        className="mb-6"
         pagination={pagination}
         partial={partial}
         viewOptions={viewOptions}
       />
       {releasesDiv}
-      <Pagination className="mt-4" pagination={pagination} />
+      <Pagination className="mt-6" pagination={pagination} />
     </div>
   );
 };

@@ -8,7 +8,7 @@ export const PlayButtons: React.FC<{
   curTime: number;
   seek: SetValue<number>;
 }> = ({ isPlaying, setIsPlaying, curTime, seek }) => (
-  <div className="flex items-center justify-center flex-none mx-4 text-primary-500 sm:mx-8">
+  <div className="flex items-center justify-center flex-none mx-2 text-primary-500 sm:mx-8">
     <Rewind
       className="mr-1 cursor-pointer hover:text-primary-400 w-9"
       curTime={curTime}

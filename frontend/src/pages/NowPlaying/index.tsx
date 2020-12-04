@@ -17,11 +17,11 @@ export const NowPlaying: React.FC = () => {
     <>
       <Header />
       {playQueue.length === 0 ? (
-        <SectionHeader className="px-8 my-16 text-center">nothing playing ^.~</SectionHeader>
+        <SectionHeader className="my-16 text-center">nothing playing ^.~</SectionHeader>
       ) : (
         <div className="flex flex-col mt-4">
           {curTrack && <Info track={curTrack} />}
-          <SectionHeader className="px-8 my-8">Play Queue</SectionHeader>
+          <SectionHeader className="my-8">Play Queue</SectionHeader>
           <Tracklist tracks={playQueue} />
         </div>
       )}

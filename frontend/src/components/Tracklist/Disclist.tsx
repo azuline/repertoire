@@ -43,7 +43,7 @@ export const Disclist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
   let trackIndex = -1;
 
   return (
-    <div className={clsx(className, 'px-8 pb-8')}>
+    <div className={clsx(className, 'pb-8')}>
       {Object.entries(discs).map(([discNumber, discTracks], i) => (
         <React.Fragment key={discNumber}>
           {multiDisc && (

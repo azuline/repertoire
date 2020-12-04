@@ -7,10 +7,8 @@ import { UserSettings } from './User';
 export const Settings: React.FC = () => (
   <>
     <Header searchbar={false} />
-    <div className="px-8">
-      <SectionHeader className="mt-4 mb-8">Settings</SectionHeader>
-      <UserSettings />
-      <ThemeSettings />
-    </div>
+    <SectionHeader className="mt-4 mb-8">Settings</SectionHeader>
+    <UserSettings />
+    <ThemeSettings />
   </>
 );

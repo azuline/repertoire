@@ -4,7 +4,7 @@ import { Header, SectionHeader } from 'src/components';
 export const NotFound: React.FC = () => (
   <>
     <Header />
-    <div className="px-8 my-8 text-center">
+    <div className="my-8 text-center">
       <SectionHeader>404</SectionHeader>
       <SectionHeader className="mt-4">you are lost ^.~</SectionHeader>
     </div>

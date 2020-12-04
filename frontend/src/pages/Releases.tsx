@@ -11,7 +11,7 @@ export const Releases: React.FC = (): React.ReactElement => {
   return (
     <>
       <Header />
-      <div className="px-8 pt-4">
+      <div className="pt-4">
         <PagedReleases pagination={pagination} viewOptions={viewOptions} />
       </div>
     </>

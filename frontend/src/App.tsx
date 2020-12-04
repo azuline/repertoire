@@ -28,7 +28,7 @@ const Body: React.FC = () => {
         <Sidebar />
         <div className="relative flex flex-col min-w-0 full">
           <Background />
-          <div className="relative flex flex-col min-h-0 overflow-y-auto full">
+          <div className="relative flex flex-col min-h-0 px-6 overflow-y-auto md:px-8 full">
             <Routes />
           </div>
         </div>

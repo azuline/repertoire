@@ -20,7 +20,7 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
   }, [parentRelease, setBackgroundImageId]);
 
   return (
-    <div className="flex px-8">
+    <div className="flex">
       <Image
         className={clsx(
           'flex-none hidden w-48 h-48 mr-8 rounded-lg',

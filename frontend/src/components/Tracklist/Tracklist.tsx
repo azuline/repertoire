@@ -29,7 +29,7 @@ export const Tracklist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
   );
 
   return (
-    <div className={clsx(className, 'pb-8 px-8')}>
+    <div className={clsx(className, 'pb-8')}>
       {tracks.map((track, idx) => (
         <Track
           key={idx}

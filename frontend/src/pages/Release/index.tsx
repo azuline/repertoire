@@ -31,7 +31,7 @@ export const Release: React.FC = () => {
       <Header />
       {release && (
         <div className="flex flex-col mt-4">
-          <div className="flex px-8">
+          <div className="flex">
             <Image
               className={clsx(
                 'flex-none hidden w-52 h-52 mr-8 rounded-lg',
@@ -41,9 +41,7 @@ export const Release: React.FC = () => {
             />
             <Info release={release} />
           </div>
-          <div
-            className={clsx('flex items-center px-8 mt-4', isSidebarOpen ? 'md:mt-6' : 'sm:mt-6')}
-          >
+          <div className={clsx('flex items-center mt-3', isSidebarOpen ? 'md:mt-6' : 'sm:mt-6')}>
             <div
               className={clsx(
                 'hidden items-center flex-none w-52 mr-9 -ml-1 ',

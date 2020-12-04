@@ -44,7 +44,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           </>
         )}
       </div>
-      <div className="flex-none text-lg truncate-2 text-foreground-300">
+      <div className="flex-none mb-2 text-lg truncate-2 text-foreground-300">
         <WhenReleased release={release} />
         <span className="text-foreground-400"> on </span>
         {release.labels.length === 0 ? (
@@ -63,7 +63,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
       </div>
       <div
         className={clsx(
-          'mt-4 flex-none text-md truncate-2',
+          'flex-none text-md truncate-2',
           isSidebarOpen ? 'md:mt-auto' : 'sm:mt-auto',
         )}
       >

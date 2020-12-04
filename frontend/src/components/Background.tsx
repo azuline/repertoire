@@ -17,7 +17,7 @@ const innerBackgroundStyle = {
 };
 const outerBackgroundStyle = {
   background:
-    'linear-gradient(190deg, rgba(16, 16, 19, 0.1), rgba(16, 16, 19, 0.3), rgba(16, 16, 19, 0.6), rgba(16, 16, 19, 0.8), rgba(16, 16, 19, 1), rgba(16, 16, 19, 1))',
+    'linear-gradient(180deg, rgba(16, 16, 19, 0.1), rgba(16, 16, 19, 0.5), rgba(16, 16, 19, 0.8), rgba(16, 16, 19, 1), rgba(16, 16, 19, 1), rgba(16, 16, 19, 1))',
 };
 
 export const Background: React.FC = () => {

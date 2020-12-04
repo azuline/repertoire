@@ -20,8 +20,6 @@ import { VirtualList } from './VirtualList';
  * feel entirely. So we are settling for the sticky header, **for now**.
  */
 
-const chooserStyle = { maxHeight: 'calc(100vh - 4rem)' };
-
 export const Chooser: React.FC<{
   className?: string;
   results: ElementT[];
@@ -35,8 +33,15 @@ export const Chooser: React.FC<{
 
   return (
     <div
-      className={useChooserStyles(className, active, isSidebarOpen)}
-      style={active ? chooserStyle : {}}
+      className={clsx(
+        className,
+        'w-72 -ml-6 md:-ml-8',
+        active && 'mr-6 md:mr-8',
+        active && isSidebarOpen && 'hidden lg:flex lg:flex-col lg:sticky lg:top-0',
+        active && !isSidebarOpen && 'hidden md:flex md:flex-col md:sticky md:top-0',
+        !active && '-mr-6 md:-mr-8 w-fullpad',
+      )}
+      style={{ maxHeight: 'calc(100vh - 4rem)' }}
     >
       <div
         className={clsx(
@@ -60,22 +65,3 @@ export const Chooser: React.FC<{
     </div>
   );
 };
-
-const useChooserStyles = (
-  className: string | undefined,
-  active: number | null,
-  isSidebarOpen: boolean,
-): string =>
-  React.useMemo(
-    () =>
-      clsx(
-        className,
-        'w-72',
-        active // eslint-disable-line no-nested-ternary
-          ? isSidebarOpen
-            ? 'hidden lg:flex lg:flex-col lg:sticky lg:top-0'
-            : 'hidden md:flex md:flex-col md:sticky md:top-0'
-          : 'w-full',
-      ),
-    [className, active, isSidebarOpen],
-  );

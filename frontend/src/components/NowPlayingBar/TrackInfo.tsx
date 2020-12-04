@@ -5,7 +5,7 @@ import { TrackT } from 'src/types';
 import { RedirectToNowPlaying } from './RedirectToNowPlaying';
 
 export const TrackInfo: React.FC<{ curTrack: TrackT }> = ({ curTrack }) => (
-  <div className="flex flex-1 truncate">
+  <div className="flex flex-1 mr-2 truncate sm:mr-0">
     <Link className="flex-none hidden w-11 sm:block" href={`/releases/${curTrack.release.id}`}>
       <div className="relative w-full h-0 pb-full">
         <Image
