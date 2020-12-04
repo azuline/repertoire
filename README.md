@@ -9,6 +9,9 @@ A release-oriented music server. Work in progress!
 
 Visit [the documentation](https://repertoire.readthedocs.io) to get started!
 
+**WARNING: This software is unstable. Changes without a documented upgrade path
+may be implemented.**
+
 ## Screenshots
 
 ![scrot1](docs/_static/scrot1.png)
