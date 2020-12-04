@@ -16,11 +16,10 @@ export const Disclist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
 }) => {
   const { playQueue, setPlayQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
 
-  // The tracks arranged into discs.
   const discs = React.useMemo(() => sortTracksIntoDiscs(tracks), [tracks]);
-  // The tracks sorted first by disc number and then by track number.
+  const multiDisc = Object.keys(discs).length !== 1;
+
   const sortedTracklist = React.useMemo(() => sortDiscsIntoTracklist(discs), [discs]);
-  const multiDisc = React.useMemo(() => Object.keys(discs).length !== 1, [discs]);
 
   // Check to see if the current track list matches up with the play queue--if
   // it does, we are currently playing this Disclist.
@@ -29,16 +28,13 @@ export const Disclist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
     [playQueue, sortedTracklist],
   );
 
-  const trackOnClick = React.useCallback(
-    (index: number): void => {
-      if (!areTrackListsMatching) {
-        setPlayQueue(sortedTracklist);
-      }
+  const trackOnClick = (index: number): void => {
+    if (!areTrackListsMatching) {
+      setPlayQueue(sortedTracklist);
+    }
 
-      setCurIndex(index);
-    },
-    [areTrackListsMatching, setPlayQueue, setCurIndex, sortedTracklist],
-  );
+    setCurIndex(index);
+  };
 
   let trackIndex = -1;
 

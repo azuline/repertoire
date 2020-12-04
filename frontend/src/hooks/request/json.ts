@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import { RequestT, useRequest } from './request';
 
 /**
@@ -11,13 +9,10 @@ import { RequestT, useRequest } from './request';
 export const useRequestJson = <T>(): RequestT<T> => {
   const request = useRequest();
 
-  const requestJson = React.useCallback(
-    async (url, opts = {}) => {
-      const response = await request(url, { ...opts, contentType: 'application/json' });
-      return response.json();
-    },
-    [request],
-  );
+  const requestJson: RequestT<T> = async (url, opts = {}) => {
+    const response = await request(url, { ...opts, contentType: 'application/json' });
+    return response.json();
+  };
 
   return requestJson;
 };

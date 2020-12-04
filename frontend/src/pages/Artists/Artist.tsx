@@ -9,7 +9,7 @@ export const Artist: React.FC<{ active: number }> = ({ active }) => {
   const { data } = useFetchArtist(active);
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
-  const artist = React.useMemo(() => data?.artist || null, [data]);
+  const artist = data?.artist || null;
 
   React.useEffect(() => {
     if (!artist) return;

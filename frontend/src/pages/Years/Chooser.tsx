@@ -10,11 +10,10 @@ export const YearChooser: React.FC<{
 }> = ({ active, className }) => {
   const { data, error, loading } = useFetchYears();
 
-  const elements = React.useMemo(() => {
-    if (!data || error || loading) return [];
-
-    return data.releaseYears.map((year) => ({ id: year, name: `${year}` }));
-  }, [data, error, loading]);
+  const elements =
+    !data || error || loading
+      ? []
+      : data.releaseYears.map((year) => ({ id: year, name: `${year}` }));
 
   return (
     <Chooser

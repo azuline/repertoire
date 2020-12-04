@@ -7,22 +7,19 @@ export const UserSettings: React.FC = () => {
   const input = React.useRef<HTMLInputElement>(null);
   const { addToast } = useToasts();
 
-  const onCompleted = React.useCallback(() => {
+  const onCompleted = (): void => {
     addToast('Successfully updated nickname.', { appearance: 'success' });
-  }, [addToast]);
+  };
 
   const [mutateUser] = useMutateUser({ onCompleted });
 
-  const onSubmit = React.useCallback(
-    (event) => {
-      event.preventDefault();
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
 
-      if (!input || !input.current) return;
+    if (!input || !input.current) return;
 
-      mutateUser({ variables: { nickname: input.current.value } });
-    },
-    [mutateUser, input],
-  );
+    mutateUser({ variables: { nickname: input.current.value } });
+  };
 
   return (
     <div className="flex items-center min-w-0 my-2">

@@ -6,8 +6,6 @@ import { SidebarContext } from 'src/contexts';
 import { TrackT } from 'src/types';
 import { secondsToLength } from 'src/util';
 
-const trackStyle = { width: 'calc(100% + 1.5rem)' };
-
 export const Track: React.FC<{
   track: TrackT;
   trackNumber: number;
@@ -16,7 +14,7 @@ export const Track: React.FC<{
   active?: boolean;
 }> = ({ track, trackNumber, index, onClick, active = false }) => {
   const { isSidebarOpen } = React.useContext(SidebarContext);
-  const trackOnClick = React.useCallback(() => onClick && onClick(index), [index, onClick]);
+  const trackOnClick = (): void => onClick && onClick(index);
 
   return (
     <div
@@ -25,7 +23,7 @@ export const Track: React.FC<{
         active && 'font-bold',
         onClick && 'cursor-pointer hover-emph-bg',
       )}
-      style={trackStyle}
+      style={{ width: 'calc(100% + 1.5rem)' }}
       onClick={trackOnClick}
     >
       <div className="flex items-center">

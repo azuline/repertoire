@@ -8,7 +8,7 @@ import { RouteList } from 'src/components/Routelist';
 export const Mobile: React.FC = () => {
   const history = useHistory();
 
-  const goHome = React.useCallback(() => history.push('/'), [history]);
+  const goHome = (): void => history.push('/');
 
   return (
     <div className="flex flex-col flex-1 pb-6">

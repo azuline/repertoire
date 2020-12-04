@@ -7,7 +7,7 @@ export const Collage: React.FC<{ active: number }> = ({ active }) => {
   const { data } = useFetchCollection(active);
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
-  const collection = React.useMemo(() => data?.collection || null, [data]);
+  const collection = data?.collection || null;
 
   React.useEffect(() => {
     if (!collection) return;

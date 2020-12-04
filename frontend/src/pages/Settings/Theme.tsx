@@ -4,11 +4,7 @@ import { ThemeContext } from 'src/contexts';
 export const ThemeSettings: React.FC = () => {
   const { theme, setTheme } = React.useContext(ThemeContext);
 
-  // prettier-ignore
-  const toggleTheme = React.useCallback(
-    () => setTheme((t) => (t === 'light' ? 'dark' : 'light')),
-    [setTheme],
-  );
+  const toggleTheme = (): void => setTheme((t) => (t === 'light' ? 'dark' : 'light'));
 
   return (
     <div className="flex items-center my-4">

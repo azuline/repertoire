@@ -6,8 +6,6 @@ import { ElementT } from './Element';
 
 type IndexMap = { [k in string]?: () => void };
 
-const jumpStyle = { height: 'calc(100vh - 9rem)' };
-
 const jumpLetters = [
   'A',
   'B',
@@ -56,7 +54,7 @@ export const JumpToLetter: React.FC<{
         'absolute top-0 right-0 z-10 overflow-y-hidden text-right',
         active ? 'mt-9 mr-5' : 'mr-8 pt-1',
       )}
-      style={jumpStyle}
+      style={{ height: 'calc(100vh - 9.5rem)' }}
     >
       {Object.entries(letterToIndexMap).map(([letter, jumpFn]) => (
         <div

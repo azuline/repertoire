@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { AutoSizer, List } from 'react-virtualized';
+import { AutoSizer, List, ListRowRenderer } from 'react-virtualized';
 import { convertRemToPixels } from 'src/util';
 
 import { Element, ElementT, ToggleStarFactory } from './Element';
@@ -13,31 +13,28 @@ export const VirtualList: React.FC<{
   toggleStarFactory: ToggleStarFactory;
   urlFactory: (arg0: number) => string;
 }> = ({ results, active, jumpTo, urlFactory, starrable, toggleStarFactory }) => {
-  const renderRow = React.useCallback(
-    ({ index, key, style }) => {
-      // Because React-Virtualized has bungled scrollToIndex behavior when the
-      // containing div has margin/padding, we replaced the margin/padding with
-      // these blank elements on the bottom.
-      if (index === results.length || index === results.length + 1) {
-        return <div key={key} style={style} />;
-      }
+  const renderRow: ListRowRenderer = ({ index, key, style }) => {
+    // Because React-Virtualized has bungled scrollToIndex behavior when the
+    // containing div has margin/padding, we replaced the margin/padding with
+    // these blank elements on the bottom.
+    if (index === results.length || index === results.length + 1) {
+      return <div key={key} style={style} />;
+    }
 
-      return (
-        <div key={key} style={style}>
-          <Element
-            active={active}
-            element={results[index]}
-            starrable={starrable}
-            toggleStarFactory={toggleStarFactory}
-            urlFactory={urlFactory}
-          />
-        </div>
-      );
-    },
-    [results, active, urlFactory, toggleStarFactory, starrable],
-  );
+    return (
+      <div key={key} style={style}>
+        <Element
+          active={active}
+          element={results[index]}
+          starrable={starrable}
+          toggleStarFactory={toggleStarFactory}
+          urlFactory={urlFactory}
+        />
+      </div>
+    );
+  };
 
-  const rowHeight = React.useMemo(() => convertRemToPixels(2), []);
+  const rowHeight = convertRemToPixels(2);
 
   const [scrollToIndex, scrollToAlignment] = React.useMemo(() => {
     if (jumpTo) {

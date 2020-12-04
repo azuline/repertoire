@@ -18,18 +18,15 @@ export const usePersistentState = <T>(
     return storedValue ? JSON.parse(storedValue) : defaultValue;
   });
 
-  const setPersistentValue = React.useCallback(
-    (newValue: StateValue<T>, persist = true) => {
-      setValue((innerValue: T) => {
-        const toStore = newValue instanceof Function ? newValue(innerValue) : newValue;
-        if (persist) {
-          localStorage.setItem(localStorageKey, JSON.stringify(toStore));
-        }
-        return toStore;
-      });
-    },
-    [setValue, localStorageKey],
-  );
+  const setPersistentValue = (newValue: StateValue<T>, persist = true): void => {
+    setValue((innerValue: T) => {
+      const toStore = newValue instanceof Function ? newValue(innerValue) : newValue;
+      if (persist) {
+        localStorage.setItem(localStorageKey, JSON.stringify(toStore));
+      }
+      return toStore;
+    });
+  };
 
   return [value, setPersistentValue];
 };

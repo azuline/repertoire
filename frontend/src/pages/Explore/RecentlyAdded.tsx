@@ -9,12 +9,12 @@ export const RecentlyAdded: React.FC = () => {
 
   const releases = data?.releases?.results || [];
 
-  const toRecentlyAdded = React.useCallback(() => {
+  const toRecentlyAdded = (): void => {
     // TODO: change these string keys to an enum.
     localStorage.setItem('release-view-options--sort', JSON.stringify('RECENTLY_ADDED'));
     localStorage.setItem('release-view-options--asc', JSON.stringify(false));
     history.push('/releases');
-  }, [history]);
+  };
 
   return (
     <div>

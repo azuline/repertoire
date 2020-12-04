@@ -15,11 +15,8 @@ export const Sort: React.FC<{ viewOptions: ViewOptionsT; className?: string }> =
   viewOptions,
   className,
 }) => {
-  // prettier-ignore
-  const updateSort = React.useCallback(
-    (e) => viewOptions.setSort(e.currentTarget.value),
-    [viewOptions],
-  );
+  const updateSort = (e: React.FormEvent<HTMLSelectElement>): void =>
+    viewOptions.setSort(e.currentTarget.value as ReleaseSort);
 
   return (
     <Select

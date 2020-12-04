@@ -1,5 +1,4 @@
 import { gql, QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
-import * as React from 'react';
 import { COLLECTION_FIELDS } from 'src/lib/fragments';
 import { CollectionT, CollectionType } from 'src/types';
 
@@ -21,7 +20,6 @@ export const useFetchCollections = (
   types: CollectionType[] = [],
   options?: QueryHookOptions<T, V>,
 ): QueryResult<T, V> => {
-  const newOptions = React.useMemo(() => ({ ...options, variables: { types } }), [options, types]);
-
+  const newOptions = { ...options, variables: { types } };
   return useQuery<T, V>(QUERY, newOptions);
 };

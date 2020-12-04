@@ -2,23 +2,22 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { Icon } from 'src/components';
 import { PlayQueueContext } from 'src/contexts';
-import { SetValue } from 'src/types';
 
 export const Rewind: React.FC<{
   className?: string;
   isPlaying: boolean;
   curTime: number;
-  seek: SetValue<number>;
+  seek: (arg0: number) => void;
 }> = ({ className, isPlaying, curTime, seek }) => {
   const { setCurIndex } = React.useContext(PlayQueueContext);
 
-  const rewind = React.useCallback(() => {
+  const rewind = (): void => {
     if (isPlaying && curTime > 10) {
       seek(0);
     } else {
       setCurIndex((idx) => (idx !== null && idx !== 0 ? idx - 1 : null));
     }
-  }, [curTime, setCurIndex, isPlaying, seek]);
+  };
 
   return (
     <Icon

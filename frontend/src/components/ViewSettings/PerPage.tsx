@@ -8,10 +8,8 @@ export const PerPage: React.FC<{ pagination: PaginationT; className?: string }> 
   pagination,
   className,
 }) => {
-  const updatePerPage = React.useCallback(
-    (e) => pagination.setPerPage(parseInt(e.currentTarget.value, 10)),
-    [pagination],
-  );
+  const updatePerPage = (e: React.FormEvent<HTMLSelectElement>): void =>
+    pagination.setPerPage(parseInt(e.currentTarget.value, 10));
 
   return (
     <Select

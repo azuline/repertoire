@@ -8,10 +8,8 @@ export const FastForward: React.FC<{
 }> = ({ className }) => {
   const { playQueue, setCurIndex } = React.useContext(PlayQueueContext);
 
-  const fastForward = React.useCallback(
-    () => setCurIndex((idx) => (idx !== null && idx !== playQueue.length - 1 ? idx + 1 : null)),
-    [setCurIndex, playQueue],
-  );
+  const fastForward = (): void =>
+    setCurIndex((idx) => (idx !== null && idx !== playQueue.length - 1 ? idx + 1 : null));
 
   return (
     <Icon

@@ -13,16 +13,16 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
   const { data } = useFetchUser();
   const request = useRequest();
 
-  const closeSidebar = React.useCallback(() => setSidebarOpen(false), [setSidebarOpen]);
+  const closeSidebar = (): void => setSidebarOpen(false);
 
-  const logout = React.useCallback(() => {
+  const logout = (): void => {
     (async (): Promise<void> => {
       await request('/session', { method: 'DELETE' });
 
       addToast('Logged out!', { appearance: 'success' });
       setLoggedIn(false);
     })();
-  }, [request, setLoggedIn, addToast]);
+  };
 
   return (
     <div className={clsx(className, 'flex items-center h-full min-w-0')}>

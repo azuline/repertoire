@@ -1,5 +1,4 @@
 import { gql, QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
-import * as React from 'react';
 import { PaginationT, ViewOptionsT } from 'src/hooks';
 import { RELEASE_FIELDS } from 'src/lib/fragments';
 import { ReleaseSort, ReleaseT, ReleaseType } from 'src/types';
@@ -65,11 +64,7 @@ export const useSearchReleases = (
   pagination: PaginationT,
   options?: QueryHookOptions<T, V>,
 ): QueryResult<T, V> => {
-  const newOptions = React.useMemo(
-    () => ({ ...options, variables: extractVariables(viewOptions, pagination) }),
-    [options, viewOptions, pagination],
-  );
-
+  const newOptions = { ...options, variables: extractVariables(viewOptions, pagination) };
   return useQuery<T, V>(QUERY, newOptions);
 };
 

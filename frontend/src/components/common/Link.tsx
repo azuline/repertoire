@@ -11,14 +11,11 @@ export const Link: React.FC<{
 }> = ({ href, children, className, style, onClick }) => {
   const history = useHistory();
 
-  const newOnClick = React.useCallback(
-    (event) => {
-      event.preventDefault();
-      if (onClick) onClick();
-      history.push(href);
-    },
-    [onClick, history, href],
-  );
+  const newOnClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
+    event.preventDefault();
+    if (onClick) onClick();
+    history.push(href);
+  };
 
   return (
     <a className={className} href={href} style={style} onClick={newOnClick}>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Chooser, ElementT } from 'src/components/Chooser';
+import { Chooser, ToggleStarFactory } from 'src/components/Chooser';
 import { useFetchCollections, useMutateCollection } from 'src/lib';
 import { CollectionType } from 'src/types';
 
@@ -12,18 +12,15 @@ export const CollectionChooser: React.FC<{
   const { data, error, loading } = useFetchCollections(collectionTypes);
   const [mutateCollection] = useMutateCollection();
 
-  const urlFactory = React.useCallback((id: number): string => `${urlPrefix}/${id}`, [urlPrefix]);
+  const urlFactory = (id: number): string => `${urlPrefix}/${id}`;
 
-  const toggleStarFactory = React.useCallback(
-    ({ id, starred, type }: ElementT) => {
-      if (type === 'SYSTEM') return;
+  const toggleStarFactory: ToggleStarFactory = ({ id, starred, type }) => {
+    if (type === 'SYSTEM') return;
 
-      return async (): Promise<void> => {
-        mutateCollection({ variables: { id, starred: !starred } });
-      };
-    },
-    [mutateCollection],
-  );
+    return async (): Promise<void> => {
+      mutateCollection({ variables: { id, starred: !starred } });
+    };
+  };
 
   if (!data || loading || error) return null;
 

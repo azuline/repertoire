@@ -8,8 +8,6 @@ import { ReleaseT } from 'src/types';
 import { InInboxIndicator } from './InInboxIndicator';
 import { Rating } from './Rating';
 
-const rowStyle = { width: 'calc(100% + 1.5rem)' };
-
 export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = ({
   release,
   className,
@@ -17,7 +15,7 @@ export const RowRelease: React.FC<{ release: ReleaseT; className?: string }> = (
   <Link
     className={clsx(className, 'flex items-center -mx-3 p-3 cursor-pointer hover-emph-bg')}
     href={`/releases/${release.id}`}
-    style={rowStyle}
+    style={{ width: 'calc(100% + 1.5rem)' }}
   >
     {release.inInbox ? <InInboxIndicator className="w-5" /> : <div className="w-5" />}
     <div className="relative flex-none w-12 h-12 mr-3">

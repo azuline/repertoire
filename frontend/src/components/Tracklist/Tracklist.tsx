@@ -20,13 +20,10 @@ export const Tracklist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
     [playQueue, tracks],
   );
 
-  const trackOnClick = React.useCallback(
-    (index: number): void => {
-      setPlayQueue(tracks);
-      setCurIndex(index);
-    },
-    [setPlayQueue, setCurIndex, tracks],
-  );
+  const trackOnClick = (index: number): void => {
+    setPlayQueue(tracks);
+    setCurIndex(index);
+  };
 
   return (
     <div className={clsx(className, 'pb-8')}>

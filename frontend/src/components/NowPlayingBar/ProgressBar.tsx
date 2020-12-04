@@ -1,13 +1,14 @@
 import * as React from 'react';
 import ReactSlider from 'react-slider';
-import { SetValue, TrackT } from 'src/types';
+import { TrackT } from 'src/types';
 
 export const ProgressBar: React.FC<{
   curTime: number;
   curTrack: TrackT | null;
-  seek: SetValue<number>;
+  seek: (arg0: number) => void;
 }> = ({ curTime, curTrack, seek }) => {
-  const onSliderChange = React.useCallback((value) => seek(value), [seek]);
+  const onSliderChange = (value: number | number[] | undefined | null): void =>
+    seek(value as number);
 
   return (
     <div className="absolute left-0 w-full h-1 -top-1">

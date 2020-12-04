@@ -6,17 +6,13 @@ import { VolumeContext } from 'src/contexts';
 export const VolumeControl: React.FC = () => {
   const { volume, setVolume, isMuted, setIsMuted } = React.useContext(VolumeContext);
 
-  const icon = React.useMemo(() => (isMuted ? 'volume-off-small' : 'volume-up-small'), [isMuted]);
-  const toggleMute = React.useCallback(() => setIsMuted((m) => !m), [setIsMuted]);
-  const onSliderChange = React.useCallback((value) => (!value ? setVolume(0) : setVolume(value)), [
-    setVolume,
-  ]);
+  const icon = isMuted ? 'volume-off-small' : 'volume-up-small';
 
   return (
     <div className="relative hidden mr-1 sm:block hover-popover">
       <div
         className="p-2 cursor-pointer hover:text-primary-400 text-primary-500"
-        onClick={toggleMute}
+        onClick={(): void => setIsMuted((m) => !m)}
       >
         <Icon className="w-6" icon={icon as IconT} />
       </div>
@@ -26,7 +22,7 @@ export const VolumeControl: React.FC = () => {
           className="slider volume-slider"
           orientation="vertical"
           value={volume}
-          onChange={onSliderChange}
+          onChange={(value): void => (!value ? setVolume(0) : setVolume(value as number))}
         />
       </div>
     </div>

@@ -6,10 +6,8 @@ export const Order: React.FC<{ viewOptions: ViewOptionsT; className?: string }> 
   viewOptions,
   className,
 }) => {
-  const updateOrder = React.useCallback(
-    (e) => viewOptions.setAsc(e.currentTarget.value === 'true'),
-    [viewOptions],
-  );
+  const updateOrder = (e: React.FormEvent<HTMLSelectElement>): void =>
+    viewOptions.setAsc(e.currentTarget.value === 'true');
 
   return (
     <Select

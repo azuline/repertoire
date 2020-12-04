@@ -8,7 +8,7 @@ export const RedirectToNowPlaying: React.FC<{ className?: string; children: Reac
   children,
 }) => {
   const { setSidebarOpen } = React.useContext(SidebarContext);
-  const closeSidebar = React.useCallback(() => setSidebarOpen(false), [setSidebarOpen]);
+  const closeSidebar = (): void => setSidebarOpen(false);
 
   return (
     <>

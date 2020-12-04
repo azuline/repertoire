@@ -8,10 +8,7 @@ export const NowPlaying: React.FC = () => {
   const { playQueue, curIndex } = React.useContext(PlayQueueContext);
 
   // prettier-ignore
-  const curTrack = React.useMemo(
-    () => (curIndex !== null ? playQueue[curIndex] : null),
-    [playQueue, curIndex],
-  );
+  const curTrack = curIndex !== null ? playQueue[curIndex] : null;
 
   return (
     <>

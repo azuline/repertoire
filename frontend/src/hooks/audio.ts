@@ -9,7 +9,7 @@ export type AudioT = {
   isPlaying: boolean;
   setIsPlaying: SetValue<boolean>;
   curTime: number;
-  seek: SetValue<number>;
+  seek: (arg0: number) => void;
 };
 
 type AudioReducerState = {
@@ -126,10 +126,9 @@ export const useAudio = (): AudioT => {
   }, [audioState, isMuted, volume]);
 
   // A seek function to set the curTime on the track.
-  const seek = React.useCallback(
-    (seconds) => audioState.audio && audioState.audio.fastSeek(seconds),
-    [audioState],
-  );
+  const seek = (seconds: number): void => {
+    if (audioState.audio) audioState.audio.fastSeek(seconds);
+  };
 
   return { curTime, isPlaying, seek, setIsPlaying };
 };

@@ -10,17 +10,12 @@ export const Pagination: React.FC<{
   pagination: PaginationT;
   className?: string;
 }> = ({ pagination: { curPage, setCurPage, numPages }, className }) => {
-  const bottom = React.useMemo(() => Math.max(curPage - 2, 2), [curPage]);
-  const top = React.useMemo(() => Math.min(curPage + 3, numPages), [curPage, numPages]);
+  const bottom = Math.max(curPage - 2, 2);
+  const top = Math.min(curPage + 3, numPages);
 
-  const goBackOnePage = React.useCallback(
-    () => setCurPage((page) => Math.min(Math.max(1, page - 1), numPages)),
-    [numPages, setCurPage],
-  );
-  const goForwardOnePage = React.useCallback(
-    () => setCurPage((page) => Math.min(Math.max(1, page + 1), numPages)),
-    [numPages, setCurPage],
-  );
+  const goBackOnePage = (): void => setCurPage((page) => Math.min(Math.max(1, page - 1), numPages));
+  const goForwardOnePage = (): void =>
+    setCurPage((page) => Math.min(Math.max(1, page + 1), numPages));
 
   // If there are no pages, don't render pagination.
   if (numPages <= 1) return null;

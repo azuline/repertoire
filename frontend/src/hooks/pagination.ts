@@ -33,14 +33,7 @@ export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): Pa
   const history = useHistory();
   const query = useQuery();
 
-  // Get the initial page. If ``useUrl`` is true, then source it from the URL.
-  // Otherwise, return 1.
-  const startPage = React.useMemo(() => {
-    const page = query.get('page');
-
-    return useUrl && page && /^\d+$/.test(page) ? parseInt(page, 10) : 1;
-  }, [useUrl, query]);
-
+  const startPage = getStartPage(useUrl, query);
   const [curPage, rawSetCurPage] = React.useState<number>(startPage);
   const [perPage, setPerPage] = usePersistentState<number>('pagination--perPage', 40);
   const [total, setTotal] = React.useState<number>(0);
@@ -64,12 +57,15 @@ export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): Pa
     [curPage, history, query, useUrl, rawSetCurPage],
   );
 
-  // Calculate the number of pages.
-  const numPages = React.useMemo(() => {
-    if (perPage === 0) return 0;
-
-    return Math.ceil(total / perPage);
-  }, [total, perPage]);
+  const numPages = perPage === 0 ? 0 : Math.ceil(total / perPage);
 
   return { curPage, numPages, perPage, setCurPage, setPerPage, setTotal };
+};
+
+/**
+ * Get the initial page. If ``useUrl`` is true, then source it from the URL. Otherwise, return 1.
+ */
+const getStartPage = (useUrl: boolean, query: URLSearchParams): number => {
+  const page = query.get('page');
+  return useUrl && page && /^\d+$/.test(page) ? parseInt(page, 10) : 1;
 };

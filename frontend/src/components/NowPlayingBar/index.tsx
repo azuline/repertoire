@@ -13,11 +13,7 @@ export const NowPlayingBar: React.FC = () => {
   const { playQueue, curIndex } = React.useContext(PlayQueueContext);
   const { isPlaying, setIsPlaying, curTime, seek } = useAudio();
 
-  // prettier-ignore
-  const curTrack = React.useMemo(
-    () => (curIndex !== null ? playQueue[curIndex] : null),
-    [playQueue, curIndex],
-  );
+  const curTrack = curIndex !== null ? playQueue[curIndex] : null;
 
   return (
     <div className="relative flex-none w-full h-16 bg-background-900">

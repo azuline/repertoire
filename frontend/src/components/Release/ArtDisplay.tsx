@@ -8,17 +8,11 @@ import { secondsToLength } from 'src/util';
 
 import { InInboxIndicator } from './InInboxIndicator';
 
-const textStyle = {
-  background:
-    'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9))',
-  textShadow: '1px black',
-};
-
 export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = ({
   release,
   className,
 }) => {
-  const runtime = React.useMemo(() => secondsToLength(release.runtime), [release]);
+  const runtime = secondsToLength(release.runtime);
 
   return (
     <Link href={`/releases/${release.id}`}>
@@ -28,7 +22,14 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
           className="absolute object-cover rounded-lg full"
           imageId={release.imageId}
         />
-        <div className="absolute z-10 rounded-lg full two-sided" style={textStyle}>
+        <div
+          className="absolute z-10 rounded-lg full two-sided"
+          style={{
+            background:
+              'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9))',
+            textShadow: '1px black',
+          }}
+        >
           <div className="flex flex-col justify-end overflow-hidden front full">
             <div className="p-3 overflow-hidden">
               <div className="flex min-w-0 text-lg font-semibold text-white" title={release.title}>
@@ -39,7 +40,7 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
             </div>
           </div>
           <div className="relative back full">
-            <div className="absolute top-0 left-0 bg-black bg-opacity-75 rounded-lg full" />
+            <div className="absolute top-0 left-0 bg-black rounded-lg bg-opacity-75 full" />
             <div className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center p-4 text-white full text-md">
               {release.releaseYear ? <div className="py-1">{release.releaseYear}</div> : null}
               <div className="py-1">

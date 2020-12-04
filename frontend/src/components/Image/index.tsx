@@ -11,12 +11,20 @@ export const Image: React.FC<{
   imageId: number | null;
 }> = ({ className, alt, thumbnail = false, imageId }) => {
   const [src, setSrc] = React.useState(urlFactory(imageId, thumbnail));
-  const onError = React.useCallback(() => setSrc(noArt), [setSrc]);
 
   React.useEffect(() => setSrc(urlFactory(imageId, thumbnail)), [imageId, thumbnail]);
 
   if (!imageId) {
     return <img alt={alt} className={className} src={noArt} />;
   }
-  return <img alt={alt} className={className} loading="lazy" src={src} onError={onError} />;
+
+  return (
+    <img
+      alt={alt}
+      className={className}
+      loading="lazy"
+      src={src}
+      onError={(): void => setSrc(noArt)}
+    />
+  );
 };

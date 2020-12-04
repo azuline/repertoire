@@ -9,23 +9,20 @@ export const Goto: React.FC<{
   const input = React.useRef<HTMLInputElement | null>(null);
   const { addToast } = useToasts();
 
-  const onSubmit = React.useCallback(
-    (event) => {
-      event.preventDefault();
-      if (!input.current || !/^\d+$/.test(input.current.value)) return;
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    if (!input.current || !/^\d+$/.test(input.current.value)) return;
 
-      const page = parseInt(input.current.value, 10);
+    const page = parseInt(input.current.value, 10);
 
-      if (page < 1 || page > numPages) {
-        addToast('Invalid page number.', { appearance: 'error' });
-        return;
-      }
+    if (page < 1 || page > numPages) {
+      addToast('Invalid page number.', { appearance: 'error' });
+      return;
+    }
 
-      input.current.value = '';
-      setCurPage(page);
-    },
-    [setCurPage, numPages, addToast],
-  );
+    input.current.value = '';
+    setCurPage(page);
+  };
 
   return (
     <form className="flex" onSubmit={onSubmit}>

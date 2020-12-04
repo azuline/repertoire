@@ -6,7 +6,7 @@ export const PlayButtons: React.FC<{
   isPlaying: boolean;
   setIsPlaying: SetValue<boolean>;
   curTime: number;
-  seek: SetValue<number>;
+  seek: (arg0: number) => void;
 }> = ({ isPlaying, setIsPlaying, curTime, seek }) => (
   <div className="flex items-center justify-center flex-none mx-2 text-primary-500 sm:mx-8">
     <Rewind

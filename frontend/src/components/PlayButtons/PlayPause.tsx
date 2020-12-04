@@ -11,13 +11,13 @@ export const PlayPause: React.FC<{
 }> = ({ className, isPlaying, setIsPlaying }) => {
   const { playQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
 
-  const togglePlay = React.useCallback(() => {
+  const togglePlay = (): void => {
     if (playQueue.length !== 0 && curIndex === null) {
       setCurIndex(0);
     } else {
       setIsPlaying((p: boolean) => !p);
     }
-  }, [playQueue, curIndex, setCurIndex, setIsPlaying]);
+  };
 
   return (
     <Icon

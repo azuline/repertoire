@@ -7,12 +7,9 @@ import { ReleaseT } from 'src/types';
 export const Rating: React.FC<{ release: ReleaseT }> = ({ release }) => {
   const [mutateRelease] = useMutateRelease();
 
-  const setRating = React.useCallback(
-    (value) => {
-      mutateRelease({ variables: { id: release.id, rating: value } });
-    },
-    [release, mutateRelease],
-  );
+  const setRating = (value: number): void => {
+    mutateRelease({ variables: { id: release.id, rating: value } });
+  };
 
   return (
     <div className="flex items-center release-ratings">

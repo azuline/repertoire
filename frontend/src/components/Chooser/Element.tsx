@@ -13,9 +13,8 @@ export const Element: React.FC<{
   toggleStarFactory: ToggleStarFactory;
 }> = ({ element, active, urlFactory, starrable = true, toggleStarFactory }) => {
   const isActive = element.id === active;
-
-  const url = React.useMemo(() => urlFactory(element.id), [element, urlFactory]);
-  const toggleStar = React.useMemo(() => toggleStarFactory(element), [toggleStarFactory, element]);
+  const url = urlFactory(element.id);
+  const toggleStar = toggleStarFactory(element);
 
   return (
     <div className="relative">

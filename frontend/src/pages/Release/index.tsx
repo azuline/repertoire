@@ -17,7 +17,7 @@ export const Release: React.FC = () => {
   const { data } = useFetchRelease(id as number);
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
-  const release = React.useMemo(() => data?.release || null, [data]);
+  const release = data?.release || null;
 
   React.useEffect(() => {
     if (!release) return;

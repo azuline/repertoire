@@ -17,28 +17,22 @@ export type RequestT<T> = (
 export const useRequest = (): RequestT<Response> => {
   const { setLoggedIn, csrf } = React.useContext(AuthorizationContext);
 
-  const request = React.useCallback(
-    async (url, { method, token, contentType, body } = {}) => {
-      const response = await fetch(url, {
-        body,
-        credentials: 'same-origin',
-        headers: new Headers({
-          Authorization: token && `Token ${token}`,
-          'Content-Type': contentType,
-          'X-CSRF-Token': method !== undefined && method !== 'GET' && csrf ? csrf : '',
-        }),
-        method,
-      });
+  const request: RequestT<Response> = async (url, { method, token, contentType, body } = {}) => {
+    const headers = new Headers();
 
-      if (response.status === 401) {
-        setLoggedIn(false);
-        throw new RequestError('Failed to authenticate.');
-      }
+    headers.set('Authorization', token ? `Token ${token}` : '');
+    headers.set('Content-Type', contentType ?? '');
+    headers.set('X-CSRF-Token', method !== undefined && method !== 'GET' && csrf ? csrf : '');
 
-      return response;
-    },
-    [setLoggedIn, csrf],
-  );
+    const response = await fetch(url, { body, credentials: 'same-origin', headers, method });
+
+    if (response.status === 401) {
+      setLoggedIn(false);
+      throw new RequestError('Failed to authenticate.');
+    }
+
+    return response;
+  };
 
   return request;
 };

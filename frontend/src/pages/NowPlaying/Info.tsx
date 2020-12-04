@@ -10,7 +10,7 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
   const { isSidebarOpen } = React.useContext(SidebarContext);
   const { data } = useFetchRelease(track.release.id);
 
-  const parentRelease = React.useMemo(() => data?.release || null, [data]);
+  const parentRelease = data?.release || null;
 
   React.useEffect(() => {
     if (!parentRelease) return;

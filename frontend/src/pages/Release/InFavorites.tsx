@@ -13,13 +13,13 @@ export const InFavorites: React.FC<{ className?: string; release: ReleaseT }> = 
   const [mutateAdd] = useAddReleaseToCollection();
   const [mutateDel] = useDelReleaseFromCollection();
 
-  const toggleFavorite = React.useCallback(() => {
+  const toggleFavorite = (): void => {
     if (release.inFavorites) {
       mutateDel({ variables: { collectionId: FAVORITES_COLLECTION_ID, releaseId: release.id } });
     } else {
       mutateAdd({ variables: { collectionId: FAVORITES_COLLECTION_ID, releaseId: release.id } });
     }
-  }, [mutateAdd, mutateDel, release]);
+  };
 
   return (
     <Icon

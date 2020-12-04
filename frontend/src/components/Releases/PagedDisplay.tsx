@@ -19,38 +19,37 @@ export const PagedReleases: React.FC<{
   const { data } = useSearchReleases(viewOptions, pagination);
 
   // prettier-ignore
-  const { total, results } = React.useMemo(
-    () => (data?.releases || { results: [], total: 0 }),
-    [data],
-  );
+  const { total, results } = data?.releases || { results: [], total: 0 };
 
   React.useEffect(() => {
     if (total) pagination.setTotal(total);
   }, [total, pagination]);
 
-  const releasesDiv = React.useMemo(() => {
-    switch (viewOptions.releaseView) {
-      case ReleaseView.ROW:
-        return (
-          <div className="flex flex-col">
-            {results.map((rls) => (
-              <div key={rls.id}>
-                <RowRelease className="-mx-3 rounded-lg" release={rls} />
-              </div>
-            ))}
-          </div>
-        );
-      case ReleaseView.ARTWORK:
-      default:
-        return (
-          <div className={clsx('grid gap-4 md:gap-6', calculateGridCss(isSidebarOpen, partial))}>
-            {results.map((rls) => (
-              <ArtRelease key={rls.id} release={rls} />
-            ))}
-          </div>
-        );
-    }
-  }, [viewOptions, results, isSidebarOpen, partial]);
+  let releasesDiv = null;
+
+  switch (viewOptions.releaseView) {
+    case ReleaseView.ROW:
+      releasesDiv = (
+        <div className="flex flex-col">
+          {results.map((rls) => (
+            <div key={rls.id}>
+              <RowRelease className="-mx-3 rounded-lg" release={rls} />
+            </div>
+          ))}
+        </div>
+      );
+      break;
+    case ReleaseView.ARTWORK:
+      releasesDiv = (
+        <div className={clsx('grid gap-4 md:gap-6', calculateGridCss(isSidebarOpen, partial))}>
+          {results.map((rls) => (
+            <ArtRelease key={rls.id} release={rls} />
+          ))}
+        </div>
+      );
+      break;
+    default:
+  }
 
   return (
     <div className="pb-8">

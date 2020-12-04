@@ -13,13 +13,13 @@ export const InInbox: React.FC<{ className?: string; release: ReleaseT }> = ({
   const [mutateAdd] = useAddReleaseToCollection();
   const [mutateDel] = useDelReleaseFromCollection();
 
-  const toggleInbox = React.useCallback(() => {
+  const toggleInbox = (): void => {
     if (release.inInbox) {
       mutateDel({ variables: { collectionId: INBOX_COLLECTION_ID, releaseId: release.id } });
     } else {
       mutateAdd({ variables: { collectionId: INBOX_COLLECTION_ID, releaseId: release.id } });
     }
-  }, [mutateAdd, mutateDel, release]);
+  };
 
   return (
     <Icon

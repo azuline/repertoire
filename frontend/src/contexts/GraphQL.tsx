@@ -3,6 +3,8 @@ import * as React from 'react';
 
 import { AuthorizationContext } from './Authorization';
 
+const cache = new InMemoryCache();
+
 export const GraphQLProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { csrf } = React.useContext(AuthorizationContext);
 
@@ -16,9 +18,7 @@ export const GraphQLProvider: React.FC<{ children: React.ReactNode }> = ({ child
     [csrf],
   );
 
-  const cache = React.useMemo(() => new InMemoryCache(), []);
-
-  const client = React.useMemo(() => new ApolloClient({ cache, link }), [link, cache]);
+  const client = React.useMemo(() => new ApolloClient({ cache, link }), [link]);
 
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };

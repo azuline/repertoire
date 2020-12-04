@@ -37,13 +37,9 @@ const sections = [
 export const RouteList: React.FC = () => {
   const location = useLocation();
 
-  const activeRoute = React.useMemo(() => {
-    const active = sections
-      .reduce<RouteT[]>((acc, section) => acc.concat(section.routes), [])
-      .find(({ path, exact }) => matchPath(location.pathname, { exact, path }));
-
-    return active ? active.path : null;
-  }, [location]);
+  const activeRoute = sections
+    .reduce<RouteT[]>((acc, section) => acc.concat(section.routes), [])
+    .find(({ path, exact }) => matchPath(location.pathname, { exact, path }))?.path;
 
   return (
     <div>
