@@ -5,7 +5,8 @@
 [![codecov](https://img.shields.io/codecov/c/github/azuline/repertoire?token=98M8XQLWLH)](https://codecov.io/gh/azuline/repertoire)
 [![Discord](https://img.shields.io/discord/780852818835013653?color=blueviolet&label=Discord)](https://discord.gg/yaXtjgMzCe)
 
-A release-oriented music server. Work in progress!
+A music server designed to catalog and facilitate exploration of large music
+libraries.
 
 Visit [the documentation](https://repertoire.readthedocs.io) to get started!
 
@@ -25,7 +26,8 @@ may be implemented.**
 ## License
 
 ```
-repertoire :: a release-oriented music server
+repertoire :: a music server designed to catalog and facilitate exploration of
+              large music libraries
 
 Copyright (C) 2020 azuline
 

@@ -1,8 +1,9 @@
 repertoire
 ==========
 
-Welcome to repertoire, a music server designed for cataloguing and exploring
-large libraries of music! To see repertoire in action, visit :ref:`screenshots`.
+Welcome to repertoire, a music server designed to catalog and facilitate
+exploration of large music libraries. To see repertoire in action, visit
+:ref:`screenshots`.
 
 For documentation on installing repertoire, please refer to :ref:`installation`.
 
