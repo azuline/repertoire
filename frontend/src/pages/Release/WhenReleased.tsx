@@ -5,7 +5,7 @@ export const WhenReleased: React.FC<{ release: ReleaseT }> = ({ release }) => {
   if (release.releaseDate) {
     return (
       <>
-        <span className="text-foreground-400">Released on </span>
+        <span className="text-foreground-300">Released on </span>
         <span>{formatDate(new Date(release.releaseDate))}</span>
       </>
     );
@@ -14,13 +14,13 @@ export const WhenReleased: React.FC<{ release: ReleaseT }> = ({ release }) => {
   if (release.releaseYear) {
     return (
       <>
-        <span className="text-foreground-400">Released in </span>
+        <span className="text-foreground-300">Released in </span>
         <span>{release.releaseYear}</span>
       </>
     );
   }
 
-  return <span className="text-foreground-400">Released on unknown date</span>;
+  return <span className="text-foreground-300">Released on unknown date</span>;
 };
 
 const SHORT_MONTHS = [

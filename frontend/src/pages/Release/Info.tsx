@@ -9,9 +9,9 @@ import { WhenReleased } from './WhenReleased';
 export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
   return (
     <div className="flex flex-col flex-1 min-w-0 md:min-h-52">
-      <SectionHeader className="flex-none mb-4 truncate-2">
+      <SectionHeader className="flex-none mb-6 md:mb-4 truncate-2">
         <div>
-          <div className="w-18 ml-2 float-right md:hidden">
+          <div className="float-right ml-2 w-18 md:hidden">
             <div className="flex">
               <InFavorites className="flex-none" release={release} />
               <InInbox className="flex-none" release={release} />
@@ -20,24 +20,22 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           {release.title}
         </div>
       </SectionHeader>
-      <div className="flex-none mb-1 text-lg truncate-2">
+      <div className="flex-none mb-2 truncate-2 text-foreground-100">
+        <span className="text-foreground-300">By </span>
         {release.artists.length === 0 ? (
           <Link href="/artists/1">Unknown Artist</Link>
         ) : (
-          <>
-            <span className="text-foreground-400">By </span>
-            <ArtistList
-              link
-              className="inline"
-              elementClassName="text-primary-400"
-              elements={release.artists}
-            />
-          </>
+          <ArtistList
+            link
+            className="inline"
+            elementClassName="text-primary-400"
+            elements={release.artists}
+          />
         )}
       </div>
-      <div className="flex-none mb-2 text-lg truncate-2 text-foreground-300">
+      <div className="flex-none mb-2 truncate-2 text-foreground-100">
         <WhenReleased release={release} />
-        <span className="text-foreground-400"> on </span>
+        <span className="text-foreground-300"> on </span>
         {release.labels.length === 0 ? (
           <span>No Label</span>
         ) : (
@@ -52,7 +50,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           </>
         )}
       </div>
-      <div className="flex-none text-md truncate-2 md:mt-auto">
+      <div className="flex-none mt-4 truncate-2 md:mt-auto">
         {release.genres.length !== 0 && (
           <>
             <GenreList

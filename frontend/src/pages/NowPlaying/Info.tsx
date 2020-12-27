@@ -24,24 +24,22 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
         imageId={track.release.imageId}
       />
       <div className="flex flex-col flex-1 min-w-0 md:min-h-48">
-        <SectionHeader className="flex-none mb-4 truncate-2">{track.title}</SectionHeader>
-        <div className="flex-none mb-1 text-lg truncate-2">
+        <SectionHeader className="flex-none mb-6 md:mb-4 truncate-2">{track.title}</SectionHeader>
+        <div className="flex-none mb-1 truncate-2">
+          <span className="text-foreground-300">By </span>
           {track.artists.length === 0 ? (
             <Link href="/artists/1">Unknown Artist</Link>
           ) : (
-            <>
-              <span className="text-foreground-400">By </span>
-              <TrackArtistList
-                link
-                artists={track.artists}
-                className="inline"
-                elementClassName="text-primary-400"
-              />
-            </>
+            <TrackArtistList
+              link
+              artists={track.artists}
+              className="inline"
+              elementClassName="text-primary-400"
+            />
           )}
         </div>
-        <div className="flex-none mb-2 text-lg">
-          <span className="text-foreground-400">From </span>
+        <div className="flex-none mb-2">
+          <span className="text-foreground-300">From </span>
           <Link href={`/releases/${track.release.id}`}>
             <span className="text-primary-400">{parentRelease?.title ?? 'Loading...'}</span>
           </Link>
