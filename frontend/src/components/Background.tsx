@@ -13,11 +13,11 @@ import { BackgroundContext } from 'src/contexts';
 // TODO: Light theme-ify support this.
 const innerBackgroundStyle = {
   background:
-    'linear-gradient(190deg, rgba(16, 16, 19, 0.4), rgba(16, 16, 19, 0.5), rgba(16, 16, 19, 0.7), rgba(16, 16, 19, 1), rgba(16, 16, 19, 1))',
+    'linear-gradient(190deg, rgba(16, 16, 19, 0.6), rgba(16, 16, 19, 0.7), rgba(16, 16, 19, 0.8), rgba(16, 16, 19, 1), rgba(16, 16, 19, 1))',
 };
 const outerBackgroundStyle = {
   background:
-    'linear-gradient(180deg, rgba(16, 16, 19, 0.1), rgba(16, 16, 19, 0.5), rgba(16, 16, 19, 0.8), rgba(16, 16, 19, 1), rgba(16, 16, 19, 1), rgba(16, 16, 19, 1))',
+    'linear-gradient(180deg, rgba(16, 16, 19, 0.2), rgba(16, 16, 19, 0.7), rgba(16, 16, 19, 0.9), rgba(16, 16, 19, 1), rgba(16, 16, 19, 1), rgba(16, 16, 19, 1))',
 };
 
 export const Background: React.FC = () => {
