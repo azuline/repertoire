@@ -119,7 +119,7 @@ input.searchbar::placeholder {
 .w-fullpad {
   width: calc(100% + 3rem);
 }
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 768px) {
   .w-fullpad {
     width: calc(100% + 4rem);
   }

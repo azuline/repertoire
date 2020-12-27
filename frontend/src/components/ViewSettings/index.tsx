@@ -2,7 +2,6 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { Icon, Popover } from 'src/components/common';
 import { Pagination } from 'src/components/Pagination';
-import { SidebarContext } from 'src/contexts';
 import { PaginationT, ViewOptionsT } from 'src/hooks';
 
 import { Order } from './Order';
@@ -16,21 +15,8 @@ export const ViewSettings: React.FC<{
   className?: string;
   partial?: boolean;
 }> = ({ viewOptions, pagination, className, partial = false }) => {
-  const { isSidebarOpen } = React.useContext(SidebarContext);
-
-  let responsiveFlex = null;
-  let responsiveHide = null;
-
-  if (partial && isSidebarOpen) {
-    responsiveFlex = '2xl:flex';
-    responsiveHide = '2xl:hidden';
-  } else if (partial || isSidebarOpen) {
-    responsiveFlex = 'xl:flex';
-    responsiveHide = 'xl:hidden';
-  } else {
-    responsiveFlex = 'lg:flex';
-    responsiveHide = 'lg:hidden';
-  }
+  const responsiveFlex = partial ? '2xl:flex' : 'xl:flex';
+  const responsiveHide = partial ? '2xl:hidden' : 'xl:hidden';
 
   return (
     <div className={clsx('flex', className)}>

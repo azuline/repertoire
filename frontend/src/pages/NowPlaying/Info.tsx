@@ -1,13 +1,11 @@
-import clsx from 'clsx';
 import * as React from 'react';
 import { GenreList, Image, Link, SectionHeader, TrackArtistList } from 'src/components';
-import { BackgroundContext, SidebarContext } from 'src/contexts';
+import { BackgroundContext } from 'src/contexts';
 import { useFetchRelease } from 'src/lib';
 import { TrackT } from 'src/types';
 
 export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
-  const { isSidebarOpen } = React.useContext(SidebarContext);
   const { data } = useFetchRelease(track.release.id);
 
   const parentRelease = data?.release || null;
@@ -22,18 +20,10 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
   return (
     <div className="flex">
       <Image
-        className={clsx(
-          'flex-none hidden w-48 h-48 mr-8 rounded-lg',
-          isSidebarOpen ? 'md:block' : 'sm:block',
-        )}
+        className="flex-none hidden w-48 h-48 mr-8 rounded-lg md:block"
         imageId={track.release.imageId}
       />
-      <div
-        className={clsx(
-          'flex flex-col flex-1 min-w-0',
-          isSidebarOpen ? 'md:min-h-48' : 'sm:min-h-48',
-        )}
-      >
+      <div className="flex flex-col flex-1 min-w-0 md:min-h-48">
         <SectionHeader className="flex-none mb-4 truncate-2">{track.title}</SectionHeader>
         <div className="flex-none mb-1 text-lg truncate-2">
           {track.artists.length === 0 ? (
@@ -56,12 +46,7 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
             <span className="text-primary-400">{parentRelease?.title ?? 'Loading...'}</span>
           </Link>
         </div>
-        <div
-          className={clsx(
-            'flex-none mt-4 text-md truncate-2',
-            isSidebarOpen ? 'md:mt-auto' : 'sm:mt-auto',
-          )}
-        >
+        <div className="flex-none mt-4 text-md truncate-2 md:mt-auto">
           {parentRelease && parentRelease.genres.length !== 0 && (
             <>
               <GenreList

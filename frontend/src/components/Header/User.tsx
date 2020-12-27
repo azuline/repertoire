@@ -2,18 +2,15 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 import { Icon, Link } from 'src/components/common';
-import { AuthorizationContext, SidebarContext } from 'src/contexts';
+import { AuthorizationContext } from 'src/contexts';
 import { useRequest } from 'src/hooks';
 import { useFetchUser } from 'src/lib';
 
 export const User: React.FC<{ className?: string }> = ({ className }) => {
   const { setLoggedIn } = React.useContext(AuthorizationContext);
-  const { setSidebarOpen } = React.useContext(SidebarContext);
   const { addToast } = useToasts();
   const { data } = useFetchUser();
   const request = useRequest();
-
-  const closeSidebar = (): void => setSidebarOpen(false);
 
   const logout = (): void => {
     (async (): Promise<void> => {
@@ -30,7 +27,6 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
       <Link
         className="flex-none px-1 py-2 cursor-pointer hover:text-primary-400 text-primary-500 sm:hidden"
         href="/settings"
-        onClick={closeSidebar}
       >
         <Icon className="w-6" icon="cog-medium" title="Settings" />
       </Link>

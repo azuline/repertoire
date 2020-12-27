@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { SidebarContext } from 'src/contexts';
 
 import { ElementT, ToggleStarFactory } from './Element';
 import { JumpToLetter } from './JumpToLetter';
@@ -28,7 +27,6 @@ export const Chooser: React.FC<{
   starrable?: boolean;
   toggleStarFactory: ToggleStarFactory;
 }> = ({ className, results, active, urlFactory, starrable, toggleStarFactory }) => {
-  const { isSidebarOpen } = React.useContext(SidebarContext);
   const [jumpTo, setJumpTo] = React.useState<number | null>(null);
 
   return (
@@ -36,20 +34,16 @@ export const Chooser: React.FC<{
       className={clsx(
         className,
         'w-72 -ml-6 md:-ml-8',
-        active && 'mr-6 md:mr-8',
-        active && isSidebarOpen && 'hidden lg:flex lg:flex-col lg:sticky lg:top-0',
-        active && !isSidebarOpen && 'hidden md:flex md:flex-col md:sticky md:top-0',
-        !active && '-mr-6 md:-mr-8 w-fullpad',
+        active
+          ? 'mr-6 md:mr-8 hidden xl:flex xl:flex-col xl:sticky xl:top-0'
+          : '-mr-6 md:-mr-8 w-fullpad',
       )}
       style={{ maxHeight: 'calc(100vh - 4rem)' }}
     >
       <div
         className={clsx(
           'relative flex-auto h-full',
-          active &&
-            (isSidebarOpen
-              ? 'lg:bg-background-800 lg:sticky lg:top-0'
-              : 'md:bg-background-800 md:sticky md:top-0'),
+          active && 'xl:bg-background-800 xl:sticky xl:top-0',
         )}
       >
         <JumpToLetter active={active} results={results} setJumpTo={setJumpTo} />

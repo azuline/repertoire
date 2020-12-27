@@ -1,7 +1,5 @@
-import clsx from 'clsx';
 import * as React from 'react';
 import { ArtistList, GenreList, LabelList, Link, SectionHeader } from 'src/components';
-import { SidebarContext } from 'src/contexts';
 import { ReleaseT } from 'src/types';
 
 import { InFavorites } from './InFavorites';
@@ -9,18 +7,11 @@ import { InInbox } from './InInbox';
 import { WhenReleased } from './WhenReleased';
 
 export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
-  const { isSidebarOpen } = React.useContext(SidebarContext);
-
   return (
-    <div
-      className={clsx(
-        'flex flex-col flex-1 min-w-0',
-        isSidebarOpen ? 'md:min-h-52' : 'sm:min-h-52',
-      )}
-    >
+    <div className="flex flex-col flex-1 min-w-0 md:min-h-52">
       <SectionHeader className="flex-none mb-4 truncate-2">
         <div>
-          <div className={clsx('w-18 ml-2 float-right', isSidebarOpen ? 'md:hidden' : 'sm:hidden')}>
+          <div className="w-18 ml-2 float-right md:hidden">
             <div className="flex">
               <InFavorites className="flex-none" release={release} />
               <InInbox className="flex-none" release={release} />
@@ -61,12 +52,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           </>
         )}
       </div>
-      <div
-        className={clsx(
-          'flex-none text-md truncate-2',
-          isSidebarOpen ? 'md:mt-auto' : 'sm:mt-auto',
-        )}
-      >
+      <div className="flex-none text-md truncate-2 md:mt-auto">
         {release.genres.length !== 0 && (
           <>
             <GenreList
