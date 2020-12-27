@@ -33,7 +33,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           />
         )}
       </div>
-      <div className="flex-none mb-2 truncate-2 text-foreground-100">
+      <div className="flex-none mb-4 truncate-2 text-foreground-100">
         <WhenReleased release={release} />
         <span className="text-foreground-300"> on </span>
         {release.labels.length === 0 ? (
@@ -50,7 +50,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
           </>
         )}
       </div>
-      <div className="flex-none mt-4 truncate-2 md:mt-auto">
+      <div className="flex-none mt-2 truncate-2 md:mt-auto">
         {release.genres.length !== 0 && (
           <>
             <GenreList

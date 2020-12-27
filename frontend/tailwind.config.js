@@ -33,6 +33,9 @@ module.exports = {
           900: '#372915',
         },
       },
+      backgroundOpacity: {
+        7: '0.07',
+      },
       spacing: {
         full: '100%',
         '1/24': '4.166666%',

@@ -15,7 +15,7 @@ export const NavLink: React.FC<{
         <div
           className={clsx(
             active
-              ? 'border-l-4 border-primary-500 bg-white bg-opacity-10'
+              ? 'border-l-4 border-primary-500 bg-white bg-opacity-7'
               : 'border-transparent hover-emph-bg',
             'text-sm cursor-pointer text-foreground border-l-4 pl-7 pr-8 py-2',
           )}

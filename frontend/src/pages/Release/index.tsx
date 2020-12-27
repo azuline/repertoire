@@ -31,7 +31,7 @@ export const Release: React.FC = () => {
         <div className="flex flex-col mt-4">
           <div className="flex">
             <Image
-              className="flex-none hidden mr-8 rounded-lg w-52 h-52 md:block"
+              className="flex-none hidden mr-8 rounded-lg w-56 h-56 md:block"
               imageId={release.imageId}
             />
             <Info release={release} />
