@@ -11,9 +11,9 @@ For documentation on repertoire's advanced features, please refer to the Manual 
 
 For documentation on developing against repertoire, please refer to the Hacking
 section. :ref:`server_api` documents the API that repertoire exposes over HTTP.
-:ref:`hacking_environment` documents the development environment.
-:ref:`hacking_backend` documents the backend source code and
-:ref:`hacking_frontend` documents the frontend source code.
+:ref:`environment` documents the development environment.
+:ref:`backend` documents the backend source code and
+:ref:`frontend` documents the frontend source code.
 
 License
 -------

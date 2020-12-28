@@ -1,4 +1,4 @@
-.. _hacking_environment:
+.. _environment:
 
 Development Environment
 =======================
