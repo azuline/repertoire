@@ -1,4 +1,5 @@
 import shutil
+import sqlite3
 from pathlib import Path
 
 import pytest
@@ -15,6 +16,7 @@ from src.webserver.routes.graphql import GraphQLContext
 from tests.fragments import FRAGMENTS
 
 FAKE_DATA = Path(__file__).parent / "fake_data"
+SEED_DATABASE_PATH = FAKE_DATA / "db.seed.sqlite3"
 DATABASE_PATH = FAKE_DATA / "db.sqlite3"
 DATABASE_JOURNAL_PATH = FAKE_DATA / "db.sqlite3-journal"
 TEST_SQL_PATH = Path(__file__).parent / "database.sql"
@@ -34,12 +36,11 @@ def clear_fake_data_logs_and_covers():
     LOGS.mkdir()
 
 
-@pytest.fixture
-def db():
-    DATABASE_PATH.unlink(missing_ok=True)
-    DATABASE_JOURNAL_PATH.unlink(missing_ok=True)
+@pytest.fixture(autouse=True, scope="session")
+def seed_db():
+    SEED_DATABASE_PATH.unlink(missing_ok=True)
 
-    db_backend = get_backend(f"sqlite:///{DATABASE_PATH}")
+    db_backend = get_backend(f"sqlite:///{SEED_DATABASE_PATH}")
     db_migrations = read_migrations(
         str(PROJECT_ROOT / "backend" / "src" / "migrations")
     )
@@ -50,9 +51,19 @@ def db():
     with TEST_SQL_PATH.open("r") as f:
         test_sql = f.read()
 
-    with database() as conn:
+    with sqlite3.connect(SEED_DATABASE_PATH) as conn:
         conn.executescript(test_sql)
         conn.commit()
+
+
+@pytest.fixture
+def db():
+    DATABASE_PATH.unlink(missing_ok=True)
+    DATABASE_JOURNAL_PATH.unlink(missing_ok=True)
+
+    shutil.copyfile(SEED_DATABASE_PATH, DATABASE_PATH)
+
+    with database() as conn:
         yield conn.cursor()
 
 

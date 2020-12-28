@@ -74,11 +74,12 @@ def test_delete_image(db):
         image_path.touch()
         thumbnail_path.touch()
 
-        db.execute("UPDATE images SET path = ? WHERE id = 1", (str(image_path),))
+        db.execute("INSERT INTO images (path) VALUES (?)", (str(image_path),))
+        image_id = db.lastrowid
 
-        image.delete(image.from_id(1, db), db)
+        image.delete(image.from_id(image_id, db), db)
 
-        assert not image.from_id(1, db)
+        assert not image.from_id(image_id, db)
         assert not image_path.exists()
         assert not thumbnail_path.exists()
 
