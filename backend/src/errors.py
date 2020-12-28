@@ -42,6 +42,10 @@ class InvalidCollectionType(LibError):
     pass
 
 
+class InvalidPlaylistType(LibError):
+    pass
+
+
 class Immutable(LibError):
     pass
 

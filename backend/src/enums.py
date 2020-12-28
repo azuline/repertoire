@@ -45,6 +45,15 @@ class CollectionType(Enum):
     GENRE = 4
 
 
+class PlaylistType(Enum):
+    """The available playlist types."""
+
+    #:
+    SYSTEM = 1
+    #:
+    PLAYLIST = 2
+
+
 class ReleaseSort(Enum):
     """
     The possible ways to sort releases; used when querying the database for a list of
