@@ -79,6 +79,17 @@ INSERT INTO music__collections_releases VALUES(8,3,'2020-10-19 00:25:34');
 INSERT INTO music__collections_releases VALUES(9,3,'2020-10-19 00:25:34');
 INSERT INTO music__collections_releases VALUES(10,3,'2020-10-19 00:25:34');
 
+INSERT INTO music__playlists VALUES(2,'AAAAAA',0,2);
+INSERT INTO music__playlists VALUES(3,'BBBBBB',1,2);
+
+INSERT INTO music__playlists_tracks VALUES(1,1,'2020-10-19 00:25:34');
+INSERT INTO music__playlists_tracks VALUES(1,2,'2020-10-19 00:25:34');
+INSERT INTO music__playlists_tracks VALUES(2,3,'2020-10-19 00:25:34');
+INSERT INTO music__playlists_tracks VALUES(2,4,'2020-10-19 00:25:34');
+INSERT INTO music__playlists_tracks VALUES(2,13,'2020-10-19 00:25:34');
+INSERT INTO music__playlists_tracks VALUES(2,14,'2020-10-19 00:25:34');
+INSERT INTO music__playlists_tracks VALUES(2,15,'2020-10-19 00:25:34');
+
 INSERT INTO music__releases_search_index VALUES(1,1,'Release');
 INSERT INTO music__releases_search_index VALUES(2,1,'Unknown');
 INSERT INTO music__releases_search_index VALUES(3,2,'Carolina');

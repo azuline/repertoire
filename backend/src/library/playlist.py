@@ -17,6 +17,7 @@ from src.errors import (
 )
 from src.util import update_dataclass, without_key
 
+from . import collection
 from . import image as libimage
 from . import track
 
@@ -263,7 +264,7 @@ def tracks(ply: T, cursor: Cursor) -> List[track.T]:
         SELECT
             trks.*
         FROM music__playlists AS plys
-            JOIN music__playlists_tracks AS plystrks ON plystrks.playlist_id = ply.id
+            JOIN music__playlists_tracks AS plystrks ON plystrks.playlist_id = plys.id
             JOIN music__tracks AS trks ON trks.id = plystrks.track_id
         WHERE plys.id = ?
         GROUP BY trks.id
@@ -403,7 +404,7 @@ def top_genres(ply: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
 
     return [
         {
-            "genre": from_row(without_key(row, "num_matches")),
+            "genre": collection.from_row(without_key(row, "num_matches")),
             "num_matches": row["num_matches"],
         }
         for row in cursor.fetchall()
