@@ -180,12 +180,12 @@ INSERT INTO music__playlist_types (id, type) VALUES
 INSERT INTO music__playlists (id, name, type, starred) VALUES
     (1, "Favorites", 1, 1);
 
-CREATE TABLE music__playlists_releases (
+CREATE TABLE music__playlists_tracks (
     playlist_id INTEGER NOT NULL,
-    release_id INTEGER NOT NULL,
+    track_id INTEGER NOT NULL,
     added_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
-    PRIMARY KEY (release_id, playlist_id),
-    FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE,
+    PRIMARY KEY (track_id, playlist_id),
+    FOREIGN KEY (track_id) REFERENCES music__tracks(id) ON DELETE CASCADE,
     FOREIGN KEY (playlist_id) REFERENCES music__playlists(id) ON DELETE CASCADE
 );
 

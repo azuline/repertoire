@@ -269,7 +269,7 @@ def add_release(col: T, release_id: int, cursor: Cursor) -> T:
     Add the provided release to the provided collection.
 
     :param col: The collection to add the release to.
-    :param rls_id: The ID of the release to add.
+    :param release_id: The ID of the release to add.
     :param cursor: A cursor to the database.
     :return: The collection with the number of tracks (if present) updated.
     :raises NotFound: If no release has the given release ID.
@@ -309,7 +309,7 @@ def del_release(col: T, release_id: int, cursor: Cursor) -> T:
     Remove the provided release from the provided collection.
 
     :param col: The collection to remove the release from.
-    :param rls: The release to remove.
+    :param release_id: The release to remove.
     :param cursor: A cursor to the database.
     :return: The collection with the number of tracks (if present) updated.
     :raises NotFound: If no release has the given release ID.
