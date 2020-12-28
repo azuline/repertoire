@@ -4,7 +4,7 @@ import sys
 from yoyo import get_backend, read_migrations
 
 from src.config import write_default_config
-from src.constants import CONFIG_PATH, DATABASE_PATH, PROJECT_ROOT
+from src.constants import CONFIG_PATH, DATABASE_PATH, PROJECT_ROOT, TESTING
 
 # Configure logging.
 logger = logging.getLogger()
@@ -16,8 +16,8 @@ stream_handler = logging.StreamHandler(sys.stdout)
 stream_handler.setFormatter(stream_formatter)
 logger.addHandler(stream_handler)
 
-# Don't automatically initialize/update application data when sphinx is running.
-if "sphinx" not in sys.modules:
+# Don't automatically initialize/update application data when testing.
+if not TESTING:
     # Run database migrations.
     db_backend = get_backend(f"sqlite:///{DATABASE_PATH}")
     db_migrations = read_migrations(

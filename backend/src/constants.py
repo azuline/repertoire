@@ -7,10 +7,12 @@ from dotenv import load_dotenv
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 
-# If pytest/sphinx called this, set DATA_PATH to the tests' data directory rather than
-# the real one.
+# If pytest/sphinx is running the program, do a few things differently:
+# - Set DATA_PATH to the tests' data directory rather than the real one.
+# - Don't autoinitialize the database and config file.
+TESTING = "pytest" in sys.modules or "sphinx" in sys.modules
 
-if "pytest" not in sys.modules and "sphinx" not in sys.modules:  # pragma: no cover
+if not TESTING:  # pragma: no cover
     load_dotenv(dotenv_path=PROJECT_ROOT / ".env")
 else:
     os.environ["DATA_PATH"] = str(PROJECT_ROOT / "backend" / "tests" / "fake_data")
