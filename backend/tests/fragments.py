@@ -86,6 +86,29 @@ COLLECTION_FIELDS = """
     }
 """
 
+PLAYLIST_FIELDS = """
+    fragment PlaylistFields on Playlist {
+        id
+        name
+        starred
+        type
+        numTracks
+        lastUpdatedOn
+
+        tracks {
+            id
+            title
+        }
+
+        topGenres {
+            genre {
+                id
+            }
+            numMatches
+        }
+    }
+"""
+
 TRACK_FIELDS = """
     fragment TrackFields on Track {
         id
@@ -114,5 +137,6 @@ FRAGMENTS = {
     "...ReleaseFields": RELEASE_FIELDS,
     "...ArtistFields": ARTIST_FIELDS,
     "...CollectionFields": COLLECTION_FIELDS,
+    "...PlaylistFields": PLAYLIST_FIELDS,
     "...TrackFields": TRACK_FIELDS,
 }

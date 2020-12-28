@@ -12,6 +12,13 @@ type Query {
     type: CollectionType!
   ): Collection
 
+  playlist(id: Int!): Playlist
+
+  playlistFromNameAndType(
+    name: String!
+    type: PlaylistType!
+  ): Playlist
+
   release(id: Int!): Release
 
   track(id: Int!): Track
@@ -27,6 +34,12 @@ type Query {
     "If provided, only collections of these type will be returned."
     types: [CollectionType]
   ): Collections
+
+  "Fetch all playlists (of one or more types)."
+  playlists(
+    "If provided, only playlists of these type will be returned."
+    types: [PlaylistType]
+  ): Playlists
 
   "Search for releases matching a certain criteria."
   releases(
@@ -111,6 +124,28 @@ type Mutation {
     collectionId: Int!
     releaseId: Int!
   ): CollectionAndRelease
+
+  createPlaylist(
+    name: String!
+    type: PlaylistType!
+    starred: Boolean
+  ): Playlist
+
+  updatePlaylist(
+    id: Int!
+    name: String
+    starred: Boolean
+  ): Playlist
+
+  addTrackToPlaylist(
+    playlistId: Int!
+    trackId: Int!
+  ): PlaylistAndTrack
+
+  delTrackFromPlaylist(
+    playlistId: Int!
+    trackId: Int!
+  ): PlaylistAndTrack
 
   createRelease(
     title: String!
@@ -203,7 +238,7 @@ type Collection {
   numReleases: Int!
   "The last datetime a release was added to the collection."
   lastUpdatedOn: PosixTime
-  "The image ID of the a release in the collection. Potentially null."
+  "The image ID of a release in the collection. Potentially null."
   imageId: Int
 
   releases: [Release]!
@@ -213,6 +248,26 @@ type Collection {
 
 type Collections {
   results: [Collection]!
+}
+
+type Playlist {
+  id: Int!
+  name: String!
+  starred: Boolean!
+  type: PlaylistType!
+  numTracks: Int!
+  "The last datetime a release was added to the playlist."
+  lastUpdatedOn: PosixTime
+  "The image ID of a track in the playlst. Potentially null."
+  imageId: Int
+
+  tracks: [Track]!
+  "The top genres of the playlist, compiled from its tracks."
+  topGenres: [TopGenre]!
+}
+
+type Playlists {
+  results: [Playlist]!
 }
 
 type Release {
@@ -285,6 +340,11 @@ type CollectionAndRelease {
   release: Release!
 }
 
+type PlaylistAndTrack {
+  playlist: Playlist!
+  track: Track!
+}
+
 type ReleaseAndArtist {
   release: Release!
   artist: Artist!
@@ -333,4 +393,9 @@ enum ReleaseSort {
   YEAR
   RATING
   RANDOM
+}
+
+enum PlaylistType {
+  SYSTEM
+  PLAYLIST
 }

@@ -157,8 +157,11 @@ def test_top_genres(db: Cursor, snapshot):
 
 
 def test_image(db: Cursor):
-    ply = playlist.from_id(1, db)
-    assert playlist.image(ply, db).id == 1  # type: ignore
+    ply1 = playlist.from_id(1, db)
+    assert playlist.image(ply1, db).id == 1  # type: ignore
+
+    ply2 = playlist.from_id(1, db)
+    assert isinstance(playlist.image(ply2, db).id, int)  # type: ignore
 
 
 def test_image_nonexistent(db: Cursor):
