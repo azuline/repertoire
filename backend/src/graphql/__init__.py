@@ -14,6 +14,7 @@ from graphql import GraphQLError
 from src.graphql.enums import (
     artist_role_enum,
     collection_type_enum,
+    playlist_type_enum,
     release_sort_enum,
     release_type_enum,
 )
@@ -22,6 +23,7 @@ from src.graphql.query import query
 from src.graphql.scalars import posix_time_scalar
 from src.graphql.types.artist import gql_artist, gql_artists  # type: ignore
 from src.graphql.types.collection import gql_collection, gql_collections  # type: ignore
+from src.graphql.types.playlist import gql_playlist, gql_playlists  # type: ignore
 from src.graphql.types.release import gql_release, gql_releases  # type: ignore
 from src.graphql.types.top_genre import gql_top_genre  # type: ignore
 from src.graphql.types.track import gql_track  # type: ignore
@@ -39,6 +41,8 @@ resolvers = [
     gql_artists,
     gql_collection,
     gql_collections,
+    gql_playlist,
+    gql_playlists,
     gql_release,
     gql_releases,
     gql_token,
@@ -51,6 +55,7 @@ resolvers = [
     collection_type_enum,
     release_sort_enum,
     release_type_enum,
+    playlist_type_enum,
     snake_case_fallback_resolvers,
 ]
 

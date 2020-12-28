@@ -110,6 +110,35 @@ CREATE TABLE music__collections_releases (
     FOREIGN KEY (collection_id) REFERENCES music__collections(id) ON DELETE CASCADE
 );
 
+CREATE TABLE music__playlists (
+    id INTEGER NOT NULL,
+    name VARCHAR COLLATE "NOCASE" NOT NULL,
+    starred BOOLEAN NOT NULL DEFAULT 0 CHECK (starred IN (0, 1)),
+    type INTEGER NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (type) REFERENCES music__playlist_types(id),
+    UNIQUE (name, type)
+);
+
+CREATE INDEX idx__music__playlists__sorting ON
+    music__playlists (type, starred DESC, name);
+
+CREATE TABLE music__playlist_types (
+    id INTEGER NOT NULL,
+    type VARCHAR NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE (type)
+);
+
+CREATE TABLE music__playlists_tracks (
+    playlist_id INTEGER NOT NULL,
+    track_id INTEGER NOT NULL,
+    added_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+    PRIMARY KEY (track_id, playlist_id),
+    FOREIGN KEY (track_id) REFERENCES music__tracks(id) ON DELETE CASCADE,
+    FOREIGN KEY (playlist_id) REFERENCES music__playlists(id) ON DELETE CASCADE
+);
+
 CREATE TABLE music__releases_search_index (
     id INTEGER NOT NULL,
     release_id INTEGER NOT NULL,

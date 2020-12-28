@@ -68,7 +68,7 @@ async def test_collections(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_collection_image(db, graphql_query, snapshot):
+async def test_collection_image(db, graphql_query):
     query = """
         query {
             collection(id: 3) {
@@ -81,7 +81,7 @@ async def test_collection_image(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_collection_image_nonexistent(db, graphql_query, snapshot):
+async def test_collection_image_nonexistent(db, graphql_query):
     query = """
         query {
             collection(id: 2) {
@@ -101,7 +101,6 @@ async def test_collections_type_param(db, graphql_query, snapshot):
                 results {
                     ...CollectionFields
                 }
-
             }
         }
     """

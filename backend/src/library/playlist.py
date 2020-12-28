@@ -297,6 +297,7 @@ def add_track(ply: T, track_id: int, cursor: Cursor) -> T:
         (ply.id, track_id),
     )
     # TODO: Once we add playlist-specific ordering, allow duplicate tracks.
+    # This is probably best accomplished by allocating "entry IDs."
     if cursor.fetchone():
         raise AlreadyExists("Track is already in playlist.")
 
