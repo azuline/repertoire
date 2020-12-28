@@ -127,8 +127,8 @@ def test_update_starred(db: Cursor):
 
 
 def test_releases(db: Cursor, snapshot):
-    art = collection.from_id(7, db)
-    snapshot.assert_match(collection.releases(art, db))  # type: ignore
+    col = collection.from_id(7, db)
+    snapshot.assert_match(collection.releases(col, db))  # type: ignore
 
 
 def test_add_release(db: Cursor, snapshot):
@@ -160,8 +160,8 @@ def test_del_release_failure(db: Cursor):
 
 
 def test_top_genres(db: Cursor, snapshot):
-    art = collection.from_id(7, db)
-    snapshot.assert_match(collection.top_genres(art, db))  # type: ignore
+    col = collection.from_id(7, db)
+    snapshot.assert_match(collection.top_genres(col, db))  # type: ignore
 
 
 def test_image(db: Cursor):

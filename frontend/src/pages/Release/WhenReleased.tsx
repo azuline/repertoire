@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'src/components';
 import { ReleaseT } from 'src/types';
 
 export const WhenReleased: React.FC<{ release: ReleaseT }> = ({ release }) => {
@@ -15,7 +16,9 @@ export const WhenReleased: React.FC<{ release: ReleaseT }> = ({ release }) => {
     return (
       <>
         <span className="text-foreground-300">Released in </span>
-        <span>{release.releaseYear}</span>
+        <Link className="text-primary-400" href={`/years/${release.releaseYear}`}>
+          {release.releaseYear}
+        </Link>
       </>
     );
   }

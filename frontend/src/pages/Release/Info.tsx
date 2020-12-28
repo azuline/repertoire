@@ -39,15 +39,12 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
         {release.labels.length === 0 ? (
           <span>No Label</span>
         ) : (
-          <>
-            <span>{release.labels.length !== 1 ? 'Labels' : 'Label'}: </span>
-            <LabelList
-              link
-              className="inline"
-              elementClassName="text-primary-400"
-              elements={release.labels}
-            />
-          </>
+          <LabelList
+            link
+            className="inline"
+            elementClassName="text-primary-400"
+            elements={release.labels}
+          />
         )}
       </div>
       <div className="flex-none mt-2 truncate-2 md:mt-auto">
