@@ -3,7 +3,6 @@
 [![CI](https://img.shields.io/github/workflow/status/azuline/repertoire/CI)](https://github.com/azuline/repertoire/actions)
 [![Documentation Status](https://readthedocs.org/projects/repertoire/badge/?version=latest)](https://repertoire.readthedocs.io/en/latest/?badge=latest)
 [![codecov](https://img.shields.io/codecov/c/github/azuline/repertoire?token=98M8XQLWLH)](https://codecov.io/gh/azuline/repertoire)
-[![Discord](https://img.shields.io/discord/780852818835013653?color=blueviolet&label=Discord)](https://discord.gg/yaXtjgMzCe)
 
 A music server designed to catalog and facilitate exploration of large music
 libraries.
