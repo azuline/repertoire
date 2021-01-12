@@ -9,9 +9,6 @@ libraries.
 
 Visit [the documentation](https://repertoire.readthedocs.io) to get started!
 
-**WARNING: This software is unstable. Changes without a documented upgrade path
-may be implemented.**
-
 ## Screenshots
 
 ![scrot1](docs/_static/scrot1.png)
@@ -45,10 +42,6 @@ with this program.  If not, see <https://www.gnu.org/licenses/>.
 ```
 
 ## Scratchpad
-
-CRA 4.0.1 has horrible hot reload times for TypeScript, so we currently are
-on 3.4.x. Will upgrade back once this is resolved. This also caps our version
-of ESLint and TypeScript for compatibility reasons.
 
 Since GQL API can create release, need to have functions to scan its tracks for
 cover art and/or upload art.

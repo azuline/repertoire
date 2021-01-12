@@ -7,6 +7,6 @@ export const Explore: React.FC = (): React.ReactElement => (
   <>
     <Header />
     <RecentlyAdded />
-    <span className="p-8">More to come later~</span>
+    <span className="py-8">More to come later~</span>
   </>
 );
