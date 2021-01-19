@@ -37,7 +37,7 @@ export const Release: React.FC = () => {
             <Info release={release} />
           </div>
           <div className="flex items-center mt-6">
-            <div className="items-center flex-none hidden -ml-1 w-52 mr-9 md:flex">
+            <div className="items-center flex-none hidden -ml-1 w-56 mr-9 md:flex">
               <InFavorites release={release} />
               <InInbox release={release} />
             </div>
