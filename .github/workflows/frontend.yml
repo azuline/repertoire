@@ -1,0 +1,32 @@
+name: Frontend
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  type_check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'frontend/'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies.
+        run: yarn install
+      - name: Run type check.
+        run: yarn tsc
+
+  lint_check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'frontend/'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies.
+        run: yarn install
+      - name: Run lint check.
+        run: yarn eslint src/ --ext .ts,.tsx --max-warnings=0

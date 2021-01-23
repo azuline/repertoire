@@ -12,7 +12,7 @@ import quart
 from quart import Quart, Response
 from werkzeug.exceptions import HTTPException
 
-from src.constants import DATABASE_PATH, BACKEND_ROOT, BUILT_FRONTEND
+from src.constants import BUILT_FRONTEND, DATABASE_PATH
 from src.util import database
 from src.webserver.routes import files, graphql, session  # type: ignore
 

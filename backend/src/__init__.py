@@ -4,7 +4,7 @@ import sys
 from yoyo import get_backend, read_migrations
 
 from src.config import write_default_config
-from src.constants import CONFIG_PATH, DATABASE_PATH, BACKEND_ROOT, TESTING
+from src.constants import BACKEND_ROOT, CONFIG_PATH, DATABASE_PATH, TESTING
 
 # Configure logging.
 logger = logging.getLogger()
