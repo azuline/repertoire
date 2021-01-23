@@ -7,7 +7,7 @@ import quart
 from ariadne import graphql
 from yoyo import get_backend, read_migrations
 
-from src.constants import PROJECT_ROOT
+from src.constants import BACKEND_ROOT
 from src.graphql import error_formatter, schema
 from src.library import user
 from src.util import database
@@ -41,9 +41,7 @@ def seed_db():
     SEED_DATABASE_PATH.unlink(missing_ok=True)
 
     db_backend = get_backend(f"sqlite:///{SEED_DATABASE_PATH}")
-    db_migrations = read_migrations(
-        str(PROJECT_ROOT / "backend" / "src" / "migrations")
-    )
+    db_migrations = read_migrations(str(BACKEND_ROOT / "src" / "migrations"))
 
     with db_backend.lock():
         db_backend.apply_migrations(db_backend.to_apply(db_migrations))

@@ -12,11 +12,10 @@ import quart
 from quart import Quart, Response
 from werkzeug.exceptions import HTTPException
 
-from src.constants import DATABASE_PATH, PROJECT_ROOT
+from src.constants import DATABASE_PATH, BACKEND_ROOT, BUILT_FRONTEND
 from src.util import database
 from src.webserver.routes import files, graphql, session  # type: ignore
 
-STATIC_FOLDER = PROJECT_ROOT / "frontend" / "build"
 SECRET_LENGTH = 32
 
 logger = logging.getLogger(__name__)
@@ -32,7 +31,7 @@ def create_app() -> Quart:
 
     :return: The created Quart application.
     """
-    app = Quart(__name__, static_folder=str(STATIC_FOLDER), static_url_path="/")
+    app = Quart(__name__, static_folder=str(BUILT_FRONTEND), static_url_path="/")
 
     app.config.update(
         SESSION_COOKIE_SECURE=True,

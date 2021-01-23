@@ -5,7 +5,7 @@ from pathlib import Path
 import click
 from dotenv import load_dotenv
 
-PROJECT_ROOT = Path(__file__).parent.parent.parent
+BACKEND_ROOT = Path(__file__).parent.parent
 
 # If pytest/sphinx is running the program, do a few things differently:
 # - Set DATA_PATH to the tests' data directory rather than the real one.
@@ -13,9 +13,9 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 TESTING = "pytest" in sys.modules or "sphinx" in sys.modules
 
 if not TESTING:  # pragma: no cover
-    load_dotenv(dotenv_path=PROJECT_ROOT / ".env")
+    load_dotenv(dotenv_path=BACKEND_ROOT / ".env")
 else:
-    os.environ["DATA_PATH"] = str(PROJECT_ROOT / "backend" / "tests" / "fake_data")
+    os.environ["DATA_PATH"] = str(BACKEND_ROOT / "tests" / "fake_data")
 
 # Fetch the data path from `.env` and ensure that it exists and is writeable.
 try:
@@ -41,3 +41,8 @@ DATABASE_PATH = DATA_PATH / "db.sqlite3"
 HUEY_PATH = DATA_PATH / "huey.sqlite3"
 CONFIG_PATH = DATA_PATH / "config.ini"
 PID_PATH = DATA_PATH / "src.pid"
+
+try:
+    BUILT_FRONTEND = Path(os.getenv("BUILT_FRONTEND_DIR"))  # type: ignore
+except TypeError:
+    BUILT_FRONTEND = BACKEND_ROOT.parent / "frontend" / "build"

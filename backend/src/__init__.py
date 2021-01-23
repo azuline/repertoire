@@ -4,7 +4,7 @@ import sys
 from yoyo import get_backend, read_migrations
 
 from src.config import write_default_config
-from src.constants import CONFIG_PATH, DATABASE_PATH, PROJECT_ROOT, TESTING
+from src.constants import CONFIG_PATH, DATABASE_PATH, BACKEND_ROOT, TESTING
 
 # Configure logging.
 logger = logging.getLogger()
@@ -20,9 +20,7 @@ logger.addHandler(stream_handler)
 if not TESTING:
     # Run database migrations.
     db_backend = get_backend(f"sqlite:///{DATABASE_PATH}")
-    db_migrations = read_migrations(
-        str(PROJECT_ROOT / "backend" / "src" / "migrations")
-    )
+    db_migrations = read_migrations(str(BACKEND_ROOT / "src" / "migrations"))
 
     with db_backend.lock():
         db_backend.apply_migrations(db_backend.to_apply(db_migrations))

@@ -3,11 +3,12 @@
 Configuration
 =============
 
-All backend configuration and data is stored in a data directory (``DATA_PATH``
-environment variable, sourced from ``repertoire/.env``). To set the data
-directory, modify the ``.env`` file. If you do not already have a location for
-the data directory, a good default value for ``DATA_PATH`` is
-``/path/to/repertoire/data``.
+All backend configuration and data is stored in a data directory. This
+directory is configured by the ``DATA_PATH`` environment variable.
+
+Environment variables can be specified in an ``.env`` file. The ``.env`` file
+should be placed at ``repertoire/backend/.env``. An example ``.env`` file is
+located at ``repertoire/backend/.env.sample``.
 
 Once ``DATA_PATH`` is set, the backend can be configured with the command
 ``repertoire config``. This will open the configuration file in your
@@ -28,3 +29,12 @@ A sample configuration file is as follows:
    Comments in the real config will be stripped.
 
 Example crontabs can be found/sourced at https://crontab.guru/examples.html.
+
+Other Environment Variables
+---------------------------
+
+These environment variables are only necessary if you want to do something
+*weird*.
+
+- ``BUILT_FRONTEND_DIR``: The directory of the compiled frontend. This has a
+  reasonable default of following the repository directory structure.
