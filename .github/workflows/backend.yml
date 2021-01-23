@@ -8,6 +8,7 @@ on:
 
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -24,6 +25,7 @@ jobs:
         run: bash <(curl -s https://codecov.io/bash) -cF python
 
   type_check:
+    name: Type check
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -38,6 +40,7 @@ jobs:
         run: poetry run mypy src/
 
   lint_check:
+    name: Lint check
     runs-on: ubuntu-latest
     defaults:
       run:

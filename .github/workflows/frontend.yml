@@ -8,6 +8,7 @@ on:
 
 jobs:
   type_check:
+    name: Type check
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -20,6 +21,7 @@ jobs:
         run: yarn tsc
 
   lint_check:
+    name: Lint check
     runs-on: ubuntu-latest
     defaults:
       run:
