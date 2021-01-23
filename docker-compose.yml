@@ -1,0 +1,11 @@
+version: '3'
+services:
+  server:
+    build: .
+    command: start
+    ports:
+      - "127.0.0.1:45731:45731"
+    volumes:
+      - data:/data
+volumes:
+  data:
