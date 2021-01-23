@@ -8,12 +8,61 @@ all installation options require the shell.
 
 There are three installation options:
 
+- :ref:`installation_docker`
 - :ref:`installation_poetry`
 - :ref:`installation_virtualenv`
-- :ref:`installation_docker`
 
 Choose whichever is right for you! If you do not know which option to choose, I
-recommend :ref:`installation_poetry`.
+recommend :ref:`installation_docker`.
+
+.. note::
+   Commands that should be run in the shell are prefixed with ``$``. The ``$``
+   should not be included when running the command.
+
+   Lines beginning with a `#` are comments and should not be executed.
+
+.. note::
+   Regardless of which installation option is chose, repertoire will run on
+   port 45731. You should be able to access it via ``http://127.0.0.1:45731``.
+
+.. _installation_docker:
+
+Docker
+------
+
+You will need Docker and Docker Compose installed.
+
+To install and run repertoire, reference the following commands:
+
+.. code-block:: sh
+
+   # Create a directory for the compose file.
+   $ mkdir repertoire
+   $ cd repertoire
+   # Use whatever editor you want. Refer to the docker-compose.yml file
+   # below; yours should look similar if not equal.
+   $ nano docker-compose.yml
+   # Start the webserver.
+   $ docker-compose up -d
+   # Generate an authentication token for the admin user. Remember it!
+   # `repertoire_server_1` should be replaced with your container name.
+   $ docker exec -it repertoire_server_1 repertoire token
+
+Example ``docker-compose.yml``:
+
+.. code-block::
+
+   version: '3'
+   services:
+     server:
+       image: blissful/repertoire:latest
+       command: start
+       ports:
+         - "127.0.0.1:45731:45731"
+       volumes:
+         - data:/data
+   volumes:
+     data:
 
 .. _installation_poetry:
 
@@ -29,6 +78,7 @@ Yarn.
 
 Installation with Poetry has the following steps:
 
+#. Clone the repository with ``$ git clone https://github.com/azuline/repertoire``.
 #. Change directory to ``repertoire/backend``.
 #. Install backend with ``$ poetry install --no-dev``.
 #. Activate the Poetry virtual environment with ``$ poetry shell``.
@@ -41,6 +91,8 @@ Installation with Poetry has the following steps:
 Or, as a set of shell commands:
 
 .. code-block:: sh
+
+   $ git clone https://github.com/azuline/repertoire
 
    $ cd repertoire/backend/
    $ poetry install --no-dev # Install the backend.
@@ -71,6 +123,7 @@ Yarn.
 
 Installation with Poetry has the following steps:
 
+#. Clone the repository with ``$ git clone https://github.com/azuline/repertoire``.
 #. Change directory to ``repertoire/backend/``.
 #. Create virtualenv with ``$ python3 -m venv .venv``.
 #. Activate virtualenv with ``$ source .venv/bin/activate``.
@@ -84,6 +137,8 @@ Installation with Poetry has the following steps:
 Or, as a set of shell commands:
 
 .. code-block:: sh
+
+   $ git clone https://github.com/azuline/repertoire
 
    $ cd repertoire/backend/
    $ python3 -m venv .venv     # Create the virtual environment
@@ -100,10 +155,3 @@ Or, as a set of shell commands:
    $ repertoire index          # Index your music library.
    $ repertoire token          # Remember this token! It is used for authentication.
    $ repertoire start          # Start the server!
-
-.. _installation_docker:
-
-Docker
-------
-
-This option uses Docker to install the server inside a container. TODO.

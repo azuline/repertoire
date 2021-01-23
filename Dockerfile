@@ -36,4 +36,7 @@ RUN poetry install --no-root --no-dev
 
 COPY --from=builder /app/build ./frontend
 
-ENTRYPOINT ["poetry", "run", "repertoire"]
+RUN printf '#!/usr/bin/env bash\npoetry run repertoire $@' > /usr/bin/repertoire \
+    && chmod +x /usr/bin/repertoire
+
+ENTRYPOINT ["repertoire"]
