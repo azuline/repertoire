@@ -10,7 +10,6 @@ _build/
 *.pid
 tags
 /backend/htmlcov/
-/backend/yoyo.ini
 /data/
 /scripts/
 

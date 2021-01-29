@@ -56,3 +56,22 @@ jobs:
           poetry run black --check .
           poetry run isort -c .
           poetry run flake8 .
+
+  schema:
+    name: Schema
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'backend/'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - uses: abatilo/actions-poetry@v2.1.0
+      - name: Install dependencies.
+        run: poetry install
+      - name: Diff schema.sql and generated schema.
+        run: |
+          mv schema.sql schema.sql.old
+          mkdir ../data
+          make schema
+          diff schema.sql.old schema.sql
