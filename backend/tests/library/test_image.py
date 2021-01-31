@@ -2,7 +2,6 @@ import shutil
 from pathlib import Path
 
 import pytest
-from click.testing import CliRunner
 from PIL import Image
 
 from src.errors import Duplicate, InvalidImage
@@ -31,18 +30,17 @@ def test_from_path_nonexistent(db, snapshot):
 
 
 def test_create(db):
-    with CliRunner().isolated_filesystem():
-        image_path = Path.cwd() / "cover.jpg"
-        shutil.copyfile(FAKE_COVER, image_path)
-        img = image.create(image_path, db)
+    image_path = Path.cwd() / "cover.jpg"
+    shutil.copyfile(FAKE_COVER, image_path)
+    img = image.create(image_path, db)
 
-        assert img.id == 3
-        assert img.path == image_path
-        assert img == image.from_id(3, db)
+    assert img.id == 3
+    assert img.path == image_path
+    assert img == image.from_id(3, db)
 
-        # Check thumbnail was generated.
-        im = Image.open(Path.cwd() / "cover.thumbnail")
-        assert im.size == (300, 300)
+    # Check thumbnail was generated.
+    im = Image.open(Path.cwd() / "cover.thumbnail")
+    assert im.size == (300, 300)
 
 
 def test_create_duplicate(db):
@@ -55,33 +53,31 @@ def test_create_duplicate(db):
 
 
 def test_create_invalid_image(db):
-    with CliRunner().isolated_filesystem():
-        image_path = Path.cwd() / "cover.jpg"
-        with image_path.open("wb") as f:
-            f.write(b"not an image lol!")
+    image_path = Path.cwd() / "cover.jpg"
+    with image_path.open("wb") as f:
+        f.write(b"not an image lol!")
 
-        with pytest.raises(InvalidImage):
-            image.create(image_path, db)
+    with pytest.raises(InvalidImage):
+        image.create(image_path, db)
 
-        assert image.from_id(3, db) is None
-        assert not image_path.exists()
+    assert image.from_id(3, db) is None
+    assert not image_path.exists()
 
 
 def test_delete_image(db):
-    with CliRunner().isolated_filesystem():
-        image_path = Path.cwd() / "cover.jpg"
-        thumbnail_path = Path.cwd() / "cover.thumbnail"
-        image_path.touch()
-        thumbnail_path.touch()
+    image_path = Path.cwd() / "cover.jpg"
+    thumbnail_path = Path.cwd() / "cover.thumbnail"
+    image_path.touch()
+    thumbnail_path.touch()
 
-        db.execute("INSERT INTO images (path) VALUES (?)", (str(image_path),))
-        image_id = db.lastrowid
+    db.execute("INSERT INTO images (path) VALUES (?)", (str(image_path),))
+    image_id = db.lastrowid
 
-        image.delete(image.from_id(image_id, db), db)
+    image.delete(image.from_id(image_id, db), db)
 
-        assert not image.from_id(image_id, db)
-        assert not image_path.exists()
-        assert not thumbnail_path.exists()
+    assert not image.from_id(image_id, db)
+    assert not image_path.exists()
+    assert not thumbnail_path.exists()
 
 
 def test_thumbnail_path():

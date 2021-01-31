@@ -1,3 +1,4 @@
+import logging
 import sqlite3
 from contextlib import contextmanager
 from dataclasses import asdict
@@ -10,6 +11,8 @@ from unidecode import unidecode
 
 from src.constants import Constants
 
+logger = logging.getLogger(__name__)
+
 
 @contextmanager
 def database():
@@ -19,7 +22,7 @@ def database():
     :return: A context manager that yields a database connection.
     """
     cons = Constants()
-
+    logger.debug(f"Opening a connection to database {cons.database_path}.")
     with sqlite3.connect(
         cons.database_path,
         detect_types=sqlite3.PARSE_DECLTYPES,

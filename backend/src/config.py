@@ -1,7 +1,8 @@
 import json
+import threading
 from configparser import ConfigParser
 from pathlib import Path
-from typing import Callable, List, Optional
+from typing import Callable, List
 
 from huey import crontab
 
@@ -105,7 +106,7 @@ class Config:
     the global configuration object when needed.
     """
 
-    __config: Optional[_Config] = None
+    __local: threading.local = threading.local()
 
     #: Music directories to index.
     music_directories: List[str]
@@ -113,6 +114,8 @@ class Config:
     index_crontab: Callable
 
     def __new__(cls) -> _Config:  # type: ignore
-        if cls.__config is None:
-            cls.__config = _Config()
-        return cls.__config
+        try:
+            return cls.__local.config
+        except AttributeError:
+            cls.__local.config = _Config()
+            return cls.__local.config

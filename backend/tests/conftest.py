@@ -5,9 +5,10 @@ from pathlib import Path
 import pytest
 import quart
 from ariadne import graphql
+from click.testing import CliRunner
 from yoyo import get_backend, read_migrations
 
-from src.constants import BACKEND_ROOT
+from src.constants import BACKEND_ROOT, Constants
 from src.graphql import error_formatter, schema
 from src.library import user
 from src.util import database
@@ -16,31 +17,17 @@ from src.webserver.routes.graphql import GraphQLContext
 from tests.fragments import FRAGMENTS
 
 FAKE_DATA = Path(__file__).parent / "fake_data"
-SEED_DATABASE_PATH = FAKE_DATA / "db.seed.sqlite3"
-DATABASE_PATH = FAKE_DATA / "db.sqlite3"
-DATABASE_JOURNAL_PATH = FAKE_DATA / "db.sqlite3-journal"
+FAKE_DATABASE_PATH = FAKE_DATA / "db.sqlite3"
 TEST_SQL_PATH = Path(__file__).parent / "database.sql"
-
-COVER_ART = FAKE_DATA / "cover_art"
-LOGS = FAKE_DATA / "logs"
 
 ADMIN_TOKEN = "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc8"
 
 
-@pytest.fixture(autouse=True)
-def clear_fake_data_logs_and_covers():
-    shutil.rmtree(COVER_ART, ignore_errors=True)
-    shutil.rmtree(LOGS, ignore_errors=True)
-
-    COVER_ART.mkdir()
-    LOGS.mkdir()
-
-
-@pytest.fixture(autouse=True, scope="session")
+@pytest.fixture(scope="session")
 def seed_db():
-    SEED_DATABASE_PATH.unlink(missing_ok=True)
+    FAKE_DATABASE_PATH.unlink(missing_ok=True)
 
-    db_backend = get_backend(f"sqlite:///{SEED_DATABASE_PATH}")
+    db_backend = get_backend(f"sqlite:///{FAKE_DATABASE_PATH}")
     db_migrations = read_migrations(str(BACKEND_ROOT / "src" / "migrations"))
 
     with db_backend.lock():
@@ -49,24 +36,28 @@ def seed_db():
     with TEST_SQL_PATH.open("r") as f:
         test_sql = f.read()
 
-    with sqlite3.connect(SEED_DATABASE_PATH) as conn:
+    with sqlite3.connect(FAKE_DATABASE_PATH) as conn:
         conn.executescript(test_sql)
         conn.commit()
 
 
+@pytest.fixture(autouse=True)
+def isolated_dir(seed_db):
+    with CliRunner().isolated_filesystem():
+        cons = Constants()
+        cons.data_path = Path.cwd() / "_data"
+        shutil.copytree(FAKE_DATA, cons.data_path, dirs_exist_ok=True)
+        yield
+
+
 @pytest.fixture
-def db():
-    DATABASE_PATH.unlink(missing_ok=True)
-    DATABASE_JOURNAL_PATH.unlink(missing_ok=True)
-
-    shutil.copyfile(SEED_DATABASE_PATH, DATABASE_PATH)
-
+def db(isolated_dir):
     with database() as conn:
         yield conn.cursor()
 
 
 @pytest.fixture
-def quart_app():
+def quart_app(isolated_dir):
     yield create_app()
 
 
@@ -85,8 +76,6 @@ async def quart_client(quart_app):
             async def delete(*args, **kwargs):
                 return await test_client.open(*args, **dict(kwargs, method="DELETE"))
 
-            test_client.delete = delete
-
             async def authed_get(*args, **kwargs):
                 return await test_client.get(*args, **update_kwargs(kwargs))
 
@@ -96,6 +85,7 @@ async def quart_client(quart_app):
             async def authed_delete(*args, **kwargs):
                 return await test_client.delete(*args, **update_kwargs(kwargs))
 
+            test_client.delete = delete
             test_client.authed_get = authed_get
             test_client.authed_post = authed_post
             test_client.authed_delete = authed_delete

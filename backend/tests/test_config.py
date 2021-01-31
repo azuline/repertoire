@@ -2,7 +2,6 @@ from configparser import ConfigParser
 from pathlib import Path
 
 import pytest
-from click.testing import CliRunner
 
 from src.config import DEFAULT_CONFIG
 from src.config import Config as SingletonConfig
@@ -52,40 +51,34 @@ def test_invalid_music_directories(directories):
 
 def test_write_default_config():
     path = Path("config.ini")
+    write_default_config(path)
 
-    with CliRunner().isolated_filesystem():
-        write_default_config(path)
-
-        parser = ConfigParser()
-        parser.read(path)
-        assert parser["repertoire"] == DEFAULT_CONFIG["repertoire"]
+    parser = ConfigParser()
+    parser.read(path)
+    assert parser["repertoire"] == DEFAULT_CONFIG["repertoire"]
 
 
 def test_update_default_config_add_key():
     path = Path("config.ini")
 
-    with CliRunner().isolated_filesystem():
-        with path.open("w") as f:
-            f.write("[repertoire]\nmusic_directories = []")
+    with path.open("w") as f:
+        f.write("[repertoire]\nmusic_directories = []")
 
-        write_default_config(path)
+    write_default_config(path)
 
-        parser = ConfigParser()
-        parser.read(path)
-        assert "index_crontab" in parser["repertoire"]
+    parser = ConfigParser()
+    parser.read(path)
+    assert "index_crontab" in parser["repertoire"]
 
 
 def test_update_default_config_add_section():
     path = Path("config.ini")
+    path.touch()
+    write_default_config(path)
 
-    with CliRunner().isolated_filesystem():
-        path.touch()
-
-        write_default_config(path)
-
-        parser = ConfigParser()
-        parser.read(path)
-        assert "repertoire" in parser
+    parser = ConfigParser()
+    parser.read(path)
+    assert "repertoire" in parser
 
 
 def test_singleton():

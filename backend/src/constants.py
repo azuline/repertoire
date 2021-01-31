@@ -1,18 +1,20 @@
 import os
 import sys
-from pathlib import Path
+import threading
 from functools import cached_property
-from typing import Callable, List, Optional
+from pathlib import Path
 
 import click
 from dotenv import load_dotenv
 
 BACKEND_ROOT = Path(__file__).parent.parent
+load_dotenv(dotenv_path=BACKEND_ROOT / ".env")
 
 # If pytest/sphinx is running the program, do a few things differently:
 # - Set DATA_PATH to the tests' data directory rather than the real one.
 # - Don't autoinitialize the database and config file.
-TESTING = "pytest" in sys.modules or "sphinx" in sys.modules
+IS_PYTEST = "pytest" in sys.modules
+IS_SPHINX = "sphinx" in sys.modules
 TEST_DATA_PATH = BACKEND_ROOT / "tests" / "fake_data"
 
 
@@ -48,29 +50,36 @@ class _Constants:
     """
 
     def __init__(self):
-        load_dotenv(dotenv_path=BACKEND_ROOT / ".env")
+        if IS_PYTEST:
+            self.data_path = Path.cwd() / "_data"
+        elif IS_SPHINX:
+            self.data_path = TEST_DATA_PATH
+        else:
+            self.data_path = _get_data_path()
 
-        self.data_path = _get_data_path() if not TESTING else TEST_DATA_PATH
+        self._cover_art_mkdir = False
 
-    @cached_property
+    @property
     def cover_art_dir(self):
         dir_ = self.data_path / "cover_art"
-        dir_.mkdir(exist_ok=True)
+        if not self._cover_art_mkdir:
+            dir_.mkdir(exist_ok=True)
+            self._cover_art_mkdir = True
         return dir_
 
-    @cached_property
+    @property
     def database_path(self):
         return self.data_path / "db.sqlite3"
 
-    @cached_property
+    @property
     def huey_path(self):
         return self.data_path / "huey.sqlite3"
 
-    @cached_property
+    @property
     def config_path(self):
         return self.data_path / "config.ini"
 
-    @cached_property
+    @property
     def pid_path(self):
         return self.data_path / "src.pid"
 
@@ -94,7 +103,7 @@ class Constants:
     the global configuration object when needed.
     """
 
-    __constants: Optional[_Constants] = None
+    __local: threading.local = threading.local()
 
     #: Data storage location.
     data_path: Path
@@ -114,6 +123,8 @@ class Constants:
     built_frontend_dir: Path
 
     def __new__(cls) -> _Constants:  # type: ignore
-        if cls.__constants is None:
-            cls.__constants = _Constants()
-        return cls.__constants
+        try:
+            return cls.__local.constants
+        except AttributeError:
+            cls.__local.constants = _Constants()
+            return cls.__local.constants

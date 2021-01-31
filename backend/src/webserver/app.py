@@ -34,7 +34,9 @@ def create_app() -> Quart:
     cons = Constants()
 
     app = Quart(
-        __name__, static_folder=str(cons.built_frontend_dir), static_url_path="/"
+        __name__,
+        static_folder=str(cons.built_frontend_dir),
+        static_url_path="/",
     )
 
     app.config.update(
@@ -115,7 +117,7 @@ def _register_database_handler(app: Quart):
     @app.before_request
     def connect_to_db() -> None:
         cons = Constants()
-
+        logger.debug(f"Opening a connection to database {cons.database_path}.")
         conn = sqlite3.connect(
             cons.database_path,
             detect_types=sqlite3.PARSE_DECLTYPES,
@@ -128,4 +130,5 @@ def _register_database_handler(app: Quart):
     @app.after_request
     def close_db_connection(response: Response) -> Response:
         quart.g.db.connection.close()
+        logger.debug("Closing the database connection.")
         return response

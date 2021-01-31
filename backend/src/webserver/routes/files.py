@@ -1,3 +1,4 @@
+import logging
 import os
 
 import quart
@@ -9,6 +10,8 @@ from src.webserver.util import check_auth, validate_data
 from src.webserver.validators import StringBool
 
 bp = Blueprint("files", __name__, url_prefix="/files")
+
+logger = logging.getLogger(__name__)
 
 
 @bp.route("/tracks/<track_id>", methods=["GET"])
@@ -53,6 +56,7 @@ async def get_cover(id: int, thumbnail: bool = False) -> Response:
     :status 404: Image does not exist.
     """
     if not (img := image.from_id(id, quart.g.db)):
+        logger.debug(f"Did not find image {id} in database.")
         quart.abort(404)
 
     ext = os.path.splitext(img.path)[1]
@@ -64,4 +68,5 @@ async def get_cover(id: int, thumbnail: bool = False) -> Response:
             cache_timeout=604_800,
         )
     except FileNotFoundError:
+        logger.debug(f"Did not find image {id} on disk ({img.path}).")
         quart.abort(404)
