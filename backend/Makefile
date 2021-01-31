@@ -10,7 +10,7 @@ schema:
 	sqlite3 ../data/db.sqlite3 .schema | tail -n +5 | awk '{if (NR>1) gsub(/^CREATE/, "\nCREATE")}1' >> schema.sql
 
 setup.py:
-	poetry export > requirements.txt
+	poetry export -f requirements.txt -o requirements.txt
 	poetry run dephell deps convert --from pyproject.toml --to setup.py
 
 lint:
