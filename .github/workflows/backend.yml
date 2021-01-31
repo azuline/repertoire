@@ -97,8 +97,8 @@ jobs:
       - name: Diff schema.sql and generated schema.
         run: make schemacheck
 
-  setup_py:
-    name: setup.py
+  setupfiles:
+    name: Setupfiles
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -116,5 +116,5 @@ jobs:
       - name: Install dependencies.
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
-      - name: Diff setup.py and generated setup.py.
+      - name: Diff committed setupfiles and generated setupfiles.
         run: make setupcheck

@@ -21,6 +21,7 @@ RUN yarn build
 FROM python:3.8-slim
 
 WORKDIR /app
+
 RUN mkdir /data /music
 
 ENV DATA_PATH=/data
@@ -32,9 +33,7 @@ index_crontab = 0 0 * * *' > /data/config.ini
 
 # To cache dependencies even if the code changes, we install deps
 # before copying the rest of the code.
-RUN pip install poetry
-COPY backend/pyproject.toml backend/poetry.lock ./
-RUN poetry export > requirements.txt
+COPY backend/requirements.txt ./
 RUN pip install -r requirements.txt
 
 COPY backend/ ./
