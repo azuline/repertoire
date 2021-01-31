@@ -61,6 +61,8 @@ Example ``docker-compose.yml``:
          - "127.0.0.1:45731:45731"
        volumes:
          - data:/data
+         - /my/music1:/music/lib1
+         - /my/music2:/music/lib2
    volumes:
      data:
 

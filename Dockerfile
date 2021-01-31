@@ -21,22 +21,25 @@ RUN yarn build
 FROM python:3.8-slim
 
 WORKDIR /app
-RUN mkdir /data
+RUN mkdir /data /music
 
 ENV DATA_PATH=/data
 ENV BUILT_FRONTEND_DIR=/app/frontend
 
+RUN echo '[repertoire]\n\
+music_directories = ["/music"]\n\
+index_crontab = 0 0 * * *' > /data/config.ini
+
+# To cache dependencies even if the code changes, we install deps
+# before copying the rest of the code.
 RUN pip install poetry
+COPY backend/pyproject.toml backend/poetry.lock ./
+RUN poetry export > requirements.txt
+RUN pip install -r requirements.txt
 
-COPY backend/ .
-
-# TODO: Not sure how to cache dependencies before we copy in the rest of the source?
-
-RUN poetry install --no-root --no-dev
+COPY backend/ ./
+RUN pip install -e .
 
 COPY --from=builder /app/build ./frontend
-
-RUN printf '#!/usr/bin/env bash\npoetry run repertoire $@' > /usr/bin/repertoire \
-    && chmod +x /usr/bin/repertoire
 
 ENTRYPOINT ["repertoire"]

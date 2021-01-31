@@ -9,7 +9,8 @@ Backend
 -------
 
 The Python backend uses Poetry to manage its dependencies and environment.
-See https://python-poetry.org/docs/#installation for installation instructions.
+See https://python-poetry.org/docs/#installation for instructions on installing
+with Poetry.
 
 In ``backend/``:
 
