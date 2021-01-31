@@ -6,9 +6,9 @@ from PIL import Image
 
 from src.errors import Duplicate, InvalidImage
 from src.library import image
-from tests.conftest import FAKE_DATA
+from tests.conftest import SEED_DATA
 
-FAKE_COVER = FAKE_DATA / "fake_cover.jpg"
+FAKE_COVER = SEED_DATA / "fake_cover.jpg"
 
 
 def test_from_id(db, snapshot):

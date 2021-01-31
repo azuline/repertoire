@@ -5,10 +5,10 @@ from src.constants import Constants
 from src.enums import ReleaseType
 from src.indexer.covers import save_pending_covers
 from src.library import release, track
-from tests.conftest import FAKE_DATA
+from tests.conftest import SEED_DATA
 
-NEW_ALBUM = FAKE_DATA / "fake_music" / "New Album"
-FAKE_COVER = FAKE_DATA / "fake_cover.jpg"
+NEW_ALBUM = SEED_DATA / "fake_music" / "New Album"
+FAKE_COVER = SEED_DATA / "fake_cover.jpg"
 
 
 def test_save_pending_covers(db, snapshot):

@@ -16,18 +16,18 @@ from src.webserver.app import create_app
 from src.webserver.routes.graphql import GraphQLContext
 from tests.fragments import FRAGMENTS
 
-FAKE_DATA = Path(__file__).parent / "fake_data"
-FAKE_DATABASE_PATH = FAKE_DATA / "db.sqlite3"
-TEST_SQL_PATH = Path(__file__).parent / "database.sql"
+SEED_DATA = Path(__file__).parent / "seed_data"
+TEST_SQL_PATH = SEED_DATA / "database.sql"
 
 ADMIN_TOKEN = "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc8"
 
 
 @pytest.fixture(scope="session")
 def seed_db():
-    FAKE_DATABASE_PATH.unlink(missing_ok=True)
+    db_path = SEED_DATA / "db.sqlite3"
+    db_path.unlink(missing_ok=True)
 
-    db_backend = get_backend(f"sqlite:///{FAKE_DATABASE_PATH}")
+    db_backend = get_backend(f"sqlite:///{db_path}")
     db_migrations = read_migrations(str(BACKEND_ROOT / "src" / "migrations"))
 
     with db_backend.lock():
@@ -36,7 +36,7 @@ def seed_db():
     with TEST_SQL_PATH.open("r") as f:
         test_sql = f.read()
 
-    with sqlite3.connect(FAKE_DATABASE_PATH) as conn:
+    with sqlite3.connect(db_path) as conn:
         conn.executescript(test_sql)
         conn.commit()
 
@@ -46,7 +46,7 @@ def isolated_dir(seed_db):
     with CliRunner().isolated_filesystem():
         cons = Constants()
         cons.data_path = Path.cwd() / "_data"
-        shutil.copytree(FAKE_DATA, cons.data_path, dirs_exist_ok=True)
+        shutil.copytree(SEED_DATA, cons.data_path, dirs_exist_ok=True)
         yield
 
 
