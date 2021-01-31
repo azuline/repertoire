@@ -12,7 +12,7 @@ import quart
 from quart import Quart, Response
 from werkzeug.exceptions import HTTPException
 
-from src.constants import BUILT_FRONTEND, DATABASE_PATH
+from src.constants import Constants
 from src.util import database
 from src.webserver.routes import files, graphql, session  # type: ignore
 
@@ -31,7 +31,11 @@ def create_app() -> Quart:
 
     :return: The created Quart application.
     """
-    app = Quart(__name__, static_folder=str(BUILT_FRONTEND), static_url_path="/")
+    cons = Constants()
+
+    app = Quart(
+        __name__, static_folder=str(cons.built_frontend_dir), static_url_path="/"
+    )
 
     app.config.update(
         SESSION_COOKIE_SECURE=True,
@@ -110,8 +114,10 @@ def _register_database_handler(app: Quart):
 
     @app.before_request
     def connect_to_db() -> None:
+        cons = Constants()
+
         conn = sqlite3.connect(
-            DATABASE_PATH,
+            cons.database_path,
             detect_types=sqlite3.PARSE_DECLTYPES,
             check_same_thread=False,
         )

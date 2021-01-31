@@ -5,7 +5,7 @@ from typing import Callable, List, Optional
 
 from huey import crontab
 
-from src.constants import CONFIG_PATH
+from src.constants import Constants
 from src.errors import InvalidConfig
 from src.util import parse_crontab
 
@@ -76,7 +76,9 @@ class _Config:
     """
 
     def __init__(self):
-        self.parser = _load_config(CONFIG_PATH)
+        cons = Constants()
+
+        self.parser = _load_config(cons.config_path)
 
     @property
     def music_directories(self) -> List[str]:

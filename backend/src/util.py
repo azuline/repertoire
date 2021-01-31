@@ -8,7 +8,7 @@ from typing import Any, Dict, Iterable, List, Union
 
 from unidecode import unidecode
 
-from src.constants import DATABASE_PATH
+from src.constants import Constants
 
 
 @contextmanager
@@ -18,8 +18,10 @@ def database():
 
     :return: A context manager that yields a database connection.
     """
+    cons = Constants()
+
     with sqlite3.connect(
-        DATABASE_PATH,
+        cons.database_path,
         detect_types=sqlite3.PARSE_DECLTYPES,
     ) as conn:
         conn.row_factory = sqlite3.Row

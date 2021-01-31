@@ -14,7 +14,7 @@ from hypercorn.asyncio import serve
 from hypercorn.config import Config
 
 from src.cli.commands import commands, shared_options
-from src.constants import HUEY_PATH
+from src.constants import Constants
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +49,9 @@ def _start_webserver(host: int, port: int) -> None:
 def _start_task_queue(workers: int) -> None:
     from src.tasks import schedule_tasks
 
-    queue = SqliteHuey(filename=HUEY_PATH)
+    cons = Constants()
+
+    queue = SqliteHuey(filename=cons.huey_path)
     schedule_tasks(queue)
 
     config = ConsumerConfig(workers=workers)
