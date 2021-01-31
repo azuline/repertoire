@@ -19,13 +19,13 @@ jobs:
         id: cache-deps
         uses: actions/cache@v2
         with:
-          path: node_modules
+          path: frontend/node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies.
         if: steps.cache-deps.outputs.cache-hit != 'true'
-        run: yarn install
+        run: CI=true yarn install
       - name: Run type check.
-        run: yarn tsc
+        run: CI=true yarn tsc
 
   lint_check:
     name: Lint check
@@ -39,10 +39,10 @@ jobs:
         id: cache-deps
         uses: actions/cache@v2
         with:
-          path: node_modules
+          path: frontend/node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies.
         if: steps.cache-deps.outputs.cache-hit != 'true'
-        run: yarn install
+        run: CI=true yarn install
       - name: Run lint check.
-        run: yarn eslint src/ --ext .ts,.tsx --max-warnings=0
+        run: CI=true yarn eslint src/ --ext .ts,.tsx --max-warnings=0
