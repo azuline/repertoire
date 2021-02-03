@@ -24,10 +24,10 @@ Visit [the documentation](https://repertoire.readthedocs.io) to get started!
 ## License
 
 ```
-repertoire :: a music server designed to catalog and facilitate exploration of
-              large music libraries
+repertoire :: a music server for cataloguing and exploring large music
+              libraries
 
-Copyright (C) 2020 azuline
+Copyright (C) 2021 blissful
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU Affero General Public License as published by the Free
