@@ -46,7 +46,7 @@ def _get_data_path() -> Path:
 
 class _Constants:
     """
-    The "real" config object that gets loaded as a singleton in ``Config``.
+    The "real" constants object that gets loaded as a singleton in ``Constants``.
     """
 
     def __init__(self):
@@ -97,10 +97,10 @@ class _Constants:
 
 class Constants:
     """
-    A "proxy singleton" that returns the same config instance when instantiated.
+    A "proxy singleton" that returns the same constants instance when instantiated.
 
     Other modules should only work with this singleton. This allows for code to fetch
-    the global configuration object when needed.
+    the global constants object when needed.
     """
 
     __local: threading.local = threading.local()

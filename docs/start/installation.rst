@@ -22,7 +22,7 @@ recommend :ref:`installation_docker`.
    Lines beginning with a `#` are comments and should not be executed.
 
 .. note::
-   Regardless of which installation option is chose, repertoire will run on
+   Regardless of which installation option is chosen, repertoire will run on
    port 45731. You should be able to access it via ``http://127.0.0.1:45731``.
 
 .. _installation_docker:
