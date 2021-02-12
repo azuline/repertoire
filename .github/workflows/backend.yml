@@ -108,8 +108,10 @@ jobs:
       - name: Install dependencies.
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
-      - name: Diff schema.sql and generated schema.
-        run: make schemacheck
+      - name: Generate schema.
+        run: make schema
+      - name: Check for dirty files.
+        run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'
 
   setupfiles:
     name: Setupfiles
@@ -134,5 +136,7 @@ jobs:
       - name: Install dependencies.
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
-      - name: Diff committed setupfiles and generated setupfiles.
-        run: make setupcheck
+      - name: Generate setupfiles.
+        run: make setupfiles
+      - name: Check for dirty files.
+        run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'
