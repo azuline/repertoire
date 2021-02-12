@@ -3,12 +3,12 @@ import * as React from 'react';
 
 import { Icon } from '~/components';
 import { PlayQueueContext } from '~/contexts';
-import { SetValue } from '~/types';
+import { ISetValue } from '~/types';
 
 export const PlayPause: React.FC<{
   className?: string;
   isPlaying: boolean;
-  setIsPlaying: SetValue<boolean>;
+  setIsPlaying: ISetValue<boolean>;
 }> = ({ className, isPlaying, setIsPlaying }) => {
   const { playQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
 

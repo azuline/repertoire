@@ -7,20 +7,16 @@ import { useToasts } from 'react-toast-notifications';
  *
  * @returns The active ID.
  */
-export const useId = (): number | null => {
+export const useId = (): number => {
   const history = useHistory();
   const { addToast } = useToasts();
   const { id: rawId } = useParams<{ id: string }>();
 
-  if (!rawId) {
-    return null;
-  }
-
-  if (/^\d+$/.test(rawId)) {
+  if (rawId && /^\d+$/.test(rawId)) {
     return parseInt(rawId, 10);
   }
 
   addToast('Invalid ID.', { appearance: 'error' });
   history.push('/404');
-  return null;
+  throw new Error('Invalid ID.');
 };

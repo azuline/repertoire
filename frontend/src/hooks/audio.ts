@@ -1,14 +1,15 @@
 import * as React from 'react';
 
 import { PlayQueueContext, VolumeContext } from '~/contexts';
-import { SetValue, TrackT } from '~/types';
+import { ITrack } from '~/graphql';
+import { ISetValue } from '~/types';
 
 // TODO: Make sure that we aren't leaking memory from all these audio
 // objects... they better be garbage collected properly.
 
 export type AudioT = {
   isPlaying: boolean;
-  setIsPlaying: SetValue<boolean>;
+  setIsPlaying: ISetValue<boolean>;
   curTime: number;
   seek: (arg0: number) => void;
 };
@@ -20,7 +21,7 @@ type AudioReducerState = {
   nextTrackId: number | null;
 };
 
-type AudioReducerPayload = { track: TrackT | null; nextTrack: TrackT | null };
+type AudioReducerPayload = { track: ITrack | null; nextTrack: ITrack | null };
 
 const INITIAL_AUDIO_STATE = { audio: null, nextAudio: null, nextTrackId: null, trackId: null };
 

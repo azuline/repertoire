@@ -4,15 +4,15 @@ import * as React from 'react';
 import { Pagination } from '~/components/Pagination';
 import { ArtRelease, RowRelease } from '~/components/Release';
 import { ViewSettings } from '~/components/ViewSettings';
-import { PaginationT, ViewOptionsT } from '~/hooks';
+import { IPagination, IViewOptions } from '~/hooks';
 import { useSearchReleases } from '~/lib';
-import { ReleaseView } from '~/types';
+import { IReleaseView } from '~/types';
 
 // Partial here means that we have an artist/collection selector open.
 
 export const PagedReleases: React.FC<{
-  viewOptions: ViewOptionsT;
-  pagination: PaginationT;
+  viewOptions: IViewOptions;
+  pagination: IPagination;
   partial?: boolean;
 }> = ({ viewOptions, pagination, partial = false }) => {
   const { data } = useSearchReleases(viewOptions, pagination);
@@ -27,7 +27,7 @@ export const PagedReleases: React.FC<{
   let releasesDiv = null;
 
   switch (viewOptions.releaseView) {
-    case ReleaseView.ROW:
+    case IReleaseView.Row:
       releasesDiv = (
         <div className="flex flex-col">
           {results.map((rls) => (
@@ -38,7 +38,7 @@ export const PagedReleases: React.FC<{
         </div>
       );
       break;
-    case ReleaseView.ARTWORK:
+    case IReleaseView.Artwork:
       releasesDiv = (
         <div className={clsx('grid gap-4 md:gap-6', calculateGridCss(partial))}>
           {results.map((rls) => (

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { StateValue } from '~/types';
+import { IStateValue } from '~/types';
 
 /**
  * A hook that persists the value of the state in localStorage.
@@ -13,13 +13,13 @@ import { StateValue } from '~/types';
 export const usePersistentState = <T>(
   localStorageKey: string,
   defaultValue: T,
-): [T, (arg0: StateValue<T>) => void] => {
+): [T, (arg0: IStateValue<T>) => void] => {
   const [value, setValue] = React.useState<T>(() => {
     const storedValue = localStorage.getItem(localStorageKey);
     return storedValue ? JSON.parse(storedValue) : defaultValue;
   });
 
-  const setPersistentValue = (newValue: StateValue<T>, persist = true): void => {
+  const setPersistentValue = (newValue: IStateValue<T>, persist = true): void => {
     setValue((innerValue: T) => {
       const toStore = newValue instanceof Function ? newValue(innerValue) : newValue;
       if (persist) {

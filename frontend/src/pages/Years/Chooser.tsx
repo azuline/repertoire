@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Chooser } from '~/components';
-import { useFetchYears } from '~/lib';
+import { useFetchReleaseYearsQuery } from '~/graphql';
 
 const urlFactory = (id: number): string => `/years/${id}`;
 
@@ -9,12 +9,12 @@ export const YearChooser: React.FC<{
   active: number | null;
   className?: string;
 }> = ({ active, className }) => {
-  const { data, error, loading } = useFetchYears();
+  const { data } = useFetchReleaseYearsQuery();
 
   const elements =
-    !data || error || loading
-      ? []
-      : data.releaseYears.map((year) => ({ id: year, name: `${year}` }));
+    data?.releaseYears
+      ?.filter((year): year is number => year !== null)
+      .map((year) => ({ id: year, name: `${year}` })) || [];
 
   return (
     <Chooser

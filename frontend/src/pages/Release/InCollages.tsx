@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 import { Link } from '~/components';
-import { CollectionT } from '~/types';
+import { ICollection } from '~/graphql';
 
-export const InCollages: React.FC<{ collages: CollectionT[] }> = ({ collages }) => {
+export const InCollages: React.FC<{ collages: ICollection[] }> = ({ collages }) => {
   if (collages.length === 0) {
     return <div className="flex-none" />;
   }

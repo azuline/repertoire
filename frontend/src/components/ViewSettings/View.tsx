@@ -1,20 +1,20 @@
 import * as React from 'react';
 
 import { Select } from '~/components/common';
-import { ViewOptionsT } from '~/hooks';
-import { ReleaseView } from '~/types';
+import { IViewOptions } from '~/hooks';
+import { IReleaseView } from '~/types';
 
-const displays: { [k in ReleaseView]: string } = {
-  [ReleaseView.ARTWORK]: 'Artwork',
-  [ReleaseView.ROW]: 'Row',
+const displays: { [k in IReleaseView]: string } = {
+  [IReleaseView.Artwork]: 'Artwork',
+  [IReleaseView.Row]: 'Row',
 };
 
-export const View: React.FC<{ viewOptions: ViewOptionsT; className?: string }> = ({
+export const View: React.FC<{ viewOptions: IViewOptions; className?: string }> = ({
   viewOptions,
   className,
 }) => {
   const onChange = (e: React.FormEvent<HTMLSelectElement>): void =>
-    viewOptions.setReleaseView(e.currentTarget.value as ReleaseView);
+    viewOptions.setReleaseView(e.currentTarget.value as IReleaseView);
 
   return (
     <Select
@@ -24,7 +24,7 @@ export const View: React.FC<{ viewOptions: ViewOptionsT; className?: string }> =
       value={viewOptions.releaseView}
       onChange={onChange}
     >
-      {Object.values(ReleaseView).map((value) => (
+      {Object.values(IReleaseView).map((value) => (
         <option key={value} value={value}>
           {displays[value]}
         </option>

@@ -1,13 +1,13 @@
 import * as React from 'react';
 
 import { Link } from '~/components/common';
-import { ElementT } from '~/types';
+import { IElement } from '~/types';
 
 type ListT = React.FC<{
   className?: string;
   delimiter?: string;
   elementClassName?: string;
-  elements?: ElementT[];
+  elements?: IElement[];
   link?: boolean;
 }>;
 

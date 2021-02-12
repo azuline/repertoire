@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { SetValue, StateValue } from '~/types';
+import { ISetValue, IStateValue } from '~/types';
 
 import { usePersistentState } from './persistentState';
 import { useQuery } from './query';
 
-export type PaginationT = {
+export type IPagination = {
   curPage: number;
-  setCurPage: SetValue<number>;
+  setCurPage: ISetValue<number>;
   perPage: number;
-  setPerPage: SetValue<number>;
+  setPerPage: ISetValue<number>;
   numPages: number;
-  setTotal: SetValue<number>;
+  setTotal: ISetValue<number>;
 };
 
 /**
@@ -30,7 +30,7 @@ export type PaginationT = {
  * - ``numPages`` The total number of pages. Dynamically alculated from the total number of elements.
  * - ``setTotal`` - A function to set the total number of elements.
  */
-export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): PaginationT => {
+export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): IPagination => {
   const history = useHistory();
   const query = useQuery();
 
@@ -42,7 +42,7 @@ export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): Pa
   // We wrap the setCurPage function to sync the URL with the state. If ``useUrl`` is true, then
   // sync!
   const setCurPage = React.useCallback(
-    (value: StateValue<number>) => {
+    (value: IStateValue<number>) => {
       const calculatedValue = value instanceof Function ? value(curPage) : value;
 
       if (useUrl) {

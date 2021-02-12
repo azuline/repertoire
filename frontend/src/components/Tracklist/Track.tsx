@@ -3,11 +3,11 @@ import * as React from 'react';
 
 import { Icon } from '~/components/common';
 import { TrackArtistList } from '~/components/Lists';
-import { TrackT } from '~/types';
-import { secondsToLength } from '~/util';
+import { ITrack } from '~/graphql';
+import { filterNulls, secondsToLength } from '~/util';
 
 export const Track: React.FC<{
-  track: TrackT;
+  track: ITrack;
   trackNumber: number;
   index: number;
   onClick?: (arg0: number) => void;
@@ -32,13 +32,13 @@ export const Track: React.FC<{
           {track.title}
         </div>
         <TrackArtistList
-          artists={track.artists}
+          artists={filterNulls(track.artists)}
           className="flex-1 hidden truncate text-foreground-400 md:block"
         />
         <div className="flex-none ml-2 text-foreground-400">{secondsToLength(track.duration)}</div>
       </div>
       <TrackArtistList
-        artists={track.artists}
+        artists={filterNulls(track.artists)}
         className="mt-1 ml-8 truncate text-foreground-400 md:hidden"
       />
     </div>

@@ -2,8 +2,9 @@ import * as React from 'react';
 
 import { Disclist, Header, Image } from '~/components';
 import { BackgroundContext } from '~/contexts';
+import { IRelease, useFetchReleaseQuery } from '~/graphql';
 import { useId } from '~/hooks';
-import { useFetchRelease } from '~/lib';
+import { filterNulls } from '~/util';
 
 import { InCollages } from './InCollages';
 import { InFavorites } from './InFavorites';
@@ -13,10 +14,10 @@ import { Rating } from './Rating';
 
 export const Release: React.FC = () => {
   const id = useId();
-  const { data } = useFetchRelease(id as number);
+  const { data } = useFetchReleaseQuery({ variables: { id } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
-  const release = data?.release || null;
+  const release = data?.release as IRelease | null;
 
   React.useEffect(() => {
     if (!release) return;
@@ -32,20 +33,20 @@ export const Release: React.FC = () => {
         <div className="flex flex-col mt-4">
           <div className="flex">
             <Image
-              className="flex-none hidden mr-8 rounded-lg w-56 h-56 md:block"
+              className="flex-none hidden w-56 h-56 mr-8 rounded-lg md:block"
               imageId={release.imageId}
             />
             <Info release={release} />
           </div>
           <div className="flex items-center mt-6">
-            <div className="items-center flex-none hidden -ml-1 w-56 mr-9 md:flex">
+            <div className="items-center flex-none hidden w-56 -ml-1 mr-9 md:flex">
               <InFavorites release={release} />
               <InInbox release={release} />
             </div>
             <Rating release={release} />
           </div>
-          <Disclist className="py-8" tracks={release.tracks} />
-          <InCollages collages={release.collages} />
+          <Disclist className="py-8" tracks={filterNulls(release.tracks)} />
+          <InCollages collages={filterNulls(release.collages)} />
         </div>
       )}
     </div>

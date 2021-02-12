@@ -2,12 +2,12 @@ import clsx from 'clsx';
 import * as React from 'react';
 
 import { PlayQueueContext } from '~/contexts';
-import { TrackT } from '~/types';
+import { ITrack } from '~/graphql';
 
 import { Track } from './Track';
 import { checkMatchingTracklists } from './util';
 
-export const Tracklist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
+export const Tracklist: React.FC<{ className?: string; tracks: ITrack[] }> = ({
   className,
   tracks,
 }) => {

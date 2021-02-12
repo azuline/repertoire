@@ -2,12 +2,12 @@ import clsx from 'clsx';
 import * as React from 'react';
 
 import { Icon } from '~/components';
+import { IRelease } from '~/graphql';
 import { useAddReleaseToCollection, useDelReleaseFromCollection } from '~/lib';
-import { ReleaseT } from '~/types';
 
 const INBOX_COLLECTION_ID = 1;
 
-export const InInbox: React.FC<{ className?: string; release: ReleaseT }> = ({
+export const InInbox: React.FC<{ className?: string; release: IRelease }> = ({
   className,
   release,
 }) => {

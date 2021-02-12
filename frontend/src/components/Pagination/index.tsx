@@ -1,14 +1,14 @@
 import clsx from 'clsx';
 import * as React from 'react';
 
-import { PaginationT } from '~/hooks';
+import { IPagination } from '~/hooks';
 
 import { Arrow } from './Arrow';
 import { Goto } from './Goto';
 import { Page } from './Page';
 
 export const Pagination: React.FC<{
-  pagination: PaginationT;
+  pagination: IPagination;
   className?: string;
 }> = ({ pagination: { curPage, setCurPage, numPages }, className }) => {
   const bottom = Math.max(curPage - 2, 2);

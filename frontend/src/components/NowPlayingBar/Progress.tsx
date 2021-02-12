@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { TrackT } from '~/types';
+import { ITrack } from '~/graphql';
 import { secondsToLength } from '~/util';
 
 export const Progress: React.FC<{
-  curTrack: TrackT | null;
+  curTrack: ITrack | null;
   curTime: number;
 }> = ({ curTrack, curTime }) => (
   <div className="flex-none hidden ml-4 text-center w-24 md:block">

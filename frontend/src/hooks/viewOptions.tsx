@@ -1,43 +1,44 @@
 import * as React from 'react';
 
-import { ReleaseSort, ReleaseType, ReleaseView, SetValue } from '~/types';
+import { IReleaseSort, IReleaseType } from '~/graphql';
+import { IReleaseView, ISetValue } from '~/types';
 
 import { usePersistentState } from './persistentState';
 
 // TODO: Refactor this mess... I'm thinking that we should ditch all the useEffects here and just
 // let the callers create their own useEffects.
 
-export type ViewOptionsT = {
+export type IViewOptions = {
   search: string;
-  setSearch: SetValue<string>;
+  setSearch: ISetValue<string>;
   collectionIds: number[];
-  setCollectionIds: SetValue<number[]>;
+  setCollectionIds: ISetValue<number[]>;
   artistIds: number[];
-  setArtistIds: SetValue<number[]>;
-  releaseTypes: ReleaseType[];
-  setReleaseTypes: SetValue<ReleaseType[]>;
+  setArtistIds: ISetValue<number[]>;
+  releaseTypes: IReleaseType[];
+  setReleaseTypes: ISetValue<IReleaseType[]>;
   years: number[];
-  setYears: SetValue<number[]>;
+  setYears: ISetValue<number[]>;
   ratings: number[];
-  setRatings: SetValue<number[]>;
-  sort: ReleaseSort;
-  setSort: SetValue<ReleaseSort>;
+  setRatings: ISetValue<number[]>;
+  sort: IReleaseSort;
+  setSort: ISetValue<IReleaseSort>;
   asc: boolean;
-  setAsc: SetValue<boolean>;
-  releaseView: ReleaseView;
-  setReleaseView: SetValue<ReleaseView>;
+  setAsc: ISetValue<boolean>;
+  releaseView: IReleaseView;
+  setReleaseView: ISetValue<IReleaseView>;
 };
 
-type Params = {
+type IParams = {
   search?: string;
   collectionIds?: number[];
   artistIds?: number[];
-  releaseTypes?: ReleaseType[];
+  releaseTypes?: IReleaseType[];
   years?: number[];
   ratings?: number[];
-  sort?: ReleaseSort;
+  sort?: IReleaseSort;
   asc?: boolean;
-  releaseView?: ReleaseView;
+  releaseView?: IReleaseView;
 };
 
 /**
@@ -57,21 +58,21 @@ export const useViewOptions = ({
   sort,
   asc,
   releaseView,
-}: Params = {}): ViewOptionsT => {
+}: IParams = {}): IViewOptions => {
   const [searchState, setSearch] = React.useState<string>(search ?? '');
   const [collectionIdsState, setCollectionIds] = React.useState<number[]>(collectionIds ?? []);
   const [artistIdsState, setArtistIds] = React.useState<number[]>(artistIds ?? []);
-  const [releaseTypesState, setReleaseTypes] = React.useState<ReleaseType[]>(releaseTypes ?? []);
+  const [releaseTypesState, setReleaseTypes] = React.useState<IReleaseType[]>(releaseTypes ?? []);
   const [yearsState, setYears] = React.useState<number[]>(years ?? []);
   const [ratingsState, setRatings] = React.useState<number[]>(ratings ?? []);
-  const [sortState, setSort] = usePersistentState<ReleaseSort>(
+  const [sortState, setSort] = usePersistentState<IReleaseSort>(
     'release-view-options--sort',
-    sort ?? ReleaseSort.RECENTLY_ADDED,
+    sort ?? IReleaseSort.RecentlyAdded,
   );
   const [ascState, setAsc] = usePersistentState<boolean>('release-view-options--asc', asc ?? false);
-  const [releaseViewState, setReleaseView] = usePersistentState<ReleaseView>(
+  const [releaseViewState, setReleaseView] = usePersistentState<IReleaseView>(
     'release-view-options--view',
-    releaseView ?? ReleaseView.ARTWORK,
+    releaseView ?? IReleaseView.Artwork,
   );
 
   React.useEffect(() => (search !== undefined ? setSearch(search) : undefined), [

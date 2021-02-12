@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 import { Link } from '~/components';
-import { ReleaseT } from '~/types';
+import { IRelease } from '~/graphql';
 
-export const WhenReleased: React.FC<{ release: ReleaseT }> = ({ release }) => {
+export const WhenReleased: React.FC<{ release: IRelease }> = ({ release }) => {
   if (release.releaseDate) {
     return (
       <>

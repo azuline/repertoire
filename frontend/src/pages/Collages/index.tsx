@@ -1,12 +1,12 @@
 import * as React from 'react';
 
 import { CollectionChooser, Header } from '~/components';
+import { ICollectionType } from '~/graphql';
 import { useId } from '~/hooks';
-import { CollectionType } from '~/types';
 
 import { Collage } from './Collage';
 
-const types = [CollectionType.SYSTEM, CollectionType.COLLAGE];
+const types = [ICollectionType.System, ICollectionType.Collage];
 
 export const Collages: React.FC = () => {
   const active = useId();

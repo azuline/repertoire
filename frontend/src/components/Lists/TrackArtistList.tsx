@@ -1,18 +1,18 @@
 import * as React from 'react';
 
 import { Link } from '~/components/common';
-import { ArtistT, TrackArtistT } from '~/types';
+import { IArtist, ITrackArtist } from '~/graphql';
 
 type ListT = React.FC<{
-  artists?: TrackArtistT[];
+  artists?: ITrackArtist[];
   className?: string;
   elementClassName?: string;
   delimiter?: string;
   link?: boolean;
 }>;
 
-type RolesArtistsMap = { [k in string]: ArtistT[] };
-type RolesArtistsMapEntries = [string, ArtistT[]][];
+type RolesArtistsMap = { [k in string]: IArtist[] };
+type RolesArtistsMapEntries = [string, IArtist[]][];
 type DividerWords = { [k in string]: string };
 
 // Role rankings for sorting their order of apperance.
@@ -68,7 +68,7 @@ export const TrackArtistList: ListT = ({
   );
 };
 
-export const mapRolesToArtists = (artists?: TrackArtistT[]): RolesArtistsMapEntries => {
+export const mapRolesToArtists = (artists?: ITrackArtist[]): RolesArtistsMapEntries => {
   if (!artists) return [];
 
   // Get a map of artist roles to the artists in that role, filtering out
@@ -89,7 +89,7 @@ export const mapRolesToArtists = (artists?: TrackArtistT[]): RolesArtistsMapEntr
   return rolesToArtists;
 };
 
-const sortRoles = ([a]: [string, ArtistT[]], [b]: [string, ArtistT[]]): number =>
+const sortRoles = ([a]: [string, IArtist[]], [b]: [string, IArtist[]]): number =>
   ROLE_RANKINGS.indexOf(a) - ROLE_RANKINGS.indexOf(b);
 
 // Determine the final list of divider words.

@@ -16,404 +16,404 @@ export type Scalars = {
 };
 
 
-export type Query = {
+export type IQuery = {
   __typename?: 'Query';
-  artist?: Maybe<Artist>;
-  artistFromName?: Maybe<Artist>;
-  collection?: Maybe<Collection>;
-  collectionFromNameAndType?: Maybe<Collection>;
-  playlist?: Maybe<Playlist>;
-  playlistFromNameAndType?: Maybe<Playlist>;
-  release?: Maybe<Release>;
-  track?: Maybe<Track>;
+  artist: Maybe<IArtist>;
+  artistFromName: Maybe<IArtist>;
+  collection: Maybe<ICollection>;
+  collectionFromNameAndType: Maybe<ICollection>;
+  playlist: Maybe<IPlaylist>;
+  playlistFromNameAndType: Maybe<IPlaylist>;
+  release: Maybe<IRelease>;
+  track: Maybe<ITrack>;
   /** Fetch the currently authenticated user. */
-  user?: Maybe<User>;
+  user: Maybe<IUser>;
   /** Fetch all artists. */
-  artists?: Maybe<Artists>;
+  artists: Maybe<IArtists>;
   /** Fetch all collections (of one or more types). */
-  collections?: Maybe<Collections>;
+  collections: Maybe<ICollections>;
   /** Fetch all playlists (of one or more types). */
-  playlists?: Maybe<Playlists>;
+  playlists: Maybe<IPlaylists>;
   /** Search for releases matching a certain criteria. */
-  releases?: Maybe<Releases>;
+  releases: Maybe<IReleases>;
   /** Fetch all existing release years sorted in descending order. */
-  releaseYears?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  releaseYears: Maybe<Array<Maybe<Scalars['Int']>>>;
 };
 
 
-export type QueryArtistArgs = {
+export type IQueryArtistArgs = {
   id: Scalars['Int'];
 };
 
 
-export type QueryArtistFromNameArgs = {
+export type IQueryArtistFromNameArgs = {
   name: Scalars['String'];
 };
 
 
-export type QueryCollectionArgs = {
+export type IQueryCollectionArgs = {
   id: Scalars['Int'];
 };
 
 
-export type QueryCollectionFromNameAndTypeArgs = {
+export type IQueryCollectionFromNameAndTypeArgs = {
   name: Scalars['String'];
-  type: CollectionType;
+  type: ICollectionType;
 };
 
 
-export type QueryPlaylistArgs = {
+export type IQueryPlaylistArgs = {
   id: Scalars['Int'];
 };
 
 
-export type QueryPlaylistFromNameAndTypeArgs = {
+export type IQueryPlaylistFromNameAndTypeArgs = {
   name: Scalars['String'];
-  type: PlaylistType;
+  type: IPlaylistType;
 };
 
 
-export type QueryReleaseArgs = {
+export type IQueryReleaseArgs = {
   id: Scalars['Int'];
 };
 
 
-export type QueryTrackArgs = {
+export type IQueryTrackArgs = {
   id: Scalars['Int'];
 };
 
 
-export type QueryCollectionsArgs = {
-  types?: Maybe<Array<Maybe<CollectionType>>>;
+export type IQueryCollectionsArgs = {
+  types: Maybe<Array<Maybe<ICollectionType>>>;
 };
 
 
-export type QueryPlaylistsArgs = {
-  types?: Maybe<Array<Maybe<PlaylistType>>>;
+export type IQueryPlaylistsArgs = {
+  types: Maybe<Array<Maybe<IPlaylistType>>>;
 };
 
 
-export type QueryReleasesArgs = {
-  search?: Maybe<Scalars['String']>;
-  collectionIds?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  artistIds?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  releaseTypes?: Maybe<Array<Maybe<ReleaseType>>>;
-  years?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  ratings?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  page?: Maybe<Scalars['Int']>;
-  perPage?: Maybe<Scalars['Int']>;
-  sort?: Maybe<ReleaseSort>;
-  asc?: Maybe<Scalars['Boolean']>;
+export type IQueryReleasesArgs = {
+  search: Maybe<Scalars['String']>;
+  collectionIds: Maybe<Array<Maybe<Scalars['Int']>>>;
+  artistIds: Maybe<Array<Maybe<Scalars['Int']>>>;
+  releaseTypes: Maybe<Array<Maybe<IReleaseType>>>;
+  years: Maybe<Array<Maybe<Scalars['Int']>>>;
+  ratings: Maybe<Array<Maybe<Scalars['Int']>>>;
+  page: Maybe<Scalars['Int']>;
+  perPage: Maybe<Scalars['Int']>;
+  sort: Maybe<IReleaseSort>;
+  asc: Maybe<Scalars['Boolean']>;
 };
 
-export type Mutation = {
+export type IMutation = {
   __typename?: 'Mutation';
-  createArtist?: Maybe<Artist>;
-  updateArtist?: Maybe<Artist>;
-  createCollection?: Maybe<Collection>;
-  updateCollection?: Maybe<Collection>;
-  addReleaseToCollection?: Maybe<CollectionAndRelease>;
-  delReleaseFromCollection?: Maybe<CollectionAndRelease>;
-  createPlaylist?: Maybe<Playlist>;
-  updatePlaylist?: Maybe<Playlist>;
-  addTrackToPlaylist?: Maybe<PlaylistAndTrack>;
-  delTrackFromPlaylist?: Maybe<PlaylistAndTrack>;
-  createRelease?: Maybe<Release>;
-  updateRelease?: Maybe<Release>;
-  addArtistToRelease?: Maybe<ReleaseAndArtist>;
-  delArtistFromRelease?: Maybe<ReleaseAndArtist>;
-  updateTrack?: Maybe<Track>;
-  addArtistToTrack?: Maybe<TrackAndArtist>;
-  delArtistFromTrack?: Maybe<TrackAndArtist>;
+  createArtist: Maybe<IArtist>;
+  updateArtist: Maybe<IArtist>;
+  createCollection: Maybe<ICollection>;
+  updateCollection: Maybe<ICollection>;
+  addReleaseToCollection: Maybe<ICollectionAndRelease>;
+  delReleaseFromCollection: Maybe<ICollectionAndRelease>;
+  createPlaylist: Maybe<IPlaylist>;
+  updatePlaylist: Maybe<IPlaylist>;
+  addTrackToPlaylist: Maybe<IPlaylistAndTrack>;
+  delTrackFromPlaylist: Maybe<IPlaylistAndTrack>;
+  createRelease: Maybe<IRelease>;
+  updateRelease: Maybe<IRelease>;
+  addArtistToRelease: Maybe<IReleaseAndArtist>;
+  delArtistFromRelease: Maybe<IReleaseAndArtist>;
+  updateTrack: Maybe<ITrack>;
+  addArtistToTrack: Maybe<ITrackAndArtist>;
+  delArtistFromTrack: Maybe<ITrackAndArtist>;
   /** Update the authenticated user. */
-  updateUser?: Maybe<User>;
+  updateUser: Maybe<IUser>;
   /**
    * Generate a new authentication token for the current user. Invalidate the
    * old one.
    */
-  newToken?: Maybe<Token>;
+  newToken: Maybe<IToken>;
 };
 
 
-export type MutationCreateArtistArgs = {
+export type IMutationCreateArtistArgs = {
   name: Scalars['String'];
-  starred?: Maybe<Scalars['Boolean']>;
+  starred: Maybe<Scalars['Boolean']>;
 };
 
 
-export type MutationUpdateArtistArgs = {
+export type IMutationUpdateArtistArgs = {
   id: Scalars['Int'];
-  name?: Maybe<Scalars['String']>;
-  starred?: Maybe<Scalars['Boolean']>;
+  name: Maybe<Scalars['String']>;
+  starred: Maybe<Scalars['Boolean']>;
 };
 
 
-export type MutationCreateCollectionArgs = {
+export type IMutationCreateCollectionArgs = {
   name: Scalars['String'];
-  type: CollectionType;
-  starred?: Maybe<Scalars['Boolean']>;
+  type: ICollectionType;
+  starred: Maybe<Scalars['Boolean']>;
 };
 
 
-export type MutationUpdateCollectionArgs = {
+export type IMutationUpdateCollectionArgs = {
   id: Scalars['Int'];
-  name?: Maybe<Scalars['String']>;
-  starred?: Maybe<Scalars['Boolean']>;
+  name: Maybe<Scalars['String']>;
+  starred: Maybe<Scalars['Boolean']>;
 };
 
 
-export type MutationAddReleaseToCollectionArgs = {
+export type IMutationAddReleaseToCollectionArgs = {
   collectionId: Scalars['Int'];
   releaseId: Scalars['Int'];
 };
 
 
-export type MutationDelReleaseFromCollectionArgs = {
+export type IMutationDelReleaseFromCollectionArgs = {
   collectionId: Scalars['Int'];
   releaseId: Scalars['Int'];
 };
 
 
-export type MutationCreatePlaylistArgs = {
+export type IMutationCreatePlaylistArgs = {
   name: Scalars['String'];
-  type: PlaylistType;
-  starred?: Maybe<Scalars['Boolean']>;
+  type: IPlaylistType;
+  starred: Maybe<Scalars['Boolean']>;
 };
 
 
-export type MutationUpdatePlaylistArgs = {
+export type IMutationUpdatePlaylistArgs = {
   id: Scalars['Int'];
-  name?: Maybe<Scalars['String']>;
-  starred?: Maybe<Scalars['Boolean']>;
+  name: Maybe<Scalars['String']>;
+  starred: Maybe<Scalars['Boolean']>;
 };
 
 
-export type MutationAddTrackToPlaylistArgs = {
+export type IMutationAddTrackToPlaylistArgs = {
   playlistId: Scalars['Int'];
   trackId: Scalars['Int'];
 };
 
 
-export type MutationDelTrackFromPlaylistArgs = {
+export type IMutationDelTrackFromPlaylistArgs = {
   playlistId: Scalars['Int'];
   trackId: Scalars['Int'];
 };
 
 
-export type MutationCreateReleaseArgs = {
+export type IMutationCreateReleaseArgs = {
   title: Scalars['String'];
   artistIds: Array<Maybe<Scalars['Int']>>;
-  releaseType: ReleaseType;
+  releaseType: IReleaseType;
   releaseYear: Scalars['Int'];
-  releaseDate?: Maybe<Scalars['String']>;
-  rating?: Maybe<Scalars['Int']>;
+  releaseDate: Maybe<Scalars['String']>;
+  rating: Maybe<Scalars['Int']>;
 };
 
 
-export type MutationUpdateReleaseArgs = {
+export type IMutationUpdateReleaseArgs = {
   id: Scalars['Int'];
-  title?: Maybe<Scalars['String']>;
-  releaseType?: Maybe<ReleaseType>;
-  releaseYear?: Maybe<Scalars['Int']>;
-  releaseDate?: Maybe<Scalars['String']>;
-  rating?: Maybe<Scalars['Int']>;
+  title: Maybe<Scalars['String']>;
+  releaseType: Maybe<IReleaseType>;
+  releaseYear: Maybe<Scalars['Int']>;
+  releaseDate: Maybe<Scalars['String']>;
+  rating: Maybe<Scalars['Int']>;
 };
 
 
-export type MutationAddArtistToReleaseArgs = {
+export type IMutationAddArtistToReleaseArgs = {
   releaseId: Scalars['Int'];
   artistId: Scalars['Int'];
 };
 
 
-export type MutationDelArtistFromReleaseArgs = {
+export type IMutationDelArtistFromReleaseArgs = {
   releaseId: Scalars['Int'];
   artistId: Scalars['Int'];
 };
 
 
-export type MutationUpdateTrackArgs = {
+export type IMutationUpdateTrackArgs = {
   id: Scalars['Int'];
-  title?: Maybe<Scalars['String']>;
-  releaseId?: Maybe<Scalars['Int']>;
-  trackNumber?: Maybe<Scalars['String']>;
-  discNumber?: Maybe<Scalars['String']>;
+  title: Maybe<Scalars['String']>;
+  releaseId: Maybe<Scalars['Int']>;
+  trackNumber: Maybe<Scalars['String']>;
+  discNumber: Maybe<Scalars['String']>;
 };
 
 
-export type MutationAddArtistToTrackArgs = {
+export type IMutationAddArtistToTrackArgs = {
   trackId: Scalars['Int'];
   artistId: Scalars['Int'];
-  role: ArtistRole;
+  role: IArtistRole;
 };
 
 
-export type MutationDelArtistFromTrackArgs = {
+export type IMutationDelArtistFromTrackArgs = {
   trackId: Scalars['Int'];
   artistId: Scalars['Int'];
-  role: ArtistRole;
+  role: IArtistRole;
 };
 
 
-export type MutationUpdateUserArgs = {
-  nickname?: Maybe<Scalars['String']>;
+export type IMutationUpdateUserArgs = {
+  nickname: Maybe<Scalars['String']>;
 };
 
-export type Artist = {
+export type IArtist = {
   __typename?: 'Artist';
   id: Scalars['Int'];
   name: Scalars['String'];
   starred: Scalars['Boolean'];
   numReleases: Scalars['Int'];
   /** The image ID of one of the artist's releases. Potentially null. */
-  imageId?: Maybe<Scalars['Int']>;
-  releases: Array<Maybe<Release>>;
+  imageId: Maybe<Scalars['Int']>;
+  releases: Array<Maybe<IRelease>>;
   /** The top genres of the artist, compiled from their releases. */
-  topGenres: Array<Maybe<TopGenre>>;
+  topGenres: Array<Maybe<ITopGenre>>;
 };
 
-export type Artists = {
+export type IArtists = {
   __typename?: 'Artists';
-  results: Array<Maybe<Artist>>;
+  results: Array<Maybe<IArtist>>;
 };
 
-export type Collection = {
+export type ICollection = {
   __typename?: 'Collection';
   id: Scalars['Int'];
   name: Scalars['String'];
   starred: Scalars['Boolean'];
-  type: CollectionType;
+  type: ICollectionType;
   numReleases: Scalars['Int'];
   /** The last datetime a release was added to the collection. */
-  lastUpdatedOn?: Maybe<Scalars['PosixTime']>;
+  lastUpdatedOn: Maybe<Scalars['PosixTime']>;
   /** The image ID of a release in the collection. Potentially null. */
-  imageId?: Maybe<Scalars['Int']>;
-  releases: Array<Maybe<Release>>;
+  imageId: Maybe<Scalars['Int']>;
+  releases: Array<Maybe<IRelease>>;
   /** The top genres of the collection, compiled from its releases. */
-  topGenres: Array<Maybe<TopGenre>>;
+  topGenres: Array<Maybe<ITopGenre>>;
 };
 
-export type Collections = {
+export type ICollections = {
   __typename?: 'Collections';
-  results: Array<Maybe<Collection>>;
+  results: Array<Maybe<ICollection>>;
 };
 
-export type Playlist = {
+export type IPlaylist = {
   __typename?: 'Playlist';
   id: Scalars['Int'];
   name: Scalars['String'];
   starred: Scalars['Boolean'];
-  type: PlaylistType;
+  type: IPlaylistType;
   numTracks: Scalars['Int'];
   /** The last datetime a release was added to the playlist. */
-  lastUpdatedOn?: Maybe<Scalars['PosixTime']>;
+  lastUpdatedOn: Maybe<Scalars['PosixTime']>;
   /** The image ID of a track in the playlst. Potentially null. */
-  imageId?: Maybe<Scalars['Int']>;
-  tracks: Array<Maybe<Track>>;
+  imageId: Maybe<Scalars['Int']>;
+  tracks: Array<Maybe<ITrack>>;
   /** The top genres of the playlist, compiled from its tracks. */
-  topGenres: Array<Maybe<TopGenre>>;
+  topGenres: Array<Maybe<ITopGenre>>;
 };
 
-export type Playlists = {
+export type IPlaylists = {
   __typename?: 'Playlists';
-  results: Array<Maybe<Playlist>>;
+  results: Array<Maybe<IPlaylist>>;
 };
 
-export type Release = {
+export type IRelease = {
   __typename?: 'Release';
   id: Scalars['Int'];
   title: Scalars['String'];
-  releaseType: ReleaseType;
+  releaseType: IReleaseType;
   addedOn: Scalars['PosixTime'];
   inInbox: Scalars['Boolean'];
   inFavorites: Scalars['Boolean'];
-  releaseYear?: Maybe<Scalars['Int']>;
+  releaseYear: Maybe<Scalars['Int']>;
   /** The date that the release was released in YYYY-MM-DD format (Optional). */
-  releaseDate?: Maybe<Scalars['String']>;
+  releaseDate: Maybe<Scalars['String']>;
   /** The release rating, either null or an int on the interval [1, 10]. */
-  rating?: Maybe<Scalars['Int']>;
+  rating: Maybe<Scalars['Int']>;
   numTracks: Scalars['Int'];
   /** The total runtime (sum of track durations). */
   runtime: Scalars['Int'];
   /** The image ID of the release's cover image. Potentially null. */
-  imageId?: Maybe<Scalars['Int']>;
-  artists: Array<Maybe<Artist>>;
-  tracks: Array<Maybe<Track>>;
-  genres: Array<Maybe<Collection>>;
-  labels: Array<Maybe<Collection>>;
-  collages: Array<Maybe<Collection>>;
+  imageId: Maybe<Scalars['Int']>;
+  artists: Array<Maybe<IArtist>>;
+  tracks: Array<Maybe<ITrack>>;
+  genres: Array<Maybe<ICollection>>;
+  labels: Array<Maybe<ICollection>>;
+  collages: Array<Maybe<ICollection>>;
 };
 
-export type Releases = {
+export type IReleases = {
   __typename?: 'Releases';
   /** The total number of releases matching the query across all pages. */
   total: Scalars['Int'];
   /** The releases on the current page. */
-  results: Array<Maybe<Release>>;
+  results: Array<Maybe<IRelease>>;
 };
 
-export type Track = {
+export type ITrack = {
   __typename?: 'Track';
   id: Scalars['Int'];
   title: Scalars['String'];
   duration: Scalars['Int'];
   trackNumber: Scalars['String'];
   discNumber: Scalars['String'];
-  release: Release;
-  artists: Array<Maybe<TrackArtist>>;
+  release: IRelease;
+  artists: Array<Maybe<ITrackArtist>>;
 };
 
-export type TrackArtist = {
+export type ITrackArtist = {
   __typename?: 'TrackArtist';
-  artist: Artist;
+  artist: IArtist;
   /** The role that the artist has on the track. */
-  role: ArtistRole;
+  role: IArtistRole;
 };
 
 /** A type that represents the top genres of an artist/collection. */
-export type TopGenre = {
+export type ITopGenre = {
   __typename?: 'TopGenre';
-  genre: Collection;
+  genre: ICollection;
   /** The number of releases in the artist/collection that match this genre. */
   numMatches: Scalars['Int'];
 };
 
-export type User = {
+export type IUser = {
   __typename?: 'User';
   id: Scalars['Int'];
   nickname: Scalars['String'];
 };
 
-export type Token = {
+export type IToken = {
   __typename?: 'Token';
   hex: Scalars['String'];
 };
 
-export type CollectionAndRelease = {
+export type ICollectionAndRelease = {
   __typename?: 'CollectionAndRelease';
-  collection: Collection;
-  release: Release;
+  collection: ICollection;
+  release: IRelease;
 };
 
-export type PlaylistAndTrack = {
+export type IPlaylistAndTrack = {
   __typename?: 'PlaylistAndTrack';
-  playlist: Playlist;
-  track: Track;
+  playlist: IPlaylist;
+  track: ITrack;
 };
 
-export type ReleaseAndArtist = {
+export type IReleaseAndArtist = {
   __typename?: 'ReleaseAndArtist';
-  release: Release;
-  artist: Artist;
+  release: IRelease;
+  artist: IArtist;
 };
 
-export type TrackAndArtist = {
+export type ITrackAndArtist = {
   __typename?: 'TrackAndArtist';
-  track: Track;
-  trackArtist: TrackArtist;
+  track: ITrack;
+  trackArtist: ITrackArtist;
 };
 
-export enum ArtistRole {
+export enum IArtistRole {
   Main = 'MAIN',
   Feature = 'FEATURE',
   Remixer = 'REMIXER',
@@ -423,7 +423,7 @@ export enum ArtistRole {
   Djmixer = 'DJMIXER'
 }
 
-export enum ReleaseType {
+export enum IReleaseType {
   Album = 'ALBUM',
   Single = 'SINGLE',
   Ep = 'EP',
@@ -438,14 +438,14 @@ export enum ReleaseType {
   Unknown = 'UNKNOWN'
 }
 
-export enum CollectionType {
+export enum ICollectionType {
   System = 'SYSTEM',
   Collage = 'COLLAGE',
   Label = 'LABEL',
   Genre = 'GENRE'
 }
 
-export enum ReleaseSort {
+export enum IReleaseSort {
   RecentlyAdded = 'RECENTLY_ADDED',
   Title = 'TITLE',
   Year = 'YEAR',
@@ -453,308 +453,308 @@ export enum ReleaseSort {
   Random = 'RANDOM'
 }
 
-export enum PlaylistType {
+export enum IPlaylistType {
   System = 'SYSTEM',
   Playlist = 'PLAYLIST'
 }
 
-export type FetchArtistsQueryVariables = Exact<{ [key: string]: never; }>;
+export type IFetchArtistsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchArtistsQuery = (
+export type IFetchArtistsQuery = (
   { __typename?: 'Query' }
-  & { artists?: Maybe<(
+  & { artists: Maybe<(
     { __typename?: 'Artists' }
     & { results: Array<Maybe<(
       { __typename?: 'Artist' }
-      & ArtistFieldsFragment
+      & IArtistFieldsFragment
     )>> }
   )> }
 );
 
-export type FetchArtistQueryVariables = Exact<{
+export type IFetchArtistQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type FetchArtistQuery = (
+export type IFetchArtistQuery = (
   { __typename?: 'Query' }
-  & { artist?: Maybe<(
+  & { artist: Maybe<(
     { __typename?: 'Artist' }
-    & ArtistFieldsFragment
+    & IArtistFieldsFragment
   )> }
 );
 
-export type UpdateArtistMutationVariables = Exact<{
+export type IUpdateArtistMutationVariables = Exact<{
   id: Scalars['Int'];
-  name?: Maybe<Scalars['String']>;
-  starred?: Maybe<Scalars['Boolean']>;
+  name: Maybe<Scalars['String']>;
+  starred: Maybe<Scalars['Boolean']>;
 }>;
 
 
-export type UpdateArtistMutation = (
+export type IUpdateArtistMutation = (
   { __typename?: 'Mutation' }
-  & { updateArtist?: Maybe<(
+  & { updateArtist: Maybe<(
     { __typename?: 'Artist' }
-    & ArtistFieldsFragment
+    & IArtistFieldsFragment
   )> }
 );
 
-export type FetchCollectionsQueryVariables = Exact<{
-  types?: Maybe<Array<Maybe<CollectionType>> | Maybe<CollectionType>>;
+export type IFetchCollectionsQueryVariables = Exact<{
+  types: Maybe<Array<Maybe<ICollectionType>> | Maybe<ICollectionType>>;
 }>;
 
 
-export type FetchCollectionsQuery = (
+export type IFetchCollectionsQuery = (
   { __typename?: 'Query' }
-  & { collections?: Maybe<(
+  & { collections: Maybe<(
     { __typename?: 'Collections' }
     & { results: Array<Maybe<(
       { __typename?: 'Collection' }
-      & CollectionFieldsFragment
+      & ICollectionFieldsFragment
     )>> }
   )> }
 );
 
-export type FetchCollectionQueryVariables = Exact<{
+export type IFetchCollectionQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type FetchCollectionQuery = (
+export type IFetchCollectionQuery = (
   { __typename?: 'Query' }
-  & { collection?: Maybe<(
+  & { collection: Maybe<(
     { __typename?: 'Collection' }
-    & CollectionFieldsFragment
+    & ICollectionFieldsFragment
   )> }
 );
 
-export type UpdateCollectionMutationVariables = Exact<{
+export type IUpdateCollectionMutationVariables = Exact<{
   id: Scalars['Int'];
-  name?: Maybe<Scalars['String']>;
-  starred?: Maybe<Scalars['Boolean']>;
+  name: Maybe<Scalars['String']>;
+  starred: Maybe<Scalars['Boolean']>;
 }>;
 
 
-export type UpdateCollectionMutation = (
+export type IUpdateCollectionMutation = (
   { __typename?: 'Mutation' }
-  & { updateCollection?: Maybe<(
+  & { updateCollection: Maybe<(
     { __typename?: 'Collection' }
-    & CollectionFieldsFragment
+    & ICollectionFieldsFragment
   )> }
 );
 
-export type AddReleaseToCollectionMutationVariables = Exact<{
+export type IAddReleaseToCollectionMutationVariables = Exact<{
   collectionId: Scalars['Int'];
   releaseId: Scalars['Int'];
 }>;
 
 
-export type AddReleaseToCollectionMutation = (
+export type IAddReleaseToCollectionMutation = (
   { __typename?: 'Mutation' }
-  & { addReleaseToCollection?: Maybe<(
+  & { addReleaseToCollection: Maybe<(
     { __typename?: 'CollectionAndRelease' }
     & { collection: (
       { __typename?: 'Collection' }
-      & CollectionFieldsFragment
+      & ICollectionFieldsFragment
     ), release: (
       { __typename?: 'Release' }
-      & ReleaseFieldsFragment
+      & IReleaseFieldsFragment
     ) }
   )> }
 );
 
-export type DelReleaseFromCollectionMutationVariables = Exact<{
+export type IDelReleaseFromCollectionMutationVariables = Exact<{
   collectionId: Scalars['Int'];
   releaseId: Scalars['Int'];
 }>;
 
 
-export type DelReleaseFromCollectionMutation = (
+export type IDelReleaseFromCollectionMutation = (
   { __typename?: 'Mutation' }
-  & { delReleaseFromCollection?: Maybe<(
+  & { delReleaseFromCollection: Maybe<(
     { __typename?: 'CollectionAndRelease' }
     & { collection: (
       { __typename?: 'Collection' }
-      & CollectionFieldsFragment
+      & ICollectionFieldsFragment
     ), release: (
       { __typename?: 'Release' }
-      & ReleaseFieldsFragment
+      & IReleaseFieldsFragment
     ) }
   )> }
 );
 
-export type UserFieldsFragment = (
+export type IUserFieldsFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'nickname'>
+  & Pick<IUser, 'id' | 'nickname'>
 );
 
-export type ReleaseFieldsFragment = (
+export type IReleaseFieldsFragment = (
   { __typename?: 'Release' }
-  & Pick<Release, 'id' | 'title' | 'releaseType' | 'addedOn' | 'inInbox' | 'inFavorites' | 'releaseYear' | 'releaseDate' | 'rating' | 'numTracks' | 'runtime' | 'imageId'>
+  & Pick<IRelease, 'id' | 'title' | 'releaseType' | 'addedOn' | 'inInbox' | 'inFavorites' | 'releaseYear' | 'releaseDate' | 'rating' | 'numTracks' | 'runtime' | 'imageId'>
 );
 
-export type ArtistFieldsFragment = (
+export type IArtistFieldsFragment = (
   { __typename?: 'Artist' }
-  & Pick<Artist, 'id' | 'name' | 'starred' | 'numReleases' | 'imageId'>
+  & Pick<IArtist, 'id' | 'name' | 'starred' | 'numReleases' | 'imageId'>
 );
 
-export type CollectionFieldsFragment = (
+export type ICollectionFieldsFragment = (
   { __typename?: 'Collection' }
-  & Pick<Collection, 'id' | 'name' | 'starred' | 'type' | 'numReleases' | 'lastUpdatedOn' | 'imageId'>
+  & Pick<ICollection, 'id' | 'name' | 'starred' | 'type' | 'numReleases' | 'lastUpdatedOn' | 'imageId'>
 );
 
-export type TrackFieldsFragment = (
+export type ITrackFieldsFragment = (
   { __typename?: 'Track' }
-  & Pick<Track, 'id' | 'title' | 'duration' | 'trackNumber' | 'discNumber'>
+  & Pick<ITrack, 'id' | 'title' | 'duration' | 'trackNumber' | 'discNumber'>
 );
 
-export type FullReleaseFieldsFragment = (
+export type IFullReleaseFieldsFragment = (
   { __typename?: 'Release' }
   & { artists: Array<Maybe<(
     { __typename?: 'Artist' }
-    & Pick<Artist, 'id' | 'name'>
+    & Pick<IArtist, 'id' | 'name'>
   )>>, collages: Array<Maybe<(
     { __typename?: 'Collection' }
-    & Pick<Collection, 'id' | 'name'>
+    & Pick<ICollection, 'id' | 'name'>
   )>>, labels: Array<Maybe<(
     { __typename?: 'Collection' }
-    & Pick<Collection, 'id' | 'name'>
+    & Pick<ICollection, 'id' | 'name'>
   )>>, genres: Array<Maybe<(
     { __typename?: 'Collection' }
-    & Pick<Collection, 'id' | 'name'>
+    & Pick<ICollection, 'id' | 'name'>
   )>>, tracks: Array<Maybe<(
     { __typename?: 'Track' }
     & { release: (
       { __typename?: 'Release' }
-      & Pick<Release, 'id' | 'imageId'>
+      & Pick<IRelease, 'id' | 'imageId'>
     ), artists: Array<Maybe<(
       { __typename?: 'TrackArtist' }
-      & Pick<TrackArtist, 'role'>
+      & Pick<ITrackArtist, 'role'>
       & { artist: (
         { __typename?: 'Artist' }
-        & Pick<Artist, 'id' | 'name'>
+        & Pick<IArtist, 'id' | 'name'>
       ) }
     )>> }
-    & TrackFieldsFragment
+    & ITrackFieldsFragment
   )>> }
-  & ReleaseFieldsFragment
+  & IReleaseFieldsFragment
 );
 
-export type FetchReleasesQueryVariables = Exact<{
-  search?: Maybe<Scalars['String']>;
-  collectionIds?: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
-  artistIds?: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
-  releaseTypes?: Maybe<Array<Maybe<ReleaseType>> | Maybe<ReleaseType>>;
-  years?: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
-  ratings?: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
-  page?: Maybe<Scalars['Int']>;
-  perPage?: Maybe<Scalars['Int']>;
-  sort?: Maybe<ReleaseSort>;
-  asc?: Maybe<Scalars['Boolean']>;
+export type IFetchReleasesQueryVariables = Exact<{
+  search: Maybe<Scalars['String']>;
+  collectionIds: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
+  artistIds: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
+  releaseTypes: Maybe<Array<Maybe<IReleaseType>> | Maybe<IReleaseType>>;
+  years: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
+  ratings: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
+  page: Maybe<Scalars['Int']>;
+  perPage: Maybe<Scalars['Int']>;
+  sort: Maybe<IReleaseSort>;
+  asc: Maybe<Scalars['Boolean']>;
 }>;
 
 
-export type FetchReleasesQuery = (
+export type IFetchReleasesQuery = (
   { __typename?: 'Query' }
-  & { releases?: Maybe<(
+  & { releases: Maybe<(
     { __typename?: 'Releases' }
-    & Pick<Releases, 'total'>
+    & Pick<IReleases, 'total'>
     & { results: Array<Maybe<(
       { __typename?: 'Release' }
       & { artists: Array<Maybe<(
         { __typename?: 'Artist' }
-        & Pick<Artist, 'id' | 'name'>
+        & Pick<IArtist, 'id' | 'name'>
       )>>, genres: Array<Maybe<(
         { __typename?: 'Collection' }
-        & Pick<Collection, 'id' | 'name'>
+        & Pick<ICollection, 'id' | 'name'>
       )>> }
-      & ReleaseFieldsFragment
+      & IReleaseFieldsFragment
     )>> }
   )> }
 );
 
-export type FetchReleasesRecentlyAddedQueryVariables = Exact<{ [key: string]: never; }>;
+export type IFetchReleasesRecentlyAddedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchReleasesRecentlyAddedQuery = (
+export type IFetchReleasesRecentlyAddedQuery = (
   { __typename?: 'Query' }
-  & { releases?: Maybe<(
+  & { releases: Maybe<(
     { __typename?: 'Releases' }
     & { results: Array<Maybe<(
       { __typename?: 'Release' }
       & { artists: Array<Maybe<(
         { __typename?: 'Artist' }
-        & Pick<Artist, 'id' | 'name'>
+        & Pick<IArtist, 'id' | 'name'>
       )>>, genres: Array<Maybe<(
         { __typename?: 'Collection' }
-        & Pick<Collection, 'id' | 'name'>
+        & Pick<ICollection, 'id' | 'name'>
       )>> }
-      & ReleaseFieldsFragment
+      & IReleaseFieldsFragment
     )>> }
   )> }
 );
 
-export type FetchReleaseQueryVariables = Exact<{
+export type IFetchReleaseQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type FetchReleaseQuery = (
+export type IFetchReleaseQuery = (
   { __typename?: 'Query' }
-  & { release?: Maybe<(
+  & { release: Maybe<(
     { __typename?: 'Release' }
-    & FullReleaseFieldsFragment
+    & IFullReleaseFieldsFragment
   )> }
 );
 
-export type FetchReleaseYearsQueryVariables = Exact<{ [key: string]: never; }>;
+export type IFetchReleaseYearsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchReleaseYearsQuery = (
+export type IFetchReleaseYearsQuery = (
   { __typename?: 'Query' }
-  & Pick<Query, 'releaseYears'>
+  & Pick<IQuery, 'releaseYears'>
 );
 
-export type UpdateReleaseMutationVariables = Exact<{
+export type IUpdateReleaseMutationVariables = Exact<{
   id: Scalars['Int'];
-  title?: Maybe<Scalars['String']>;
-  releaseType?: Maybe<ReleaseType>;
-  releaseYear?: Maybe<Scalars['Int']>;
-  releaseDate?: Maybe<Scalars['String']>;
-  rating?: Maybe<Scalars['Int']>;
+  title: Maybe<Scalars['String']>;
+  releaseType: Maybe<IReleaseType>;
+  releaseYear: Maybe<Scalars['Int']>;
+  releaseDate: Maybe<Scalars['String']>;
+  rating: Maybe<Scalars['Int']>;
 }>;
 
 
-export type UpdateReleaseMutation = (
+export type IUpdateReleaseMutation = (
   { __typename?: 'Mutation' }
-  & { updateRelease?: Maybe<(
+  & { updateRelease: Maybe<(
     { __typename?: 'Release' }
-    & FullReleaseFieldsFragment
+    & IFullReleaseFieldsFragment
   )> }
 );
 
-export type FetchUserQueryVariables = Exact<{ [key: string]: never; }>;
+export type IFetchUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchUserQuery = (
+export type IFetchUserQuery = (
   { __typename?: 'Query' }
-  & { user?: Maybe<(
+  & { user: Maybe<(
     { __typename?: 'User' }
-    & UserFieldsFragment
+    & IUserFieldsFragment
   )> }
 );
 
-export type UpdateUserMutationVariables = Exact<{
-  nickname?: Maybe<Scalars['String']>;
+export type IUpdateUserMutationVariables = Exact<{
+  nickname: Maybe<Scalars['String']>;
 }>;
 
 
-export type UpdateUserMutation = (
+export type IUpdateUserMutation = (
   { __typename?: 'Mutation' }
-  & { updateUser?: Maybe<(
+  & { updateUser: Maybe<(
     { __typename?: 'User' }
-    & UserFieldsFragment
+    & IUserFieldsFragment
   )> }
 );
 
@@ -870,15 +870,15 @@ export const FetchArtistsDocument = gql`
  *   },
  * });
  */
-export function useFetchArtistsQuery(baseOptions?: Apollo.QueryHookOptions<FetchArtistsQuery, FetchArtistsQueryVariables>) {
-        return Apollo.useQuery<FetchArtistsQuery, FetchArtistsQueryVariables>(FetchArtistsDocument, baseOptions);
+export function useFetchArtistsQuery(baseOptions?: Apollo.QueryHookOptions<IFetchArtistsQuery, IFetchArtistsQueryVariables>) {
+        return Apollo.useQuery<IFetchArtistsQuery, IFetchArtistsQueryVariables>(FetchArtistsDocument, baseOptions);
       }
-export function useFetchArtistsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchArtistsQuery, FetchArtistsQueryVariables>) {
-          return Apollo.useLazyQuery<FetchArtistsQuery, FetchArtistsQueryVariables>(FetchArtistsDocument, baseOptions);
+export function useFetchArtistsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchArtistsQuery, IFetchArtistsQueryVariables>) {
+          return Apollo.useLazyQuery<IFetchArtistsQuery, IFetchArtistsQueryVariables>(FetchArtistsDocument, baseOptions);
         }
 export type FetchArtistsQueryHookResult = ReturnType<typeof useFetchArtistsQuery>;
 export type FetchArtistsLazyQueryHookResult = ReturnType<typeof useFetchArtistsLazyQuery>;
-export type FetchArtistsQueryResult = Apollo.QueryResult<FetchArtistsQuery, FetchArtistsQueryVariables>;
+export type FetchArtistsQueryResult = Apollo.QueryResult<IFetchArtistsQuery, IFetchArtistsQueryVariables>;
 export const FetchArtistDocument = gql`
     query FetchArtist($id: Int!) {
   artist(id: $id) {
@@ -903,15 +903,15 @@ export const FetchArtistDocument = gql`
  *   },
  * });
  */
-export function useFetchArtistQuery(baseOptions: Apollo.QueryHookOptions<FetchArtistQuery, FetchArtistQueryVariables>) {
-        return Apollo.useQuery<FetchArtistQuery, FetchArtistQueryVariables>(FetchArtistDocument, baseOptions);
+export function useFetchArtistQuery(baseOptions: Apollo.QueryHookOptions<IFetchArtistQuery, IFetchArtistQueryVariables>) {
+        return Apollo.useQuery<IFetchArtistQuery, IFetchArtistQueryVariables>(FetchArtistDocument, baseOptions);
       }
-export function useFetchArtistLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchArtistQuery, FetchArtistQueryVariables>) {
-          return Apollo.useLazyQuery<FetchArtistQuery, FetchArtistQueryVariables>(FetchArtistDocument, baseOptions);
+export function useFetchArtistLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchArtistQuery, IFetchArtistQueryVariables>) {
+          return Apollo.useLazyQuery<IFetchArtistQuery, IFetchArtistQueryVariables>(FetchArtistDocument, baseOptions);
         }
 export type FetchArtistQueryHookResult = ReturnType<typeof useFetchArtistQuery>;
 export type FetchArtistLazyQueryHookResult = ReturnType<typeof useFetchArtistLazyQuery>;
-export type FetchArtistQueryResult = Apollo.QueryResult<FetchArtistQuery, FetchArtistQueryVariables>;
+export type FetchArtistQueryResult = Apollo.QueryResult<IFetchArtistQuery, IFetchArtistQueryVariables>;
 export const UpdateArtistDocument = gql`
     mutation UpdateArtist($id: Int!, $name: String, $starred: Boolean) {
   updateArtist(id: $id, name: $name, starred: $starred) {
@@ -919,7 +919,7 @@ export const UpdateArtistDocument = gql`
   }
 }
     ${ArtistFieldsFragmentDoc}`;
-export type UpdateArtistMutationFn = Apollo.MutationFunction<UpdateArtistMutation, UpdateArtistMutationVariables>;
+export type IUpdateArtistMutationFn = Apollo.MutationFunction<IUpdateArtistMutation, IUpdateArtistMutationVariables>;
 
 /**
  * __useUpdateArtistMutation__
@@ -940,12 +940,12 @@ export type UpdateArtistMutationFn = Apollo.MutationFunction<UpdateArtistMutatio
  *   },
  * });
  */
-export function useUpdateArtistMutation(baseOptions?: Apollo.MutationHookOptions<UpdateArtistMutation, UpdateArtistMutationVariables>) {
-        return Apollo.useMutation<UpdateArtistMutation, UpdateArtistMutationVariables>(UpdateArtistDocument, baseOptions);
+export function useUpdateArtistMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateArtistMutation, IUpdateArtistMutationVariables>) {
+        return Apollo.useMutation<IUpdateArtistMutation, IUpdateArtistMutationVariables>(UpdateArtistDocument, baseOptions);
       }
 export type UpdateArtistMutationHookResult = ReturnType<typeof useUpdateArtistMutation>;
-export type UpdateArtistMutationResult = Apollo.MutationResult<UpdateArtistMutation>;
-export type UpdateArtistMutationOptions = Apollo.BaseMutationOptions<UpdateArtistMutation, UpdateArtistMutationVariables>;
+export type UpdateArtistMutationResult = Apollo.MutationResult<IUpdateArtistMutation>;
+export type UpdateArtistMutationOptions = Apollo.BaseMutationOptions<IUpdateArtistMutation, IUpdateArtistMutationVariables>;
 export const FetchCollectionsDocument = gql`
     query FetchCollections($types: [CollectionType]) {
   collections(types: $types) {
@@ -972,15 +972,15 @@ export const FetchCollectionsDocument = gql`
  *   },
  * });
  */
-export function useFetchCollectionsQuery(baseOptions?: Apollo.QueryHookOptions<FetchCollectionsQuery, FetchCollectionsQueryVariables>) {
-        return Apollo.useQuery<FetchCollectionsQuery, FetchCollectionsQueryVariables>(FetchCollectionsDocument, baseOptions);
+export function useFetchCollectionsQuery(baseOptions?: Apollo.QueryHookOptions<IFetchCollectionsQuery, IFetchCollectionsQueryVariables>) {
+        return Apollo.useQuery<IFetchCollectionsQuery, IFetchCollectionsQueryVariables>(FetchCollectionsDocument, baseOptions);
       }
-export function useFetchCollectionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchCollectionsQuery, FetchCollectionsQueryVariables>) {
-          return Apollo.useLazyQuery<FetchCollectionsQuery, FetchCollectionsQueryVariables>(FetchCollectionsDocument, baseOptions);
+export function useFetchCollectionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchCollectionsQuery, IFetchCollectionsQueryVariables>) {
+          return Apollo.useLazyQuery<IFetchCollectionsQuery, IFetchCollectionsQueryVariables>(FetchCollectionsDocument, baseOptions);
         }
 export type FetchCollectionsQueryHookResult = ReturnType<typeof useFetchCollectionsQuery>;
 export type FetchCollectionsLazyQueryHookResult = ReturnType<typeof useFetchCollectionsLazyQuery>;
-export type FetchCollectionsQueryResult = Apollo.QueryResult<FetchCollectionsQuery, FetchCollectionsQueryVariables>;
+export type FetchCollectionsQueryResult = Apollo.QueryResult<IFetchCollectionsQuery, IFetchCollectionsQueryVariables>;
 export const FetchCollectionDocument = gql`
     query FetchCollection($id: Int!) {
   collection(id: $id) {
@@ -1005,15 +1005,15 @@ export const FetchCollectionDocument = gql`
  *   },
  * });
  */
-export function useFetchCollectionQuery(baseOptions: Apollo.QueryHookOptions<FetchCollectionQuery, FetchCollectionQueryVariables>) {
-        return Apollo.useQuery<FetchCollectionQuery, FetchCollectionQueryVariables>(FetchCollectionDocument, baseOptions);
+export function useFetchCollectionQuery(baseOptions: Apollo.QueryHookOptions<IFetchCollectionQuery, IFetchCollectionQueryVariables>) {
+        return Apollo.useQuery<IFetchCollectionQuery, IFetchCollectionQueryVariables>(FetchCollectionDocument, baseOptions);
       }
-export function useFetchCollectionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchCollectionQuery, FetchCollectionQueryVariables>) {
-          return Apollo.useLazyQuery<FetchCollectionQuery, FetchCollectionQueryVariables>(FetchCollectionDocument, baseOptions);
+export function useFetchCollectionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchCollectionQuery, IFetchCollectionQueryVariables>) {
+          return Apollo.useLazyQuery<IFetchCollectionQuery, IFetchCollectionQueryVariables>(FetchCollectionDocument, baseOptions);
         }
 export type FetchCollectionQueryHookResult = ReturnType<typeof useFetchCollectionQuery>;
 export type FetchCollectionLazyQueryHookResult = ReturnType<typeof useFetchCollectionLazyQuery>;
-export type FetchCollectionQueryResult = Apollo.QueryResult<FetchCollectionQuery, FetchCollectionQueryVariables>;
+export type FetchCollectionQueryResult = Apollo.QueryResult<IFetchCollectionQuery, IFetchCollectionQueryVariables>;
 export const UpdateCollectionDocument = gql`
     mutation UpdateCollection($id: Int!, $name: String, $starred: Boolean) {
   updateCollection(id: $id, name: $name, starred: $starred) {
@@ -1021,7 +1021,7 @@ export const UpdateCollectionDocument = gql`
   }
 }
     ${CollectionFieldsFragmentDoc}`;
-export type UpdateCollectionMutationFn = Apollo.MutationFunction<UpdateCollectionMutation, UpdateCollectionMutationVariables>;
+export type IUpdateCollectionMutationFn = Apollo.MutationFunction<IUpdateCollectionMutation, IUpdateCollectionMutationVariables>;
 
 /**
  * __useUpdateCollectionMutation__
@@ -1042,12 +1042,12 @@ export type UpdateCollectionMutationFn = Apollo.MutationFunction<UpdateCollectio
  *   },
  * });
  */
-export function useUpdateCollectionMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCollectionMutation, UpdateCollectionMutationVariables>) {
-        return Apollo.useMutation<UpdateCollectionMutation, UpdateCollectionMutationVariables>(UpdateCollectionDocument, baseOptions);
+export function useUpdateCollectionMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateCollectionMutation, IUpdateCollectionMutationVariables>) {
+        return Apollo.useMutation<IUpdateCollectionMutation, IUpdateCollectionMutationVariables>(UpdateCollectionDocument, baseOptions);
       }
 export type UpdateCollectionMutationHookResult = ReturnType<typeof useUpdateCollectionMutation>;
-export type UpdateCollectionMutationResult = Apollo.MutationResult<UpdateCollectionMutation>;
-export type UpdateCollectionMutationOptions = Apollo.BaseMutationOptions<UpdateCollectionMutation, UpdateCollectionMutationVariables>;
+export type UpdateCollectionMutationResult = Apollo.MutationResult<IUpdateCollectionMutation>;
+export type UpdateCollectionMutationOptions = Apollo.BaseMutationOptions<IUpdateCollectionMutation, IUpdateCollectionMutationVariables>;
 export const AddReleaseToCollectionDocument = gql`
     mutation AddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
   addReleaseToCollection(collectionId: $collectionId, releaseId: $releaseId) {
@@ -1061,7 +1061,7 @@ export const AddReleaseToCollectionDocument = gql`
 }
     ${CollectionFieldsFragmentDoc}
 ${ReleaseFieldsFragmentDoc}`;
-export type AddReleaseToCollectionMutationFn = Apollo.MutationFunction<AddReleaseToCollectionMutation, AddReleaseToCollectionMutationVariables>;
+export type IAddReleaseToCollectionMutationFn = Apollo.MutationFunction<IAddReleaseToCollectionMutation, IAddReleaseToCollectionMutationVariables>;
 
 /**
  * __useAddReleaseToCollectionMutation__
@@ -1081,12 +1081,12 @@ export type AddReleaseToCollectionMutationFn = Apollo.MutationFunction<AddReleas
  *   },
  * });
  */
-export function useAddReleaseToCollectionMutation(baseOptions?: Apollo.MutationHookOptions<AddReleaseToCollectionMutation, AddReleaseToCollectionMutationVariables>) {
-        return Apollo.useMutation<AddReleaseToCollectionMutation, AddReleaseToCollectionMutationVariables>(AddReleaseToCollectionDocument, baseOptions);
+export function useAddReleaseToCollectionMutation(baseOptions?: Apollo.MutationHookOptions<IAddReleaseToCollectionMutation, IAddReleaseToCollectionMutationVariables>) {
+        return Apollo.useMutation<IAddReleaseToCollectionMutation, IAddReleaseToCollectionMutationVariables>(AddReleaseToCollectionDocument, baseOptions);
       }
 export type AddReleaseToCollectionMutationHookResult = ReturnType<typeof useAddReleaseToCollectionMutation>;
-export type AddReleaseToCollectionMutationResult = Apollo.MutationResult<AddReleaseToCollectionMutation>;
-export type AddReleaseToCollectionMutationOptions = Apollo.BaseMutationOptions<AddReleaseToCollectionMutation, AddReleaseToCollectionMutationVariables>;
+export type AddReleaseToCollectionMutationResult = Apollo.MutationResult<IAddReleaseToCollectionMutation>;
+export type AddReleaseToCollectionMutationOptions = Apollo.BaseMutationOptions<IAddReleaseToCollectionMutation, IAddReleaseToCollectionMutationVariables>;
 export const DelReleaseFromCollectionDocument = gql`
     mutation DelReleaseFromCollection($collectionId: Int!, $releaseId: Int!) {
   delReleaseFromCollection(collectionId: $collectionId, releaseId: $releaseId) {
@@ -1100,7 +1100,7 @@ export const DelReleaseFromCollectionDocument = gql`
 }
     ${CollectionFieldsFragmentDoc}
 ${ReleaseFieldsFragmentDoc}`;
-export type DelReleaseFromCollectionMutationFn = Apollo.MutationFunction<DelReleaseFromCollectionMutation, DelReleaseFromCollectionMutationVariables>;
+export type IDelReleaseFromCollectionMutationFn = Apollo.MutationFunction<IDelReleaseFromCollectionMutation, IDelReleaseFromCollectionMutationVariables>;
 
 /**
  * __useDelReleaseFromCollectionMutation__
@@ -1120,12 +1120,12 @@ export type DelReleaseFromCollectionMutationFn = Apollo.MutationFunction<DelRele
  *   },
  * });
  */
-export function useDelReleaseFromCollectionMutation(baseOptions?: Apollo.MutationHookOptions<DelReleaseFromCollectionMutation, DelReleaseFromCollectionMutationVariables>) {
-        return Apollo.useMutation<DelReleaseFromCollectionMutation, DelReleaseFromCollectionMutationVariables>(DelReleaseFromCollectionDocument, baseOptions);
+export function useDelReleaseFromCollectionMutation(baseOptions?: Apollo.MutationHookOptions<IDelReleaseFromCollectionMutation, IDelReleaseFromCollectionMutationVariables>) {
+        return Apollo.useMutation<IDelReleaseFromCollectionMutation, IDelReleaseFromCollectionMutationVariables>(DelReleaseFromCollectionDocument, baseOptions);
       }
 export type DelReleaseFromCollectionMutationHookResult = ReturnType<typeof useDelReleaseFromCollectionMutation>;
-export type DelReleaseFromCollectionMutationResult = Apollo.MutationResult<DelReleaseFromCollectionMutation>;
-export type DelReleaseFromCollectionMutationOptions = Apollo.BaseMutationOptions<DelReleaseFromCollectionMutation, DelReleaseFromCollectionMutationVariables>;
+export type DelReleaseFromCollectionMutationResult = Apollo.MutationResult<IDelReleaseFromCollectionMutation>;
+export type DelReleaseFromCollectionMutationOptions = Apollo.BaseMutationOptions<IDelReleaseFromCollectionMutation, IDelReleaseFromCollectionMutationVariables>;
 export const FetchReleasesDocument = gql`
     query FetchReleases($search: String, $collectionIds: [Int], $artistIds: [Int], $releaseTypes: [ReleaseType], $years: [Int], $ratings: [Int], $page: Int, $perPage: Int, $sort: ReleaseSort, $asc: Boolean) {
   releases(
@@ -1181,15 +1181,15 @@ export const FetchReleasesDocument = gql`
  *   },
  * });
  */
-export function useFetchReleasesQuery(baseOptions?: Apollo.QueryHookOptions<FetchReleasesQuery, FetchReleasesQueryVariables>) {
-        return Apollo.useQuery<FetchReleasesQuery, FetchReleasesQueryVariables>(FetchReleasesDocument, baseOptions);
+export function useFetchReleasesQuery(baseOptions?: Apollo.QueryHookOptions<IFetchReleasesQuery, IFetchReleasesQueryVariables>) {
+        return Apollo.useQuery<IFetchReleasesQuery, IFetchReleasesQueryVariables>(FetchReleasesDocument, baseOptions);
       }
-export function useFetchReleasesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchReleasesQuery, FetchReleasesQueryVariables>) {
-          return Apollo.useLazyQuery<FetchReleasesQuery, FetchReleasesQueryVariables>(FetchReleasesDocument, baseOptions);
+export function useFetchReleasesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchReleasesQuery, IFetchReleasesQueryVariables>) {
+          return Apollo.useLazyQuery<IFetchReleasesQuery, IFetchReleasesQueryVariables>(FetchReleasesDocument, baseOptions);
         }
 export type FetchReleasesQueryHookResult = ReturnType<typeof useFetchReleasesQuery>;
 export type FetchReleasesLazyQueryHookResult = ReturnType<typeof useFetchReleasesLazyQuery>;
-export type FetchReleasesQueryResult = Apollo.QueryResult<FetchReleasesQuery, FetchReleasesQueryVariables>;
+export type FetchReleasesQueryResult = Apollo.QueryResult<IFetchReleasesQuery, IFetchReleasesQueryVariables>;
 export const FetchReleasesRecentlyAddedDocument = gql`
     query FetchReleasesRecentlyAdded {
   releases(sort: RECENTLY_ADDED, asc: false, page: 1, perPage: 10) {
@@ -1223,15 +1223,15 @@ export const FetchReleasesRecentlyAddedDocument = gql`
  *   },
  * });
  */
-export function useFetchReleasesRecentlyAddedQuery(baseOptions?: Apollo.QueryHookOptions<FetchReleasesRecentlyAddedQuery, FetchReleasesRecentlyAddedQueryVariables>) {
-        return Apollo.useQuery<FetchReleasesRecentlyAddedQuery, FetchReleasesRecentlyAddedQueryVariables>(FetchReleasesRecentlyAddedDocument, baseOptions);
+export function useFetchReleasesRecentlyAddedQuery(baseOptions?: Apollo.QueryHookOptions<IFetchReleasesRecentlyAddedQuery, IFetchReleasesRecentlyAddedQueryVariables>) {
+        return Apollo.useQuery<IFetchReleasesRecentlyAddedQuery, IFetchReleasesRecentlyAddedQueryVariables>(FetchReleasesRecentlyAddedDocument, baseOptions);
       }
-export function useFetchReleasesRecentlyAddedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchReleasesRecentlyAddedQuery, FetchReleasesRecentlyAddedQueryVariables>) {
-          return Apollo.useLazyQuery<FetchReleasesRecentlyAddedQuery, FetchReleasesRecentlyAddedQueryVariables>(FetchReleasesRecentlyAddedDocument, baseOptions);
+export function useFetchReleasesRecentlyAddedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchReleasesRecentlyAddedQuery, IFetchReleasesRecentlyAddedQueryVariables>) {
+          return Apollo.useLazyQuery<IFetchReleasesRecentlyAddedQuery, IFetchReleasesRecentlyAddedQueryVariables>(FetchReleasesRecentlyAddedDocument, baseOptions);
         }
 export type FetchReleasesRecentlyAddedQueryHookResult = ReturnType<typeof useFetchReleasesRecentlyAddedQuery>;
 export type FetchReleasesRecentlyAddedLazyQueryHookResult = ReturnType<typeof useFetchReleasesRecentlyAddedLazyQuery>;
-export type FetchReleasesRecentlyAddedQueryResult = Apollo.QueryResult<FetchReleasesRecentlyAddedQuery, FetchReleasesRecentlyAddedQueryVariables>;
+export type FetchReleasesRecentlyAddedQueryResult = Apollo.QueryResult<IFetchReleasesRecentlyAddedQuery, IFetchReleasesRecentlyAddedQueryVariables>;
 export const FetchReleaseDocument = gql`
     query FetchRelease($id: Int!) {
   release(id: $id) {
@@ -1256,15 +1256,15 @@ export const FetchReleaseDocument = gql`
  *   },
  * });
  */
-export function useFetchReleaseQuery(baseOptions: Apollo.QueryHookOptions<FetchReleaseQuery, FetchReleaseQueryVariables>) {
-        return Apollo.useQuery<FetchReleaseQuery, FetchReleaseQueryVariables>(FetchReleaseDocument, baseOptions);
+export function useFetchReleaseQuery(baseOptions: Apollo.QueryHookOptions<IFetchReleaseQuery, IFetchReleaseQueryVariables>) {
+        return Apollo.useQuery<IFetchReleaseQuery, IFetchReleaseQueryVariables>(FetchReleaseDocument, baseOptions);
       }
-export function useFetchReleaseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchReleaseQuery, FetchReleaseQueryVariables>) {
-          return Apollo.useLazyQuery<FetchReleaseQuery, FetchReleaseQueryVariables>(FetchReleaseDocument, baseOptions);
+export function useFetchReleaseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchReleaseQuery, IFetchReleaseQueryVariables>) {
+          return Apollo.useLazyQuery<IFetchReleaseQuery, IFetchReleaseQueryVariables>(FetchReleaseDocument, baseOptions);
         }
 export type FetchReleaseQueryHookResult = ReturnType<typeof useFetchReleaseQuery>;
 export type FetchReleaseLazyQueryHookResult = ReturnType<typeof useFetchReleaseLazyQuery>;
-export type FetchReleaseQueryResult = Apollo.QueryResult<FetchReleaseQuery, FetchReleaseQueryVariables>;
+export type FetchReleaseQueryResult = Apollo.QueryResult<IFetchReleaseQuery, IFetchReleaseQueryVariables>;
 export const FetchReleaseYearsDocument = gql`
     query FetchReleaseYears {
   releaseYears
@@ -1286,15 +1286,15 @@ export const FetchReleaseYearsDocument = gql`
  *   },
  * });
  */
-export function useFetchReleaseYearsQuery(baseOptions?: Apollo.QueryHookOptions<FetchReleaseYearsQuery, FetchReleaseYearsQueryVariables>) {
-        return Apollo.useQuery<FetchReleaseYearsQuery, FetchReleaseYearsQueryVariables>(FetchReleaseYearsDocument, baseOptions);
+export function useFetchReleaseYearsQuery(baseOptions?: Apollo.QueryHookOptions<IFetchReleaseYearsQuery, IFetchReleaseYearsQueryVariables>) {
+        return Apollo.useQuery<IFetchReleaseYearsQuery, IFetchReleaseYearsQueryVariables>(FetchReleaseYearsDocument, baseOptions);
       }
-export function useFetchReleaseYearsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchReleaseYearsQuery, FetchReleaseYearsQueryVariables>) {
-          return Apollo.useLazyQuery<FetchReleaseYearsQuery, FetchReleaseYearsQueryVariables>(FetchReleaseYearsDocument, baseOptions);
+export function useFetchReleaseYearsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchReleaseYearsQuery, IFetchReleaseYearsQueryVariables>) {
+          return Apollo.useLazyQuery<IFetchReleaseYearsQuery, IFetchReleaseYearsQueryVariables>(FetchReleaseYearsDocument, baseOptions);
         }
 export type FetchReleaseYearsQueryHookResult = ReturnType<typeof useFetchReleaseYearsQuery>;
 export type FetchReleaseYearsLazyQueryHookResult = ReturnType<typeof useFetchReleaseYearsLazyQuery>;
-export type FetchReleaseYearsQueryResult = Apollo.QueryResult<FetchReleaseYearsQuery, FetchReleaseYearsQueryVariables>;
+export type FetchReleaseYearsQueryResult = Apollo.QueryResult<IFetchReleaseYearsQuery, IFetchReleaseYearsQueryVariables>;
 export const UpdateReleaseDocument = gql`
     mutation UpdateRelease($id: Int!, $title: String, $releaseType: ReleaseType, $releaseYear: Int, $releaseDate: String, $rating: Int) {
   updateRelease(
@@ -1309,7 +1309,7 @@ export const UpdateReleaseDocument = gql`
   }
 }
     ${FullReleaseFieldsFragmentDoc}`;
-export type UpdateReleaseMutationFn = Apollo.MutationFunction<UpdateReleaseMutation, UpdateReleaseMutationVariables>;
+export type IUpdateReleaseMutationFn = Apollo.MutationFunction<IUpdateReleaseMutation, IUpdateReleaseMutationVariables>;
 
 /**
  * __useUpdateReleaseMutation__
@@ -1333,12 +1333,12 @@ export type UpdateReleaseMutationFn = Apollo.MutationFunction<UpdateReleaseMutat
  *   },
  * });
  */
-export function useUpdateReleaseMutation(baseOptions?: Apollo.MutationHookOptions<UpdateReleaseMutation, UpdateReleaseMutationVariables>) {
-        return Apollo.useMutation<UpdateReleaseMutation, UpdateReleaseMutationVariables>(UpdateReleaseDocument, baseOptions);
+export function useUpdateReleaseMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateReleaseMutation, IUpdateReleaseMutationVariables>) {
+        return Apollo.useMutation<IUpdateReleaseMutation, IUpdateReleaseMutationVariables>(UpdateReleaseDocument, baseOptions);
       }
 export type UpdateReleaseMutationHookResult = ReturnType<typeof useUpdateReleaseMutation>;
-export type UpdateReleaseMutationResult = Apollo.MutationResult<UpdateReleaseMutation>;
-export type UpdateReleaseMutationOptions = Apollo.BaseMutationOptions<UpdateReleaseMutation, UpdateReleaseMutationVariables>;
+export type UpdateReleaseMutationResult = Apollo.MutationResult<IUpdateReleaseMutation>;
+export type UpdateReleaseMutationOptions = Apollo.BaseMutationOptions<IUpdateReleaseMutation, IUpdateReleaseMutationVariables>;
 export const FetchUserDocument = gql`
     query FetchUser {
   user {
@@ -1362,15 +1362,15 @@ export const FetchUserDocument = gql`
  *   },
  * });
  */
-export function useFetchUserQuery(baseOptions?: Apollo.QueryHookOptions<FetchUserQuery, FetchUserQueryVariables>) {
-        return Apollo.useQuery<FetchUserQuery, FetchUserQueryVariables>(FetchUserDocument, baseOptions);
+export function useFetchUserQuery(baseOptions?: Apollo.QueryHookOptions<IFetchUserQuery, IFetchUserQueryVariables>) {
+        return Apollo.useQuery<IFetchUserQuery, IFetchUserQueryVariables>(FetchUserDocument, baseOptions);
       }
-export function useFetchUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchUserQuery, FetchUserQueryVariables>) {
-          return Apollo.useLazyQuery<FetchUserQuery, FetchUserQueryVariables>(FetchUserDocument, baseOptions);
+export function useFetchUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchUserQuery, IFetchUserQueryVariables>) {
+          return Apollo.useLazyQuery<IFetchUserQuery, IFetchUserQueryVariables>(FetchUserDocument, baseOptions);
         }
 export type FetchUserQueryHookResult = ReturnType<typeof useFetchUserQuery>;
 export type FetchUserLazyQueryHookResult = ReturnType<typeof useFetchUserLazyQuery>;
-export type FetchUserQueryResult = Apollo.QueryResult<FetchUserQuery, FetchUserQueryVariables>;
+export type FetchUserQueryResult = Apollo.QueryResult<IFetchUserQuery, IFetchUserQueryVariables>;
 export const UpdateUserDocument = gql`
     mutation UpdateUser($nickname: String) {
   updateUser(nickname: $nickname) {
@@ -1378,7 +1378,7 @@ export const UpdateUserDocument = gql`
   }
 }
     ${UserFieldsFragmentDoc}`;
-export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
+export type IUpdateUserMutationFn = Apollo.MutationFunction<IUpdateUserMutation, IUpdateUserMutationVariables>;
 
 /**
  * __useUpdateUserMutation__
@@ -1397,12 +1397,12 @@ export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, U
  *   },
  * });
  */
-export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
-        return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, baseOptions);
+export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateUserMutation, IUpdateUserMutationVariables>) {
+        return Apollo.useMutation<IUpdateUserMutation, IUpdateUserMutationVariables>(UpdateUserDocument, baseOptions);
       }
 export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
-export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
-export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
+export type UpdateUserMutationResult = Apollo.MutationResult<IUpdateUserMutation>;
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<IUpdateUserMutation, IUpdateUserMutationVariables>;
 export type QueryKeySpecifier = ('artist' | 'artistFromName' | 'collection' | 'collectionFromNameAndType' | 'playlist' | 'playlistFromNameAndType' | 'release' | 'track' | 'user' | 'artists' | 'collections' | 'playlists' | 'releases' | 'releaseYears' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	artist?: FieldPolicy<any> | FieldReadFunction<any>,
