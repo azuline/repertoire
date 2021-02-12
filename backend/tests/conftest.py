@@ -27,8 +27,9 @@ def seed_db():
     db_path = SEED_DATA / "db.sqlite3"
     db_path.unlink(missing_ok=True)
 
+    cons = Constants()
     db_backend = get_backend(f"sqlite:///{db_path}")
-    db_migrations = read_migrations(str(BACKEND_ROOT / "src" / "migrations"))
+    db_migrations = read_migrations(str(cons.migrations_path))
 
     with db_backend.lock():
         db_backend.apply_migrations(db_backend.to_apply(db_migrations))
