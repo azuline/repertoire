@@ -8,7 +8,7 @@ from ariadne import graphql
 from click.testing import CliRunner
 from yoyo import get_backend, read_migrations
 
-from src.constants import BACKEND_ROOT, Constants
+from src.constants import Constants
 from src.graphql import error_formatter, schema
 from src.library import user
 from src.util import database

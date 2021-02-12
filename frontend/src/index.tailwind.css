@@ -44,6 +44,19 @@ html {
   --color-primary-800: #b78846;
 }
 
+* {
+  scrollbar-color: var(--color-gray-500);
+  scrollbar-width: thin;
+}
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 0;
+  height: 0.375rem;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-gray-500);
+}
+
 .app {
   @apply bg-background-700 text-foreground;
 }
