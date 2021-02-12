@@ -1,0 +1,84 @@
+query FetchReleases (
+  $search: String
+  $collectionIds: [Int]
+  $artistIds: [Int]
+  $releaseTypes: [ReleaseType]
+  $years: [Int]
+  $ratings: [Int]
+  $page: Int
+  $perPage: Int
+  $sort: ReleaseSort
+  $asc: Boolean
+) {
+  releases(
+    search: $search
+    collectionIds: $collectionIds
+    artistIds: $artistIds
+    releaseTypes: $releaseTypes
+    years: $years
+    ratings: $ratings
+    page: $page
+    perPage: $perPage
+    sort: $sort
+    asc: $asc
+  ) {
+    total
+    results {
+      ...ReleaseFields
+      artists {
+        id
+        name
+      }
+      genres {
+        id
+        name
+      }
+    }
+  }
+}
+
+query FetchReleasesRecentlyAdded {
+  releases(sort: RECENTLY_ADDED, asc: false, page: 1, perPage: 10) {
+    results {
+      ...ReleaseFields
+      artists {
+        id
+        name
+      }
+      genres {
+        id
+        name
+      }
+    }
+  }
+}
+
+query FetchRelease($id: Int!) {
+  release(id: $id) {
+    ...FullReleaseFields
+  }
+}
+
+query FetchReleaseYears {
+  releaseYears
+}
+
+mutation UpdateRelease(
+  $id: Int!
+  $title: String
+  $releaseType: ReleaseType
+  $releaseYear: Int
+  $releaseDate: String
+  $rating: Int
+) {
+  updateRelease(
+    id: $id
+    title: $title
+    releaseType: $releaseType
+    releaseYear: $releaseYear
+    releaseDate: $releaseDate
+    rating: $rating
+  ) {
+    ...FullReleaseFields
+  }
+}

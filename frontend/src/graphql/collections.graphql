@@ -1,0 +1,41 @@
+query FetchCollections($types: [CollectionType]) {
+  collections(types: $types) {
+    results {
+      ...CollectionFields
+    }
+  }
+}
+
+query FetchCollection($id: Int!) {
+  collection(id: $id) {
+    ...CollectionFields
+  }
+}
+
+mutation UpdateCollection($id: Int!, $name: String, $starred: Boolean) {
+  updateCollection(id: $id, name: $name, starred: $starred) {
+    ...CollectionFields
+  }
+}
+
+mutation AddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
+  addReleaseToCollection(collectionId: $collectionId, releaseId: $releaseId) {
+    collection {
+      ...CollectionFields
+    }
+    release {
+      ...ReleaseFields
+    }
+  }
+}
+
+mutation DelReleaseFromCollection($collectionId: Int!, $releaseId: Int!) {
+  delReleaseFromCollection(collectionId: $collectionId, releaseId: $releaseId) {
+    collection {
+      ...CollectionFields
+    }
+    release {
+      ...ReleaseFields
+    }
+  }
+}

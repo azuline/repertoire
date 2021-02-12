@@ -1,21 +1,14 @@
 overwrite: true
 schema: "../backend/src/graphql/schema.graphql"
 documents:
-  - "src/**/!(*.d).{ts,tsx}"
+  - "src/graphql/*.graphql"
 config:
   scalars:
     PosixTime: number
 generates:
-  src/graphql/types.ts:
+  src/graphql/index.ts:
     plugins:
       - "typescript"
-  src/graphql/apollo-helpers.ts:
-    plugins:
-      - "typescript-apollo-client-helpers"
-  src/:
-    preset: near-operation-file
-    presetConfig:
-      baseTypesPath: src/graphql/types.ts
-    plugins:
       - "typescript-operations"
       - "typescript-react-apollo"
+      - "typescript-apollo-client-helpers"

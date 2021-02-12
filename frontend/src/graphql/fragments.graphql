@@ -1,0 +1,79 @@
+fragment UserFields on User {
+  id
+  nickname
+}
+
+fragment ReleaseFields on Release {
+  id
+  title
+  releaseType
+  addedOn
+  inInbox
+  inFavorites
+  releaseYear
+  releaseDate
+  rating
+  numTracks
+  runtime
+  imageId
+}
+
+fragment ArtistFields on Artist {
+  id
+  name
+  starred
+  numReleases
+  imageId
+}
+
+fragment CollectionFields on Collection {
+  id
+  name
+  starred
+  type
+  numReleases
+  lastUpdatedOn
+  imageId
+}
+
+fragment TrackFields on Track {
+  id
+  title
+  duration
+  trackNumber
+  discNumber
+}
+
+fragment FullReleaseFields on Release {
+  ...ReleaseFields
+  artists {
+    id
+    name
+  }
+  collages {
+    id
+    name
+  }
+  labels {
+    id
+    name
+  }
+  genres {
+    id
+    name
+  }
+  tracks {
+    ...TrackFields
+    release {
+      id
+      imageId
+    }
+    artists {
+      artist {
+        id
+        name
+      }
+      role
+    }
+  }
+}
