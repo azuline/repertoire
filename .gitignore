@@ -9,3 +9,4 @@ _build/
 .env.production.local
 .vscode
 .env
+/.husky
