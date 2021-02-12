@@ -17,7 +17,7 @@ setup(
     name='repertoire',
     version='0.1.0',
     description='A release-oriented music server.',
-    python_requires='==3.*,>=3.9.0',
+    python_requires='==3.*,>=3.8.0',
     author='azuline',
     author_email='azuline@riseup.net',
     license='AGPL-3.0',
