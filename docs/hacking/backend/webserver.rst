@@ -14,8 +14,6 @@ The package is laid out as follows:
     ├── util.py         # Utility functions for Quart routes.
     ├── validators.py   # Custom voluptuous validators.
     └── routes/         # The routes registered on the server.
-        ├── files.py    # Contains the endpoints that return music/image files.
-        └── graphql.py  # Contains the GraphQL endpoints.
 
 The endpoints are documented at :ref:`server_api`.
 

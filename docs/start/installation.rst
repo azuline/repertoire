@@ -71,16 +71,17 @@ Example ``docker-compose.yml``:
 Poetry
 ------
 
+.. note::
+   repertoire is only tested on specific versions of Python and JavaScript. See
+   :ref:`installing_python_and_javascript` for instructions on installing the
+   required versions of Python and JavaScript.
+
 This option uses Poetry to handle the virtual environment and install the
 backend. See https://python-poetry.org/docs/#installation for instructions on
 installing Poetry.
 
 Yarn is used to build the frontend. See https://classic.yarnpkg.com/en/docs/install/ 
 for instructions on installing Yarn.
-
-repertoire is only tested on specific versions of Python and JavaScript. See
-:ref:`installing_python_and_javascript` for instructions on installing the
-required versions of Python and JavaScript.
 
 Installation with Poetry has the following steps:
 
@@ -121,16 +122,17 @@ Or, as a set of shell commands:
 Pip & Virtualenv
 ----------------
 
+.. note::
+   repertoire is only tested on specific versions of Python and JavaScript. See
+   :ref:`installing_python_and_javascript` for instructions on installing the
+   required versions of Python and JavaScript.
+
 This option directly works with the Python virtual environment and uses ``pip``
 to install the backend. You must have ``pip`` installed on your computer.
 
 Yarn is used to build the frontend. See
 https://classic.yarnpkg.com/en/docs/install/ for instructions on installing
 Yarn.
-
-repertoire is only tested on specific versions of Python and JavaScript. See
-:ref:`installing_python_and_javascript` for instructions on installing the
-required versions of Python and JavaScript.
 
 Installation with Pip & Virtualenv has the following steps:
 
