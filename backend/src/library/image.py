@@ -44,8 +44,10 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     """
     cursor.execute("SELECT * from images WHERE id = ?", (id,))
     if row := cursor.fetchone():
+        logger.debug(f"Fetched image {id}.")
         return from_row(row)
 
+    logger.debug(f"Failed to fetch image {id}.")
     return None
 
 
@@ -59,8 +61,10 @@ def from_path(path: Union[Path, str], cursor: Cursor) -> Optional[T]:
     """
     cursor.execute("SELECT * from images WHERE path = ?", (str(path),))
     if row := cursor.fetchone():
+        logger.debug(f"Fetched image {row['id']} from path {path}.")
         return from_row(row)
 
+    logger.debug(f"Failed to fetch image from path {path}.")
     return None
 
 

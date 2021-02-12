@@ -104,8 +104,10 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     )
 
     if row := cursor.fetchone():
+        logger.debug(f"Fetched playlist {id}.")
         return from_row(row)
 
+    logger.debug(f"Failed to fetch playlist {id}.")
     return None
 
 
@@ -134,8 +136,10 @@ def from_name_and_type(name: str, type: PlaylistType, cursor: Cursor) -> Optiona
     )
 
     if row := cursor.fetchone():
+        logger.debug(f'Fetch playlist {row["id"]} with name "{name}" and type {type}.')
         return from_row(row)
 
+    logger.debug(f'Failed to fetch playlist with name "{name}" and type {type}.')
     return None
 
 
@@ -167,6 +171,8 @@ def all(cursor: Cursor, types: List[PlaylistType] = []) -> List[T]:
         """,
         tuple(type_.value for type_ in types),
     )
+
+    logger.debug("Fetched all playlists.")
     return [from_row(row) for row in cursor.fetchall()]
 
 
@@ -272,6 +278,7 @@ def tracks(ply: T, cursor: Cursor) -> List[track.T]:
         (ply.id,),
     )
 
+    logger.debug(f"Fetched tracks of playlist {ply}.")
     return [track.from_row(row) for row in cursor.fetchall()]
 
 
@@ -287,7 +294,8 @@ def add_track(ply: T, track_id: int, cursor: Cursor) -> T:
     :raises AlreadyExists: If the track is already in the playlist.
     """
     if not track.exists(track_id, cursor):
-        raise NotFound(f"Releasse {track_id} does not exist.")
+        logger.debug(f"Track {track_id} does not exist.")
+        raise NotFound(f"Track {track_id} does not exist.")
 
     cursor.execute(
         """
@@ -299,6 +307,7 @@ def add_track(ply: T, track_id: int, cursor: Cursor) -> T:
     # TODO: Once we add playlist-specific ordering, allow duplicate tracks.
     # This is probably best accomplished by allocating "entry IDs."
     if cursor.fetchone():
+        logger.debug("Track {track_id} already in playlist {ply.id}.")
         raise AlreadyExists("Track is already in playlist.")
 
     cursor.execute(
@@ -308,6 +317,8 @@ def add_track(ply: T, track_id: int, cursor: Cursor) -> T:
         """,
         (ply.id, track_id),
     )
+
+    logger.info(f"Added track {track_id} to playlist {ply.id}.")
 
     return update_dataclass(
         ply,
@@ -331,6 +342,7 @@ def del_track(ply: T, track_id: int, cursor: Cursor) -> T:
     # TODO: Once we add playlist-specific ordering, perhaps worth switching over to
     # track placement in playlist over track ID, since duplicates may exist.
     if not track.exists(track_id, cursor):
+        logger.debug(f"Track {track_id} does not exist.")
         raise NotFound(f"Track {track_id} does not exist.")
 
     cursor.execute(
@@ -341,6 +353,7 @@ def del_track(ply: T, track_id: int, cursor: Cursor) -> T:
         (ply.id, track_id),
     )
     if not cursor.fetchone():
+        logger.debug("Track {track_id} not in playlist {ply.id}.")
         raise DoesNotExist("Track is not in playlist.")
 
     cursor.execute(
@@ -350,6 +363,8 @@ def del_track(ply: T, track_id: int, cursor: Cursor) -> T:
         """,
         (ply.id, track_id),
     )
+
+    logger.info(f"Deleted track {track_id} from playlist {ply.id}.")
 
     return update_dataclass(
         ply,
@@ -403,6 +418,7 @@ def top_genres(ply: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
         (ply.id, CollectionType.GENRE.value, num_genres),
     )
 
+    logger.debug(f"Fetched top genres of playlist {ply.id}.")
     return [
         {
             "genre": collection.from_row(without_key(row, "num_matches")),
@@ -438,6 +454,8 @@ def image(ply: T, cursor: Cursor) -> Optional[libimage.T]:
     )
 
     if row := cursor.fetchone():
+        logger.debug(f"Fetched image for playlist {ply.id}.")
         return libimage.from_row(row)
 
+    logger.debug(f"Failed to fetch image for playlist {ply.id}.")
     return None

@@ -210,7 +210,7 @@ snapshots['test_add_release_to_collection_bad_release 1'] = (
                         'line': 3
                     }
                 ],
-                'message': 'Releasse 9999 does not exist.',
+                'message': 'Release 9999 does not exist.',
                 'path': [
                     'addReleaseToCollection'
                 ],

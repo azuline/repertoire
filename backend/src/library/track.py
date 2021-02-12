@@ -70,8 +70,10 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     cursor.execute("SELECT * FROM music__tracks WHERE id = ?", (id,))
 
     if row := cursor.fetchone():
+        logger.debug("Fetched track {id}.")
         return from_row(row)
 
+    logger.debug("Failed to fetch track {id}.")
     return None
 
 
@@ -86,8 +88,10 @@ def from_filepath(filepath: Union[Path, str], cursor: Cursor) -> Optional[T]:
     cursor.execute("SELECT * FROM music__tracks WHERE filepath = ?", (str(filepath),))
 
     if row := cursor.fetchone():
+        logger.debug("Fetched track {row['id']} from filepath {filepath}.")
         return from_row(row)
 
+    logger.debug("Failed to fetch track from filepath {filepath}.")
     return None
 
 
@@ -102,8 +106,10 @@ def from_sha256(sha256: bytes, cursor: Cursor) -> Optional[T]:
     cursor.execute("SELECT * FROM music__tracks WHERE sha256 = ?", (sha256,))
 
     if row := cursor.fetchone():
+        logger.debug("Fetched track {row['id']} from SHA256 {sha256.hex()}.")
         return from_row(row)
 
+    logger.debug("Failed to fetch track from SHA256 {sha256.hex()}.")
     return None
 
 
@@ -140,15 +146,18 @@ def create(
                        track is passed as the ``entity`` argument.
     """
     if not release.exists(release_id, cursor):
+        logger.debug(f"Release {release_id} does not exist.")
         raise NotFound(f"Release {release_id} does not exist.")
 
     if bad_ids := [
         d["artist_id"] for d in artists if not artist.exists(d["artist_id"], cursor)
     ]:
+        logger.debug(f"Artist(s) {', '.join(str(i) for i in bad_ids)} do not exist.")
         raise NotFound(f"Artist(s) {', '.join(str(i) for i in bad_ids)} do not exist.")
 
     # First, check to see if a track with the same filepath exists.
     if trk := from_filepath(filepath, cursor):
+        logger.debug("A track with this filepath already exists.")
         raise Duplicate("A track with this filepath already exists.", trk)
 
     # Next, check to see if a track with the same sha256 exists.
@@ -159,6 +168,7 @@ def create(
             "UPDATE music__tracks SET filepath = ? WHERE id = ?",
             (str(filepath), row["id"]),
         )
+        logger.debug("Found track with the same SHA256; updated filepath.")
         return from_id(row["id"], cursor)  # type: ignore
 
     # Track is not a duplicate, so we can insert and return.
@@ -211,6 +221,7 @@ def update(trk: T, cursor: Cursor, **changes) -> T:
     :raise NotFound: If the new release ID does not exist.
     """
     if "release_id" in changes and not release.exists(changes["release_id"], cursor):
+        logger.debug(f"Release {changes['release_id']} does not exist.")
         raise NotFound(f"Release {changes['release_id']} does not exist.")
 
     cursor.execute(
@@ -260,6 +271,7 @@ def artists(trk: T, cursor: Cursor) -> List[Dict]:
         (trk.id,),
     )
 
+    logger.debug(f"Fetched artists of track {trk.id}.")
     return [
         {
             "artist": artist.from_row(without_key(row, "role")),
@@ -282,6 +294,7 @@ def add_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> T:
     :raises AlreadyExists: If the artist/role combo is already on the track.
     """
     if not artist.exists(artist_id, cursor):
+        logger.debug(f"Artist {artist_id} does not exist.")
         raise NotFound(f"Artist {artist_id} does not exist.")
 
     cursor.execute(
@@ -292,6 +305,9 @@ def add_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> T:
         (trk.id, artist_id, role.value),
     )
     if cursor.fetchone():
+        logger.debug(
+            f"Artist {artist_id} is already on track {trk.id} with role {role}."
+        )
         raise AlreadyExists("Artist already on track with this role.")
 
     cursor.execute(
@@ -301,6 +317,8 @@ def add_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> T:
         """,
         (trk.id, artist_id, role.value),
     )
+
+    logger.info(f"Added artist {artist_id} to track {trk.id} with role {role}.")
 
     return trk
 
@@ -317,6 +335,7 @@ def del_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> T:
     :raises DoesNotExist: If the artist is not on the track.
     """
     if not artist.exists(artist_id, cursor):
+        logger.debug(f"Artist {artist_id} does not exist.")
         raise NotFound(f"Artist {artist_id} does not exist.")
 
     cursor.execute(
@@ -327,6 +346,7 @@ def del_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> T:
         (trk.id, artist_id, role.value),
     )
     if not cursor.fetchone():
+        logger.debug(f"Artist {artist_id} is not on track {trk.id} with role {role}.")
         raise DoesNotExist("No artist on track with this role.")
 
     cursor.execute(
@@ -336,5 +356,7 @@ def del_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> T:
         """,
         (trk.id, artist_id, role.value),
     )
+
+    logger.info(f"Deleted artist {artist_id} from track {trk.id} with role {role}.")
 
     return trk

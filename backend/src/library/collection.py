@@ -103,8 +103,10 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     )
 
     if row := cursor.fetchone():
+        logger.debug(f"Fetched collection {id}.")
         return from_row(row)
 
+    logger.debug(f"Failed to fetch collection {id}.")
     return None
 
 
@@ -133,8 +135,12 @@ def from_name_and_type(name: str, type: CollectionType, cursor: Cursor) -> Optio
     )
 
     if row := cursor.fetchone():
+        logger.debug(
+            f'Fetched collection {row["id"]} with name "{name}" and type {type}.'
+        )
         return from_row(row)
 
+    logger.debug(f'Failed to fetch collection with name "{name}" and type {type}.')
     return None
 
 
@@ -166,6 +172,8 @@ def all(cursor: Cursor, types: List[CollectionType] = []) -> List[T]:
         """,
         tuple(type_.value for type_ in types),
     )
+
+    logger.debug(f"Fetched all collections of types {type}.")
     return [from_row(row) for row in cursor.fetchall()]
 
 
@@ -261,6 +269,7 @@ def releases(col: T, cursor: Cursor) -> List[release.T]:
     :return: A list of releases in the collection.
     """
     _, releases = release.search(collection_ids=[col.id], cursor=cursor)
+    logger.debug(f"Fetched releases of collection {col.id}.")
     return releases
 
 
@@ -276,7 +285,8 @@ def add_release(col: T, release_id: int, cursor: Cursor) -> T:
     :raises AlreadyExists: If the release is already in the collection.
     """
     if not release.exists(release_id, cursor):
-        raise NotFound(f"Releasse {release_id} does not exist.")
+        logger.debug(f"Release {release_id} does not exist.")
+        raise NotFound(f"Release {release_id} does not exist.")
 
     cursor.execute(
         """
@@ -286,6 +296,7 @@ def add_release(col: T, release_id: int, cursor: Cursor) -> T:
         (col.id, release_id),
     )
     if cursor.fetchone():
+        logger.debug(f"Release {release_id} already in collection {col.id}.")
         raise AlreadyExists("Release is already in collection.")
 
     cursor.execute(
@@ -295,6 +306,8 @@ def add_release(col: T, release_id: int, cursor: Cursor) -> T:
         """,
         (col.id, release_id),
     )
+
+    logger.info(f"Added release {release_id} to collection {col.id}.")
 
     return update_dataclass(
         col,
@@ -316,6 +329,7 @@ def del_release(col: T, release_id: int, cursor: Cursor) -> T:
     :raises DoesNotExist: If the release is not in the collection.
     """
     if not release.exists(release_id, cursor):
+        logger.debug(f"Release {release_id} does not exist.")
         raise NotFound(f"Release {release_id} does not exist.")
 
     cursor.execute(
@@ -326,6 +340,7 @@ def del_release(col: T, release_id: int, cursor: Cursor) -> T:
         (col.id, release_id),
     )
     if not cursor.fetchone():
+        logger.debug(f"Release {release_id} not in collection {col.id}.")
         raise DoesNotExist("Release is not in collection.")
 
     cursor.execute(
@@ -335,6 +350,8 @@ def del_release(col: T, release_id: int, cursor: Cursor) -> T:
         """,
         (col.id, release_id),
     )
+
+    logger.info(f"Deleted release {release_id} from collection {col.id}.")
 
     return update_dataclass(
         col,
@@ -386,6 +403,8 @@ def top_genres(col: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
         (col.id, CollectionType.GENRE.value, num_genres),
     )
 
+    logger.debug(f"Fetched top genres of collection {col.id}.")
+
     return [
         {
             "genre": from_row(without_key(row, "num_matches")),
@@ -420,6 +439,8 @@ def image(col: T, cursor: Cursor) -> Optional[libimage.T]:
     )
 
     if row := cursor.fetchone():
+        logger.debug(f"Fetched image for collection {col.id}.")
         return libimage.from_row(row)
 
+    logger.debug(f"Failed to fetch image for collection {col.id}.")
     return None

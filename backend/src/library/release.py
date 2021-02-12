@@ -111,8 +111,10 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     )
 
     if row := cursor.fetchone():
+        logger.debug(f"Fetched release {id}.")
         return from_row(row)
 
+    logger.debug(f"Failed to fetch release {id}.")
     return None
 
 
@@ -213,6 +215,7 @@ def search(
         filter_params,
     )
 
+    logger.debug(f"Searched releases with {total} results.")
     return total, [from_row(row) for row in cursor.fetchall()]
 
 
@@ -351,11 +354,13 @@ def create(
                        duplicate release is passed as the ``entity`` argument.
     """
     if bad_ids := [str(id) for id in artist_ids if not artist.exists(id, cursor)]:
+        logger.debug(f"Artist(s) {', '.join(bad_ids)} do not exist.")
         raise NotFound(f"Artist(s) {', '.join(bad_ids)} do not exist.")
 
     if not allow_duplicate and (
         rls := _find_duplicate_release(title, artist_ids, cursor)
     ):
+        logger.debug(f"Release already exists with ID {rls.id}.")
         raise Duplicate("A release with the same name and artists already exists.", rls)
 
     # Insert the release into the database.
@@ -510,6 +515,7 @@ def tracks(rls: T, cursor: Cursor) -> List[track.T]:
     :return: The tracks of the provided release.
     """
     cursor.execute("SELECT * FROM music__tracks WHERE release_id = ?", (rls.id,))
+    logger.debug(f"Fetched tracks of release {rls.id}.")
     return [track.from_row(row) for row in cursor.fetchall()]
 
 
@@ -538,6 +544,7 @@ def artists(rls: T, cursor: Cursor) -> List[artist.T]:
         """,
         (rls.id,),
     )
+    logger.debug(f"Fetched artists of release {rls.id}.")
     return [artist.from_row(row) for row in cursor.fetchall()]
 
 
@@ -553,6 +560,7 @@ def add_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
     :raises AlreadyExists: If the artist is already on the release.
     """
     if not artist.exists(artist_id, cursor):
+        logger.debug(f"Artist {artist_id} does not exist.")
         raise NotFound(f"Artist {artist_id} does not exist.")
 
     cursor.execute(
@@ -560,6 +568,7 @@ def add_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
         (rls.id, artist_id),
     )
     if cursor.fetchone():
+        logger.debug(f"Artist {artist_id} is already on release {rls.id}.")
         raise AlreadyExists("Artist is already on release.")
 
     cursor.execute(
@@ -567,6 +576,7 @@ def add_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
         (rls.id, artist_id),
     )
 
+    logger.debug(f"Added artist {artist_id} to release {rls.id}.")
     return rls
 
 
@@ -582,6 +592,7 @@ def del_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
     :raises DoesNotExist: If the artist is not on the release.
     """
     if not artist.exists(artist_id, cursor):
+        logger.debug(f"Artist {artist_id} does not exist.")
         raise NotFound(f"Artist {artist_id} does not exist.")
 
     cursor.execute(
@@ -589,6 +600,7 @@ def del_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
         (rls.id, artist_id),
     )
     if not cursor.fetchone():
+        logger.debug(f"Artist {artist_id} is not on release {rls.id}.")
         raise DoesNotExist("Artist is not on release.")
 
     cursor.execute(
@@ -596,6 +608,7 @@ def del_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
         (rls.id, artist_id),
     )
 
+    logger.debug(f"Deleted artist {artist_id} from release {rls.id}.")
     return rls
 
 
@@ -631,6 +644,8 @@ def collections(
         """,
         (rls.id, *((type.value,) if type else ())),
     )
+
+    logger.debug(f"Fetched all collections of release {rls.id}.")
     return [collection.from_row(row) for row in cursor.fetchall()]
 
 
@@ -648,4 +663,5 @@ def all_years(cursor: Cursor) -> List[int]:
         ORDER BY release_year DESC
         """
     )
+    logger.debug("Fetched all release years.")
     return [r[0] for r in cursor.fetchall()]

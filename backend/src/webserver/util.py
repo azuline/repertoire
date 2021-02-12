@@ -5,12 +5,15 @@ utilities for the web application package.
 
 import functools
 import json
+import logging
 import secrets
 
 import quart
 from voluptuous import Invalid
 
 from src.library import user
+
+logger = logging.getLogger(__name__)
 
 
 def check_auth(csrf=False):
@@ -31,13 +34,18 @@ def check_auth(csrf=False):
         async def wrapper(*args, **kwargs):
             quart.g.user = None
 
+            logger.debug("Attempting to authenticate request.")
+
             if _check_session_auth(csrf):
+                logger.debug("Successfully authenticated with session.")
                 return await func(*args, **kwargs)
 
             if _check_token_auth():
+                logger.debug("Successfully authenticated with token.")
                 return await func(*args, **kwargs)
 
             # Failed to authenticate, abort!
+            logger.debug("Failed to authenticate request.")
             quart.abort(401)
 
         return wrapper
@@ -74,6 +82,7 @@ def _check_csrf():
 
     :return: Whether the current request contains a valid CSRF header.
     """
+    logger.debug("Checking CSRF token of request.")
     try:
         provided_csrf_token = bytes.fromhex(quart.request.headers["X-CSRF-Token"])
     except (KeyError, TypeError, ValueError):
@@ -144,6 +153,7 @@ def validate_data(schema):
     def wrapper(func):
         @functools.wraps(func)
         async def new_func(*args, **kwargs):
+            logger.debug("Validating request data against the schema.")
             try:
                 kwargs.update(schema(await _get_request_data()))
             except Invalid as e:

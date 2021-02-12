@@ -1,4 +1,5 @@
 import json
+import logging
 import threading
 from configparser import ConfigParser
 from pathlib import Path
@@ -9,6 +10,8 @@ from huey import crontab
 from src.constants import Constants
 from src.errors import InvalidConfig
 from src.util import parse_crontab
+
+logger = logging.getLogger(__name__)
 
 DEFAULT_CONFIG = {
     "repertoire": {"music_directories": "[]", "index_crontab": "0 0 * * *"}
@@ -33,6 +36,7 @@ def _load_config(config_path: Path) -> ConfigParser:
     :param config_path: The filepath of the config file to load.
     :return: The loaded ConfigParser instance.
     """
+    logger.debug(f"Reading config from {config_path}.")
     parser = ConfigParser()
     parser.read(config_path)
     return parser
@@ -48,10 +52,13 @@ def write_default_config(config_path: Path) -> None:
     """
     # If config doesn't exist, write it.
     if not config_path.exists():
+        logger.debug("Writing a new default config.")
         parser = ConfigParser()
         parser.read_dict(DEFAULT_CONFIG)
         _save_config(parser, config_path)
         return
+
+    logger.debug("Adding missing config keys to existing config.")
 
     # Otherwise, update config with default values if keys don't exist.
     parser = _load_config(config_path)
@@ -59,11 +66,13 @@ def write_default_config(config_path: Path) -> None:
 
     for section, items in DEFAULT_CONFIG.items():
         if section not in parser:
+            logger.debug(f"Adding section {section} to config.")
             modified = True
             parser[section] = {}
 
         for key, value in items.items():
             if key not in parser[section]:
+                logger.debug(f"Adding key {key} to config with default value {value}.")
                 modified = True
                 parser[section][key] = value
 

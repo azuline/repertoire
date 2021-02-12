@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 import threading
@@ -6,6 +7,8 @@ from pathlib import Path
 
 import click
 from dotenv import load_dotenv
+
+logger = logging.getLogger(__name__)
 
 BACKEND_ROOT = Path(__file__).parent.parent
 load_dotenv(dotenv_path=BACKEND_ROOT / ".env")
@@ -22,6 +25,7 @@ def _get_data_path() -> Path:
     """
     Fetch the data path from `.env` and ensure that it exists and is writeable.
     """
+    logger.debug("Ensuring that DATA_PATH exists and is writeable.")
 
     try:
         data_path = Path(os.getenv("DATA_PATH"))  # type: ignore
@@ -63,6 +67,7 @@ class _Constants:
     def cover_art_dir(self):
         dir_ = self.data_path / "cover_art"
         if not self._cover_art_mkdir:
+            logger.debug("Ensuring that cover art path exists.")
             dir_.mkdir(exist_ok=True)
             self._cover_art_mkdir = True
         return dir_

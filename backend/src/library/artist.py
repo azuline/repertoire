@@ -75,8 +75,10 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     )
 
     if row := cursor.fetchone():
+        logger.debug(f"Fetched artist {id}.")
         return from_row(row)
 
+    logger.debug(f"Failed to fetch artist {id}.")
     return None
 
 
@@ -103,8 +105,10 @@ def from_name(name: str, cursor: Cursor) -> Optional[T]:
     )
 
     if row := cursor.fetchone():
+        logger.debug(f"Fetched artist {row['id']} with name {name}.")
         return from_row(row)
 
+    logger.debug(f"Failed to fetch artist with name {name}.")
     return None
 
 
@@ -129,6 +133,8 @@ def all(cursor: Cursor) -> List[T]:
             arts.name
         """
     )
+
+    logger.debug("Fetched all artists.")
     return [from_row(row) for row in cursor.fetchall() if row["num_releases"]]
 
 
@@ -201,6 +207,7 @@ def releases(art: T, cursor: Cursor) -> List[release.T]:
     :return: A list of releases of the artist.
     """
     _, releases = release.search(artist_ids=[art.id], cursor=cursor)
+    logger.debug(f"Fetched the releases of artist {art.id}.")
     return releases
 
 
@@ -243,6 +250,8 @@ def top_genres(art: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
         (art.id, CollectionType.GENRE.value, num_genres),
     )
 
+    logger.debug(f"Fetched the top genres of artist {art.id}.")
+
     return [
         {
             "genre": collection.from_row(without_key(row, "num_matches")),
@@ -277,6 +286,8 @@ def image(art: T, cursor: Cursor) -> Optional[libimage.T]:
     )
 
     if row := cursor.fetchone():
+        logger.debug(f"Fetched the image of artist {art.id}.")
         return libimage.from_row(row)
 
+    logger.debug(f"Failed to fetch the image of artist {art.id}.")
     return None

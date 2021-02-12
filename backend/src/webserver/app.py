@@ -31,6 +31,8 @@ def create_app() -> Quart:
 
     :return: The created Quart application.
     """
+    logger.debug("Creating Quart app.")
+
     cons = Constants()
 
     app = Quart(
@@ -65,6 +67,7 @@ def create_app() -> Quart:
 def _get_secret_key():
     # This function is called whenever webserver starts, but when Sphinx is generating
     # docs, we don't have a database. So just return random bytes.
+    logger.debug("Fetching/generating webserver secret key.")
     if "sphinx" in sys.modules:  # pragma: no cover
         return secrets.token_bytes(32)
 
@@ -88,6 +91,7 @@ def _register_blueprints(app: Quart):
 
     :param app: The application to register the blueprints with.
     """
+    logger.debug("Registering blueprints on Quart app.")
     app.register_blueprint(files.bp)
     app.register_blueprint(graphql.bp)
     app.register_blueprint(session.bp)
@@ -99,6 +103,7 @@ def _register_error_handler(app: Quart):
 
     :param app: The application to register the error handler with.
     """
+    logger.debug("Registering error handler on Quart app.")
 
     def handle_error(error):
         response = error.get_response()
@@ -113,6 +118,7 @@ def _register_database_handler(app: Quart):
 
     :param app: The application to register the handler functions with.
     """
+    logger.debug("Registering database wrapper for Quart app.")
 
     @app.before_request
     def connect_to_db() -> None:

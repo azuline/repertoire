@@ -182,7 +182,7 @@ snapshots['test_add_track_to_playlist_bad_track 1'] = (
                         'line': 3
                     }
                 ],
-                'message': 'Releasse 9999 does not exist.',
+                'message': 'Track 9999 does not exist.',
                 'path': [
                     'addTrackToPlaylist'
                 ],

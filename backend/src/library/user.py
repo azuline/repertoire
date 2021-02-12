@@ -62,8 +62,10 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     cursor.execute("SELECT id, nickname FROM system__users WHERE id = ?", (id,))
 
     if row := cursor.fetchone():
+        logger.debug("Fetched user {id}.")
         return from_row(row)
 
+    logger.debug("Failed to fetch user {id}.")
     return None
 
 
@@ -81,8 +83,10 @@ def from_nickname(nickname: str, cursor: Cursor) -> Optional[T]:
     )
 
     if row := cursor.fetchone():
+        logger.debug(f"Fetched user {row['id']} from nickname {nickname}.")
         return from_row(row)
 
+    logger.debug(f"Failed to fetch user from nickname {nickname}.")
     return None
 
 
@@ -110,8 +114,10 @@ def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
     if row := cursor.fetchone():
         usr = from_row(row)
         if check_token(usr, token, cursor):
+            logger.debug(f"Fetched user {usr.id} from token {token_prefix.hex()}.")
             return usr
 
+    logger.debug(f"Failed to fetch user from token {token_prefix.hex()}.")
     return None
 
 
@@ -211,6 +217,7 @@ def check_token(usr: T, token: bytes, cursor: Cursor) -> bool:
     """
     cursor.execute("SELECT token_hash FROM system__users WHERE id = ?", (usr.id,))
     if not (row := cursor.fetchone()):
+        logger.debug(f"Did not find token for user {usr.id}.")
         return False
 
     return check_password_hash(row["token_hash"], token)
@@ -247,6 +254,8 @@ def _generate_token(cursor: Cursor) -> Tuple[bytes, bytes]:
         cursor.execute("SELECT 1 FROM system__users WHERE token_prefix = ?", (prefix,))
         if not cursor.fetchone():
             return token, prefix
+
+        logger.debug("Token prefix clashed with existing token.")
 
     # If we do not find a suitable token after 64 cycles, raise an exception.
     logger.info("Failed to generate token after 64 cycles o.O")  # pragma: no cover
