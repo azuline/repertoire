@@ -5,6 +5,7 @@
 .pnp.js
 /coverage
 /build
+/.husky
 
 npm-debug.log*
 yarn-debug.log*
