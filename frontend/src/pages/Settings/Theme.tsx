@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { ThemeContext } from '~/contexts';
 
 export const ThemeSettings: React.FC = () => {

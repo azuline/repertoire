@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { CollectionReleases, Header, SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { useFetchCollection } from '~/lib';

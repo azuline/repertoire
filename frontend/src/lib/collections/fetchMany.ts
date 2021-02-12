@@ -1,4 +1,5 @@
 import { gql, QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
+
 import { COLLECTION_FIELDS } from '~/lib/fragments';
 import { CollectionT, CollectionType } from '~/types';
 

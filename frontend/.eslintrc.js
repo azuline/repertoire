@@ -27,6 +27,7 @@ module.exports = {
   rules: {
     'consistent-return': 'off',
     'import/order': 'off',
+    'import/extensions': 'off',
     'import/prefer-default-export': 'off',
     indent: ['error', 2, { SwitchCase: 1 }],
     // Not dealing with a'warn''warn'y at the moment.

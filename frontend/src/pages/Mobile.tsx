@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
+
 import { Icon } from '~/components/common';
 import { Searchbar } from '~/components/Header/Searchbar';
 import { User } from '~/components/Header/User';

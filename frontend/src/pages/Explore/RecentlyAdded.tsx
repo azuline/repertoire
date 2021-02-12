@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
+
 import { Link, ScrolledReleases, SectionHeader } from '~/components';
 import { useFetchRecentlyAdded } from '~/lib';
 

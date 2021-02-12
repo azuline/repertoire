@@ -1,5 +1,6 @@
 import * as React from 'react';
 import ReactSlider from 'react-slider';
+
 import { TrackT } from '~/types';
 
 export const ProgressBar: React.FC<{

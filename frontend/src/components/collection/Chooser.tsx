@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { Chooser, ToggleStarFactory } from '~/components/Chooser';
 import { useFetchCollections, useMutateCollection } from '~/lib';
 import { CollectionType } from '~/types';

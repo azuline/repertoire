@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import * as React from 'react';
+
 import { PaginationT } from '~/hooks';
 
 import { Arrow } from './Arrow';

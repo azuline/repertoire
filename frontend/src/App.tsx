@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+
 import { Background, NowPlayingBar, Sidebar } from '~/components';
 import { AuthorizationContext, GlobalContexts, ThemeContext } from '~/contexts';
 import { Login, Routes } from '~/pages';

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
+
 import { SetValue, StateValue } from '~/types';
 
 import { usePersistentState } from './persistentState';

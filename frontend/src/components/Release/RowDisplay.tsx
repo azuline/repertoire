@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import * as React from 'react';
+
 import { Link } from '~/components/common';
 import { Image } from '~/components/Image';
 import { ArtistList, GenreList } from '~/components/Lists';

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import ReactSlider from 'react-slider';
+
 import { Icon, IconT } from '~/components/common';
 import { VolumeContext } from '~/contexts';
 

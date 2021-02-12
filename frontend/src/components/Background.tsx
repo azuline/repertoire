@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { Image } from '~/components/Image';
 import { BackgroundContext } from '~/contexts';
 

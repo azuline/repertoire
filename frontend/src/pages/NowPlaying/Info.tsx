@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { GenreList, Image, Link, SectionHeader, TrackArtistList } from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { useFetchRelease } from '~/lib';

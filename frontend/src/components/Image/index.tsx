@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import noArt from '~/assets/noArt.jpg';
 
 const urlFactory = (id: number | null, thumbnail: boolean): string =>

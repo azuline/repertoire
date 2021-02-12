@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { Header } from '~/components';
 
 import { RecentlyAdded } from './RecentlyAdded';
