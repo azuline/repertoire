@@ -75,14 +75,19 @@ This option uses Poetry to handle the virtual environment and install the
 backend. See https://python-poetry.org/docs/#installation for instructions on
 installing Poetry.
 
-Yarn is used to build the frontend. See https://classic.yarnpkg.com/en/docs/install/ for instructions on installing
-Yarn.
+Yarn is used to build the frontend. See https://classic.yarnpkg.com/en/docs/install/ 
+for instructions on installing Yarn.
+
+repertoire is only tested on specific versions of Python and JavaScript. See
+:ref:`installing_python_and_javascript` for instructions on installing the
+required versions of Python and JavaScript.
 
 Installation with Poetry has the following steps:
 
 #. Clone the repository with ``$ git clone https://github.com/azuline/repertoire``.
 #. Change directory to ``repertoire/backend``.
-#. Install backend with ``$ poetry install --no-dev``.
+#. Install backend with ``$ poetry install --no-dev``. (If you want to develop,
+   exclude the ``--no-dev`` flag.)
 #. Activate the Poetry virtual environment with ``$ poetry shell``.
 #. Configure the backend with ``$ repertoire config``.
 #. Compile the frontend in ``frontend/`` with ``$ yarn build``.
@@ -123,7 +128,11 @@ Yarn is used to build the frontend. See
 https://classic.yarnpkg.com/en/docs/install/ for instructions on installing
 Yarn.
 
-Installation with Poetry has the following steps:
+repertoire is only tested on specific versions of Python and JavaScript. See
+:ref:`installing_python_and_javascript` for instructions on installing the
+required versions of Python and JavaScript.
+
+Installation with Pip & Virtualenv has the following steps:
 
 #. Clone the repository with ``$ git clone https://github.com/azuline/repertoire``.
 #. Change directory to ``repertoire/backend/``.
@@ -157,3 +166,29 @@ Or, as a set of shell commands:
    $ repertoire index          # Index your music library.
    $ repertoire token          # Remember this token! It is used for authentication.
    $ repertoire start          # Start the server!
+
+.. _installing_python_and_javascript:
+
+Installing Python & JavaScript
+------------------------------
+
+repertoire pins to specific versions of Python and JavaScript to ensure
+consistency between development and production environments.
+
+To install the required versions of Python and JavaScript, we recommend using
+pyenv and nvm.
+
+Python
+^^^^^^
+
+#. Follow the instructions at https://github.com/pyenv/pyenv#installation to
+   install pyenv.
+#. Run ``$ pyenv install 3.9.1`` to install the required Python version.
+
+JavaScript
+^^^^^^^^^^
+
+#. Follow the instructions at https://github.com/nvm-sh/nvm#installing-and-updating
+   to install nvm.
+#. Run ``$ nvm install 15.8.0`` to install the required JavaScript version.
+#. **In the frontend directory** (``repertoire/frontend/``) run ``$ nvm use``.
