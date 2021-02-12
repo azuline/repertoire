@@ -1,22 +1,21 @@
 import clsx from 'clsx';
 import * as React from 'react';
 
-import { PaginationT } from '~/hooks';
+import { IPagination } from '~/hooks';
 
 import { Arrow } from './Arrow';
 import { Goto } from './Goto';
 import { Page } from './Page';
 
 export const Pagination: React.FC<{
-  pagination: PaginationT;
+  pagination: IPagination;
   className?: string;
-}> = ({ pagination: { curPage, setCurPage, numPages }, className }) => {
-  const bottom = Math.max(curPage - 2, 2);
-  const top = Math.min(curPage + 3, numPages);
+}> = ({ pagination: { page, setPage, numPages }, className }) => {
+  const bottom = Math.max(page - 2, 2);
+  const top = Math.min(page + 3, numPages);
 
-  const goBackOnePage = (): void => setCurPage((page) => Math.min(Math.max(1, page - 1), numPages));
-  const goForwardOnePage = (): void =>
-    setCurPage((page) => Math.min(Math.max(1, page + 1), numPages));
+  const goBackOnePage = (): void => setPage((p) => Math.min(Math.max(1, p - 1), numPages));
+  const goForwardOnePage = (): void => setPage((p) => Math.min(Math.max(1, p + 1), numPages));
 
   // If there are no pages, don't render pagination.
   if (numPages <= 1) return null;
@@ -24,13 +23,13 @@ export const Pagination: React.FC<{
   return (
     <div className={clsx(className, 'flex items-center -ml-1')}>
       {numPages > 1 && <Arrow direction="left" onClick={goBackOnePage} />}
-      <Page curPage={curPage} page={1} setCurPage={setCurPage} />
+      <Page curPage={page} page={1} setCurPage={setPage} />
       {Array.from({ length: top - bottom }).map((_, i) => (
-        <Page key={bottom + i} curPage={curPage} page={bottom + i} setCurPage={setCurPage} />
+        <Page key={bottom + i} curPage={page} page={bottom + i} setCurPage={setPage} />
       ))}
-      {numPages > 1 && <Page curPage={curPage} page={numPages} setCurPage={setCurPage} />}
+      {numPages > 1 && <Page curPage={page} page={numPages} setCurPage={setPage} />}
       {numPages > 1 && <Arrow direction="right" onClick={goForwardOnePage} />}
-      {numPages > 4 && <Goto numPages={numPages} setCurPage={setCurPage} />}
+      {numPages > 4 && <Goto numPages={numPages} setCurPage={setPage} />}
     </div>
   );
 };

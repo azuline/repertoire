@@ -1,33 +1,44 @@
 import clsx from 'clsx';
 import * as React from 'react';
+import { useToasts } from 'react-toast-notifications';
 
 import { Pagination } from '~/components/Pagination';
 import { ArtRelease, RowRelease } from '~/components/Release';
 import { ViewSettings } from '~/components/ViewSettings';
-import { PaginationT, ViewOptionsT } from '~/hooks';
-import { useSearchReleases } from '~/lib';
-import { ReleaseView } from '~/types';
+import { IRelease, useFetchReleasesQuery } from '~/graphql';
+import { IPagination, IViewOptions } from '~/hooks';
+import { IReleaseView } from '~/types';
 
 // Partial here means that we have an artist/collection selector open.
 
 export const PagedReleases: React.FC<{
-  viewOptions: ViewOptionsT;
-  pagination: PaginationT;
+  viewOptions: IViewOptions;
+  pagination: IPagination;
   partial?: boolean;
 }> = ({ viewOptions, pagination, partial = false }) => {
-  const { data } = useSearchReleases(viewOptions, pagination);
+  const { addToast } = useToasts();
+  const { data, error } = useFetchReleasesQuery({
+    variables: { ...viewOptions, ...pagination },
+  });
 
   // prettier-ignore
-  const { total, results } = data?.releases || { results: [], total: 0 };
+  const { total, results: rawResults } = data?.releases || { results: [], total: 0 };
+  const results = rawResults as IRelease[];
 
   React.useEffect(() => {
     if (total) pagination.setTotal(total);
   }, [total, pagination]);
 
+  if (error) {
+    error.graphQLErrors.forEach(({ message }) => {
+      addToast(message, { appearance: 'error' });
+    });
+  }
+
   let releasesDiv = null;
 
   switch (viewOptions.releaseView) {
-    case ReleaseView.ROW:
+    case IReleaseView.Row:
       releasesDiv = (
         <div className="flex flex-col">
           {results.map((rls) => (
@@ -38,7 +49,7 @@ export const PagedReleases: React.FC<{
         </div>
       );
       break;
-    case ReleaseView.ARTWORK:
+    case IReleaseView.Artwork:
       releasesDiv = (
         <div className={clsx('grid gap-4 md:gap-6', calculateGridCss(partial))}>
           {results.map((rls) => (

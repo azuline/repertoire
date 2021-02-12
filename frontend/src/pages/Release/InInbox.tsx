@@ -2,17 +2,20 @@ import clsx from 'clsx';
 import * as React from 'react';
 
 import { Icon } from '~/components';
-import { useAddReleaseToCollection, useDelReleaseFromCollection } from '~/lib';
-import { ReleaseT } from '~/types';
+import {
+  IRelease,
+  useAddReleaseToCollectionMutation,
+  useDelReleaseFromCollectionMutation,
+} from '~/graphql';
 
 const INBOX_COLLECTION_ID = 1;
 
-export const InInbox: React.FC<{ className?: string; release: ReleaseT }> = ({
+export const InInbox: React.FC<{ className?: string; release: IRelease }> = ({
   className,
   release,
 }) => {
-  const [mutateAdd] = useAddReleaseToCollection();
-  const [mutateDel] = useDelReleaseFromCollection();
+  const [mutateAdd] = useAddReleaseToCollectionMutation();
+  const [mutateDel] = useDelReleaseFromCollectionMutation();
 
   const toggleInbox = (): void => {
     if (release.inInbox) {

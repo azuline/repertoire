@@ -1,13 +1,13 @@
 import * as React from 'react';
 
 import { usePersistentState } from '~/hooks';
-import { SetPersistentValue } from '~/types';
+import { ISetPersistentValue } from '~/types';
 
 type ContextT = {
   volume: number;
-  setVolume: SetPersistentValue<number>;
+  setVolume: ISetPersistentValue<number>;
   isMuted: boolean;
-  setIsMuted: SetPersistentValue<boolean>;
+  setIsMuted: ISetPersistentValue<boolean>;
 };
 
 export const VolumeContext = React.createContext<ContextT>({

@@ -2,11 +2,10 @@ import clsx from 'clsx';
 import * as React from 'react';
 
 import { Icon } from '~/components';
-import { useMutateRelease } from '~/lib';
-import { ReleaseT } from '~/types';
+import { IRelease, useUpdateReleaseRatingMutation } from '~/graphql';
 
-export const Rating: React.FC<{ release: ReleaseT }> = ({ release }) => {
-  const [mutateRelease] = useMutateRelease();
+export const Rating: React.FC<{ release: IRelease }> = ({ release }) => {
+  const [mutateRelease] = useUpdateReleaseRatingMutation();
 
   const setRating = (value: number): void => {
     mutateRelease({ variables: { id: release.id, rating: value } });

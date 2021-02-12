@@ -2,17 +2,20 @@ import clsx from 'clsx';
 import * as React from 'react';
 
 import { Icon } from '~/components';
-import { useAddReleaseToCollection, useDelReleaseFromCollection } from '~/lib';
-import { ReleaseT } from '~/types';
+import {
+  IRelease,
+  useAddReleaseToCollectionMutation,
+  useDelReleaseFromCollectionMutation,
+} from '~/graphql';
 
 const FAVORITES_COLLECTION_ID = 2;
 
-export const InFavorites: React.FC<{ className?: string; release: ReleaseT }> = ({
+export const InFavorites: React.FC<{ className?: string; release: IRelease }> = ({
   className,
   release,
 }) => {
-  const [mutateAdd] = useAddReleaseToCollection();
-  const [mutateDel] = useDelReleaseFromCollection();
+  const [mutateAdd] = useAddReleaseToCollectionMutation();
+  const [mutateDel] = useDelReleaseFromCollectionMutation();
 
   const toggleFavorite = (): void => {
     if (release.inFavorites) {

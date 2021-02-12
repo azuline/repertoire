@@ -1,0 +1,82 @@
+query FetchCollections($types: [CollectionType]) {
+  collections(types: $types) {
+    results {
+      ...CollectionFields
+    }
+  }
+}
+
+query FetchCollection($id: Int!) {
+  collection(id: $id) {
+    ...CollectionFields
+  }
+}
+
+mutation UpdateCollection($id: Int!, $name: String, $starred: Boolean) {
+  updateCollection(id: $id, name: $name, starred: $starred) {
+    id
+    name
+    starred
+  }
+}
+
+mutation UpdateCollectionStarred($id: Int! $starred: Boolean) {
+  updateCollection(id: $id, starred: $starred) {
+    id
+    starred
+  }
+}
+
+mutation AddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
+  addReleaseToCollection(collectionId: $collectionId, releaseId: $releaseId) {
+    collection {
+      id
+      numReleases
+      lastUpdatedOn
+    }
+    release {
+      id
+      inInbox
+      inFavorites
+      genres {
+        id
+        name
+      }
+      labels {
+        id
+        name
+      }
+      collages {
+        id
+        name
+      }
+    }
+  }
+}
+
+mutation DelReleaseFromCollection($collectionId: Int!, $releaseId: Int!) {
+  delReleaseFromCollection(collectionId: $collectionId, releaseId: $releaseId) {
+    collection {
+      id
+      numReleases
+      lastUpdatedOn
+    }
+    release {
+      id
+      inInbox
+      inFavorites
+      genres {
+        id
+        name
+      }
+      labels {
+        id
+        name
+      }
+      collages {
+        id
+        name
+      }
+    }
+  }
+}

@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { SetValue } from '~/types';
+import { ISetValue } from '~/types';
 
 type ContextT = {
   backgroundImageId: number | null;
-  setBackgroundImageId: SetValue<number | null>;
+  setBackgroundImageId: ISetValue<number | null>;
 };
 
 export const BackgroundContext = React.createContext<ContextT>({

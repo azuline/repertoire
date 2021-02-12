@@ -1,13 +1,14 @@
 import * as React from 'react';
 
 import { ArtistList, GenreList, LabelList, Link, SectionHeader } from '~/components';
-import { ReleaseT } from '~/types';
+import { IRelease } from '~/graphql';
+import { filterNulls } from '~/util';
 
 import { InFavorites } from './InFavorites';
 import { InInbox } from './InInbox';
 import { WhenReleased } from './WhenReleased';
 
-export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
+export const Info: React.FC<{ release: IRelease }> = ({ release }) => {
   return (
     <div className="flex flex-col flex-1 min-w-0 md:min-h-52">
       <SectionHeader className="flex-none mb-6 md:mb-4 truncate-2">
@@ -30,7 +31,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
             link
             className="inline"
             elementClassName="text-primary-400"
-            elements={release.artists}
+            elements={filterNulls(release.artists)}
           />
         )}
       </div>
@@ -44,7 +45,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
             link
             className="inline"
             elementClassName="text-primary-400"
-            elements={release.labels}
+            elements={filterNulls(release.labels)}
           />
         )}
       </div>
@@ -55,7 +56,7 @@ export const Info: React.FC<{ release: ReleaseT }> = ({ release }) => {
               link
               delimiter=" "
               elementClassName="px-2 py-1 mr-1 rounded bg-primary-700 text-foreground hover:bg-primary-600 leading-9"
-              elements={release.genres}
+              elements={filterNulls(release.genres)}
             />
           </>
         )}

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import ReactSlider from 'react-slider';
 
-import { TrackT } from '~/types';
+import { ITrack } from '~/graphql';
 
 export const ProgressBar: React.FC<{
   curTime: number;
-  curTrack: TrackT | null;
+  curTrack: ITrack | null;
   seek: (arg0: number) => void;
 }> = ({ curTime, curTrack, seek }) => {
   const onSliderChange = (value: number | number[] | undefined | null): void =>

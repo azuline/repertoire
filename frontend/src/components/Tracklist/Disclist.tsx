@@ -3,15 +3,15 @@ import * as React from 'react';
 
 import { SectionHeader } from '~/components/common';
 import { PlayQueueContext } from '~/contexts';
-import { TrackT } from '~/types';
+import { ITrack } from '~/graphql';
 import { stringNumberCompare } from '~/util';
 
 import { Track } from './Track';
 import { checkMatchingTracklists } from './util';
 
-type Discs = { [dn in string]: TrackT[] };
+type Discs = { [dn in string]: ITrack[] };
 
-export const Disclist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
+export const Disclist: React.FC<{ className?: string; tracks: ITrack[] }> = ({
   className,
   tracks,
 }) => {
@@ -67,7 +67,7 @@ export const Disclist: React.FC<{ className?: string; tracks: TrackT[] }> = ({
   );
 };
 
-const sortTracksIntoDiscs = (tracks: TrackT[]): Discs => {
+const sortTracksIntoDiscs = (tracks: ITrack[]): Discs => {
   const discs = tracks.reduce<Discs>((acc, track) => {
     const discNumber = track.discNumber || '1';
 
@@ -84,11 +84,11 @@ const sortTracksIntoDiscs = (tracks: TrackT[]): Discs => {
   return discs;
 };
 
-const sortDiscsIntoTracklist = (discs: Discs): TrackT[] => {
+const sortDiscsIntoTracklist = (discs: Discs): ITrack[] => {
   const discKeys = Object.keys(discs);
   discKeys.sort(stringNumberCompare);
 
-  return discKeys.reduce<TrackT[]>((acc, disc) => {
+  return discKeys.reduce<ITrack[]>((acc, disc) => {
     acc.push(...discs[disc]);
     return acc;
   }, []);

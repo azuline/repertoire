@@ -1,0 +1,17 @@
+overwrite: true
+schema: "../backend/src/graphql/schema.graphql"
+documents:
+  - "src/graphql/*.graphql"
+config:
+  scalars:
+    PosixTime: number
+generates:
+  src/graphql/index.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+      - "typescript-apollo-client-helpers"
+    config:
+      typesPrefix: I
+      avoidOptionals: true

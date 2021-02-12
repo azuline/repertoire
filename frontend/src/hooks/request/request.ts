@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { AuthorizationContext } from '~/contexts';
-import { RequestError } from '~/types';
 
 export type RequestT<T> = (
   url: string,
@@ -29,7 +28,7 @@ export const useRequest = (): RequestT<Response> => {
 
     if (response.status === 401) {
       setLoggedIn(false);
-      throw new RequestError('Failed to authenticate.');
+      throw new Error('Failed to authenticate.');
     }
 
     return response;

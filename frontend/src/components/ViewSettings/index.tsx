@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { Icon, Popover } from '~/components/common';
 import { Pagination } from '~/components/Pagination';
-import { PaginationT, ViewOptionsT } from '~/hooks';
+import { IPagination, IViewOptions } from '~/hooks';
 
 import { Order } from './Order';
 import { PerPage } from './PerPage';
@@ -11,8 +11,8 @@ import { Sort } from './Sort';
 import { View } from './View';
 
 export const ViewSettings: React.FC<{
-  viewOptions: ViewOptionsT;
-  pagination: PaginationT;
+  viewOptions: IViewOptions;
+  pagination: IPagination;
   className?: string;
   partial?: boolean;
 }> = ({ viewOptions, pagination, className, partial = false }) => {

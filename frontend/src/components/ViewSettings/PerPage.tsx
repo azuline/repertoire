@@ -1,11 +1,11 @@
 import * as React from 'react';
 
 import { Select } from '~/components/common';
-import { PaginationT } from '~/hooks';
+import { IPagination } from '~/hooks';
 
 const options = [40, 80, 120, 160, 200];
 
-export const PerPage: React.FC<{ pagination: PaginationT; className?: string }> = ({
+export const PerPage: React.FC<{ pagination: IPagination; className?: string }> = ({
   pagination,
   className,
 }) => {

@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { SetValue, StateValue } from '~/types';
+import { ISetValue, IStateValue } from '~/types';
 
 import { usePersistentState } from './persistentState';
 import { useQuery } from './query';
 
-export type PaginationT = {
-  curPage: number;
-  setCurPage: SetValue<number>;
+export type IPagination = {
+  page: number;
+  setPage: ISetValue<number>;
   perPage: number;
-  setPerPage: SetValue<number>;
+  setPerPage: ISetValue<number>;
   numPages: number;
-  setTotal: SetValue<number>;
+  setTotal: ISetValue<number>;
 };
 
 /**
@@ -30,20 +30,20 @@ export type PaginationT = {
  * - ``numPages`` The total number of pages. Dynamically alculated from the total number of elements.
  * - ``setTotal`` - A function to set the total number of elements.
  */
-export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): PaginationT => {
+export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): IPagination => {
   const history = useHistory();
   const query = useQuery();
 
   const startPage = getStartPage(useUrl, query);
-  const [curPage, rawSetCurPage] = React.useState<number>(startPage);
+  const [page, rawSetPage] = React.useState<number>(startPage);
   const [perPage, setPerPage] = usePersistentState<number>('pagination--perPage', 40);
   const [total, setTotal] = React.useState<number>(0);
 
   // We wrap the setCurPage function to sync the URL with the state. If ``useUrl`` is true, then
   // sync!
-  const setCurPage = React.useCallback(
-    (value: StateValue<number>) => {
-      const calculatedValue = value instanceof Function ? value(curPage) : value;
+  const setPage = React.useCallback(
+    (value: IStateValue<number>) => {
+      const calculatedValue = value instanceof Function ? value(page) : value;
 
       if (useUrl) {
         query.set('page', `${calculatedValue}`);
@@ -53,14 +53,14 @@ export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): Pa
         });
       }
 
-      rawSetCurPage(calculatedValue);
+      rawSetPage(calculatedValue);
     },
-    [curPage, history, query, useUrl, rawSetCurPage],
+    [page, history, query, useUrl, rawSetPage],
   );
 
   const numPages = perPage === 0 ? 0 : Math.ceil(total / perPage);
 
-  return { curPage, numPages, perPage, setCurPage, setPerPage, setTotal };
+  return { numPages, page, perPage, setPage, setPerPage, setTotal };
 };
 
 /**

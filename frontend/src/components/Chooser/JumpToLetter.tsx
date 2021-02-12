@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import * as React from 'react';
 
-import { SetValue } from '~/types/hooks';
+import { ISetValue } from '~/types';
 
 import { ElementT } from './Element';
 
@@ -41,7 +41,7 @@ const jumpLetters = [
 export const JumpToLetter: React.FC<{
   active: number | null;
   results: ElementT[];
-  setJumpTo: SetValue<number | null>;
+  setJumpTo: ISetValue<number | null>;
 }> = ({ active, results, setJumpTo }) => {
   // prettier-ignore
   const letterToIndexMap = React.useMemo(
@@ -73,7 +73,7 @@ export const JumpToLetter: React.FC<{
   );
 };
 
-const mapLettersToIndex = (results: ElementT[], setJumpTo: SetValue<number | null>): IndexMap => {
+const mapLettersToIndex = (results: ElementT[], setJumpTo: ISetValue<number | null>): IndexMap => {
   const initialMap = jumpLetters.reduce<IndexMap>((map, jumpLetter) => {
     map[jumpLetter] = undefined; // eslint-disable-line no-param-reassign
     return map;

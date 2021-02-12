@@ -4,12 +4,12 @@ import * as React from 'react';
 import { Link } from '~/components/common';
 import { Image } from '~/components/Image';
 import { ArtistList, GenreList } from '~/components/Lists';
-import { ReleaseT } from '~/types';
-import { secondsToLength } from '~/util';
+import { IRelease } from '~/graphql';
+import { filterNulls, secondsToLength } from '~/util';
 
 import { InInboxIndicator } from './InInboxIndicator';
 
-export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = ({
+export const ArtRelease: React.FC<{ release: IRelease; className?: string }> = ({
   release,
   className,
 }) => {
@@ -37,7 +37,10 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
                 <div className="truncate flex-0">{release.title}</div>
                 {release.inInbox && <InInboxIndicator className="pl-2" />}
               </div>
-              <ArtistList className="text-gray-200 truncate" elements={release.artists} />
+              <ArtistList
+                className="text-gray-200 truncate"
+                elements={filterNulls(release.artists)}
+              />
             </div>
           </div>
           <div className="relative back full">
@@ -48,7 +51,10 @@ export const ArtRelease: React.FC<{ release: ReleaseT; className?: string }> = (
                 {release.numTracks} Track{release.numTracks !== 1 && 's'} / {runtime}
               </div>
               {release.genres.length !== 0 ? (
-                <GenreList className="mt-4 text-center truncate-2" elements={release.genres} />
+                <GenreList
+                  className="mt-4 text-center truncate-2"
+                  elements={filterNulls(release.genres)}
+                />
               ) : null}
             </div>
           </div>

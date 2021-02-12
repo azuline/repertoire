@@ -7,7 +7,8 @@
     "start": "snowpack dev",
     "build": "snowpack build",
     "test": "web-test-runner \"src/**/*.test.tsx\"",
-    "lint": "eslint src/ --ext .ts,.tsx --fix"
+    "lint": "eslint src/ --ext .ts,.tsx --fix",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.2.9",
@@ -25,6 +26,14 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
+    "@graphql-codegen/cli": "1.20.1",
+    "@graphql-codegen/introspection": "1.18.1",
+    "@graphql-codegen/near-operation-file-preset": "^1.17.13",
+    "@graphql-codegen/typescript": "1.21.0",
+    "@graphql-codegen/typescript-apollo-client-helpers": "^1.1.2",
+    "@graphql-codegen/typescript-graphql-files-modules": "1.18.1",
+    "@graphql-codegen/typescript-operations": "1.17.14",
+    "@graphql-codegen/typescript-react-apollo": "^2.2.1",
     "@snowpack/plugin-react-refresh": "^2.4.0",
     "@snowpack/plugin-run-script": "^2.3.0",
     "@snowpack/plugin-typescript": "^1.2.0",

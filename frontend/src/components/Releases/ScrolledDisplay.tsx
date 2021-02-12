@@ -2,10 +2,10 @@ import clsx from 'clsx';
 import * as React from 'react';
 
 import { ArtRelease } from '~/components/Release';
-import { ReleaseT } from '~/types';
+import { IRelease } from '~/graphql';
 
 export const ScrolledReleases: React.FC<{
-  releases: ReleaseT[];
+  releases: IRelease[];
   className?: string;
 }> = ({ releases, className }) => (
   <div

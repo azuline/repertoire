@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { TrackT } from '~/types';
+import { ITrack } from '~/graphql';
 
 type ContextT = {
-  playQueue: TrackT[];
-  setPlayQueue: (arg0: TrackT[]) => void;
+  playQueue: ITrack[];
+  setPlayQueue: (arg0: ITrack[]) => void;
   curIndex: number | null;
   setCurIndex: (arg0: number | null | ((arg0: number | null) => number | null)) => void;
 };
@@ -17,7 +17,7 @@ export const PlayQueueContext = React.createContext<ContextT>({
 });
 
 export const PlayQueueProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [playQueue, setPlayQueue] = React.useState<TrackT[]>([]);
+  const [playQueue, setPlayQueue] = React.useState<ITrack[]>([]);
   const [curIndex, setCurIndex] = React.useState<number | null>(null);
 
   const value = { curIndex, playQueue, setCurIndex, setPlayQueue };

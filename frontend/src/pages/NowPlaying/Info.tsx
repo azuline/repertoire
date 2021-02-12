@@ -2,12 +2,12 @@ import * as React from 'react';
 
 import { GenreList, Image, Link, SectionHeader, TrackArtistList } from '~/components';
 import { BackgroundContext } from '~/contexts';
-import { useFetchRelease } from '~/lib';
-import { TrackT } from '~/types';
+import { ITrack, useFetchReleaseQuery } from '~/graphql';
+import { filterNulls } from '~/util';
 
-export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
+export const Info: React.FC<{ track: ITrack }> = ({ track }) => {
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
-  const { data } = useFetchRelease(track.release.id);
+  const { data } = useFetchReleaseQuery({ variables: { id: track.release.id } });
 
   const parentRelease = data?.release || null;
 
@@ -33,7 +33,7 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
           ) : (
             <TrackArtistList
               link
-              artists={track.artists}
+              artists={filterNulls(track.artists)}
               className="inline"
               elementClassName="text-primary-400"
             />
@@ -52,7 +52,7 @@ export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
                 link
                 delimiter=" "
                 elementClassName="px-2 py-1 mr-1 rounded bg-primary-700 text-foreground hover:bg-primary-600 leading-9"
-                elements={parentRelease.genres}
+                elements={filterNulls(parentRelease.genres)}
               />
             </>
           )}

@@ -1,11 +1,11 @@
 import * as React from 'react';
 
 import { FastForward, PlayPause, Rewind } from '~/components/PlayButtons';
-import { SetValue } from '~/types';
+import { ISetValue } from '~/types';
 
 export const PlayButtons: React.FC<{
   isPlaying: boolean;
-  setIsPlaying: SetValue<boolean>;
+  setIsPlaying: ISetValue<boolean>;
   curTime: number;
   seek: (arg0: number) => void;
 }> = ({ isPlaying, setIsPlaying, curTime, seek }) => (

@@ -4,7 +4,6 @@ import { useToasts } from 'react-toast-notifications';
 
 import { AuthorizationContext, ThemeContext } from '~/contexts';
 import { useRequestJson } from '~/hooks';
-import { RequestError } from '~/types';
 
 export const Login: React.FC = () => {
   const input = React.useRef<HTMLInputElement>(null);
@@ -31,7 +30,7 @@ export const Login: React.FC = () => {
         setCsrf(csrfToken);
         setLoggedIn(true);
       } else {
-        throw new RequestError('Invalid authorization token.');
+        throw new Error('Invalid authorization token.');
       }
     } catch {
       addToast('Login failed.', { appearance: 'error' });

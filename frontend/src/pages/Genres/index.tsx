@@ -1,12 +1,12 @@
 import * as React from 'react';
 
 import { CollectionChooser, Header } from '~/components';
+import { ICollectionType } from '~/graphql';
 import { useId } from '~/hooks';
-import { CollectionType } from '~/types';
 
 import { Genre } from './Genre';
 
-const types = [CollectionType.GENRE];
+const types = [ICollectionType.Genre];
 export const Genres: React.FC = () => {
   const active = useId();
 
