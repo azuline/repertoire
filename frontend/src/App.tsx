@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { Background, NowPlayingBar, Sidebar } from 'src/components';
-import { AuthorizationContext, GlobalContexts, ThemeContext } from 'src/contexts';
-import { Login, Routes } from 'src/pages';
+import { Background, NowPlayingBar, Sidebar } from '~/components';
+import { AuthorizationContext, GlobalContexts, ThemeContext } from '~/contexts';
+import { Login, Routes } from '~/pages';
 
 const App: React.FC = () => (
   <BrowserRouter>

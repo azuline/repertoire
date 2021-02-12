@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { Icon } from 'src/components';
-import { PlayQueueContext } from 'src/contexts';
+import { Icon } from '~/components';
+import { PlayQueueContext } from '~/contexts';
 
 export const FastForward: React.FC<{
   className?: string;

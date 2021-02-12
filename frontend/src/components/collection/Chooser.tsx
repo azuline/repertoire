@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Chooser, ToggleStarFactory } from 'src/components/Chooser';
-import { useFetchCollections, useMutateCollection } from 'src/lib';
-import { CollectionType } from 'src/types';
+import { Chooser, ToggleStarFactory } from '~/components/Chooser';
+import { useFetchCollections, useMutateCollection } from '~/lib';
+import { CollectionType } from '~/types';
 
 export const CollectionChooser: React.FC<{
   collectionTypes: CollectionType[];

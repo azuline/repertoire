@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Header, SectionHeader } from 'src/components';
+import { Header, SectionHeader } from '~/components';
 
 import { ThemeSettings } from './Theme';
 import { UserSettings } from './User';

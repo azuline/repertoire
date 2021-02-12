@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Link } from 'src/components/common';
-import { ArtistT, TrackArtistT } from 'src/types';
+import { Link } from '~/components/common';
+import { ArtistT, TrackArtistT } from '~/types';
 
 type ListT = React.FC<{
   artists?: TrackArtistT[];

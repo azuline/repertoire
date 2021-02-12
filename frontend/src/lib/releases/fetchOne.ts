@@ -1,6 +1,6 @@
 import { gql, QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
-import { FULL_RELEASE_FIELDS } from 'src/lib/fragments';
-import { ReleaseT } from 'src/types';
+import { FULL_RELEASE_FIELDS } from '~/lib/fragments';
+import { ReleaseT } from '~/types';
 
 const QUERY = gql`
   query($id: Int!) {

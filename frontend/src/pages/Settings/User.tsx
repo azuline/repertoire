@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
-import { useFetchUser, useMutateUser } from 'src/lib';
+import { useFetchUser, useMutateUser } from '~/lib';
 
 export const UserSettings: React.FC = () => {
   const { data } = useFetchUser();

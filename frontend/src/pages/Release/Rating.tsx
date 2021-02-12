@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { Icon } from 'src/components';
-import { useMutateRelease } from 'src/lib';
-import { ReleaseT } from 'src/types';
+import { Icon } from '~/components';
+import { useMutateRelease } from '~/lib';
+import { ReleaseT } from '~/types';
 
 export const Rating: React.FC<{ release: ReleaseT }> = ({ release }) => {
   const [mutateRelease] = useMutateRelease();

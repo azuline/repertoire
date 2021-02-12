@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Select } from 'src/components/common';
-import { PaginationT } from 'src/hooks';
+import { Select } from '~/components/common';
+import { PaginationT } from '~/hooks';
 
 const options = [40, 80, 120, 160, 200];
 

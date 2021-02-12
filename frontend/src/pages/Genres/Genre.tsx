@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { CollectionReleases, Header, SectionHeader } from 'src/components';
-import { BackgroundContext } from 'src/contexts';
-import { useFetchCollection } from 'src/lib';
+import { CollectionReleases, Header, SectionHeader } from '~/components';
+import { BackgroundContext } from '~/contexts';
+import { useFetchCollection } from '~/lib';
 
 export const Genre: React.FC<{ active: number }> = ({ active }) => {
   const { data } = useFetchCollection(active);

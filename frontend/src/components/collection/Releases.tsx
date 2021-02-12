@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { PagedReleases } from 'src/components/Releases';
-import { usePagination, useViewOptions } from 'src/hooks';
+import { PagedReleases } from '~/components/Releases';
+import { usePagination, useViewOptions } from '~/hooks';
 
 export const CollectionReleases: React.FC<{ active: number }> = ({ active }) => {
   const viewOptions = useViewOptions({ collectionIds: [active] });

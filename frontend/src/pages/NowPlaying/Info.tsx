@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { GenreList, Image, Link, SectionHeader, TrackArtistList } from 'src/components';
-import { BackgroundContext } from 'src/contexts';
-import { useFetchRelease } from 'src/lib';
-import { TrackT } from 'src/types';
+import { GenreList, Image, Link, SectionHeader, TrackArtistList } from '~/components';
+import { BackgroundContext } from '~/contexts';
+import { useFetchRelease } from '~/lib';
+import { TrackT } from '~/types';
 
 export const Info: React.FC<{ track: TrackT }> = ({ track }) => {
   const { setBackgroundImageId } = React.useContext(BackgroundContext);

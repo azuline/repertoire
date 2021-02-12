@@ -1,7 +1,7 @@
 import { gql, QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
-import { PaginationT, ViewOptionsT } from 'src/hooks';
-import { RELEASE_FIELDS } from 'src/lib/fragments';
-import { ReleaseSort, ReleaseT, ReleaseType } from 'src/types';
+import { PaginationT, ViewOptionsT } from '~/hooks';
+import { RELEASE_FIELDS } from '~/lib/fragments';
+import { ReleaseSort, ReleaseT, ReleaseType } from '~/types';
 
 const QUERY = gql`
   query(

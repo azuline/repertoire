@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Disclist, Header, Image } from 'src/components';
-import { BackgroundContext } from 'src/contexts';
-import { useId } from 'src/hooks';
-import { useFetchRelease } from 'src/lib';
+import { Disclist, Header, Image } from '~/components';
+import { BackgroundContext } from '~/contexts';
+import { useId } from '~/hooks';
+import { useFetchRelease } from '~/lib';
 
 import { InCollages } from './InCollages';
 import { InFavorites } from './InFavorites';

@@ -1,6 +1,6 @@
 import { gql, MutationHookOptions, MutationTuple, useMutation } from '@apollo/client';
-import { ARTIST_FIELDS } from 'src/lib/fragments';
-import { ArtistT } from 'src/types';
+import { ARTIST_FIELDS } from '~/lib/fragments';
+import { ArtistT } from '~/types';
 
 const MUTATION = gql`
   mutation($id: Int!, $name: String, $starred: Boolean) {

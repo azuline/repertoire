@@ -1,6 +1,6 @@
 import { gql, MutationHookOptions, QueryResult, useQuery } from '@apollo/client';
-import { RELEASE_FIELDS } from 'src/lib/fragments';
-import { ReleaseT } from 'src/types';
+import { RELEASE_FIELDS } from '~/lib/fragments';
+import { ReleaseT } from '~/types';
 
 const QUERY = gql`
   query {

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Header, SectionHeader, Tracklist } from 'src/components';
-import { PlayQueueContext } from 'src/contexts';
+import { Header, SectionHeader, Tracklist } from '~/components';
+import { PlayQueueContext } from '~/contexts';
 
 import { Info } from './Info';
 

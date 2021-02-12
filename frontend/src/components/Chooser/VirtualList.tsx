@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import * as React from 'react';
 import { AutoSizer, List, ListRowRenderer } from 'react-virtualized';
-import { convertRemToPixels } from 'src/util';
+import { convertRemToPixels } from '~/util';
 
 import { Element, ElementT, ToggleStarFactory } from './Element';
 

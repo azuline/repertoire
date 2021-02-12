@@ -3,6 +3,14 @@
   "version": "0.2.0",
   "private": true,
   "proxy": "http://localhost:5000",
+  "scripts": {
+    "start": "snowpack dev",
+    "build:css": "tailwind build src/index.tailwind.css -o src/index.css",
+    "build": "snowpack build",
+    "test": "web-test-runner \"src/**/*.test.tsx\"",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\""
+  },
   "dependencies": {
     "@apollo/client": "^3.2.9",
     "clsx": "^1.1.1",
@@ -16,29 +24,6 @@
     "react-toast-notifications": "^2.4.0",
     "react-virtualized": "^9.22.2",
     "web-vitals": "^0.2.4"
-  },
-  "scripts": {
-    "start": "snowpack dev",
-    "build:css": "tailwind build src/index.tailwind.css -o src/index.css",
-    "build": "snowpack build",
-    "test": "web-test-runner \"src/**/*.test.tsx\"",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
-    "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\""
-  },
-  "headwind.classRegex": {
-    "javascriptreact": "(?:\\s*[\\\"\\'\\`]([_a-zA-Z0-9\\s\\-\\:\\/]+)[\\\"\\'\\`])|(?:\\btw\\s*`([_a-zA-Z0-9\\s\\-\\:\\/]*)`)"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
@@ -78,5 +63,17 @@
     "tailwindcss": "^2.0.1",
     "typedoc": "^0.19.2",
     "typescript": "^4.1.3"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

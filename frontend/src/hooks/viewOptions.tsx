@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ReleaseSort, ReleaseType, ReleaseView, SetValue } from 'src/types';
+import { ReleaseSort, ReleaseType, ReleaseView, SetValue } from '~/types';
 
 import { usePersistentState } from './persistentState';
 

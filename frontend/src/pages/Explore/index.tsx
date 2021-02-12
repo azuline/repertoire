@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Header } from 'src/components';
+import { Header } from '~/components';
 
 import { RecentlyAdded } from './RecentlyAdded';
 

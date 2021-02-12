@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TrackT } from 'src/types';
+import { TrackT } from '~/types';
 
 type ContextT = {
   playQueue: TrackT[];

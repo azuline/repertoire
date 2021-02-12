@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { usePersistentState } from 'src/hooks';
+import { usePersistentState } from '~/hooks';
 
 export type ThemeT = 'dark' | 'light';
 

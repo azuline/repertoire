@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { usePersistentState, useRequestJson } from 'src/hooks';
+import { usePersistentState, useRequestJson } from '~/hooks';
 
 type ContextT = {
   loggedIn: boolean;

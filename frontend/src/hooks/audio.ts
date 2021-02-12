@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { PlayQueueContext, VolumeContext } from 'src/contexts';
-import { SetValue, TrackT } from 'src/types';
+import { PlayQueueContext, VolumeContext } from '~/contexts';
+import { SetValue, TrackT } from '~/types';
 
 // TODO: Make sure that we aren't leaking memory from all these audio
 // objects... they better be garbage collected properly.

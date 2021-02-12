@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { PaginationT } from 'src/hooks';
+import { PaginationT } from '~/hooks';
 
 import { Arrow } from './Arrow';
 import { Goto } from './Goto';

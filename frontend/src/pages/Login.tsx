@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
-import { AuthorizationContext, ThemeContext } from 'src/contexts';
-import { useRequestJson } from 'src/hooks';
-import { RequestError } from 'src/types';
+import { AuthorizationContext, ThemeContext } from '~/contexts';
+import { useRequestJson } from '~/hooks';
+import { RequestError } from '~/types';
 
 export const Login: React.FC = () => {
   const input = React.useRef<HTMLInputElement>(null);

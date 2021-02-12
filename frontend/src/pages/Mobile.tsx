@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Icon } from 'src/components/common';
-import { Searchbar } from 'src/components/Header/Searchbar';
-import { User } from 'src/components/Header/User';
-import { RouteList } from 'src/components/Routelist';
+import { Icon } from '~/components/common';
+import { Searchbar } from '~/components/Header/Searchbar';
+import { User } from '~/components/Header/User';
+import { RouteList } from '~/components/Routelist';
 
 export const Mobile: React.FC = () => {
   const history = useHistory();

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Header } from 'src/components';
-import { useId } from 'src/hooks';
+import { Header } from '~/components';
+import { useId } from '~/hooks';
 
 import { YearChooser } from './Chooser';
 import { Year } from './Year';

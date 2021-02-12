@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { Icon } from 'src/components';
-import { PlayQueueContext } from 'src/contexts';
-import { SetValue } from 'src/types';
+import { Icon } from '~/components';
+import { PlayQueueContext } from '~/contexts';
+import { SetValue } from '~/types';
 
 export const PlayPause: React.FC<{
   className?: string;

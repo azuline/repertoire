@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { PagedReleases } from 'src/components';
-import { usePagination, useViewOptions } from 'src/hooks';
+import { PagedReleases } from '~/components';
+import { usePagination, useViewOptions } from '~/hooks';
 
 export const YearReleases: React.FC<{ active: number }> = ({ active }) => {
   const viewOptions = useViewOptions({ years: [active] });

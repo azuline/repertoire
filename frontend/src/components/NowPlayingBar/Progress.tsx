@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { TrackT } from 'src/types';
-import { secondsToLength } from 'src/util';
+import { TrackT } from '~/types';
+import { secondsToLength } from '~/util';
 
 export const Progress: React.FC<{
   curTrack: TrackT | null;
