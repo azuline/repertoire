@@ -22,10 +22,11 @@ module.exports = {
     '~': './src',
   },
   routes: [
-    /* Enable an SPA Fallback in development: */
-    { match: 'routes', src: '.*', dest: '/index.html' },
     /* Proxy API calls. */
     { src: '/api/.*', dest: (req, res) => proxy.web(req, res) },
+    { src: '/graphql', dest: (req, res) => proxy.web(req, res) },
+    /* Enable an SPA Fallback in development: */
+    { match: 'routes', src: '.*', dest: '/index.html' },
   ],
   optimize: {
     /* Example: Bundle your final build: */
