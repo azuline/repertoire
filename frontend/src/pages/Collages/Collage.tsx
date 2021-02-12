@@ -2,10 +2,10 @@ import * as React from 'react';
 
 import { CollectionReleases, Header, SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
-import { useFetchCollection } from '~/lib';
+import { useFetchCollectionQuery } from '~/graphql';
 
 export const Collage: React.FC<{ active: number }> = ({ active }) => {
-  const { data } = useFetchCollection(active);
+  const { data } = useFetchCollectionQuery({ variables: { id: active } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
   const collection = data?.collection || null;

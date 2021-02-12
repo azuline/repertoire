@@ -14,6 +14,15 @@ query FetchArtist($id: Int!) {
 
 mutation UpdateArtist($id: Int!, $name: String, $starred: Boolean) {
   updateArtist(id: $id, name: $name, starred: $starred) {
-    ...ArtistFields
+    id
+    name
+    starred
+  }
+}
+
+mutation UpdateArtistStarred($id: Int!, $starred: Boolean) {
+  updateArtist(id: $id, starred: $starred) {
+    id
+    starred
   }
 }

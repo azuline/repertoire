@@ -496,7 +496,21 @@ export type IUpdateArtistMutation = (
   { __typename?: 'Mutation' }
   & { updateArtist: Maybe<(
     { __typename?: 'Artist' }
-    & IArtistFieldsFragment
+    & Pick<IArtist, 'id' | 'name' | 'starred'>
+  )> }
+);
+
+export type IUpdateArtistStarredMutationVariables = Exact<{
+  id: Scalars['Int'];
+  starred: Maybe<Scalars['Boolean']>;
+}>;
+
+
+export type IUpdateArtistStarredMutation = (
+  { __typename?: 'Mutation' }
+  & { updateArtist: Maybe<(
+    { __typename?: 'Artist' }
+    & Pick<IArtist, 'id' | 'starred'>
   )> }
 );
 
@@ -540,7 +554,21 @@ export type IUpdateCollectionMutation = (
   { __typename?: 'Mutation' }
   & { updateCollection: Maybe<(
     { __typename?: 'Collection' }
-    & ICollectionFieldsFragment
+    & Pick<ICollection, 'id' | 'name' | 'starred'>
+  )> }
+);
+
+export type IUpdateCollectionStarredMutationVariables = Exact<{
+  id: Scalars['Int'];
+  starred: Maybe<Scalars['Boolean']>;
+}>;
+
+
+export type IUpdateCollectionStarredMutation = (
+  { __typename?: 'Mutation' }
+  & { updateCollection: Maybe<(
+    { __typename?: 'Collection' }
+    & Pick<ICollection, 'id' | 'starred'>
   )> }
 );
 
@@ -556,10 +584,20 @@ export type IAddReleaseToCollectionMutation = (
     { __typename?: 'CollectionAndRelease' }
     & { collection: (
       { __typename?: 'Collection' }
-      & ICollectionFieldsFragment
+      & Pick<ICollection, 'id' | 'numReleases' | 'lastUpdatedOn'>
     ), release: (
       { __typename?: 'Release' }
-      & IReleaseFieldsFragment
+      & Pick<IRelease, 'id' | 'inInbox' | 'inFavorites'>
+      & { genres: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>>, labels: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>>, collages: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>> }
     ) }
   )> }
 );
@@ -576,10 +614,20 @@ export type IDelReleaseFromCollectionMutation = (
     { __typename?: 'CollectionAndRelease' }
     & { collection: (
       { __typename?: 'Collection' }
-      & ICollectionFieldsFragment
+      & Pick<ICollection, 'id' | 'numReleases' | 'lastUpdatedOn'>
     ), release: (
       { __typename?: 'Release' }
-      & IReleaseFieldsFragment
+      & Pick<IRelease, 'id' | 'inInbox' | 'inFavorites'>
+      & { genres: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>>, labels: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>>, collages: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>> }
     ) }
   )> }
 );
@@ -730,7 +778,21 @@ export type IUpdateReleaseMutation = (
   { __typename?: 'Mutation' }
   & { updateRelease: Maybe<(
     { __typename?: 'Release' }
-    & IFullReleaseFieldsFragment
+    & Pick<IRelease, 'id' | 'title' | 'releaseType' | 'releaseYear' | 'releaseDate' | 'rating'>
+  )> }
+);
+
+export type IUpdateReleaseRatingMutationVariables = Exact<{
+  id: Scalars['Int'];
+  rating: Maybe<Scalars['Int']>;
+}>;
+
+
+export type IUpdateReleaseRatingMutation = (
+  { __typename?: 'Mutation' }
+  & { updateRelease: Maybe<(
+    { __typename?: 'Release' }
+    & Pick<IRelease, 'id' | 'rating'>
   )> }
 );
 
@@ -754,7 +816,7 @@ export type IUpdateUserMutation = (
   { __typename?: 'Mutation' }
   & { updateUser: Maybe<(
     { __typename?: 'User' }
-    & IUserFieldsFragment
+    & Pick<IUser, 'id' | 'nickname'>
   )> }
 );
 
@@ -915,10 +977,12 @@ export type FetchArtistQueryResult = Apollo.QueryResult<IFetchArtistQuery, IFetc
 export const UpdateArtistDocument = gql`
     mutation UpdateArtist($id: Int!, $name: String, $starred: Boolean) {
   updateArtist(id: $id, name: $name, starred: $starred) {
-    ...ArtistFields
+    id
+    name
+    starred
   }
 }
-    ${ArtistFieldsFragmentDoc}`;
+    `;
 export type IUpdateArtistMutationFn = Apollo.MutationFunction<IUpdateArtistMutation, IUpdateArtistMutationVariables>;
 
 /**
@@ -946,6 +1010,40 @@ export function useUpdateArtistMutation(baseOptions?: Apollo.MutationHookOptions
 export type UpdateArtistMutationHookResult = ReturnType<typeof useUpdateArtistMutation>;
 export type UpdateArtistMutationResult = Apollo.MutationResult<IUpdateArtistMutation>;
 export type UpdateArtistMutationOptions = Apollo.BaseMutationOptions<IUpdateArtistMutation, IUpdateArtistMutationVariables>;
+export const UpdateArtistStarredDocument = gql`
+    mutation UpdateArtistStarred($id: Int!, $starred: Boolean) {
+  updateArtist(id: $id, starred: $starred) {
+    id
+    starred
+  }
+}
+    `;
+export type IUpdateArtistStarredMutationFn = Apollo.MutationFunction<IUpdateArtistStarredMutation, IUpdateArtistStarredMutationVariables>;
+
+/**
+ * __useUpdateArtistStarredMutation__
+ *
+ * To run a mutation, you first call `useUpdateArtistStarredMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateArtistStarredMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateArtistStarredMutation, { data, loading, error }] = useUpdateArtistStarredMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      starred: // value for 'starred'
+ *   },
+ * });
+ */
+export function useUpdateArtistStarredMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateArtistStarredMutation, IUpdateArtistStarredMutationVariables>) {
+        return Apollo.useMutation<IUpdateArtistStarredMutation, IUpdateArtistStarredMutationVariables>(UpdateArtistStarredDocument, baseOptions);
+      }
+export type UpdateArtistStarredMutationHookResult = ReturnType<typeof useUpdateArtistStarredMutation>;
+export type UpdateArtistStarredMutationResult = Apollo.MutationResult<IUpdateArtistStarredMutation>;
+export type UpdateArtistStarredMutationOptions = Apollo.BaseMutationOptions<IUpdateArtistStarredMutation, IUpdateArtistStarredMutationVariables>;
 export const FetchCollectionsDocument = gql`
     query FetchCollections($types: [CollectionType]) {
   collections(types: $types) {
@@ -1017,10 +1115,12 @@ export type FetchCollectionQueryResult = Apollo.QueryResult<IFetchCollectionQuer
 export const UpdateCollectionDocument = gql`
     mutation UpdateCollection($id: Int!, $name: String, $starred: Boolean) {
   updateCollection(id: $id, name: $name, starred: $starred) {
-    ...CollectionFields
+    id
+    name
+    starred
   }
 }
-    ${CollectionFieldsFragmentDoc}`;
+    `;
 export type IUpdateCollectionMutationFn = Apollo.MutationFunction<IUpdateCollectionMutation, IUpdateCollectionMutationVariables>;
 
 /**
@@ -1048,19 +1148,68 @@ export function useUpdateCollectionMutation(baseOptions?: Apollo.MutationHookOpt
 export type UpdateCollectionMutationHookResult = ReturnType<typeof useUpdateCollectionMutation>;
 export type UpdateCollectionMutationResult = Apollo.MutationResult<IUpdateCollectionMutation>;
 export type UpdateCollectionMutationOptions = Apollo.BaseMutationOptions<IUpdateCollectionMutation, IUpdateCollectionMutationVariables>;
+export const UpdateCollectionStarredDocument = gql`
+    mutation UpdateCollectionStarred($id: Int!, $starred: Boolean) {
+  updateCollection(id: $id, starred: $starred) {
+    id
+    starred
+  }
+}
+    `;
+export type IUpdateCollectionStarredMutationFn = Apollo.MutationFunction<IUpdateCollectionStarredMutation, IUpdateCollectionStarredMutationVariables>;
+
+/**
+ * __useUpdateCollectionStarredMutation__
+ *
+ * To run a mutation, you first call `useUpdateCollectionStarredMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCollectionStarredMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCollectionStarredMutation, { data, loading, error }] = useUpdateCollectionStarredMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      starred: // value for 'starred'
+ *   },
+ * });
+ */
+export function useUpdateCollectionStarredMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateCollectionStarredMutation, IUpdateCollectionStarredMutationVariables>) {
+        return Apollo.useMutation<IUpdateCollectionStarredMutation, IUpdateCollectionStarredMutationVariables>(UpdateCollectionStarredDocument, baseOptions);
+      }
+export type UpdateCollectionStarredMutationHookResult = ReturnType<typeof useUpdateCollectionStarredMutation>;
+export type UpdateCollectionStarredMutationResult = Apollo.MutationResult<IUpdateCollectionStarredMutation>;
+export type UpdateCollectionStarredMutationOptions = Apollo.BaseMutationOptions<IUpdateCollectionStarredMutation, IUpdateCollectionStarredMutationVariables>;
 export const AddReleaseToCollectionDocument = gql`
     mutation AddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
   addReleaseToCollection(collectionId: $collectionId, releaseId: $releaseId) {
     collection {
-      ...CollectionFields
+      id
+      numReleases
+      lastUpdatedOn
     }
     release {
-      ...ReleaseFields
+      id
+      inInbox
+      inFavorites
+      genres {
+        id
+        name
+      }
+      labels {
+        id
+        name
+      }
+      collages {
+        id
+        name
+      }
     }
   }
 }
-    ${CollectionFieldsFragmentDoc}
-${ReleaseFieldsFragmentDoc}`;
+    `;
 export type IAddReleaseToCollectionMutationFn = Apollo.MutationFunction<IAddReleaseToCollectionMutation, IAddReleaseToCollectionMutationVariables>;
 
 /**
@@ -1091,15 +1240,30 @@ export const DelReleaseFromCollectionDocument = gql`
     mutation DelReleaseFromCollection($collectionId: Int!, $releaseId: Int!) {
   delReleaseFromCollection(collectionId: $collectionId, releaseId: $releaseId) {
     collection {
-      ...CollectionFields
+      id
+      numReleases
+      lastUpdatedOn
     }
     release {
-      ...ReleaseFields
+      id
+      inInbox
+      inFavorites
+      genres {
+        id
+        name
+      }
+      labels {
+        id
+        name
+      }
+      collages {
+        id
+        name
+      }
     }
   }
 }
-    ${CollectionFieldsFragmentDoc}
-${ReleaseFieldsFragmentDoc}`;
+    `;
 export type IDelReleaseFromCollectionMutationFn = Apollo.MutationFunction<IDelReleaseFromCollectionMutation, IDelReleaseFromCollectionMutationVariables>;
 
 /**
@@ -1305,10 +1469,15 @@ export const UpdateReleaseDocument = gql`
     releaseDate: $releaseDate
     rating: $rating
   ) {
-    ...FullReleaseFields
+    id
+    title
+    releaseType
+    releaseYear
+    releaseDate
+    rating
   }
 }
-    ${FullReleaseFieldsFragmentDoc}`;
+    `;
 export type IUpdateReleaseMutationFn = Apollo.MutationFunction<IUpdateReleaseMutation, IUpdateReleaseMutationVariables>;
 
 /**
@@ -1339,6 +1508,40 @@ export function useUpdateReleaseMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateReleaseMutationHookResult = ReturnType<typeof useUpdateReleaseMutation>;
 export type UpdateReleaseMutationResult = Apollo.MutationResult<IUpdateReleaseMutation>;
 export type UpdateReleaseMutationOptions = Apollo.BaseMutationOptions<IUpdateReleaseMutation, IUpdateReleaseMutationVariables>;
+export const UpdateReleaseRatingDocument = gql`
+    mutation UpdateReleaseRating($id: Int!, $rating: Int) {
+  updateRelease(id: $id, rating: $rating) {
+    id
+    rating
+  }
+}
+    `;
+export type IUpdateReleaseRatingMutationFn = Apollo.MutationFunction<IUpdateReleaseRatingMutation, IUpdateReleaseRatingMutationVariables>;
+
+/**
+ * __useUpdateReleaseRatingMutation__
+ *
+ * To run a mutation, you first call `useUpdateReleaseRatingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateReleaseRatingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateReleaseRatingMutation, { data, loading, error }] = useUpdateReleaseRatingMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      rating: // value for 'rating'
+ *   },
+ * });
+ */
+export function useUpdateReleaseRatingMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateReleaseRatingMutation, IUpdateReleaseRatingMutationVariables>) {
+        return Apollo.useMutation<IUpdateReleaseRatingMutation, IUpdateReleaseRatingMutationVariables>(UpdateReleaseRatingDocument, baseOptions);
+      }
+export type UpdateReleaseRatingMutationHookResult = ReturnType<typeof useUpdateReleaseRatingMutation>;
+export type UpdateReleaseRatingMutationResult = Apollo.MutationResult<IUpdateReleaseRatingMutation>;
+export type UpdateReleaseRatingMutationOptions = Apollo.BaseMutationOptions<IUpdateReleaseRatingMutation, IUpdateReleaseRatingMutationVariables>;
 export const FetchUserDocument = gql`
     query FetchUser {
   user {
@@ -1374,10 +1577,11 @@ export type FetchUserQueryResult = Apollo.QueryResult<IFetchUserQuery, IFetchUse
 export const UpdateUserDocument = gql`
     mutation UpdateUser($nickname: String) {
   updateUser(nickname: $nickname) {
-    ...UserFields
+    id
+    nickname
   }
 }
-    ${UserFieldsFragmentDoc}`;
+    `;
 export type IUpdateUserMutationFn = Apollo.MutationFunction<IUpdateUserMutation, IUpdateUserMutationVariables>;
 
 /**

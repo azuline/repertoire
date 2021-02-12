@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 
-import { useFetchUser, useMutateUser } from '~/lib';
+import { useFetchUserQuery, useUpdateUserMutation } from '~/graphql';
 
 export const UserSettings: React.FC = () => {
-  const { data } = useFetchUser();
+  const { data } = useFetchUserQuery();
   const input = React.useRef<HTMLInputElement>(null);
   const { addToast } = useToasts();
 
@@ -12,7 +12,7 @@ export const UserSettings: React.FC = () => {
     addToast('Successfully updated nickname.', { appearance: 'success' });
   };
 
-  const [mutateUser] = useMutateUser({ onCompleted });
+  const [mutateUser] = useUpdateUserMutation({ onCompleted });
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();

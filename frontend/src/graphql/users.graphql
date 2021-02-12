@@ -6,6 +6,7 @@ query FetchUser {
 
 mutation UpdateUser($nickname: String) {
   updateUser(nickname: $nickname) {
-    ...UserFields
+    id
+    nickname
   }
 }

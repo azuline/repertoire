@@ -2,13 +2,13 @@ import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { Link, ScrolledReleases, SectionHeader } from '~/components';
-import { useFetchRecentlyAdded } from '~/lib';
+import { IRelease, useFetchReleasesRecentlyAddedQuery } from '~/graphql';
 
 export const RecentlyAdded: React.FC = () => {
-  const { data } = useFetchRecentlyAdded();
+  const { data } = useFetchReleasesRecentlyAddedQuery();
   const history = useHistory();
 
-  const releases = data?.releases?.results || [];
+  const releases = (data?.releases?.results || []) as IRelease[];
 
   const toRecentlyAdded = (): void => {
     // TODO: change these string keys to an enum.

@@ -1,8 +1,12 @@
 import * as React from 'react';
 
 import { Chooser, ToggleStarFactory } from '~/components/Chooser';
-import { ICollectionType } from '~/graphql';
-import { useFetchCollections, useMutateCollection } from '~/lib';
+import {
+  ICollection,
+  ICollectionType,
+  useFetchCollectionsQuery,
+  useUpdateCollectionStarredMutation,
+} from '~/graphql';
 
 export const CollectionChooser: React.FC<{
   collectionTypes: ICollectionType[];
@@ -10,8 +14,10 @@ export const CollectionChooser: React.FC<{
   active: number | null;
   className?: string;
 }> = ({ collectionTypes, urlPrefix, active, className }) => {
-  const { data, error, loading } = useFetchCollections(collectionTypes);
-  const [mutateCollection] = useMutateCollection();
+  const { data, error, loading } = useFetchCollectionsQuery({
+    variables: { types: collectionTypes },
+  });
+  const [mutateCollection] = useUpdateCollectionStarredMutation();
 
   const urlFactory = (id: number): string => `${urlPrefix}/${id}`;
 
@@ -23,13 +29,13 @@ export const CollectionChooser: React.FC<{
     };
   };
 
-  if (!data || loading || error) return null;
+  if (!data || !data.collections || loading || error) return null;
 
   return (
     <Chooser
       active={active}
       className={className}
-      results={data.collections.results}
+      results={data.collections.results as ICollection[]}
       toggleStarFactory={toggleStarFactory}
       urlFactory={urlFactory}
     />

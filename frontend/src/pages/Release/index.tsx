@@ -4,6 +4,7 @@ import { Disclist, Header, Image } from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { IRelease, useFetchReleaseQuery } from '~/graphql';
 import { useId } from '~/hooks';
+import { ErrorP } from '~/pages';
 import { filterNulls } from '~/util';
 
 import { InCollages } from './InCollages';
@@ -14,7 +15,13 @@ import { Rating } from './Rating';
 
 export const Release: React.FC = () => {
   const id = useId();
-  const { data } = useFetchReleaseQuery({ variables: { id } });
+  return id ? <RealRelease id={id} /> : null;
+};
+
+type IComponent = React.FC<{ id: number }>;
+
+export const RealRelease: IComponent = ({ id }) => {
+  const { data, error } = useFetchReleaseQuery({ variables: { id } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
   const release = data?.release as IRelease | null;
@@ -25,6 +32,11 @@ export const Release: React.FC = () => {
     setBackgroundImageId(release.imageId);
     return (): void => setBackgroundImageId(null);
   }, [release, setBackgroundImageId]);
+
+  if (error) {
+    const errors = error.graphQLErrors.map(({ message }) => message);
+    return <ErrorP errors={errors} title="Could not fetch release." />;
+  }
 
   return (
     <div className="flex flex-col">

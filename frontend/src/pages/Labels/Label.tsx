@@ -2,10 +2,11 @@ import * as React from 'react';
 
 import { CollectionReleases, Header, SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
-import { useFetchCollection } from '~/lib';
+import { useFetchCollectionQuery } from '~/graphql';
+import { ErrorP } from '~/pages';
 
 export const Label: React.FC<{ active: number }> = ({ active }) => {
-  const { data } = useFetchCollection(active);
+  const { data, error } = useFetchCollectionQuery({ variables: { id: active } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
   const collection = data?.collection || null;
@@ -17,7 +18,14 @@ export const Label: React.FC<{ active: number }> = ({ active }) => {
     return (): void => setBackgroundImageId(null);
   }, [collection, setBackgroundImageId]);
 
-  if (!collection) return null;
+  if (error) {
+    const errors = error.graphQLErrors.map(({ message }) => message);
+    return <ErrorP errors={errors} title="Could not fetch label." />;
+  }
+
+  if (!collection) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col w-full">

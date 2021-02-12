@@ -14,17 +14,42 @@ query FetchCollection($id: Int!) {
 
 mutation UpdateCollection($id: Int!, $name: String, $starred: Boolean) {
   updateCollection(id: $id, name: $name, starred: $starred) {
-    ...CollectionFields
+    id
+    name
+    starred
+  }
+}
+
+mutation UpdateCollectionStarred($id: Int! $starred: Boolean) {
+  updateCollection(id: $id, starred: $starred) {
+    id
+    starred
   }
 }
 
 mutation AddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
   addReleaseToCollection(collectionId: $collectionId, releaseId: $releaseId) {
     collection {
-      ...CollectionFields
+      id
+      numReleases
+      lastUpdatedOn
     }
     release {
-      ...ReleaseFields
+      id
+      inInbox
+      inFavorites
+      genres {
+        id
+        name
+      }
+      labels {
+        id
+        name
+      }
+      collages {
+        id
+        name
+      }
     }
   }
 }
@@ -32,10 +57,26 @@ mutation AddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
 mutation DelReleaseFromCollection($collectionId: Int!, $releaseId: Int!) {
   delReleaseFromCollection(collectionId: $collectionId, releaseId: $releaseId) {
     collection {
-      ...CollectionFields
+      id
+      numReleases
+      lastUpdatedOn
     }
     release {
-      ...ReleaseFields
+      id
+      inInbox
+      inFavorites
+      genres {
+        id
+        name
+      }
+      labels {
+        id
+        name
+      }
+      collages {
+        id
+        name
+      }
     }
   }
 }

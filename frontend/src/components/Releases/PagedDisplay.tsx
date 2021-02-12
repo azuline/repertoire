@@ -1,11 +1,12 @@
 import clsx from 'clsx';
 import * as React from 'react';
+import { useToasts } from 'react-toast-notifications';
 
 import { Pagination } from '~/components/Pagination';
 import { ArtRelease, RowRelease } from '~/components/Release';
 import { ViewSettings } from '~/components/ViewSettings';
+import { IRelease, useFetchReleasesQuery } from '~/graphql';
 import { IPagination, IViewOptions } from '~/hooks';
-import { useSearchReleases } from '~/lib';
 import { IReleaseView } from '~/types';
 
 // Partial here means that we have an artist/collection selector open.
@@ -15,14 +16,24 @@ export const PagedReleases: React.FC<{
   pagination: IPagination;
   partial?: boolean;
 }> = ({ viewOptions, pagination, partial = false }) => {
-  const { data } = useSearchReleases(viewOptions, pagination);
+  const { addToast } = useToasts();
+  const { data, error } = useFetchReleasesQuery({
+    variables: { ...viewOptions, ...pagination },
+  });
 
   // prettier-ignore
-  const { total, results } = data?.releases || { results: [], total: 0 };
+  const { total, results: rawResults } = data?.releases || { results: [], total: 0 };
+  const results = rawResults as IRelease[];
 
   React.useEffect(() => {
     if (total) pagination.setTotal(total);
   }, [total, pagination]);
+
+  if (error) {
+    error.graphQLErrors.forEach(({ message }) => {
+      addToast(message, { appearance: 'error' });
+    });
+  }
 
   let releasesDiv = null;
 

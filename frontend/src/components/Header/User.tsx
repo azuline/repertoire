@@ -4,13 +4,13 @@ import { useToasts } from 'react-toast-notifications';
 
 import { Icon, Link } from '~/components/common';
 import { AuthorizationContext } from '~/contexts';
+import { useFetchUserQuery } from '~/graphql';
 import { useRequest } from '~/hooks';
-import { useFetchUser } from '~/lib';
 
 export const User: React.FC<{ className?: string }> = ({ className }) => {
   const { setLoggedIn } = React.useContext(AuthorizationContext);
   const { addToast } = useToasts();
-  const { data } = useFetchUser();
+  const { data } = useFetchUserQuery();
   const request = useRequest();
 
   const logout = (): void => {

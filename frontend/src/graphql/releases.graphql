@@ -79,6 +79,24 @@ mutation UpdateRelease(
     releaseDate: $releaseDate
     rating: $rating
   ) {
-    ...FullReleaseFields
+    id
+    title
+    releaseType
+    releaseYear
+    releaseDate
+    rating
+  }
+}
+
+mutation UpdateReleaseRating(
+  $id: Int!
+  $rating: Int
+) {
+  updateRelease(
+    id: $id
+    rating: $rating
+  ) {
+    id
+    rating
   }
 }

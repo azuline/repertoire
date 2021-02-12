@@ -7,8 +7,8 @@ import { usePersistentState } from './persistentState';
 import { useQuery } from './query';
 
 export type IPagination = {
-  curPage: number;
-  setCurPage: ISetValue<number>;
+  page: number;
+  setPage: ISetValue<number>;
   perPage: number;
   setPerPage: ISetValue<number>;
   numPages: number;
@@ -35,15 +35,15 @@ export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): IP
   const query = useQuery();
 
   const startPage = getStartPage(useUrl, query);
-  const [curPage, rawSetCurPage] = React.useState<number>(startPage);
+  const [page, rawSetPage] = React.useState<number>(startPage);
   const [perPage, setPerPage] = usePersistentState<number>('pagination--perPage', 40);
   const [total, setTotal] = React.useState<number>(0);
 
   // We wrap the setCurPage function to sync the URL with the state. If ``useUrl`` is true, then
   // sync!
-  const setCurPage = React.useCallback(
+  const setPage = React.useCallback(
     (value: IStateValue<number>) => {
-      const calculatedValue = value instanceof Function ? value(curPage) : value;
+      const calculatedValue = value instanceof Function ? value(page) : value;
 
       if (useUrl) {
         query.set('page', `${calculatedValue}`);
@@ -53,14 +53,14 @@ export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): IP
         });
       }
 
-      rawSetCurPage(calculatedValue);
+      rawSetPage(calculatedValue);
     },
-    [curPage, history, query, useUrl, rawSetCurPage],
+    [page, history, query, useUrl, rawSetPage],
   );
 
   const numPages = perPage === 0 ? 0 : Math.ceil(total / perPage);
 
-  return { curPage, numPages, perPage, setCurPage, setPerPage, setTotal };
+  return { numPages, page, perPage, setPage, setPerPage, setTotal };
 };
 
 /**
