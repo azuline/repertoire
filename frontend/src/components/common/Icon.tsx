@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ReactComponent as Logo } from 'src/assets/logo.svg';
+import Logo from 'src/assets/logo.svg';
 
 export const Icon: React.FC<{
   className?: string;
