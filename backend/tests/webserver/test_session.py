@@ -6,7 +6,7 @@ import quart
 
 @pytest.mark.asyncio
 async def test_create_session(db, quart_client, snapshot):
-    response = await quart_client.authed_post("/session")
+    response = await quart_client.authed_post("/api/session")
     print(await response.get_data())
     assert response.status_code == 201
     data = json.loads(await response.get_data())
@@ -20,7 +20,7 @@ async def test_create_session(db, quart_client, snapshot):
 
 @pytest.mark.asyncio
 async def test_create_session_no_auth(db, quart_client):
-    response = await quart_client.post("/session")
+    response = await quart_client.post("/api/session")
     assert 401 == response.status_code
 
 
@@ -30,7 +30,7 @@ async def test_delete_session(db, quart_client):
         sess["user_id"] = 1
 
     response = await quart_client.authed_delete(
-        "/session", headers={"X-CSRF-Token": "01" * 32}
+        "/api/session", headers={"X-CSRF-Token": "01" * 32}
     )
     assert b"success" == await response.get_data()
     assert quart.session == {}
@@ -42,6 +42,6 @@ async def test_delete_session_invalid_csrf(db, quart_client):
         sess["user_id"] = 1
 
     response = await quart_client.authed_delete(
-        "/session", headers={"X-CSRF-Token": "99" * 32}
+        "/api/session", headers={"X-CSRF-Token": "99" * 32}
     )
     assert response.status_code == 400

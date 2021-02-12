@@ -14,7 +14,7 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
 
   const logout = (): void => {
     (async (): Promise<void> => {
-      await request('/session', { method: 'DELETE' });
+      await request('/api/session', { method: 'DELETE' });
 
       addToast('Logged out!', { appearance: 'success' });
       setLoggedIn(false);

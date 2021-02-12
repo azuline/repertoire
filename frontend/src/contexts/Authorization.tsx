@@ -25,7 +25,7 @@ export const AuthorizationProvider: React.FC<{ children: React.ReactNode }> = ({
   React.useEffect(() => {
     (async (): Promise<void> => {
       try {
-        const { csrfToken } = await requestJson('/session', { method: 'POST' });
+        const { csrfToken } = await requestJson('/api/session', { method: 'POST' });
         if (csrfToken) {
           setLoggedIn(true);
           setCsrf(csrfToken);

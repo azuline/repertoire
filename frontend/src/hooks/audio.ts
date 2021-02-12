@@ -35,8 +35,8 @@ const audioReducer = (
     audio:
       state.nextAudio && state.nextTrackId === payload.track.id
         ? state.nextAudio
-        : new Audio(`/files/tracks/${payload.track.id}`),
-    nextAudio: payload.nextTrack ? new Audio(`/files/tracks/${payload.nextTrack.id}`) : null,
+        : new Audio(`/api/files/tracks/${payload.track.id}`),
+    nextAudio: payload.nextTrack ? new Audio(`/api/files/tracks/${payload.nextTrack.id}`) : null,
     nextTrackId: payload.nextTrack?.id ?? null,
     trackId: payload.track.id,
   };

@@ -9,7 +9,7 @@ from src.library import image, track
 from src.webserver.util import check_auth, validate_data
 from src.webserver.validators import StringBool
 
-bp = Blueprint("files", __name__, url_prefix="/files")
+bp = Blueprint("files", __name__, url_prefix="/api/files")
 
 logger = logging.getLogger(__name__)
 

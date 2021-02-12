@@ -19,7 +19,7 @@ export const Login: React.FC = () => {
     if (!input.current || !permanent.current) return;
 
     try {
-      const { csrfToken } = await requestJson('/session', {
+      const { csrfToken } = await requestJson('/api/session', {
         body: JSON.stringify({ permanent: permanent.current.value === 'on' }),
         method: 'POST',
         token: input.current.value,
