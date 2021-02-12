@@ -1,5 +1,6 @@
 import * as React from 'react';
-import Logo from '~/assets/logo.svg';
+
+import logo from '~/assets/logo.svg';
 
 export const Icon: React.FC<{
   className?: string;
@@ -140,7 +141,7 @@ const ICONS: { [k in IconT]: React.ReactNode } = {
       />
     </svg>
   ),
-  logo: <Logo />,
+  logo: <img src={logo} />,
   'logout-medium': (
     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path
