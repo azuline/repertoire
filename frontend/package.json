@@ -5,12 +5,9 @@
   "proxy": "http://localhost:5000",
   "scripts": {
     "start": "snowpack dev",
-    "dev:css": "tailwind build src/index.tailwind.css -o src/index.css",
     "build": "snowpack build",
-    "build:css": "postcss src/index.tailwind.css -o src/index.css",
     "test": "web-test-runner \"src/**/*.test.tsx\"",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
-    "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\""
+    "lint": "eslint src/ --ext .ts,.tsx --fix"
   },
   "dependencies": {
     "@apollo/client": "^3.2.9",

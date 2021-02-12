@@ -6,8 +6,8 @@ Frontend
 This section contains the documentation for the frontend source code. This page
 goes over the frontend stack and the organization of the frontend.
 
-The frontend is written in Typescript and uses the React framework. For styles,
-it uses the Tailwind utility CSS framework.
+The frontend is written in Typescript with the React framework. For styles, we
+use the Tailwind utility CSS framework. We use Snowpack as our build tool.
 
 The frontend is laid out as follows:
 
