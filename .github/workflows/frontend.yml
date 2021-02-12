@@ -67,4 +67,4 @@ jobs:
       - name: Run codegen.
         run: CI=true yarn codegen
       - name: Check for dirty files.
-        run: [[ -z $(git status -s) ]] || (exit 1)
+        run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'
