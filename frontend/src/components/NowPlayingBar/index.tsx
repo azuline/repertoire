@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { PlayQueueContext } from 'src/contexts';
-import { useAudio } from 'src/hooks';
+
+import { PlayQueueContext } from '~/contexts';
+import { useAudio } from '~/hooks';
 
 import { ExpandPlaying } from './ExpandPlaying';
 import { PlayButtons } from './PlayButtons';

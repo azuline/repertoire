@@ -1,6 +1,7 @@
 import { gql, QueryHookOptions, QueryResult, useQuery } from '@apollo/client';
-import { COLLECTION_FIELDS } from 'src/lib/fragments';
-import { CollectionT, CollectionType } from 'src/types';
+
+import { COLLECTION_FIELDS } from '~/lib/fragments';
+import { CollectionT, CollectionType } from '~/types';
 
 const QUERY = gql`
   query($types: [CollectionType]) {

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Icon } from 'src/components/common';
-import { RouteList } from 'src/components/Routelist';
+
+import { Icon } from '~/components/common';
+import { RouteList } from '~/components/Routelist';
 
 export const Sidebar: React.FC = () => {
   const history = useHistory();

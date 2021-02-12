@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Link } from 'src/components';
-import { CollectionT } from 'src/types';
+
+import { Link } from '~/components';
+import { CollectionT } from '~/types';
 
 export const InCollages: React.FC<{ collages: CollectionT[] }> = ({ collages }) => {
   if (collages.length === 0) {

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { StateValue } from 'src/types';
+
+import { StateValue } from '~/types';
 
 /**
  * A hook that persists the value of the state in localStorage.

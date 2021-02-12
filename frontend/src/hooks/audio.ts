@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { PlayQueueContext, VolumeContext } from 'src/contexts';
-import { SetValue, TrackT } from 'src/types';
+
+import { PlayQueueContext, VolumeContext } from '~/contexts';
+import { SetValue, TrackT } from '~/types';
 
 // TODO: Make sure that we aren't leaking memory from all these audio
 // objects... they better be garbage collected properly.
@@ -35,8 +36,8 @@ const audioReducer = (
     audio:
       state.nextAudio && state.nextTrackId === payload.track.id
         ? state.nextAudio
-        : new Audio(`/files/tracks/${payload.track.id}`),
-    nextAudio: payload.nextTrack ? new Audio(`/files/tracks/${payload.nextTrack.id}`) : null,
+        : new Audio(`/api/files/tracks/${payload.track.id}`),
+    nextAudio: payload.nextTrack ? new Audio(`/api/files/tracks/${payload.nextTrack.id}`) : null,
     nextTrackId: payload.nextTrack?.id ?? null,
     trackId: payload.track.id,
   };

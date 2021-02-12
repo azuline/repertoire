@@ -1,9 +1,10 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { SectionHeader } from 'src/components/common';
-import { PlayQueueContext } from 'src/contexts';
-import { TrackT } from 'src/types';
-import { stringNumberCompare } from 'src/util';
+
+import { SectionHeader } from '~/components/common';
+import { PlayQueueContext } from '~/contexts';
+import { TrackT } from '~/types';
+import { stringNumberCompare } from '~/util';
 
 import { Track } from './Track';
 import { checkMatchingTracklists } from './util';

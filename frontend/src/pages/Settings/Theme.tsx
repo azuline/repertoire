@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { ThemeContext } from 'src/contexts';
+
+import { ThemeContext } from '~/contexts';
 
 export const ThemeSettings: React.FC = () => {
   const { theme, setTheme } = React.useContext(ThemeContext);

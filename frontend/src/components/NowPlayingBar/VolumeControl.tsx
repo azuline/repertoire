@@ -1,7 +1,8 @@
 import * as React from 'react';
 import ReactSlider from 'react-slider';
-import { Icon, IconT } from 'src/components/common';
-import { VolumeContext } from 'src/contexts';
+
+import { Icon, IconT } from '~/components/common';
+import { VolumeContext } from '~/contexts';
 
 export const VolumeControl: React.FC = () => {
   const { volume, setVolume, isMuted, setIsMuted } = React.useContext(VolumeContext);

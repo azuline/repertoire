@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { Icon } from 'src/components/common';
+
+import { Icon } from '~/components/common';
 
 // TODO: Implement a dropdown and stuff... get a way to monitor searchbar focus in react
 // and use that for width/whatnot.

@@ -1,8 +1,9 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { Icon, Popover } from 'src/components/common';
-import { Pagination } from 'src/components/Pagination';
-import { PaginationT, ViewOptionsT } from 'src/hooks';
+
+import { Icon, Popover } from '~/components/common';
+import { Pagination } from '~/components/Pagination';
+import { PaginationT, ViewOptionsT } from '~/hooks';
 
 import { Order } from './Order';
 import { PerPage } from './PerPage';

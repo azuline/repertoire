@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { Link } from 'src/components/common';
+
+import { Link } from '~/components/common';
 
 export const NavLink: React.FC<{
   url: string;

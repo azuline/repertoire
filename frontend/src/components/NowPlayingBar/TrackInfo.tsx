@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Image, Link, TrackArtistList } from 'src/components';
-import { TrackT } from 'src/types';
+
+import { Image, Link, TrackArtistList } from '~/components';
+import { TrackT } from '~/types';
 
 import { RedirectToNowPlaying } from './RedirectToNowPlaying';
 

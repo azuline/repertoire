@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { usePersistentState, useRequestJson } from 'src/hooks';
+
+import { usePersistentState, useRequestJson } from '~/hooks';
 
 type ContextT = {
   loggedIn: boolean;
@@ -25,7 +26,7 @@ export const AuthorizationProvider: React.FC<{ children: React.ReactNode }> = ({
   React.useEffect(() => {
     (async (): Promise<void> => {
       try {
-        const { csrfToken } = await requestJson('/session', { method: 'POST' });
+        const { csrfToken } = await requestJson('/api/session', { method: 'POST' });
         if (csrfToken) {
           setLoggedIn(true);
           setCsrf(csrfToken);

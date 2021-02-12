@@ -1,8 +1,9 @@
 import * as React from 'react';
-import noArt from 'src/assets/noArt.jpg';
+
+import noArt from '~/assets/noArt.jpg';
 
 const urlFactory = (id: number | null, thumbnail: boolean): string =>
-  id ? `/files/images/${id}?thumbnail=${thumbnail}` : '';
+  id ? `/api/files/images/${id}?thumbnail=${thumbnail}` : '';
 
 export const Image: React.FC<{
   className?: string;

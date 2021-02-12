@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Icon } from 'src/components';
+
+import { Icon } from '~/components';
 
 export const Rating: React.FC<{ rating: number }> = ({ rating }) => (
   <>

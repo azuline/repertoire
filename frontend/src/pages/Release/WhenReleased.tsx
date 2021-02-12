@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Link } from 'src/components';
-import { ReleaseT } from 'src/types';
+
+import { Link } from '~/components';
+import { ReleaseT } from '~/types';
 
 export const WhenReleased: React.FC<{ release: ReleaseT }> = ({ release }) => {
   if (release.releaseDate) {

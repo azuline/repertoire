@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Chooser } from 'src/components';
-import { useFetchYears } from 'src/lib';
+
+import { Chooser } from '~/components';
+import { useFetchYears } from '~/lib';
 
 const urlFactory = (id: number): string => `/years/${id}`;
 

@@ -4,7 +4,7 @@ from voluptuous import Schema
 
 from src.webserver.util import check_auth, validate_data
 
-bp = Blueprint("session", __name__, url_prefix="/session")
+bp = Blueprint("session", __name__, url_prefix="/api/session")
 
 
 @bp.route("", methods=["POST"])

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Link, ScrolledReleases, SectionHeader } from 'src/components';
-import { useFetchRecentlyAdded } from 'src/lib';
+
+import { Link, ScrolledReleases, SectionHeader } from '~/components';
+import { useFetchRecentlyAdded } from '~/lib';
 
 export const RecentlyAdded: React.FC = () => {
   const { data } = useFetchRecentlyAdded();

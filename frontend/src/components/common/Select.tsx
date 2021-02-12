@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { Icon } from 'src/components/common/Icon';
+
+import { Icon } from '~/components/common/Icon';
 
 export const Select: React.FC<{
   children: React.ReactNode;

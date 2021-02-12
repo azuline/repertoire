@@ -1,9 +1,10 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { Link } from 'src/components/common';
-import { Image } from 'src/components/Image';
-import { ArtistList, GenreList } from 'src/components/Lists';
-import { ReleaseT } from 'src/types';
+
+import { Link } from '~/components/common';
+import { Image } from '~/components/Image';
+import { ArtistList, GenreList } from '~/components/Lists';
+import { ReleaseT } from '~/types';
 
 import { InInboxIndicator } from './InInboxIndicator';
 import { Rating } from './Rating';

@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Header, SectionHeader } from 'src/components';
-import { BackgroundContext } from 'src/contexts';
-import { useFetchArtist } from 'src/lib';
+
+import { Header, SectionHeader } from '~/components';
+import { BackgroundContext } from '~/contexts';
+import { useFetchArtist } from '~/lib';
 
 import { ArtistReleases } from './Releases';
 

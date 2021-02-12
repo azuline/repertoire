@@ -1,6 +1,7 @@
 import { gql, MutationHookOptions, MutationTuple, useMutation } from '@apollo/client';
-import { USER_FIELDS } from 'src/lib/fragments';
-import { UserT } from 'src/types';
+
+import { USER_FIELDS } from '~/lib/fragments';
+import { UserT } from '~/types';
 
 const MUTATION = gql`
   mutation($nickname: String) {

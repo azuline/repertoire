@@ -1,10 +1,11 @@
 import clsx from 'clsx';
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
-import { Icon, Link } from 'src/components/common';
-import { AuthorizationContext } from 'src/contexts';
-import { useRequest } from 'src/hooks';
-import { useFetchUser } from 'src/lib';
+
+import { Icon, Link } from '~/components/common';
+import { AuthorizationContext } from '~/contexts';
+import { useRequest } from '~/hooks';
+import { useFetchUser } from '~/lib';
 
 export const User: React.FC<{ className?: string }> = ({ className }) => {
   const { setLoggedIn } = React.useContext(AuthorizationContext);
@@ -14,7 +15,7 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
 
   const logout = (): void => {
     (async (): Promise<void> => {
-      await request('/session', { method: 'DELETE' });
+      await request('/api/session', { method: 'DELETE' });
 
       addToast('Logged out!', { appearance: 'success' });
       setLoggedIn(false);

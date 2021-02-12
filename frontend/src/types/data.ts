@@ -87,3 +87,6 @@ export type TopGenreT = {
   genre: CollectionT;
   numMatches: number;
 };
+
+// https://github.com/snowpackjs/snowpack/discussions/1589
+export const SNOWPACK_BUG_DATA = true;

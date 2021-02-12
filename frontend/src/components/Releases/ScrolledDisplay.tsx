@@ -1,7 +1,8 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { ArtRelease } from 'src/components/Release';
-import { ReleaseT } from 'src/types';
+
+import { ArtRelease } from '~/components/Release';
+import { ReleaseT } from '~/types';
 
 export const ScrolledReleases: React.FC<{
   releases: ReleaseT[];

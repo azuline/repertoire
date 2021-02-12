@@ -1,7 +1,8 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { PlayQueueContext } from 'src/contexts';
-import { TrackT } from 'src/types';
+
+import { PlayQueueContext } from '~/contexts';
+import { TrackT } from '~/types';
 
 import { Track } from './Track';
 import { checkMatchingTracklists } from './util';

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { SetValue } from 'src/types';
+
+import { SetValue } from '~/types';
 
 type ContextT = {
   backgroundImageId: number | null;

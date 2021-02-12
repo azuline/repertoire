@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { FastForward, PlayPause, Rewind } from 'src/components/PlayButtons';
-import { SetValue } from 'src/types';
+
+import { FastForward, PlayPause, Rewind } from '~/components/PlayButtons';
+import { SetValue } from '~/types';
 
 export const PlayButtons: React.FC<{
   isPlaying: boolean;

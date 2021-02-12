@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Link } from 'src/components/common';
-import { ElementT } from 'src/types';
+
+import { Link } from '~/components/common';
+import { ElementT } from '~/types';
 
 type ListT = React.FC<{
   className?: string;

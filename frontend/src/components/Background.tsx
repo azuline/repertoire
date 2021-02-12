@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Image } from 'src/components/Image';
-import { BackgroundContext } from 'src/contexts';
+
+import { Image } from '~/components/Image';
+import { BackgroundContext } from '~/contexts';
 
 /**
  * The inner background gradient covers the whole image. It works nicely on small-width screens to

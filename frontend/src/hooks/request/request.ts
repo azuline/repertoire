@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { AuthorizationContext } from 'src/contexts';
-import { RequestError } from 'src/types';
+
+import { AuthorizationContext } from '~/contexts';
+import { RequestError } from '~/types';
 
 export type RequestT<T> = (
   url: string,
