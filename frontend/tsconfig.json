@@ -17,8 +17,7 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "~/*": ["./src/*"],
-      "*": [".snowpack/types/*"]
+      "~/*": ["./src/*"]
     }
   },
   "include": ["src", "types"]
