@@ -7,11 +7,14 @@ import { BrowserRouter } from 'react-router-dom';
 import { Background, NowPlayingBar, Sidebar } from '~/components';
 import { AuthorizationContext, GlobalContexts, ThemeContext } from '~/contexts';
 import { Login, Routes } from '~/pages';
+import { AppStyles } from '~/Styles';
 
 const App: React.FC = () => (
   <BrowserRouter>
     <GlobalContexts>
-      <Body />
+      <AppStyles>
+        <Body />
+      </AppStyles>
     </GlobalContexts>
   </BrowserRouter>
 );
@@ -23,7 +26,10 @@ const Body: React.FC = () => {
   if (!loggedIn) return <Login />;
 
   return (
-    <div className={clsx(theme, 'w-full min-h-0 flex flex-col h-screen app')}>
+    <div
+      className={clsx(theme, 'app')}
+      tw="w-full min-h-0 flex flex-col h-screen bg-background-700 text-foreground"
+    >
       <div
         style={{ height: 'calc(100% - 4rem)', minHeight: 'calc(100% - 4rem)' }}
         tw="flex flex-1 w-full"

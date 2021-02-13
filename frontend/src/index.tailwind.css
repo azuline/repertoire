@@ -2,48 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  --lh: 1.4rem;
-  line-height: var(--lh);
-  font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
+/* Turn these into custom classes */
+
+.full {
+  @apply w-full h-full;
 }
 
-.app {
-  /* TODO: Figure out a way to @apply these... */
-  --color-foreground: #f9fafb;
-  --color-foreground-100: #f3f4f6;
-  --color-foreground-200: #e5e7eb;
-  --color-foreground-300: #d1d5db;
-  --color-foreground-400: #9ca3af;
-  --color-background-700: #101013;
-  --color-background-800: #18181d;
-  --color-background-900: #1b1b21;
-  --color-primary-400: #daa520;
-  --color-primary-500: #a47b40;
-  --color-primary-600: #96703a;
-  --color-primary-700: #6e522a;
-  --color-primary-800: #523d20;
-  --color-gray-500: #6b7280;
+.truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-* {
-  scrollbar-color: var(--color-gray-500) transparent;
-  scrollbar-width: thin;
-}
-::-webkit-scrollbar {
-  background-color: transparent;
-  width: 0;
-  height: 0.375rem;
-}
-::-webkit-scrollbar-thumb {
-  background-color: var(--color-gray-500);
+.rtl {
+  direction: rtl;
 }
 
-.app {
-  @apply bg-background-700 text-foreground;
+.hover-emph-bg {
+  @apply hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5;
 }
+
+.w-fullpad {
+  width: calc(100% + 3rem);
+}
+@media screen and (min-width: 768px) {
+  .w-fullpad {
+    width: calc(100% + 4rem);
+  }
+}
+
+/* Turn these into styled components. */
 
 button {
   @apply px-4 py-2 font-normal rounded hover:bg-primary-600 bg-primary-700 text-foreground;
@@ -69,29 +58,6 @@ input.searchbar::placeholder {
   opacity: 70%;
 }
 
-.block-important {
-  display: block !important; /* troll */
-}
-
-.full {
-  @apply w-full h-full;
-}
-
-.empty {
-  @apply w-0 h-0;
-}
-
-.truncate-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.rtl {
-  direction: rtl;
-}
-
 .square-btn {
   @apply w-10 h-10;
 }
@@ -109,30 +75,17 @@ input.searchbar::placeholder {
   @apply rounded-r;
 }
 
-.hover-emph-bg {
-  @apply hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5;
-}
-
-.w-fullpad {
-  width: calc(100% + 3rem);
-}
-@media screen and (min-width: 768px) {
-  .w-fullpad {
-    width: calc(100% + 4rem);
-  }
-}
-
 .two-sided {
   /* TODO: Make the transitions like... work. */
   transition: all 0.4s;
 }
 .two-sided > .back {
   display: none;
-  @apply empty;
+  @apply w-0 h-0;
 }
 .two-sided:hover > .front {
   display: none;
-  @apply empty;
+  @apply w-0 h-0;
 }
 .two-sided:hover > .back {
   display: block;
