@@ -29,7 +29,7 @@ html {
 }
 
 * {
-  scrollbar-color: var(--color-gray-500);
+  scrollbar-color: var(--color-gray-500) transparent;
   scrollbar-width: thin;
 }
 ::-webkit-scrollbar {

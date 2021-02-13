@@ -26,7 +26,9 @@ export const Sidebar: React.FC = () => {
         </div>
       </div>
       <div className="px-6 overflow-y-auto md:px-8">
-        <RouteList />
+        <div className="pb-4">
+          <RouteList />
+        </div>
       </div>
     </div>
   );
