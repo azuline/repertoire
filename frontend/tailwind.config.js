@@ -75,6 +75,9 @@ module.exports = {
 
 function full({ addComponents, theme }) {
   addComponents({
-    '.full': theme`w-full h-full`,
+    '.full': {
+      width: theme`width.full`,
+      height: theme`height.full`,
+    },
   });
 }

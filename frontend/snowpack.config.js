@@ -3,13 +3,8 @@ const httpProxy = require('http-proxy');
 const proxy = httpProxy.createServer({ target: 'http://localhost:5000' });
 
 module.exports = {
-  mount: {
-    public: { url: '/', static: true },
-    src: { url: '/dist' },
-  },
+  extends: '@snowpack/app-scripts-react',
   plugins: [
-    '@snowpack/plugin-react-refresh',
-    '@snowpack/plugin-typescript',
     '@snowpack/plugin-webpack',
     [
       '@snowpack/plugin-run-script',

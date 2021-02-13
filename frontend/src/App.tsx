@@ -29,9 +29,9 @@ const Body: React.FC = () => {
         tw="flex flex-1 w-full"
       >
         <Sidebar />
-        <div tw="relative flex flex-col min-w-0 full">
+        <div tw="relative flex flex-col min-w-0 w-full h-full">
           <Background />
-          <div tw="relative flex flex-col min-h-0 px-6 overflow-y-auto md:px-8 full">
+          <div tw="relative flex flex-col min-h-0 px-6 overflow-y-auto md:px-8 w-full h-full">
             <Routes />
           </div>
         </div>
