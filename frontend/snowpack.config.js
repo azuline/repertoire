@@ -10,6 +10,7 @@ module.exports = {
   plugins: [
     '@snowpack/plugin-react-refresh',
     '@snowpack/plugin-typescript',
+    '@snowpack/plugin-webpack',
     [
       '@snowpack/plugin-run-script',
       {
@@ -29,16 +30,13 @@ module.exports = {
     { match: 'routes', src: '.*', dest: '/index.html' },
   ],
   optimize: {
-    /* Example: Bundle your final build: */
     bundle: true,
   },
   packageOptions: {
-    /* ... */
+    knownEntrypoints: ['@emotion/react', '@emotion/styled'],
   },
   devOptions: {
     port: 3000,
   },
-  buildOptions: {
-    /* ... */
-  },
+  buildOptions: {},
 };

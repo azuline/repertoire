@@ -1,6 +1,5 @@
 module.exports = {
   darkMode: 'class',
-  purge: ['./src/**/*.tsx', './src/**/*.html'],
   theme: {
     screens: {
       sm: '640px',
@@ -58,6 +57,7 @@ module.exports = {
       },
     },
   },
+  // TODO: Remove this once we are fully twin.macro.
   variants: {
     extend: {
       backgroundOpacity: ['dark'],
@@ -70,4 +70,11 @@ module.exports = {
       stroke: ['hover'],
     },
   },
+  plugins: [full],
 };
+
+function full({ addComponents, theme }) {
+  addComponents({
+    '.full': theme`w-full h-full`,
+  });
+}

@@ -23,13 +23,13 @@ const Body: React.FC = () => {
   return (
     <div className={clsx(theme, 'w-full min-h-0 flex flex-col h-screen app')}>
       <div
-        className="flex flex-1 w-full"
         style={{ height: 'calc(100% - 4rem)', minHeight: 'calc(100% - 4rem)' }}
+        tw="flex flex-1 w-full"
       >
         <Sidebar />
-        <div className="relative flex flex-col min-w-0 full">
+        <div tw="relative flex flex-col min-w-0 full">
           <Background />
-          <div className="relative flex flex-col min-h-0 px-6 overflow-y-auto md:px-8 full">
+          <div tw="relative flex flex-col min-h-0 px-6 overflow-y-auto md:px-8 full">
             <Routes />
           </div>
         </div>
