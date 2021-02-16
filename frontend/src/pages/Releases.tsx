@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Header, PagedReleases } from '~/components';
@@ -12,7 +14,7 @@ export const Releases: React.FC = (): React.ReactElement => {
   return (
     <>
       <Header />
-      <div className="pt-4">
+      <div tw="pt-4">
         <PagedReleases pagination={pagination} viewOptions={viewOptions} />
       </div>
     </>

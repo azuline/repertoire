@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Header, SectionHeader } from '~/components';
@@ -5,13 +7,13 @@ import { Header, SectionHeader } from '~/components';
 type IComponent = React.FC<{ title: string; errors: string[] }>;
 
 export const ErrorP: IComponent = ({ title, errors }) => (
-  <div className="flex flex-col w-full">
+  <div tw="flex flex-col w-full">
     <Header />
-    <div className="my-8 text-center">
+    <div tw="my-8 text-center">
       <SectionHeader>{title}</SectionHeader>
-      <div className="mt-4 text-xl">
+      <div tw="mt-4 text-xl">
         {errors.map((err, i) => (
-          <div key={i} className="mb-2">
+          <div key={i} tw="mb-2">
             {err}
           </div>
         ))}

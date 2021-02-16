@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import clsx from 'clsx';
 import * as React from 'react';
 
@@ -20,37 +22,33 @@ export const RowRelease: React.FC<{ release: IRelease; className?: string }> = (
       href={`/releases/${release.id}`}
       style={{ width: 'calc(100% + 1.5rem)' }}
     >
-      {release.inInbox ? <InInboxIndicator className="w-5" /> : <div className="w-5" />}
-      <div className="relative flex-none w-12 h-12 mr-3">
-        <Image
-          thumbnail
-          className="absolute object-cover rounded-lg full"
-          imageId={release.imageId}
-        />
+      {release.inInbox ? <InInboxIndicator tw="w-5" /> : <div tw="w-5" />}
+      <div tw="relative flex-none w-12 h-12 mr-3">
+        <Image thumbnail imageId={release.imageId} tw="absolute object-cover rounded-lg full" />
       </div>
-      <div className="flex-1 overflow-hidden">
-        <div className="flex">
-          <div className="flex flex-1 mb-0.5 mr-4 truncate">
-            <div className="font-semibold truncate text-primary-400">{release.title}</div>
+      <div tw="flex-1 overflow-hidden">
+        <div tw="flex">
+          <div tw="flex flex-1 mb-0.5 mr-4 truncate">
+            <div tw="font-semibold truncate text-primary-400">{release.title}</div>
             {release.releaseYear ? (
-              <div className="flex-none hidden ml-1 sm:block text-foreground-200">
+              <div tw="flex-none hidden ml-1 sm:block text-foreground-200">
                 {' '}
                 [{release.releaseYear}]
               </div>
             ) : null}
           </div>
-          <div className="flex-none ml-auto">
+          <div tw="flex-none ml-auto">
             {release.rating ? (
               <Rating rating={release.rating} />
             ) : (
-              <span className="text-foreground-400">No Rating</span>
+              <span tw="text-foreground-400">No Rating</span>
             )}
           </div>
         </div>
-        <div className="flex text-foreground-300">
-          <ArtistList className="mr-8 truncate max-w-3/5" elements={filterNulls(release.artists)} />
-          <div className="flex-1 hidden overflow-hidden text-right md:block rtl">
-            <GenreList className="truncate" elements={filterNulls(release.genres)} />
+        <div tw="flex text-foreground-300">
+          <ArtistList elements={filterNulls(release.artists)} tw="mr-8 truncate max-w-3/5" />
+          <div tw="flex-1 hidden overflow-hidden text-right md:block rtl">
+            <GenreList elements={filterNulls(release.genres)} tw="truncate" />
           </div>
         </div>
       </div>

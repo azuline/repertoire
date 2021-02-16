@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import clsx from 'clsx';
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
@@ -40,10 +42,10 @@ export const PagedReleases: React.FC<{
   switch (viewOptions.releaseView) {
     case IReleaseView.Row:
       releasesDiv = (
-        <div className="flex flex-col">
+        <div tw="flex flex-col">
           {results.map((rls) => (
             <div key={rls.id}>
-              <RowRelease className="-mx-3 rounded-lg" release={rls} />
+              <RowRelease release={rls} tw="-mx-3 rounded-lg" />
             </div>
           ))}
         </div>
@@ -62,15 +64,10 @@ export const PagedReleases: React.FC<{
   }
 
   return (
-    <div className="pb-8">
-      <ViewSettings
-        className="mb-6"
-        pagination={pagination}
-        partial={partial}
-        viewOptions={viewOptions}
-      />
+    <div tw="pb-8">
+      <ViewSettings pagination={pagination} partial={partial} tw="mb-6" viewOptions={viewOptions} />
       {releasesDiv}
-      <Pagination className="mt-6" pagination={pagination} />
+      <Pagination pagination={pagination} tw="mt-6" />
     </div>
   );
 };

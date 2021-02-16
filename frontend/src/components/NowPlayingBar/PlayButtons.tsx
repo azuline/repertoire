@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { FastForward, PlayPause, Rewind } from '~/components/PlayButtons';
@@ -9,18 +11,18 @@ export const PlayButtons: React.FC<{
   curTime: number;
   seek: (arg0: number) => void;
 }> = ({ isPlaying, setIsPlaying, curTime, seek }) => (
-  <div className="flex items-center justify-center flex-none mx-2 text-primary-500 sm:mx-8">
+  <div tw="flex items-center justify-center flex-none mx-2 text-primary-500 sm:mx-8">
     <Rewind
-      className="mr-1 cursor-pointer hover:text-primary-400 w-9"
       curTime={curTime}
       isPlaying={isPlaying}
       seek={seek}
+      tw="mr-1 cursor-pointer hover:text-primary-400 w-9"
     />
     <PlayPause
-      className="w-12 mr-1 cursor-pointer hover:text-primary-400"
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
+      tw="w-12 mr-1 cursor-pointer hover:text-primary-400"
     />
-    <FastForward className="cursor-pointer hover:text-primary-400 w-9" />
+    <FastForward tw="cursor-pointer hover:text-primary-400 w-9" />
   </div>
 );

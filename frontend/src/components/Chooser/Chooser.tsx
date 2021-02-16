@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import * as React from 'react';
+import tw from 'twin.macro';
 
 import { ElementT, ToggleStarFactory } from './Element';
 import { JumpToLetter } from './JumpToLetter';
@@ -41,10 +42,7 @@ export const Chooser: React.FC<{
       style={{ maxHeight: 'calc(100vh - 4rem)' }}
     >
       <div
-        className={clsx(
-          'relative flex-auto h-full',
-          active && 'xl:bg-background-800 xl:sticky xl:top-0',
-        )}
+        css={[tw`relative flex-auto h-full`, active && tw`xl:bg-background-800 xl:sticky xl:top-0`]}
       >
         <JumpToLetter active={active} results={results} setJumpTo={setJumpTo} />
         <VirtualList

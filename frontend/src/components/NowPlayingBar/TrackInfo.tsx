@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Image, Link, TrackArtistList } from '~/components';
@@ -8,19 +10,19 @@ import { RedirectToNowPlaying } from './RedirectToNowPlaying';
 
 export const TrackInfo: React.FC<{ curTrack: ITrack }> = ({ curTrack }) => {
   return (
-    <div className="flex flex-1 mr-2 truncate sm:mr-0">
-      <Link className="flex-none hidden w-11 sm:block" href={`/releases/${curTrack.release.id}`}>
-        <div className="relative w-full h-0 pb-full">
+    <div tw="flex flex-1 mr-2 truncate sm:mr-0">
+      <Link href={`/releases/${curTrack.release.id}`} tw="flex-none hidden w-11 sm:block">
+        <div tw="relative w-full h-0 pb-full">
           <Image
             thumbnail
-            className="absolute object-cover rounded full"
             imageId={curTrack.release.imageId}
+            tw="absolute object-cover rounded full"
           />
         </div>
       </Link>
-      <RedirectToNowPlaying className="flex flex-col flex-1 mx-1 text-center truncate sm:mx-4">
-        <div className="font-bold truncate">{curTrack.title}</div>
-        <TrackArtistList artists={filterNulls(curTrack.artists)} className="truncate" />
+      <RedirectToNowPlaying tw="flex flex-col flex-1 mx-1 text-center truncate sm:mx-4">
+        <div tw="font-bold truncate">{curTrack.title}</div>
+        <TrackArtistList artists={filterNulls(curTrack.artists)} tw="truncate" />
       </RedirectToNowPlaying>
     </div>
   );

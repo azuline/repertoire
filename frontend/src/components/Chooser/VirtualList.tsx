@@ -1,6 +1,6 @@
-import clsx from 'clsx';
 import * as React from 'react';
 import { AutoSizer, List, ListRowRenderer } from 'react-virtualized';
+import tw from 'twin.macro';
 
 import { convertRemToPixels } from '~/util';
 
@@ -52,7 +52,7 @@ export const VirtualList: React.FC<{
     <AutoSizer>
       {({ width, height }): React.ReactNode => (
         <List
-          className={clsx('chooser', active && 'pt-8')}
+          css={[tw`chooser`, active && tw`pt-8`]}
           height={height}
           overscanRowCount={8}
           rowCount={results.length + (active ? 2 : 1)}

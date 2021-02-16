@@ -1,20 +1,20 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Icon } from '~/components';
 
 export const Rating: React.FC<{ rating: number }> = ({ rating }) => (
   <>
-    <div className="items-center hidden lg:flex">
+    <div tw="items-center hidden lg:flex">
       {Array.from(new Array(rating), (_, i) => {
-        return (
-          <Icon key={i} className="w-5 mr-0.5 text-primary-500 fill-current" icon="star-small" />
-        );
+        return <Icon key={i} icon="star-small" tw="w-5 mr-0.5 text-primary-500 fill-current" />;
       })}
-      <span className="ml-1 text-foreground-200">{rating}</span>
+      <span tw="ml-1 text-foreground-200">{rating}</span>
     </div>
-    <div className="flex items-center lg:hidden">
-      <Icon className="w-5 fill-current text-primary-500" icon="star-small" />
-      <span className="ml-1 text-foreground-200">{rating}</span>
+    <div tw="flex items-center lg:hidden">
+      <Icon icon="star-small" tw="w-5 fill-current text-primary-500" />
+      <span tw="ml-1 text-foreground-200">{rating}</span>
     </div>
   </>
 );

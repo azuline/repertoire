@@ -14,10 +14,10 @@ type IComponent = React.FC<{
 
 export const Searchbar: IComponent = ({ className, shrink = true }) => (
   <div className={clsx(className, 'flex-1')}>
-    <div className="relative flex items-center h-full">
+    <div tw="relative flex items-center h-full">
       <SearchbarInput css={shrink && tw`max-w-xs focus:max-w-none`} placeholder="Search" />
-      <div className="absolute top-0 left-0 flex items-center h-full pl-2 pr-1 pointer-events-none">
-        <Icon className="w-5 text-primary-400" icon="search-medium" />
+      <div tw="absolute top-0 left-0 flex items-center h-full pl-2 pr-1 pointer-events-none">
+        <Icon icon="search-medium" tw="w-5 text-primary-400" />
       </div>
     </div>
   </div>
