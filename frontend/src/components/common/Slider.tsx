@@ -1,8 +1,8 @@
 import * as React from 'react';
-import ReactSlider, { ReactSliderProps } from 'react-slider';
+import ReactSlider from 'react-slider';
 import tw, { styled } from 'twin.macro';
 
-type ISlider = React.FC<ReactSliderProps>;
+type ISlider = React.FC<ReactSlider.ReactSliderProps>;
 
 export const Slider: ISlider = (props) => (
   <Wrapper>
