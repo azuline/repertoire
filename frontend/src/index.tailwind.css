@@ -4,48 +4,6 @@
 
 /* Turn these into styled components. */
 
-.hover-popover > :nth-child(2),
-.popover > :nth-child(2) {
-  display: none;
-}
-.hover-popover:hover > :nth-child(2) {
-  display: block;
-}
-
-.react-toast-notifications__toast__content,
-.react-toast-notifications__toast__dismiss-button,
-.react-toast-notifications__toast__icon-wrapper {
-  @apply flex items-center;
-}
-.react-toast-notifications__toast__icon-wrapper {
-  @apply justify-center;
-}
-
-.recently-added:after {
-  content: '';
-  flex: 0 0 2rem;
-  margin: 0 0 0 -1rem;
-}
-
-.slider {
-  @apply flex items-center justify-center full;
-}
-.slider > .track-0 {
-  @apply cursor-pointer bg-foreground-300;
-}
-.slider > .track-1 {
-  @apply bg-gray-500 cursor-pointer;
-}
-.slider > .thumb {
-  @apply w-4 h-4 cursor-pointer bg-primary-400 rounded-2xl hover:h-6 leading-4 hover:leading-6 hover:w-6;
-}
-.playbar-slider > .track {
-  @apply h-1;
-}
-.volume-slider > .track {
-  @apply w-2 rounded-lg;
-}
-
 .star-active {
   @apply fill-current text-primary-400;
 }

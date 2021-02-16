@@ -28,18 +28,20 @@ export const ViewSettings: React.FC<{
         <Order className="ml-2" viewOptions={viewOptions} />
         <PerPage className="ml-2" pagination={pagination} />
       </div>
-      <Popover click className={clsx('ml-auto -mr-2', responsiveHide)}>
-        <TextButton className="flex items-center px-2 py-1" type="button">
-          <div>Options</div>
-          <Icon className="w-4 ml-1 -mr-0.5" icon="chevron-down-small" />
-        </TextButton>
-        <div>
-          <View viewOptions={viewOptions} />
-          <Sort viewOptions={viewOptions} />
-          <Order viewOptions={viewOptions} />
-          <PerPage pagination={pagination} />
-        </div>
-      </Popover>
+      <div className={clsx('ml-auto -mr-2', responsiveHide)}>
+        <Popover>
+          <TextButton className="flex items-center px-2 py-1" type="button">
+            <div>Options</div>
+            <Icon className="w-4 ml-1 -mr-0.5" icon="chevron-down-small" />
+          </TextButton>
+          <div>
+            <View viewOptions={viewOptions} />
+            <Sort viewOptions={viewOptions} />
+            <Order viewOptions={viewOptions} />
+            <PerPage pagination={pagination} />
+          </div>
+        </Popover>
+      </div>
     </div>
   );
 };

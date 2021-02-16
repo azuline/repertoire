@@ -1,29 +1,56 @@
-import clsx from 'clsx';
 import * as React from 'react';
 import tw from 'twin.macro';
 
-export const Popover: React.FC<{
+import { ISetValue } from '~/types';
+
+type IPopover = React.FC<{
   children: [React.ReactElement, React.ReactElement];
-  hover?: boolean;
-  click?: boolean;
-  className?: string;
-}> = ({ children, hover = false, click = false, className }) => {
+}>;
+
+export const Popover: IPopover = ({ children }) => {
   const [child1, child2] = children;
   const [open, setOpen] = React.useState<boolean>(false);
 
   return (
-    <div className={clsx(className, hover ? 'hover-popover' : 'popover')}>
+    <div>
       {React.cloneElement(child1, { onClick: (): void => setOpen((o) => !o) })}
-      <div css={[tw`relative z-40`, open && click && tw`block!`]}>
-        <div
-          className="fixed top-0 left-0 w-screen h-screen"
-          onClick={(): void => setOpen(false)}
-        />
-        <div tw="absolute right-1.5 w-3 h-3 mt-2.5 bg-primary-800 transform rotate-45" />
-        <div tw="absolute right-0 z-10 px-6 py-4 mt-4 border-2 rounded bg-background-800 border-primary-800">
-          {child2}
+      {open && (
+        <div tw="relative z-40">
+          <SetBackground setOpen={setOpen} />
+          <Arrow />
+          <PopoverBodyWrapper>{child2}</PopoverBodyWrapper>
         </div>
-      </div>
+      )}
     </div>
   );
 };
+
+type ISetBackground = React.FC<{ setOpen: ISetValue<boolean> }>;
+
+const SetBackground: ISetBackground = ({ setOpen }) => (
+  <div tw="fixed top-0 left-0 w-screen h-screen" onClick={(): void => setOpen(false)} />
+);
+
+const Arrow = tw.div`
+  absolute
+  right-1.5
+  w-3
+  h-3
+  mt-2.5
+  bg-primary-800
+  transform
+  rotate-45
+`;
+
+const PopoverBodyWrapper = tw.div`
+  absolute
+  right-0
+  z-10
+  px-6
+  py-4
+  mt-4
+  border-2
+  rounded
+  bg-background-800
+  border-primary-800
+`;

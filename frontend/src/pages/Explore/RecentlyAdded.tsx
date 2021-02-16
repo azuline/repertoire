@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -20,12 +22,12 @@ export const RecentlyAdded: React.FC = () => {
   return (
     <div>
       <Link href="/releases" onClick={toRecentlyAdded}>
-        <SectionHeader className="my-4 cursor-pointer">
+        <SectionHeader tw="my-4 cursor-pointer">
           Recently Added
-          <span className="text-xl hover:text-primary-400 text-primary-500"> (View All)</span>
+          <span tw="text-xl hover:text-primary-400 text-primary-500"> (View All)</span>
         </SectionHeader>
       </Link>
-      <ScrolledReleases className="overflow-x-auto recently-added" releases={releases} />
+      <ScrolledReleases releases={releases} />
     </div>
   );
 };
