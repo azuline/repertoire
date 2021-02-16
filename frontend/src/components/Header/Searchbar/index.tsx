@@ -1,22 +1,21 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { styled } from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 
 import { Icon, Input } from '~/components/common';
 
 // TODO: Implement a dropdown and stuff... get a way to monitor searchbar focus in react
 // and use that for width/whatnot.
 
-export const Searchbar: React.FC<{
+type IComponent = React.FC<{
   className?: string;
   shrink?: boolean;
-}> = ({ className, shrink = true }) => (
+}>;
+
+export const Searchbar: IComponent = ({ className, shrink = true }) => (
   <div className={clsx(className, 'flex-1')}>
     <div className="relative flex items-center h-full">
-      <SearchbarInput
-        className={clsx('w-full pl-9', shrink && 'max-w-xs focus:max-w-none')}
-        placeholder="Search"
-      />
+      <SearchbarInput css={shrink && tw`max-w-xs focus:max-w-none`} placeholder="Search" />
       <div className="absolute top-0 left-0 flex items-center h-full pl-2 pr-1 pointer-events-none">
         <Icon className="w-5 text-primary-400" icon="search-medium" />
       </div>
@@ -25,6 +24,8 @@ export const Searchbar: React.FC<{
 );
 
 const SearchbarInput = styled(Input)`
+  ${tw`w-full pl-9`}
+
   &::placeholder {
     opacity: 70%;
   }

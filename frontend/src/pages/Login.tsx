@@ -42,7 +42,7 @@ export const Login: React.FC = () => {
     <div className={clsx(theme, 'flex content-center app h-screen w-full items-center')}>
       <form className="self-center mx-auto" onSubmit={onSubmit}>
         <div>
-          <input
+          <Input
             ref={input}
             autoFocus
             className="mr-6"

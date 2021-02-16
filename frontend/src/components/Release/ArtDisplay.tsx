@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import * as React from 'react';
 
-import { Link } from '~/components/common';
+import { Link, TwoSided } from '~/components/common';
 import { Image } from '~/components/Image';
 import { ArtistList, GenreList } from '~/components/Lists';
 import { IRelease } from '~/graphql';
@@ -23,15 +23,15 @@ export const ArtRelease: React.FC<{ release: IRelease; className?: string }> = (
           className="absolute object-cover rounded-lg full"
           imageId={release.imageId}
         />
-        <div
-          className="absolute z-10 rounded-lg full two-sided"
+        <TwoSided
+          className="absolute z-10 rounded-lg full"
           style={{
             background:
               'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9))',
             textShadow: '1px black',
           }}
         >
-          <div className="flex flex-col justify-end overflow-hidden front full">
+          <div className="flex flex-col justify-end overflow-hidden full">
             <div className="p-3 overflow-hidden">
               <div className="flex min-w-0 text-lg font-semibold text-white" title={release.title}>
                 <div className="truncate flex-0">{release.title}</div>
@@ -43,7 +43,7 @@ export const ArtRelease: React.FC<{ release: IRelease; className?: string }> = (
               />
             </div>
           </div>
-          <div className="relative back full">
+          <div className="relative full">
             <div className="absolute top-0 left-0 bg-black rounded-lg bg-opacity-75 full" />
             <div className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center p-4 text-white full text-md">
               {release.releaseYear ? <div className="py-1">{release.releaseYear}</div> : null}
@@ -58,7 +58,7 @@ export const ArtRelease: React.FC<{ release: IRelease; className?: string }> = (
               ) : null}
             </div>
           </div>
-        </div>
+        </TwoSided>
       </div>
     </Link>
   );

@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 
@@ -27,10 +29,10 @@ export const Goto: React.FC<{
 
   return (
     <form className="flex" onSubmit={onSubmit}>
-      <div className="relative ml-1">
-        <Input ref={input} className="w-16 p-0 py-1 text-center pr-6" placeholder="Go" />
-        <TextButton className="absolute right-0 h-full px-1 py-0" type="submit">
-          <Icon className="w-4 text-primary-500" icon="right-arrow-small" />
+      <div tw="relative ml-1">
+        <Input ref={input} placeholder="Go" tw="w-16 p-0 py-1 text-center pr-6" />
+        <TextButton tw="absolute right-0 h-full px-1 py-0" type="submit">
+          <Icon icon="right-arrow-small" tw="w-4 text-primary-500" />
         </TextButton>
       </div>
     </form>

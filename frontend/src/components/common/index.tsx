@@ -5,3 +5,4 @@ export * from './Link';
 export * from './Popover';
 export * from './SectionHeader';
 export * from './Select';
+export * from './TwoSided';
