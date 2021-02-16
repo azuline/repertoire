@@ -4,18 +4,6 @@
 
 /* Turn these into styled components. */
 
-button {
-  @apply px-4 py-2 font-normal rounded hover:bg-primary-600 bg-primary-700 text-foreground;
-}
-
-.small-btn {
-  @apply px-2 py-1;
-}
-
-.text-btn {
-  @apply bg-transparent hover:bg-black hover:bg-opacity-5 text-primary-400 dark:hover:bg-white dark:hover:bg-opacity-5;
-}
-
 input {
   @apply px-4 py-2 bg-transparent border-b-2 border-primary-700;
 }
@@ -26,10 +14,6 @@ input::placeholder {
 
 input.searchbar::placeholder {
   opacity: 70%;
-}
-
-.square-btn {
-  @apply w-10 h-10;
 }
 
 .btn-group > button {

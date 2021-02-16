@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { Icon } from '~/components/common';
-import { Searchbar } from '~/components/Header/Searchbar';
-import { User } from '~/components/Header/User';
-import { RouteList } from '~/components/Routelist';
+import { Icon, RouteList, Searchbar, User } from '~/components';
 
 export const Mobile: React.FC = () => {
   const history = useHistory();

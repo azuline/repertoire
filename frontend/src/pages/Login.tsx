@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 
+import { Button } from '~/components';
 import { AuthorizationContext, ThemeContext } from '~/contexts';
 import { useRequestJson } from '~/hooks';
 
@@ -48,7 +49,7 @@ export const Login: React.FC = () => {
             placeholder="Authorization token"
             style={{ maxWidth: '600px', minWidth: '300px', width: '50vw' }}
           />
-          <button type="submit">Login</button>
+          <Button type="submit">Login</Button>
         </div>
         <div className="flex items-center mt-2">
           <input ref={permanent} className="mx-2 cursor-pointer" id="permanent" type="checkbox" />

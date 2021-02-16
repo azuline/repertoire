@@ -6,6 +6,9 @@ import { Icon, Link } from '~/components/common';
 import { Searchbar } from './Searchbar';
 import { User } from './User';
 
+export { Searchbar } from './Searchbar';
+export { User } from './User';
+
 export const Header: React.FC<{ className?: string; searchbar?: boolean }> = ({
   className,
   searchbar = true,

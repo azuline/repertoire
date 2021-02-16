@@ -23,9 +23,9 @@ const Body: React.FC = () => {
   const { theme } = React.useContext(ThemeContext);
 
   return (
-    <div tw="w-full min-h-0 flex flex-col h-screen bg-background-700 text-foreground">
+    <div tw="w-full min-h-0 bg-background-700 text-foreground">
       {loggedIn ? (
-        <div className={theme}>
+        <div className={theme} tw="flex flex-col h-screen">
           <div
             style={{ height: 'calc(100% - 4rem)', minHeight: 'calc(100% - 4rem)' }}
             tw="flex flex-1 w-full"

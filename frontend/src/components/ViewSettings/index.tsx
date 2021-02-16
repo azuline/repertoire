@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import * as React from 'react';
 
-import { Icon, Popover } from '~/components/common';
+import { Icon, Popover, TextButton } from '~/components/common';
 import { Pagination } from '~/components/Pagination';
 import { IPagination, IViewOptions } from '~/hooks';
 
@@ -29,10 +29,10 @@ export const ViewSettings: React.FC<{
         <PerPage className="ml-2" pagination={pagination} />
       </div>
       <Popover click className={clsx('ml-auto -mr-2', responsiveHide)}>
-        <button className="flex items-center small-btn text-btn" type="button">
+        <TextButton className="flex items-center px-2 py-1" type="button">
           <div>Options</div>
           <Icon className="w-4 ml-1 -mr-0.5" icon="chevron-down-small" />
-        </button>
+        </TextButton>
         <div>
           <View viewOptions={viewOptions} />
           <Sort viewOptions={viewOptions} />
