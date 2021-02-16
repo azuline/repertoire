@@ -4,10 +4,6 @@
 
 /* Turn these into custom classes */
 
-.full {
-  @apply w-full h-full;
-}
-
 .truncate-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;

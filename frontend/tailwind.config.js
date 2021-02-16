@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin');
+
 module.exports = {
   darkMode: 'class',
   theme: {
@@ -70,14 +72,14 @@ module.exports = {
       stroke: ['hover'],
     },
   },
-  plugins: [full],
+  plugins: [
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        '.full': {
+          width: '100%',
+          height: '100%',
+        },
+      });
+    }),
+  ],
 };
-
-function full({ addComponents, theme }) {
-  addComponents({
-    '.full': {
-      width: theme`width.full`,
-      height: theme`height.full`,
-    },
-  });
-}
