@@ -4,16 +4,7 @@ const proxy = httpProxy.createServer({ target: 'http://localhost:5000' });
 
 module.exports = {
   extends: '@snowpack/app-scripts-react',
-  plugins: [
-    '@snowpack/plugin-webpack',
-    [
-      '@snowpack/plugin-run-script',
-      {
-        cmd: 'postcss src/index.tailwind.css -o src/index.css',
-        watch: 'postcss -w src/index.tailwind.css -o src/index.css',
-      },
-    ],
-  ],
+  plugins: ['@snowpack/plugin-webpack'],
   alias: {
     '~': './src',
   },

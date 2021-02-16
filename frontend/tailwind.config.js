@@ -59,19 +59,6 @@ module.exports = {
       },
     },
   },
-  // TODO: Remove this once we are fully twin.macro.
-  variants: {
-    extend: {
-      backgroundOpacity: ['dark'],
-      fontWeight: ['hover'],
-      maxWidth: ['focus'],
-      width: ['hover'],
-      height: ['hover'],
-      lineHeight: ['hover'],
-      fill: ['hover'],
-      stroke: ['hover'],
-    },
-  },
   plugins: [
     plugin(({ addComponents }) => {
       addComponents({
