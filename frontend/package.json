@@ -73,6 +73,7 @@
     "eslint-plugin-simple-import-sort": "^6.0.1",
     "eslint-plugin-sort-keys-fix": "^1.1.1",
     "http-proxy": "^1.18.1",
+    "postcss": "^8.2.6",
     "prettier": "^2.2.1",
     "react-is": "^17.0.1",
     "rustywind": "^0.6.7",
