@@ -4,18 +4,6 @@
 
 /* Turn these into styled components. */
 
-input {
-  @apply px-4 py-2 bg-transparent border-b-2 border-primary-700;
-}
-
-input::placeholder {
-  @apply text-foreground-100;
-}
-
-input.searchbar::placeholder {
-  opacity: 70%;
-}
-
 .btn-group > button {
   @apply rounded-none;
 }

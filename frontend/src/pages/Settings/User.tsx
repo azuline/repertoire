@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 
-import { Button } from '~/components';
+import { Button, Input } from '~/components';
 import { useFetchUserQuery, useUpdateUserMutation } from '~/graphql';
 
 export const UserSettings: React.FC = () => {
@@ -27,7 +27,7 @@ export const UserSettings: React.FC = () => {
     <div className="flex items-center min-w-0 my-2">
       <div className="flex-none w-28">Nickname:</div>
       <form className="flex items-center flex-1 max-w-sm min-w-0" onSubmit={onSubmit}>
-        <input ref={input} className="flex-1 min-w-0 mr-4" placeholder={data?.user?.nickname} />
+        <Input ref={input} className="flex-1 min-w-0 mr-4" placeholder={data?.user?.nickname} />
         <Button className="flex-none" type="submit">
           Save
         </Button>

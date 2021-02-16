@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 
-import { Button } from '~/components';
+import { Button, Input } from '~/components';
 import { AuthorizationContext, ThemeContext } from '~/contexts';
 import { useRequestJson } from '~/hooks';
 
@@ -52,7 +52,7 @@ export const Login: React.FC = () => {
           <Button type="submit">Login</Button>
         </div>
         <div className="flex items-center mt-2">
-          <input ref={permanent} className="mx-2 cursor-pointer" id="permanent" type="checkbox" />
+          <Input ref={permanent} className="mx-2 cursor-pointer" id="permanent" type="checkbox" />
           <label className="cursor-pointer" htmlFor="permanent">
             Remember me
           </label>
