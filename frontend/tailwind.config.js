@@ -73,11 +73,35 @@ module.exports = {
     },
   },
   plugins: [
-    plugin(({ addUtilities }) => {
-      addUtilities({
+    plugin(({ addComponents }) => {
+      addComponents({
         '.full': {
           width: '100%',
           height: '100%',
+        },
+        '.truncate-2': {
+          display: '-webkit-box',
+          overflow: 'hidden',
+          '-webkit-line-clamp': '2',
+          '-webkit-box-orient': 'vertical',
+        },
+        '.rtl': {
+          direction: 'rtl',
+        },
+        '.hover-bg': {
+          '&:hover': {
+            '--tw-bg-opacity': '5%',
+            'background-color': 'rgba(0, 0, 0, var(--tw-bg-opacity))',
+            '.dark &': {
+              'background-color': 'rgba(255, 255, 255, var(--tw-bg-opacity))',
+            },
+          },
+        },
+        '.w-fullpad': {
+          width: 'calc(100% + 3rem) !important',
+          '@screen md': {
+            width: 'calc(100% + 4rem) !important',
+          },
         },
       });
     }),

@@ -12,7 +12,8 @@
   },
   "babelMacros": {
     "twin": {
-      "preset": "emotion"
+      "preset": "emotion",
+      "includeClassNames": true
     }
   },
   "dependencies": {

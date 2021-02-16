@@ -8,7 +8,7 @@ module.exports = {
     },
     project: './tsconfig.json',
   },
-  ignorePatterns: ['src/graphql/'],
+  ignorePatterns: ['src/graphql/index.ts'],
   extends: [
     'airbnb-typescript',
     'plugin:@typescript-eslint/eslint-recommended',

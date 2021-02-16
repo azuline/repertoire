@@ -20,7 +20,7 @@ export const Track: React.FC<{
       className={clsx(
         'py-1.5 px-3 -mx-3 rounded',
         active && 'font-bold',
-        onClick && 'cursor-pointer hover-emph-bg',
+        onClick && 'cursor-pointer hover-bg',
       )}
       style={{ width: 'calc(100% + 1.5rem)' }}
       onClick={trackOnClick}

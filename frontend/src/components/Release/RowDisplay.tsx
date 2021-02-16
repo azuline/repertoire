@@ -16,7 +16,7 @@ export const RowRelease: React.FC<{ release: IRelease; className?: string }> = (
 }) => {
   return (
     <Link
-      className={clsx(className, 'flex items-center -mx-3 p-3 cursor-pointer hover-emph-bg')}
+      className={clsx(className, 'flex items-center -mx-3 p-3 cursor-pointer hover-bg')}
       href={`/releases/${release.id}`}
       style={{ width: 'calc(100% + 1.5rem)' }}
     >

@@ -38,7 +38,7 @@ export const Element: React.FC<{
       <Link href={url}>
         <div
           className={clsx(
-            'pr-8 md:pr-10 h-8 flex items-center cursor-pointer hover-emph-bg',
+            'pr-8 md:pr-10 h-8 flex items-center cursor-pointer hover-bg',
             starrable ? 'pl-12 md:pl-14' : 'pl-6 md:pl-8',
             isActive ? 'font-bold text-primary-400' : 'text-foreground',
           )}

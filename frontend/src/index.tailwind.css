@@ -2,32 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Turn these into custom classes */
-
-.truncate-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.rtl {
-  direction: rtl;
-}
-
-.hover-emph-bg {
-  @apply hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5;
-}
-
-.w-fullpad {
-  width: calc(100% + 3rem);
-}
-@media screen and (min-width: 768px) {
-  .w-fullpad {
-    width: calc(100% + 4rem);
-  }
-}
-
 /* Turn these into styled components. */
 
 button {
