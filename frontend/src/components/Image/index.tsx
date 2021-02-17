@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import noArt from '~/assets/noArt.jpg';
@@ -15,7 +17,7 @@ export const Image: IImage = ({ className, alt, thumbnail = false, imageId }) =>
   React.useEffect(() => setSrc(urlFactory(imageId, thumbnail)), [imageId, thumbnail]);
 
   if (!imageId) {
-    return <img alt={alt} className={className} src={noArt} />;
+    return <img alt={alt} className={className} src={noArt} tw="outline-none!" />;
   }
 
   return (
@@ -24,6 +26,7 @@ export const Image: IImage = ({ className, alt, thumbnail = false, imageId }) =>
       className={className}
       loading="lazy"
       src={src}
+      tw="outline-none!"
       onError={(): void => setSrc(noArt)}
     />
   );

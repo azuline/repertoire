@@ -48,7 +48,7 @@ const Release: IReleaseComponent = ({ id }) => {
           <div tw="flex">
             <Image
               imageId={release.imageId}
-              tw="flex-none hidden w-56 h-56 mr-8 rounded-lg md:block"
+              tw="flex-none hidden w-72 h-72 mr-8 rounded-lg md:block"
             />
             <Info release={release} />
           </div>

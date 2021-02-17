@@ -25,11 +25,11 @@ export const Info: IInfo = ({ track }) => {
     <div tw="flex">
       <Image
         imageId={track.release.imageId}
-        tw="flex-none hidden w-48 h-48 mr-8 rounded-lg md:block"
+        tw="flex-none hidden w-64 h-64 mr-8 rounded-lg md:block"
       />
       <div tw="flex flex-col flex-1 min-w-0 md:min-h-48">
-        <SectionHeader tw="flex-none mb-6 md:mb-4 truncate-2">{track.title}</SectionHeader>
-        <div tw="flex-none mb-1 truncate-2">
+        <SectionHeader tw="flex-none mb-4 truncate-2">{track.title}</SectionHeader>
+        <div tw="flex-none text-xl mb-3 truncate-2">
           <span tw="text-foreground-300">By </span>
           {track.artists.length === 0 ? (
             <Link href="/artists/1">Unknown Artist</Link>

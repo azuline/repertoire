@@ -14,8 +14,9 @@ type IInfo = React.FC<{ release: IRelease }>;
 export const Info: IInfo = ({ release }) => {
   return (
     <div tw="flex flex-col flex-1 min-w-0 md:min-h-52">
-      <SectionHeader tw="flex-none mb-6 md:mb-4 truncate-2">
+      <SectionHeader tw="flex-none mb-4 truncate-2">
         <div>
+          {/* Mobile view: Float these two buttons on the right. */}
           <div tw="float-right ml-2 w-18 md:hidden">
             <div tw="flex">
               <InFavorites release={release} tw="flex-none" />
@@ -25,7 +26,7 @@ export const Info: IInfo = ({ release }) => {
           {release.title}
         </div>
       </SectionHeader>
-      <div tw="flex-none mb-2 truncate-2 text-foreground-100">
+      <div tw="flex-none mb-3 text-xl truncate-2 text-foreground-100">
         <span tw="text-foreground-300">By </span>
         {release.artists.length === 0 ? (
           <Link href="/artists/1">Unknown Artist</Link>
