@@ -5,7 +5,6 @@ from pathlib import Path
 import pytest
 import quart
 from ariadne import graphql
-from ariadne.validation import cost_validator
 from click.testing import CliRunner
 from yoyo import get_backend, read_migrations
 
@@ -112,7 +111,6 @@ def graphql_query(db, quart_app):
                 ),
                 error_formatter=error_formatter,
                 debug=False,
-                validation_rules=[cost_validator(maximum_cost=100)],
             )
 
     yield executor

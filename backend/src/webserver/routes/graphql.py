@@ -4,7 +4,6 @@ from sqlite3 import Cursor
 import quart
 from ariadne import graphql
 from ariadne.constants import PLAYGROUND_HTML
-from ariadne.validation import cost_validator
 from quart import Blueprint, Request, Response
 
 from src.graphql import error_formatter, schema
@@ -53,10 +52,6 @@ async def graphql_server() -> Response:
         ),
         error_formatter=error_formatter,
         debug=quart.current_app.debug,
-        # TODO: Trying out a maximum complexity of 100 for now. This is an denial of
-        # service protection measure. Each field has a default cost of 1... so this
-        # should protect against most mega queries to blow up the server.
-        validation_rules=[cost_validator(maximum_cost=100)],
     )
 
     status_code = 200 if success else 400
