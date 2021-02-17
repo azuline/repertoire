@@ -48,8 +48,7 @@ export const Login: React.FC = () => {
               ref={input}
               autoFocus
               placeholder="Authorization token"
-              style={{ maxWidth: '600px', minWidth: '300px', width: '50vw' }}
-              tw="mr-6"
+              tw="mr-6 max-width[600px] min-width[300px] width[50vw]"
             />
             <Button type="submit">Login</Button>
           </div>

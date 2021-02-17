@@ -26,10 +26,7 @@ const Body: React.FC = () => {
     <div tw="w-full min-h-0 bg-background-700 text-foreground">
       {loggedIn ? (
         <div className={theme} tw="flex flex-col h-screen">
-          <div
-            style={{ height: 'calc(100% - 4rem)', minHeight: 'calc(100% - 4rem)' }}
-            tw="flex flex-1 w-full"
-          >
+          <div tw="flex flex-1 w-full height[calc(100% - 4rem)] min-height[calc(100% - 4rem)]">
             <Sidebar />
             <div tw="relative flex flex-col min-w-0 full">
               <Background />

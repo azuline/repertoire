@@ -18,8 +18,7 @@ export const RowRelease: IRowRelease = ({ release, className }) => {
     <Link
       className={className}
       href={`/releases/${release.id}`}
-      style={{ width: 'calc(100% + 1.5rem)' }}
-      tw="flex items-center -mx-3 p-3 cursor-pointer hover-bg"
+      tw="flex items-center -mx-3 p-3 cursor-pointer hover-bg width[calc(100% + 1.5rem)]"
     >
       {release.inInbox ? <InInboxIndicator tw="w-5" /> : <div tw="w-5" />}
       <div tw="relative flex-none w-12 h-12 mr-3">

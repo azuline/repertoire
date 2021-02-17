@@ -20,11 +20,10 @@ export const Track: ITrackComponent = ({ track, trackNumber, index, onClick, act
   return (
     <div
       css={[
-        tw`py-1.5 px-3 -mx-3 rounded`,
+        tw`py-1.5 px-3 -mx-3 rounded width[calc(100% + 1.5rem)]`,
         active && tw`font-bold`,
         onClick && tw`cursor-pointer hover-bg`,
       ]}
-      style={{ width: 'calc(100% + 1.5rem)' }}
       onClick={trackOnClick}
     >
       <div tw="flex items-center">

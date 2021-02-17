@@ -9,6 +9,8 @@ export const AppStyles = styled.div`
 
   /* Set theme colors. */
 
+  --color-gray-500: #6b7280; /* coolGray-500 */
+
   --color-foreground: #f9fafb;
   --color-foreground-100: #f3f4f6;
   --color-foreground-200: #e5e7eb;
@@ -22,7 +24,6 @@ export const AppStyles = styled.div`
   --color-primary-600: #96703a;
   --color-primary-700: #6e522a;
   --color-primary-800: #523d20;
-  --color-gray-500: #6b7280; /* coolGray-500 */
 
   /* Style scrollbars. */
 
