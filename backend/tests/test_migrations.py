@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from yoyo import get_backend, read_migrations
 
 from src.constants import Constants
@@ -12,7 +10,7 @@ def test_migrations(isolated_dir):
     chain.
     """
     cons = Constants()
-    backend = get_backend(f"sqlite:///{Path.cwd() / 'db.sqlite3'}")
+    backend = get_backend(f"sqlite:///{isolated_dir / 'db.sqlite3'}")
     migrations = read_migrations(str(cons.migrations_path))
 
     for mig in migrations:

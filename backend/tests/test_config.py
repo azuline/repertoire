@@ -12,6 +12,7 @@ from src.errors import InvalidConfig
 
 def test_valid_index_crontab():
     config = Config()
+    config.parser = {"repertoire": {"index_crontab": "0 0 * * *"}}
     config.index_crontab  # If it doesn't exception we are good.
 
 

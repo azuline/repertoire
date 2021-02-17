@@ -56,9 +56,9 @@ class _Constants:
     def __init__(self):
         if IS_PYTEST:
             self.data_path = Path.cwd() / "_data"
-        elif IS_SPHINX:
+        elif IS_SPHINX:  # pragma: no cover
             self.data_path = TEST_DATA_PATH
-        else:
+        else:  # pragma: no cover
             self.data_path = _get_data_path()
 
         self._cover_art_mkdir = False
@@ -108,7 +108,7 @@ class Constants:
     the global constants object when needed.
     """
 
-    __local: threading.local = threading.local()
+    _local: threading.local = threading.local()
 
     #: Data storage location.
     data_path: Path
@@ -129,7 +129,7 @@ class Constants:
 
     def __new__(cls) -> _Constants:  # type: ignore
         try:
-            return cls.__local.constants
+            return cls._local.constants
         except AttributeError:
-            cls.__local.constants = _Constants()
-            return cls.__local.constants
+            cls._local.constants = _Constants()
+            return cls._local.constants

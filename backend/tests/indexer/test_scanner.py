@@ -331,5 +331,4 @@ def test_fix_release_types(db, num_tracks, release_type):
 
     _fix_release_types(db)
 
-    print(release.from_id(1, db).num_tracks)
     assert release.from_id(1, db).release_type == release_type

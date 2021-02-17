@@ -115,7 +115,7 @@ class Config:
     the global configuration object when needed.
     """
 
-    __local: threading.local = threading.local()
+    _local: threading.local = threading.local()
 
     #: Music directories to index.
     music_directories: List[str]
@@ -124,7 +124,7 @@ class Config:
 
     def __new__(cls) -> _Config:  # type: ignore
         try:
-            return cls.__local.config
+            return cls._local.config
         except AttributeError:
-            cls.__local.config = _Config()
-            return cls.__local.config
+            cls._local.config = _Config()
+            return cls._local.config

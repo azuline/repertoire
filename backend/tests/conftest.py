@@ -8,6 +8,7 @@ from ariadne import graphql
 from click.testing import CliRunner
 from yoyo import get_backend, read_migrations
 
+from src.config import Config, _Config
 from src.constants import Constants
 from src.graphql import error_formatter, schema
 from src.library import user
@@ -47,18 +48,26 @@ def isolated_dir(seed_db):
     with CliRunner().isolated_filesystem():
         cons = Constants()
         cons.data_path = Path.cwd() / "_data"
-        shutil.copytree(SEED_DATA, cons.data_path, dirs_exist_ok=True)
-        yield
+        cons.data_path.mkdir()
+        yield Path.cwd()
 
 
 @pytest.fixture
-def db(isolated_dir):
+def seed_data(seed_db, isolated_dir):
+    cons = Constants()
+    shutil.copytree(SEED_DATA, cons.data_path, dirs_exist_ok=True)
+    # Update config cache with a new config.
+    Config._local.config = _Config()
+
+
+@pytest.fixture
+def db(seed_data):
     with database() as conn:
         yield conn.cursor()
 
 
 @pytest.fixture
-def quart_app(isolated_dir):
+def quart_app(seed_data):
     yield create_app()
 
 

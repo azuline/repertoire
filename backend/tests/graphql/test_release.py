@@ -5,7 +5,7 @@ from src.util import database
 
 
 @pytest.mark.asyncio
-async def test_release(db, graphql_query, snapshot):
+async def test_release(graphql_query, snapshot):
     query = """
         query {
             release(id: 3) {
@@ -17,7 +17,7 @@ async def test_release(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_release_not_found(db, graphql_query, snapshot):
+async def test_release_not_found(graphql_query, snapshot):
     query = """
         query {
             release(id: 999) {
@@ -29,7 +29,7 @@ async def test_release_not_found(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_releases(db, graphql_query, snapshot):
+async def test_releases(graphql_query, snapshot):
     query = """
         query {
             releases {
@@ -44,7 +44,7 @@ async def test_releases(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_releases_search(db, graphql_query, snapshot):
+async def test_releases_search(graphql_query, snapshot):
     query = """
         query {
             releases(search: "Aaron") {
@@ -59,7 +59,7 @@ async def test_releases_search(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_releases_filter_collections(db, graphql_query, snapshot):
+async def test_releases_filter_collections(graphql_query, snapshot):
     query = """
         query {
             releases(collectionIds: [3]) {
@@ -74,7 +74,7 @@ async def test_releases_filter_collections(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_releases_filter_artists(db, graphql_query, snapshot):
+async def test_releases_filter_artists(graphql_query, snapshot):
     query = """
         query {
             releases(artistIds: [2]) {
@@ -89,7 +89,7 @@ async def test_releases_filter_artists(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_releases_filter_types(db, graphql_query, snapshot):
+async def test_releases_filter_types(graphql_query, snapshot):
     query = """
         query {
             releases(releaseTypes: [ALBUM]) {
@@ -104,7 +104,7 @@ async def test_releases_filter_types(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_releases_pagination(db, graphql_query, snapshot):
+async def test_releases_pagination(graphql_query, snapshot):
     query = """
         query {
             releases(page: 2, perPage: 2) {
@@ -119,7 +119,7 @@ async def test_releases_pagination(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_releases_sort(db, graphql_query, snapshot):
+async def test_releases_sort(graphql_query, snapshot):
     query = """
         query {
             releases(sort: TITLE) {
@@ -134,7 +134,7 @@ async def test_releases_sort(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_releases_sort_desc(db, graphql_query, snapshot):
+async def test_releases_sort_desc(graphql_query, snapshot):
     query = """
         query {
             releases(sort: TITLE, asc: false) {
@@ -149,7 +149,7 @@ async def test_releases_sort_desc(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_create_release(db, graphql_query, snapshot):
+async def test_create_release(graphql_query, snapshot):
     query = """
         mutation {
             createRelease(
@@ -211,7 +211,7 @@ async def test_create_release_bad_artists(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_update_release(db, graphql_query, snapshot):
+async def test_update_release(graphql_query, snapshot):
     query = """
         mutation {
             updateRelease(
@@ -249,7 +249,7 @@ async def test_update_release_bad_date(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_update_release_not_found(db, graphql_query, snapshot):
+async def test_update_release_not_found(graphql_query, snapshot):
     query = """
         mutation {
             updateRelease(
@@ -264,7 +264,7 @@ async def test_update_release_not_found(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_add_artist_to_release(db, graphql_query, snapshot):
+async def test_add_artist_to_release(graphql_query, snapshot):
     query = """
         mutation {
             addArtistToRelease(releaseId: 2, artistId: 3) {
@@ -285,7 +285,7 @@ async def test_add_artist_to_release(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_add_artist_to_release_bad_release(db, graphql_query, snapshot):
+async def test_add_artist_to_release_bad_release(graphql_query, snapshot):
     query = """
         mutation {
             addArtistToRelease(releaseId: 999, artistId: 2) {
@@ -338,7 +338,7 @@ async def test_add_artist_to_release_already_exists(db, graphql_query, snapshot)
 
 
 @pytest.mark.asyncio
-async def test_del_artist_from_release(db, graphql_query, snapshot):
+async def test_del_artist_from_release(graphql_query, snapshot):
     query = """
         mutation {
             delArtistFromRelease(releaseId: 2, artistId: 2) {
@@ -359,7 +359,7 @@ async def test_del_artist_from_release(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_del_artist_from_release_bad_release(db, graphql_query, snapshot):
+async def test_del_artist_from_release_bad_release(graphql_query, snapshot):
     query = """
         mutation {
             delArtistFromRelease(releaseId: 999, artistId: 2) {
@@ -394,7 +394,7 @@ async def test_del_artist_from_release_bad_artist(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_del_artist_from_release_doesnt_exist(db, graphql_query, snapshot):
+async def test_del_artist_from_release_doesnt_exist(graphql_query, snapshot):
     query = """
         mutation {
             delArtistFromRelease(releaseId: 3, artistId: 2) {

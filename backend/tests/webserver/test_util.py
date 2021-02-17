@@ -6,7 +6,7 @@ from src.webserver.util import check_auth, validate_data
 
 
 @pytest.fixture
-def check_auth_app(db, quart_app):
+def check_auth_app(quart_app):
     @quart_app.route("/testing", methods=["GET"])
     @check_auth()
     async def testing():
@@ -16,7 +16,7 @@ def check_auth_app(db, quart_app):
 
 
 @pytest.fixture
-def check_csrf_app(db, quart_app):
+def check_csrf_app(quart_app):
     @quart_app.route("/testing", methods=["POST"])
     @check_auth(csrf=True)
     async def testing():

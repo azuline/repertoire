@@ -5,7 +5,7 @@ from src.util import database
 
 
 @pytest.mark.asyncio
-async def test_collection(db, graphql_query, snapshot):
+async def test_collection(graphql_query, snapshot):
     query = """
         query {
             collection(id: 3) {
@@ -17,7 +17,7 @@ async def test_collection(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_collection_not_found(db, graphql_query, snapshot):
+async def test_collection_not_found(graphql_query, snapshot):
     query = """
         query {
             collection(id: 999999) {
@@ -29,7 +29,7 @@ async def test_collection_not_found(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_collection_from_name_and_type(db, graphql_query, snapshot):
+async def test_collection_from_name_and_type(graphql_query, snapshot):
     query = """
         query {
             collectionFromNameAndType(name: "Folk", type: GENRE) {
@@ -54,7 +54,7 @@ async def test_collection_from_name_and_type_not_found(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_collections(db, graphql_query, snapshot):
+async def test_collections(graphql_query, snapshot):
     query = """
         query {
             collections {
@@ -68,7 +68,7 @@ async def test_collections(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_collection_image(db, graphql_query):
+async def test_collection_image(graphql_query):
     query = """
         query {
             collection(id: 3) {
@@ -81,7 +81,7 @@ async def test_collection_image(db, graphql_query):
 
 
 @pytest.mark.asyncio
-async def test_collection_image_nonexistent(db, graphql_query):
+async def test_collection_image_nonexistent(graphql_query):
     query = """
         query {
             collection(id: 2) {
@@ -94,7 +94,7 @@ async def test_collection_image_nonexistent(db, graphql_query):
 
 
 @pytest.mark.asyncio
-async def test_collections_type_param(db, graphql_query, snapshot):
+async def test_collections_type_param(graphql_query, snapshot):
     query = """
         query {
             collections(types: [GENRE, SYSTEM]) {
@@ -108,7 +108,7 @@ async def test_collections_type_param(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_create_collection(db, graphql_query, snapshot):
+async def test_create_collection(graphql_query, snapshot):
     query = """
         mutation {
             createCollection(name: "NewCollection", type: COLLAGE, starred: true) {
@@ -136,7 +136,7 @@ async def test_create_collection_duplicate(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_update_collection(db, graphql_query, snapshot):
+async def test_update_collection(graphql_query, snapshot):
     query = """
         mutation {
             updateCollection(id: 3, name: "NewCollection", starred: true) {
@@ -164,7 +164,7 @@ async def test_update_collection_duplicate(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_update_collection_not_found(db, graphql_query, snapshot):
+async def test_update_collection_not_found(graphql_query, snapshot):
     query = """
         mutation {
             updateCollection(id: 99999, name: "Hi") {
@@ -189,7 +189,7 @@ async def test_update_collection_immutable(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_add_release_to_collection(db, graphql_query, snapshot):
+async def test_add_release_to_collection(graphql_query, snapshot):
     query = """
         mutation {
             addReleaseToCollection(collectionId: 2, releaseId: 2) {
@@ -212,7 +212,7 @@ async def test_add_release_to_collection(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_add_release_to_collection_bad_collection(db, graphql_query, snapshot):
+async def test_add_release_to_collection_bad_collection(graphql_query, snapshot):
     query = """
         mutation {
             addReleaseToCollection(collectionId: 999, releaseId: 2) {
@@ -265,7 +265,7 @@ async def test_add_release_to_collection_already_exists(db, graphql_query, snaps
 
 
 @pytest.mark.asyncio
-async def test_del_release_from_collection(db, graphql_query, snapshot):
+async def test_del_release_from_collection(graphql_query, snapshot):
     query = """
         mutation {
             delReleaseFromCollection(collectionId: 1, releaseId: 2) {
@@ -288,7 +288,7 @@ async def test_del_release_from_collection(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_del_release_from_collection_bad_collection(db, graphql_query, snapshot):
+async def test_del_release_from_collection_bad_collection(graphql_query, snapshot):
     query = """
         mutation {
             delReleaseFromCollection(collectionId: 999, releaseId: 2) {
@@ -323,7 +323,7 @@ async def test_del_release_from_collection_bad_release(db, graphql_query, snapsh
 
 
 @pytest.mark.asyncio
-async def test_del_release_from_collection_doesnt_exist(db, graphql_query, snapshot):
+async def test_del_release_from_collection_doesnt_exist(graphql_query, snapshot):
     query = """
         mutation {
             delReleaseFromCollection(collectionId: 2, releaseId: 2) {

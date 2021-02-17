@@ -5,7 +5,7 @@ from src.util import database
 
 
 @pytest.mark.asyncio
-async def test_track(db, graphql_query, snapshot):
+async def test_track(graphql_query, snapshot):
     query = """
         query {
             track(id: 10) {
@@ -17,7 +17,7 @@ async def test_track(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_track_not_found(db, graphql_query, snapshot):
+async def test_track_not_found(graphql_query, snapshot):
     query = """
         query {
             track(id: 999) {
@@ -29,7 +29,7 @@ async def test_track_not_found(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_update_track(db, graphql_query, snapshot):
+async def test_update_track(graphql_query, snapshot):
     query = """
         mutation {
             updateTrack(
@@ -66,7 +66,7 @@ async def test_update_track_bad_release_id(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_update_track_not_found(db, graphql_query, snapshot):
+async def test_update_track_not_found(graphql_query, snapshot):
     query = """
         mutation {
             updateTrack(
@@ -81,7 +81,7 @@ async def test_update_track_not_found(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_add_artist_to_track(db, graphql_query, snapshot):
+async def test_add_artist_to_track(graphql_query, snapshot):
     query = """
         mutation {
             addArtistToTrack(trackId: 1, artistId: 3, role: MAIN) {
@@ -105,7 +105,7 @@ async def test_add_artist_to_track(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_add_artist_to_track_bad_track(db, graphql_query, snapshot):
+async def test_add_artist_to_track_bad_track(graphql_query, snapshot):
     query = """
         mutation {
             addArtistToTrack(trackId: 999, artistId: 2, role: MAIN) {
@@ -167,7 +167,7 @@ async def test_add_artist_to_track_already_exists(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_del_artist_from_track(db, graphql_query, snapshot):
+async def test_del_artist_from_track(graphql_query, snapshot):
     query = """
         mutation {
             delArtistFromTrack(trackId: 1, artistId: 2, role: MAIN) {
@@ -191,7 +191,7 @@ async def test_del_artist_from_track(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_del_artist_from_track_bad_track(db, graphql_query, snapshot):
+async def test_del_artist_from_track_bad_track(graphql_query, snapshot):
     query = """
         mutation {
             delArtistFromTrack(trackId: 999, artistId: 2, role: MAIN) {
@@ -232,7 +232,7 @@ async def test_del_artist_from_track_bad_artist(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_del_artist_from_track_doesnt_exist(db, graphql_query, snapshot):
+async def test_del_artist_from_track_doesnt_exist(graphql_query, snapshot):
     query = """
         mutation {
             delArtistFromTrack(trackId: 1, artistId: 2, role: FEATURE) {
