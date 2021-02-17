@@ -9,7 +9,9 @@ import { InFavorites } from './InFavorites';
 import { InInbox } from './InInbox';
 import { WhenReleased } from './WhenReleased';
 
-export const Info: React.FC<{ release: IRelease }> = ({ release }) => {
+type IInfo = React.FC<{ release: IRelease }>;
+
+export const Info: IInfo = ({ release }) => {
   return (
     <div tw="flex flex-col flex-1 min-w-0 md:min-h-52">
       <SectionHeader tw="flex-none mb-6 md:mb-4 truncate-2">

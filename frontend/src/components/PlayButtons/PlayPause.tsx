@@ -6,11 +6,13 @@ import { Icon } from '~/components';
 import { PlayQueueContext } from '~/contexts';
 import { ISetValue } from '~/types';
 
-export const PlayPause: React.FC<{
+type IPlayPause = React.FC<{
   className?: string;
   isPlaying: boolean;
   setIsPlaying: ISetValue<boolean>;
-}> = ({ className, isPlaying, setIsPlaying }) => {
+}>;
+
+export const PlayPause: IPlayPause = ({ className, isPlaying, setIsPlaying }) => {
   const { playQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
 
   const togglePlay = (): void => {

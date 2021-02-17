@@ -6,12 +6,12 @@ import { Icon, Input } from '~/components/common';
 // TODO: Implement a dropdown and stuff... get a way to monitor searchbar focus in react
 // and use that for width/whatnot.
 
-type IComponent = React.FC<{
+type ISearchbar = React.FC<{
   className?: string;
   shrink?: boolean;
 }>;
 
-export const Searchbar: IComponent = ({ className, shrink = true }) => (
+export const Searchbar: ISearchbar = ({ className, shrink = true }) => (
   <div className={className} tw="flex-1">
     <div tw="relative flex items-center h-full">
       <SearchbarInput css={shrink && tw`max-w-xs focus:max-w-none`} placeholder="Search" />

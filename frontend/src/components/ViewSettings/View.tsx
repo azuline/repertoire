@@ -9,10 +9,9 @@ const displays: { [k in IReleaseView]: string } = {
   [IReleaseView.Row]: 'Row',
 };
 
-export const View: React.FC<{ viewOptions: IViewOptions; className?: string }> = ({
-  viewOptions,
-  className,
-}) => {
+type IView = React.FC<{ viewOptions: IViewOptions; className?: string }>;
+
+export const View: IView = ({ viewOptions, className }) => {
   const onChange = (e: React.FormEvent<HTMLSelectElement>): void =>
     viewOptions.setReleaseView(e.currentTarget.value as IReleaseView);
 

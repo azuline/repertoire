@@ -1,13 +1,13 @@
 import * as React from 'react';
 import tw, { styled } from 'twin.macro';
 
-import { Icon, IconT, Slider } from '~/components/common';
+import { Icon, IIcon, Slider } from '~/components/common';
 import { VolumeContext } from '~/contexts';
 
 export const VolumeControl: React.FC = () => {
   const { volume, setVolume, isMuted, setIsMuted } = React.useContext(VolumeContext);
 
-  const icon = (isMuted ? 'volume-off-small' : 'volume-up-small') as IconT;
+  const icon = (isMuted ? 'volume-off-small' : 'volume-up-small') as IIcon;
 
   return (
     <Wrapper>

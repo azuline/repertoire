@@ -10,12 +10,19 @@ import { PerPage } from './PerPage';
 import { Sort } from './Sort';
 import { View } from './View';
 
-export const ViewSettings: React.FC<{
+type IViewSettings = React.FC<{
   viewOptions: IViewOptions;
   pagination: IPagination;
   className?: string;
   partial?: boolean;
-}> = ({ viewOptions, pagination, className, partial = false }) => {
+}>;
+
+export const ViewSettings: IViewSettings = ({
+  viewOptions,
+  pagination,
+  className,
+  partial = false,
+}) => {
   const responsiveFlex = partial ? tw`2xl:flex` : tw`xl:flex`;
   const responsiveHide = partial ? tw`2xl:hidden` : tw`xl:hidden`;
 

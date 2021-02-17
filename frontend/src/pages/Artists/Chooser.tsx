@@ -1,18 +1,18 @@
 import * as React from 'react';
 
-import { Chooser, ToggleStarFactory } from '~/components';
+import { Chooser, IToggleStarFactory } from '~/components';
 import { IArtist, useFetchArtistsQuery, useUpdateArtistStarredMutation } from '~/graphql';
 
-const urlFactory = (id: number): string => `/artists/${id}`;
-
-export const ArtistChooser: React.FC<{
+type IArtistChooser = React.FC<{
   active: number | null;
   className?: string;
-}> = ({ active, className }) => {
+}>;
+
+export const ArtistChooser: IArtistChooser = ({ active, className }) => {
   const { data, error, loading } = useFetchArtistsQuery();
   const [mutateArtist] = useUpdateArtistStarredMutation();
 
-  const toggleStarFactory: ToggleStarFactory = ({ id, starred }) => {
+  const toggleStarFactory: IToggleStarFactory = ({ id, starred }) => {
     return async (): Promise<void> => {
       mutateArtist({ variables: { id, starred: !starred } });
     };
@@ -30,3 +30,5 @@ export const ArtistChooser: React.FC<{
     />
   );
 };
+
+const urlFactory = (id: number): string => `/artists/${id}`;

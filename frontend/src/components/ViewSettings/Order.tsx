@@ -3,10 +3,9 @@ import * as React from 'react';
 import { Select } from '~/components/common';
 import { IViewOptions } from '~/hooks';
 
-export const Order: React.FC<{ viewOptions: IViewOptions; className?: string }> = ({
-  viewOptions,
-  className,
-}) => {
+type IOrder = React.FC<{ viewOptions: IViewOptions; className?: string }>;
+
+export const Order: IOrder = ({ viewOptions, className }) => {
   const updateOrder = (e: React.FormEvent<HTMLSelectElement>): void =>
     viewOptions.setAsc(e.currentTarget.value === 'true');
 

@@ -4,14 +4,16 @@ import * as React from 'react';
 
 import { Icon } from '~/components/common/Icon';
 
-export const Select: React.FC<{
+type ISelect = React.FC<{
   children: React.ReactNode;
   value?: string | number | readonly string[];
   onChange?: (arg0: React.FormEvent<HTMLSelectElement>) => void;
   className?: string;
   label?: string;
   name?: string;
-}> = ({ children, value, onChange, className, label, name }) => (
+}>;
+
+export const Select: ISelect = ({ children, value, onChange, className, label, name }) => (
   <div className={className} tw="relative flex items-center">
     {label && (
       <label htmlFor={name} tw="flex-none pr-1">

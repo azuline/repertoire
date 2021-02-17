@@ -5,9 +5,11 @@ import * as React from 'react';
 import { CollectionReleases, Header, SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { useFetchCollectionQuery } from '~/graphql';
-import { ErrorP } from '~/pages';
+import { ErrorPage } from '~/pages';
 
-export const Label: React.FC<{ active: number }> = ({ active }) => {
+type ILabel = React.FC<{ active: number }>;
+
+export const Label: ILabel = ({ active }) => {
   const { data, error } = useFetchCollectionQuery({ variables: { id: active } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
@@ -22,7 +24,7 @@ export const Label: React.FC<{ active: number }> = ({ active }) => {
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);
-    return <ErrorP errors={errors} title="Could not fetch label." />;
+    return <ErrorPage errors={errors} title="Could not fetch label." />;
   }
 
   if (!collection) {

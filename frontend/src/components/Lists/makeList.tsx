@@ -3,15 +3,15 @@ import * as React from 'react';
 import { Link } from '~/components/common';
 import { IElement } from '~/types';
 
-type ListT = React.FC<{
+type IList = React.FC<{
   className?: string;
   delimiter?: string;
   elements?: IElement[];
   link?: boolean;
 }>;
 
-export const makeList = (urlPrefix: string): ListT => {
-  const ElementList: ListT = ({ className, delimiter = ', ', elements, link = false }) => {
+export const makeList = (urlPrefix: string): IList => {
+  const ElementList: IList = ({ className, delimiter = ', ', elements, link = false }) => {
     if (!elements || elements.length === 0) return <div> </div>;
 
     return (

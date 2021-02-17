@@ -7,7 +7,7 @@ import { usePagination, useViewOptions } from '~/hooks';
 
 const paginationOpts = { useUrl: true };
 
-export const Releases: React.FC = (): React.ReactElement => {
+export const Releases: React.FC = () => {
   const viewOptions = useViewOptions();
   const pagination = usePagination(paginationOpts);
 

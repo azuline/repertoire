@@ -6,7 +6,7 @@ import { Header } from '~/components';
 
 import { RecentlyAdded } from './RecentlyAdded';
 
-export const Explore: React.FC = (): React.ReactElement => (
+export const Explore: React.FC = () => (
   <>
     <Header />
     <RecentlyAdded />

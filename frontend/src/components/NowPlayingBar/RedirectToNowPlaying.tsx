@@ -4,10 +4,8 @@ import * as React from 'react';
 
 import { Link } from '~/components';
 
-export const RedirectToNowPlaying: React.FC<{ className?: string; children: React.ReactNode }> = ({
-  className,
-  children,
-}) => {
+type IRedirectToNowPlaying = React.FC<{ className?: string; children: React.ReactNode }>;
+export const RedirectToNowPlaying: IRedirectToNowPlaying = ({ className, children }) => {
   return (
     <Link className={className} href="/playing" tw="flex">
       {children}

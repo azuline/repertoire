@@ -5,9 +5,9 @@ import * as React from 'react';
 import { Icon } from '~/components';
 import { PlayQueueContext } from '~/contexts';
 
-export const FastForward: React.FC<{
-  className?: string;
-}> = ({ className }) => {
+type IFastForward = React.FC<{ className?: string }>;
+
+export const FastForward: IFastForward = ({ className }) => {
   const { playQueue, setCurIndex } = React.useContext(PlayQueueContext);
 
   const fastForward = (): void =>

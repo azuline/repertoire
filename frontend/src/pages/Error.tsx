@@ -4,9 +4,9 @@ import * as React from 'react';
 
 import { Header, SectionHeader } from '~/components';
 
-type IComponent = React.FC<{ title: string; errors: string[] }>;
+type IErrorPage = React.FC<{ title: string; errors: string[] }>;
 
-export const ErrorP: IComponent = ({ title, errors }) => (
+export const ErrorPage: IErrorPage = ({ title, errors }) => (
   <div tw="flex flex-col w-full">
     <Header />
     <div tw="my-8 text-center">
@@ -22,4 +22,4 @@ export const ErrorP: IComponent = ({ title, errors }) => (
   </div>
 );
 
-export const NotFound: React.FC = () => <ErrorP errors={['you are lost ^.~']} title="404" />;
+export const NotFound: React.FC = () => <ErrorPage errors={['you are lost ^.~']} title="404" />;

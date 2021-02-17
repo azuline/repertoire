@@ -11,11 +11,13 @@ import { IReleaseView } from '~/types';
 
 // Partial here means that we have an artist/collection selector open.
 
-export const PagedReleases: React.FC<{
+type IPagedReleases = React.FC<{
   viewOptions: IViewOptions;
   pagination: IPagination;
   partial?: boolean;
-}> = ({ viewOptions, pagination, partial = false }) => {
+}>;
+
+export const PagedReleases: IPagedReleases = ({ viewOptions, pagination, partial = false }) => {
   const { addToast } = useToasts();
   const { data, error } = useFetchReleasesQuery({
     variables: { ...viewOptions, ...pagination },

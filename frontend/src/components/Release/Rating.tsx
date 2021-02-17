@@ -4,7 +4,9 @@ import * as React from 'react';
 
 import { Icon } from '~/components';
 
-export const Rating: React.FC<{ rating: number }> = ({ rating }) => (
+type IRating = React.FC<{ rating: number }>;
+
+export const Rating: IRating = ({ rating }) => (
   <>
     <div tw="items-center hidden lg:flex">
       {Array.from(new Array(rating), (_, i) => {

@@ -2,17 +2,19 @@ import * as React from 'react';
 
 import { ISetValue } from '~/types';
 
-type ContextT = {
+type IContext = {
   backgroundImageId: number | null;
   setBackgroundImageId: ISetValue<number | null>;
 };
 
-export const BackgroundContext = React.createContext<ContextT>({
+export const BackgroundContext = React.createContext<IContext>({
   backgroundImageId: null,
   setBackgroundImageId: () => {},
 });
 
-export const BackgroundProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+type IProvider = React.FC<{ children: React.ReactNode }>;
+
+export const BackgroundProvider: IProvider = ({ children }) => {
   const [backgroundImageId, setBackgroundImageId] = React.useState<number | null>(null);
 
   const value = { backgroundImageId, setBackgroundImageId };

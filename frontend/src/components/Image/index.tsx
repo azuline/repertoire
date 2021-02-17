@@ -2,15 +2,14 @@ import * as React from 'react';
 
 import noArt from '~/assets/noArt.jpg';
 
-const urlFactory = (id: number | null, thumbnail: boolean): string =>
-  id ? `/api/files/images/${id}?thumbnail=${thumbnail}` : '';
-
-export const Image: React.FC<{
+type IImage = React.FC<{
   className?: string;
-  alt?: string | undefined;
+  alt?: string;
   thumbnail?: boolean;
   imageId: number | null;
-}> = ({ className, alt, thumbnail = false, imageId }) => {
+}>;
+
+export const Image: IImage = ({ className, alt, thumbnail = false, imageId }) => {
   const [src, setSrc] = React.useState(urlFactory(imageId, thumbnail));
 
   React.useEffect(() => setSrc(urlFactory(imageId, thumbnail)), [imageId, thumbnail]);
@@ -29,3 +28,6 @@ export const Image: React.FC<{
     />
   );
 };
+
+const urlFactory = (id: number | null, thumbnail: boolean): string =>
+  id ? `/api/files/images/${id}?thumbnail=${thumbnail}` : '';

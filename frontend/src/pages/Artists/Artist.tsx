@@ -5,13 +5,13 @@ import * as React from 'react';
 import { Header, SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { useFetchArtistQuery } from '~/graphql';
-import { ErrorP } from '~/pages';
+import { ErrorPage } from '~/pages';
 
 import { ArtistReleases } from './Releases';
 
-type IComponent = React.FC<{ active: number }>;
+type IArtist = React.FC<{ active: number }>;
 
-export const Artist: IComponent = ({ active }) => {
+export const Artist: IArtist = ({ active }) => {
   const { data, error } = useFetchArtistQuery({ variables: { id: active } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
@@ -26,7 +26,7 @@ export const Artist: IComponent = ({ active }) => {
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);
-    return <ErrorP errors={errors} title="Could not fetch label." />;
+    return <ErrorPage errors={errors} title="Could not fetch label." />;
   }
 
   if (!artist) return null;

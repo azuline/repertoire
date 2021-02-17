@@ -1,7 +1,7 @@
 import * as React from 'react';
 import tw from 'twin.macro';
 
-import { ElementT, ToggleStarFactory } from './Element';
+import { IElement, IToggleStarFactory } from './Element';
 import { JumpToLetter } from './JumpToLetter';
 import { VirtualList } from './VirtualList';
 
@@ -19,14 +19,23 @@ import { VirtualList } from './VirtualList';
  * feel entirely. So we are settling for the sticky header, **for now**.
  */
 
-export const Chooser: React.FC<{
+type IChooser = React.FC<{
   className?: string;
-  results: ElementT[];
+  results: IElement[];
   active: number | null;
   urlFactory: (arg0: number) => string;
   starrable?: boolean;
-  toggleStarFactory: ToggleStarFactory;
-}> = ({ className, results, active, urlFactory, starrable, toggleStarFactory }) => {
+  toggleStarFactory: IToggleStarFactory;
+}>;
+
+export const Chooser: IChooser = ({
+  className,
+  results,
+  active,
+  urlFactory,
+  starrable,
+  toggleStarFactory,
+}) => {
   const [jumpTo, setJumpTo] = React.useState<number | null>(null);
 
   return (

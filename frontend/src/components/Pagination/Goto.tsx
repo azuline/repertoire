@@ -5,10 +5,12 @@ import { useToasts } from 'react-toast-notifications';
 
 import { Icon, Input, TextButton } from '~/components/common';
 
-export const Goto: React.FC<{
+type IGoto = React.FC<{
   setCurPage: (arg0: number) => void;
   numPages: number;
-}> = ({ setCurPage, numPages }) => {
+}>;
+
+export const Goto: IGoto = ({ setCurPage, numPages }) => {
   const input = React.useRef<HTMLInputElement | null>(null);
   const { addToast } = useToasts();
 

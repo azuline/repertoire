@@ -3,7 +3,9 @@ import * as React from 'react';
 import { PagedReleases } from '~/components/Releases';
 import { usePagination, useViewOptions } from '~/hooks';
 
-export const CollectionReleases: React.FC<{ active: number }> = ({ active }) => {
+type ICollectionReleases = React.FC<{ active: number }>;
+
+export const CollectionReleases: ICollectionReleases = ({ active }) => {
   const viewOptions = useViewOptions({ collectionIds: [active] });
   const pagination = usePagination();
 

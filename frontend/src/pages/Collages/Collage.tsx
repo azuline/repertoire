@@ -6,7 +6,9 @@ import { CollectionReleases, Header, SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { useFetchCollectionQuery } from '~/graphql';
 
-export const Collage: React.FC<{ active: number }> = ({ active }) => {
+type ICollage = React.FC<{ active: number }>;
+
+export const Collage: ICollage = ({ active }) => {
   const { data } = useFetchCollectionQuery({ variables: { id: active } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 

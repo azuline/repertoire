@@ -6,13 +6,15 @@ import { TrackArtistList } from '~/components/Lists';
 import { ITrack } from '~/graphql';
 import { filterNulls, secondsToLength } from '~/util';
 
-export const Track: React.FC<{
+type ITrackComponent = React.FC<{
   track: ITrack;
   trackNumber: number;
   index: number;
   onClick?: (arg0: number) => void;
   active?: boolean;
-}> = ({ track, trackNumber, index, onClick, active = false }) => {
+}>;
+
+export const Track: ITrackComponent = ({ track, trackNumber, index, onClick, active = false }) => {
   const trackOnClick = (): void => onClick && onClick(index);
 
   return (

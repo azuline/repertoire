@@ -10,10 +10,9 @@ import {
 
 const INBOX_COLLECTION_ID = 1;
 
-export const InInbox: React.FC<{ className?: string; release: IRelease }> = ({
-  className,
-  release,
-}) => {
+type IInInbox = React.FC<{ className?: string; release: IRelease }>;
+
+export const InInbox: IInInbox = ({ className, release }) => {
   const [mutateAdd] = useAddReleaseToCollectionMutation();
   const [mutateDel] = useDelReleaseFromCollectionMutation();
 

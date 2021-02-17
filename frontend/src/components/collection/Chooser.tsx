@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Chooser, ToggleStarFactory } from '~/components/Chooser';
+import { Chooser, IToggleStarFactory } from '~/components/Chooser';
 import {
   ICollection,
   ICollectionType,
@@ -8,12 +8,19 @@ import {
   useUpdateCollectionStarredMutation,
 } from '~/graphql';
 
-export const CollectionChooser: React.FC<{
+type ICollectionChooser = React.FC<{
   collectionTypes: ICollectionType[];
   urlPrefix: string;
   active: number | null;
   className?: string;
-}> = ({ collectionTypes, urlPrefix, active, className }) => {
+}>;
+
+export const CollectionChooser: ICollectionChooser = ({
+  collectionTypes,
+  urlPrefix,
+  active,
+  className,
+}) => {
   const { data, error, loading } = useFetchCollectionsQuery({
     variables: { types: collectionTypes },
   });
@@ -21,7 +28,7 @@ export const CollectionChooser: React.FC<{
 
   const urlFactory = (id: number): string => `${urlPrefix}/${id}`;
 
-  const toggleStarFactory: ToggleStarFactory = ({ id, starred, type }) => {
+  const toggleStarFactory: IToggleStarFactory = ({ id, starred, type }) => {
     if (type === 'SYSTEM') return;
 
     return async (): Promise<void> => {

@@ -7,28 +7,28 @@ import { ISetValue } from '~/types';
 // TODO: Make sure that we aren't leaking memory from all these audio
 // objects... they better be garbage collected properly.
 
-export type AudioT = {
+export type IAudio = {
   isPlaying: boolean;
   setIsPlaying: ISetValue<boolean>;
   curTime: number;
   seek: (arg0: number) => void;
 };
 
-type AudioReducerState = {
+type IAudioReducerState = {
   audio: HTMLAudioElement | null;
   trackId: number | null;
   nextAudio: HTMLAudioElement | null;
   nextTrackId: number | null;
 };
 
-type AudioReducerPayload = { track: ITrack | null; nextTrack: ITrack | null };
+type IAudioReducerPayload = { track: ITrack | null; nextTrack: ITrack | null };
 
 const INITIAL_AUDIO_STATE = { audio: null, nextAudio: null, nextTrackId: null, trackId: null };
 
 const audioReducer = (
-  state: AudioReducerState,
-  payload: AudioReducerPayload,
-): AudioReducerState => {
+  state: IAudioReducerState,
+  payload: IAudioReducerPayload,
+): IAudioReducerState => {
   if (state.audio) state.audio.pause();
   if (!payload.track) return INITIAL_AUDIO_STATE;
   if (state.trackId === payload.track.id) return state;
@@ -57,7 +57,7 @@ const audioReducer = (
  * - ``curTime`` - The current time in the track.
  * - ``seek`` - A function to jump to a certain track time in the audio.
  */
-export const useAudio = (): AudioT => {
+export const useAudio = (): IAudio => {
   const { playQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
   const { volume, isMuted } = React.useContext(VolumeContext);
   const [audioState, audioDispatch] = React.useReducer(audioReducer, INITIAL_AUDIO_STATE);

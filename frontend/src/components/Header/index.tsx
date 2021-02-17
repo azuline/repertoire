@@ -10,10 +10,9 @@ import { User } from './User';
 export { Searchbar } from './Searchbar';
 export { User } from './User';
 
-export const Header: React.FC<{ className?: string; searchbar?: boolean }> = ({
-  className,
-  searchbar = true,
-}) => {
+type IHeader = React.FC<{ className?: string; searchbar?: boolean }>;
+
+export const Header: IHeader = ({ className, searchbar = true }) => {
   return (
     <div className={className} tw="flex items-center flex-none w-full h-20 mb-2">
       <Link href="/mobile" tw="block sm:hidden">

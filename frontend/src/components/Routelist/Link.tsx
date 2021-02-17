@@ -3,11 +3,13 @@ import tw from 'twin.macro';
 
 import { Link } from '~/components/common';
 
-export const NavLink: React.FC<{
+type INavLink = React.FC<{
   url: string;
   label: string;
   activeRoute?: string | null;
-}> = ({ url, label, activeRoute }) => {
+}>;
+
+export const NavLink: INavLink = ({ url, label, activeRoute }) => {
   const active = url === activeRoute;
 
   return (

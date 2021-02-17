@@ -3,16 +3,24 @@ import tw from 'twin.macro';
 
 import { Icon, Link } from '~/components/common';
 
-export type ElementT = { id: number; name: string; starred?: boolean; type?: string };
-export type ToggleStarFactory = (elem: ElementT) => (() => Promise<void>) | undefined;
+export type IElement = { id: number; name: string; starred?: boolean; type?: string };
+export type IToggleStarFactory = (elem: IElement) => (() => Promise<void>) | undefined;
 
-export const Element: React.FC<{
-  element: ElementT;
+type IElementComponent = React.FC<{
+  element: IElement;
   active: number | null;
   urlFactory: (arg0: number) => string;
   starrable?: boolean;
-  toggleStarFactory: ToggleStarFactory;
-}> = ({ element, active, urlFactory, starrable = true, toggleStarFactory }) => {
+  toggleStarFactory: IToggleStarFactory;
+}>;
+
+export const Element: IElementComponent = ({
+  element,
+  active,
+  urlFactory,
+  starrable = true,
+  toggleStarFactory,
+}) => {
   const isActive = element.id === active;
   const url = urlFactory(element.id);
   const toggleStar = toggleStarFactory(element);

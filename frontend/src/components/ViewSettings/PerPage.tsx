@@ -5,10 +5,9 @@ import { IPagination } from '~/hooks';
 
 const options = [40, 80, 120, 160, 200];
 
-export const PerPage: React.FC<{ pagination: IPagination; className?: string }> = ({
-  pagination,
-  className,
-}) => {
+type IPerPage = React.FC<{ pagination: IPagination; className?: string }>;
+
+export const PerPage: IPerPage = ({ pagination, className }) => {
   const updatePerPage = (e: React.FormEvent<HTMLSelectElement>): void =>
     pagination.setPerPage(parseInt(e.currentTarget.value, 10));
 

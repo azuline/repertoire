@@ -5,7 +5,9 @@ import { AuthorizationContext } from './Authorization';
 
 const cache = new InMemoryCache();
 
-export const GraphQLProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+type IProvider = React.FC<{ children: React.ReactNode }>;
+
+export const GraphQLProvider: IProvider = ({ children }) => {
   const { csrf } = React.useContext(AuthorizationContext);
 
   const link = React.useMemo(

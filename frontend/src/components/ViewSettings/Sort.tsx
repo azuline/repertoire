@@ -12,10 +12,9 @@ const displays: { [k in IReleaseSort]: string } = {
   [IReleaseSort.Random]: 'Random',
 };
 
-export const Sort: React.FC<{ viewOptions: IViewOptions; className?: string }> = ({
-  viewOptions,
-  className,
-}) => {
+type ISort = React.FC<{ viewOptions: IViewOptions; className?: string }>;
+
+export const Sort: ISort = ({ viewOptions, className }) => {
   const updateSort = (e: React.FormEvent<HTMLSelectElement>): void =>
     viewOptions.setSort(e.currentTarget.value as IReleaseSort);
 

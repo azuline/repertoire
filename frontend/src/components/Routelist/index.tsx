@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 
 import { NavLink } from './Link';
 
-type RouteT = { path: string; exact: boolean; label: string };
+type IRoute = { path: string; exact: boolean; label: string };
 
 const sections = [
   {
@@ -40,7 +40,7 @@ export const RouteList: React.FC = () => {
   const location = useLocation();
 
   const activeRoute = sections
-    .reduce<RouteT[]>((acc, section) => acc.concat(section.routes), [])
+    .reduce<IRoute[]>((acc, section) => acc.concat(section.routes), [])
     .find(({ path, exact }) => matchPath(location.pathname, { exact, path }))?.path;
 
   return (

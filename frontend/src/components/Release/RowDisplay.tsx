@@ -11,10 +11,9 @@ import { filterNulls } from '~/util';
 import { InInboxIndicator } from './InInboxIndicator';
 import { Rating } from './Rating';
 
-export const RowRelease: React.FC<{ release: IRelease; className?: string }> = ({
-  release,
-  className,
-}) => {
+type IRowRelease = React.FC<{ release: IRelease; className?: string }>;
+
+export const RowRelease: IRowRelease = ({ release, className }) => {
   return (
     <Link
       className={className}

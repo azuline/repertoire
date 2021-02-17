@@ -3,21 +3,23 @@ import * as React from 'react';
 import { usePersistentState } from '~/hooks';
 import { ISetPersistentValue } from '~/types';
 
-type ContextT = {
+type IContext = {
   volume: number;
   setVolume: ISetPersistentValue<number>;
   isMuted: boolean;
   setIsMuted: ISetPersistentValue<boolean>;
 };
 
-export const VolumeContext = React.createContext<ContextT>({
+export const VolumeContext = React.createContext<IContext>({
   isMuted: false,
   setIsMuted: () => {},
   setVolume: () => {},
   volume: 100,
 });
 
-export const VolumeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+type IProvider = React.FC<{ children: React.ReactNode }>;
+
+export const VolumeProvider: IProvider = ({ children }) => {
   const [volume, setVolume] = usePersistentState<number>('volume--volume', 100);
   const [isMuted, setIsMuted] = usePersistentState<boolean>('volume--muted', false);
 

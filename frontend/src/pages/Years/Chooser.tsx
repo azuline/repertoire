@@ -3,12 +3,12 @@ import * as React from 'react';
 import { Chooser } from '~/components';
 import { useFetchReleaseYearsQuery } from '~/graphql';
 
-const urlFactory = (id: number): string => `/years/${id}`;
-
-export const YearChooser: React.FC<{
+type IYearChooser = React.FC<{
   active: number | null;
   className?: string;
-}> = ({ active, className }) => {
+}>;
+
+export const YearChooser: IYearChooser = ({ active, className }) => {
   const { data } = useFetchReleaseYearsQuery();
 
   const elements =
@@ -27,3 +27,5 @@ export const YearChooser: React.FC<{
     />
   );
 };
+
+const urlFactory = (id: number): string => `/years/${id}`;

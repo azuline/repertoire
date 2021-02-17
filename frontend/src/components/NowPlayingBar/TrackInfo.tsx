@@ -8,7 +8,9 @@ import { filterNulls } from '~/util';
 
 import { RedirectToNowPlaying } from './RedirectToNowPlaying';
 
-export const TrackInfo: React.FC<{ curTrack: ITrack }> = ({ curTrack }) => {
+type ITrackInfo = React.FC<{ curTrack: ITrack }>;
+
+export const TrackInfo: ITrackInfo = ({ curTrack }) => {
   return (
     <div tw="flex flex-1 mr-2 truncate sm:mr-0">
       <Link href={`/releases/${curTrack.release.id}`} tw="flex-none hidden w-11 sm:block">

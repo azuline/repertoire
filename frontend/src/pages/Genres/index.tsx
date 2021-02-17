@@ -9,6 +9,7 @@ import { useId } from '~/hooks';
 import { Genre } from './Genre';
 
 const types = [ICollectionType.Genre];
+
 export const Genres: React.FC = () => {
   const active = useId();
 

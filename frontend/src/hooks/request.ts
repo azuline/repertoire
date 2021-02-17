@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { AuthorizationContext } from '~/contexts';
 
-export type RequestT<T> = (
+export type IRequest<T> = (
   url: string,
   opts?: { method?: string; token?: string; contentType?: string; body?: string },
 ) => Promise<T>;
@@ -14,10 +14,10 @@ export type RequestT<T> = (
  *
  * @returns A function that makes a HTTP request to the backend.
  */
-export const useRequest = (): RequestT<Response> => {
+export const useRequest = (): IRequest<Response> => {
   const { setLoggedIn, csrf } = React.useContext(AuthorizationContext);
 
-  const request: RequestT<Response> = async (url, { method, token, contentType, body } = {}) => {
+  const request: IRequest<Response> = async (url, { method, token, contentType, body } = {}) => {
     const headers = new Headers();
 
     headers.set('Authorization', token ? `Token ${token}` : '');
@@ -35,4 +35,21 @@ export const useRequest = (): RequestT<Response> => {
   };
 
   return request;
+};
+
+/**
+ * A wrapper around the ``request`` hook. This hook returns a function that make a HTTP request
+ * and parses the resulting JSON.
+ *
+ * @returns A requestJson function.
+ */
+export const useRequestJson = <T>(): IRequest<T> => {
+  const request = useRequest();
+
+  const requestJson: IRequest<T> = async (url, opts = {}) => {
+    const response = await request(url, { ...opts, contentType: 'application/json' });
+    return response.json();
+  };
+
+  return requestJson;
 };

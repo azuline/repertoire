@@ -3,12 +3,14 @@ import tw from 'twin.macro';
 
 import { TextButton } from '../common/Button';
 
-export const Page: React.FC<{
+type IPage = React.FC<{
   page: number;
   curPage: number;
   setCurPage: (arg0: number) => void;
   className?: string;
-}> = ({ page, curPage, setCurPage, className }) => (
+}>;
+
+export const Page: IPage = ({ page, curPage, setCurPage, className }) => (
   <TextButton
     className={className}
     css={[

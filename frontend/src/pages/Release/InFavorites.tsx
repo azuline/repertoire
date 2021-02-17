@@ -10,10 +10,9 @@ import {
 
 const FAVORITES_COLLECTION_ID = 2;
 
-export const InFavorites: React.FC<{ className?: string; release: IRelease }> = ({
-  className,
-  release,
-}) => {
+type IInFavorites = React.FC<{ className?: string; release: IRelease }>;
+
+export const InFavorites: IInFavorites = ({ className, release }) => {
   const [mutateAdd] = useAddReleaseToCollectionMutation();
   const [mutateDel] = useDelReleaseFromCollectionMutation();
 

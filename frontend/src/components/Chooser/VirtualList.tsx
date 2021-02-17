@@ -4,16 +4,25 @@ import tw from 'twin.macro';
 
 import { convertRemToPixels } from '~/util';
 
-import { Element, ElementT, ToggleStarFactory } from './Element';
+import { Element, IElement, IToggleStarFactory } from './Element';
 
-export const VirtualList: React.FC<{
+type IVirtualList = React.FC<{
   active: number | null;
   jumpTo: number | null;
-  results: ElementT[];
+  results: IElement[];
   starrable?: boolean;
-  toggleStarFactory: ToggleStarFactory;
+  toggleStarFactory: IToggleStarFactory;
   urlFactory: (arg0: number) => string;
-}> = ({ results, active, jumpTo, urlFactory, starrable, toggleStarFactory }) => {
+}>;
+
+export const VirtualList: IVirtualList = ({
+  results,
+  active,
+  jumpTo,
+  urlFactory,
+  starrable,
+  toggleStarFactory,
+}) => {
   const renderRow: ListRowRenderer = ({ index, key, style }) => {
     // Because React-Virtualized has bungled scrollToIndex behavior when the
     // containing div has margin/padding, we replaced the margin/padding with

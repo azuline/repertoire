@@ -3,16 +3,16 @@ import * as React from 'react';
 import { Link } from '~/components/common';
 import { IArtist, ITrackArtist } from '~/graphql';
 
-type ListT = React.FC<{
+type IList = React.FC<{
   artists?: ITrackArtist[];
   className?: string;
   delimiter?: string;
   link?: boolean;
 }>;
 
-type RolesArtistsMap = { [k in string]: IArtist[] };
-type RolesArtistsMapEntries = [string, IArtist[]][];
-type DividerWords = { [k in string]: string };
+type IRolesArtistsMap = { [k in string]: IArtist[] };
+type IRolesArtistsMapEntries = [string, IArtist[]][];
+type IDividerWords = { [k in string]: string };
 
 // Role rankings for sorting their order of apperance.
 const ROLE_RANKINGS: string[] = [
@@ -32,7 +32,7 @@ const DIVIDER_WORDS_RAW: { [k in string]: string } = {
   REMIXER: ' remixed by ',
 };
 
-export const TrackArtistList: ListT = ({ artists, className, delimiter = ', ', link = false }) => {
+export const TrackArtistList: IList = ({ artists, className, delimiter = ', ', link = false }) => {
   const rolesToArtists = React.useMemo(() => mapRolesToArtists(artists), [artists]);
   const dividerWords = React.useMemo(() => determineDividerWords(rolesToArtists), [rolesToArtists]);
 
@@ -61,13 +61,13 @@ export const TrackArtistList: ListT = ({ artists, className, delimiter = ', ', l
   );
 };
 
-export const mapRolesToArtists = (artists?: ITrackArtist[]): RolesArtistsMapEntries => {
+export const mapRolesToArtists = (artists?: ITrackArtist[]): IRolesArtistsMapEntries => {
   if (!artists) return [];
 
   // Get a map of artist roles to the artists in that role, filtering out
   // roles without any artists in them.
   const rolesToArtists = Object.entries(
-    artists.reduce<RolesArtistsMap>((accumulator, artist) => {
+    artists.reduce<IRolesArtistsMap>((accumulator, artist) => {
       const { role } = artist;
 
       accumulator[role] = accumulator[role] ?? [];
@@ -88,7 +88,7 @@ const sortRoles = ([a]: [string, IArtist[]], [b]: [string, IArtist[]]): number =
 // Determine the final list of divider words.
 // If we have a composer or a conductor, switch to "classical mode" and turn
 // main artists into performers.
-const determineDividerWords = (rolesToArtists: RolesArtistsMapEntries): DividerWords =>
+const determineDividerWords = (rolesToArtists: IRolesArtistsMapEntries): IDividerWords =>
   rolesToArtists.some(([role]) => role === 'PRODUCER' || role === 'FEATURE')
     ? { MAIN: ' performed by ', ...DIVIDER_WORDS_RAW }
     : DIVIDER_WORDS_RAW;

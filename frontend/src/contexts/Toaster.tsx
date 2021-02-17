@@ -2,7 +2,9 @@ import * as React from 'react';
 import { ToastProvider as RawProvider } from 'react-toast-notifications';
 import tw, { styled } from 'twin.macro';
 
-export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+type IProvider = React.FC<{ children: React.ReactNode }>;
+
+export const ToastProvider: IProvider = ({ children }) => (
   <Toaster>
     <RawProvider
       autoDismiss

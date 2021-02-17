@@ -5,12 +5,14 @@ import * as React from 'react';
 import { Icon } from '~/components';
 import { PlayQueueContext } from '~/contexts';
 
-export const Rewind: React.FC<{
+type IRewind = React.FC<{
   className?: string;
   isPlaying: boolean;
   curTime: number;
   seek: (arg0: number) => void;
-}> = ({ className, isPlaying, curTime, seek }) => {
+}>;
+
+export const Rewind: IRewind = ({ className, isPlaying, curTime, seek }) => {
   const { setCurIndex } = React.useContext(PlayQueueContext);
 
   const rewind = (): void => {

@@ -15,7 +15,9 @@ export * from './Theme';
 export * from './Toaster';
 export * from './Volume';
 
-export const GlobalContexts: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+type IGlobalContexts = React.FC<{ children: React.ReactNode }>;
+
+export const GlobalContexts: IGlobalContexts = ({ children }) => (
   <ToastProvider>
     <AuthorizationProvider>
       <GraphQLProvider>

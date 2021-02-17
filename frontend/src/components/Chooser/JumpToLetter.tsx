@@ -3,9 +3,9 @@ import tw from 'twin.macro';
 
 import { ISetValue } from '~/types';
 
-import { ElementT } from './Element';
+import { IElement } from './Element';
 
-type IndexMap = { [k in string]?: () => void };
+type IIndexMap = { [k in string]?: () => void };
 
 const jumpLetters = [
   'A',
@@ -38,11 +38,13 @@ const jumpLetters = [
   '?',
 ];
 
-export const JumpToLetter: React.FC<{
+type IJumpToLetter = React.FC<{
   active: number | null;
-  results: ElementT[];
+  results: IElement[];
   setJumpTo: ISetValue<number | null>;
-}> = ({ active, results, setJumpTo }) => {
+}>;
+
+export const JumpToLetter: IJumpToLetter = ({ active, results, setJumpTo }) => {
   // prettier-ignore
   const letterToIndexMap = React.useMemo(
     () => mapLettersToIndex(results, setJumpTo),
@@ -73,13 +75,13 @@ export const JumpToLetter: React.FC<{
   );
 };
 
-const mapLettersToIndex = (results: ElementT[], setJumpTo: ISetValue<number | null>): IndexMap => {
-  const initialMap = jumpLetters.reduce<IndexMap>((map, jumpLetter) => {
+const mapLettersToIndex = (results: IElement[], setJumpTo: ISetValue<number | null>): IIndexMap => {
+  const initialMap = jumpLetters.reduce<IIndexMap>((map, jumpLetter) => {
     map[jumpLetter] = undefined; // eslint-disable-line no-param-reassign
     return map;
   }, {});
 
-  return results.reduce<IndexMap>((map, elem, index) => {
+  return results.reduce<IIndexMap>((map, elem, index) => {
     if (elem.starred) return map; // Exclude starred elements from jumper.
 
     const key = getJumpLetter(elem.name);

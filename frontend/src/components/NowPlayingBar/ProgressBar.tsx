@@ -4,11 +4,13 @@ import tw, { styled } from 'twin.macro';
 import { Slider } from '~/components';
 import { ITrack } from '~/graphql';
 
-export const ProgressBar: React.FC<{
+type IProgressBar = React.FC<{
   curTime: number;
   curTrack: ITrack | null;
   seek: (arg0: number) => void;
-}> = ({ curTime, curTrack, seek }) => {
+}>;
+
+export const ProgressBar: IProgressBar = ({ curTime, curTrack, seek }) => {
   const onSliderChange = (value: number | number[] | undefined | null): void =>
     seek(value as number);
 

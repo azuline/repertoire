@@ -10,10 +10,9 @@ import { filterNulls, secondsToLength } from '~/util';
 
 import { InInboxIndicator } from './InInboxIndicator';
 
-export const ArtRelease: React.FC<{ release: IRelease; className?: string }> = ({
-  release,
-  className,
-}) => {
+type IArtRelease = React.FC<{ release: IRelease; className?: string }>;
+
+export const ArtRelease: IArtRelease = ({ release, className }) => {
   const runtime = secondsToLength(release.runtime);
 
   return (

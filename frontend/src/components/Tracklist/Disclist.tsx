@@ -9,12 +9,11 @@ import { stringNumberCompare } from '~/util';
 import { Track } from './Track';
 import { checkMatchingTracklists } from './util';
 
-type Discs = { [dn in string]: ITrack[] };
+type IDiscs = { [dn in string]: ITrack[] };
 
-export const Disclist: React.FC<{ className?: string; tracks: ITrack[] }> = ({
-  className,
-  tracks,
-}) => {
+type IDisclist = React.FC<{ className?: string; tracks: ITrack[] }>;
+
+export const Disclist: IDisclist = ({ className, tracks }) => {
   const { playQueue, setPlayQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
 
   const discs = React.useMemo(() => sortTracksIntoDiscs(tracks), [tracks]);
@@ -67,8 +66,8 @@ export const Disclist: React.FC<{ className?: string; tracks: ITrack[] }> = ({
   );
 };
 
-const sortTracksIntoDiscs = (tracks: ITrack[]): Discs => {
-  const discs = tracks.reduce<Discs>((acc, track) => {
+const sortTracksIntoDiscs = (tracks: ITrack[]): IDiscs => {
+  const discs = tracks.reduce<IDiscs>((acc, track) => {
     const discNumber = track.discNumber || '1';
 
     acc[discNumber] = acc[discNumber] ?? []; // eslint-disable-line no-param-reassign
@@ -84,7 +83,7 @@ const sortTracksIntoDiscs = (tracks: ITrack[]): Discs => {
   return discs;
 };
 
-const sortDiscsIntoTracklist = (discs: Discs): ITrack[] => {
+const sortDiscsIntoTracklist = (discs: IDiscs): ITrack[] => {
   const discKeys = Object.keys(discs);
   discKeys.sort(stringNumberCompare);
 

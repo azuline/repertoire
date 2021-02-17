@@ -5,7 +5,9 @@ import * as React from 'react';
 import { Link } from '~/components';
 import { IRelease } from '~/graphql';
 
-export const WhenReleased: React.FC<{ release: IRelease }> = ({ release }) => {
+type IWhenReleased = React.FC<{ release: IRelease }>;
+
+export const WhenReleased: IWhenReleased = ({ release }) => {
   if (release.releaseDate) {
     return (
       <>

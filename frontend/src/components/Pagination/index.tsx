@@ -8,10 +8,15 @@ import { Arrow } from './Arrow';
 import { Goto } from './Goto';
 import { Page } from './Page';
 
-export const Pagination: React.FC<{
+type IPaginationComponent = React.FC<{
   pagination: IPagination;
   className?: string;
-}> = ({ pagination: { page, setPage, numPages }, className }) => {
+}>;
+
+export const Pagination: IPaginationComponent = ({
+  pagination: { page, setPage, numPages },
+  className,
+}) => {
   const bottom = Math.max(page - 2, 2);
   const top = Math.min(page + 3, numPages);
 

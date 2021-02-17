@@ -6,7 +6,9 @@ import { BackgroundContext } from '~/contexts';
 import { ITrack, useFetchReleaseQuery } from '~/graphql';
 import { filterNulls } from '~/util';
 
-export const Info: React.FC<{ track: ITrack }> = ({ track }) => {
+type IInfo = React.FC<{ track: ITrack }>;
+
+export const Info: IInfo = ({ track }) => {
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
   const { data } = useFetchReleaseQuery({ variables: { id: track.release.id } });
 

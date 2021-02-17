@@ -2,21 +2,23 @@ import * as React from 'react';
 
 import { usePersistentState, useRequestJson } from '~/hooks';
 
-type ContextT = {
+type IContext = {
   loggedIn: boolean;
   setLoggedIn: (arg0: boolean) => void;
   csrf: string | null;
   setCsrf: (arg0: string | null) => void;
 };
 
-export const AuthorizationContext = React.createContext<ContextT>({
+export const AuthorizationContext = React.createContext<IContext>({
   csrf: null,
   loggedIn: false,
   setCsrf: () => {},
   setLoggedIn: () => {},
 });
 
-export const AuthorizationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+type IProvider = React.FC<{ children: React.ReactNode }>;
+
+export const AuthorizationProvider: IProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = usePersistentState<boolean>('auth--loggedIn', false);
   const [csrf, setCsrf] = usePersistentState<string | null>('auth--csrfToken', null);
   const requestJson = useRequestJson<{ csrfToken: string }>();

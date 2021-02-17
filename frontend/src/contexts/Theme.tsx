@@ -2,20 +2,22 @@ import * as React from 'react';
 
 import { usePersistentState } from '~/hooks';
 
-export type ThemeT = 'dark' | 'light';
+export type ITheme = 'dark' | 'light';
 
-type ContextT = {
-  theme: ThemeT;
-  setTheme: (arg0: ThemeT | ((arg0: ThemeT) => ThemeT), arg1?: boolean) => void;
+type IContext = {
+  theme: ITheme;
+  setTheme: (arg0: ITheme | ((arg0: ITheme) => ITheme), arg1?: boolean) => void;
 };
 
-export const ThemeContext = React.createContext<ContextT>({
+export const ThemeContext = React.createContext<IContext>({
   setTheme: () => {},
   theme: 'dark',
 });
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = usePersistentState<ThemeT>('site--theme', 'dark');
+type IProvider = React.FC<{ children: React.ReactNode }>;
+
+export const ThemeProvider: IProvider = ({ children }) => {
+  const [theme, setTheme] = usePersistentState<ITheme>('site--theme', 'dark');
 
   const value = { setTheme, theme };
 

@@ -2,18 +2,20 @@ import * as React from 'react';
 
 import logo from '~/assets/logo.svg';
 
-export const Icon: React.FC<{
+type IIconComponent = React.FC<{
   className?: string;
-  icon: IconT;
+  icon: IIcon;
   onClick?: () => void;
   title?: string;
-}> = ({ icon, className, title, onClick }) => (
+}>;
+
+export const Icon: IIconComponent = ({ icon, className, title, onClick }) => (
   <div className={className} title={title} onClick={onClick}>
     {ICONS[icon]}
   </div>
 );
 
-export type IconT =
+export type IIcon =
   | 'chevron-double-left-small'
   | 'chevron-double-right-small'
   | 'chevron-down-small'
@@ -38,7 +40,7 @@ export type IconT =
   | 'volume-off-small'
   | 'volume-up-small';
 
-const ICONS: { [k in IconT]: React.ReactNode } = {
+const ICONS: { [k in IIcon]: React.ReactNode } = {
   'chevron-double-left-small': (
     <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
       <path

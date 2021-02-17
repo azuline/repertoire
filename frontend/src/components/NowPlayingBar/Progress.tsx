@@ -5,10 +5,12 @@ import * as React from 'react';
 import { ITrack } from '~/graphql';
 import { secondsToLength } from '~/util';
 
-export const Progress: React.FC<{
+type IProgress = React.FC<{
   curTrack: ITrack | null;
   curTime: number;
-}> = ({ curTrack, curTime }) => (
+}>;
+
+export const Progress: IProgress = ({ curTrack, curTime }) => (
   <div tw="flex-none hidden ml-4 text-center w-24 md:block">
     {curTrack ? (
       <>

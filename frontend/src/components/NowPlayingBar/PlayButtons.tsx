@@ -5,12 +5,14 @@ import * as React from 'react';
 import { FastForward, PlayPause, Rewind } from '~/components/PlayButtons';
 import { ISetValue } from '~/types';
 
-export const PlayButtons: React.FC<{
+type IPlayButtons = React.FC<{
   isPlaying: boolean;
   setIsPlaying: ISetValue<boolean>;
   curTime: number;
   seek: (arg0: number) => void;
-}> = ({ isPlaying, setIsPlaying, curTime, seek }) => (
+}>;
+
+export const PlayButtons: IPlayButtons = ({ isPlaying, setIsPlaying, curTime, seek }) => (
   <div tw="flex items-center justify-center flex-none mx-2 text-primary-500 sm:mx-8">
     <Rewind
       curTime={curTime}

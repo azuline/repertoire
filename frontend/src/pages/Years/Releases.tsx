@@ -3,7 +3,9 @@ import * as React from 'react';
 import { PagedReleases } from '~/components';
 import { usePagination, useViewOptions } from '~/hooks';
 
-export const YearReleases: React.FC<{ active: number }> = ({ active }) => {
+type IYearReleases = React.FC<{ active: number }>;
+
+export const YearReleases: IYearReleases = ({ active }) => {
   const viewOptions = useViewOptions({ years: [active] });
   const pagination = usePagination();
 

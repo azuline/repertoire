@@ -6,7 +6,9 @@ import { Header, SectionHeader } from '~/components';
 
 import { YearReleases } from './Releases';
 
-export const Year: React.FC<{ active: number }> = ({ active }) => {
+type IYear = React.FC<{ active: number }>;
+
+export const Year: IYear = ({ active }) => {
   return (
     <div tw="flex flex-col w-full">
       <Header />
