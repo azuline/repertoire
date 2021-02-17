@@ -4,7 +4,6 @@ const proxy = httpProxy.createServer({ target: 'http://localhost:5000' });
 
 module.exports = {
   extends: '@snowpack/app-scripts-react',
-  plugins: ['@snowpack/plugin-webpack'],
   alias: {
     '~': './src',
   },
@@ -17,6 +16,8 @@ module.exports = {
   ],
   optimize: {
     bundle: true,
+    minify: true,
+    target: 'es2018',
   },
   packageOptions: {
     knownEntrypoints: ['@emotion/react', '@emotion/styled'],
