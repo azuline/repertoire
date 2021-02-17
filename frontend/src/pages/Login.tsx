@@ -41,7 +41,7 @@ export const Login: React.FC = () => {
 
   return (
     <div className={theme}>
-      <div tw="flex content-center app h-screen w-full items-center">
+      <div tw="flex content-center h-screen w-full items-center">
         <form tw="self-center mx-auto" onSubmit={onSubmit}>
           <div>
             <Input

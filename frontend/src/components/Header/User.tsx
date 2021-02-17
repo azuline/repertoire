@@ -1,6 +1,5 @@
 import 'twin.macro';
 
-import clsx from 'clsx';
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 
@@ -25,7 +24,7 @@ export const User: React.FC<{ className?: string }> = ({ className }) => {
   };
 
   return (
-    <div className={clsx(className, 'flex items-center h-full min-w-0')}>
+    <div className={className} tw="flex items-center h-full min-w-0">
       <div tw="mr-2 truncate">{data?.user?.nickname || 'Loading...'}</div>
       <Link
         href="/settings"

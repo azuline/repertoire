@@ -1,4 +1,5 @@
-import clsx from 'clsx';
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Icon } from '~/components';
@@ -22,8 +23,9 @@ export const PlayPause: React.FC<{
 
   return (
     <Icon
-      className={clsx(className, 'mr-1 cursor-pointer hover:text-primary-400')}
+      className={className}
       icon={isPlaying ? 'pause-small' : 'play-small'}
+      tw="mr-1 cursor-pointer hover:text-primary-400"
       onClick={togglePlay}
     />
   );

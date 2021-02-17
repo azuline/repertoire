@@ -28,7 +28,7 @@ export const Element: React.FC<{
             toggleStar && tw`cursor-pointer`,
             toggleStar &&
               (element.starred
-                ? tw`hover(text-gray-500 stroke-current)`
+                ? tw`hover:(text-gray-500 stroke-current)`
                 : tw`hover:(text-primary-400 fill-current)`),
           ]}
           onClick={toggleStar}

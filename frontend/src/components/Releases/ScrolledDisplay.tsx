@@ -6,7 +6,6 @@ import { IRelease } from '~/graphql';
 
 export const ScrolledReleases: React.FC<{
   releases: IRelease[];
-  className?: string;
 }> = ({ releases }) => (
   <Wrapper tw="w-fullpad px-6 md:px-8 -mx-6 md:-mx-8 py-8 flex overflow-x-auto">
     {releases.map((rls) => (

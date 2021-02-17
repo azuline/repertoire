@@ -1,4 +1,5 @@
-import clsx from 'clsx';
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Link } from '~/components';
@@ -8,7 +9,7 @@ export const RedirectToNowPlaying: React.FC<{ className?: string; children: Reac
   children,
 }) => {
   return (
-    <Link className={clsx('flex', className)} href="/playing">
+    <Link className={className} href="/playing" tw="flex">
       {children}
     </Link>
   );

@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import * as React from 'react';
 import tw, { styled } from 'twin.macro';
 
@@ -13,7 +12,7 @@ type IComponent = React.FC<{
 }>;
 
 export const Searchbar: IComponent = ({ className, shrink = true }) => (
-  <div className={clsx(className, 'flex-1')}>
+  <div className={className} tw="flex-1">
     <div tw="relative flex items-center h-full">
       <SearchbarInput css={shrink && tw`max-w-xs focus:max-w-none`} placeholder="Search" />
       <div tw="absolute top-0 left-0 flex items-center h-full pl-2 pr-1 pointer-events-none">

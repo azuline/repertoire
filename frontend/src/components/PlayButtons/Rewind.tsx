@@ -1,4 +1,5 @@
-import clsx from 'clsx';
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Icon } from '~/components';
@@ -22,8 +23,9 @@ export const Rewind: React.FC<{
 
   return (
     <Icon
-      className={clsx(className, 'cursor-pointer mr-1 hover:text-primary-400')}
+      className={className}
       icon="rewind-small"
+      tw="cursor-pointer mr-1 hover:text-primary-400"
       onClick={rewind}
     />
   );

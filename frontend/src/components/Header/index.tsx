@@ -1,6 +1,5 @@
 import 'twin.macro';
 
-import clsx from 'clsx';
 import * as React from 'react';
 
 import { Icon, Link } from '~/components/common';
@@ -16,7 +15,7 @@ export const Header: React.FC<{ className?: string; searchbar?: boolean }> = ({
   searchbar = true,
 }) => {
   return (
-    <div className={clsx(className, 'flex items-center flex-none w-full h-20 mb-2')}>
+    <div className={className} tw="flex items-center flex-none w-full h-20 mb-2">
       <Link href="/mobile" tw="block sm:hidden">
         <Icon
           icon="home-small"

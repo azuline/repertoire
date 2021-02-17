@@ -1,4 +1,5 @@
-import clsx from 'clsx';
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Icon } from '~/components/common/Icon';
@@ -8,27 +9,23 @@ export const Select: React.FC<{
   value?: string | number | readonly string[];
   onChange?: (arg0: React.FormEvent<HTMLSelectElement>) => void;
   className?: string;
-  selectClassName?: string;
   label?: string;
   name?: string;
-}> = ({ children, value, onChange, className, selectClassName = '', label, name }) => (
-  <div className={clsx(className, 'relative flex items-center')}>
+}> = ({ children, value, onChange, className, label, name }) => (
+  <div className={className} tw="relative flex items-center">
     {label && (
-      <label className="flex-none pr-1" htmlFor={name}>
+      <label htmlFor={name} tw="flex-none pr-1">
         {label}:
       </label>
     )}
     <select
-      className={clsx(
-        selectClassName,
-        'z-10 flex-1 py-1 pr-4 bg-transparent appearance-none cursor-pointer text-primary-400',
-      )}
       id={name}
+      tw="z-10 flex-1 py-1 pr-4 bg-transparent appearance-none cursor-pointer text-primary-400"
       value={value}
       onChange={onChange}
     >
       {children}
     </select>
-    <Icon className="absolute right-0 flex-none w-4 text-primary-500" icon="chevron-down-small" />
+    <Icon icon="chevron-down-small" tw="absolute right-0 flex-none w-4 text-primary-500" />
   </div>
 );

@@ -1,4 +1,5 @@
-import clsx from 'clsx';
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { IPagination } from '~/hooks';
@@ -21,7 +22,7 @@ export const Pagination: React.FC<{
   if (numPages <= 1) return null;
 
   return (
-    <div className={clsx(className, 'flex items-center -ml-1')}>
+    <div className={className} tw="flex items-center -ml-1">
       {numPages > 1 && <Arrow direction="left" onClick={goBackOnePage} />}
       <Page curPage={page} page={1} setCurPage={setPage} />
       {Array.from({ length: top - bottom }).map((_, i) => (

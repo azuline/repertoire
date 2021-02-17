@@ -42,7 +42,7 @@ export const VirtualList: React.FC<{
       return [jumpTo, 'start'];
     }
     if (active) {
-      // TODO: Perhaps construct a map of IDs to index for this sort of thing.
+      // TODO(perf): Perhaps construct a map of IDs to index for this sort of thing.
       return [results.findIndex((elem) => elem.id === active), 'center'];
     }
     return [undefined, 'center'];
@@ -52,7 +52,7 @@ export const VirtualList: React.FC<{
     <AutoSizer>
       {({ width, height }): React.ReactNode => (
         <List
-          css={[tw`chooser`, active && tw`pt-8`]}
+          css={active && tw`pt-8`}
           height={height}
           overscanRowCount={8}
           rowCount={results.length + (active ? 2 : 1)}

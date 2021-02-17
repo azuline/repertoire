@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { CollectionReleases, Header, SectionHeader } from '~/components';
@@ -28,9 +30,9 @@ export const Label: React.FC<{ active: number }> = ({ active }) => {
   }
 
   return (
-    <div className="flex flex-col w-full">
+    <div tw="flex flex-col w-full">
       <Header />
-      <SectionHeader className="mt-4 mb-8">{collection.name}</SectionHeader>
+      <SectionHeader tw="mt-4 mb-8">{collection.name}</SectionHeader>
       <CollectionReleases active={active} />
     </div>
   );

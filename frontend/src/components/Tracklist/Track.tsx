@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import * as React from 'react';
+import tw from 'twin.macro';
 
 import { Icon } from '~/components/common';
 import { TrackArtistList } from '~/components/Lists';
@@ -17,29 +17,29 @@ export const Track: React.FC<{
 
   return (
     <div
-      className={clsx(
-        'py-1.5 px-3 -mx-3 rounded',
-        active && 'font-bold',
-        onClick && 'cursor-pointer hover-bg',
-      )}
+      css={[
+        tw`py-1.5 px-3 -mx-3 rounded`,
+        active && tw`font-bold`,
+        onClick && tw`cursor-pointer hover-bg`,
+      ]}
       style={{ width: 'calc(100% + 1.5rem)' }}
       onClick={trackOnClick}
     >
-      <div className="flex items-center">
-        <Icon className="flex-none w-5 mr-3 cursor-pointer text-primary-500" icon="play-medium" />
-        <div className="flex-1 mr-2 truncate md:flex-none w-1/3" title={track.title}>
+      <div tw="flex items-center">
+        <Icon icon="play-medium" tw="flex-none w-5 mr-3 cursor-pointer text-primary-500" />
+        <div title={track.title} tw="flex-1 mr-2 truncate md:flex-none w-1/3">
           <span>{trackNumber}. </span>
           {track.title}
         </div>
         <TrackArtistList
           artists={filterNulls(track.artists)}
-          className="flex-1 hidden truncate text-foreground-400 md:block"
+          tw="flex-1 hidden truncate text-foreground-400 md:block"
         />
-        <div className="flex-none ml-2 text-foreground-400">{secondsToLength(track.duration)}</div>
+        <div tw="flex-none ml-2 text-foreground-400">{secondsToLength(track.duration)}</div>
       </div>
       <TrackArtistList
         artists={filterNulls(track.artists)}
-        className="mt-1 ml-8 truncate text-foreground-400 md:hidden"
+        tw="mt-1 ml-8 truncate text-foreground-400 md:hidden"
       />
     </div>
   );

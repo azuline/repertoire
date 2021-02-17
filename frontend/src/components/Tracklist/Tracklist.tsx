@@ -1,4 +1,5 @@
-import clsx from 'clsx';
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { PlayQueueContext } from '~/contexts';
@@ -27,7 +28,7 @@ export const Tracklist: React.FC<{ className?: string; tracks: ITrack[] }> = ({
   };
 
   return (
-    <div className={clsx(className, 'pb-8')}>
+    <div className={className} tw="pb-8">
       {tracks.map((track, idx) => (
         <Track
           key={idx}

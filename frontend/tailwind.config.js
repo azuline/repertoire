@@ -43,9 +43,14 @@ module.exports = {
       },
       width: {
         7.5: '1.875rem',
+        18: '4.5rem',
         88: '22rem',
       },
+      maxWidth: {
+        '3/5': '60%',
+      },
       minHeight: {
+        48: '12rem',
         52: '13rem',
       },
       inset: {

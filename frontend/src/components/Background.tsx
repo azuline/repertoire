@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Image } from '~/components/Image';
@@ -27,12 +29,12 @@ export const Background: React.FC = () => {
   if (backgroundImageId === null) return null;
 
   return (
-    <div className="absolute top-0 left-0 w-full h-screen overflow-hidden">
-      <div className="relative w-full h-0 overflow-hidden pb-full">
-        <Image className="object-cover w-full opacity-50" imageId={backgroundImageId} />
-        <div className="absolute top-0 left-0 full" style={innerBackgroundStyle} />
+    <div tw="absolute top-0 left-0 w-full h-screen overflow-hidden">
+      <div tw="relative w-full h-0 overflow-hidden pb-full">
+        <Image imageId={backgroundImageId} tw="object-cover w-full opacity-50" />
+        <div style={innerBackgroundStyle} tw="absolute top-0 left-0 full" />
       </div>
-      <div className="absolute top-0 left-0 full" style={outerBackgroundStyle} />
+      <div style={outerBackgroundStyle} tw="absolute top-0 left-0 full" />
     </div>
   );
 };

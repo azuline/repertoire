@@ -1,8 +1,6 @@
-import 'twin.macro';
-
-import clsx from 'clsx';
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
+import tw, { TwStyle } from 'twin.macro';
 
 import { Pagination } from '~/components/Pagination';
 import { ArtRelease, RowRelease } from '~/components/Release';
@@ -53,7 +51,7 @@ export const PagedReleases: React.FC<{
       break;
     case IReleaseView.Artwork:
       releasesDiv = (
-        <div className={clsx('grid gap-4 md:gap-6', calculateGridCss(partial))}>
+        <div css={[tw`grid gap-4 md:gap-6`, calculateGridCss(partial)]}>
           {results.map((rls) => (
             <ArtRelease key={rls.id} release={rls} />
           ))}
@@ -72,9 +70,9 @@ export const PagedReleases: React.FC<{
   );
 };
 
-const calculateGridCss = (partial: boolean): string => {
+const calculateGridCss = (partial: boolean): TwStyle => {
   if (partial) {
-    return 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5';
+    return tw`grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5`;
   }
-  return 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6';
+  return tw`grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6`;
 };

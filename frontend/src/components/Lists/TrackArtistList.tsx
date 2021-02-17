@@ -6,7 +6,6 @@ import { IArtist, ITrackArtist } from '~/graphql';
 type ListT = React.FC<{
   artists?: ITrackArtist[];
   className?: string;
-  elementClassName?: string;
   delimiter?: string;
   link?: boolean;
 }>;
@@ -33,13 +32,7 @@ const DIVIDER_WORDS_RAW: { [k in string]: string } = {
   REMIXER: ' remixed by ',
 };
 
-export const TrackArtistList: ListT = ({
-  artists,
-  className,
-  elementClassName,
-  delimiter = ', ',
-  link = false,
-}) => {
+export const TrackArtistList: ListT = ({ artists, className, delimiter = ', ', link = false }) => {
   const rolesToArtists = React.useMemo(() => mapRolesToArtists(artists), [artists]);
   const dividerWords = React.useMemo(() => determineDividerWords(rolesToArtists), [rolesToArtists]);
 
@@ -54,11 +47,11 @@ export const TrackArtistList: ListT = ({
             <React.Fragment key={j}>
               {j > 0 && delimiter}
               {link ? (
-                <Link className={elementClassName} href={`artists/${art.id}`}>
+                <Link className="list--element" href={`artists/${art.id}`}>
                   {art.name}
                 </Link>
               ) : (
-                <span className={elementClassName}>{art.name}</span>
+                <span className="list--element">{art.name}</span>
               )}
             </React.Fragment>
           ))}
