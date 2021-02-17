@@ -26,13 +26,15 @@ RUN mkdir /data /music
 
 ENV DATA_PATH=/data
 ENV BUILT_FRONTEND_DIR=/app/frontend
+ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
 RUN echo '[repertoire]\n\
 music_directories = ["/music"]\n\
 index_crontab = 0 0 * * *' > /data/config.ini
 
+# For Pillow.
 RUN apk add jpeg-dev zlib-dev 
-RUN apk add --no-cache --virtual build-deps gcc rust cargo musl-dev libffi-dev openssl-dev
+RUN apk add --no-cache --virtual build-deps gcc musl-dev libffi-dev openssl-dev
 
 # To cache dependencies even if the code changes, we install deps
 # before copying the rest of the code.
