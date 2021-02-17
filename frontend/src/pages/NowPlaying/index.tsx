@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Header, SectionHeader, Tracklist } from '~/components';
@@ -15,11 +17,11 @@ export const NowPlaying: React.FC = () => {
     <>
       <Header />
       {playQueue.length === 0 ? (
-        <SectionHeader className="my-16 text-center">nothing playing ^.~</SectionHeader>
+        <SectionHeader tw="my-16 text-center">nothing playing ^.~</SectionHeader>
       ) : (
-        <div className="flex flex-col mt-4">
+        <div tw="flex flex-col mt-4">
           {curTrack && <Info track={curTrack} />}
-          <SectionHeader className="my-8">Play Queue</SectionHeader>
+          <SectionHeader tw="my-8">Play Queue</SectionHeader>
           <Tracklist tracks={playQueue} />
         </div>
       )}

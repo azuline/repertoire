@@ -1,4 +1,5 @@
-import clsx from 'clsx';
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Icon } from '~/components';
@@ -14,8 +15,9 @@ export const FastForward: React.FC<{
 
   return (
     <Icon
-      className={clsx(className, 'cursor-pointer hover:text-primary-400')}
+      className={className}
       icon="fast-forward-small"
+      tw="cursor-pointer hover:text-primary-400"
       onClick={fastForward}
     />
   );

@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import * as React from 'react';
+import tw from 'twin.macro';
 
 import { ISetValue } from '~/types';
 
@@ -51,19 +51,19 @@ export const JumpToLetter: React.FC<{
 
   return (
     <div
-      className={clsx(
-        'absolute top-0 right-0 z-10 overflow-y-hidden text-right',
-        active ? 'mt-9 mr-5' : 'mr-8 pt-1',
-      )}
+      css={[
+        tw`absolute top-0 right-0 z-10 overflow-y-hidden text-right`,
+        active ? tw`mt-9 mr-5` : tw`mr-8 pt-1`,
+      ]}
       style={{ height: 'calc(100vh - 9.5rem)' }}
     >
       {Object.entries(letterToIndexMap).map(([letter, jumpFn]) => (
         <div
           key={letter}
-          className={clsx(
-            'px-2',
-            jumpFn ? 'cursor-pointer hover:font-bold text-primary-500' : 'text-primary-700',
-          )}
+          css={[
+            tw`px-2`,
+            jumpFn ? tw`cursor-pointer hover:font-bold text-primary-500` : tw`text-primary-700`,
+          ]}
           onClick={jumpFn}
         >
           {letter}

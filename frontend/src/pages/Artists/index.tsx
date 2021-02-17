@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Header } from '~/components';
@@ -12,8 +14,8 @@ export const Artists: React.FC = () => {
   return (
     <>
       {!active && <Header />}
-      <div className="flex flex-1">
-        <ArtistChooser active={active} className="flex-none" />
+      <div tw="flex flex-1">
+        <ArtistChooser active={active} tw="flex-none" />
         {active && <Artist active={active} />}
       </div>
     </>

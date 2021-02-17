@@ -1,6 +1,6 @@
-import clsx from 'clsx';
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
+import tw, { TwStyle } from 'twin.macro';
 
 import { Pagination } from '~/components/Pagination';
 import { ArtRelease, RowRelease } from '~/components/Release';
@@ -40,10 +40,10 @@ export const PagedReleases: React.FC<{
   switch (viewOptions.releaseView) {
     case IReleaseView.Row:
       releasesDiv = (
-        <div className="flex flex-col">
+        <div tw="flex flex-col">
           {results.map((rls) => (
             <div key={rls.id}>
-              <RowRelease className="-mx-3 rounded-lg" release={rls} />
+              <RowRelease release={rls} tw="-mx-3 rounded-lg" />
             </div>
           ))}
         </div>
@@ -51,7 +51,7 @@ export const PagedReleases: React.FC<{
       break;
     case IReleaseView.Artwork:
       releasesDiv = (
-        <div className={clsx('grid gap-4 md:gap-6', calculateGridCss(partial))}>
+        <div css={[tw`grid gap-4 md:gap-6`, calculateGridCss(partial)]}>
           {results.map((rls) => (
             <ArtRelease key={rls.id} release={rls} />
           ))}
@@ -62,22 +62,17 @@ export const PagedReleases: React.FC<{
   }
 
   return (
-    <div className="pb-8">
-      <ViewSettings
-        className="mb-6"
-        pagination={pagination}
-        partial={partial}
-        viewOptions={viewOptions}
-      />
+    <div tw="pb-8">
+      <ViewSettings pagination={pagination} partial={partial} tw="mb-6" viewOptions={viewOptions} />
       {releasesDiv}
-      <Pagination className="mt-6" pagination={pagination} />
+      <Pagination pagination={pagination} tw="mt-6" />
     </div>
   );
 };
 
-const calculateGridCss = (partial: boolean): string => {
+const calculateGridCss = (partial: boolean): TwStyle => {
   if (partial) {
-    return 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5';
+    return tw`grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5`;
   }
-  return 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6';
+  return tw`grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6`;
 };

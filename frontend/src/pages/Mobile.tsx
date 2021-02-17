@@ -1,10 +1,9 @@
+import 'twin.macro';
+
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { Icon } from '~/components/common';
-import { Searchbar } from '~/components/Header/Searchbar';
-import { User } from '~/components/Header/User';
-import { RouteList } from '~/components/Routelist';
+import { Icon, RouteList, Searchbar, User } from '~/components';
 
 export const Mobile: React.FC = () => {
   const history = useHistory();
@@ -12,17 +11,17 @@ export const Mobile: React.FC = () => {
   const goHome = (): void => history.push('/');
 
   return (
-    <div className="flex flex-col flex-1 pb-6">
-      <div className="flex items-center mt-6 mb-4">
-        <div className="flex items-center pr-4 cursor-pointer" onClick={goHome}>
-          <Icon className="w-8 text-primary-500" icon="logo" />
-          <div className="ml-2 font-semibold">
-            <span className="text-primary-500">reper</span>toire
+    <div tw="flex flex-col flex-1 pb-6">
+      <div tw="flex items-center mt-6 mb-4">
+        <div tw="flex items-center pr-4 cursor-pointer" onClick={goHome}>
+          <Icon icon="logo" tw="w-8 text-primary-500" />
+          <div tw="ml-2 font-semibold">
+            <span tw="text-primary-500">reper</span>toire
           </div>
         </div>
-        <User className="ml-auto" />
+        <User tw="ml-auto" />
       </div>
-      <Searchbar className="flex-none block h-16 mb-4" shrink={false} />
+      <Searchbar shrink={false} tw="flex-none block h-16 mb-4" />
       <RouteList />
     </div>
   );

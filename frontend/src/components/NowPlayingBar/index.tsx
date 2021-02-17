@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { PlayQueueContext } from '~/contexts';
@@ -17,9 +19,9 @@ export const NowPlayingBar: React.FC = () => {
   const curTrack = curIndex !== null ? playQueue[curIndex] : null;
 
   return (
-    <div className="relative flex-none w-full h-16 bg-background-900 z-10">
+    <div tw="relative flex-none w-full h-16 bg-background-900 z-10">
       <ProgressBar curTime={curTime} curTrack={curTrack} seek={seek} />
-      <div className="flex items-center full">
+      <div tw="flex items-center full">
         <Progress curTime={curTime} curTrack={curTrack} />
         <PlayButtons
           curTime={curTime}
@@ -27,7 +29,7 @@ export const NowPlayingBar: React.FC = () => {
           seek={seek}
           setIsPlaying={setIsPlaying}
         />
-        {curTrack ? <TrackInfo curTrack={curTrack} /> : <div className="flex-1" />}
+        {curTrack ? <TrackInfo curTrack={curTrack} /> : <div tw="flex-1" />}
         <VolumeControl />
         <ExpandPlaying />
       </div>

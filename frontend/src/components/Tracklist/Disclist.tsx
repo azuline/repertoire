@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import * as React from 'react';
+import tw from 'twin.macro';
 
 import { SectionHeader } from '~/components/common';
 import { PlayQueueContext } from '~/contexts';
@@ -40,11 +40,11 @@ export const Disclist: React.FC<{ className?: string; tracks: ITrack[] }> = ({
   let trackIndex = -1;
 
   return (
-    <div className={clsx(className, 'pb-8')}>
+    <div className={className} tw="pb-8">
       {Object.entries(discs).map(([discNumber, discTracks], i) => (
         <React.Fragment key={discNumber}>
           {multiDisc && (
-            <SectionHeader className={clsx('text-foreground-300', i > 0 ? 'my-4' : 'mb-4')}>
+            <SectionHeader css={[tw`text-foreground-300`, i > 0 ? tw`my-4` : tw`mb-4`]}>
               Disc {discNumber}
             </SectionHeader>
           )}

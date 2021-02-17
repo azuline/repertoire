@@ -1,7 +1,9 @@
-import clsx from 'clsx';
+import 'twin.macro';
+
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 
+import { Button, Input } from '~/components';
 import { AuthorizationContext, ThemeContext } from '~/contexts';
 import { useRequestJson } from '~/hooks';
 
@@ -38,25 +40,27 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className={clsx(theme, 'flex content-center app h-screen w-full items-center')}>
-      <form className="self-center mx-auto" onSubmit={onSubmit}>
-        <div>
-          <input
-            ref={input}
-            autoFocus
-            className="mr-6"
-            placeholder="Authorization token"
-            style={{ maxWidth: '600px', minWidth: '300px', width: '50vw' }}
-          />
-          <button type="submit">Login</button>
-        </div>
-        <div className="flex items-center mt-2">
-          <input ref={permanent} className="mx-2 cursor-pointer" id="permanent" type="checkbox" />
-          <label className="cursor-pointer" htmlFor="permanent">
-            Remember me
-          </label>
-        </div>
-      </form>
+    <div className={theme}>
+      <div tw="flex content-center h-screen w-full items-center">
+        <form tw="self-center mx-auto" onSubmit={onSubmit}>
+          <div>
+            <Input
+              ref={input}
+              autoFocus
+              placeholder="Authorization token"
+              style={{ maxWidth: '600px', minWidth: '300px', width: '50vw' }}
+              tw="mr-6"
+            />
+            <Button type="submit">Login</Button>
+          </div>
+          <div tw="flex items-center mt-2">
+            <Input ref={permanent} id="permanent" tw="mx-2 cursor-pointer" type="checkbox" />
+            <label htmlFor="permanent" tw="cursor-pointer">
+              Remember me
+            </label>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

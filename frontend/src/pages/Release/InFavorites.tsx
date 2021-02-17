@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import * as React from 'react';
+import tw from 'twin.macro';
 
 import { Icon } from '~/components';
 import {
@@ -27,11 +27,8 @@ export const InFavorites: React.FC<{ className?: string; release: IRelease }> = 
 
   return (
     <Icon
-      className={clsx(
-        className,
-        'w-8 cursor-pointer',
-        release.inFavorites ? 'text-pink-500' : 'text-gray-500',
-      )}
+      className={className}
+      css={[tw`w-8 cursor-pointer`, release.inFavorites ? tw`text-pink-500` : tw`text-gray-500`]}
       icon="heart-medium"
       title={release.inFavorites ? 'In favorites' : 'Not in favorites'}
       onClick={toggleFavorite}

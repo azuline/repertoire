@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { CollectionChooser, Header } from '~/components';
@@ -13,11 +15,11 @@ export const Genres: React.FC = () => {
   return (
     <>
       {!active && <Header />}
-      <div className="flex flex-1">
+      <div tw="flex flex-1">
         <CollectionChooser
           active={active}
-          className="flex-none"
           collectionTypes={types}
+          tw="flex-none"
           urlPrefix="/genres"
         />
         {active && <Genre active={active} />}

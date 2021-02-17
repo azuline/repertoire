@@ -1,4 +1,5 @@
 import * as React from 'react';
+import tw, { styled } from 'twin.macro';
 
 import { ArtistList, GenreList, LabelList, Link, SectionHeader } from '~/components';
 import { IRelease } from '~/graphql';
@@ -10,57 +11,60 @@ import { WhenReleased } from './WhenReleased';
 
 export const Info: React.FC<{ release: IRelease }> = ({ release }) => {
   return (
-    <div className="flex flex-col flex-1 min-w-0 md:min-h-52">
-      <SectionHeader className="flex-none mb-6 md:mb-4 truncate-2">
+    <div tw="flex flex-col flex-1 min-w-0 md:min-h-52">
+      <SectionHeader tw="flex-none mb-6 md:mb-4 truncate-2">
         <div>
-          <div className="float-right ml-2 w-18 md:hidden">
-            <div className="flex">
-              <InFavorites className="flex-none" release={release} />
-              <InInbox className="flex-none" release={release} />
+          <div tw="float-right ml-2 w-18 md:hidden">
+            <div tw="flex">
+              <InFavorites release={release} tw="flex-none" />
+              <InInbox release={release} tw="flex-none" />
             </div>
           </div>
           {release.title}
         </div>
       </SectionHeader>
-      <div className="flex-none mb-2 truncate-2 text-foreground-100">
-        <span className="text-foreground-300">By </span>
+      <div tw="flex-none mb-2 truncate-2 text-foreground-100">
+        <span tw="text-foreground-300">By </span>
         {release.artists.length === 0 ? (
           <Link href="/artists/1">Unknown Artist</Link>
         ) : (
-          <ArtistList
-            link
-            className="inline"
-            elementClassName="text-primary-400"
-            elements={filterNulls(release.artists)}
-          />
+          <CustomArtistList link elements={filterNulls(release.artists)} tw="inline" />
         )}
       </div>
-      <div className="flex-none mb-4 truncate-2 text-foreground-100">
+      <div tw="flex-none mb-4 truncate-2 text-foreground-100">
         <WhenReleased release={release} />
-        <span className="text-foreground-300"> on </span>
+        <span tw="text-foreground-300"> on </span>
         {release.labels.length === 0 ? (
           <span>No Label</span>
         ) : (
-          <LabelList
-            link
-            className="inline"
-            elementClassName="text-primary-400"
-            elements={filterNulls(release.labels)}
-          />
+          <CustomLabelList link elements={filterNulls(release.labels)} tw="inline" />
         )}
       </div>
-      <div className="flex-none mt-2 truncate-2 md:mt-auto">
+      <div tw="flex-none mt-2 truncate-2 md:mt-auto">
         {release.genres.length !== 0 && (
           <>
-            <GenreList
-              link
-              delimiter=" "
-              elementClassName="px-2 py-1 mr-1 rounded bg-primary-700 text-foreground hover:bg-primary-600 leading-9"
-              elements={filterNulls(release.genres)}
-            />
+            <CustomGenreList link delimiter=" " elements={filterNulls(release.genres)} />
           </>
         )}
       </div>
     </div>
   );
 };
+
+const CustomArtistList = styled(ArtistList)`
+  .list--element {
+    ${tw`text-primary-400`}
+  }
+`;
+
+const CustomLabelList = styled(LabelList)`
+  .list--element {
+    ${tw`text-primary-400`}
+  }
+`;
+
+const CustomGenreList = styled(GenreList)`
+  .list--element {
+    ${tw`px-2 py-1 mr-1 rounded bg-primary-700 text-foreground hover:bg-primary-600 leading-9`}
+  }
+`;

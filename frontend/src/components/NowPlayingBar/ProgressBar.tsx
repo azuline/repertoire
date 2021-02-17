@@ -1,6 +1,7 @@
 import * as React from 'react';
-import ReactSlider from 'react-slider';
+import tw, { styled } from 'twin.macro';
 
+import { Slider } from '~/components';
 import { ITrack } from '~/graphql';
 
 export const ProgressBar: React.FC<{
@@ -12,15 +13,22 @@ export const ProgressBar: React.FC<{
     seek(value as number);
 
   return (
-    <div className="absolute left-0 w-full h-1 -top-1">
-      <ReactSlider
-        className="slider playbar-slider"
+    <ProgressSlider>
+      <Slider
         disabled={!curTrack}
         max={curTrack ? curTrack.duration : undefined}
         thumbClassName={curTrack ? undefined : 'hidden'}
         value={curTrack ? curTime : 0}
         onAfterChange={onSliderChange}
       />
-    </div>
+    </ProgressSlider>
   );
 };
+
+const ProgressSlider = styled.div`
+  ${tw`absolute left-0 w-full h-1 -top-1`}
+
+  .slider .track {
+    ${tw`h-1`}
+  }
+`;

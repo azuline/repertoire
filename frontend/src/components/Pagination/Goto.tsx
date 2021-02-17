@@ -1,7 +1,9 @@
+import 'twin.macro';
+
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 
-import { Icon } from '~/components/common';
+import { Icon, Input, TextButton } from '~/components/common';
 
 export const Goto: React.FC<{
   setCurPage: (arg0: number) => void;
@@ -26,12 +28,12 @@ export const Goto: React.FC<{
   };
 
   return (
-    <form className="flex" onSubmit={onSubmit}>
-      <div className="relative ml-1">
-        <input ref={input} className="w-16 p-0 py-1 text-center pr-7" placeholder="Go" />
-        <button className="absolute right-0 h-full py-0 pl-1 pr-2 text-btn" type="submit">
-          <Icon className="w-4 text-primary-500" icon="right-arrow-small" />
-        </button>
+    <form tw="flex" onSubmit={onSubmit}>
+      <div tw="relative ml-1">
+        <Input ref={input} placeholder="Go" tw="w-16 p-0 py-1 text-center pr-6" />
+        <TextButton tw="absolute right-0 h-full px-1 py-0" type="submit">
+          <Icon icon="right-arrow-small" tw="w-4 text-primary-500" />
+        </TextButton>
       </div>
     </form>
   );

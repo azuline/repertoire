@@ -1,7 +1,7 @@
-import clsx from 'clsx';
 import * as React from 'react';
+import tw from 'twin.macro';
 
-import { Icon, Popover } from '~/components/common';
+import { Icon, Popover, TextButton } from '~/components/common';
 import { Pagination } from '~/components/Pagination';
 import { IPagination, IViewOptions } from '~/hooks';
 
@@ -16,30 +16,32 @@ export const ViewSettings: React.FC<{
   className?: string;
   partial?: boolean;
 }> = ({ viewOptions, pagination, className, partial = false }) => {
-  const responsiveFlex = partial ? '2xl:flex' : 'xl:flex';
-  const responsiveHide = partial ? '2xl:hidden' : 'xl:hidden';
+  const responsiveFlex = partial ? tw`2xl:flex` : tw`xl:flex`;
+  const responsiveHide = partial ? tw`2xl:hidden` : tw`xl:hidden`;
 
   return (
-    <div className={clsx('flex', className)}>
+    <div className={className} tw="flex">
       <Pagination pagination={pagination} />
-      <div className={clsx('hidden ml-auto', responsiveFlex)}>
+      <div css={[tw`hidden ml-auto`, responsiveFlex]}>
         <View viewOptions={viewOptions} />
-        <Sort className="ml-2" viewOptions={viewOptions} />
-        <Order className="ml-2" viewOptions={viewOptions} />
-        <PerPage className="ml-2" pagination={pagination} />
+        <Sort tw="ml-2" viewOptions={viewOptions} />
+        <Order tw="ml-2" viewOptions={viewOptions} />
+        <PerPage pagination={pagination} tw="ml-2" />
       </div>
-      <Popover click className={clsx('ml-auto -mr-2', responsiveHide)}>
-        <button className="flex items-center small-btn text-btn" type="button">
-          <div>Options</div>
-          <Icon className="w-4 ml-1 -mr-0.5" icon="chevron-down-small" />
-        </button>
-        <div>
-          <View viewOptions={viewOptions} />
-          <Sort viewOptions={viewOptions} />
-          <Order viewOptions={viewOptions} />
-          <PerPage pagination={pagination} />
-        </div>
-      </Popover>
+      <div css={[tw`ml-auto -mr-2`, responsiveHide]}>
+        <Popover>
+          <TextButton tw="flex items-center px-2 py-1" type="button">
+            <div>Options</div>
+            <Icon icon="chevron-down-small" tw="w-4 ml-1 -mr-0.5" />
+          </TextButton>
+          <div>
+            <View viewOptions={viewOptions} />
+            <Sort viewOptions={viewOptions} />
+            <Order viewOptions={viewOptions} />
+            <PerPage pagination={pagination} />
+          </div>
+        </Popover>
+      </div>
     </div>
   );
 };

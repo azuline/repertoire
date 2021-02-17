@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Header } from '~/components';
@@ -8,6 +10,6 @@ export const Explore: React.FC = (): React.ReactElement => (
   <>
     <Header />
     <RecentlyAdded />
-    <span className="py-8">More to come later~</span>
+    <span tw="py-8">More to come later~</span>
   </>
 );

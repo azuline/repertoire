@@ -1,8 +1,9 @@
-import clsx from 'clsx';
+import 'twin.macro';
+
 import * as React from 'react';
 
 export const InInboxIndicator: React.FC<{ className?: string }> = ({ className }) => (
-  <div className={clsx(className, 'flex items-center flex-none')} title="In Inbox">
-    <div className="w-2.5 h-2.5 bg-blue-500 rounded-full" />
+  <div className={className} title="In Inbox" tw="flex items-center flex-none">
+    <div tw="w-2.5 h-2.5 bg-blue-500 rounded-full" />
   </div>
 );

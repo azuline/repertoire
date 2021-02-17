@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Header, SectionHeader } from '~/components';
@@ -30,9 +32,9 @@ export const Artist: IComponent = ({ active }) => {
   if (!artist) return null;
 
   return (
-    <div className="flex flex-col w-full">
+    <div tw="flex flex-col w-full">
       <Header />
-      <SectionHeader className="mt-4 mb-8">{artist.name}</SectionHeader>
+      <SectionHeader tw="mt-4 mb-8">{artist.name}</SectionHeader>
       <ArtistReleases active={active} />
     </div>
   );

@@ -6,19 +6,12 @@ import { IElement } from '~/types';
 type ListT = React.FC<{
   className?: string;
   delimiter?: string;
-  elementClassName?: string;
   elements?: IElement[];
   link?: boolean;
 }>;
 
 export const makeList = (urlPrefix: string): ListT => {
-  const ElementList: ListT = ({
-    className,
-    delimiter = ', ',
-    elementClassName,
-    elements,
-    link = false,
-  }) => {
+  const ElementList: ListT = ({ className, delimiter = ', ', elements, link = false }) => {
     if (!elements || elements.length === 0) return <div> </div>;
 
     return (
@@ -27,11 +20,11 @@ export const makeList = (urlPrefix: string): ListT => {
           <React.Fragment key={i}>
             {i > 0 && delimiter}
             {link ? (
-              <Link className={elementClassName} href={`${urlPrefix}/${elem.id}`}>
+              <Link className="list--element" href={`${urlPrefix}/${elem.id}`}>
                 {elem.name}
               </Link>
             ) : (
-              <span className={elementClassName}>{elem.name}</span>
+              <span className="list--element">{elem.name}</span>
             )}
           </React.Fragment>
         ))}

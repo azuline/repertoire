@@ -1,5 +1,7 @@
-import clsx from 'clsx';
 import * as React from 'react';
+import tw from 'twin.macro';
+
+import { TextButton } from '../common/Button';
 
 export const Page: React.FC<{
   page: number;
@@ -7,15 +9,15 @@ export const Page: React.FC<{
   setCurPage: (arg0: number) => void;
   className?: string;
 }> = ({ page, curPage, setCurPage, className }) => (
-  <button
-    className={clsx(
-      className,
-      page === curPage ? 'font-bold text-primary-500' : 'text-black dark:text-white',
-      'p-1 text-btn rounded-none',
-    )}
+  <TextButton
+    className={className}
+    css={[
+      page === curPage ? tw`font-bold text-primary-500` : tw`text-black dark:text-white`,
+      tw`p-1 rounded-none`,
+    ]}
     type="button"
     onClick={(): void => setCurPage(page)}
   >
     {page}
-  </button>
+  </TextButton>
 );

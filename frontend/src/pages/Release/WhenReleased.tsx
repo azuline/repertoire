@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Link } from '~/components';
@@ -7,7 +9,7 @@ export const WhenReleased: React.FC<{ release: IRelease }> = ({ release }) => {
   if (release.releaseDate) {
     return (
       <>
-        <span className="text-foreground-300">Released on </span>
+        <span tw="text-foreground-300">Released on </span>
         <span>{formatDate(new Date(release.releaseDate))}</span>
       </>
     );
@@ -16,15 +18,15 @@ export const WhenReleased: React.FC<{ release: IRelease }> = ({ release }) => {
   if (release.releaseYear) {
     return (
       <>
-        <span className="text-foreground-300">Released in </span>
-        <Link className="text-primary-400" href={`/years/${release.releaseYear}`}>
+        <span tw="text-foreground-300">Released in </span>
+        <Link href={`/years/${release.releaseYear}`} tw="text-primary-400">
           {release.releaseYear}
         </Link>
       </>
     );
   }
 
-  return <span className="text-foreground-300">Released on unknown date</span>;
+  return <span tw="text-foreground-300">Released on unknown date</span>;
 };
 
 const SHORT_MONTHS = [

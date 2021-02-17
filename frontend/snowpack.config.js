@@ -3,21 +3,8 @@ const httpProxy = require('http-proxy');
 const proxy = httpProxy.createServer({ target: 'http://localhost:5000' });
 
 module.exports = {
-  mount: {
-    public: { url: '/', static: true },
-    src: { url: '/dist' },
-  },
-  plugins: [
-    '@snowpack/plugin-react-refresh',
-    '@snowpack/plugin-typescript',
-    [
-      '@snowpack/plugin-run-script',
-      {
-        cmd: 'postcss src/index.tailwind.css -o src/index.css',
-        watch: 'postcss -w src/index.tailwind.css -o src/index.css',
-      },
-    ],
-  ],
+  extends: '@snowpack/app-scripts-react',
+  plugins: ['@snowpack/plugin-webpack'],
   alias: {
     '~': './src',
   },
@@ -29,16 +16,13 @@ module.exports = {
     { match: 'routes', src: '.*', dest: '/index.html' },
   ],
   optimize: {
-    /* Example: Bundle your final build: */
     bundle: true,
   },
   packageOptions: {
-    /* ... */
+    knownEntrypoints: ['@emotion/react', '@emotion/styled'],
   },
   devOptions: {
     port: 3000,
   },
-  buildOptions: {
-    /* ... */
-  },
+  buildOptions: {},
 };

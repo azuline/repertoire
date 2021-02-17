@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 import { matchPath } from 'react-router';
 import { useLocation } from 'react-router-dom';
@@ -44,10 +46,8 @@ export const RouteList: React.FC = () => {
   return (
     <div>
       {sections.map(({ name, routes }) => (
-        <div key={name} className="py-3 -mx-6 md:-mx-8">
-          {name && (
-            <div className="px-6 pb-6 text-sm uppercase md:px-8 text-primary-400">{name}</div>
-          )}
+        <div key={name} tw="py-3 -mx-6 md:-mx-8">
+          {name && <div tw="px-6 pb-6 text-sm uppercase md:px-8 text-primary-400">{name}</div>}
           {routes.map(({ path, label }, i) => (
             <NavLink key={i} activeRoute={activeRoute} label={label} url={path} />
           ))}

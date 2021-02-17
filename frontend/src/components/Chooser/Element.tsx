@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import * as React from 'react';
+import tw from 'twin.macro';
 
 import { Icon, Link } from '~/components/common';
 
@@ -18,32 +18,32 @@ export const Element: React.FC<{
   const toggleStar = toggleStarFactory(element);
 
   return (
-    <div className="relative">
+    <div tw="relative">
       {starrable && (
         <div
-          className={clsx(
-            'absolute top-0 left-0 flex items-center h-full pl-6 md:pl-8',
-            toggleStar && 'cursor-pointer',
-            element.starred ? 'text-primary-500 fill-current' : 'text-gray-500 stroke-current',
+          css={[
+            tw`absolute top-0 left-0 flex items-center h-full pl-6 md:pl-8`,
+            element.starred ? tw`text-primary-500 fill-current` : tw`text-gray-500 stroke-current`,
+            toggleStar && tw`cursor-pointer`,
             toggleStar &&
               (element.starred
-                ? 'hover:text-gray-500 hover:stroke-current'
-                : 'hover:text-primary-400 hover:fill-current'),
-          )}
+                ? tw`hover:(text-gray-500 stroke-current)`
+                : tw`hover:(text-primary-400 fill-current)`),
+          ]}
           onClick={toggleStar}
         >
-          <Icon className="w-4" icon="star-small" />
+          <Icon icon="star-small" tw="w-4" />
         </div>
       )}
       <Link href={url}>
         <div
-          className={clsx(
-            'pr-8 md:pr-10 h-8 flex items-center cursor-pointer hover-emph-bg',
-            starrable ? 'pl-12 md:pl-14' : 'pl-6 md:pl-8',
-            isActive ? 'font-bold text-primary-400' : 'text-foreground',
-          )}
+          css={[
+            tw`flex items-center h-8 pr-8 cursor-pointer md:pr-10 hover-bg`,
+            starrable ? tw`pl-12 md:pl-14` : tw`pl-6 md:pl-8`,
+            isActive ? tw`font-bold text-primary-400` : tw`text-foreground`,
+          ]}
         >
-          <div className="min-w-0 truncate">{element.name}</div>
+          <div tw="min-w-0 truncate">{element.name}</div>
         </div>
       </Link>
     </div>

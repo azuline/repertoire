@@ -1,3 +1,5 @@
+import 'twin.macro';
+
 import * as React from 'react';
 
 import { Disclist, Header, Image } from '~/components';
@@ -39,25 +41,25 @@ export const RealRelease: IComponent = ({ id }) => {
   }
 
   return (
-    <div className="flex flex-col">
+    <div tw="flex flex-col">
       <Header />
       {release && (
-        <div className="flex flex-col mt-4">
-          <div className="flex">
+        <div tw="flex flex-col mt-4">
+          <div tw="flex">
             <Image
-              className="flex-none hidden w-56 h-56 mr-8 rounded-lg md:block"
               imageId={release.imageId}
+              tw="flex-none hidden w-56 h-56 mr-8 rounded-lg md:block"
             />
             <Info release={release} />
           </div>
-          <div className="flex items-center mt-6">
-            <div className="items-center flex-none hidden w-56 -ml-1 mr-9 md:flex">
+          <div tw="flex items-center mt-6">
+            <div tw="items-center flex-none hidden w-56 -ml-1 mr-9 md:flex">
               <InFavorites release={release} />
               <InInbox release={release} />
             </div>
             <Rating release={release} />
           </div>
-          <Disclist className="py-8" tracks={filterNulls(release.tracks)} />
+          <Disclist tracks={filterNulls(release.tracks)} tw="py-8" />
           <InCollages collages={filterNulls(release.collages)} />
         </div>
       )}

@@ -1,31 +1,58 @@
 import * as React from 'react';
-import ReactSlider from 'react-slider';
+import tw, { styled } from 'twin.macro';
 
-import { Icon, IconT } from '~/components/common';
+import { Icon, IconT, Slider } from '~/components/common';
 import { VolumeContext } from '~/contexts';
 
 export const VolumeControl: React.FC = () => {
   const { volume, setVolume, isMuted, setIsMuted } = React.useContext(VolumeContext);
 
-  const icon = isMuted ? 'volume-off-small' : 'volume-up-small';
+  const icon = (isMuted ? 'volume-off-small' : 'volume-up-small') as IconT;
 
   return (
-    <div className="relative hidden mr-1 sm:block hover-popover">
+    <Wrapper>
       <div
-        className="p-2 cursor-pointer hover:text-primary-400 text-primary-500"
+        tw="p-2 cursor-pointer hover:text-primary-400 text-primary-500"
         onClick={(): void => setIsMuted((m) => !m)}
       >
-        <Icon className="w-6" icon={icon as IconT} />
+        <Icon icon={icon} tw="w-6" />
       </div>
-      <div className="absolute w-10 h-56 px-2 py-4 border-2 border-gray-300 rounded-lg bg-background-900 dark:border-gray-700 -top-56">
-        <ReactSlider
+      <VolumeSlider>
+        <Slider
           invert
-          className="slider volume-slider"
           orientation="vertical"
           value={volume}
           onChange={(value): void => (!value ? setVolume(0) : setVolume(value as number))}
         />
-      </div>
-    </div>
+      </VolumeSlider>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  ${tw`relative hidden mr-1 sm:block`}
+
+  &:not(:hover) > :nth-child(2) {
+    display: none;
+  }
+`;
+
+const VolumeSlider = styled.div`
+  ${tw`
+    absolute
+    -top-56
+    w-10
+    h-56
+    px-2
+    py-4
+    border-2
+    border-gray-300
+    rounded-lg
+    bg-background-900
+    dark:border-gray-700
+  `}
+
+  .slider .track {
+    ${tw`w-2 rounded-lg`}
+  }
+`;
