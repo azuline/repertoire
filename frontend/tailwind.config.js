@@ -83,9 +83,9 @@ module.exports = {
         '.hover-bg': {
           '&:hover': {
             '--tw-bg-opacity': '5%',
-            'background-color': 'rgba(0, 0, 0, var(--tw-bg-opacity))',
-            '.dark &': {
-              'background-color': 'rgba(255, 255, 255, var(--tw-bg-opacity))',
+            'background-color': 'rgba(255, 255, 255, var(--tw-bg-opacity))',
+            '.light &': {
+              'background-color': 'rgba(0, 0, 0, var(--tw-bg-opacity))',
             },
           },
         },
