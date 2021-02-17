@@ -1,6 +1,5 @@
 import 'twin.macro';
 
-import clsx from 'clsx';
 import * as React from 'react';
 
 import { Link } from '~/components/common';
@@ -18,9 +17,10 @@ export const RowRelease: React.FC<{ release: IRelease; className?: string }> = (
 }) => {
   return (
     <Link
-      className={clsx(className, 'flex items-center -mx-3 p-3 cursor-pointer hover-bg')}
+      className={className}
       href={`/releases/${release.id}`}
       style={{ width: 'calc(100% + 1.5rem)' }}
+      tw="flex items-center -mx-3 p-3 cursor-pointer hover-bg"
     >
       {release.inInbox ? <InInboxIndicator tw="w-5" /> : <div tw="w-5" />}
       <div tw="relative flex-none w-12 h-12 mr-3">

@@ -1,6 +1,5 @@
 import 'twin.macro';
 
-import clsx from 'clsx';
 import * as React from 'react';
 
 import { Link, TwoSided } from '~/components/common';
