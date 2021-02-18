@@ -8,7 +8,8 @@ from src.errors import NotFound
 from src.graphql.mutation import mutation
 from src.graphql.query import query
 from src.graphql.util import commit
-from src.library import playlist, track
+from src.library import playlist
+from src.library import playlist_entry as pentry
 from src.util import convert_keys_case
 
 gql_playlist = ObjectType("Playlist")
@@ -45,9 +46,9 @@ def resolve_playlists(
     return {"results": playlist.all(info.context.db, types=types)}
 
 
-@gql_playlist.field("tracks")
-def resolve_tracks(obj: playlist.T, info: GraphQLResolveInfo) -> List[track.T]:
-    return playlist.tracks(obj, info.context.db)
+@gql_playlist.field("entries")
+def resolve_entries(obj: playlist.T, info: GraphQLResolveInfo) -> List[pentry.T]:
+    return playlist.entries(obj, info.context.db)
 
 
 @gql_playlist.field("topGenres")
@@ -87,37 +88,3 @@ def resolve_update_playlist(
         raise NotFound(f"Playlist {id} does not exist.")
 
     return playlist.update(ply, info.context.db, **convert_keys_case(changes))
-
-
-@mutation.field("addTrackToPlaylist")
-@commit
-def resolve_add_track_to_playlist(
-    _,
-    info: GraphQLResolveInfo,
-    playlistId: int,
-    trackId: int,
-) -> Dict:
-    if not (ply := playlist.from_id(playlistId, info.context.db)):
-        raise NotFound(f"Playlist {playlistId} does not exist.")
-
-    ply = playlist.add_track(ply, trackId, info.context.db)
-    trk = track.from_id(trackId, info.context.db)
-
-    return {"playlist": ply, "track": trk}
-
-
-@mutation.field("delTrackFromPlaylist")
-@commit
-def resolve_del_track_from_playlist(
-    _,
-    info: GraphQLResolveInfo,
-    playlistId: int,
-    trackId: int,
-) -> Dict:
-    if not (ply := playlist.from_id(playlistId, info.context.db)):
-        raise NotFound(f"Playlist {playlistId} does not exist.")
-
-    ply = playlist.del_track(ply, trackId, info.context.db)
-    trk = track.from_id(trackId, info.context.db)
-
-    return {"playlist": ply, "track": trk}

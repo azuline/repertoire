@@ -1,25 +1,30 @@
-from __future__ import annotations
+"""
+This module contains the playlist dataclass and its associated functions.
 
-import logging
+A playlist is an ordered list of tracks and associated metainfo. We denote a track in a
+playlist an "entry." Each entry represents a track and its index in the playlist. The
+``playlist_entry`` module contains an entry dataclass and associated functions for
+working with playlist entries.
+"""
+
+from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
+import logging
 from sqlite3 import Cursor, Row
 from typing import Dict, List, Optional, Union
 
 from src.enums import CollectionType, PlaylistType
 from src.errors import (
-    AlreadyExists,
-    DoesNotExist,
     Duplicate,
     Immutable,
     InvalidPlaylistType,
-    NotFound,
 )
 from src.util import update_dataclass, without_key
 
-from . import collection
 from . import image as libimage
-from . import track
+from . import playlist_entry as pentry
+from . import collection
 
 logger = logging.getLogger(__name__)
 
@@ -48,6 +53,7 @@ def exists(id: int, cursor: Cursor) -> bool:
     Return whether a playlist exists with the given ID.
 
     :param id: The ID to check.
+    :param cursor: A cursor to the database.
     :return: Whether a playlist has the given ID.
     """
     cursor.execute("SELECT 1 FROM music__playlists WHERE id = ?", (id,))
@@ -257,7 +263,7 @@ def update(ply: T, cursor: Cursor, **changes) -> T:
     return update_dataclass(ply, **changes)
 
 
-def tracks(ply: T, cursor: Cursor) -> List[track.T]:
+def entries(ply: T, cursor: Cursor) -> List[pentry.T]:
     """
     Get the tracks in a playlist.
 
@@ -268,110 +274,17 @@ def tracks(ply: T, cursor: Cursor) -> List[track.T]:
     cursor.execute(
         """
         SELECT
-            trks.*
+            plystrks.*
         FROM music__playlists AS plys
             JOIN music__playlists_tracks AS plystrks ON plystrks.playlist_id = plys.id
-            JOIN music__tracks AS trks ON trks.id = plystrks.track_id
         WHERE plys.id = ?
-        GROUP BY trks.id
+        ORDER BY plystrks.position ASC
         """,
         (ply.id,),
     )
 
     logger.debug(f"Fetched tracks of playlist {ply}.")
-    return [track.from_row(row) for row in cursor.fetchall()]
-
-
-def add_track(ply: T, track_id: int, cursor: Cursor) -> T:
-    """
-    Add the provided track to the provided playlist.
-
-    :param ply: The playlist to add the track to.
-    :param track_id: The ID of the track to add.
-    :param cursor: A cursor to the database.
-    :return: The playlist with the number of tracks (if present) updated.
-    :raises NotFound: If no track has the given track ID.
-    :raises AlreadyExists: If the track is already in the playlist.
-    """
-    if not track.exists(track_id, cursor):
-        logger.debug(f"Track {track_id} does not exist.")
-        raise NotFound(f"Track {track_id} does not exist.")
-
-    cursor.execute(
-        """
-        SELECT 1 FROM music__playlists_tracks
-        WHERE playlist_id = ? AND track_id = ?
-        """,
-        (ply.id, track_id),
-    )
-    # TODO: Once we add playlist-specific ordering, allow duplicate tracks.
-    # This is probably best accomplished by allocating "entry IDs."
-    if cursor.fetchone():
-        logger.debug("Track {track_id} already in playlist {ply.id}.")
-        raise AlreadyExists("Track is already in playlist.")
-
-    cursor.execute(
-        """
-        INSERT INTO music__playlists_tracks (playlist_id, track_id)
-        VALUES (?, ?)
-        """,
-        (ply.id, track_id),
-    )
-
-    logger.info(f"Added track {track_id} to playlist {ply.id}.")
-
-    return update_dataclass(
-        ply,
-        num_tracks=(
-            ply.num_tracks + 1 if ply.num_tracks is not None else ply.num_tracks
-        ),
-    )
-
-
-def del_track(ply: T, track_id: int, cursor: Cursor) -> T:
-    """
-    Remove the provided track from the provided playlist.
-
-    :param ply: The playlist to remove the track from.
-    :param trk: The track to remove.
-    :param cursor: A cursor to the database.
-    :return: The playlist with the number of tracks (if present) updated.
-    :raises NotFound: If no track has the given track ID.
-    :raises DoesNotExist: If the track is not in the playlist.
-    """
-    # TODO: Once we add playlist-specific ordering, perhaps worth switching over to
-    # track placement in playlist over track ID, since duplicates may exist.
-    if not track.exists(track_id, cursor):
-        logger.debug(f"Track {track_id} does not exist.")
-        raise NotFound(f"Track {track_id} does not exist.")
-
-    cursor.execute(
-        """
-        SELECT 1 FROM music__playlists_tracks
-        WHERE playlist_id = ? AND track_id = ?
-        """,
-        (ply.id, track_id),
-    )
-    if not cursor.fetchone():
-        logger.debug("Track {track_id} not in playlist {ply.id}.")
-        raise DoesNotExist("Track is not in playlist.")
-
-    cursor.execute(
-        """
-        DELETE FROM music__playlists_tracks
-        WHERE playlist_id = ? AND track_id = ?
-        """,
-        (ply.id, track_id),
-    )
-
-    logger.info(f"Deleted track {track_id} from playlist {ply.id}.")
-
-    return update_dataclass(
-        ply,
-        num_tracks=(
-            ply.num_tracks - 1 if ply.num_tracks is not None else ply.num_tracks
-        ),
-    )
+    return [pentry.from_row(row) for row in cursor.fetchall()]
 
 
 def top_genres(ply: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
@@ -412,7 +325,7 @@ def top_genres(ply: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
             ON plystrks.track_id = trks.id
         WHERE plystrks.playlist_id = ? AND genres.type = ?
         GROUP BY genres.id
-        ORDER BY num_matches DESC
+        ORDER BY num_matches DESC, genres.id ASC
         LIMIT ?
         """,
         (ply.id, CollectionType.GENRE.value, num_genres),
@@ -445,8 +358,8 @@ def image(ply: T, cursor: Cursor) -> Optional[libimage.T]:
         FROM images
             JOIN music__releases AS rls ON rls.image_id = images.id
             JOIN music__tracks AS trk ON trk.release_id = rls.id
-            JOIN music__playlists_tracks AS trkplys ON trkplys.track_id = trk.id
-        WHERE trkplys.playlist_id = ?
+            JOIN music__playlists_tracks AS plystrks ON plystrks.track_id = trk.id
+        WHERE plystrks.playlist_id = ?
         ORDER BY RANDOM()
         LIMIT 1
         """,

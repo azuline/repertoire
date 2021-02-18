@@ -95,9 +95,12 @@ PLAYLIST_FIELDS = """
         numTracks
         lastUpdatedOn
 
-        tracks {
+        entries {
             id
-            title
+            track {
+                id
+                title
+            }
         }
 
         topGenres {

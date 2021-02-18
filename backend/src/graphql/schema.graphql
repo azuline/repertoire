@@ -137,15 +137,19 @@ type Mutation {
     starred: Boolean
   ): Playlist
 
-  addTrackToPlaylist(
+  createPlaylistEntry(
     playlistId: Int!
     trackId: Int!
-  ): PlaylistAndTrack
+  ): PlaylistEntry
 
-  delTrackFromPlaylist(
-    playlistId: Int!
-    trackId: Int!
-  ): PlaylistAndTrack
+  delPlaylistEntry(
+    id: Int!
+  ): Playlist
+
+  updatePlaylistEntry(
+    id: Int!
+    position: Int!
+  ): PlaylistEntry
 
   createRelease(
     title: String!
@@ -261,13 +265,24 @@ type Playlist {
   "The image ID of a track in the playlst. Potentially null."
   imageId: Int
 
-  tracks: [Track]!
+  entries: [PlaylistEntry]!
   "The top genres of the playlist, compiled from its tracks."
   topGenres: [TopGenre]!
 }
 
 type Playlists {
   results: [Playlist]!
+}
+
+type PlaylistEntry {
+  id: Int!
+  playlistId: Int!
+  trackId: Int!
+  position: Int!
+  addedOn: PosixTime!
+
+  playlist: Playlist!
+  track: Track!
 }
 
 type Release {
@@ -338,11 +353,6 @@ type Token {
 type CollectionAndRelease {
   collection: Collection!
   release: Release!
-}
-
-type PlaylistAndTrack {
-  playlist: Playlist!
-  track: Track!
 }
 
 type ReleaseAndArtist {
