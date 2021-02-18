@@ -30,11 +30,12 @@ commands.
 
 .. code-block:: sh
 
-   $ make tests    # Run tests & lint check. Generate HTML coverage report.
-   $ make lint     # Lint the backend.
-   $ make docs     # Regenerate the documentation in `docs/_build`.
-   $ make schema   # Regenerate the `schema.sql` file.
-   $ make setup.py # Regenerate the `setup.py` file from the `pyproject.toml`.
+   $ make tests      # Run tests & lint check. Generate HTML coverage report.
+   $ make typecheck  # Run mypy type checker.
+   $ make lint       # Lint the backend.
+   $ make docs       # (Re)generate the documentation into `docs/_build`.
+   $ make schema     # (Re)generate `schema.sql`.
+   $ make setupfiles # (Re)generate `setup.py` & `requirements.txt`.
 
 Frontend
 --------
@@ -48,6 +49,4 @@ A development server can be ran with
 .. code-block:: sh
 
    $ cd frontend/
-   $ yarn build:css # This will need to be re-run whenever `index.tailwind.css`
-                    # changes!
    $ yarn start

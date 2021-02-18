@@ -5,6 +5,12 @@ Database
 
 We use SQLite for our database.
 
+Usage
+-----
+
+TODO. Talk a bit about transaction management in the system and database
+utility context manager.
+
 Migrations
 ----------
 

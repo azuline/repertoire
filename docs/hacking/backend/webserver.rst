@@ -4,6 +4,7 @@ Webserver
 =========
 
 Our webserver is implemented with ``Quart``, an ASGI Flask-like web framework.
+We use ``voluptuous`` for data validation.
 
 The package is laid out as follows:
 
