@@ -10,10 +10,10 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from sqlite3 import Cursor, Row
-from src.util import update_dataclass
 from typing import Dict, Optional, Union
 
 from src.errors import NotFound
+from src.util import update_dataclass
 
 from . import playlist as libplaylist
 from . import track as libtrack
