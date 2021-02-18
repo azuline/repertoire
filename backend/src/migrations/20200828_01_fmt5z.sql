@@ -193,8 +193,7 @@ CREATE TABLE music__playlists_tracks (
     position INTEGER NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (track_id) REFERENCES music__tracks(id) ON DELETE CASCADE,
-    FOREIGN KEY (playlist_id) REFERENCES music__playlists(id) ON DELETE CASCADE,
-    UNIQUE (playlist_id, position)
+    FOREIGN KEY (playlist_id) REFERENCES music__playlists(id) ON DELETE CASCADE
 );
 
 CREATE INDEX idx__music__playlists_tracks__playlist_position

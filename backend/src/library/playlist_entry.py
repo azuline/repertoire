@@ -115,7 +115,7 @@ def create(playlist_id: int, track_id: int, cursor: Cursor) -> T:
         f"Created entry {cursor.lastrowid} with "
         "track {track_id} and playlist {playlist_id}."
     )
-    return from_id(cursor.lastrowid, cursor.lastrowid)  # type: ignore
+    return from_id(cursor.lastrowid, cursor)  # type: ignore
 
 
 def delete(ety: T, cursor: Cursor):
@@ -124,20 +124,7 @@ def delete(ety: T, cursor: Cursor):
 
     :param ety: The playlist entry to delete.
     :param cursor: A cursor to the database.
-    :raises NotFound: If no entry has the given ID.
     """
-    cursor.execute(
-        """
-        SELECT position, playlist_id FROM music__playlists_tracks WHERE id = ?
-        """,
-        (ety.id,),
-    )
-    row = cursor.fetchone()
-
-    if not row:
-        logger.debug(f"Entry {ety.id} does not exist.")
-        raise NotFound(f"Entry {ety.id} does not exist.")
-
     cursor.execute(
         """
         DELETE FROM music__playlists_tracks WHERE id = ?
@@ -151,7 +138,7 @@ def delete(ety: T, cursor: Cursor):
         SET position = position - 1
         WHERE playlist_id = ? AND position > ?
         """,
-        (row["playlist_id"], row["position"]),
+        (ety.playlist_id, ety.position),
     )
 
     logger.info(f"Deleted entry {ety.id}.")
@@ -176,36 +163,39 @@ def update(ety: T, position: int, cursor: Cursor) -> T:
     if position == ety.position:
         return ety
 
-    if position > ety.position:
-        cursor.execute(
-            """
-            UPDATE music__playlists_tracks
-            SET position = position - 1
-            WHERE playlist_id = ? AND position > ? AND position <= ?
-            """,
-            (ety.playlist_id, ety.position, position),
-        )
-        cursor.execute(
-            """
-            UPDATE music__playlists_tracks SET position = ? WHERE id = ?
-            """,
-            (position, ety.id),
-        )
-    else:
-        cursor.execute(
-            """
-            UPDATE music__playlists_tracks
-            SET position = position + 1
-            WHERE playlist_id = ? AND position < ? AND position >= ?
-            """,
-            (ety.playlist_id, ety.position, position),
-        )
-        cursor.execute(
-            """
-            UPDATE music__playlists_tracks SET position = ? WHERE id = ?
-            """,
-            (position, ety.id),
-        )
+    # TODO: Do explicit transaction shit instead of this nonsense.
+    with cursor.connection:
+        cursor.execute("BEGIN")
+        if position > ety.position:
+            cursor.execute(
+                """
+                UPDATE music__playlists_tracks
+                SET position = position - 1
+                WHERE playlist_id = ? AND position > ? AND position <= ?
+                """,
+                (ety.playlist_id, ety.position, position),
+            )
+            cursor.execute(
+                """
+                UPDATE music__playlists_tracks SET position = ? WHERE id = ?
+                """,
+                (position, ety.id),
+            )
+        else:
+            cursor.execute(
+                """
+                UPDATE music__playlists_tracks
+                SET position = position + 1
+                WHERE playlist_id = ? AND position < ? AND position >= ?
+                """,
+                (ety.playlist_id, ety.position, position),
+            )
+            cursor.execute(
+                """
+                UPDATE music__playlists_tracks SET position = ? WHERE id = ?
+                """,
+                (position, ety.id),
+            )
 
     logger.info(f"Updated position of entry {id} to {position}.")
     return update_dataclass(ety, position=position)
@@ -249,11 +239,4 @@ def _highest_position(playlist_id: int, cursor: Cursor) -> int:
         (playlist_id,),
     )
 
-    if row := cursor.fetchone():
-        logger.debug(
-            f"Fetched highest position of {row[0]} for playlist {playlist_id}."
-        )
-        return row[0]
-
-    logger.debug(f"Fetched highest position of 1 for playlist {playlist_id}.")
-    return 0
+    return cursor.fetchone()[0] or 0
