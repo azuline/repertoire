@@ -1,16 +1,17 @@
+import { gql } from '@apollo/client';
 import * as React from 'react';
 import tw, { styled } from 'twin.macro';
 
 import { GenreList, Image, Link, SectionHeader, TrackArtistList } from '~/components';
 import { BackgroundContext } from '~/contexts';
-import { ITrack, useFetchReleaseQuery } from '~/graphql';
+import { ITrack, useNowPlayingInfoFetchReleaseQuery } from '~/graphql';
 import { filterNulls } from '~/util';
 
 type IInfo = React.FC<{ track: ITrack }>;
 
 export const Info: IInfo = ({ track }) => {
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
-  const { data } = useFetchReleaseQuery({ variables: { id: track.release.id } });
+  const { data } = useNowPlayingInfoFetchReleaseQuery({ variables: { id: track.release.id } });
 
   const parentRelease = data?.release || null;
 
@@ -64,5 +65,14 @@ const CustomTrackArtistList = styled(TrackArtistList)`
 const CustomGenreList = styled(GenreList)`
   .list--element {
     ${tw`px-2 py-1 mr-1 rounded bg-primary-700 text-foreground hover:bg-primary-600 leading-9`}
+  }
+`;
+
+/* eslint-disable */
+gql`
+  query NowPlayingInfoFetchRelease($id: Int!) {
+    release(id: $id) {
+      ...FullReleaseFields
+    }
   }
 `;

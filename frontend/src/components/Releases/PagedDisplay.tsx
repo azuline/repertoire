@@ -1,3 +1,4 @@
+import { gql } from '@apollo/client';
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 import tw, { TwStyle } from 'twin.macro';
@@ -5,7 +6,7 @@ import tw, { TwStyle } from 'twin.macro';
 import { Pagination } from '~/components/Pagination';
 import { ArtRelease, RowRelease } from '~/components/Release';
 import { ViewSettings } from '~/components/ViewSettings';
-import { IRelease, useFetchReleasesQuery } from '~/graphql';
+import { IRelease, usePagedReleasesFetchReleasesQuery } from '~/graphql';
 import { IPagination, IViewOptions } from '~/hooks';
 import { IReleaseView } from '~/types';
 
@@ -19,7 +20,7 @@ type IPagedReleases = React.FC<{
 
 export const PagedReleases: IPagedReleases = ({ viewOptions, pagination, partial = false }) => {
   const { addToast } = useToasts();
-  const { data, error } = useFetchReleasesQuery({
+  const { data, error } = usePagedReleasesFetchReleasesQuery({
     variables: { ...viewOptions, ...pagination },
   });
 
@@ -78,3 +79,45 @@ const calculateGridCss = (partial: boolean): TwStyle => {
   }
   return tw`grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6`;
 };
+
+/* eslint-disable */
+gql`
+  query PagedReleasesFetchReleases(
+    $search: String
+    $collectionIds: [Int]
+    $artistIds: [Int]
+    $releaseTypes: [ReleaseType]
+    $years: [Int]
+    $ratings: [Int]
+    $page: Int
+    $perPage: Int
+    $sort: ReleaseSort
+    $asc: Boolean
+  ) {
+    releases(
+      search: $search
+      collectionIds: $collectionIds
+      artistIds: $artistIds
+      releaseTypes: $releaseTypes
+      years: $years
+      ratings: $ratings
+      page: $page
+      perPage: $perPage
+      sort: $sort
+      asc: $asc
+    ) {
+      total
+      results {
+        ...ReleaseFields
+        artists {
+          id
+          name
+        }
+        genres {
+          id
+          name
+        }
+      }
+    }
+  }
+`;

@@ -1,11 +1,12 @@
+import { gql } from '@apollo/client';
 import * as React from 'react';
 import tw from 'twin.macro';
 
 import { Icon } from '~/components';
 import {
   IRelease,
-  useAddReleaseToCollectionMutation,
-  useDelReleaseFromCollectionMutation,
+  useInInboxAddReleaseToCollectionMutation,
+  useInInboxDelReleaseFromCollectionMutation,
 } from '~/graphql';
 
 const INBOX_COLLECTION_ID = 1;
@@ -13,8 +14,8 @@ const INBOX_COLLECTION_ID = 1;
 type IInInbox = React.FC<{ className?: string; release: IRelease }>;
 
 export const InInbox: IInInbox = ({ className, release }) => {
-  const [mutateAdd] = useAddReleaseToCollectionMutation();
-  const [mutateDel] = useDelReleaseFromCollectionMutation();
+  const [mutateAdd] = useInInboxAddReleaseToCollectionMutation();
+  const [mutateDel] = useInInboxDelReleaseFromCollectionMutation();
 
   const toggleInbox = (): void => {
     if (release.inInbox) {
@@ -34,3 +35,60 @@ export const InInbox: IInInbox = ({ className, release }) => {
     />
   );
 };
+
+/* eslint-disable */
+gql`
+  mutation InInboxAddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
+    addReleaseToCollection(collectionId: $collectionId, releaseId: $releaseId) {
+      collection {
+        id
+        numReleases
+        lastUpdatedOn
+      }
+      release {
+        id
+        inInbox
+        inFavorites
+        genres {
+          id
+          name
+        }
+        labels {
+          id
+          name
+        }
+        collages {
+          id
+          name
+        }
+      }
+    }
+  }
+
+  mutation InInboxDelReleaseFromCollection($collectionId: Int!, $releaseId: Int!) {
+    delReleaseFromCollection(collectionId: $collectionId, releaseId: $releaseId) {
+      collection {
+        id
+        numReleases
+        lastUpdatedOn
+      }
+      release {
+        id
+        inInbox
+        inFavorites
+        genres {
+          id
+          name
+        }
+        labels {
+          id
+          name
+        }
+        collages {
+          id
+          name
+        }
+      }
+    }
+  }
+`;

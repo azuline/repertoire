@@ -469,68 +469,56 @@ export enum IPlaylistType {
   Playlist = 'PLAYLIST'
 }
 
-export type IFetchArtistsQueryVariables = Exact<{ [key: string]: never; }>;
+export type IHeaderFetchUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type IFetchArtistsQuery = (
+export type IHeaderFetchUserQuery = (
   { __typename?: 'Query' }
-  & { artists: Maybe<(
-    { __typename?: 'Artists' }
+  & { user: Maybe<(
+    { __typename?: 'User' }
+    & IUserFieldsFragment
+  )> }
+);
+
+export type IPagedReleasesFetchReleasesQueryVariables = Exact<{
+  search: Maybe<Scalars['String']>;
+  collectionIds: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
+  artistIds: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
+  releaseTypes: Maybe<Array<Maybe<IReleaseType>> | Maybe<IReleaseType>>;
+  years: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
+  ratings: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
+  page: Maybe<Scalars['Int']>;
+  perPage: Maybe<Scalars['Int']>;
+  sort: Maybe<IReleaseSort>;
+  asc: Maybe<Scalars['Boolean']>;
+}>;
+
+
+export type IPagedReleasesFetchReleasesQuery = (
+  { __typename?: 'Query' }
+  & { releases: Maybe<(
+    { __typename?: 'Releases' }
+    & Pick<IReleases, 'total'>
     & { results: Array<Maybe<(
-      { __typename?: 'Artist' }
-      & IArtistFieldsFragment
+      { __typename?: 'Release' }
+      & { artists: Array<Maybe<(
+        { __typename?: 'Artist' }
+        & Pick<IArtist, 'id' | 'name'>
+      )>>, genres: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>> }
+      & IReleaseFieldsFragment
     )>> }
   )> }
 );
 
-export type IFetchArtistQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-
-export type IFetchArtistQuery = (
-  { __typename?: 'Query' }
-  & { artist: Maybe<(
-    { __typename?: 'Artist' }
-    & IArtistFieldsFragment
-  )> }
-);
-
-export type IUpdateArtistMutationVariables = Exact<{
-  id: Scalars['Int'];
-  name: Maybe<Scalars['String']>;
-  starred: Maybe<Scalars['Boolean']>;
-}>;
-
-
-export type IUpdateArtistMutation = (
-  { __typename?: 'Mutation' }
-  & { updateArtist: Maybe<(
-    { __typename?: 'Artist' }
-    & Pick<IArtist, 'id' | 'name' | 'starred'>
-  )> }
-);
-
-export type IUpdateArtistStarredMutationVariables = Exact<{
-  id: Scalars['Int'];
-  starred: Maybe<Scalars['Boolean']>;
-}>;
-
-
-export type IUpdateArtistStarredMutation = (
-  { __typename?: 'Mutation' }
-  & { updateArtist: Maybe<(
-    { __typename?: 'Artist' }
-    & Pick<IArtist, 'id' | 'starred'>
-  )> }
-);
-
-export type IFetchCollectionsQueryVariables = Exact<{
+export type ICollectionChooserFetchCollectionsQueryVariables = Exact<{
   types: Maybe<Array<Maybe<ICollectionType>> | Maybe<ICollectionType>>;
 }>;
 
 
-export type IFetchCollectionsQuery = (
+export type ICollectionChooserFetchCollectionsQuery = (
   { __typename?: 'Query' }
   & { collections: Maybe<(
     { __typename?: 'Collections' }
@@ -541,105 +529,17 @@ export type IFetchCollectionsQuery = (
   )> }
 );
 
-export type IFetchCollectionQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-
-export type IFetchCollectionQuery = (
-  { __typename?: 'Query' }
-  & { collection: Maybe<(
-    { __typename?: 'Collection' }
-    & ICollectionFieldsFragment
-  )> }
-);
-
-export type IUpdateCollectionMutationVariables = Exact<{
-  id: Scalars['Int'];
-  name: Maybe<Scalars['String']>;
-  starred: Maybe<Scalars['Boolean']>;
-}>;
-
-
-export type IUpdateCollectionMutation = (
-  { __typename?: 'Mutation' }
-  & { updateCollection: Maybe<(
-    { __typename?: 'Collection' }
-    & Pick<ICollection, 'id' | 'name' | 'starred'>
-  )> }
-);
-
-export type IUpdateCollectionStarredMutationVariables = Exact<{
+export type ICollectionChooserUpdateCollectionStarredMutationVariables = Exact<{
   id: Scalars['Int'];
   starred: Maybe<Scalars['Boolean']>;
 }>;
 
 
-export type IUpdateCollectionStarredMutation = (
+export type ICollectionChooserUpdateCollectionStarredMutation = (
   { __typename?: 'Mutation' }
   & { updateCollection: Maybe<(
     { __typename?: 'Collection' }
     & Pick<ICollection, 'id' | 'starred'>
-  )> }
-);
-
-export type IAddReleaseToCollectionMutationVariables = Exact<{
-  collectionId: Scalars['Int'];
-  releaseId: Scalars['Int'];
-}>;
-
-
-export type IAddReleaseToCollectionMutation = (
-  { __typename?: 'Mutation' }
-  & { addReleaseToCollection: Maybe<(
-    { __typename?: 'CollectionAndRelease' }
-    & { collection: (
-      { __typename?: 'Collection' }
-      & Pick<ICollection, 'id' | 'numReleases' | 'lastUpdatedOn'>
-    ), release: (
-      { __typename?: 'Release' }
-      & Pick<IRelease, 'id' | 'inInbox' | 'inFavorites'>
-      & { genres: Array<Maybe<(
-        { __typename?: 'Collection' }
-        & Pick<ICollection, 'id' | 'name'>
-      )>>, labels: Array<Maybe<(
-        { __typename?: 'Collection' }
-        & Pick<ICollection, 'id' | 'name'>
-      )>>, collages: Array<Maybe<(
-        { __typename?: 'Collection' }
-        & Pick<ICollection, 'id' | 'name'>
-      )>> }
-    ) }
-  )> }
-);
-
-export type IDelReleaseFromCollectionMutationVariables = Exact<{
-  collectionId: Scalars['Int'];
-  releaseId: Scalars['Int'];
-}>;
-
-
-export type IDelReleaseFromCollectionMutation = (
-  { __typename?: 'Mutation' }
-  & { delReleaseFromCollection: Maybe<(
-    { __typename?: 'CollectionAndRelease' }
-    & { collection: (
-      { __typename?: 'Collection' }
-      & Pick<ICollection, 'id' | 'numReleases' | 'lastUpdatedOn'>
-    ), release: (
-      { __typename?: 'Release' }
-      & Pick<IRelease, 'id' | 'inInbox' | 'inFavorites'>
-      & { genres: Array<Maybe<(
-        { __typename?: 'Collection' }
-        & Pick<ICollection, 'id' | 'name'>
-      )>>, labels: Array<Maybe<(
-        { __typename?: 'Collection' }
-        & Pick<ICollection, 'id' | 'name'>
-      )>>, collages: Array<Maybe<(
-        { __typename?: 'Collection' }
-        & Pick<ICollection, 'id' | 'name'>
-      )>> }
-    ) }
   )> }
 );
 
@@ -700,66 +600,113 @@ export type IFullReleaseFieldsFragment = (
   & IReleaseFieldsFragment
 );
 
-export type IFetchReleasesQueryVariables = Exact<{
-  search: Maybe<Scalars['String']>;
-  collectionIds: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
-  artistIds: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
-  releaseTypes: Maybe<Array<Maybe<IReleaseType>> | Maybe<IReleaseType>>;
-  years: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
-  ratings: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
-  page: Maybe<Scalars['Int']>;
-  perPage: Maybe<Scalars['Int']>;
-  sort: Maybe<IReleaseSort>;
-  asc: Maybe<Scalars['Boolean']>;
-}>;
-
-
-export type IFetchReleasesQuery = (
-  { __typename?: 'Query' }
-  & { releases: Maybe<(
-    { __typename?: 'Releases' }
-    & Pick<IReleases, 'total'>
-    & { results: Array<Maybe<(
-      { __typename?: 'Release' }
-      & { artists: Array<Maybe<(
-        { __typename?: 'Artist' }
-        & Pick<IArtist, 'id' | 'name'>
-      )>>, genres: Array<Maybe<(
-        { __typename?: 'Collection' }
-        & Pick<ICollection, 'id' | 'name'>
-      )>> }
-      & IReleaseFieldsFragment
-    )>> }
-  )> }
-);
-
-export type IFetchReleasesRecentlyAddedQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type IFetchReleasesRecentlyAddedQuery = (
-  { __typename?: 'Query' }
-  & { releases: Maybe<(
-    { __typename?: 'Releases' }
-    & { results: Array<Maybe<(
-      { __typename?: 'Release' }
-      & { artists: Array<Maybe<(
-        { __typename?: 'Artist' }
-        & Pick<IArtist, 'id' | 'name'>
-      )>>, genres: Array<Maybe<(
-        { __typename?: 'Collection' }
-        & Pick<ICollection, 'id' | 'name'>
-      )>> }
-      & IReleaseFieldsFragment
-    )>> }
-  )> }
-);
-
-export type IFetchReleaseQueryVariables = Exact<{
+export type IArtistsFetchArtistQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type IFetchReleaseQuery = (
+export type IArtistsFetchArtistQuery = (
+  { __typename?: 'Query' }
+  & { artist: Maybe<(
+    { __typename?: 'Artist' }
+    & IArtistFieldsFragment
+  )> }
+);
+
+export type IArtistChooserFetchArtistsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IArtistChooserFetchArtistsQuery = (
+  { __typename?: 'Query' }
+  & { artists: Maybe<(
+    { __typename?: 'Artists' }
+    & { results: Array<Maybe<(
+      { __typename?: 'Artist' }
+      & IArtistFieldsFragment
+    )>> }
+  )> }
+);
+
+export type IArtistChooserUpdateArtistStarredMutationVariables = Exact<{
+  id: Scalars['Int'];
+  starred: Maybe<Scalars['Boolean']>;
+}>;
+
+
+export type IArtistChooserUpdateArtistStarredMutation = (
+  { __typename?: 'Mutation' }
+  & { updateArtist: Maybe<(
+    { __typename?: 'Artist' }
+    & Pick<IArtist, 'id' | 'starred'>
+  )> }
+);
+
+export type ICollageFetchCollageQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ICollageFetchCollageQuery = (
+  { __typename?: 'Query' }
+  & { collection: Maybe<(
+    { __typename?: 'Collection' }
+    & ICollectionFieldsFragment
+  )> }
+);
+
+export type IRecentlyAddedFetchReleasesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IRecentlyAddedFetchReleasesQuery = (
+  { __typename?: 'Query' }
+  & { releases: Maybe<(
+    { __typename?: 'Releases' }
+    & { results: Array<Maybe<(
+      { __typename?: 'Release' }
+      & { artists: Array<Maybe<(
+        { __typename?: 'Artist' }
+        & Pick<IArtist, 'id' | 'name'>
+      )>>, genres: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>> }
+      & IReleaseFieldsFragment
+    )>> }
+  )> }
+);
+
+export type IGenresFetchGenreQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type IGenresFetchGenreQuery = (
+  { __typename?: 'Query' }
+  & { collection: Maybe<(
+    { __typename?: 'Collection' }
+    & ICollectionFieldsFragment
+  )> }
+);
+
+export type ILabelFetchLabelQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ILabelFetchLabelQuery = (
+  { __typename?: 'Query' }
+  & { collection: Maybe<(
+    { __typename?: 'Collection' }
+    & ICollectionFieldsFragment
+  )> }
+);
+
+export type INowPlayingInfoFetchReleaseQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type INowPlayingInfoFetchReleaseQuery = (
   { __typename?: 'Query' }
   & { release: Maybe<(
     { __typename?: 'Release' }
@@ -767,39 +714,133 @@ export type IFetchReleaseQuery = (
   )> }
 );
 
-export type IFetchReleaseYearsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type IFetchReleaseYearsQuery = (
-  { __typename?: 'Query' }
-  & Pick<IQuery, 'releaseYears'>
-);
-
-export type IUpdateReleaseMutationVariables = Exact<{
-  id: Scalars['Int'];
-  title: Maybe<Scalars['String']>;
-  releaseType: Maybe<IReleaseType>;
-  releaseYear: Maybe<Scalars['Int']>;
-  releaseDate: Maybe<Scalars['String']>;
-  rating: Maybe<Scalars['Int']>;
+export type IInFavoritesAddReleaseToCollectionMutationVariables = Exact<{
+  collectionId: Scalars['Int'];
+  releaseId: Scalars['Int'];
 }>;
 
 
-export type IUpdateReleaseMutation = (
+export type IInFavoritesAddReleaseToCollectionMutation = (
   { __typename?: 'Mutation' }
-  & { updateRelease: Maybe<(
-    { __typename?: 'Release' }
-    & Pick<IRelease, 'id' | 'title' | 'releaseType' | 'releaseYear' | 'releaseDate' | 'rating'>
+  & { addReleaseToCollection: Maybe<(
+    { __typename?: 'CollectionAndRelease' }
+    & { collection: (
+      { __typename?: 'Collection' }
+      & Pick<ICollection, 'id' | 'numReleases' | 'lastUpdatedOn'>
+    ), release: (
+      { __typename?: 'Release' }
+      & Pick<IRelease, 'id' | 'inInbox' | 'inFavorites'>
+      & { genres: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>>, labels: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>>, collages: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>> }
+    ) }
   )> }
 );
 
-export type IUpdateReleaseRatingMutationVariables = Exact<{
+export type IInFavoritesDelReleaseFromCollectionMutationVariables = Exact<{
+  collectionId: Scalars['Int'];
+  releaseId: Scalars['Int'];
+}>;
+
+
+export type IInFavoritesDelReleaseFromCollectionMutation = (
+  { __typename?: 'Mutation' }
+  & { delReleaseFromCollection: Maybe<(
+    { __typename?: 'CollectionAndRelease' }
+    & { collection: (
+      { __typename?: 'Collection' }
+      & Pick<ICollection, 'id' | 'numReleases' | 'lastUpdatedOn'>
+    ), release: (
+      { __typename?: 'Release' }
+      & Pick<IRelease, 'id' | 'inInbox' | 'inFavorites'>
+      & { genres: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>>, labels: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>>, collages: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>> }
+    ) }
+  )> }
+);
+
+export type IInInboxAddReleaseToCollectionMutationVariables = Exact<{
+  collectionId: Scalars['Int'];
+  releaseId: Scalars['Int'];
+}>;
+
+
+export type IInInboxAddReleaseToCollectionMutation = (
+  { __typename?: 'Mutation' }
+  & { addReleaseToCollection: Maybe<(
+    { __typename?: 'CollectionAndRelease' }
+    & { collection: (
+      { __typename?: 'Collection' }
+      & Pick<ICollection, 'id' | 'numReleases' | 'lastUpdatedOn'>
+    ), release: (
+      { __typename?: 'Release' }
+      & Pick<IRelease, 'id' | 'inInbox' | 'inFavorites'>
+      & { genres: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>>, labels: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>>, collages: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>> }
+    ) }
+  )> }
+);
+
+export type IInInboxDelReleaseFromCollectionMutationVariables = Exact<{
+  collectionId: Scalars['Int'];
+  releaseId: Scalars['Int'];
+}>;
+
+
+export type IInInboxDelReleaseFromCollectionMutation = (
+  { __typename?: 'Mutation' }
+  & { delReleaseFromCollection: Maybe<(
+    { __typename?: 'CollectionAndRelease' }
+    & { collection: (
+      { __typename?: 'Collection' }
+      & Pick<ICollection, 'id' | 'numReleases' | 'lastUpdatedOn'>
+    ), release: (
+      { __typename?: 'Release' }
+      & Pick<IRelease, 'id' | 'inInbox' | 'inFavorites'>
+      & { genres: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>>, labels: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>>, collages: Array<Maybe<(
+        { __typename?: 'Collection' }
+        & Pick<ICollection, 'id' | 'name'>
+      )>> }
+    ) }
+  )> }
+);
+
+export type IReleaseUpdateReleaseRatingMutationVariables = Exact<{
   id: Scalars['Int'];
   rating: Maybe<Scalars['Int']>;
 }>;
 
 
-export type IUpdateReleaseRatingMutation = (
+export type IReleaseUpdateReleaseRatingMutation = (
   { __typename?: 'Mutation' }
   & { updateRelease: Maybe<(
     { __typename?: 'Release' }
@@ -807,10 +848,23 @@ export type IUpdateReleaseRatingMutation = (
   )> }
 );
 
-export type IFetchUserQueryVariables = Exact<{ [key: string]: never; }>;
+export type IReleaseFetchReleaseQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
 
 
-export type IFetchUserQuery = (
+export type IReleaseFetchReleaseQuery = (
+  { __typename?: 'Query' }
+  & { release: Maybe<(
+    { __typename?: 'Release' }
+    & IFullReleaseFieldsFragment
+  )> }
+);
+
+export type ISettingsFetchUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ISettingsFetchUserQuery = (
   { __typename?: 'Query' }
   & { user: Maybe<(
     { __typename?: 'User' }
@@ -818,17 +872,25 @@ export type IFetchUserQuery = (
   )> }
 );
 
-export type IUpdateUserMutationVariables = Exact<{
+export type ISettingsUpdateUserMutationVariables = Exact<{
   nickname: Maybe<Scalars['String']>;
 }>;
 
 
-export type IUpdateUserMutation = (
+export type ISettingsUpdateUserMutation = (
   { __typename?: 'Mutation' }
   & { updateUser: Maybe<(
     { __typename?: 'User' }
     & Pick<IUser, 'id' | 'nickname'>
   )> }
+);
+
+export type IYearsFetchReleaseYearsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IYearsFetchReleaseYearsQuery = (
+  { __typename?: 'Query' }
+  & Pick<IQuery, 'releaseYears'>
 );
 
 export const UserFieldsFragmentDoc = gql`
@@ -918,391 +980,40 @@ export const FullReleaseFieldsFragmentDoc = gql`
 }
     ${ReleaseFieldsFragmentDoc}
 ${TrackFieldsFragmentDoc}`;
-export const FetchArtistsDocument = gql`
-    query FetchArtists {
-  artists {
-    results {
-      ...ArtistFields
-    }
+export const HeaderFetchUserDocument = gql`
+    query HeaderFetchUser {
+  user {
+    ...UserFields
   }
 }
-    ${ArtistFieldsFragmentDoc}`;
+    ${UserFieldsFragmentDoc}`;
 
 /**
- * __useFetchArtistsQuery__
+ * __useHeaderFetchUserQuery__
  *
- * To run a query within a React component, call `useFetchArtistsQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchArtistsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useHeaderFetchUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHeaderFetchUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFetchArtistsQuery({
+ * const { data, loading, error } = useHeaderFetchUserQuery({
  *   variables: {
  *   },
  * });
  */
-export function useFetchArtistsQuery(baseOptions?: Apollo.QueryHookOptions<IFetchArtistsQuery, IFetchArtistsQueryVariables>) {
-        return Apollo.useQuery<IFetchArtistsQuery, IFetchArtistsQueryVariables>(FetchArtistsDocument, baseOptions);
+export function useHeaderFetchUserQuery(baseOptions?: Apollo.QueryHookOptions<IHeaderFetchUserQuery, IHeaderFetchUserQueryVariables>) {
+        return Apollo.useQuery<IHeaderFetchUserQuery, IHeaderFetchUserQueryVariables>(HeaderFetchUserDocument, baseOptions);
       }
-export function useFetchArtistsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchArtistsQuery, IFetchArtistsQueryVariables>) {
-          return Apollo.useLazyQuery<IFetchArtistsQuery, IFetchArtistsQueryVariables>(FetchArtistsDocument, baseOptions);
+export function useHeaderFetchUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IHeaderFetchUserQuery, IHeaderFetchUserQueryVariables>) {
+          return Apollo.useLazyQuery<IHeaderFetchUserQuery, IHeaderFetchUserQueryVariables>(HeaderFetchUserDocument, baseOptions);
         }
-export type FetchArtistsQueryHookResult = ReturnType<typeof useFetchArtistsQuery>;
-export type FetchArtistsLazyQueryHookResult = ReturnType<typeof useFetchArtistsLazyQuery>;
-export type FetchArtistsQueryResult = Apollo.QueryResult<IFetchArtistsQuery, IFetchArtistsQueryVariables>;
-export const FetchArtistDocument = gql`
-    query FetchArtist($id: Int!) {
-  artist(id: $id) {
-    ...ArtistFields
-  }
-}
-    ${ArtistFieldsFragmentDoc}`;
-
-/**
- * __useFetchArtistQuery__
- *
- * To run a query within a React component, call `useFetchArtistQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchArtistQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFetchArtistQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useFetchArtistQuery(baseOptions: Apollo.QueryHookOptions<IFetchArtistQuery, IFetchArtistQueryVariables>) {
-        return Apollo.useQuery<IFetchArtistQuery, IFetchArtistQueryVariables>(FetchArtistDocument, baseOptions);
-      }
-export function useFetchArtistLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchArtistQuery, IFetchArtistQueryVariables>) {
-          return Apollo.useLazyQuery<IFetchArtistQuery, IFetchArtistQueryVariables>(FetchArtistDocument, baseOptions);
-        }
-export type FetchArtistQueryHookResult = ReturnType<typeof useFetchArtistQuery>;
-export type FetchArtistLazyQueryHookResult = ReturnType<typeof useFetchArtistLazyQuery>;
-export type FetchArtistQueryResult = Apollo.QueryResult<IFetchArtistQuery, IFetchArtistQueryVariables>;
-export const UpdateArtistDocument = gql`
-    mutation UpdateArtist($id: Int!, $name: String, $starred: Boolean) {
-  updateArtist(id: $id, name: $name, starred: $starred) {
-    id
-    name
-    starred
-  }
-}
-    `;
-export type IUpdateArtistMutationFn = Apollo.MutationFunction<IUpdateArtistMutation, IUpdateArtistMutationVariables>;
-
-/**
- * __useUpdateArtistMutation__
- *
- * To run a mutation, you first call `useUpdateArtistMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateArtistMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateArtistMutation, { data, loading, error }] = useUpdateArtistMutation({
- *   variables: {
- *      id: // value for 'id'
- *      name: // value for 'name'
- *      starred: // value for 'starred'
- *   },
- * });
- */
-export function useUpdateArtistMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateArtistMutation, IUpdateArtistMutationVariables>) {
-        return Apollo.useMutation<IUpdateArtistMutation, IUpdateArtistMutationVariables>(UpdateArtistDocument, baseOptions);
-      }
-export type UpdateArtistMutationHookResult = ReturnType<typeof useUpdateArtistMutation>;
-export type UpdateArtistMutationResult = Apollo.MutationResult<IUpdateArtistMutation>;
-export type UpdateArtistMutationOptions = Apollo.BaseMutationOptions<IUpdateArtistMutation, IUpdateArtistMutationVariables>;
-export const UpdateArtistStarredDocument = gql`
-    mutation UpdateArtistStarred($id: Int!, $starred: Boolean) {
-  updateArtist(id: $id, starred: $starred) {
-    id
-    starred
-  }
-}
-    `;
-export type IUpdateArtistStarredMutationFn = Apollo.MutationFunction<IUpdateArtistStarredMutation, IUpdateArtistStarredMutationVariables>;
-
-/**
- * __useUpdateArtistStarredMutation__
- *
- * To run a mutation, you first call `useUpdateArtistStarredMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateArtistStarredMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateArtistStarredMutation, { data, loading, error }] = useUpdateArtistStarredMutation({
- *   variables: {
- *      id: // value for 'id'
- *      starred: // value for 'starred'
- *   },
- * });
- */
-export function useUpdateArtistStarredMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateArtistStarredMutation, IUpdateArtistStarredMutationVariables>) {
-        return Apollo.useMutation<IUpdateArtistStarredMutation, IUpdateArtistStarredMutationVariables>(UpdateArtistStarredDocument, baseOptions);
-      }
-export type UpdateArtistStarredMutationHookResult = ReturnType<typeof useUpdateArtistStarredMutation>;
-export type UpdateArtistStarredMutationResult = Apollo.MutationResult<IUpdateArtistStarredMutation>;
-export type UpdateArtistStarredMutationOptions = Apollo.BaseMutationOptions<IUpdateArtistStarredMutation, IUpdateArtistStarredMutationVariables>;
-export const FetchCollectionsDocument = gql`
-    query FetchCollections($types: [CollectionType]) {
-  collections(types: $types) {
-    results {
-      ...CollectionFields
-    }
-  }
-}
-    ${CollectionFieldsFragmentDoc}`;
-
-/**
- * __useFetchCollectionsQuery__
- *
- * To run a query within a React component, call `useFetchCollectionsQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchCollectionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFetchCollectionsQuery({
- *   variables: {
- *      types: // value for 'types'
- *   },
- * });
- */
-export function useFetchCollectionsQuery(baseOptions?: Apollo.QueryHookOptions<IFetchCollectionsQuery, IFetchCollectionsQueryVariables>) {
-        return Apollo.useQuery<IFetchCollectionsQuery, IFetchCollectionsQueryVariables>(FetchCollectionsDocument, baseOptions);
-      }
-export function useFetchCollectionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchCollectionsQuery, IFetchCollectionsQueryVariables>) {
-          return Apollo.useLazyQuery<IFetchCollectionsQuery, IFetchCollectionsQueryVariables>(FetchCollectionsDocument, baseOptions);
-        }
-export type FetchCollectionsQueryHookResult = ReturnType<typeof useFetchCollectionsQuery>;
-export type FetchCollectionsLazyQueryHookResult = ReturnType<typeof useFetchCollectionsLazyQuery>;
-export type FetchCollectionsQueryResult = Apollo.QueryResult<IFetchCollectionsQuery, IFetchCollectionsQueryVariables>;
-export const FetchCollectionDocument = gql`
-    query FetchCollection($id: Int!) {
-  collection(id: $id) {
-    ...CollectionFields
-  }
-}
-    ${CollectionFieldsFragmentDoc}`;
-
-/**
- * __useFetchCollectionQuery__
- *
- * To run a query within a React component, call `useFetchCollectionQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchCollectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFetchCollectionQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useFetchCollectionQuery(baseOptions: Apollo.QueryHookOptions<IFetchCollectionQuery, IFetchCollectionQueryVariables>) {
-        return Apollo.useQuery<IFetchCollectionQuery, IFetchCollectionQueryVariables>(FetchCollectionDocument, baseOptions);
-      }
-export function useFetchCollectionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchCollectionQuery, IFetchCollectionQueryVariables>) {
-          return Apollo.useLazyQuery<IFetchCollectionQuery, IFetchCollectionQueryVariables>(FetchCollectionDocument, baseOptions);
-        }
-export type FetchCollectionQueryHookResult = ReturnType<typeof useFetchCollectionQuery>;
-export type FetchCollectionLazyQueryHookResult = ReturnType<typeof useFetchCollectionLazyQuery>;
-export type FetchCollectionQueryResult = Apollo.QueryResult<IFetchCollectionQuery, IFetchCollectionQueryVariables>;
-export const UpdateCollectionDocument = gql`
-    mutation UpdateCollection($id: Int!, $name: String, $starred: Boolean) {
-  updateCollection(id: $id, name: $name, starred: $starred) {
-    id
-    name
-    starred
-  }
-}
-    `;
-export type IUpdateCollectionMutationFn = Apollo.MutationFunction<IUpdateCollectionMutation, IUpdateCollectionMutationVariables>;
-
-/**
- * __useUpdateCollectionMutation__
- *
- * To run a mutation, you first call `useUpdateCollectionMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateCollectionMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateCollectionMutation, { data, loading, error }] = useUpdateCollectionMutation({
- *   variables: {
- *      id: // value for 'id'
- *      name: // value for 'name'
- *      starred: // value for 'starred'
- *   },
- * });
- */
-export function useUpdateCollectionMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateCollectionMutation, IUpdateCollectionMutationVariables>) {
-        return Apollo.useMutation<IUpdateCollectionMutation, IUpdateCollectionMutationVariables>(UpdateCollectionDocument, baseOptions);
-      }
-export type UpdateCollectionMutationHookResult = ReturnType<typeof useUpdateCollectionMutation>;
-export type UpdateCollectionMutationResult = Apollo.MutationResult<IUpdateCollectionMutation>;
-export type UpdateCollectionMutationOptions = Apollo.BaseMutationOptions<IUpdateCollectionMutation, IUpdateCollectionMutationVariables>;
-export const UpdateCollectionStarredDocument = gql`
-    mutation UpdateCollectionStarred($id: Int!, $starred: Boolean) {
-  updateCollection(id: $id, starred: $starred) {
-    id
-    starred
-  }
-}
-    `;
-export type IUpdateCollectionStarredMutationFn = Apollo.MutationFunction<IUpdateCollectionStarredMutation, IUpdateCollectionStarredMutationVariables>;
-
-/**
- * __useUpdateCollectionStarredMutation__
- *
- * To run a mutation, you first call `useUpdateCollectionStarredMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateCollectionStarredMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateCollectionStarredMutation, { data, loading, error }] = useUpdateCollectionStarredMutation({
- *   variables: {
- *      id: // value for 'id'
- *      starred: // value for 'starred'
- *   },
- * });
- */
-export function useUpdateCollectionStarredMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateCollectionStarredMutation, IUpdateCollectionStarredMutationVariables>) {
-        return Apollo.useMutation<IUpdateCollectionStarredMutation, IUpdateCollectionStarredMutationVariables>(UpdateCollectionStarredDocument, baseOptions);
-      }
-export type UpdateCollectionStarredMutationHookResult = ReturnType<typeof useUpdateCollectionStarredMutation>;
-export type UpdateCollectionStarredMutationResult = Apollo.MutationResult<IUpdateCollectionStarredMutation>;
-export type UpdateCollectionStarredMutationOptions = Apollo.BaseMutationOptions<IUpdateCollectionStarredMutation, IUpdateCollectionStarredMutationVariables>;
-export const AddReleaseToCollectionDocument = gql`
-    mutation AddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
-  addReleaseToCollection(collectionId: $collectionId, releaseId: $releaseId) {
-    collection {
-      id
-      numReleases
-      lastUpdatedOn
-    }
-    release {
-      id
-      inInbox
-      inFavorites
-      genres {
-        id
-        name
-      }
-      labels {
-        id
-        name
-      }
-      collages {
-        id
-        name
-      }
-    }
-  }
-}
-    `;
-export type IAddReleaseToCollectionMutationFn = Apollo.MutationFunction<IAddReleaseToCollectionMutation, IAddReleaseToCollectionMutationVariables>;
-
-/**
- * __useAddReleaseToCollectionMutation__
- *
- * To run a mutation, you first call `useAddReleaseToCollectionMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddReleaseToCollectionMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addReleaseToCollectionMutation, { data, loading, error }] = useAddReleaseToCollectionMutation({
- *   variables: {
- *      collectionId: // value for 'collectionId'
- *      releaseId: // value for 'releaseId'
- *   },
- * });
- */
-export function useAddReleaseToCollectionMutation(baseOptions?: Apollo.MutationHookOptions<IAddReleaseToCollectionMutation, IAddReleaseToCollectionMutationVariables>) {
-        return Apollo.useMutation<IAddReleaseToCollectionMutation, IAddReleaseToCollectionMutationVariables>(AddReleaseToCollectionDocument, baseOptions);
-      }
-export type AddReleaseToCollectionMutationHookResult = ReturnType<typeof useAddReleaseToCollectionMutation>;
-export type AddReleaseToCollectionMutationResult = Apollo.MutationResult<IAddReleaseToCollectionMutation>;
-export type AddReleaseToCollectionMutationOptions = Apollo.BaseMutationOptions<IAddReleaseToCollectionMutation, IAddReleaseToCollectionMutationVariables>;
-export const DelReleaseFromCollectionDocument = gql`
-    mutation DelReleaseFromCollection($collectionId: Int!, $releaseId: Int!) {
-  delReleaseFromCollection(collectionId: $collectionId, releaseId: $releaseId) {
-    collection {
-      id
-      numReleases
-      lastUpdatedOn
-    }
-    release {
-      id
-      inInbox
-      inFavorites
-      genres {
-        id
-        name
-      }
-      labels {
-        id
-        name
-      }
-      collages {
-        id
-        name
-      }
-    }
-  }
-}
-    `;
-export type IDelReleaseFromCollectionMutationFn = Apollo.MutationFunction<IDelReleaseFromCollectionMutation, IDelReleaseFromCollectionMutationVariables>;
-
-/**
- * __useDelReleaseFromCollectionMutation__
- *
- * To run a mutation, you first call `useDelReleaseFromCollectionMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDelReleaseFromCollectionMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [delReleaseFromCollectionMutation, { data, loading, error }] = useDelReleaseFromCollectionMutation({
- *   variables: {
- *      collectionId: // value for 'collectionId'
- *      releaseId: // value for 'releaseId'
- *   },
- * });
- */
-export function useDelReleaseFromCollectionMutation(baseOptions?: Apollo.MutationHookOptions<IDelReleaseFromCollectionMutation, IDelReleaseFromCollectionMutationVariables>) {
-        return Apollo.useMutation<IDelReleaseFromCollectionMutation, IDelReleaseFromCollectionMutationVariables>(DelReleaseFromCollectionDocument, baseOptions);
-      }
-export type DelReleaseFromCollectionMutationHookResult = ReturnType<typeof useDelReleaseFromCollectionMutation>;
-export type DelReleaseFromCollectionMutationResult = Apollo.MutationResult<IDelReleaseFromCollectionMutation>;
-export type DelReleaseFromCollectionMutationOptions = Apollo.BaseMutationOptions<IDelReleaseFromCollectionMutation, IDelReleaseFromCollectionMutationVariables>;
-export const FetchReleasesDocument = gql`
-    query FetchReleases($search: String, $collectionIds: [Int], $artistIds: [Int], $releaseTypes: [ReleaseType], $years: [Int], $ratings: [Int], $page: Int, $perPage: Int, $sort: ReleaseSort, $asc: Boolean) {
+export type HeaderFetchUserQueryHookResult = ReturnType<typeof useHeaderFetchUserQuery>;
+export type HeaderFetchUserLazyQueryHookResult = ReturnType<typeof useHeaderFetchUserLazyQuery>;
+export type HeaderFetchUserQueryResult = Apollo.QueryResult<IHeaderFetchUserQuery, IHeaderFetchUserQueryVariables>;
+export const PagedReleasesFetchReleasesDocument = gql`
+    query PagedReleasesFetchReleases($search: String, $collectionIds: [Int], $artistIds: [Int], $releaseTypes: [ReleaseType], $years: [Int], $ratings: [Int], $page: Int, $perPage: Int, $sort: ReleaseSort, $asc: Boolean) {
   releases(
     search: $search
     collectionIds: $collectionIds
@@ -1332,16 +1043,16 @@ export const FetchReleasesDocument = gql`
     ${ReleaseFieldsFragmentDoc}`;
 
 /**
- * __useFetchReleasesQuery__
+ * __usePagedReleasesFetchReleasesQuery__
  *
- * To run a query within a React component, call `useFetchReleasesQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchReleasesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `usePagedReleasesFetchReleasesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePagedReleasesFetchReleasesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFetchReleasesQuery({
+ * const { data, loading, error } = usePagedReleasesFetchReleasesQuery({
  *   variables: {
  *      search: // value for 'search'
  *      collectionIds: // value for 'collectionIds'
@@ -1356,17 +1067,220 @@ export const FetchReleasesDocument = gql`
  *   },
  * });
  */
-export function useFetchReleasesQuery(baseOptions?: Apollo.QueryHookOptions<IFetchReleasesQuery, IFetchReleasesQueryVariables>) {
-        return Apollo.useQuery<IFetchReleasesQuery, IFetchReleasesQueryVariables>(FetchReleasesDocument, baseOptions);
+export function usePagedReleasesFetchReleasesQuery(baseOptions?: Apollo.QueryHookOptions<IPagedReleasesFetchReleasesQuery, IPagedReleasesFetchReleasesQueryVariables>) {
+        return Apollo.useQuery<IPagedReleasesFetchReleasesQuery, IPagedReleasesFetchReleasesQueryVariables>(PagedReleasesFetchReleasesDocument, baseOptions);
       }
-export function useFetchReleasesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchReleasesQuery, IFetchReleasesQueryVariables>) {
-          return Apollo.useLazyQuery<IFetchReleasesQuery, IFetchReleasesQueryVariables>(FetchReleasesDocument, baseOptions);
+export function usePagedReleasesFetchReleasesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IPagedReleasesFetchReleasesQuery, IPagedReleasesFetchReleasesQueryVariables>) {
+          return Apollo.useLazyQuery<IPagedReleasesFetchReleasesQuery, IPagedReleasesFetchReleasesQueryVariables>(PagedReleasesFetchReleasesDocument, baseOptions);
         }
-export type FetchReleasesQueryHookResult = ReturnType<typeof useFetchReleasesQuery>;
-export type FetchReleasesLazyQueryHookResult = ReturnType<typeof useFetchReleasesLazyQuery>;
-export type FetchReleasesQueryResult = Apollo.QueryResult<IFetchReleasesQuery, IFetchReleasesQueryVariables>;
-export const FetchReleasesRecentlyAddedDocument = gql`
-    query FetchReleasesRecentlyAdded {
+export type PagedReleasesFetchReleasesQueryHookResult = ReturnType<typeof usePagedReleasesFetchReleasesQuery>;
+export type PagedReleasesFetchReleasesLazyQueryHookResult = ReturnType<typeof usePagedReleasesFetchReleasesLazyQuery>;
+export type PagedReleasesFetchReleasesQueryResult = Apollo.QueryResult<IPagedReleasesFetchReleasesQuery, IPagedReleasesFetchReleasesQueryVariables>;
+export const CollectionChooserFetchCollectionsDocument = gql`
+    query CollectionChooserFetchCollections($types: [CollectionType]) {
+  collections(types: $types) {
+    results {
+      ...CollectionFields
+    }
+  }
+}
+    ${CollectionFieldsFragmentDoc}`;
+
+/**
+ * __useCollectionChooserFetchCollectionsQuery__
+ *
+ * To run a query within a React component, call `useCollectionChooserFetchCollectionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCollectionChooserFetchCollectionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCollectionChooserFetchCollectionsQuery({
+ *   variables: {
+ *      types: // value for 'types'
+ *   },
+ * });
+ */
+export function useCollectionChooserFetchCollectionsQuery(baseOptions?: Apollo.QueryHookOptions<ICollectionChooserFetchCollectionsQuery, ICollectionChooserFetchCollectionsQueryVariables>) {
+        return Apollo.useQuery<ICollectionChooserFetchCollectionsQuery, ICollectionChooserFetchCollectionsQueryVariables>(CollectionChooserFetchCollectionsDocument, baseOptions);
+      }
+export function useCollectionChooserFetchCollectionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ICollectionChooserFetchCollectionsQuery, ICollectionChooserFetchCollectionsQueryVariables>) {
+          return Apollo.useLazyQuery<ICollectionChooserFetchCollectionsQuery, ICollectionChooserFetchCollectionsQueryVariables>(CollectionChooserFetchCollectionsDocument, baseOptions);
+        }
+export type CollectionChooserFetchCollectionsQueryHookResult = ReturnType<typeof useCollectionChooserFetchCollectionsQuery>;
+export type CollectionChooserFetchCollectionsLazyQueryHookResult = ReturnType<typeof useCollectionChooserFetchCollectionsLazyQuery>;
+export type CollectionChooserFetchCollectionsQueryResult = Apollo.QueryResult<ICollectionChooserFetchCollectionsQuery, ICollectionChooserFetchCollectionsQueryVariables>;
+export const CollectionChooserUpdateCollectionStarredDocument = gql`
+    mutation CollectionChooserUpdateCollectionStarred($id: Int!, $starred: Boolean) {
+  updateCollection(id: $id, starred: $starred) {
+    id
+    starred
+  }
+}
+    `;
+export type ICollectionChooserUpdateCollectionStarredMutationFn = Apollo.MutationFunction<ICollectionChooserUpdateCollectionStarredMutation, ICollectionChooserUpdateCollectionStarredMutationVariables>;
+
+/**
+ * __useCollectionChooserUpdateCollectionStarredMutation__
+ *
+ * To run a mutation, you first call `useCollectionChooserUpdateCollectionStarredMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCollectionChooserUpdateCollectionStarredMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [collectionChooserUpdateCollectionStarredMutation, { data, loading, error }] = useCollectionChooserUpdateCollectionStarredMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      starred: // value for 'starred'
+ *   },
+ * });
+ */
+export function useCollectionChooserUpdateCollectionStarredMutation(baseOptions?: Apollo.MutationHookOptions<ICollectionChooserUpdateCollectionStarredMutation, ICollectionChooserUpdateCollectionStarredMutationVariables>) {
+        return Apollo.useMutation<ICollectionChooserUpdateCollectionStarredMutation, ICollectionChooserUpdateCollectionStarredMutationVariables>(CollectionChooserUpdateCollectionStarredDocument, baseOptions);
+      }
+export type CollectionChooserUpdateCollectionStarredMutationHookResult = ReturnType<typeof useCollectionChooserUpdateCollectionStarredMutation>;
+export type CollectionChooserUpdateCollectionStarredMutationResult = Apollo.MutationResult<ICollectionChooserUpdateCollectionStarredMutation>;
+export type CollectionChooserUpdateCollectionStarredMutationOptions = Apollo.BaseMutationOptions<ICollectionChooserUpdateCollectionStarredMutation, ICollectionChooserUpdateCollectionStarredMutationVariables>;
+export const ArtistsFetchArtistDocument = gql`
+    query ArtistsFetchArtist($id: Int!) {
+  artist(id: $id) {
+    ...ArtistFields
+  }
+}
+    ${ArtistFieldsFragmentDoc}`;
+
+/**
+ * __useArtistsFetchArtistQuery__
+ *
+ * To run a query within a React component, call `useArtistsFetchArtistQuery` and pass it any options that fit your needs.
+ * When your component renders, `useArtistsFetchArtistQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useArtistsFetchArtistQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useArtistsFetchArtistQuery(baseOptions: Apollo.QueryHookOptions<IArtistsFetchArtistQuery, IArtistsFetchArtistQueryVariables>) {
+        return Apollo.useQuery<IArtistsFetchArtistQuery, IArtistsFetchArtistQueryVariables>(ArtistsFetchArtistDocument, baseOptions);
+      }
+export function useArtistsFetchArtistLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IArtistsFetchArtistQuery, IArtistsFetchArtistQueryVariables>) {
+          return Apollo.useLazyQuery<IArtistsFetchArtistQuery, IArtistsFetchArtistQueryVariables>(ArtistsFetchArtistDocument, baseOptions);
+        }
+export type ArtistsFetchArtistQueryHookResult = ReturnType<typeof useArtistsFetchArtistQuery>;
+export type ArtistsFetchArtistLazyQueryHookResult = ReturnType<typeof useArtistsFetchArtistLazyQuery>;
+export type ArtistsFetchArtistQueryResult = Apollo.QueryResult<IArtistsFetchArtistQuery, IArtistsFetchArtistQueryVariables>;
+export const ArtistChooserFetchArtistsDocument = gql`
+    query ArtistChooserFetchArtists {
+  artists {
+    results {
+      ...ArtistFields
+    }
+  }
+}
+    ${ArtistFieldsFragmentDoc}`;
+
+/**
+ * __useArtistChooserFetchArtistsQuery__
+ *
+ * To run a query within a React component, call `useArtistChooserFetchArtistsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useArtistChooserFetchArtistsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useArtistChooserFetchArtistsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useArtistChooserFetchArtistsQuery(baseOptions?: Apollo.QueryHookOptions<IArtistChooserFetchArtistsQuery, IArtistChooserFetchArtistsQueryVariables>) {
+        return Apollo.useQuery<IArtistChooserFetchArtistsQuery, IArtistChooserFetchArtistsQueryVariables>(ArtistChooserFetchArtistsDocument, baseOptions);
+      }
+export function useArtistChooserFetchArtistsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IArtistChooserFetchArtistsQuery, IArtistChooserFetchArtistsQueryVariables>) {
+          return Apollo.useLazyQuery<IArtistChooserFetchArtistsQuery, IArtistChooserFetchArtistsQueryVariables>(ArtistChooserFetchArtistsDocument, baseOptions);
+        }
+export type ArtistChooserFetchArtistsQueryHookResult = ReturnType<typeof useArtistChooserFetchArtistsQuery>;
+export type ArtistChooserFetchArtistsLazyQueryHookResult = ReturnType<typeof useArtistChooserFetchArtistsLazyQuery>;
+export type ArtistChooserFetchArtistsQueryResult = Apollo.QueryResult<IArtistChooserFetchArtistsQuery, IArtistChooserFetchArtistsQueryVariables>;
+export const ArtistChooserUpdateArtistStarredDocument = gql`
+    mutation ArtistChooserUpdateArtistStarred($id: Int!, $starred: Boolean) {
+  updateArtist(id: $id, starred: $starred) {
+    id
+    starred
+  }
+}
+    `;
+export type IArtistChooserUpdateArtistStarredMutationFn = Apollo.MutationFunction<IArtistChooserUpdateArtistStarredMutation, IArtistChooserUpdateArtistStarredMutationVariables>;
+
+/**
+ * __useArtistChooserUpdateArtistStarredMutation__
+ *
+ * To run a mutation, you first call `useArtistChooserUpdateArtistStarredMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useArtistChooserUpdateArtistStarredMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [artistChooserUpdateArtistStarredMutation, { data, loading, error }] = useArtistChooserUpdateArtistStarredMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      starred: // value for 'starred'
+ *   },
+ * });
+ */
+export function useArtistChooserUpdateArtistStarredMutation(baseOptions?: Apollo.MutationHookOptions<IArtistChooserUpdateArtistStarredMutation, IArtistChooserUpdateArtistStarredMutationVariables>) {
+        return Apollo.useMutation<IArtistChooserUpdateArtistStarredMutation, IArtistChooserUpdateArtistStarredMutationVariables>(ArtistChooserUpdateArtistStarredDocument, baseOptions);
+      }
+export type ArtistChooserUpdateArtistStarredMutationHookResult = ReturnType<typeof useArtistChooserUpdateArtistStarredMutation>;
+export type ArtistChooserUpdateArtistStarredMutationResult = Apollo.MutationResult<IArtistChooserUpdateArtistStarredMutation>;
+export type ArtistChooserUpdateArtistStarredMutationOptions = Apollo.BaseMutationOptions<IArtistChooserUpdateArtistStarredMutation, IArtistChooserUpdateArtistStarredMutationVariables>;
+export const CollageFetchCollageDocument = gql`
+    query CollageFetchCollage($id: Int!) {
+  collection(id: $id) {
+    ...CollectionFields
+  }
+}
+    ${CollectionFieldsFragmentDoc}`;
+
+/**
+ * __useCollageFetchCollageQuery__
+ *
+ * To run a query within a React component, call `useCollageFetchCollageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCollageFetchCollageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCollageFetchCollageQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCollageFetchCollageQuery(baseOptions: Apollo.QueryHookOptions<ICollageFetchCollageQuery, ICollageFetchCollageQueryVariables>) {
+        return Apollo.useQuery<ICollageFetchCollageQuery, ICollageFetchCollageQueryVariables>(CollageFetchCollageDocument, baseOptions);
+      }
+export function useCollageFetchCollageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ICollageFetchCollageQuery, ICollageFetchCollageQueryVariables>) {
+          return Apollo.useLazyQuery<ICollageFetchCollageQuery, ICollageFetchCollageQueryVariables>(CollageFetchCollageDocument, baseOptions);
+        }
+export type CollageFetchCollageQueryHookResult = ReturnType<typeof useCollageFetchCollageQuery>;
+export type CollageFetchCollageLazyQueryHookResult = ReturnType<typeof useCollageFetchCollageLazyQuery>;
+export type CollageFetchCollageQueryResult = Apollo.QueryResult<ICollageFetchCollageQuery, ICollageFetchCollageQueryVariables>;
+export const RecentlyAddedFetchReleasesDocument = gql`
+    query RecentlyAddedFetchReleases {
   releases(sort: RECENTLY_ADDED, asc: false, page: 1, perPage: 10) {
     results {
       ...ReleaseFields
@@ -1384,31 +1298,97 @@ export const FetchReleasesRecentlyAddedDocument = gql`
     ${ReleaseFieldsFragmentDoc}`;
 
 /**
- * __useFetchReleasesRecentlyAddedQuery__
+ * __useRecentlyAddedFetchReleasesQuery__
  *
- * To run a query within a React component, call `useFetchReleasesRecentlyAddedQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchReleasesRecentlyAddedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useRecentlyAddedFetchReleasesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRecentlyAddedFetchReleasesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFetchReleasesRecentlyAddedQuery({
+ * const { data, loading, error } = useRecentlyAddedFetchReleasesQuery({
  *   variables: {
  *   },
  * });
  */
-export function useFetchReleasesRecentlyAddedQuery(baseOptions?: Apollo.QueryHookOptions<IFetchReleasesRecentlyAddedQuery, IFetchReleasesRecentlyAddedQueryVariables>) {
-        return Apollo.useQuery<IFetchReleasesRecentlyAddedQuery, IFetchReleasesRecentlyAddedQueryVariables>(FetchReleasesRecentlyAddedDocument, baseOptions);
+export function useRecentlyAddedFetchReleasesQuery(baseOptions?: Apollo.QueryHookOptions<IRecentlyAddedFetchReleasesQuery, IRecentlyAddedFetchReleasesQueryVariables>) {
+        return Apollo.useQuery<IRecentlyAddedFetchReleasesQuery, IRecentlyAddedFetchReleasesQueryVariables>(RecentlyAddedFetchReleasesDocument, baseOptions);
       }
-export function useFetchReleasesRecentlyAddedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchReleasesRecentlyAddedQuery, IFetchReleasesRecentlyAddedQueryVariables>) {
-          return Apollo.useLazyQuery<IFetchReleasesRecentlyAddedQuery, IFetchReleasesRecentlyAddedQueryVariables>(FetchReleasesRecentlyAddedDocument, baseOptions);
+export function useRecentlyAddedFetchReleasesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IRecentlyAddedFetchReleasesQuery, IRecentlyAddedFetchReleasesQueryVariables>) {
+          return Apollo.useLazyQuery<IRecentlyAddedFetchReleasesQuery, IRecentlyAddedFetchReleasesQueryVariables>(RecentlyAddedFetchReleasesDocument, baseOptions);
         }
-export type FetchReleasesRecentlyAddedQueryHookResult = ReturnType<typeof useFetchReleasesRecentlyAddedQuery>;
-export type FetchReleasesRecentlyAddedLazyQueryHookResult = ReturnType<typeof useFetchReleasesRecentlyAddedLazyQuery>;
-export type FetchReleasesRecentlyAddedQueryResult = Apollo.QueryResult<IFetchReleasesRecentlyAddedQuery, IFetchReleasesRecentlyAddedQueryVariables>;
-export const FetchReleaseDocument = gql`
-    query FetchRelease($id: Int!) {
+export type RecentlyAddedFetchReleasesQueryHookResult = ReturnType<typeof useRecentlyAddedFetchReleasesQuery>;
+export type RecentlyAddedFetchReleasesLazyQueryHookResult = ReturnType<typeof useRecentlyAddedFetchReleasesLazyQuery>;
+export type RecentlyAddedFetchReleasesQueryResult = Apollo.QueryResult<IRecentlyAddedFetchReleasesQuery, IRecentlyAddedFetchReleasesQueryVariables>;
+export const GenresFetchGenreDocument = gql`
+    query GenresFetchGenre($id: Int!) {
+  collection(id: $id) {
+    ...CollectionFields
+  }
+}
+    ${CollectionFieldsFragmentDoc}`;
+
+/**
+ * __useGenresFetchGenreQuery__
+ *
+ * To run a query within a React component, call `useGenresFetchGenreQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGenresFetchGenreQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGenresFetchGenreQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGenresFetchGenreQuery(baseOptions: Apollo.QueryHookOptions<IGenresFetchGenreQuery, IGenresFetchGenreQueryVariables>) {
+        return Apollo.useQuery<IGenresFetchGenreQuery, IGenresFetchGenreQueryVariables>(GenresFetchGenreDocument, baseOptions);
+      }
+export function useGenresFetchGenreLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IGenresFetchGenreQuery, IGenresFetchGenreQueryVariables>) {
+          return Apollo.useLazyQuery<IGenresFetchGenreQuery, IGenresFetchGenreQueryVariables>(GenresFetchGenreDocument, baseOptions);
+        }
+export type GenresFetchGenreQueryHookResult = ReturnType<typeof useGenresFetchGenreQuery>;
+export type GenresFetchGenreLazyQueryHookResult = ReturnType<typeof useGenresFetchGenreLazyQuery>;
+export type GenresFetchGenreQueryResult = Apollo.QueryResult<IGenresFetchGenreQuery, IGenresFetchGenreQueryVariables>;
+export const LabelFetchLabelDocument = gql`
+    query LabelFetchLabel($id: Int!) {
+  collection(id: $id) {
+    ...CollectionFields
+  }
+}
+    ${CollectionFieldsFragmentDoc}`;
+
+/**
+ * __useLabelFetchLabelQuery__
+ *
+ * To run a query within a React component, call `useLabelFetchLabelQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLabelFetchLabelQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLabelFetchLabelQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useLabelFetchLabelQuery(baseOptions: Apollo.QueryHookOptions<ILabelFetchLabelQuery, ILabelFetchLabelQueryVariables>) {
+        return Apollo.useQuery<ILabelFetchLabelQuery, ILabelFetchLabelQueryVariables>(LabelFetchLabelDocument, baseOptions);
+      }
+export function useLabelFetchLabelLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ILabelFetchLabelQuery, ILabelFetchLabelQueryVariables>) {
+          return Apollo.useLazyQuery<ILabelFetchLabelQuery, ILabelFetchLabelQueryVariables>(LabelFetchLabelDocument, baseOptions);
+        }
+export type LabelFetchLabelQueryHookResult = ReturnType<typeof useLabelFetchLabelQuery>;
+export type LabelFetchLabelLazyQueryHookResult = ReturnType<typeof useLabelFetchLabelLazyQuery>;
+export type LabelFetchLabelQueryResult = Apollo.QueryResult<ILabelFetchLabelQuery, ILabelFetchLabelQueryVariables>;
+export const NowPlayingInfoFetchReleaseDocument = gql`
+    query NowPlayingInfoFetchRelease($id: Int!) {
   release(id: $id) {
     ...FullReleaseFields
   }
@@ -1416,145 +1396,315 @@ export const FetchReleaseDocument = gql`
     ${FullReleaseFieldsFragmentDoc}`;
 
 /**
- * __useFetchReleaseQuery__
+ * __useNowPlayingInfoFetchReleaseQuery__
  *
- * To run a query within a React component, call `useFetchReleaseQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchReleaseQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useNowPlayingInfoFetchReleaseQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNowPlayingInfoFetchReleaseQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFetchReleaseQuery({
+ * const { data, loading, error } = useNowPlayingInfoFetchReleaseQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useFetchReleaseQuery(baseOptions: Apollo.QueryHookOptions<IFetchReleaseQuery, IFetchReleaseQueryVariables>) {
-        return Apollo.useQuery<IFetchReleaseQuery, IFetchReleaseQueryVariables>(FetchReleaseDocument, baseOptions);
+export function useNowPlayingInfoFetchReleaseQuery(baseOptions: Apollo.QueryHookOptions<INowPlayingInfoFetchReleaseQuery, INowPlayingInfoFetchReleaseQueryVariables>) {
+        return Apollo.useQuery<INowPlayingInfoFetchReleaseQuery, INowPlayingInfoFetchReleaseQueryVariables>(NowPlayingInfoFetchReleaseDocument, baseOptions);
       }
-export function useFetchReleaseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchReleaseQuery, IFetchReleaseQueryVariables>) {
-          return Apollo.useLazyQuery<IFetchReleaseQuery, IFetchReleaseQueryVariables>(FetchReleaseDocument, baseOptions);
+export function useNowPlayingInfoFetchReleaseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<INowPlayingInfoFetchReleaseQuery, INowPlayingInfoFetchReleaseQueryVariables>) {
+          return Apollo.useLazyQuery<INowPlayingInfoFetchReleaseQuery, INowPlayingInfoFetchReleaseQueryVariables>(NowPlayingInfoFetchReleaseDocument, baseOptions);
         }
-export type FetchReleaseQueryHookResult = ReturnType<typeof useFetchReleaseQuery>;
-export type FetchReleaseLazyQueryHookResult = ReturnType<typeof useFetchReleaseLazyQuery>;
-export type FetchReleaseQueryResult = Apollo.QueryResult<IFetchReleaseQuery, IFetchReleaseQueryVariables>;
-export const FetchReleaseYearsDocument = gql`
-    query FetchReleaseYears {
-  releaseYears
-}
-    `;
-
-/**
- * __useFetchReleaseYearsQuery__
- *
- * To run a query within a React component, call `useFetchReleaseYearsQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchReleaseYearsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFetchReleaseYearsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useFetchReleaseYearsQuery(baseOptions?: Apollo.QueryHookOptions<IFetchReleaseYearsQuery, IFetchReleaseYearsQueryVariables>) {
-        return Apollo.useQuery<IFetchReleaseYearsQuery, IFetchReleaseYearsQueryVariables>(FetchReleaseYearsDocument, baseOptions);
+export type NowPlayingInfoFetchReleaseQueryHookResult = ReturnType<typeof useNowPlayingInfoFetchReleaseQuery>;
+export type NowPlayingInfoFetchReleaseLazyQueryHookResult = ReturnType<typeof useNowPlayingInfoFetchReleaseLazyQuery>;
+export type NowPlayingInfoFetchReleaseQueryResult = Apollo.QueryResult<INowPlayingInfoFetchReleaseQuery, INowPlayingInfoFetchReleaseQueryVariables>;
+export const InFavoritesAddReleaseToCollectionDocument = gql`
+    mutation InFavoritesAddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
+  addReleaseToCollection(collectionId: $collectionId, releaseId: $releaseId) {
+    collection {
+      id
+      numReleases
+      lastUpdatedOn
+    }
+    release {
+      id
+      inInbox
+      inFavorites
+      genres {
+        id
+        name
       }
-export function useFetchReleaseYearsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchReleaseYearsQuery, IFetchReleaseYearsQueryVariables>) {
-          return Apollo.useLazyQuery<IFetchReleaseYearsQuery, IFetchReleaseYearsQueryVariables>(FetchReleaseYearsDocument, baseOptions);
-        }
-export type FetchReleaseYearsQueryHookResult = ReturnType<typeof useFetchReleaseYearsQuery>;
-export type FetchReleaseYearsLazyQueryHookResult = ReturnType<typeof useFetchReleaseYearsLazyQuery>;
-export type FetchReleaseYearsQueryResult = Apollo.QueryResult<IFetchReleaseYearsQuery, IFetchReleaseYearsQueryVariables>;
-export const UpdateReleaseDocument = gql`
-    mutation UpdateRelease($id: Int!, $title: String, $releaseType: ReleaseType, $releaseYear: Int, $releaseDate: String, $rating: Int) {
-  updateRelease(
-    id: $id
-    title: $title
-    releaseType: $releaseType
-    releaseYear: $releaseYear
-    releaseDate: $releaseDate
-    rating: $rating
-  ) {
-    id
-    title
-    releaseType
-    releaseYear
-    releaseDate
-    rating
+      labels {
+        id
+        name
+      }
+      collages {
+        id
+        name
+      }
+    }
   }
 }
     `;
-export type IUpdateReleaseMutationFn = Apollo.MutationFunction<IUpdateReleaseMutation, IUpdateReleaseMutationVariables>;
+export type IInFavoritesAddReleaseToCollectionMutationFn = Apollo.MutationFunction<IInFavoritesAddReleaseToCollectionMutation, IInFavoritesAddReleaseToCollectionMutationVariables>;
 
 /**
- * __useUpdateReleaseMutation__
+ * __useInFavoritesAddReleaseToCollectionMutation__
  *
- * To run a mutation, you first call `useUpdateReleaseMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateReleaseMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useInFavoritesAddReleaseToCollectionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInFavoritesAddReleaseToCollectionMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateReleaseMutation, { data, loading, error }] = useUpdateReleaseMutation({
+ * const [inFavoritesAddReleaseToCollectionMutation, { data, loading, error }] = useInFavoritesAddReleaseToCollectionMutation({
  *   variables: {
- *      id: // value for 'id'
- *      title: // value for 'title'
- *      releaseType: // value for 'releaseType'
- *      releaseYear: // value for 'releaseYear'
- *      releaseDate: // value for 'releaseDate'
- *      rating: // value for 'rating'
+ *      collectionId: // value for 'collectionId'
+ *      releaseId: // value for 'releaseId'
  *   },
  * });
  */
-export function useUpdateReleaseMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateReleaseMutation, IUpdateReleaseMutationVariables>) {
-        return Apollo.useMutation<IUpdateReleaseMutation, IUpdateReleaseMutationVariables>(UpdateReleaseDocument, baseOptions);
+export function useInFavoritesAddReleaseToCollectionMutation(baseOptions?: Apollo.MutationHookOptions<IInFavoritesAddReleaseToCollectionMutation, IInFavoritesAddReleaseToCollectionMutationVariables>) {
+        return Apollo.useMutation<IInFavoritesAddReleaseToCollectionMutation, IInFavoritesAddReleaseToCollectionMutationVariables>(InFavoritesAddReleaseToCollectionDocument, baseOptions);
       }
-export type UpdateReleaseMutationHookResult = ReturnType<typeof useUpdateReleaseMutation>;
-export type UpdateReleaseMutationResult = Apollo.MutationResult<IUpdateReleaseMutation>;
-export type UpdateReleaseMutationOptions = Apollo.BaseMutationOptions<IUpdateReleaseMutation, IUpdateReleaseMutationVariables>;
-export const UpdateReleaseRatingDocument = gql`
-    mutation UpdateReleaseRating($id: Int!, $rating: Int) {
+export type InFavoritesAddReleaseToCollectionMutationHookResult = ReturnType<typeof useInFavoritesAddReleaseToCollectionMutation>;
+export type InFavoritesAddReleaseToCollectionMutationResult = Apollo.MutationResult<IInFavoritesAddReleaseToCollectionMutation>;
+export type InFavoritesAddReleaseToCollectionMutationOptions = Apollo.BaseMutationOptions<IInFavoritesAddReleaseToCollectionMutation, IInFavoritesAddReleaseToCollectionMutationVariables>;
+export const InFavoritesDelReleaseFromCollectionDocument = gql`
+    mutation InFavoritesDelReleaseFromCollection($collectionId: Int!, $releaseId: Int!) {
+  delReleaseFromCollection(collectionId: $collectionId, releaseId: $releaseId) {
+    collection {
+      id
+      numReleases
+      lastUpdatedOn
+    }
+    release {
+      id
+      inInbox
+      inFavorites
+      genres {
+        id
+        name
+      }
+      labels {
+        id
+        name
+      }
+      collages {
+        id
+        name
+      }
+    }
+  }
+}
+    `;
+export type IInFavoritesDelReleaseFromCollectionMutationFn = Apollo.MutationFunction<IInFavoritesDelReleaseFromCollectionMutation, IInFavoritesDelReleaseFromCollectionMutationVariables>;
+
+/**
+ * __useInFavoritesDelReleaseFromCollectionMutation__
+ *
+ * To run a mutation, you first call `useInFavoritesDelReleaseFromCollectionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInFavoritesDelReleaseFromCollectionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [inFavoritesDelReleaseFromCollectionMutation, { data, loading, error }] = useInFavoritesDelReleaseFromCollectionMutation({
+ *   variables: {
+ *      collectionId: // value for 'collectionId'
+ *      releaseId: // value for 'releaseId'
+ *   },
+ * });
+ */
+export function useInFavoritesDelReleaseFromCollectionMutation(baseOptions?: Apollo.MutationHookOptions<IInFavoritesDelReleaseFromCollectionMutation, IInFavoritesDelReleaseFromCollectionMutationVariables>) {
+        return Apollo.useMutation<IInFavoritesDelReleaseFromCollectionMutation, IInFavoritesDelReleaseFromCollectionMutationVariables>(InFavoritesDelReleaseFromCollectionDocument, baseOptions);
+      }
+export type InFavoritesDelReleaseFromCollectionMutationHookResult = ReturnType<typeof useInFavoritesDelReleaseFromCollectionMutation>;
+export type InFavoritesDelReleaseFromCollectionMutationResult = Apollo.MutationResult<IInFavoritesDelReleaseFromCollectionMutation>;
+export type InFavoritesDelReleaseFromCollectionMutationOptions = Apollo.BaseMutationOptions<IInFavoritesDelReleaseFromCollectionMutation, IInFavoritesDelReleaseFromCollectionMutationVariables>;
+export const InInboxAddReleaseToCollectionDocument = gql`
+    mutation InInboxAddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
+  addReleaseToCollection(collectionId: $collectionId, releaseId: $releaseId) {
+    collection {
+      id
+      numReleases
+      lastUpdatedOn
+    }
+    release {
+      id
+      inInbox
+      inFavorites
+      genres {
+        id
+        name
+      }
+      labels {
+        id
+        name
+      }
+      collages {
+        id
+        name
+      }
+    }
+  }
+}
+    `;
+export type IInInboxAddReleaseToCollectionMutationFn = Apollo.MutationFunction<IInInboxAddReleaseToCollectionMutation, IInInboxAddReleaseToCollectionMutationVariables>;
+
+/**
+ * __useInInboxAddReleaseToCollectionMutation__
+ *
+ * To run a mutation, you first call `useInInboxAddReleaseToCollectionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInInboxAddReleaseToCollectionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [inInboxAddReleaseToCollectionMutation, { data, loading, error }] = useInInboxAddReleaseToCollectionMutation({
+ *   variables: {
+ *      collectionId: // value for 'collectionId'
+ *      releaseId: // value for 'releaseId'
+ *   },
+ * });
+ */
+export function useInInboxAddReleaseToCollectionMutation(baseOptions?: Apollo.MutationHookOptions<IInInboxAddReleaseToCollectionMutation, IInInboxAddReleaseToCollectionMutationVariables>) {
+        return Apollo.useMutation<IInInboxAddReleaseToCollectionMutation, IInInboxAddReleaseToCollectionMutationVariables>(InInboxAddReleaseToCollectionDocument, baseOptions);
+      }
+export type InInboxAddReleaseToCollectionMutationHookResult = ReturnType<typeof useInInboxAddReleaseToCollectionMutation>;
+export type InInboxAddReleaseToCollectionMutationResult = Apollo.MutationResult<IInInboxAddReleaseToCollectionMutation>;
+export type InInboxAddReleaseToCollectionMutationOptions = Apollo.BaseMutationOptions<IInInboxAddReleaseToCollectionMutation, IInInboxAddReleaseToCollectionMutationVariables>;
+export const InInboxDelReleaseFromCollectionDocument = gql`
+    mutation InInboxDelReleaseFromCollection($collectionId: Int!, $releaseId: Int!) {
+  delReleaseFromCollection(collectionId: $collectionId, releaseId: $releaseId) {
+    collection {
+      id
+      numReleases
+      lastUpdatedOn
+    }
+    release {
+      id
+      inInbox
+      inFavorites
+      genres {
+        id
+        name
+      }
+      labels {
+        id
+        name
+      }
+      collages {
+        id
+        name
+      }
+    }
+  }
+}
+    `;
+export type IInInboxDelReleaseFromCollectionMutationFn = Apollo.MutationFunction<IInInboxDelReleaseFromCollectionMutation, IInInboxDelReleaseFromCollectionMutationVariables>;
+
+/**
+ * __useInInboxDelReleaseFromCollectionMutation__
+ *
+ * To run a mutation, you first call `useInInboxDelReleaseFromCollectionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInInboxDelReleaseFromCollectionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [inInboxDelReleaseFromCollectionMutation, { data, loading, error }] = useInInboxDelReleaseFromCollectionMutation({
+ *   variables: {
+ *      collectionId: // value for 'collectionId'
+ *      releaseId: // value for 'releaseId'
+ *   },
+ * });
+ */
+export function useInInboxDelReleaseFromCollectionMutation(baseOptions?: Apollo.MutationHookOptions<IInInboxDelReleaseFromCollectionMutation, IInInboxDelReleaseFromCollectionMutationVariables>) {
+        return Apollo.useMutation<IInInboxDelReleaseFromCollectionMutation, IInInboxDelReleaseFromCollectionMutationVariables>(InInboxDelReleaseFromCollectionDocument, baseOptions);
+      }
+export type InInboxDelReleaseFromCollectionMutationHookResult = ReturnType<typeof useInInboxDelReleaseFromCollectionMutation>;
+export type InInboxDelReleaseFromCollectionMutationResult = Apollo.MutationResult<IInInboxDelReleaseFromCollectionMutation>;
+export type InInboxDelReleaseFromCollectionMutationOptions = Apollo.BaseMutationOptions<IInInboxDelReleaseFromCollectionMutation, IInInboxDelReleaseFromCollectionMutationVariables>;
+export const ReleaseUpdateReleaseRatingDocument = gql`
+    mutation ReleaseUpdateReleaseRating($id: Int!, $rating: Int) {
   updateRelease(id: $id, rating: $rating) {
     id
     rating
   }
 }
     `;
-export type IUpdateReleaseRatingMutationFn = Apollo.MutationFunction<IUpdateReleaseRatingMutation, IUpdateReleaseRatingMutationVariables>;
+export type IReleaseUpdateReleaseRatingMutationFn = Apollo.MutationFunction<IReleaseUpdateReleaseRatingMutation, IReleaseUpdateReleaseRatingMutationVariables>;
 
 /**
- * __useUpdateReleaseRatingMutation__
+ * __useReleaseUpdateReleaseRatingMutation__
  *
- * To run a mutation, you first call `useUpdateReleaseRatingMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateReleaseRatingMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useReleaseUpdateReleaseRatingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useReleaseUpdateReleaseRatingMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateReleaseRatingMutation, { data, loading, error }] = useUpdateReleaseRatingMutation({
+ * const [releaseUpdateReleaseRatingMutation, { data, loading, error }] = useReleaseUpdateReleaseRatingMutation({
  *   variables: {
  *      id: // value for 'id'
  *      rating: // value for 'rating'
  *   },
  * });
  */
-export function useUpdateReleaseRatingMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateReleaseRatingMutation, IUpdateReleaseRatingMutationVariables>) {
-        return Apollo.useMutation<IUpdateReleaseRatingMutation, IUpdateReleaseRatingMutationVariables>(UpdateReleaseRatingDocument, baseOptions);
+export function useReleaseUpdateReleaseRatingMutation(baseOptions?: Apollo.MutationHookOptions<IReleaseUpdateReleaseRatingMutation, IReleaseUpdateReleaseRatingMutationVariables>) {
+        return Apollo.useMutation<IReleaseUpdateReleaseRatingMutation, IReleaseUpdateReleaseRatingMutationVariables>(ReleaseUpdateReleaseRatingDocument, baseOptions);
       }
-export type UpdateReleaseRatingMutationHookResult = ReturnType<typeof useUpdateReleaseRatingMutation>;
-export type UpdateReleaseRatingMutationResult = Apollo.MutationResult<IUpdateReleaseRatingMutation>;
-export type UpdateReleaseRatingMutationOptions = Apollo.BaseMutationOptions<IUpdateReleaseRatingMutation, IUpdateReleaseRatingMutationVariables>;
-export const FetchUserDocument = gql`
-    query FetchUser {
+export type ReleaseUpdateReleaseRatingMutationHookResult = ReturnType<typeof useReleaseUpdateReleaseRatingMutation>;
+export type ReleaseUpdateReleaseRatingMutationResult = Apollo.MutationResult<IReleaseUpdateReleaseRatingMutation>;
+export type ReleaseUpdateReleaseRatingMutationOptions = Apollo.BaseMutationOptions<IReleaseUpdateReleaseRatingMutation, IReleaseUpdateReleaseRatingMutationVariables>;
+export const ReleaseFetchReleaseDocument = gql`
+    query ReleaseFetchRelease($id: Int!) {
+  release(id: $id) {
+    ...FullReleaseFields
+  }
+}
+    ${FullReleaseFieldsFragmentDoc}`;
+
+/**
+ * __useReleaseFetchReleaseQuery__
+ *
+ * To run a query within a React component, call `useReleaseFetchReleaseQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReleaseFetchReleaseQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useReleaseFetchReleaseQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useReleaseFetchReleaseQuery(baseOptions: Apollo.QueryHookOptions<IReleaseFetchReleaseQuery, IReleaseFetchReleaseQueryVariables>) {
+        return Apollo.useQuery<IReleaseFetchReleaseQuery, IReleaseFetchReleaseQueryVariables>(ReleaseFetchReleaseDocument, baseOptions);
+      }
+export function useReleaseFetchReleaseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IReleaseFetchReleaseQuery, IReleaseFetchReleaseQueryVariables>) {
+          return Apollo.useLazyQuery<IReleaseFetchReleaseQuery, IReleaseFetchReleaseQueryVariables>(ReleaseFetchReleaseDocument, baseOptions);
+        }
+export type ReleaseFetchReleaseQueryHookResult = ReturnType<typeof useReleaseFetchReleaseQuery>;
+export type ReleaseFetchReleaseLazyQueryHookResult = ReturnType<typeof useReleaseFetchReleaseLazyQuery>;
+export type ReleaseFetchReleaseQueryResult = Apollo.QueryResult<IReleaseFetchReleaseQuery, IReleaseFetchReleaseQueryVariables>;
+export const SettingsFetchUserDocument = gql`
+    query SettingsFetchUser {
   user {
     ...UserFields
   }
@@ -1562,62 +1712,92 @@ export const FetchUserDocument = gql`
     ${UserFieldsFragmentDoc}`;
 
 /**
- * __useFetchUserQuery__
+ * __useSettingsFetchUserQuery__
  *
- * To run a query within a React component, call `useFetchUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSettingsFetchUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSettingsFetchUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFetchUserQuery({
+ * const { data, loading, error } = useSettingsFetchUserQuery({
  *   variables: {
  *   },
  * });
  */
-export function useFetchUserQuery(baseOptions?: Apollo.QueryHookOptions<IFetchUserQuery, IFetchUserQueryVariables>) {
-        return Apollo.useQuery<IFetchUserQuery, IFetchUserQueryVariables>(FetchUserDocument, baseOptions);
+export function useSettingsFetchUserQuery(baseOptions?: Apollo.QueryHookOptions<ISettingsFetchUserQuery, ISettingsFetchUserQueryVariables>) {
+        return Apollo.useQuery<ISettingsFetchUserQuery, ISettingsFetchUserQueryVariables>(SettingsFetchUserDocument, baseOptions);
       }
-export function useFetchUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchUserQuery, IFetchUserQueryVariables>) {
-          return Apollo.useLazyQuery<IFetchUserQuery, IFetchUserQueryVariables>(FetchUserDocument, baseOptions);
+export function useSettingsFetchUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ISettingsFetchUserQuery, ISettingsFetchUserQueryVariables>) {
+          return Apollo.useLazyQuery<ISettingsFetchUserQuery, ISettingsFetchUserQueryVariables>(SettingsFetchUserDocument, baseOptions);
         }
-export type FetchUserQueryHookResult = ReturnType<typeof useFetchUserQuery>;
-export type FetchUserLazyQueryHookResult = ReturnType<typeof useFetchUserLazyQuery>;
-export type FetchUserQueryResult = Apollo.QueryResult<IFetchUserQuery, IFetchUserQueryVariables>;
-export const UpdateUserDocument = gql`
-    mutation UpdateUser($nickname: String) {
+export type SettingsFetchUserQueryHookResult = ReturnType<typeof useSettingsFetchUserQuery>;
+export type SettingsFetchUserLazyQueryHookResult = ReturnType<typeof useSettingsFetchUserLazyQuery>;
+export type SettingsFetchUserQueryResult = Apollo.QueryResult<ISettingsFetchUserQuery, ISettingsFetchUserQueryVariables>;
+export const SettingsUpdateUserDocument = gql`
+    mutation SettingsUpdateUser($nickname: String) {
   updateUser(nickname: $nickname) {
     id
     nickname
   }
 }
     `;
-export type IUpdateUserMutationFn = Apollo.MutationFunction<IUpdateUserMutation, IUpdateUserMutationVariables>;
+export type ISettingsUpdateUserMutationFn = Apollo.MutationFunction<ISettingsUpdateUserMutation, ISettingsUpdateUserMutationVariables>;
 
 /**
- * __useUpdateUserMutation__
+ * __useSettingsUpdateUserMutation__
  *
- * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useSettingsUpdateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSettingsUpdateUserMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
+ * const [settingsUpdateUserMutation, { data, loading, error }] = useSettingsUpdateUserMutation({
  *   variables: {
  *      nickname: // value for 'nickname'
  *   },
  * });
  */
-export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateUserMutation, IUpdateUserMutationVariables>) {
-        return Apollo.useMutation<IUpdateUserMutation, IUpdateUserMutationVariables>(UpdateUserDocument, baseOptions);
+export function useSettingsUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<ISettingsUpdateUserMutation, ISettingsUpdateUserMutationVariables>) {
+        return Apollo.useMutation<ISettingsUpdateUserMutation, ISettingsUpdateUserMutationVariables>(SettingsUpdateUserDocument, baseOptions);
       }
-export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
-export type UpdateUserMutationResult = Apollo.MutationResult<IUpdateUserMutation>;
-export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<IUpdateUserMutation, IUpdateUserMutationVariables>;
+export type SettingsUpdateUserMutationHookResult = ReturnType<typeof useSettingsUpdateUserMutation>;
+export type SettingsUpdateUserMutationResult = Apollo.MutationResult<ISettingsUpdateUserMutation>;
+export type SettingsUpdateUserMutationOptions = Apollo.BaseMutationOptions<ISettingsUpdateUserMutation, ISettingsUpdateUserMutationVariables>;
+export const YearsFetchReleaseYearsDocument = gql`
+    query YearsFetchReleaseYears {
+  releaseYears
+}
+    `;
+
+/**
+ * __useYearsFetchReleaseYearsQuery__
+ *
+ * To run a query within a React component, call `useYearsFetchReleaseYearsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useYearsFetchReleaseYearsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useYearsFetchReleaseYearsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useYearsFetchReleaseYearsQuery(baseOptions?: Apollo.QueryHookOptions<IYearsFetchReleaseYearsQuery, IYearsFetchReleaseYearsQueryVariables>) {
+        return Apollo.useQuery<IYearsFetchReleaseYearsQuery, IYearsFetchReleaseYearsQueryVariables>(YearsFetchReleaseYearsDocument, baseOptions);
+      }
+export function useYearsFetchReleaseYearsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IYearsFetchReleaseYearsQuery, IYearsFetchReleaseYearsQueryVariables>) {
+          return Apollo.useLazyQuery<IYearsFetchReleaseYearsQuery, IYearsFetchReleaseYearsQueryVariables>(YearsFetchReleaseYearsDocument, baseOptions);
+        }
+export type YearsFetchReleaseYearsQueryHookResult = ReturnType<typeof useYearsFetchReleaseYearsQuery>;
+export type YearsFetchReleaseYearsLazyQueryHookResult = ReturnType<typeof useYearsFetchReleaseYearsLazyQuery>;
+export type YearsFetchReleaseYearsQueryResult = Apollo.QueryResult<IYearsFetchReleaseYearsQuery, IYearsFetchReleaseYearsQueryVariables>;
 export type QueryKeySpecifier = ('artist' | 'artistFromName' | 'collection' | 'collectionFromNameAndType' | 'playlist' | 'playlistFromNameAndType' | 'release' | 'track' | 'user' | 'artists' | 'collections' | 'playlists' | 'releases' | 'releaseYears' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	artist?: FieldPolicy<any> | FieldReadFunction<any>,

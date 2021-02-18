@@ -1,15 +1,16 @@
 import 'twin.macro';
 
+import { gql } from '@apollo/client';
 import * as React from 'react';
 
 import { CollectionReleases, Header, SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
-import { useFetchCollectionQuery } from '~/graphql';
+import { useCollageFetchCollageQuery } from '~/graphql';
 
 type ICollage = React.FC<{ active: number }>;
 
 export const Collage: ICollage = ({ active }) => {
-  const { data } = useFetchCollectionQuery({ variables: { id: active } });
+  const { data } = useCollageFetchCollageQuery({ variables: { id: active } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
   const collection = data?.collection || null;
@@ -33,3 +34,12 @@ export const Collage: ICollage = ({ active }) => {
     </div>
   );
 };
+
+/* eslint-disable */
+gql`
+  query CollageFetchCollage($id: Int!) {
+    collection(id: $id) {
+      ...CollectionFields
+    }
+  }
+`;

@@ -1,7 +1,8 @@
 overwrite: true
-schema: "../backend/src/graphql/schema.graphql"
+schema: "../backend/src/graphql/schema.gql"
 documents:
-  - "src/graphql/*.graphql"
+  - "src/**/*.{gql,ts,tsx}"
+  - "!src/graphql/index.ts"
 config:
   scalars:
     PosixTime: number

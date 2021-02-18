@@ -1,13 +1,14 @@
 import 'twin.macro';
 
+import { gql } from '@apollo/client';
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 
 import { Button, Input } from '~/components';
-import { useFetchUserQuery, useUpdateUserMutation } from '~/graphql';
+import { useSettingsFetchUserQuery, useSettingsUpdateUserMutation } from '~/graphql';
 
 export const UserSettings: React.FC = () => {
-  const { data } = useFetchUserQuery();
+  const { data } = useSettingsFetchUserQuery();
   const input = React.useRef<HTMLInputElement>(null);
   const { addToast } = useToasts();
 
@@ -15,7 +16,7 @@ export const UserSettings: React.FC = () => {
     addToast('Successfully updated nickname.', { appearance: 'success' });
   };
 
-  const [mutateUser] = useUpdateUserMutation({ onCompleted });
+  const [mutateUser] = useSettingsUpdateUserMutation({ onCompleted });
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
@@ -37,3 +38,19 @@ export const UserSettings: React.FC = () => {
     </div>
   );
 };
+
+/* eslint-disable */
+gql`
+  query SettingsFetchUser {
+    user {
+      ...UserFields
+    }
+  }
+
+  mutation SettingsUpdateUser($nickname: String) {
+    updateUser(nickname: $nickname) {
+      id
+      nickname
+    }
+  }
+`;

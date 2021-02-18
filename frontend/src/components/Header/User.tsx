@@ -1,11 +1,12 @@
 import 'twin.macro';
 
+import { gql } from '@apollo/client';
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 
 import { Icon, Link } from '~/components/common';
 import { AuthorizationContext } from '~/contexts';
-import { useFetchUserQuery } from '~/graphql';
+import { useHeaderFetchUserQuery } from '~/graphql';
 import { useRequest } from '~/hooks';
 
 type IUser = React.FC<{ className?: string }>;
@@ -13,7 +14,7 @@ type IUser = React.FC<{ className?: string }>;
 export const User: IUser = ({ className }) => {
   const { setLoggedIn } = React.useContext(AuthorizationContext);
   const { addToast } = useToasts();
-  const { data } = useFetchUserQuery();
+  const { data } = useHeaderFetchUserQuery();
   const request = useRequest();
 
   const logout = (): void => {
@@ -49,3 +50,12 @@ export const User: IUser = ({ className }) => {
     </div>
   );
 };
+
+/* eslint-disable */
+gql`
+  query HeaderFetchUser {
+    user {
+      ...UserFields
+    }
+  }
+`;

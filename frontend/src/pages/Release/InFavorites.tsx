@@ -1,11 +1,12 @@
+import { gql } from '@apollo/client';
 import * as React from 'react';
 import tw from 'twin.macro';
 
 import { Icon } from '~/components';
 import {
   IRelease,
-  useAddReleaseToCollectionMutation,
-  useDelReleaseFromCollectionMutation,
+  useInFavoritesAddReleaseToCollectionMutation,
+  useInFavoritesDelReleaseFromCollectionMutation,
 } from '~/graphql';
 
 const FAVORITES_COLLECTION_ID = 2;
@@ -13,8 +14,8 @@ const FAVORITES_COLLECTION_ID = 2;
 type IInFavorites = React.FC<{ className?: string; release: IRelease }>;
 
 export const InFavorites: IInFavorites = ({ className, release }) => {
-  const [mutateAdd] = useAddReleaseToCollectionMutation();
-  const [mutateDel] = useDelReleaseFromCollectionMutation();
+  const [mutateAdd] = useInFavoritesAddReleaseToCollectionMutation();
+  const [mutateDel] = useInFavoritesDelReleaseFromCollectionMutation();
 
   const toggleFavorite = (): void => {
     if (release.inFavorites) {
@@ -34,3 +35,60 @@ export const InFavorites: IInFavorites = ({ className, release }) => {
     />
   );
 };
+
+/* eslint-disable */
+gql`
+  mutation InFavoritesAddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
+    addReleaseToCollection(collectionId: $collectionId, releaseId: $releaseId) {
+      collection {
+        id
+        numReleases
+        lastUpdatedOn
+      }
+      release {
+        id
+        inInbox
+        inFavorites
+        genres {
+          id
+          name
+        }
+        labels {
+          id
+          name
+        }
+        collages {
+          id
+          name
+        }
+      }
+    }
+  }
+
+  mutation InFavoritesDelReleaseFromCollection($collectionId: Int!, $releaseId: Int!) {
+    delReleaseFromCollection(collectionId: $collectionId, releaseId: $releaseId) {
+      collection {
+        id
+        numReleases
+        lastUpdatedOn
+      }
+      release {
+        id
+        inInbox
+        inFavorites
+        genres {
+          id
+          name
+        }
+        labels {
+          id
+          name
+        }
+        collages {
+          id
+          name
+        }
+      }
+    }
+  }
+`;

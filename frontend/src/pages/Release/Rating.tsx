@@ -1,14 +1,15 @@
+import { gql } from '@apollo/client';
 import clsx from 'clsx';
 import * as React from 'react';
 import tw, { styled } from 'twin.macro';
 
 import { Icon } from '~/components';
-import { IRelease, useUpdateReleaseRatingMutation } from '~/graphql';
+import { IRelease, useReleaseUpdateReleaseRatingMutation } from '~/graphql';
 
 type IRating = React.FC<{ release: IRelease }>;
 
 export const Rating: IRating = ({ release }) => {
-  const [mutateRelease] = useUpdateReleaseRatingMutation();
+  const [mutateRelease] = useReleaseUpdateReleaseRatingMutation();
 
   const setRating = (value: number): void => {
     mutateRelease({ variables: { id: release.id, rating: value } });
@@ -54,6 +55,16 @@ const Wrapper = styled.div`
     }
     & > .star:hover ~ .star {
       ${tw`text-gray-500 stroke-current fill-transparent`}
+    }
+  }
+`;
+
+/* eslint-disable */
+gql`
+  mutation ReleaseUpdateReleaseRating($id: Int!, $rating: Int) {
+    updateRelease(id: $id, rating: $rating) {
+      id
+      rating
     }
   }
 `;

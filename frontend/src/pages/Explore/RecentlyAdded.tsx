@@ -1,13 +1,14 @@
 import 'twin.macro';
 
+import { gql } from '@apollo/client';
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { Link, ScrolledReleases, SectionHeader } from '~/components';
-import { IRelease, useFetchReleasesRecentlyAddedQuery } from '~/graphql';
+import { IRelease, useRecentlyAddedFetchReleasesQuery } from '~/graphql';
 
 export const RecentlyAdded: React.FC = () => {
-  const { data } = useFetchReleasesRecentlyAddedQuery();
+  const { data } = useRecentlyAddedFetchReleasesQuery();
   const history = useHistory();
 
   const releases = (data?.releases?.results || []) as IRelease[];
@@ -31,3 +32,22 @@ export const RecentlyAdded: React.FC = () => {
     </div>
   );
 };
+
+/* eslint-disable */
+gql`
+  query RecentlyAddedFetchReleases {
+    releases(sort: RECENTLY_ADDED, asc: false, page: 1, perPage: 10) {
+      results {
+        ...ReleaseFields
+        artists {
+          id
+          name
+        }
+        genres {
+          id
+          name
+        }
+      }
+    }
+  }
+`;

@@ -1,11 +1,12 @@
+import { gql } from '@apollo/client';
 import * as React from 'react';
 
 import { Chooser, IToggleStarFactory } from '~/components/Chooser';
 import {
   ICollection,
   ICollectionType,
-  useFetchCollectionsQuery,
-  useUpdateCollectionStarredMutation,
+  useCollectionChooserFetchCollectionsQuery,
+  useCollectionChooserUpdateCollectionStarredMutation,
 } from '~/graphql';
 
 type ICollectionChooser = React.FC<{
@@ -21,10 +22,10 @@ export const CollectionChooser: ICollectionChooser = ({
   active,
   className,
 }) => {
-  const { data, error, loading } = useFetchCollectionsQuery({
+  const { data, error, loading } = useCollectionChooserFetchCollectionsQuery({
     variables: { types: collectionTypes },
   });
-  const [mutateCollection] = useUpdateCollectionStarredMutation();
+  const [mutateCollection] = useCollectionChooserUpdateCollectionStarredMutation();
 
   const urlFactory = (id: number): string => `${urlPrefix}/${id}`;
 
@@ -48,3 +49,21 @@ export const CollectionChooser: ICollectionChooser = ({
     />
   );
 };
+
+/* eslint-disable */
+gql`
+  query CollectionChooserFetchCollections($types: [CollectionType]) {
+    collections(types: $types) {
+      results {
+        ...CollectionFields
+      }
+    }
+  }
+
+  mutation CollectionChooserUpdateCollectionStarred($id: Int!, $starred: Boolean) {
+    updateCollection(id: $id, starred: $starred) {
+      id
+      starred
+    }
+  }
+`;

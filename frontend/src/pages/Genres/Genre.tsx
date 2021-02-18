@@ -1,16 +1,17 @@
 import 'twin.macro';
 
+import { gql } from '@apollo/client';
 import * as React from 'react';
 
 import { CollectionReleases, Header, SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
-import { useFetchCollectionQuery } from '~/graphql';
+import { useGenresFetchGenreQuery } from '~/graphql';
 import { ErrorPage } from '~/pages';
 
 type IGenre = React.FC<{ active: number }>;
 
 export const Genre: IGenre = ({ active }) => {
-  const { data, error } = useFetchCollectionQuery({ variables: { id: active } });
+  const { data, error } = useGenresFetchGenreQuery({ variables: { id: active } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
   const collection = data?.collection || null;
@@ -37,3 +38,12 @@ export const Genre: IGenre = ({ active }) => {
     </div>
   );
 };
+
+/* eslint-disable */
+gql`
+  query GenresFetchGenre($id: Int!) {
+    collection(id: $id) {
+      ...CollectionFields
+    }
+  }
+`;

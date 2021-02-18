@@ -1,7 +1,12 @@
+import { gql } from '@apollo/client';
 import * as React from 'react';
 
 import { Chooser, IToggleStarFactory } from '~/components';
-import { IArtist, useFetchArtistsQuery, useUpdateArtistStarredMutation } from '~/graphql';
+import {
+  IArtist,
+  useArtistChooserFetchArtistsQuery,
+  useArtistChooserUpdateArtistStarredMutation,
+} from '~/graphql';
 
 type IArtistChooser = React.FC<{
   active: number | null;
@@ -9,8 +14,8 @@ type IArtistChooser = React.FC<{
 }>;
 
 export const ArtistChooser: IArtistChooser = ({ active, className }) => {
-  const { data, error, loading } = useFetchArtistsQuery();
-  const [mutateArtist] = useUpdateArtistStarredMutation();
+  const { data, error, loading } = useArtistChooserFetchArtistsQuery();
+  const [mutateArtist] = useArtistChooserUpdateArtistStarredMutation();
 
   const toggleStarFactory: IToggleStarFactory = ({ id, starred }) => {
     return async (): Promise<void> => {
@@ -32,3 +37,21 @@ export const ArtistChooser: IArtistChooser = ({ active, className }) => {
 };
 
 const urlFactory = (id: number): string => `/artists/${id}`;
+
+/* eslint-disable */
+gql`
+  query ArtistChooserFetchArtists {
+    artists {
+      results {
+        ...ArtistFields
+      }
+    }
+  }
+
+  mutation ArtistChooserUpdateArtistStarred($id: Int!, $starred: Boolean) {
+    updateArtist(id: $id, starred: $starred) {
+      id
+      starred
+    }
+  }
+`;

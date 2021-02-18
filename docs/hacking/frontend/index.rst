@@ -31,3 +31,10 @@ The frontend is laid out as follows:
 
    I still need to figure out the appropriate amount/type of documentation for
    a frontend. More will come when that happens. Sorry!
+
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :caption: Frontend
+
+   requests

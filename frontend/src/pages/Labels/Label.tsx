@@ -1,16 +1,17 @@
 import 'twin.macro';
 
+import { gql } from '@apollo/client';
 import * as React from 'react';
 
 import { CollectionReleases, Header, SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
-import { useFetchCollectionQuery } from '~/graphql';
+import { useLabelFetchLabelQuery } from '~/graphql';
 import { ErrorPage } from '~/pages';
 
 type ILabel = React.FC<{ active: number }>;
 
 export const Label: ILabel = ({ active }) => {
-  const { data, error } = useFetchCollectionQuery({ variables: { id: active } });
+  const { data, error } = useLabelFetchLabelQuery({ variables: { id: active } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
   const collection = data?.collection || null;
@@ -39,3 +40,12 @@ export const Label: ILabel = ({ active }) => {
     </div>
   );
 };
+
+/* eslint-disable */
+gql`
+  query LabelFetchLabel($id: Int!) {
+    collection(id: $id) {
+      ...CollectionFields
+    }
+  }
+`;

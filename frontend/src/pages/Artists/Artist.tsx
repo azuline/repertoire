@@ -1,10 +1,11 @@
 import 'twin.macro';
 
+import { gql } from '@apollo/client';
 import * as React from 'react';
 
 import { Header, SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
-import { useFetchArtistQuery } from '~/graphql';
+import { useArtistsFetchArtistQuery } from '~/graphql';
 import { ErrorPage } from '~/pages';
 
 import { ArtistReleases } from './Releases';
@@ -12,7 +13,7 @@ import { ArtistReleases } from './Releases';
 type IArtist = React.FC<{ active: number }>;
 
 export const Artist: IArtist = ({ active }) => {
-  const { data, error } = useFetchArtistQuery({ variables: { id: active } });
+  const { data, error } = useArtistsFetchArtistQuery({ variables: { id: active } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
   const artist = data?.artist || null;
@@ -39,3 +40,12 @@ export const Artist: IArtist = ({ active }) => {
     </div>
   );
 };
+
+/* eslint-disable */
+gql`
+  query ArtistsFetchArtist($id: Int!) {
+    artist(id: $id) {
+      ...ArtistFields
+    }
+  }
+`;

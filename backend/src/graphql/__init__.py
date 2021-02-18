@@ -31,7 +31,7 @@ from src.graphql.types.track import gql_track  # type: ignore
 from src.graphql.types.track_artist import gql_track_artist  # type: ignore
 from src.graphql.types.user import gql_token, gql_user  # type: ignore
 
-SCHEMA_PATH = Path(__file__).parent / "schema.graphql"
+SCHEMA_PATH = Path(__file__).parent / "schema.gql"
 
 type_defs = load_schema_from_path(str(SCHEMA_PATH))
 

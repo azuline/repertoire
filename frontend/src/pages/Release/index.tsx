@@ -1,10 +1,11 @@
 import 'twin.macro';
 
+import { gql } from '@apollo/client';
 import * as React from 'react';
 
 import { Disclist, Header, Image } from '~/components';
 import { BackgroundContext } from '~/contexts';
-import { IRelease, useFetchReleaseQuery } from '~/graphql';
+import { IRelease, useReleaseFetchReleaseQuery } from '~/graphql';
 import { useId } from '~/hooks';
 import { ErrorPage } from '~/pages';
 import { filterNulls } from '~/util';
@@ -15,6 +16,8 @@ import { Info } from './Info';
 import { InInbox } from './InInbox';
 import { Rating } from './Rating';
 
+export { ReleaseWrapper as Release };
+
 const ReleaseWrapper: React.FC = () => {
   const id = useId();
   return id ? <Release id={id} /> : null;
@@ -23,7 +26,7 @@ const ReleaseWrapper: React.FC = () => {
 type IReleaseComponent = React.FC<{ id: number }>;
 
 const Release: IReleaseComponent = ({ id }) => {
-  const { data, error } = useFetchReleaseQuery({ variables: { id } });
+  const { data, error } = useReleaseFetchReleaseQuery({ variables: { id } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
   const release = data?.release as IRelease | null;
@@ -53,7 +56,7 @@ const Release: IReleaseComponent = ({ id }) => {
             <Info release={release} />
           </div>
           <div tw="flex items-center mt-6">
-            <div tw="items-center flex-none hidden w-56 -ml-1 mr-9 md:flex">
+            <div tw="items-center flex-none hidden w-72 -ml-1 mr-9 md:flex">
               <InFavorites release={release} />
               <InInbox release={release} />
             </div>
@@ -67,4 +70,11 @@ const Release: IReleaseComponent = ({ id }) => {
   );
 };
 
-export { ReleaseWrapper as Release };
+/* eslint-disable */
+gql`
+  query ReleaseFetchRelease($id: Int!) {
+    release(id: $id) {
+      ...FullReleaseFields
+    }
+  }
+`;

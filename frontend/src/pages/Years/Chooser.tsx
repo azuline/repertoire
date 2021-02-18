@@ -1,7 +1,8 @@
+import { gql } from '@apollo/client';
 import * as React from 'react';
 
 import { Chooser } from '~/components';
-import { useFetchReleaseYearsQuery } from '~/graphql';
+import { useYearsFetchReleaseYearsQuery } from '~/graphql';
 
 type IYearChooser = React.FC<{
   active: number | null;
@@ -9,7 +10,7 @@ type IYearChooser = React.FC<{
 }>;
 
 export const YearChooser: IYearChooser = ({ active, className }) => {
-  const { data } = useFetchReleaseYearsQuery();
+  const { data } = useYearsFetchReleaseYearsQuery();
 
   const elements =
     data?.releaseYears
@@ -29,3 +30,10 @@ export const YearChooser: IYearChooser = ({ active, className }) => {
 };
 
 const urlFactory = (id: number): string => `/years/${id}`;
+
+/* eslint-disable */
+gql`
+  query YearsFetchReleaseYears {
+    releaseYears
+  }
+`;
