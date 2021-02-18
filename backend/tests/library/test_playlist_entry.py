@@ -1,8 +1,8 @@
 from sqlite3 import Cursor
-from src.enums import PlaylistType
 
 import pytest
 
+from src.enums import PlaylistType
 from src.errors import NotFound
 from src.library import playlist
 from src.library import playlist_entry as pentry
@@ -92,7 +92,7 @@ def test_update(position: int, final_order: int, db: Cursor):
 @pytest.mark.parametrize("position", [-1, 0, 6])
 def test_update_out_of_bounds(position: int, db: Cursor):
     with pytest.raises(IndexError):
-        ety = pentry.update(pentry.from_id(5, db), position=position, cursor=db)
+        pentry.update(pentry.from_id(5, db), position=position, cursor=db)
 
 
 def test_playlist(db: Cursor):

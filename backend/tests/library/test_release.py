@@ -213,6 +213,12 @@ def test_update_nothing(db: Cursor):
     assert rls == new_rls
 
 
+def test_reset_rating(db: Cursor):
+    rls = release.from_id(2, db)
+    new_rls = release.update(rls, rating=0, cursor=db)
+    assert new_rls.rating is None
+
+
 def test_artists(db: Cursor, snapshot):
     rls = release.from_id(2, db)
     snapshot.assert_match(release.artists(rls, db))

@@ -112,6 +112,23 @@ PLAYLIST_FIELDS = """
     }
 """
 
+PLAYLIST_ENTRY_FIELDS = """
+    fragment PlaylistEntryFields on PlaylistEntry {
+        id
+        position
+
+        track {
+            id
+            title
+        }
+
+        playlist {
+            id
+            name
+        }
+    }
+"""
+
 TRACK_FIELDS = """
     fragment TrackFields on Track {
         id
@@ -141,5 +158,6 @@ FRAGMENTS = {
     "...ArtistFields": ARTIST_FIELDS,
     "...CollectionFields": COLLECTION_FIELDS,
     "...PlaylistFields": PLAYLIST_FIELDS,
+    "...PlaylistEntryFields": PLAYLIST_ENTRY_FIELDS,
     "...TrackFields": TRACK_FIELDS,
 }
