@@ -8,23 +8,20 @@ working with playlist entries.
 """
 
 from __future__ import annotations
+
+import logging
 from dataclasses import dataclass
 from datetime import datetime
-import logging
 from sqlite3 import Cursor, Row
 from typing import Dict, List, Optional, Union
 
 from src.enums import CollectionType, PlaylistType
-from src.errors import (
-    Duplicate,
-    Immutable,
-    InvalidPlaylistType,
-)
+from src.errors import Duplicate, Immutable, InvalidPlaylistType
 from src.util import update_dataclass, without_key
 
+from . import collection
 from . import image as libimage
 from . import playlist_entry as pentry
-from . import collection
 
 logger = logging.getLogger(__name__)
 

@@ -10,6 +10,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from sqlite3 import Cursor, Row
+from src.util import update_dataclass
 from typing import Dict, Optional, Union
 
 from src.errors import NotFound
@@ -94,11 +95,11 @@ def create(playlist_id: int, track_id: int, cursor: Cursor) -> T:
     :return: The new playlist entry.
     :raises NotFound: If no track has the given track ID.
     """
-    if not track.exists(track_id, cursor):
+    if not libtrack.exists(track_id, cursor):
         logger.debug(f"Track {track_id} does not exist.")
         raise NotFound(f"Track {track_id} does not exist.")
 
-    if not playlist.exists(playlist_id, cursor):
+    if not libplaylist.exists(playlist_id, cursor):
         logger.debug(f"Playlist {playlist_id} does not exist.")
         raise NotFound(f"Playlist {playlist_id} does not exist.")
 
@@ -114,7 +115,7 @@ def create(playlist_id: int, track_id: int, cursor: Cursor) -> T:
         f"Created entry {cursor.lastrowid} with "
         "track {track_id} and playlist {playlist_id}."
     )
-    return from_id(cursor.lastrowid)
+    return from_id(cursor.lastrowid, cursor.lastrowid)  # type: ignore
 
 
 def delete(ety: T, cursor: Cursor):
@@ -207,6 +208,7 @@ def update(ety: T, position: int, cursor: Cursor) -> T:
         )
 
     logger.info(f"Updated position of entry {id} to {position}.")
+    return update_dataclass(ety, position=position)
 
 
 def playlist(ety: T, cursor: Cursor) -> libplaylist.T:
@@ -217,7 +219,7 @@ def playlist(ety: T, cursor: Cursor) -> libplaylist.T:
     :param cursor: A cursor to the database.
     :return: The playlist the entry is in.
     """
-    return libplaylist.from_id(ety.playlist_id, cursor)
+    return libplaylist.from_id(ety.playlist_id, cursor)  # type: ignore
 
 
 def track(ety: T, cursor: Cursor) -> libtrack.T:
@@ -228,7 +230,7 @@ def track(ety: T, cursor: Cursor) -> libtrack.T:
     :param cursor: A cursor to the database.
     :return: The track the entry represents.
     """
-    return libtrack.from_id(ety.track_id, cursor)
+    return libtrack.from_id(ety.track_id, cursor)  # type: ignore
 
 
 def _highest_position(playlist_id: int, cursor: Cursor) -> int:
