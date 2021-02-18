@@ -6,14 +6,16 @@
 [![Docker](https://img.shields.io/docker/cloud/build/blissful/repertoire)](https://hub.docker.com/r/blissful/repertoire)
 [![Codecov](https://img.shields.io/codecov/c/github/azuline/repertoire?token=98M8XQLWLH)](https://codecov.io/gh/azuline/repertoire)
 
-A music server designed to catalog and facilitate exploration of large music
-libraries.
+A music server for cataloguing and exploring large music libraries.
 
 Visit [the documentation](https://repertoire.readthedocs.io) to get started!
 
+**Unreleased WIP Edition**
+
+---
+
 ```
-repertoire :: a music server for cataloguing and exploring large music
-              libraries
+repertoire :: a music server for cataloguing and exploring large music libraries
 
 Copyright (C) 2021 blissful
 
@@ -31,7 +33,7 @@ You should have received a copy of the GNU Affero General Public License along
 with this program.  If not, see <https://www.gnu.org/licenses/>.
 ```
 
-## Scratchpad
+### Scratchpad
 
 Since GQL API can create release, need to have functions to scan its tracks for
 cover art and/or upload art.
