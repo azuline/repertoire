@@ -11,23 +11,6 @@ libraries.
 
 Visit [the documentation](https://repertoire.readthedocs.io) to get started!
 
-_Disclaimer: This project is my sandbox project. My intention here is not to
-churn out features but to experiment with cool shit. Feature progress will thus
-be slow and most PRs will not be accepted. If you wish to make a PR, please
-open an issue ticket beforehand to discuss!_
-
-## Screenshots
-
-![scrot1](docs/_static/scrot1.png)
-
-![scrot2](docs/_static/scrot2.png)
-
-![scrot3](docs/_static/scrot3.png)
-
-<img src="docs/_static/scrot4.png" width="200" />
-
-## License
-
 ```
 repertoire :: a music server for cataloguing and exploring large music
               libraries
