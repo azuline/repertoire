@@ -116,8 +116,9 @@ export type IMutation = {
   delReleaseFromCollection: Maybe<ICollectionAndRelease>;
   createPlaylist: Maybe<IPlaylist>;
   updatePlaylist: Maybe<IPlaylist>;
-  addTrackToPlaylist: Maybe<IPlaylistAndTrack>;
-  delTrackFromPlaylist: Maybe<IPlaylistAndTrack>;
+  createPlaylistEntry: Maybe<IPlaylistEntry>;
+  delPlaylistEntry: Maybe<IPlaylist>;
+  updatePlaylistEntry: Maybe<IPlaylistEntry>;
   createRelease: Maybe<IRelease>;
   updateRelease: Maybe<IRelease>;
   addArtistToRelease: Maybe<IReleaseAndArtist>;
@@ -188,15 +189,20 @@ export type IMutationUpdatePlaylistArgs = {
 };
 
 
-export type IMutationAddTrackToPlaylistArgs = {
+export type IMutationCreatePlaylistEntryArgs = {
   playlistId: Scalars['Int'];
   trackId: Scalars['Int'];
 };
 
 
-export type IMutationDelTrackFromPlaylistArgs = {
-  playlistId: Scalars['Int'];
-  trackId: Scalars['Int'];
+export type IMutationDelPlaylistEntryArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type IMutationUpdatePlaylistEntryArgs = {
+  id: Scalars['Int'];
+  position: Scalars['Int'];
 };
 
 
@@ -309,7 +315,7 @@ export type IPlaylist = {
   lastUpdatedOn: Maybe<Scalars['PosixTime']>;
   /** The image ID of a track in the playlst. Potentially null. */
   imageId: Maybe<Scalars['Int']>;
-  tracks: Array<Maybe<ITrack>>;
+  entries: Array<Maybe<IPlaylistEntry>>;
   /** The top genres of the playlist, compiled from its tracks. */
   topGenres: Array<Maybe<ITopGenre>>;
 };
@@ -317,6 +323,17 @@ export type IPlaylist = {
 export type IPlaylists = {
   __typename?: 'Playlists';
   results: Array<Maybe<IPlaylist>>;
+};
+
+export type IPlaylistEntry = {
+  __typename?: 'PlaylistEntry';
+  id: Scalars['Int'];
+  playlistId: Scalars['Int'];
+  trackId: Scalars['Int'];
+  position: Scalars['Int'];
+  addedOn: Scalars['PosixTime'];
+  playlist: IPlaylist;
+  track: ITrack;
 };
 
 export type IRelease = {
@@ -393,12 +410,6 @@ export type ICollectionAndRelease = {
   __typename?: 'CollectionAndRelease';
   collection: ICollection;
   release: IRelease;
-};
-
-export type IPlaylistAndTrack = {
-  __typename?: 'PlaylistAndTrack';
-  playlist: IPlaylist;
-  track: ITrack;
 };
 
 export type IReleaseAndArtist = {
@@ -1624,7 +1635,7 @@ export type QueryFieldPolicy = {
 	releases?: FieldPolicy<any> | FieldReadFunction<any>,
 	releaseYears?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('createArtist' | 'updateArtist' | 'createCollection' | 'updateCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createPlaylist' | 'updatePlaylist' | 'addTrackToPlaylist' | 'delTrackFromPlaylist' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | 'updateUser' | 'newToken' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('createArtist' | 'updateArtist' | 'createCollection' | 'updateCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createPlaylist' | 'updatePlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | 'updateUser' | 'newToken' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	createArtist?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateArtist?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1634,8 +1645,9 @@ export type MutationFieldPolicy = {
 	delReleaseFromCollection?: FieldPolicy<any> | FieldReadFunction<any>,
 	createPlaylist?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatePlaylist?: FieldPolicy<any> | FieldReadFunction<any>,
-	addTrackToPlaylist?: FieldPolicy<any> | FieldReadFunction<any>,
-	delTrackFromPlaylist?: FieldPolicy<any> | FieldReadFunction<any>,
+	createPlaylistEntry?: FieldPolicy<any> | FieldReadFunction<any>,
+	delPlaylistEntry?: FieldPolicy<any> | FieldReadFunction<any>,
+	updatePlaylistEntry?: FieldPolicy<any> | FieldReadFunction<any>,
 	createRelease?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateRelease?: FieldPolicy<any> | FieldReadFunction<any>,
 	addArtistToRelease?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1676,7 +1688,7 @@ export type CollectionsKeySpecifier = ('results' | CollectionsKeySpecifier)[];
 export type CollectionsFieldPolicy = {
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type PlaylistKeySpecifier = ('id' | 'name' | 'starred' | 'type' | 'numTracks' | 'lastUpdatedOn' | 'imageId' | 'tracks' | 'topGenres' | PlaylistKeySpecifier)[];
+export type PlaylistKeySpecifier = ('id' | 'name' | 'starred' | 'type' | 'numTracks' | 'lastUpdatedOn' | 'imageId' | 'entries' | 'topGenres' | PlaylistKeySpecifier)[];
 export type PlaylistFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1685,12 +1697,22 @@ export type PlaylistFieldPolicy = {
 	numTracks?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastUpdatedOn?: FieldPolicy<any> | FieldReadFunction<any>,
 	imageId?: FieldPolicy<any> | FieldReadFunction<any>,
-	tracks?: FieldPolicy<any> | FieldReadFunction<any>,
+	entries?: FieldPolicy<any> | FieldReadFunction<any>,
 	topGenres?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type PlaylistsKeySpecifier = ('results' | PlaylistsKeySpecifier)[];
 export type PlaylistsFieldPolicy = {
 	results?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type PlaylistEntryKeySpecifier = ('id' | 'playlistId' | 'trackId' | 'position' | 'addedOn' | 'playlist' | 'track' | PlaylistEntryKeySpecifier)[];
+export type PlaylistEntryFieldPolicy = {
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	playlistId?: FieldPolicy<any> | FieldReadFunction<any>,
+	trackId?: FieldPolicy<any> | FieldReadFunction<any>,
+	position?: FieldPolicy<any> | FieldReadFunction<any>,
+	addedOn?: FieldPolicy<any> | FieldReadFunction<any>,
+	playlist?: FieldPolicy<any> | FieldReadFunction<any>,
+	track?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ReleaseKeySpecifier = ('id' | 'title' | 'releaseType' | 'addedOn' | 'inInbox' | 'inFavorites' | 'releaseYear' | 'releaseDate' | 'rating' | 'numTracks' | 'runtime' | 'imageId' | 'artists' | 'tracks' | 'genres' | 'labels' | 'collages' | ReleaseKeySpecifier)[];
 export type ReleaseFieldPolicy = {
@@ -1751,11 +1773,6 @@ export type CollectionAndReleaseFieldPolicy = {
 	collection?: FieldPolicy<any> | FieldReadFunction<any>,
 	release?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type PlaylistAndTrackKeySpecifier = ('playlist' | 'track' | PlaylistAndTrackKeySpecifier)[];
-export type PlaylistAndTrackFieldPolicy = {
-	playlist?: FieldPolicy<any> | FieldReadFunction<any>,
-	track?: FieldPolicy<any> | FieldReadFunction<any>
-};
 export type ReleaseAndArtistKeySpecifier = ('release' | 'artist' | ReleaseAndArtistKeySpecifier)[];
 export type ReleaseAndArtistFieldPolicy = {
 	release?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1799,6 +1816,10 @@ export type TypedTypePolicies = TypePolicies & {
 		keyFields?: false | PlaylistsKeySpecifier | (() => undefined | PlaylistsKeySpecifier),
 		fields?: PlaylistsFieldPolicy,
 	},
+	PlaylistEntry?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | PlaylistEntryKeySpecifier | (() => undefined | PlaylistEntryKeySpecifier),
+		fields?: PlaylistEntryFieldPolicy,
+	},
 	Release?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ReleaseKeySpecifier | (() => undefined | ReleaseKeySpecifier),
 		fields?: ReleaseFieldPolicy,
@@ -1830,10 +1851,6 @@ export type TypedTypePolicies = TypePolicies & {
 	CollectionAndRelease?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CollectionAndReleaseKeySpecifier | (() => undefined | CollectionAndReleaseKeySpecifier),
 		fields?: CollectionAndReleaseFieldPolicy,
-	},
-	PlaylistAndTrack?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | PlaylistAndTrackKeySpecifier | (() => undefined | PlaylistAndTrackKeySpecifier),
-		fields?: PlaylistAndTrackFieldPolicy,
 	},
 	ReleaseAndArtist?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ReleaseAndArtistKeySpecifier | (() => undefined | ReleaseAndArtistKeySpecifier),

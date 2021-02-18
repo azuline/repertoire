@@ -611,6 +611,18 @@ snapshots['test_release_not_found 1'] = (
     }
 )
 
+snapshots['test_release_years 1'] = (
+    True,
+    {
+        'data': {
+            'releaseYears': [
+                2016,
+                2014
+            ]
+        }
+    }
+)
+
 snapshots['test_releases 1'] = (
     True,
     {

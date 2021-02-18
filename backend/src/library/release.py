@@ -477,9 +477,9 @@ def update(rls: T, cursor: Cursor, **changes) -> T:
     :type rating: :py:obj:`int`
     :return: The updated release.
     """
-    rating = changes.get("rating", rls.rating)
-    if rating == 0:
-        rating = None
+
+    if changes.get("rating", rls.rating) == 0:
+        changes["rating"] = None
 
     cursor.execute(
         """
@@ -496,7 +496,7 @@ def update(rls: T, cursor: Cursor, **changes) -> T:
             changes.get("release_type", rls.release_type).value,
             changes.get("release_year", rls.release_year),
             changes.get("release_date", rls.release_date),
-            rating,
+            changes.get("rating", rls.rating),
             rls.id,
         ),
     )

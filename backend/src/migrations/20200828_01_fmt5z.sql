@@ -186,13 +186,18 @@ INSERT INTO music__playlists (id, name, type, starred)
     VALUES (1, 'Favorites', 1, 1);
 
 CREATE TABLE music__playlists_tracks (
+    id INTEGER NOT NULL,
     playlist_id INTEGER NOT NULL,
     track_id INTEGER NOT NULL,
     added_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
-    PRIMARY KEY (track_id, playlist_id),
+    position INTEGER NOT NULL,
+    PRIMARY KEY (id),
     FOREIGN KEY (track_id) REFERENCES music__tracks(id) ON DELETE CASCADE,
     FOREIGN KEY (playlist_id) REFERENCES music__playlists(id) ON DELETE CASCADE
 );
+
+CREATE INDEX idx__music__playlists_tracks__playlist_position
+    ON music__playlists_tracks (playlist_id, position);
 
 CREATE TABLE music__releases_search_index (
     id INTEGER NOT NULL,

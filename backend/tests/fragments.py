@@ -95,9 +95,12 @@ PLAYLIST_FIELDS = """
         numTracks
         lastUpdatedOn
 
-        tracks {
+        entries {
             id
-            title
+            track {
+                id
+                title
+            }
         }
 
         topGenres {
@@ -105,6 +108,23 @@ PLAYLIST_FIELDS = """
                 id
             }
             numMatches
+        }
+    }
+"""
+
+PLAYLIST_ENTRY_FIELDS = """
+    fragment PlaylistEntryFields on PlaylistEntry {
+        id
+        position
+
+        track {
+            id
+            title
+        }
+
+        playlist {
+            id
+            name
         }
     }
 """
@@ -138,5 +158,6 @@ FRAGMENTS = {
     "...ArtistFields": ARTIST_FIELDS,
     "...CollectionFields": COLLECTION_FIELDS,
     "...PlaylistFields": PLAYLIST_FIELDS,
+    "...PlaylistEntryFields": PLAYLIST_ENTRY_FIELDS,
     "...TrackFields": TRACK_FIELDS,
 }

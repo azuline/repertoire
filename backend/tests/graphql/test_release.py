@@ -408,3 +408,13 @@ async def test_del_artist_from_release_doesnt_exist(graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
+
+
+@pytest.mark.asyncio
+async def test_release_years(graphql_query, snapshot):
+    query = """
+        query {
+            releaseYears
+        }
+    """
+    snapshot.assert_match(await graphql_query(query))

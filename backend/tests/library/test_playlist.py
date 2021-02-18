@@ -3,13 +3,7 @@ from sqlite3 import Cursor
 import pytest
 
 from src.enums import PlaylistType
-from src.errors import (
-    AlreadyExists,
-    DoesNotExist,
-    Duplicate,
-    Immutable,
-    InvalidPlaylistType,
-)
+from src.errors import Duplicate, Immutable, InvalidPlaylistType
 from src.library import playlist
 
 
@@ -118,37 +112,9 @@ def test_update_starred(db: Cursor):
     assert ply == playlist.from_id(3, db)
 
 
-def test_tracks(db: Cursor, snapshot):
+def test_entries(db: Cursor, snapshot):
     ply = playlist.from_id(2, db)
-    snapshot.assert_match(playlist.tracks(ply, db))  # type: ignore
-
-
-def test_add_track(db: Cursor, snapshot):
-    ply = playlist.from_id(2, db)
-
-    snapshot.assert_match(playlist.add_track(ply, 2, db))  # type: ignore
-    snapshot.assert_match(playlist.tracks(ply, db))  # type: ignore
-
-
-def test_add_track_duplicate(db: Cursor):
-    ply = playlist.from_id(1, db)
-
-    with pytest.raises(AlreadyExists):
-        playlist.add_track(ply, 2, db)  # type: ignore
-
-
-def test_del_track(db: Cursor, snapshot):
-    ply = playlist.from_id(1, db)
-
-    snapshot.assert_match(playlist.del_track(ply, 2, db))  # type: ignore
-    snapshot.assert_match(playlist.tracks(ply, db))  # type: ignore
-
-
-def test_del_track_nonexistent(db: Cursor):
-    ply = playlist.from_id(2, db)
-
-    with pytest.raises(DoesNotExist):
-        playlist.del_track(ply, 1, db)  # type: ignore
+    snapshot.assert_match(playlist.entries(ply, db))  # type: ignore
 
 
 def test_top_genres(db: Cursor, snapshot):
