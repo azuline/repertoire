@@ -32,9 +32,17 @@ def test_from_id_failure(db: Cursor):
     assert pentry.from_id(90000, db) is None
 
 
+def test_from_playlist_and_track_success(db: Cursor, snapshot):
+    snapshot.assert_match(pentry.from_playlist_and_track(1, 1, db))
+
+
+def test_from_playlist_and_track_failure(db: Cursor):
+    assert pentry.from_playlist_and_track(1, 99999, db) == []
+
+
 def test_create_success(db: Cursor):
     ety = pentry.create(1, 1, db)
-    assert ety.id == 8
+    assert ety.id == 9
     assert ety.track_id == 1
     assert ety.playlist_id == 1
     assert ety.position == 3
@@ -73,11 +81,11 @@ def test_delete(db: Cursor):
 @pytest.mark.parametrize(
     "position, final_order",
     [
-        (1, [5, 3, 4, 6, 7]),
-        (2, [3, 5, 4, 6, 7]),
-        (3, [3, 4, 5, 6, 7]),
-        (4, [3, 4, 6, 5, 7]),
-        (5, [3, 4, 6, 7, 5]),
+        (1, [5, 3, 4, 6, 7, 8]),
+        (2, [3, 5, 4, 6, 7, 8]),
+        (3, [3, 4, 5, 6, 7, 8]),
+        (4, [3, 4, 6, 5, 7, 8]),
+        (5, [3, 4, 6, 7, 5, 8]),
     ],
 )
 def test_update(position: int, final_order: int, db: Cursor):
@@ -97,7 +105,7 @@ def test_update(position: int, final_order: int, db: Cursor):
     assert order == final_order
 
 
-@pytest.mark.parametrize("position", [-1, 0, 6])
+@pytest.mark.parametrize("position", [-1, 0, 7])
 def test_update_out_of_bounds(position: int, db: Cursor):
     with pytest.raises(IndexError):
         pentry.update(pentry.from_id(5, db), position=position, cursor=db)

@@ -10,7 +10,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from sqlite3 import Cursor, Row
-from typing import Dict, Optional, Union
+from typing import Dict, List, Optional, Union
 
 from src.errors import NotFound
 from src.util import update_dataclass
@@ -102,6 +102,30 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
 
     logger.debug(f"Failed to fetch playlist entry {id}.")
     return None
+
+
+def from_playlist_and_track(playlist_id: int, track_id: int, cursor: Cursor) -> List[T]:
+    """
+    Return the playlist entries with the provided playlist and track IDs.
+
+    :param playlist_id: The ID of the playlist.
+    :param track_id: The ID of the track.
+    :param cursor: A cursor to the database.
+    :return: The playlist entries with the provided playlist and track.
+    """
+    cursor.execute(
+        """
+        SELECT *
+        FROM music__playlists_tracks
+        WHERE playlist_id = ? AND track_id = ?
+        """,
+        (playlist_id, track_id),
+    )
+
+    logger.debug(
+        f"Fetched playlist entries for playlist {playlist_id} and track {track_id}."
+    )
+    return [from_row(row) for row in cursor.fetchall()]
 
 
 def create(playlist_id: int, track_id: int, cursor: Cursor) -> T:

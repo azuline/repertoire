@@ -1,11 +1,11 @@
-from typing import Any
+from typing import Any, Dict
 
 from ariadne import ObjectType
 
 from graphql.type import GraphQLResolveInfo
 from src.errors import NotFound
 from src.graphql.mutation import mutation
-from src.graphql.util import commit
+from src.graphql.util import transaction
 from src.library import playlist
 from src.library import playlist_entry as pentry
 from src.library import track
@@ -24,7 +24,7 @@ def resolve_track(obj: pentry.T, info: GraphQLResolveInfo) -> track.T:
 
 
 @mutation.field("createPlaylistEntry")
-@commit
+@transaction
 def create_playlist_entry(
     obj: Any,
     info: GraphQLResolveInfo,
@@ -35,21 +35,46 @@ def create_playlist_entry(
 
 
 @mutation.field("delPlaylistEntry")
-@commit
+@transaction
 def delete_playlist_entry(
     obj: Any,
     info: GraphQLResolveInfo,
     id: int,
-) -> playlist.T:
+) -> Dict:
     if ety := pentry.from_id(id, info.context.db):
         pentry.delete(ety, info.context.db)
-        return playlist.from_id(ety.playlist_id, info.context.db)
+        return {
+            "playlist": playlist.from_id(ety.playlist_id, info.context.db),
+            "track": track.from_id(ety.track_id, info.context.db),
+        }
 
     raise NotFound(f"Playlist entry {id} does not exist.")
 
 
+@mutation.field("delPlaylistEntries")
+@transaction
+def delete_playlist_entries(
+    obj: Any,
+    info: GraphQLResolveInfo,
+    playlistId: int,
+    trackId: int,
+) -> Dict:
+    for ety in pentry.from_playlist_and_track(playlistId, trackId, info.context.db):
+        pentry.delete(ety, info.context.db)
+
+    ply = playlist.from_id(playlistId, info.context.db)
+    if not ply:
+        raise NotFound(f"Playlist {playlistId} does not exist.")
+
+    trk = track.from_id(trackId, info.context.db)
+    if not trk:
+        raise NotFound(f"Track {trackId} does not exist.")
+
+    return {"playlist": ply, "track": trk}
+
+
 @mutation.field("updatePlaylistEntry")
-@commit
+@transaction
 def update_playlist_entry(
     obj: Any,
     info: GraphQLResolveInfo,

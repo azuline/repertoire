@@ -90,6 +90,13 @@ snapshots['test_playlist 1'] = (
                     {
                         'id': 7,
                         'track': {
+                            'id': 14,
+                            'title': 'Dreamer'
+                        }
+                    },
+                    {
+                        'id': 8,
+                        'track': {
                             'id': 15,
                             'title': 'Stay with Me'
                         }
@@ -98,32 +105,32 @@ snapshots['test_playlist 1'] = (
                 'id': 2,
                 'lastUpdatedOn': 1603067134,
                 'name': 'AAAAAA',
-                'numTracks': 5,
+                'numTracks': 6,
                 'starred': False,
                 'topGenres': [
                     {
                         'genre': {
                             'id': 7
                         },
-                        'numMatches': 3
+                        'numMatches': 4
                     },
                     {
                         'genre': {
                             'id': 8
                         },
-                        'numMatches': 3
+                        'numMatches': 4
                     },
                     {
                         'genre': {
                             'id': 9
                         },
-                        'numMatches': 3
+                        'numMatches': 4
                     },
                     {
                         'genre': {
                             'id': 10
                         },
-                        'numMatches': 3
+                        'numMatches': 4
                     },
                     {
                         'genre': {
@@ -175,6 +182,13 @@ snapshots['test_playlist_from_name_and_type 1'] = (
                     {
                         'id': 7,
                         'track': {
+                            'id': 14,
+                            'title': 'Dreamer'
+                        }
+                    },
+                    {
+                        'id': 8,
+                        'track': {
                             'id': 15,
                             'title': 'Stay with Me'
                         }
@@ -183,32 +197,32 @@ snapshots['test_playlist_from_name_and_type 1'] = (
                 'id': 2,
                 'lastUpdatedOn': 1603067134,
                 'name': 'AAAAAA',
-                'numTracks': 5,
+                'numTracks': 6,
                 'starred': False,
                 'topGenres': [
                     {
                         'genre': {
                             'id': 7
                         },
-                        'numMatches': 3
+                        'numMatches': 4
                     },
                     {
                         'genre': {
                             'id': 8
                         },
-                        'numMatches': 3
+                        'numMatches': 4
                     },
                     {
                         'genre': {
                             'id': 9
                         },
-                        'numMatches': 3
+                        'numMatches': 4
                     },
                     {
                         'genre': {
                             'id': 10
                         },
-                        'numMatches': 3
+                        'numMatches': 4
                     },
                     {
                         'genre': {
@@ -372,6 +386,13 @@ snapshots['test_playlists 1'] = (
                             {
                                 'id': 7,
                                 'track': {
+                                    'id': 14,
+                                    'title': 'Dreamer'
+                                }
+                            },
+                            {
+                                'id': 8,
+                                'track': {
                                     'id': 15,
                                     'title': 'Stay with Me'
                                 }
@@ -380,32 +401,32 @@ snapshots['test_playlists 1'] = (
                         'id': 2,
                         'lastUpdatedOn': 1603067134,
                         'name': 'AAAAAA',
-                        'numTracks': 5,
+                        'numTracks': 6,
                         'starred': False,
                         'topGenres': [
                             {
                                 'genre': {
                                     'id': 7
                                 },
-                                'numMatches': 3
+                                'numMatches': 4
                             },
                             {
                                 'genre': {
                                     'id': 8
                                 },
-                                'numMatches': 3
+                                'numMatches': 4
                             },
                             {
                                 'genre': {
                                     'id': 9
                                 },
-                                'numMatches': 3
+                                'numMatches': 4
                             },
                             {
                                 'genre': {
                                     'id': 10
                                 },
-                                'numMatches': 3
+                                'numMatches': 4
                             },
                             {
                                 'genre': {
@@ -523,6 +544,13 @@ snapshots['test_playlists_type_param 1'] = (
                             {
                                 'id': 7,
                                 'track': {
+                                    'id': 14,
+                                    'title': 'Dreamer'
+                                }
+                            },
+                            {
+                                'id': 8,
+                                'track': {
                                     'id': 15,
                                     'title': 'Stay with Me'
                                 }
@@ -531,32 +559,32 @@ snapshots['test_playlists_type_param 1'] = (
                         'id': 2,
                         'lastUpdatedOn': 1603067134,
                         'name': 'AAAAAA',
-                        'numTracks': 5,
+                        'numTracks': 6,
                         'starred': False,
                         'topGenres': [
                             {
                                 'genre': {
                                     'id': 7
                                 },
-                                'numMatches': 3
+                                'numMatches': 4
                             },
                             {
                                 'genre': {
                                     'id': 8
                                 },
-                                'numMatches': 3
+                                'numMatches': 4
                             },
                             {
                                 'genre': {
                                     'id': 9
                                 },
-                                'numMatches': 3
+                                'numMatches': 4
                             },
                             {
                                 'genre': {
                                     'id': 10
                                 },
-                                'numMatches': 3
+                                'numMatches': 4
                             },
                             {
                                 'genre': {
@@ -619,7 +647,7 @@ snapshots['test_update_playlist_duplicate 1'] = (
     }
 )
 
-snapshots['test_update_playlist_duplicate 2'] = GenericRepr("T(id=2, name='AAAAAA', starred=False, type=<PlaylistType.PLAYLIST: 2>, num_tracks=5, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
+snapshots['test_update_playlist_duplicate 2'] = GenericRepr("T(id=2, name='AAAAAA', starred=False, type=<PlaylistType.PLAYLIST: 2>, num_tracks=6, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
 
 snapshots['test_update_playlist_immutable 1'] = (
     True,

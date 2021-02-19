@@ -2,7 +2,7 @@ from functools import wraps
 from typing import Callable
 
 
-def commit(func: Callable) -> Callable:
+def transaction(func: Callable) -> Callable:
     """
     A decorator that adds a post-commit on a GraphQL mutation. After a mutation
     finishes, this decorator will make sure that changes are committed to the database.
