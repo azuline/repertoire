@@ -45,9 +45,8 @@ repertoire is licensed under the AGPL-3.0.
    :caption: Getting Started
 
    start/installation
-   start/screenshots
    start/configuration
-   start/deployment
+   start/screenshots
 
 .. toctree::
    :maxdepth: 2
