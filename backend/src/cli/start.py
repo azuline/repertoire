@@ -3,11 +3,11 @@
 # TODO, or not, since it is way better to just create systemd units or openrc whatevers
 # for hypercorn and huey.
 
+import time
 from multiprocessing import Process
 
 import click
 
-import time
 from src.cli.commands import commands, shared_options
 from src.services import start_task_queue, start_webserver
 
@@ -23,8 +23,8 @@ def start(host: str, port: int, workers: int):
     queue = dict(target=start_task_queue, args=(workers,))
 
     processes = [
-        (webserver, Process(**webserver)),
-        (queue, Process(**queue)),
+        (webserver, Process(**webserver)),  # type: ignore
+        (queue, Process(**queue)),  # type: ignore
     ]
 
     for _, p in processes:
@@ -36,7 +36,7 @@ def start(host: str, port: int, workers: int):
             if p.is_alive():
                 continue
 
-            new_p = Process(**args)
+            new_p = Process(**args)  # type: ignore
             new_p.start()
             processes[i] = (args, new_p)
 

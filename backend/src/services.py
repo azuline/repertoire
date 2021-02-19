@@ -14,8 +14,8 @@ from hypercorn.asyncio import serve
 from hypercorn.config import Config
 
 from src.constants import Constants
-from src.webserver.app import create_app
 from src.tasks import schedule_tasks
+from src.webserver.app import create_app
 
 
 def start_webserver(host: int, port: int) -> None:
