@@ -65,7 +65,8 @@ def _check_session_auth(csrf: bool) -> bool:
     """
     try:
         quart.g.user = user.from_id(  # type: ignore
-            quart.session["user_id"], quart.g.db
+            quart.session["user_id"],
+            quart.g.db,
         )
     except KeyError:
         pass
@@ -88,10 +89,10 @@ def _check_csrf():
     except (KeyError, TypeError, ValueError):
         return False
 
-    quart.g.db.execute(
+    cursor = quart.g.db.execute(
         "SELECT csrf_token FROM system__users WHERE id = ?", (quart.g.user.id,)
     )
-    stored_csrf_token = quart.g.db.fetchone()[0]
+    stored_csrf_token = cursor.fetchone()[0]
 
     return secrets.compare_digest(provided_csrf_token, stored_csrf_token)
 
@@ -105,7 +106,7 @@ def _check_token_auth() -> bool:
     :return: Whether current request has valid token authentication.
     """
     try:
-        token = bytes.fromhex(_get_token(quart.request.headers))
+        token = bytes.fromhex(_get_token(quart.request.headers))  # type: ignore
         quart.g.user = user.from_token(token, quart.g.db)  # type: ignore
     except (TypeError, ValueError):
         pass
