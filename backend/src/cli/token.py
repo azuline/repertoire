@@ -11,11 +11,9 @@ def token():
     """Generate an authorization token."""
     # Currently, we only support a single user.
     with database() as conn:
-        cursor = conn.cursor()
-
-        if usr := user.from_id(1, cursor):
-            token = user.new_token(usr, cursor)
+        if usr := user.from_id(1, conn):
+            token = user.new_token(usr, conn)
         else:
-            _, token = user.create("admin", cursor)
+            _, token = user.create("admin", conn)
 
     click.echo(f"Generated new authorization token: {token.hex()}")

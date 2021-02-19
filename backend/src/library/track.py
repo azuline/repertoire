@@ -38,7 +38,7 @@ class T:
     disc_number: Optional[str] = None
 
 
-def exists(id: int, cursor: Cursor) -> bool:
+def exists(id: int, conn: Connection) -> bool:
     """
     Return whether a track exists with the given ID.
 
@@ -59,12 +59,12 @@ def from_row(row: Union[Dict, Row]) -> T:
     return T(**dict(row, filepath=Path(row["filepath"])))
 
 
-def from_id(id: int, cursor: Cursor) -> Optional[T]:
+def from_id(id: int, conn: Connection) -> Optional[T]:
     """
     Return the track with the provided ID.
 
     :param id: The ID of the track to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The track with the provided ID, if it exists.
     """
     cursor.execute("SELECT * FROM music__tracks WHERE id = ?", (id,))
@@ -77,12 +77,12 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     return None
 
 
-def from_filepath(filepath: Union[Path, str], cursor: Cursor) -> Optional[T]:
+def from_filepath(filepath: Union[Path, str], conn: Connection) -> Optional[T]:
     """
     Return the track with the provided filepath.
 
     :param filepath: The filepath of the track to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The track with the provided filepath, if it exists.
     """
     cursor.execute("SELECT * FROM music__tracks WHERE filepath = ?", (str(filepath),))
@@ -95,12 +95,12 @@ def from_filepath(filepath: Union[Path, str], cursor: Cursor) -> Optional[T]:
     return None
 
 
-def from_sha256(sha256: bytes, cursor: Cursor) -> Optional[T]:
+def from_sha256(sha256: bytes, conn: Connection) -> Optional[T]:
     """
     Return the track with the provided sha256 hash.
 
     :param sha256: The sha256 hash of the track to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The track with the provided sha256 hash, if it exists.
     """
     cursor.execute("SELECT * FROM music__tracks WHERE sha256 = ?", (sha256,))
@@ -122,7 +122,7 @@ def create(
     duration: int,
     track_number: str,
     disc_number: str,
-    cursor: Cursor,
+    conn: Connection,
 ) -> T:
     """
     Create a track with the provided parameters.
@@ -201,14 +201,14 @@ def create(
     return trk
 
 
-def update(trk: T, cursor: Cursor, **changes) -> T:
+def update(trk: T, conn: Connection, **changes) -> T:
     """
     Update a track and persist changes to the database. To update a value, pass it
     in as a keyword argument. To keep the original value, do not pass in a keyword
     argument.
 
     :param trk: The track to update.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param title: New track title.
     :type  title: :py:obj:`str`
     :param release_id: ID of the new release.
@@ -247,12 +247,12 @@ def update(trk: T, cursor: Cursor, **changes) -> T:
     return update_dataclass(trk, **changes)
 
 
-def artists(trk: T, cursor: Cursor) -> List[Dict]:
+def artists(trk: T, conn: Connection) -> List[Dict]:
     """
     Get the artists that contributed to a track and their roles.
 
     :param trk: The track whose artists to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: A list of ``{"artist": artist.T, "role": ArtistRole}`` dicts.
     """
     cursor.execute(
@@ -281,14 +281,14 @@ def artists(trk: T, cursor: Cursor) -> List[Dict]:
     ]
 
 
-def add_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> T:
+def add_artist(trk: T, artist_id: int, role: ArtistRole, conn: Connection) -> T:
     """
     Add the provided artist/role combo to the provided track.
 
     :param trk: The track to add the artist to.
     :param artist_id: The ID of the artist to add.
     :param role: The role to add the artist with.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The track that was passed in.
     :raises NotFound: If no artist has the given artist ID.
     :raises AlreadyExists: If the artist/role combo is already on the track.
@@ -323,13 +323,13 @@ def add_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> T:
     return trk
 
 
-def del_artist(trk: T, artist_id: int, role: ArtistRole, cursor: Cursor) -> T:
+def del_artist(trk: T, artist_id: int, role: ArtistRole, conn: Connection) -> T:
     """
     Delete the provided artist/role combo to the provided track.
 
     :param trk: The track to delete the artist from.
     :param artist_id: The ID of the artist to delete.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The track that was passed in.
     :raises NotFound: If no artist has the given artist ID.
     :raises DoesNotExist: If the artist is not on the track.

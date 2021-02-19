@@ -4,7 +4,7 @@ import logging
 import re
 from datetime import date
 from itertools import chain
-from sqlite3 import Cursor
+from sqlite3 import Connection
 from typing import List, Optional
 
 from tagfiles import TagFile
@@ -48,34 +48,32 @@ def scan_directory(directory: str) -> None:
     logger.info(f"Scanning `{directory}`.")
 
     with database() as conn:
-        cursor = conn.cursor()
-
         for ext in EXTS:
             for filepath in glob.iglob(f"{directory}/**/*{ext}", recursive=True):
-                if not _in_database(filepath, cursor):
+                if not _in_database(filepath, conn):
                     logger.debug(f"Discovered new file `{filepath}`.")
-                    catalog_file(filepath, cursor)
+                    catalog_file(filepath, conn)
                 else:
                     logger.debug(f"File `{filepath}` already in database, skipping...")
 
-        _fix_release_types(cursor)
+        _fix_release_types(conn)
 
 
-def _in_database(filepath: str, cursor: Cursor) -> bool:
+def _in_database(filepath: str, conn: Connection) -> bool:
     """
     Return whether a given filepath is associated with a track in the database.
 
     :param filepath: The filepath to check.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: Whether a track already is associated with this filepath.
     """
     # Rather than use `track.from_filepath`, we directly query the database for
     # efficiency, as this function is called for every track.
-    cursor.execute("SELECT 1 FROM music__tracks WHERE filepath = ?", (filepath,))
+    cursor = conn.execute("SELECT 1 FROM music__tracks WHERE filepath = ?", (filepath,))
     return bool(cursor.fetchone())
 
 
-def catalog_file(filepath: str, cursor: Cursor) -> None:
+def catalog_file(filepath: str, conn: Connection) -> None:
     """
     Given a file, enter its information into the database. If associated database
     objects, e.g. artists and albums, don't exist, they are created with information
@@ -86,16 +84,16 @@ def catalog_file(filepath: str, cursor: Cursor) -> None:
     will happen.
 
     :param filepath: The filepath of the music file.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     """
     tf = TagFile(filepath)
 
     title = f"{tf.title} ({tf.version})" if tf.version else tf.title or "Untitled"
 
-    rls = _fetch_or_create_release(tf, cursor)
+    rls = _fetch_or_create_release(tf, conn)
 
     artists = [
-        {"artist_id": _fetch_or_create_artist(art, cursor).id, "role": role}
+        {"artist_id": _fetch_or_create_artist(art, conn).id, "role": role}
         for role, artists in tf.artist.items()
         # The track tags might contain duplicate artists...
         for art in uniq_list(artists)
@@ -110,13 +108,14 @@ def catalog_file(filepath: str, cursor: Cursor) -> None:
         duration=int(tf.mut.info.length),
         track_number=tf.track_number or "1",
         disc_number=tf.disc_number or "1",
-        cursor=cursor,
+        conn=conn,
     )
 
-    cursor.connection.commit()
+    # TODO: Don't commit on every track. Commit in batches.
+    conn.commit()
 
 
-def _fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
+def _fetch_or_create_release(tf: TagFile, conn: Connection) -> release.T:
     """
     Try to match the album and album artist fields of the tagfile against the database.
     If a matching release is found, return it. Otherwise, create and return a new
@@ -127,12 +126,12 @@ def _fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
     scary as it sounds!).
 
     :param tf: The track whose release we want to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The release the track belongs to.
     """
     if not tf.album:
         logger.debug(f"Fetched `Unknown Release` for track `{tf.path}`.")
-        return release.from_id(1, cursor)  # type: ignore
+        return release.from_id(1, conn)  # type: ignore
 
     try:
         release_date = date.fromisoformat(tf.date.date)
@@ -146,12 +145,12 @@ def _fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
             title=tf.album,
             # The tags might contain duplicate artists..
             artist_ids=uniq_list(
-                _fetch_or_create_artist(art, cursor).id for art in tf.artist_album
+                _fetch_or_create_artist(art, conn).id for art in tf.artist_album
             ),
             release_type=_get_release_type(tf),
             release_year=tf.date.year,
             release_date=release_date,
-            cursor=cursor,
+            conn=conn,
             allow_duplicate=False,
         )
     except Duplicate as e:
@@ -161,12 +160,12 @@ def _fetch_or_create_release(tf: TagFile, cursor: Cursor) -> release.T:
     logger.debug(f"Created new release {rls.id} for track `{tf.path}`.")
 
     # Add release to the inbox and its label/genres.
-    _insert_into_inbox_collection(rls, cursor)
-    _insert_into_label_collection(rls, tf.label, cursor)
-    _insert_into_genre_collections(rls, tf.genre, cursor)
+    _insert_into_inbox_collection(rls, conn)
+    _insert_into_label_collection(rls, tf.label, conn)
+    _insert_into_genre_collections(rls, tf.genre, conn)
 
     # Flag the release to have its cover art extracted and stored.
-    cursor.execute(
+    conn.execute(
         "INSERT INTO images__music_releases_to_fetch (release_id) VALUES (?)",
         (rls.id,),
     )
@@ -192,39 +191,39 @@ def _get_release_type(tf: TagFile) -> ReleaseType:
     return ReleaseType.UNKNOWN
 
 
-def _fetch_or_create_artist(name: str, cursor: Cursor) -> artist.T:
+def _fetch_or_create_artist(name: str, conn: Connection) -> artist.T:
     """
     Try to fetch an artist from the database with the given name. If one doesn't exist,
     create it. If ``name`` is empty or ``None``, return the Unknown Artist (ID: 1).
 
     :param name: The name of the artist.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The fetched/created artist.
     """
     if not name:
-        return artist.from_id(1, cursor)  # type: ignore
+        return artist.from_id(1, conn)  # type: ignore
 
     try:
-        return artist.create(name, cursor)
+        return artist.create(name, conn)
     except Duplicate as e:
         return e.entity
 
 
-def _insert_into_inbox_collection(rls: release.T, cursor: Cursor) -> None:
+def _insert_into_inbox_collection(rls: release.T, conn: Connection) -> None:
     """
     Insert a release into the inbox collection.
 
     :param rls: The release to add to the inbox collection.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     """
     logger.debug(f"Adding release {rls.id} to the inbox collection.")
     # Inbox has ID 1--this is specified in the database schema.
-    inbox = collection.from_id(1, cursor)
-    collection.add_release(inbox, rls.id, cursor)  # type: ignore
+    inbox = collection.from_id(1, conn)
+    collection.add_release(inbox, rls.id, conn)  # type: ignore
 
 
 def _insert_into_label_collection(
-    rls: release.T, label: Optional[str], cursor: Cursor
+    rls: release.T, label: Optional[str], conn: Connection
 ) -> None:
     """
     Insert an release into a label collection. Create the collection if
@@ -232,22 +231,22 @@ def _insert_into_label_collection(
 
     :param rls: The release to add to the label collection.
     :param label: The label to add the release to.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     """
     if not label:
         logger.debug(f"No label provided for release {rls.id}, skipping...")
         return
 
     try:
-        col = collection.create(label, CollectionType.LABEL, cursor)
+        col = collection.create(label, CollectionType.LABEL, conn)
     except Duplicate as e:
         col = e.entity
 
-    collection.add_release(col, rls.id, cursor)
+    collection.add_release(col, rls.id, conn)
 
 
 def _insert_into_genre_collections(
-    rls: release.T, genres: List[str], cursor: Cursor
+    rls: release.T, genres: List[str], conn: Connection
 ) -> None:
     """
     Split each genre in the ``genres`` parameter on the defined genre delimiters. Insert
@@ -256,18 +255,18 @@ def _insert_into_genre_collections(
 
     :param rls: The release to add to the genre collections.
     :param genres: The genre tags from the track.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     """
     for genre in uniq_list(chain(*[_split_genres(g) for g in genres])):
         if not genre:
             continue
 
         try:
-            col = collection.create(genre, CollectionType.GENRE, cursor)
+            col = collection.create(genre, CollectionType.GENRE, conn)
         except Duplicate as e:
             col = e.entity
 
-        col = collection.add_release(col, rls.id, cursor)
+        col = collection.add_release(col, rls.id, conn)
 
 
 def _split_genres(genres: str) -> List[str]:
@@ -280,7 +279,7 @@ def _split_genres(genres: str) -> List[str]:
     return [g.strip() for g in GENRE_DELIMITER_REGEX.split(genres)]
 
 
-def _fix_release_types(cursor: Cursor) -> None:
+def _fix_release_types(conn: Connection) -> None:
     """
     Because release type is a fairly non-existent tag, for the UNKNOWN release types in
     the database, fix them.
@@ -295,7 +294,7 @@ def _fix_release_types(cursor: Cursor) -> None:
     """
     logger.info("Fixing release types...")
 
-    _, releases = release.search(cursor, release_types=[ReleaseType.UNKNOWN])
+    _, releases = release.search(conn, release_types=[ReleaseType.UNKNOWN])
 
     for rls in releases:
         if rls.num_tracks < 3:
@@ -305,4 +304,4 @@ def _fix_release_types(cursor: Cursor) -> None:
         else:
             type_ = ReleaseType.ALBUM
 
-        release.update(rls, cursor, release_type=type_)
+        release.update(rls, conn, release_type=type_)

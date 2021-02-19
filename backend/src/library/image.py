@@ -34,12 +34,12 @@ def from_row(row: Union[Dict, Row]) -> T:
     return T(id=row["id"], path=Path(row["path"]))
 
 
-def from_id(id: int, cursor: Cursor) -> Optional[T]:
+def from_id(id: int, conn: Connection) -> Optional[T]:
     """
     Return the image with the provided ID.
 
     :param id: The ID of the image to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: An image with the provided ID, if it exists.
     """
     cursor.execute("SELECT * from images WHERE id = ?", (id,))
@@ -51,12 +51,12 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     return None
 
 
-def from_path(path: Union[Path, str], cursor: Cursor) -> Optional[T]:
+def from_path(path: Union[Path, str], conn: Connection) -> Optional[T]:
     """
     Return the image with the provided path.
 
     :param path: The path of the image to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: An image with the provided ID, if it exists.
     """
     cursor.execute("SELECT * from images WHERE path = ?", (str(path),))
@@ -68,12 +68,12 @@ def from_path(path: Union[Path, str], cursor: Cursor) -> Optional[T]:
     return None
 
 
-def create(path: Union[Path, str], cursor: Cursor) -> T:
+def create(path: Union[Path, str], conn: Connection) -> T:
     """
     Create an image with the given path.
 
     :param path: The path of the image file.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The newly created image.
     :raises Duplicate: If an image with the given path already exists. The duplicate
                        image is passed as the ``entity`` argument.
@@ -107,12 +107,12 @@ def _generate_thumbnail(img: T) -> None:
     thumbnail.save(thumbnail_path(img), "JPEG")
 
 
-def delete(img: T, cursor: Cursor) -> None:
+def delete(img: T, conn: Connection) -> None:
     """
     Delete an image (and its associated image on disk).
 
     :param img: The image to delete.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     """
     cursor.execute("DELETE FROM images WHERE id = ?", (img.id,))
     logger.info(f"Deleted image {img.id}")

@@ -38,25 +38,27 @@ class T:
     added_on: datetime
 
 
-def exists(id: int, cursor: Cursor) -> bool:
+def exists(id: int, conn: Connection) -> bool:
     """
     Return whether a playlist entry exists with the given ID.
 
     :param id: The ID to check.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: Whether a playlist entry has the given ID.
     """
     cursor.execute("SELECT 1 FROM music__playlists_tracks WHERE id = ?", (id,))
     return bool(cursor.fetchone())
 
 
-def exists_playlist_and_track(playlist_id: int, track_id: int, cursor: Cursor) -> bool:
+def exists_playlist_and_track(
+    playlist_id: int, track_id: int, conn: Connection
+) -> bool:
     """
     Check whether the given track is in the given playlist.
 
     :param playlist_id: The ID of the playlist.
     :param track_id: The ID of the track.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: Whether the track is in the playlist.
     """
     cursor.execute(
@@ -79,12 +81,12 @@ def from_row(row: Union[Dict, Row]) -> T:
     return T(**dict(row))
 
 
-def from_id(id: int, cursor: Cursor) -> Optional[T]:
+def from_id(id: int, conn: Connection) -> Optional[T]:
     """
     Return the playlist entry with the provided ID.
 
     :param id: The ID of the playlist entry to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The playlist entry with the provided ID, if it exists.
     """
     cursor.execute(
@@ -104,13 +106,15 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     return None
 
 
-def from_playlist_and_track(playlist_id: int, track_id: int, cursor: Cursor) -> List[T]:
+def from_playlist_and_track(
+    playlist_id: int, track_id: int, conn: Connection
+) -> List[T]:
     """
     Return the playlist entries with the provided playlist and track IDs.
 
     :param playlist_id: The ID of the playlist.
     :param track_id: The ID of the track.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The playlist entries with the provided playlist and track.
     """
     cursor.execute(
@@ -128,13 +132,13 @@ def from_playlist_and_track(playlist_id: int, track_id: int, cursor: Cursor) -> 
     return [from_row(row) for row in cursor.fetchall()]
 
 
-def create(playlist_id: int, track_id: int, cursor: Cursor) -> T:
+def create(playlist_id: int, track_id: int, conn: Connection) -> T:
     """
     Add the provided track to the provided playlist.
 
     :param playlist_id: The ID of the playlist to add the entry to.
     :param track_id: The ID of the track to insert.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The new playlist entry.
     :raises NotFound: If no track has the given track ID.
     """
@@ -161,12 +165,12 @@ def create(playlist_id: int, track_id: int, cursor: Cursor) -> T:
     return from_id(cursor.lastrowid, cursor)  # type: ignore
 
 
-def delete(ety: T, cursor: Cursor):
+def delete(ety: T, conn: Connection):
     """
     Remove the provided playlist entry from the provided playlist.
 
     :param ety: The playlist entry to delete.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     """
     cursor.execute(
         """
@@ -187,13 +191,13 @@ def delete(ety: T, cursor: Cursor):
     logger.info(f"Deleted entry {ety.id}.")
 
 
-def update(ety: T, position: int, cursor: Cursor) -> T:
+def update(ety: T, position: int, conn: Connection) -> T:
     """
     Update the index of an entry in a playlist. Shift all other entries accordingly.
 
     :param ety: The playlist entry to update.
     :param position: The intended new index of the entry.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The updated entry.
     :raises IndexError: If the entry is out of bounds.
     """
@@ -244,35 +248,35 @@ def update(ety: T, position: int, cursor: Cursor) -> T:
     return update_dataclass(ety, position=position)
 
 
-def playlist(ety: T, cursor: Cursor) -> libplaylist.T:
+def playlist(ety: T, conn: Connection) -> libplaylist.T:
     """
     Fetch the playlist that this entry is in.
 
     :param ety: The playlist entity.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The playlist the entry is in.
     """
     return libplaylist.from_id(ety.playlist_id, cursor)  # type: ignore
 
 
-def track(ety: T, cursor: Cursor) -> libtrack.T:
+def track(ety: T, conn: Connection) -> libtrack.T:
     """
     Fetch the track that this entry represents.
 
     :param ety: The playlist entity.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The track the entry represents.
     """
     return libtrack.from_id(ety.track_id, cursor)  # type: ignore
 
 
-def _highest_position(playlist_id: int, cursor: Cursor) -> int:
+def _highest_position(playlist_id: int, conn: Connection) -> int:
     """
     Return the highest position number for a track in a playlist. If there are no
     entries in the playlist, this returns 0.
 
     :param playlist_id: The playlist ID.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The next unused position number in a playlist.
     """
     cursor.execute(

@@ -30,7 +30,7 @@ class T:
     nickname: str
 
 
-def exists(id: int, cursor: Cursor) -> bool:
+def exists(id: int, conn: Connection) -> bool:
     """
     Return whether a user exists with the given ID.
 
@@ -51,12 +51,12 @@ def from_row(row: Union[Dict, Row]) -> T:
     return T(**row)  # type: ignore
 
 
-def from_id(id: int, cursor: Cursor) -> Optional[T]:
+def from_id(id: int, conn: Connection) -> Optional[T]:
     """
     Get a user tuple from the user's ID.
 
     :param id: The ID of the user to get.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The user, if they exist.
     """
     cursor.execute("SELECT id, nickname FROM system__users WHERE id = ?", (id,))
@@ -69,12 +69,12 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     return None
 
 
-def from_nickname(nickname: str, cursor: Cursor) -> Optional[T]:
+def from_nickname(nickname: str, conn: Connection) -> Optional[T]:
     """
     Get a user tuple from the user's nickname.
 
     :param nickname: The nickname of the user to get.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The user, if they exist.
     """
     cursor.execute(
@@ -90,7 +90,7 @@ def from_nickname(nickname: str, cursor: Cursor) -> Optional[T]:
     return None
 
 
-def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
+def from_token(token: bytes, conn: Connection) -> Optional[T]:
     """
     Get a user tuple from the user's token. The returned user is necessarily
     authenticated.
@@ -98,7 +98,7 @@ def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
     How it works: We store a unique prefix of each user's token and match on that.
 
     :param token: The token of the user to get.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The user, if they exist.
     """
     if len(token) != TOKEN_LENGTH:
@@ -121,12 +121,12 @@ def from_token(token: bytes, cursor: Cursor) -> Optional[T]:
     return None
 
 
-def create(nickname: str, cursor: Cursor) -> Tuple[T, bytes]:
+def create(nickname: str, conn: Connection) -> Tuple[T, bytes]:
     """
     Create a user.
 
     :param nickname: The nickname of the user to create.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The newly created user and their token.
     :raises InvalidNickname: If the nickname is invalid.
     :raises TokenGenerationFailure: If we could not generate a suitable token.
@@ -155,14 +155,14 @@ def create(nickname: str, cursor: Cursor) -> Tuple[T, bytes]:
     return T(id=cursor.lastrowid, nickname=nickname), token
 
 
-def update(usr: T, cursor: Cursor, **changes) -> T:
+def update(usr: T, conn: Connection, **changes) -> T:
     """
     Update a user and persist changes to the database. To update a value, pass it
     in as a keyword argument. To keep the original value, do not pass in a keyword
     argument.
 
     :param usr: The user to update.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param nickname: New user nickname.
     :type  nickname: :py:obj:`str`
     :return: The updated user.
@@ -184,12 +184,12 @@ def update(usr: T, cursor: Cursor, **changes) -> T:
     return update_dataclass(usr, **changes)
 
 
-def new_token(usr: T, cursor: Cursor) -> bytes:
+def new_token(usr: T, conn: Connection) -> bytes:
     """
     Generate a new token for a given user.
 
     :param usr: The user to generate a new token for.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The new token.
     :raises TokenGenerationFailure: If we could not generate a suitable token.
     """
@@ -206,13 +206,13 @@ def new_token(usr: T, cursor: Cursor) -> bytes:
     return token
 
 
-def check_token(usr: T, token: bytes, cursor: Cursor) -> bool:
+def check_token(usr: T, token: bytes, conn: Connection) -> bool:
     """
     Check if a given token is valid for a user.
 
     :param usr: The user to check.
     :param token: The token to check.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: Whether the token is valid.
     """
     cursor.execute("SELECT token_hash FROM system__users WHERE id = ?", (usr.id,))
@@ -230,18 +230,18 @@ def _validate_nickname(nickname: str) -> bool:
     - Ensure that it is less than 24 characters.
 
     :param nickname: The nickname to validate.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: Whether the nickname is valid.
     """
     return len(nickname) < 24
 
 
-def _generate_token(cursor: Cursor) -> Tuple[bytes, bytes]:
+def _generate_token(conn: Connection) -> Tuple[bytes, bytes]:
     """
     Generate a new token with a unique prefix. If we fail to generate a token with a
     unique prefix after 64 rounds, ``TokenGenerationFailure`` will be raised.
 
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The token and its prefix, in that order.
     :raises TokenGenerationFailure: If a unique token prefix could not be found.
     """
