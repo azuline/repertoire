@@ -52,6 +52,7 @@ fragment TrackFields on Track {
   duration
   trackNumber
   discNumber
+  favorited
 }
 
 fragment FullReleaseFields on Release {

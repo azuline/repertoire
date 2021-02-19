@@ -33,7 +33,7 @@ export const CollectionChooser: ICollectionChooser = ({
     if (type === 'SYSTEM') return;
 
     return async (): Promise<void> => {
-      mutateCollection({ variables: { id, starred: !starred } });
+      await mutateCollection({ variables: { id, starred: !starred } });
     };
   };
 

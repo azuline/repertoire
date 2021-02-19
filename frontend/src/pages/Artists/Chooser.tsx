@@ -19,7 +19,7 @@ export const ArtistChooser: IArtistChooser = ({ active, className }) => {
 
   const toggleStarFactory: IToggleStarFactory = ({ id, starred }) => {
     return async (): Promise<void> => {
-      mutateArtist({ variables: { id, starred: !starred } });
+      await mutateArtist({ variables: { id, starred: !starred } });
     };
   };
 

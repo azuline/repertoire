@@ -117,7 +117,8 @@ export type IMutation = {
   createPlaylist: Maybe<IPlaylist>;
   updatePlaylist: Maybe<IPlaylist>;
   createPlaylistEntry: Maybe<IPlaylistEntry>;
-  delPlaylistEntry: Maybe<IPlaylist>;
+  delPlaylistEntry: Maybe<IPlaylistAndTrack>;
+  delPlaylistEntries: Maybe<IPlaylistAndTrack>;
   updatePlaylistEntry: Maybe<IPlaylistEntry>;
   createRelease: Maybe<IRelease>;
   updateRelease: Maybe<IRelease>;
@@ -197,6 +198,12 @@ export type IMutationCreatePlaylistEntryArgs = {
 
 export type IMutationDelPlaylistEntryArgs = {
   id: Scalars['Int'];
+};
+
+
+export type IMutationDelPlaylistEntriesArgs = {
+  playlistId: Scalars['Int'];
+  trackId: Scalars['Int'];
 };
 
 
@@ -376,6 +383,8 @@ export type ITrack = {
   duration: Scalars['Int'];
   trackNumber: Scalars['String'];
   discNumber: Scalars['String'];
+  /** Whether the track is in the user's favorites playlist. */
+  favorited: Scalars['Boolean'];
   release: IRelease;
   artists: Array<Maybe<ITrackArtist>>;
 };
@@ -410,6 +419,12 @@ export type ICollectionAndRelease = {
   __typename?: 'CollectionAndRelease';
   collection: ICollection;
   release: IRelease;
+};
+
+export type IPlaylistAndTrack = {
+  __typename?: 'PlaylistAndTrack';
+  playlist: IPlaylist;
+  track: ITrack;
 };
 
 export type IReleaseAndArtist = {
@@ -513,6 +528,53 @@ export type IPagedReleasesFetchReleasesQuery = (
   )> }
 );
 
+export type IPlaylistsFavoriteTrackMutationVariables = Exact<{
+  trackId: Scalars['Int'];
+}>;
+
+
+export type IPlaylistsFavoriteTrackMutation = (
+  { __typename?: 'Mutation' }
+  & { createPlaylistEntry: Maybe<(
+    { __typename?: 'PlaylistEntry' }
+    & Pick<IPlaylistEntry, 'id'>
+    & { playlist: (
+      { __typename?: 'Playlist' }
+      & Pick<IPlaylist, 'numTracks'>
+      & { entries: Array<Maybe<(
+        { __typename?: 'PlaylistEntry' }
+        & Pick<IPlaylistEntry, 'id'>
+      )>> }
+    ), track: (
+      { __typename?: 'Track' }
+      & Pick<ITrack, 'id' | 'favorited'>
+    ) }
+  )> }
+);
+
+export type IPlaylistsUnfavoriteTrackMutationVariables = Exact<{
+  trackId: Scalars['Int'];
+}>;
+
+
+export type IPlaylistsUnfavoriteTrackMutation = (
+  { __typename?: 'Mutation' }
+  & { delPlaylistEntries: Maybe<(
+    { __typename?: 'PlaylistAndTrack' }
+    & { playlist: (
+      { __typename?: 'Playlist' }
+      & Pick<IPlaylist, 'numTracks'>
+      & { entries: Array<Maybe<(
+        { __typename?: 'PlaylistEntry' }
+        & Pick<IPlaylistEntry, 'id'>
+      )>> }
+    ), track: (
+      { __typename?: 'Track' }
+      & Pick<ITrack, 'id' | 'favorited'>
+    ) }
+  )> }
+);
+
 export type ICollectionChooserFetchCollectionsQueryVariables = Exact<{
   types: Maybe<Array<Maybe<ICollectionType>> | Maybe<ICollectionType>>;
 }>;
@@ -570,7 +632,7 @@ export type IPlaylistFieldsFragment = (
 
 export type ITrackFieldsFragment = (
   { __typename?: 'Track' }
-  & Pick<ITrack, 'id' | 'title' | 'duration' | 'trackNumber' | 'discNumber'>
+  & Pick<ITrack, 'id' | 'title' | 'duration' | 'trackNumber' | 'discNumber' | 'favorited'>
 );
 
 export type IFullReleaseFieldsFragment = (
@@ -1001,6 +1063,7 @@ export const TrackFieldsFragmentDoc = gql`
   duration
   trackNumber
   discNumber
+  favorited
 }
     `;
 export const FullReleaseFieldsFragmentDoc = gql`
@@ -1135,6 +1198,89 @@ export function usePagedReleasesFetchReleasesLazyQuery(baseOptions?: Apollo.Lazy
 export type PagedReleasesFetchReleasesQueryHookResult = ReturnType<typeof usePagedReleasesFetchReleasesQuery>;
 export type PagedReleasesFetchReleasesLazyQueryHookResult = ReturnType<typeof usePagedReleasesFetchReleasesLazyQuery>;
 export type PagedReleasesFetchReleasesQueryResult = Apollo.QueryResult<IPagedReleasesFetchReleasesQuery, IPagedReleasesFetchReleasesQueryVariables>;
+export const PlaylistsFavoriteTrackDocument = gql`
+    mutation PlaylistsFavoriteTrack($trackId: Int!) {
+  createPlaylistEntry(playlistId: 1, trackId: $trackId) {
+    id
+    playlist {
+      numTracks
+      entries {
+        id
+      }
+    }
+    track {
+      id
+      favorited
+    }
+  }
+}
+    `;
+export type IPlaylistsFavoriteTrackMutationFn = Apollo.MutationFunction<IPlaylistsFavoriteTrackMutation, IPlaylistsFavoriteTrackMutationVariables>;
+
+/**
+ * __usePlaylistsFavoriteTrackMutation__
+ *
+ * To run a mutation, you first call `usePlaylistsFavoriteTrackMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePlaylistsFavoriteTrackMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [playlistsFavoriteTrackMutation, { data, loading, error }] = usePlaylistsFavoriteTrackMutation({
+ *   variables: {
+ *      trackId: // value for 'trackId'
+ *   },
+ * });
+ */
+export function usePlaylistsFavoriteTrackMutation(baseOptions?: Apollo.MutationHookOptions<IPlaylistsFavoriteTrackMutation, IPlaylistsFavoriteTrackMutationVariables>) {
+        return Apollo.useMutation<IPlaylistsFavoriteTrackMutation, IPlaylistsFavoriteTrackMutationVariables>(PlaylistsFavoriteTrackDocument, baseOptions);
+      }
+export type PlaylistsFavoriteTrackMutationHookResult = ReturnType<typeof usePlaylistsFavoriteTrackMutation>;
+export type PlaylistsFavoriteTrackMutationResult = Apollo.MutationResult<IPlaylistsFavoriteTrackMutation>;
+export type PlaylistsFavoriteTrackMutationOptions = Apollo.BaseMutationOptions<IPlaylistsFavoriteTrackMutation, IPlaylistsFavoriteTrackMutationVariables>;
+export const PlaylistsUnfavoriteTrackDocument = gql`
+    mutation PlaylistsUnfavoriteTrack($trackId: Int!) {
+  delPlaylistEntries(playlistId: 1, trackId: $trackId) {
+    playlist {
+      numTracks
+      entries {
+        id
+      }
+    }
+    track {
+      id
+      favorited
+    }
+  }
+}
+    `;
+export type IPlaylistsUnfavoriteTrackMutationFn = Apollo.MutationFunction<IPlaylistsUnfavoriteTrackMutation, IPlaylistsUnfavoriteTrackMutationVariables>;
+
+/**
+ * __usePlaylistsUnfavoriteTrackMutation__
+ *
+ * To run a mutation, you first call `usePlaylistsUnfavoriteTrackMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePlaylistsUnfavoriteTrackMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [playlistsUnfavoriteTrackMutation, { data, loading, error }] = usePlaylistsUnfavoriteTrackMutation({
+ *   variables: {
+ *      trackId: // value for 'trackId'
+ *   },
+ * });
+ */
+export function usePlaylistsUnfavoriteTrackMutation(baseOptions?: Apollo.MutationHookOptions<IPlaylistsUnfavoriteTrackMutation, IPlaylistsUnfavoriteTrackMutationVariables>) {
+        return Apollo.useMutation<IPlaylistsUnfavoriteTrackMutation, IPlaylistsUnfavoriteTrackMutationVariables>(PlaylistsUnfavoriteTrackDocument, baseOptions);
+      }
+export type PlaylistsUnfavoriteTrackMutationHookResult = ReturnType<typeof usePlaylistsUnfavoriteTrackMutation>;
+export type PlaylistsUnfavoriteTrackMutationResult = Apollo.MutationResult<IPlaylistsUnfavoriteTrackMutation>;
+export type PlaylistsUnfavoriteTrackMutationOptions = Apollo.BaseMutationOptions<IPlaylistsUnfavoriteTrackMutation, IPlaylistsUnfavoriteTrackMutationVariables>;
 export const CollectionChooserFetchCollectionsDocument = gql`
     query CollectionChooserFetchCollections($types: [CollectionType]) {
   collections(types: $types) {
@@ -1976,7 +2122,7 @@ export type QueryFieldPolicy = {
 	releases?: FieldPolicy<any> | FieldReadFunction<any>,
 	releaseYears?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('createArtist' | 'updateArtist' | 'createCollection' | 'updateCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createPlaylist' | 'updatePlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | 'updateUser' | 'newToken' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('createArtist' | 'updateArtist' | 'createCollection' | 'updateCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createPlaylist' | 'updatePlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'delPlaylistEntries' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | 'updateUser' | 'newToken' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	createArtist?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateArtist?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1988,6 +2134,7 @@ export type MutationFieldPolicy = {
 	updatePlaylist?: FieldPolicy<any> | FieldReadFunction<any>,
 	createPlaylistEntry?: FieldPolicy<any> | FieldReadFunction<any>,
 	delPlaylistEntry?: FieldPolicy<any> | FieldReadFunction<any>,
+	delPlaylistEntries?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatePlaylistEntry?: FieldPolicy<any> | FieldReadFunction<any>,
 	createRelease?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateRelease?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2080,13 +2227,14 @@ export type ReleasesFieldPolicy = {
 	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type TrackKeySpecifier = ('id' | 'title' | 'duration' | 'trackNumber' | 'discNumber' | 'release' | 'artists' | TrackKeySpecifier)[];
+export type TrackKeySpecifier = ('id' | 'title' | 'duration' | 'trackNumber' | 'discNumber' | 'favorited' | 'release' | 'artists' | TrackKeySpecifier)[];
 export type TrackFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>,
 	duration?: FieldPolicy<any> | FieldReadFunction<any>,
 	trackNumber?: FieldPolicy<any> | FieldReadFunction<any>,
 	discNumber?: FieldPolicy<any> | FieldReadFunction<any>,
+	favorited?: FieldPolicy<any> | FieldReadFunction<any>,
 	release?: FieldPolicy<any> | FieldReadFunction<any>,
 	artists?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -2113,6 +2261,11 @@ export type CollectionAndReleaseKeySpecifier = ('collection' | 'release' | Colle
 export type CollectionAndReleaseFieldPolicy = {
 	collection?: FieldPolicy<any> | FieldReadFunction<any>,
 	release?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type PlaylistAndTrackKeySpecifier = ('playlist' | 'track' | PlaylistAndTrackKeySpecifier)[];
+export type PlaylistAndTrackFieldPolicy = {
+	playlist?: FieldPolicy<any> | FieldReadFunction<any>,
+	track?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ReleaseAndArtistKeySpecifier = ('release' | 'artist' | ReleaseAndArtistKeySpecifier)[];
 export type ReleaseAndArtistFieldPolicy = {
@@ -2192,6 +2345,10 @@ export type TypedTypePolicies = TypePolicies & {
 	CollectionAndRelease?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CollectionAndReleaseKeySpecifier | (() => undefined | CollectionAndReleaseKeySpecifier),
 		fields?: CollectionAndReleaseFieldPolicy,
+	},
+	PlaylistAndTrack?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | PlaylistAndTrackKeySpecifier | (() => undefined | PlaylistAndTrackKeySpecifier),
+		fields?: PlaylistAndTrackFieldPolicy,
 	},
 	ReleaseAndArtist?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ReleaseAndArtistKeySpecifier | (() => undefined | ReleaseAndArtistKeySpecifier),
