@@ -36,12 +36,23 @@ fragment CollectionFields on Collection {
   imageId
 }
 
+fragment PlaylistFields on Playlist {
+  id
+  name 
+  starred 
+  type 
+  numTracks 
+  lastUpdatedOn
+  imageId
+}
+
 fragment TrackFields on Track {
   id
   title
   duration
   trackNumber
   discNumber
+  favorited
 }
 
 fragment FullReleaseFields on Release {
@@ -63,17 +74,21 @@ fragment FullReleaseFields on Release {
     name
   }
   tracks {
-    ...TrackFields
-    release {
+    ...FullTrackFields
+  }
+}
+
+fragment FullTrackFields on Track {
+  ...TrackFields
+  release {
+    id
+    imageId
+  }
+  artists {
+    artist {
       id
-      imageId
+      name
     }
-    artists {
-      artist {
-        id
-        name
-      }
-      role
-    }
+    role
   }
 }

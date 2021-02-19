@@ -29,6 +29,32 @@ async def test_track_not_found(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
+async def test_track_favorited(graphql_query, snapshot):
+    query = """
+        query {
+            track(id: 1) {
+                favorited
+            }
+        }
+    """
+    _, res = await graphql_query(query)
+    assert res["data"]["track"]["favorited"]
+
+
+@pytest.mark.asyncio
+async def test_track_favorited_false(graphql_query, snapshot):
+    query = """
+        query {
+            track(id: 6) {
+                favorited
+            }
+        }
+    """
+    _, res = await graphql_query(query)
+    assert not res["data"]["track"]["favorited"]
+
+
+@pytest.mark.asyncio
 async def test_update_track(graphql_query, snapshot):
     query = """
         mutation {

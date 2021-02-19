@@ -14,7 +14,7 @@ export const Genre: IGenre = ({ active }) => {
   const { data, error } = useGenresFetchGenreQuery({ variables: { id: active } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
-  const collection = data?.collection || null;
+  const collection = data?.collection;
 
   React.useEffect(() => {
     if (!collection) return;
@@ -25,7 +25,7 @@ export const Genre: IGenre = ({ active }) => {
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);
-    return <ErrorPage errors={errors} title="Could not fetch label." />;
+    return <ErrorPage errors={errors} title="Could not fetch genre." />;
   }
 
   if (!collection) return null;

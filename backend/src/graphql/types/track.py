@@ -7,11 +7,15 @@ from src.enums import ArtistRole
 from src.errors import NotFound
 from src.graphql.mutation import mutation
 from src.graphql.query import query
-from src.graphql.util import commit
-from src.library import artist, release, track
+from src.graphql.util import transaction
+from src.library import artist
+from src.library import playlist_entry as pentry
+from src.library import release, track
 from src.util import convert_keys_case
 
 gql_track = ObjectType("Track")
+
+FAVORITES_PLAYLIST_ID = 1
 
 
 @query.field("track")
@@ -22,9 +26,18 @@ def resolve_track(obj: Any, info: GraphQLResolveInfo, id: int) -> track.T:
     raise NotFound(f"Track {id} not found.")
 
 
+@gql_track.field("favorited")
+def resolve_favorited(obj: track.T, info: GraphQLResolveInfo) -> bool:
+    return pentry.exists_playlist_and_track(
+        FAVORITES_PLAYLIST_ID,
+        obj.id,
+        info.context.db,
+    )
+
+
 @gql_track.field("release")
 def resolve_tracks(obj: track.T, info: GraphQLResolveInfo) -> release.T:
-    return release.from_id(obj.release_id, info.context.db)
+    return release.from_id(obj.release_id, info.context.db)  # type: ignore
 
 
 @gql_track.field("artists")
@@ -33,7 +46,7 @@ def resolve_top_genres(obj: track.T, info: GraphQLResolveInfo) -> List[Dict]:
 
 
 @mutation.field("updateTrack")
-@commit
+@transaction
 def resolve_update_track(
     _,
     info: GraphQLResolveInfo,
@@ -47,7 +60,7 @@ def resolve_update_track(
 
 
 @mutation.field("addArtistToTrack")
-@commit
+@transaction
 def resolve_add_artist_to_track(
     _,
     info: GraphQLResolveInfo,
@@ -65,7 +78,7 @@ def resolve_add_artist_to_track(
 
 
 @mutation.field("delArtistFromTrack")
-@commit
+@transaction
 def resolve_del_artist_from_track(
     _,
     info: GraphQLResolveInfo,

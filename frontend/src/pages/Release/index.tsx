@@ -29,7 +29,7 @@ const Release: IReleaseComponent = ({ id }) => {
   const { data, error } = useReleaseFetchReleaseQuery({ variables: { id } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
-  const release = data?.release as IRelease | null;
+  const release = data?.release as IRelease | undefined;
 
   React.useEffect(() => {
     if (!release) return;

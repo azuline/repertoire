@@ -8,7 +8,7 @@ from src.enums import CollectionType, ReleaseType
 from src.errors import NotFound, ParseError
 from src.graphql.mutation import mutation
 from src.graphql.query import query
-from src.graphql.util import commit
+from src.graphql.util import transaction
 from src.library import artist, collection, release, track
 from src.util import convert_keys_case
 
@@ -62,7 +62,7 @@ def resolve_release_years(_: release.T, info: GraphQLResolveInfo) -> List[int]:
 
 
 @mutation.field("createRelease")
-@commit
+@transaction
 def resolve_create_release(
     _,
     info: GraphQLResolveInfo,
@@ -94,7 +94,7 @@ def resolve_create_release(
 
 
 @mutation.field("updateRelease")
-@commit
+@transaction
 def resolve_update_release(
     _,
     info: GraphQLResolveInfo,
@@ -117,7 +117,7 @@ def resolve_update_release(
 
 
 @mutation.field("addArtistToRelease")
-@commit
+@transaction
 def resolve_add_artist_to_release(
     _,
     info: GraphQLResolveInfo,
@@ -134,7 +134,7 @@ def resolve_add_artist_to_release(
 
 
 @mutation.field("delArtistFromRelease")
-@commit
+@transaction
 def resolve_del_artist_from_release(
     _,
     info: GraphQLResolveInfo,

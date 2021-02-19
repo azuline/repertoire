@@ -27,7 +27,7 @@ async def test_create_playlist_entry(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    assert pentry.from_id(8, db).track_id == 10
+    assert pentry.from_id(9, db).track_id == 10
 
 
 @pytest.mark.asyncio
@@ -59,7 +59,12 @@ async def test_delete_entry(db, graphql_query, snapshot):
     query = """
         mutation {
             delPlaylistEntry(id: 1) {
-                ...PlaylistFields
+                playlist {
+                    ...PlaylistFields
+                }
+                track {
+                    ...TrackFields
+                }
             }
         }
     """
@@ -72,11 +77,34 @@ async def test_delete_entry_invalid(graphql_query, snapshot):
     query = """
         mutation {
             delPlaylistEntry(id: 99999) {
-                ...PlaylistFields
+                playlist {
+                    ...PlaylistFields
+                }
+                track {
+                    ...TrackFields
+                }
             }
         }
     """
     snapshot.assert_match(await graphql_query(query))
+
+
+@pytest.mark.asyncio
+async def test_delete_entries(db, graphql_query, snapshot):
+    query = """
+        mutation {
+            delPlaylistEntries(playlistId: 2, trackId: 14) {
+                playlist {
+                    ...PlaylistFields
+                }
+                track {
+                    ...TrackFields
+                }
+            }
+        }
+    """
+    snapshot.assert_match(await graphql_query(query))
+    assert pentry.from_playlist_and_track(2, 14, db) == []
 
 
 @pytest.mark.asyncio
@@ -100,7 +128,7 @@ async def test_update_playlist_entry(db, graphql_query, snapshot):
     )
 
     order = [row["id"] for row in db.fetchall()]
-    assert order == [5, 3, 4, 6, 7]
+    assert order == [5, 3, 4, 6, 7, 8]
 
 
 @pytest.mark.asyncio

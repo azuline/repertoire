@@ -12,7 +12,7 @@ snapshots['test_create_playlist_entry 1'] = (
     {
         'data': {
             'createPlaylistEntry': {
-                'id': 8,
+                'id': 9,
                 'playlist': {
                     'id': 1,
                     'name': 'Favorites'
@@ -75,52 +75,174 @@ snapshots['test_create_playlist_entry_bad_track 1'] = (
     }
 )
 
+snapshots['test_delete_entries 1'] = (
+    True,
+    {
+        'data': {
+            'delPlaylistEntries': {
+                'playlist': {
+                    'entries': [
+                        {
+                            'id': 3,
+                            'track': {
+                                'id': 3,
+                                'title': 'St. Joe Keeps Us Safe'
+                            }
+                        },
+                        {
+                            'id': 4,
+                            'track': {
+                                'id': 4,
+                                'title': 'Runnin’ Scared'
+                            }
+                        },
+                        {
+                            'id': 5,
+                            'track': {
+                                'id': 13,
+                                'title': 'Hope'
+                            }
+                        },
+                        {
+                            'id': 8,
+                            'track': {
+                                'id': 15,
+                                'title': 'Stay with Me'
+                            }
+                        }
+                    ],
+                    'id': 2,
+                    'lastUpdatedOn': 1603067134,
+                    'name': 'AAAAAA',
+                    'numTracks': 4,
+                    'starred': False,
+                    'topGenres': [
+                        {
+                            'genre': {
+                                'id': 3
+                            },
+                            'numMatches': 2
+                        },
+                        {
+                            'genre': {
+                                'id': 4
+                            },
+                            'numMatches': 2
+                        },
+                        {
+                            'genre': {
+                                'id': 5
+                            },
+                            'numMatches': 2
+                        },
+                        {
+                            'genre': {
+                                'id': 6
+                            },
+                            'numMatches': 2
+                        },
+                        {
+                            'genre': {
+                                'id': 7
+                            },
+                            'numMatches': 2
+                        }
+                    ],
+                    'type': 'PLAYLIST'
+                },
+                'track': {
+                    'artists': [
+                        {
+                            'artist': {
+                                'id': 4,
+                                'name': 'Abakus'
+                            },
+                            'role': 'MAIN'
+                        }
+                    ],
+                    'discNumber': '0',
+                    'duration': 412,
+                    'id': 14,
+                    'release': {
+                        'id': 3,
+                        'title': 'Departure'
+                    },
+                    'title': 'Dreamer',
+                    'trackNumber': '6'
+                }
+            }
+        }
+    }
+)
+
 snapshots['test_delete_entry 1'] = (
     True,
     {
         'data': {
             'delPlaylistEntry': {
-                'entries': [
-                    {
-                        'id': 2,
-                        'track': {
+                'playlist': {
+                    'entries': [
+                        {
                             'id': 2,
-                            'title': 'Grapefruit'
+                            'track': {
+                                'id': 2,
+                                'title': 'Grapefruit'
+                            }
                         }
-                    }
-                ],
-                'id': 1,
-                'lastUpdatedOn': 1603067134,
-                'name': 'Favorites',
-                'numTracks': 1,
-                'starred': True,
-                'topGenres': [
-                    {
-                        'genre': {
-                            'id': 3
+                    ],
+                    'id': 1,
+                    'lastUpdatedOn': 1603067134,
+                    'name': 'Favorites',
+                    'numTracks': 1,
+                    'starred': True,
+                    'topGenres': [
+                        {
+                            'genre': {
+                                'id': 3
+                            },
+                            'numMatches': 1
                         },
-                        'numMatches': 1
+                        {
+                            'genre': {
+                                'id': 4
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 5
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 6
+                            },
+                            'numMatches': 1
+                        }
+                    ],
+                    'type': 'SYSTEM'
+                },
+                'track': {
+                    'artists': [
+                        {
+                            'artist': {
+                                'id': 2,
+                                'name': 'Aaron West and the Roaring Twenties'
+                            },
+                            'role': 'MAIN'
+                        }
+                    ],
+                    'discNumber': '1',
+                    'duration': 213,
+                    'id': 1,
+                    'release': {
+                        'id': 2,
+                        'title': 'We Don’t Have Each Other'
                     },
-                    {
-                        'genre': {
-                            'id': 4
-                        },
-                        'numMatches': 1
-                    },
-                    {
-                        'genre': {
-                            'id': 5
-                        },
-                        'numMatches': 1
-                    },
-                    {
-                        'genre': {
-                            'id': 6
-                        },
-                        'numMatches': 1
-                    }
-                ],
-                'type': 'SYSTEM'
+                    'title': 'Our Apartment',
+                    'trackNumber': '1'
+                }
             }
         }
     }

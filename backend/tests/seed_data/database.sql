@@ -88,7 +88,8 @@ INSERT INTO music__playlists_tracks VALUES(3,2,3,'2020-10-19 00:25:34',1);
 INSERT INTO music__playlists_tracks VALUES(4,2,4,'2020-10-19 00:25:34',2);
 INSERT INTO music__playlists_tracks VALUES(5,2,13,'2020-10-19 00:25:34',3);
 INSERT INTO music__playlists_tracks VALUES(6,2,14,'2020-10-19 00:25:34',4);
-INSERT INTO music__playlists_tracks VALUES(7,2,15,'2020-10-19 00:25:34',5);
+INSERT INTO music__playlists_tracks VALUES(7,2,14,'2020-10-19 00:25:34',5);
+INSERT INTO music__playlists_tracks VALUES(8,2,15,'2020-10-19 00:25:34',6);
 
 INSERT INTO music__releases_search_index VALUES(1,1,'Release');
 INSERT INTO music__releases_search_index VALUES(2,1,'Unknown');

@@ -144,7 +144,12 @@ type Mutation {
 
   delPlaylistEntry(
     id: Int!
-  ): Playlist
+  ): PlaylistAndTrack
+
+  delPlaylistEntries(
+    playlistId: Int!
+    trackId: Int!
+  ): PlaylistAndTrack
 
   updatePlaylistEntry(
     id: Int!
@@ -323,6 +328,8 @@ type Track {
   duration: Int!
   trackNumber: String!
   discNumber: String!
+  "Whether the track is in the user's favorites playlist."
+  favorited: Boolean!
 
   release: Release!
   artists: [TrackArtist]!
@@ -353,6 +360,11 @@ type Token {
 type CollectionAndRelease {
   collection: Collection!
   release: Release!
+}
+
+type PlaylistAndTrack {
+  playlist: Playlist!
+  track: Track!
 }
 
 type ReleaseAndArtist {
