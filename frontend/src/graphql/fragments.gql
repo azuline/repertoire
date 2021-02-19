@@ -74,17 +74,21 @@ fragment FullReleaseFields on Release {
     name
   }
   tracks {
-    ...TrackFields
-    release {
+    ...FullTrackFields
+  }
+}
+
+fragment FullTrackFields on Track {
+  ...TrackFields
+  release {
+    id
+    imageId
+  }
+  artists {
+    artist {
       id
-      imageId
+      name
     }
-    artists {
-      artist {
-        id
-        name
-      }
-      role
-    }
+    role
   }
 }

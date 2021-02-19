@@ -35,7 +35,7 @@ export const Playlist: IPlaylist = ({ active }) => {
   return (
     <div tw="flex flex-col w-full">
       <Header />
-      <SectionHeader tw="mt-4 mb-8">{playlist.name}</SectionHeader>
+      <SectionHeader tw="mt-4 mb-16">{playlist.name}</SectionHeader>
       <PlaylistTracks active={active} />
     </div>
   );
