@@ -46,8 +46,8 @@ const PopoverBodyWrapper = tw.div`
   absolute
   right-0
   z-10
-  px-6
-  py-4
+  px-8
+  py-6
   mt-4
   border-2
   rounded

@@ -42,9 +42,9 @@ export const ViewSettings: IViewSettings = ({
             <Icon icon="chevron-down-small" tw="w-4 ml-1 -mr-0.5" />
           </TextButton>
           <div>
-            <View viewOptions={viewOptions} />
-            <Sort viewOptions={viewOptions} />
-            <Order viewOptions={viewOptions} />
+            <View tw="mb-1" viewOptions={viewOptions} />
+            <Sort tw="mb-1" viewOptions={viewOptions} />
+            <Order tw="mb-1" viewOptions={viewOptions} />
             <PerPage pagination={pagination} />
           </div>
         </Popover>
