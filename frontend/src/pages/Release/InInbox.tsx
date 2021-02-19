@@ -28,7 +28,12 @@ export const InInbox: IInInbox = ({ className, release }) => {
   return (
     <Icon
       className={className}
-      css={[tw`w-8 ml-2 cursor-pointer`, release.inInbox ? tw`text-blue-500` : tw`text-gray-500`]}
+      css={[
+        tw`w-8 ml-2 cursor-pointer`,
+        release.inInbox
+          ? tw`text-blue-500 hover:text-gray-500`
+          : tw`text-gray-500 hover:text-blue-500`,
+      ]}
       icon="inbox-medium"
       title={release.inInbox ? 'In inbox' : 'Not in inbox'}
       onClick={toggleInbox}

@@ -17,18 +17,22 @@ export const InFavorites: IInFavorites = ({ className, release }) => {
   const [mutateAdd] = useInFavoritesAddReleaseToCollectionMutation();
   const [mutateDel] = useInFavoritesDelReleaseFromCollectionMutation();
 
-  const toggleFavorite = (): void => {
-    if (release.inFavorites) {
-      mutateDel({ variables: { collectionId: FAVORITES_COLLECTION_ID, releaseId: release.id } });
-    } else {
-      mutateAdd({ variables: { collectionId: FAVORITES_COLLECTION_ID, releaseId: release.id } });
-    }
+  const toggleFavorite = async (): Promise<void> => {
+    const toggleFunc = release.inFavorites ? mutateDel : mutateAdd;
+    await toggleFunc({
+      variables: { collectionId: FAVORITES_COLLECTION_ID, releaseId: release.id },
+    });
   };
 
   return (
     <Icon
       className={className}
-      css={[tw`w-8 cursor-pointer`, release.inFavorites ? tw`text-pink-500` : tw`text-gray-500`]}
+      css={[
+        tw`w-8 cursor-pointer`,
+        release.inFavorites
+          ? tw`text-pink-500 hover:text-gray-500`
+          : tw`text-gray-500 hover:text-pink-500`,
+      ]}
       icon="heart-medium"
       title={release.inFavorites ? 'In favorites' : 'Not in favorites'}
       onClick={toggleFavorite}
