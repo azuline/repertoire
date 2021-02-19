@@ -7,7 +7,7 @@ from src.enums import PlaylistType
 from src.errors import NotFound
 from src.graphql.mutation import mutation
 from src.graphql.query import query
-from src.graphql.util import transaction
+from src.graphql.util import commit
 from src.library import playlist
 from src.library import playlist_entry as pentry
 from src.util import convert_keys_case
@@ -65,7 +65,7 @@ def resolve_image_id(obj: playlist.T, info: GraphQLResolveInfo) -> Optional[int]
 
 
 @mutation.field("createPlaylist")
-@transaction
+@commit
 def resolve_create_playlist(
     _,
     info: GraphQLResolveInfo,
@@ -77,7 +77,7 @@ def resolve_create_playlist(
 
 
 @mutation.field("updatePlaylist")
-@transaction
+@commit
 def resolve_update_playlist(
     _,
     info: GraphQLResolveInfo,

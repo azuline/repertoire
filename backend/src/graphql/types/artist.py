@@ -6,7 +6,7 @@ from graphql.type import GraphQLResolveInfo
 from src.errors import NotFound
 from src.graphql.mutation import mutation
 from src.graphql.query import query
-from src.graphql.util import transaction
+from src.graphql.util import commit
 from src.library import artist, release
 from src.util import convert_keys_case
 
@@ -54,7 +54,7 @@ def resolve_image_id(obj: artist.T, info: GraphQLResolveInfo) -> Optional[int]:
 
 
 @mutation.field("createArtist")
-@transaction
+@commit
 def resolve_create_artist(
     _,
     info: GraphQLResolveInfo,
@@ -65,7 +65,7 @@ def resolve_create_artist(
 
 
 @mutation.field("updateArtist")
-@transaction
+@commit
 def resolve_update_artist(
     _,
     info: GraphQLResolveInfo,

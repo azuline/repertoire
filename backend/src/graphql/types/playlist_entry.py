@@ -5,7 +5,7 @@ from ariadne import ObjectType
 from graphql.type import GraphQLResolveInfo
 from src.errors import NotFound
 from src.graphql.mutation import mutation
-from src.graphql.util import transaction
+from src.graphql.util import commit
 from src.library import playlist
 from src.library import playlist_entry as pentry
 from src.library import track
@@ -24,7 +24,7 @@ def resolve_track(obj: pentry.T, info: GraphQLResolveInfo) -> track.T:
 
 
 @mutation.field("createPlaylistEntry")
-@transaction
+@commit
 def create_playlist_entry(
     obj: Any,
     info: GraphQLResolveInfo,
@@ -35,7 +35,7 @@ def create_playlist_entry(
 
 
 @mutation.field("delPlaylistEntry")
-@transaction
+@commit
 def delete_playlist_entry(
     obj: Any,
     info: GraphQLResolveInfo,
@@ -52,7 +52,7 @@ def delete_playlist_entry(
 
 
 @mutation.field("delPlaylistEntries")
-@transaction
+@commit
 def delete_playlist_entries(
     obj: Any,
     info: GraphQLResolveInfo,
@@ -74,7 +74,7 @@ def delete_playlist_entries(
 
 
 @mutation.field("updatePlaylistEntry")
-@transaction
+@commit
 def update_playlist_entry(
     obj: Any,
     info: GraphQLResolveInfo,
