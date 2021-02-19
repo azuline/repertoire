@@ -12,7 +12,7 @@ type ITrackInfo = React.FC<{ curTrack: ITrack }>;
 
 export const TrackInfo: ITrackInfo = ({ curTrack }) => {
   return (
-    <div tw="flex flex-1 mr-2 truncate sm:mr-0">
+    <div tw="flex flex-1 ml-0 sm:ml-2 lg:ml-6 mr-2 truncate sm:mr-0">
       <Link href={`/releases/${curTrack.release.id}`} tw="flex-none hidden w-11 sm:block">
         <div tw="relative w-full h-0 pb-full">
           <Image

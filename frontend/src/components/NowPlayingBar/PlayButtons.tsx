@@ -13,7 +13,7 @@ type IPlayButtons = React.FC<{
 }>;
 
 export const PlayButtons: IPlayButtons = ({ isPlaying, setIsPlaying, curTime, seek }) => (
-  <div tw="flex items-center justify-center flex-none mx-2 text-primary-500 sm:mx-8">
+  <div tw="flex items-center justify-center flex-none mx-2 text-primary-500 sm:mx-6 lg:mx-10">
     <Rewind
       curTime={curTime}
       isPlaying={isPlaying}

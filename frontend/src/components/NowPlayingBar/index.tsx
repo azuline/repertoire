@@ -22,7 +22,6 @@ export const NowPlayingBar: React.FC = () => {
     <div tw="relative flex-none w-full h-16 bg-background-900 z-10">
       <ProgressBar curTime={curTime} curTrack={curTrack} seek={seek} />
       <div tw="flex items-center full">
-        <Progress curTime={curTime} curTrack={curTrack} />
         <PlayButtons
           curTime={curTime}
           isPlaying={isPlaying}
@@ -30,6 +29,7 @@ export const NowPlayingBar: React.FC = () => {
           setIsPlaying={setIsPlaying}
         />
         {curTrack ? <TrackInfo curTrack={curTrack} /> : <div tw="flex-1" />}
+        <Progress curTime={curTime} curTrack={curTrack} />
         <VolumeControl />
         <ExpandPlaying />
       </div>
