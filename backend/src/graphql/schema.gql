@@ -323,6 +323,8 @@ type Track {
   duration: Int!
   trackNumber: String!
   discNumber: String!
+  "Whether the track is in the user's favorites playlist."
+  favorited: Boolean!
 
   release: Release!
   artists: [TrackArtist]!

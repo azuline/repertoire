@@ -50,6 +50,25 @@ def exists(id: int, cursor: Cursor) -> bool:
     return bool(cursor.fetchone())
 
 
+def exists_playlist_and_track(playlist_id: int, track_id: int, cursor: Cursor) -> bool:
+    """
+    Check whether the given track is in the given playlist.
+
+    :param playlist_id: The ID of the playlist.
+    :param track_id: The ID of the track.
+    :param cursor: A cursor to the database.
+    :return: Whether the track is in the playlist.
+    """
+    cursor.execute(
+        """
+        SELECT 1 FROM music__playlists_tracks
+        WHERE playlist_id = ? AND track_id = ?
+        """,
+        (playlist_id, track_id),
+    )
+    return bool(cursor.fetchone())
+
+
 def from_row(row: Union[Dict, Row]) -> T:
     """
     Return a playlist entry dataclass containing data from a row from the database.

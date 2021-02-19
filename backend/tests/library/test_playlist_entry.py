@@ -16,6 +16,14 @@ def test_does_not_exist(db: Cursor):
     assert not pentry.exists(9999999, db)
 
 
+def test_exists_playlist_and_track(db: Cursor):
+    assert pentry.exists_playlist_and_track(1, 1, db)
+
+
+def test_does_not_exist_playlist_and_track(db: Cursor):
+    assert not pentry.exists_playlist_and_track(1, 99999, db)
+
+
 def test_from_id_success(db: Cursor, snapshot):
     snapshot.assert_match(pentry.from_id(1, db))
 
