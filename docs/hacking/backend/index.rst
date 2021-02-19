@@ -19,6 +19,7 @@ The backend is laid out as follows:
    ├── constants.py  # Backend constants (namely filepaths and directories).
    ├── enums.py      # Where custom enums are defined.
    ├── errors.py     # Custom exception classes.
+   ├── services.py   # Contains functions to start each backend service.
    ├── tasks.py      # Periodic tasks are scheduled here
    ├── util.py       # General utility functions.
    ├── cli/          # The command line commands are defined here.

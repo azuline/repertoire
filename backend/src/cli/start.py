@@ -3,20 +3,13 @@
 # TODO, or not, since it is way better to just create systemd units or openrc whatevers
 # for hypercorn and huey.
 
-import asyncio
-import logging
 from multiprocessing import Process
 
 import click
-from huey import SqliteHuey
-from huey.consumer_options import ConsumerConfig
-from hypercorn.asyncio import serve
-from hypercorn.config import Config
 
+import time
 from src.cli.commands import commands, shared_options
-from src.constants import Constants
-
-logger = logging.getLogger(__name__)
+from src.services import start_task_queue, start_webserver
 
 
 @commands.command()
@@ -25,36 +18,26 @@ logger = logging.getLogger(__name__)
 @click.option("--port", "-p", default=45731, help="Port to listen on")
 @click.option("--workers", "-p", default=1, help="Number of task queue workers")
 def start(host: str, port: int, workers: int):
-    """Start the backend."""
-    queue = Process(target=_start_task_queue, args=(workers,))
-    webserver = Process(target=_start_webserver, args=(host, port))
+    """Start the backend services."""
+    webserver = dict(target=start_webserver, args=(host, port))
+    queue = dict(target=start_task_queue, args=(workers,))
 
-    queue.start()
-    webserver.start()
+    processes = [
+        (webserver, Process(**webserver)),
+        (queue, Process(**queue)),
+    ]
 
-    webserver.join()
+    for _, p in processes:
+        p.start()
 
+    # Restart on failure.
+    while True:
+        for i, (args, p) in enumerate(processes):
+            if p.is_alive():
+                continue
 
-def _start_webserver(host: int, port: int) -> None:
-    from src.webserver.app import create_app
+            new_p = Process(**args)
+            new_p.start()
+            processes[i] = (args, new_p)
 
-    config = Config()
-    config.bind = [f"{host}:{port}"]
-
-    app = create_app()
-
-    asyncio.run(serve(app, config))
-
-
-def _start_task_queue(workers: int) -> None:
-    from src.tasks import schedule_tasks
-
-    cons = Constants()
-
-    queue = SqliteHuey(filename=cons.huey_path)
-    schedule_tasks(queue)
-
-    config = ConsumerConfig(workers=workers)
-    consumer = queue.create_consumer(**config.values)
-
-    consumer.run()
+        time.sleep(0.1)
