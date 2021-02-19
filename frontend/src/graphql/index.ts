@@ -563,6 +563,11 @@ export type ICollectionFieldsFragment = (
   & Pick<ICollection, 'id' | 'name' | 'starred' | 'type' | 'numReleases' | 'lastUpdatedOn' | 'imageId'>
 );
 
+export type IPlaylistFieldsFragment = (
+  { __typename?: 'Playlist' }
+  & Pick<IPlaylist, 'id' | 'name' | 'starred' | 'type' | 'numTracks' | 'lastUpdatedOn' | 'imageId'>
+);
+
 export type ITrackFieldsFragment = (
   { __typename?: 'Track' }
   & Pick<ITrack, 'id' | 'title' | 'duration' | 'trackNumber' | 'discNumber'>
@@ -711,6 +716,49 @@ export type INowPlayingInfoFetchReleaseQuery = (
   & { release: Maybe<(
     { __typename?: 'Release' }
     & IFullReleaseFieldsFragment
+  )> }
+);
+
+export type IPlaylistChooserFetchPlaylistsQueryVariables = Exact<{
+  types: Maybe<Array<Maybe<IPlaylistType>> | Maybe<IPlaylistType>>;
+}>;
+
+
+export type IPlaylistChooserFetchPlaylistsQuery = (
+  { __typename?: 'Query' }
+  & { playlists: Maybe<(
+    { __typename?: 'Playlists' }
+    & { results: Array<Maybe<(
+      { __typename?: 'Playlist' }
+      & IPlaylistFieldsFragment
+    )>> }
+  )> }
+);
+
+export type IPlaylistChooserUpdatePlaylistStarredMutationVariables = Exact<{
+  id: Scalars['Int'];
+  starred: Maybe<Scalars['Boolean']>;
+}>;
+
+
+export type IPlaylistChooserUpdatePlaylistStarredMutation = (
+  { __typename?: 'Mutation' }
+  & { updatePlaylist: Maybe<(
+    { __typename?: 'Playlist' }
+    & Pick<IPlaylist, 'id' | 'starred'>
+  )> }
+);
+
+export type IPlaylistsFetchPlaylistQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type IPlaylistsFetchPlaylistQuery = (
+  { __typename?: 'Query' }
+  & { playlist: Maybe<(
+    { __typename?: 'Playlist' }
+    & IPlaylistFieldsFragment
   )> }
 );
 
@@ -915,6 +963,17 @@ export const CollectionFieldsFragmentDoc = gql`
   starred
   type
   numReleases
+  lastUpdatedOn
+  imageId
+}
+    `;
+export const PlaylistFieldsFragmentDoc = gql`
+    fragment PlaylistFields on Playlist {
+  id
+  name
+  starred
+  type
+  numTracks
   lastUpdatedOn
   imageId
 }
@@ -1420,6 +1479,108 @@ export function useNowPlayingInfoFetchReleaseLazyQuery(baseOptions?: Apollo.Lazy
 export type NowPlayingInfoFetchReleaseQueryHookResult = ReturnType<typeof useNowPlayingInfoFetchReleaseQuery>;
 export type NowPlayingInfoFetchReleaseLazyQueryHookResult = ReturnType<typeof useNowPlayingInfoFetchReleaseLazyQuery>;
 export type NowPlayingInfoFetchReleaseQueryResult = Apollo.QueryResult<INowPlayingInfoFetchReleaseQuery, INowPlayingInfoFetchReleaseQueryVariables>;
+export const PlaylistChooserFetchPlaylistsDocument = gql`
+    query PlaylistChooserFetchPlaylists($types: [PlaylistType]) {
+  playlists(types: $types) {
+    results {
+      ...PlaylistFields
+    }
+  }
+}
+    ${PlaylistFieldsFragmentDoc}`;
+
+/**
+ * __usePlaylistChooserFetchPlaylistsQuery__
+ *
+ * To run a query within a React component, call `usePlaylistChooserFetchPlaylistsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePlaylistChooserFetchPlaylistsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePlaylistChooserFetchPlaylistsQuery({
+ *   variables: {
+ *      types: // value for 'types'
+ *   },
+ * });
+ */
+export function usePlaylistChooserFetchPlaylistsQuery(baseOptions?: Apollo.QueryHookOptions<IPlaylistChooserFetchPlaylistsQuery, IPlaylistChooserFetchPlaylistsQueryVariables>) {
+        return Apollo.useQuery<IPlaylistChooserFetchPlaylistsQuery, IPlaylistChooserFetchPlaylistsQueryVariables>(PlaylistChooserFetchPlaylistsDocument, baseOptions);
+      }
+export function usePlaylistChooserFetchPlaylistsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IPlaylistChooserFetchPlaylistsQuery, IPlaylistChooserFetchPlaylistsQueryVariables>) {
+          return Apollo.useLazyQuery<IPlaylistChooserFetchPlaylistsQuery, IPlaylistChooserFetchPlaylistsQueryVariables>(PlaylistChooserFetchPlaylistsDocument, baseOptions);
+        }
+export type PlaylistChooserFetchPlaylistsQueryHookResult = ReturnType<typeof usePlaylistChooserFetchPlaylistsQuery>;
+export type PlaylistChooserFetchPlaylistsLazyQueryHookResult = ReturnType<typeof usePlaylistChooserFetchPlaylistsLazyQuery>;
+export type PlaylistChooserFetchPlaylistsQueryResult = Apollo.QueryResult<IPlaylistChooserFetchPlaylistsQuery, IPlaylistChooserFetchPlaylistsQueryVariables>;
+export const PlaylistChooserUpdatePlaylistStarredDocument = gql`
+    mutation PlaylistChooserUpdatePlaylistStarred($id: Int!, $starred: Boolean) {
+  updatePlaylist(id: $id, starred: $starred) {
+    id
+    starred
+  }
+}
+    `;
+export type IPlaylistChooserUpdatePlaylistStarredMutationFn = Apollo.MutationFunction<IPlaylistChooserUpdatePlaylistStarredMutation, IPlaylistChooserUpdatePlaylistStarredMutationVariables>;
+
+/**
+ * __usePlaylistChooserUpdatePlaylistStarredMutation__
+ *
+ * To run a mutation, you first call `usePlaylistChooserUpdatePlaylistStarredMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePlaylistChooserUpdatePlaylistStarredMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [playlistChooserUpdatePlaylistStarredMutation, { data, loading, error }] = usePlaylistChooserUpdatePlaylistStarredMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      starred: // value for 'starred'
+ *   },
+ * });
+ */
+export function usePlaylistChooserUpdatePlaylistStarredMutation(baseOptions?: Apollo.MutationHookOptions<IPlaylistChooserUpdatePlaylistStarredMutation, IPlaylistChooserUpdatePlaylistStarredMutationVariables>) {
+        return Apollo.useMutation<IPlaylistChooserUpdatePlaylistStarredMutation, IPlaylistChooserUpdatePlaylistStarredMutationVariables>(PlaylistChooserUpdatePlaylistStarredDocument, baseOptions);
+      }
+export type PlaylistChooserUpdatePlaylistStarredMutationHookResult = ReturnType<typeof usePlaylistChooserUpdatePlaylistStarredMutation>;
+export type PlaylistChooserUpdatePlaylistStarredMutationResult = Apollo.MutationResult<IPlaylistChooserUpdatePlaylistStarredMutation>;
+export type PlaylistChooserUpdatePlaylistStarredMutationOptions = Apollo.BaseMutationOptions<IPlaylistChooserUpdatePlaylistStarredMutation, IPlaylistChooserUpdatePlaylistStarredMutationVariables>;
+export const PlaylistsFetchPlaylistDocument = gql`
+    query PlaylistsFetchPlaylist($id: Int!) {
+  playlist(id: $id) {
+    ...PlaylistFields
+  }
+}
+    ${PlaylistFieldsFragmentDoc}`;
+
+/**
+ * __usePlaylistsFetchPlaylistQuery__
+ *
+ * To run a query within a React component, call `usePlaylistsFetchPlaylistQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePlaylistsFetchPlaylistQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePlaylistsFetchPlaylistQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePlaylistsFetchPlaylistQuery(baseOptions: Apollo.QueryHookOptions<IPlaylistsFetchPlaylistQuery, IPlaylistsFetchPlaylistQueryVariables>) {
+        return Apollo.useQuery<IPlaylistsFetchPlaylistQuery, IPlaylistsFetchPlaylistQueryVariables>(PlaylistsFetchPlaylistDocument, baseOptions);
+      }
+export function usePlaylistsFetchPlaylistLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IPlaylistsFetchPlaylistQuery, IPlaylistsFetchPlaylistQueryVariables>) {
+          return Apollo.useLazyQuery<IPlaylistsFetchPlaylistQuery, IPlaylistsFetchPlaylistQueryVariables>(PlaylistsFetchPlaylistDocument, baseOptions);
+        }
+export type PlaylistsFetchPlaylistQueryHookResult = ReturnType<typeof usePlaylistsFetchPlaylistQuery>;
+export type PlaylistsFetchPlaylistLazyQueryHookResult = ReturnType<typeof usePlaylistsFetchPlaylistLazyQuery>;
+export type PlaylistsFetchPlaylistQueryResult = Apollo.QueryResult<IPlaylistsFetchPlaylistQuery, IPlaylistsFetchPlaylistQueryVariables>;
 export const InFavoritesAddReleaseToCollectionDocument = gql`
     mutation InFavoritesAddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
   addReleaseToCollection(collectionId: $collectionId, releaseId: $releaseId) {

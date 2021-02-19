@@ -2,11 +2,22 @@ import 'twin.macro';
 
 import * as React from 'react';
 
-import { Header, SectionHeader } from '~/components';
+import { Header } from '~/components';
+import { useId } from '~/hooks';
 
-export const Playlists: React.FC = () => (
-  <div>
-    <Header />
-    <SectionHeader tw="my-8 text-center">eta son</SectionHeader>
-  </div>
-);
+import { PlaylistChooser } from './Chooser';
+import { Playlist } from './Playlist';
+
+export const Playlists: React.FC = () => {
+  const active = useId();
+
+  return (
+    <>
+      {!active && <Header />}
+      <div tw="flex flex-1">
+        <PlaylistChooser active={active} tw="flex-none" />
+        {active && <Playlist active={active} />}
+      </div>
+    </>
+  );
+};

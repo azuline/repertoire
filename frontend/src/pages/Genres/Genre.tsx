@@ -25,7 +25,7 @@ export const Genre: IGenre = ({ active }) => {
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);
-    return <ErrorPage errors={errors} title="Could not fetch label." />;
+    return <ErrorPage errors={errors} title="Could not fetch genre." />;
   }
 
   if (!collection) return null;
