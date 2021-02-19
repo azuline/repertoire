@@ -23,7 +23,7 @@ export const RecentlyAdded: React.FC = () => {
   return (
     <div>
       <Link href="/releases" onClick={toRecentlyAdded}>
-        <SectionHeader tw="my-4 cursor-pointer">
+        <SectionHeader tw="mt-4 cursor-pointer">
           Recently Added
           <span tw="text-xl hover:text-primary-400 text-primary-500"> (View All)</span>
         </SectionHeader>

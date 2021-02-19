@@ -13,6 +13,10 @@ export const NowPlaying: React.FC = () => {
   // prettier-ignore
   const curTrack = curIndex !== null ? playQueue[curIndex] : null;
 
+  // Only show covers if the play queue isn't a single homogenous release.
+  const showCovers =
+    playQueue[0] && !playQueue.every((t) => t.release.id === playQueue[0].release.id);
+
   return (
     <>
       <Header />
@@ -22,7 +26,7 @@ export const NowPlaying: React.FC = () => {
         <div tw="flex flex-col mt-4">
           {curTrack && <Info track={curTrack} />}
           <SectionHeader tw="my-8">Play Queue</SectionHeader>
-          <Tracklist tracks={playQueue} />
+          <Tracklist showCovers={showCovers} tracks={playQueue} />
         </div>
       )}
     </>
