@@ -16,7 +16,7 @@ export const Artist: IArtist = ({ active }) => {
   const { data, error } = useArtistsFetchArtistQuery({ variables: { id: active } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
-  const artist = data?.artist || null;
+  const artist = data?.artist;
 
   React.useEffect(() => {
     if (!artist) return;

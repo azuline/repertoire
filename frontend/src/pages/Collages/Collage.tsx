@@ -13,7 +13,7 @@ export const Collage: ICollage = ({ active }) => {
   const { data } = useCollageFetchCollageQuery({ variables: { id: active } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
-  const collection = data?.collection || null;
+  const collection = data?.collection;
 
   React.useEffect(() => {
     if (!collection) return;

@@ -14,7 +14,7 @@ export const Label: ILabel = ({ active }) => {
   const { data, error } = useLabelFetchLabelQuery({ variables: { id: active } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
-  const collection = data?.collection || null;
+  const collection = data?.collection;
 
   React.useEffect(() => {
     if (!collection) return;

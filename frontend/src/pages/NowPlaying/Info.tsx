@@ -13,7 +13,7 @@ export const Info: IInfo = ({ track }) => {
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
   const { data } = useNowPlayingInfoFetchReleaseQuery({ variables: { id: track.release.id } });
 
-  const parentRelease = data?.release || null;
+  const parentRelease = data?.release;
 
   React.useEffect(() => {
     if (!parentRelease) return;

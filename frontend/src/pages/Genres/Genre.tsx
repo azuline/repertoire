@@ -14,7 +14,7 @@ export const Genre: IGenre = ({ active }) => {
   const { data, error } = useGenresFetchGenreQuery({ variables: { id: active } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
-  const collection = data?.collection || null;
+  const collection = data?.collection;
 
   React.useEffect(() => {
     if (!collection) return;
