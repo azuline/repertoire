@@ -53,42 +53,45 @@ fragment TrackFields on Track {
   trackNumber
   discNumber
   favorited
-}
 
-fragment FullReleaseFields on Release {
-  ...ReleaseFields
-  artists {
-    id
-    name
-  }
-  collages {
-    id
-    name
-  }
-  labels {
-    id
-    name
-  }
-  genres {
-    id
-    name
-  }
-  tracks {
-    ...FullTrackFields
-  }
-}
-
-fragment FullTrackFields on Track {
-  ...TrackFields
   release {
     id
     imageId
   }
+
   artists {
     artist {
       id
       name
     }
     role
+  }
+}
+
+fragment FullReleaseFields on Release {
+  ...ReleaseFields
+
+  artists {
+    id
+    name
+  }
+
+  collages {
+    id
+    name
+  }
+
+  labels {
+    id
+    name
+  }
+
+  genres {
+    id
+    name
+  }
+
+  tracks {
+    ...TrackFields
   }
 }

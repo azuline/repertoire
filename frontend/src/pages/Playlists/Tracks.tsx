@@ -19,7 +19,7 @@ export const PlaylistTracks: IPlaylistTracks = ({ active }) => {
 
   const tracks = filterNulls(data?.playlist?.entries.map((e) => e?.track) ?? []) as ITrack[];
 
-  return <Tracklist tracks={tracks} />;
+  return <Tracklist showCovers tracks={tracks} />;
 };
 
 /* eslint-disable */
@@ -30,7 +30,7 @@ gql`
       entries {
         id
         track {
-          ...FullTrackFields
+          ...TrackFields
         }
       }
     }

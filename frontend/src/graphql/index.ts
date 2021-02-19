@@ -633,6 +633,17 @@ export type IPlaylistFieldsFragment = (
 export type ITrackFieldsFragment = (
   { __typename?: 'Track' }
   & Pick<ITrack, 'id' | 'title' | 'duration' | 'trackNumber' | 'discNumber' | 'favorited'>
+  & { release: (
+    { __typename?: 'Release' }
+    & Pick<IRelease, 'id' | 'imageId'>
+  ), artists: Array<Maybe<(
+    { __typename?: 'TrackArtist' }
+    & Pick<ITrackArtist, 'role'>
+    & { artist: (
+      { __typename?: 'Artist' }
+      & Pick<IArtist, 'id' | 'name'>
+    ) }
+  )>> }
 );
 
 export type IFullReleaseFieldsFragment = (
@@ -651,25 +662,9 @@ export type IFullReleaseFieldsFragment = (
     & Pick<ICollection, 'id' | 'name'>
   )>>, tracks: Array<Maybe<(
     { __typename?: 'Track' }
-    & IFullTrackFieldsFragment
+    & ITrackFieldsFragment
   )>> }
   & IReleaseFieldsFragment
-);
-
-export type IFullTrackFieldsFragment = (
-  { __typename?: 'Track' }
-  & { release: (
-    { __typename?: 'Release' }
-    & Pick<IRelease, 'id' | 'imageId'>
-  ), artists: Array<Maybe<(
-    { __typename?: 'TrackArtist' }
-    & Pick<ITrackArtist, 'role'>
-    & { artist: (
-      { __typename?: 'Artist' }
-      & Pick<IArtist, 'id' | 'name'>
-    ) }
-  )>> }
-  & ITrackFieldsFragment
 );
 
 export type IArtistsFetchArtistQueryVariables = Exact<{
@@ -844,7 +839,7 @@ export type IPlaylistsFetchTracksQuery = (
       & Pick<IPlaylistEntry, 'id'>
       & { track: (
         { __typename?: 'Track' }
-        & IFullTrackFieldsFragment
+        & ITrackFieldsFragment
       ) }
     )>> }
   )> }
@@ -1090,11 +1085,6 @@ export const TrackFieldsFragmentDoc = gql`
   trackNumber
   discNumber
   favorited
-}
-    `;
-export const FullTrackFieldsFragmentDoc = gql`
-    fragment FullTrackFields on Track {
-  ...TrackFields
   release {
     id
     imageId
@@ -1107,7 +1097,7 @@ export const FullTrackFieldsFragmentDoc = gql`
     role
   }
 }
-    ${TrackFieldsFragmentDoc}`;
+    `;
 export const FullReleaseFieldsFragmentDoc = gql`
     fragment FullReleaseFields on Release {
   ...ReleaseFields
@@ -1128,11 +1118,11 @@ export const FullReleaseFieldsFragmentDoc = gql`
     name
   }
   tracks {
-    ...FullTrackFields
+    ...TrackFields
   }
 }
     ${ReleaseFieldsFragmentDoc}
-${FullTrackFieldsFragmentDoc}`;
+${TrackFieldsFragmentDoc}`;
 export const HeaderFetchUserDocument = gql`
     query HeaderFetchUser {
   user {
@@ -1765,12 +1755,12 @@ export const PlaylistsFetchTracksDocument = gql`
     entries {
       id
       track {
-        ...FullTrackFields
+        ...TrackFields
       }
     }
   }
 }
-    ${FullTrackFieldsFragmentDoc}`;
+    ${TrackFieldsFragmentDoc}`;
 
 /**
  * __usePlaylistsFetchTracksQuery__

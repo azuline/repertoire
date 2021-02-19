@@ -2,8 +2,7 @@ import { gql } from '@apollo/client';
 import * as React from 'react';
 import tw from 'twin.macro';
 
-import { Icon } from '~/components/common';
-import { TrackArtistList } from '~/components/Lists';
+import { Icon, Image, TrackArtistList } from '~/components';
 import {
   ITrack,
   usePlaylistsFavoriteTrackMutation,
@@ -17,9 +16,17 @@ type ITrackComponent = React.FC<{
   index: number;
   onClick?: (arg0: number) => void;
   active?: boolean;
+  showCover?: boolean;
 }>;
 
-export const Track: ITrackComponent = ({ track, trackNumber, index, onClick, active = false }) => {
+export const Track: ITrackComponent = ({
+  track,
+  trackNumber,
+  index,
+  onClick,
+  active = false,
+  showCover = false,
+}) => {
   const [favoriteTrack] = usePlaylistsFavoriteTrackMutation();
   const [unfavoriteTrack] = usePlaylistsUnfavoriteTrackMutation();
 
@@ -48,22 +55,30 @@ export const Track: ITrackComponent = ({ track, trackNumber, index, onClick, act
       >
         <Icon icon="star-small" tw="w-6 md:w-5" />
       </div>
-      <div tw="ml-12 md:ml-11 w-full" onClick={(): void => onClick && onClick(index)}>
-        <div tw="flex items-center">
-          <div title={track.title} tw="flex-1 mr-2 truncate md:flex-none w-1/3">
-            <span>{trackNumber}. </span>
-            {track.title}
+      <div
+        tw="ml-12 md:ml-11 w-full flex items-center min-w-0"
+        onClick={(): void => onClick && onClick(index)}
+      >
+        {showCover && <Image imageId={track.release.imageId} tw="rounded w-8 h-8 mr-3" />}
+        <div tw="flex-1">
+          <div tw="flex items-center w-full min-w-0">
+            <div tw="flex items-center flex-1 min-w-0">
+              <div title={track.title} tw="flex-none mr-2 truncate w-1/3">
+                <span>{trackNumber}. </span>
+                {track.title}
+              </div>
+              <TrackArtistList
+                artists={filterNulls(track.artists)}
+                tw="flex-1 hidden w-2/3 truncate text-foreground-400 md:block"
+              />
+            </div>
+            <div tw="flex-none ml-2 text-foreground-400">{secondsToLength(track.duration)}</div>
           </div>
           <TrackArtistList
             artists={filterNulls(track.artists)}
-            tw="flex-1 hidden truncate text-foreground-400 md:block"
+            tw="mt-1 truncate text-foreground-400 md:hidden"
           />
-          <div tw="flex-none ml-2 text-foreground-400">{secondsToLength(track.duration)}</div>
         </div>
-        <TrackArtistList
-          artists={filterNulls(track.artists)}
-          tw="mt-1 truncate text-foreground-400 md:hidden"
-        />
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ export const Sidebar: React.FC = () => {
   const history = useHistory();
 
   return (
-    <div tw="sticky top-0 flex-col flex-none hidden w-52 bg-background-900 sm:flex height[calc(100vh - 4rem)]">
+    <div tw="flex-none hidden w-52 bg-background-900 sm:(flex flex-col) height[calc(100vh - 4rem)]">
       <div tw="mt-6 mb-4">
         <div tw="flex items-center pl-6 pr-4">
           <div tw="flex items-center pr-4 cursor-pointer" onClick={(): void => history.push('/')}>

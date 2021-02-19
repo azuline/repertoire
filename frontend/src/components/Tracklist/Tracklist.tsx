@@ -8,9 +8,9 @@ import { ITrack } from '~/graphql';
 import { Track } from './Track';
 import { checkMatchingTracklists } from './util';
 
-type ITracklist = React.FC<{ className?: string; tracks: ITrack[] }>;
+type ITracklist = React.FC<{ className?: string; tracks: ITrack[]; showCovers?: boolean }>;
 
-export const Tracklist: ITracklist = ({ className, tracks }) => {
+export const Tracklist: ITracklist = ({ className, tracks, showCovers = false }) => {
   const { playQueue, setPlayQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
 
   // Check to see if the current track list matches up with the play queue--if
@@ -33,6 +33,7 @@ export const Tracklist: ITracklist = ({ className, tracks }) => {
           key={idx}
           active={areTrackListsMatching && curIndex === idx}
           index={idx}
+          showCover={showCovers}
           track={track}
           trackNumber={idx + 1}
           onClick={trackOnClick}
