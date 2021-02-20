@@ -21,7 +21,7 @@ export const Select: ISelect = ({
   name,
 }) => (
   <div className={className} tw="relative flex items-center">
-    {label && (
+    {label !== null && (
       <label htmlFor={name} tw="flex-none pr-1">
         {label}:
       </label>

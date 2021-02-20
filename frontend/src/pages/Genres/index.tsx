@@ -13,7 +13,7 @@ export const Genres: React.FC = () => {
 
   return (
     <>
-      {!active && <Header />}
+      {active === null && <Header />}
       <div tw="flex flex-1">
         <CollectionChooser
           active={active}
@@ -21,7 +21,7 @@ export const Genres: React.FC = () => {
           tw="flex-none"
           urlPrefix="/genres"
         />
-        {active && <Genre active={active} />}
+        {active !== null && <Genre active={active} />}
       </div>
     </>
   );

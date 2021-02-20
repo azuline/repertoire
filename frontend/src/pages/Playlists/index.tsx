@@ -11,10 +11,10 @@ export const Playlists: React.FC = () => {
 
   return (
     <>
-      {!active && <Header />}
+      {active === null && <Header />}
       <div tw="flex flex-1">
         <PlaylistChooser active={active} tw="flex-none" />
-        {active && <Playlist active={active} />}
+        {active !== null && <Playlist active={active} />}
       </div>
     </>
   );

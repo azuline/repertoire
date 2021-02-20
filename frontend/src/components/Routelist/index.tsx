@@ -48,7 +48,7 @@ export const RouteList: React.FC = () => {
     <div>
       {sections.map(({ name, routes }) => (
         <div key={name} tw="py-3 -mx-6 md:-mx-8">
-          {name && (
+          {name !== null && (
             <div tw="px-6 pb-6 text-sm uppercase md:px-8 text-primary-400">{name}</div>
           )}
           {routes.map(({ path, label }, i) => (

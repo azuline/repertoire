@@ -34,7 +34,7 @@ export const RowRelease: IRowRelease = ({ release, className }) => {
         <div tw="flex">
           <div tw="flex flex-1 mb-0.5 mr-4 truncate">
             <div tw="font-semibold truncate text-primary-400">{release.title}</div>
-            {release.releaseYear ? (
+            {release.releaseYear !== null ? (
               <div tw="flex-none hidden ml-1 sm:block text-foreground-200">
                 {' '}
                 [{release.releaseYear}]
@@ -42,7 +42,7 @@ export const RowRelease: IRowRelease = ({ release, className }) => {
             ) : null}
           </div>
           <div tw="flex-none ml-auto">
-            {release.rating ? (
+            {release.rating !== null ? (
               <Rating rating={release.rating} />
             ) : (
               <span tw="text-foreground-400">No Rating</span>

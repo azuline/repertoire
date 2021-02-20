@@ -13,7 +13,7 @@ export const Collages: React.FC = () => {
 
   return (
     <>
-      {!active && <Header />}
+      {active === null && <Header />}
       <div tw="flex flex-1">
         <CollectionChooser
           active={active}
@@ -21,7 +21,7 @@ export const Collages: React.FC = () => {
           tw="flex-none"
           urlPrefix="/collages"
         />
-        {active && <Collage active={active} />}
+        {active !== null && <Collage active={active} />}
       </div>
     </>
   );

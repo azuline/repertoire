@@ -13,7 +13,8 @@ export const NowPlaying: React.FC = () => {
 
   // Only show covers if the play queue isn't a single homogenous release.
   const showCovers =
-    playQueue[0] && !playQueue.every((t) => t.release.id === playQueue[0].release.id);
+    playQueue.length > 0 &&
+    !playQueue.every((t) => t.release.id === playQueue[0].release.id);
 
   return (
     <>

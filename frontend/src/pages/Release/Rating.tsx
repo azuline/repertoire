@@ -18,12 +18,12 @@ export const Rating: IRating = ({ release }) => {
   return (
     <Wrapper>
       {Array.from(new Array(10), (_, i) => {
-        const active = release.rating && i < release.rating;
+        const active = release.rating !== null && i < release.rating;
 
         return (
           <Icon
             key={i}
-            className={clsx('star', active ? 'active' : 'inactive')}
+            className={clsx('star', active !== null ? 'active' : 'inactive')}
             icon="star-medium"
             tw="cursor-pointer w-7 pr-0.5"
             onClick={(): void => setRating(i + 1)}

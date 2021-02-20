@@ -14,7 +14,7 @@ export const Image: IImage = ({ className, alt, thumbnail = false, imageId }) =>
 
   React.useEffect(() => setSrc(urlFactory(imageId, thumbnail)), [imageId, thumbnail]);
 
-  if (!imageId) {
+  if (imageId === null) {
     return <img alt={alt} className={className} src={noArt} tw="outline-none!" />;
   }
 
@@ -31,4 +31,4 @@ export const Image: IImage = ({ className, alt, thumbnail = false, imageId }) =>
 };
 
 const urlFactory = (id: number | null, thumbnail: boolean): string =>
-  id ? `/api/files/images/${id}?thumbnail=${thumbnail}` : '';
+  id !== null ? `/api/files/images/${id}?thumbnail=${thumbnail}` : '';

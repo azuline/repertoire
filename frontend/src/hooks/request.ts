@@ -23,11 +23,11 @@ export const useRequest = (): IRequest<Response> => {
   ) => {
     const headers = new Headers();
 
-    headers.set('Authorization', token ? `Token ${token}` : '');
+    headers.set('Authorization', token !== null ? `Token ${token}` : '');
     headers.set('Content-Type', contentType ?? '');
     headers.set(
       'X-CSRF-Token',
-      method !== undefined && method !== 'GET' && csrf ? csrf : '',
+      method !== undefined && method !== 'GET' && csrf !== null ? csrf : '',
     );
 
     const response = await fetch(url, {

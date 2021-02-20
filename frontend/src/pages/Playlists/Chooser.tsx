@@ -23,7 +23,7 @@ export const PlaylistChooser: IPlaylistChooser = ({ active, className }) => {
     }
 
     return async (): Promise<void> => {
-      await mutatePlaylist({ variables: { id, starred: !starred } });
+      await mutatePlaylist({ variables: { id, starred: starred !== true } });
     };
   };
 

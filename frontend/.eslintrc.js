@@ -31,7 +31,7 @@ module.exports = {
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',
     indent: ['error', 2, { SwitchCase: 1 }],
-    // Not dealing with a'warn''warn'y at the moment.
+    // Not dealing with a11y at the moment.
     'jsx-a11y/alt-text': 'off',
     'jsx-a11y/no-static-element-interactions': 'off',
     'jsx-a11y/click-events-have-key-events': 'off',
@@ -62,6 +62,7 @@ module.exports = {
     'sort-imports': 'off',
     'sort-keys-fix/sort-keys-fix': 'warn',
     '@typescript-eslint/explicit-function-return-type': 'warn',
+    '@typescript-eslint/strict-boolean-expressions': 'error',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-unused-vars': [
       'warn',

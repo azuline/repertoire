@@ -56,7 +56,7 @@ export const JumpToLetter: IJumpToLetter = ({ active, results, setJumpTo }) => {
       css={[
         tw`absolute top-0 right-0 z-10 height[calc(100vh - 9.5rem)]`,
         tw`overflow-y-hidden text-right`,
-        active ? tw`mt-9 mr-5` : tw`mr-8 pt-1`,
+        active !== null ? tw`mt-9 mr-5` : tw`mr-8 pt-1`,
       ]}
     >
       {Object.entries(letterToIndexMap).map(([letter, jumpFn]) => (
@@ -87,7 +87,7 @@ const mapLettersToIndex = (
   }, {});
 
   return results.reduce<IIndexMap>((map, elem, index) => {
-    if (elem.starred) return map; // Exclude starred elements from jumper.
+    if (elem.starred === true) return map; // Exclude starred elements from jumper.
 
     const key = getJumpLetter(elem.name);
 

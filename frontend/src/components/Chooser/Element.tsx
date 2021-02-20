@@ -31,12 +31,12 @@ export const Element: IElementComponent = ({
         <div
           css={[
             tw`absolute top-0 left-0 flex items-center h-full pl-6 md:pl-8`,
-            element.starred
+            element.starred === true
               ? tw`text-primary-500 fill-current`
               : tw`text-gray-500 stroke-current`,
             toggleStar && tw`cursor-pointer`,
             toggleStar &&
-              (element.starred
+              (element.starred === true
                 ? tw`hover:(text-gray-500 stroke-current)`
                 : tw`hover:(text-primary-400 fill-current)`),
           ]}

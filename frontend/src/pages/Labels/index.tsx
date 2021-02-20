@@ -13,7 +13,7 @@ export const Labels: React.FC = () => {
 
   return (
     <>
-      {!active && <Header />}
+      {active === null && <Header />}
       <div tw="flex flex-1">
         <CollectionChooser
           active={active}
@@ -21,7 +21,7 @@ export const Labels: React.FC = () => {
           tw="flex-none"
           urlPrefix="/labels"
         />
-        {active && <Label active={active} />}
+        {active !== null && <Label active={active} />}
       </div>
     </>
   );

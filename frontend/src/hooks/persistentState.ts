@@ -16,7 +16,7 @@ export const usePersistentState = <T>(
 ): [T, (arg0: IStateValue<T>) => void] => {
   const [value, setValue] = React.useState<T>(() => {
     const storedValue = localStorage.getItem(localStorageKey);
-    return storedValue ? JSON.parse(storedValue) : defaultValue;
+    return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
   });
 
   const setPersistentValue = (newValue: IStateValue<T>, persist = true): void => {

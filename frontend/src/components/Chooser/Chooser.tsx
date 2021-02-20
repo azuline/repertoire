@@ -46,7 +46,7 @@ export const Chooser: IChooser = ({
       className={className}
       css={[
         tw`w-72 -ml-6 md:-ml-8 max-height[calc(100vh - 4rem)]`,
-        active
+        active !== null
           ? tw`mr-6 md:mr-8 hidden xl:flex xl:flex-col xl:sticky xl:top-0`
           : tw`-mr-6 md:-mr-8 w-fullpad`,
       ]}
@@ -54,7 +54,7 @@ export const Chooser: IChooser = ({
       <div
         css={[
           tw`relative flex-auto h-full`,
-          active && tw`xl:bg-background-800 xl:sticky xl:top-0`,
+          active !== null && tw`xl:bg-background-800 xl:sticky xl:top-0`,
         ]}
       >
         <JumpToLetter active={active} results={results} setJumpTo={setJumpTo} />

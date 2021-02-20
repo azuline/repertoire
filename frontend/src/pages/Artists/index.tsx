@@ -11,10 +11,10 @@ export const Artists: React.FC = () => {
 
   return (
     <>
-      {!active && <Header />}
+      {active === null && <Header />}
       <div tw="flex flex-1">
         <ArtistChooser active={active} tw="flex-none" />
-        {active && <Artist active={active} />}
+        {active !== null && <Artist active={active} />}
       </div>
     </>
   );

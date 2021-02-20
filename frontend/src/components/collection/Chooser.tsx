@@ -35,7 +35,7 @@ export const CollectionChooser: ICollectionChooser = ({
     }
 
     return async (): Promise<void> => {
-      await mutateCollection({ variables: { id, starred: !starred } });
+      await mutateCollection({ variables: { id, starred: starred !== true } });
     };
   };
 

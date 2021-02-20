@@ -47,10 +47,10 @@ export const VirtualList: IVirtualList = ({
   const rowHeight = convertRemToPixels(2);
 
   const [scrollToIndex, scrollToAlignment] = React.useMemo(() => {
-    if (jumpTo) {
+    if (jumpTo !== null) {
       return [jumpTo, 'start'];
     }
-    if (active) {
+    if (active !== null) {
       // TODO(perf): Perhaps construct a map of IDs to index for this sort of thing.
       return [results.findIndex((elem) => elem.id === active), 'center'];
     }
@@ -61,10 +61,10 @@ export const VirtualList: IVirtualList = ({
     <AutoSizer>
       {({ width, height }): React.ReactNode => (
         <List
-          css={active && tw`pt-8`}
+          css={active !== null && tw`pt-8`}
           height={height}
           overscanRowCount={8}
-          rowCount={results.length + (active ? 2 : 1)}
+          rowCount={results.length + (active !== null ? 2 : 1)}
           rowHeight={rowHeight}
           rowRenderer={renderRow}
           scrollToAlignment={scrollToAlignment as 'start' | 'auto'}

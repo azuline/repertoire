@@ -18,7 +18,7 @@ export { ReleaseWrapper as Release };
 
 const ReleaseWrapper: React.FC = () => {
   const id = useId();
-  return id ? <Release id={id} /> : null;
+  return id !== null ? <Release id={id} /> : null;
 };
 
 type IReleaseComponent = React.FC<{ id: number }>;

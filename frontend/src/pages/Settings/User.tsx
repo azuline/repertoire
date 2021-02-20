@@ -19,7 +19,7 @@ export const UserSettings: React.FC = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    if (!input || !input.current) {
+    if (!input.current) {
       return;
     }
 

@@ -47,7 +47,9 @@ export const ArtRelease: IArtRelease = ({ release, className }) => {
                 tw`text-white text-base`,
               ]}
             >
-              {release.releaseYear ? <div tw="py-1">{release.releaseYear}</div> : null}
+              {release.releaseYear !== null ? (
+                <div tw="py-1">{release.releaseYear}</div>
+              ) : null}
               <div tw="py-1">
                 {release.numTracks} Track{release.numTracks !== 1 && 's'} / {runtime}
               </div>

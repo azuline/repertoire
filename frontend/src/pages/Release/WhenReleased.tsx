@@ -6,7 +6,7 @@ import { IRelease } from '~/graphql';
 type IWhenReleased = React.FC<{ release: IRelease }>;
 
 export const WhenReleased: IWhenReleased = ({ release }) => {
-  if (release.releaseDate) {
+  if (release.releaseDate !== null) {
     return (
       <>
         <span tw="text-foreground-300">Released on </span>
@@ -15,7 +15,7 @@ export const WhenReleased: IWhenReleased = ({ release }) => {
     );
   }
 
-  if (release.releaseYear) {
+  if (release.releaseYear !== null) {
     return (
       <>
         <span tw="text-foreground-300">Released in </span>

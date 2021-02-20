@@ -11,10 +11,10 @@ export const Years: React.FC = () => {
 
   return (
     <>
-      {!active && <Header />}
+      {active === null && <Header />}
       <div tw="flex flex-1">
         <YearChooser active={active} tw="flex-none" />
-        {active && <Year active={active} />}
+        {active !== null && <Year active={active} />}
       </div>
     </>
   );

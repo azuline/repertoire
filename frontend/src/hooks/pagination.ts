@@ -72,5 +72,5 @@ export const usePagination = ({
  */
 const getStartPage = (useUrl: boolean, query: URLSearchParams): number => {
   const page = query.get('page');
-  return useUrl && page && /^\d+$/.test(page) ? parseInt(page, 10) : 1;
+  return useUrl && page !== null && /^\d+$/.test(page) ? parseInt(page, 10) : 1;
 };
