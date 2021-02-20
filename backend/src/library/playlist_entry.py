@@ -9,7 +9,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from sqlite3 import Cursor, Row
+from sqlite3 import Connection, Row
 from typing import Dict, List, Optional, Union
 
 from src.errors import NotFound
@@ -46,7 +46,7 @@ def exists(id: int, conn: Connection) -> bool:
     :param conn: A connection to the database.
     :return: Whether a playlist entry has the given ID.
     """
-    cursor.execute("SELECT 1 FROM music__playlists_tracks WHERE id = ?", (id,))
+    cursor = conn.execute("SELECT 1 FROM music__playlists_tracks WHERE id = ?", (id,))
     return bool(cursor.fetchone())
 
 
@@ -61,7 +61,7 @@ def exists_playlist_and_track(
     :param conn: A connection to the database.
     :return: Whether the track is in the playlist.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT 1 FROM music__playlists_tracks
         WHERE playlist_id = ? AND track_id = ?
@@ -89,7 +89,7 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
     :param conn: A connection to the database.
     :return: The playlist entry with the provided ID, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT *
         FROM music__playlists_tracks
@@ -117,7 +117,7 @@ def from_playlist_and_track(
     :param conn: A connection to the database.
     :return: The playlist entries with the provided playlist and track.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT *
         FROM music__playlists_tracks
@@ -142,27 +142,27 @@ def create(playlist_id: int, track_id: int, conn: Connection) -> T:
     :return: The new playlist entry.
     :raises NotFound: If no track has the given track ID.
     """
-    if not libtrack.exists(track_id, cursor):
+    if not libtrack.exists(track_id, conn):
         logger.debug(f"Track {track_id} does not exist.")
         raise NotFound(f"Track {track_id} does not exist.")
 
-    if not libplaylist.exists(playlist_id, cursor):
+    if not libplaylist.exists(playlist_id, conn):
         logger.debug(f"Playlist {playlist_id} does not exist.")
         raise NotFound(f"Playlist {playlist_id} does not exist.")
 
-    cursor.execute(
+    cursor = conn.execute(
         """
         INSERT INTO music__playlists_tracks (playlist_id, track_id, position)
         VALUES (?, ?, ?)
         """,
-        (playlist_id, track_id, _highest_position(playlist_id, cursor) + 1),
+        (playlist_id, track_id, _highest_position(playlist_id, conn) + 1),
     )
 
     logger.info(
         f"Created entry {cursor.lastrowid} with "
         "track {track_id} and playlist {playlist_id}."
     )
-    return from_id(cursor.lastrowid, cursor)  # type: ignore
+    return from_id(cursor.lastrowid, conn)  # type: ignore
 
 
 def delete(ety: T, conn: Connection):
@@ -172,14 +172,14 @@ def delete(ety: T, conn: Connection):
     :param ety: The playlist entry to delete.
     :param conn: A connection to the database.
     """
-    cursor.execute(
+    conn.execute(
         """
         DELETE FROM music__playlists_tracks WHERE id = ?
         """,
         (ety.id,),
     )
 
-    cursor.execute(
+    conn.execute(
         """
         UPDATE music__playlists_tracks
         SET position = position - 1
@@ -201,7 +201,7 @@ def update(ety: T, position: int, conn: Connection) -> T:
     :return: The updated entry.
     :raises IndexError: If the entry is out of bounds.
     """
-    max_ = _highest_position(ety.playlist_id, cursor)
+    max_ = _highest_position(ety.playlist_id, conn)
 
     if position < 1 or position > max_:
         raise IndexError(f"Position {position} out of bounds.")
@@ -210,39 +210,37 @@ def update(ety: T, position: int, conn: Connection) -> T:
     if position == ety.position:
         return ety
 
-    # TODO: Do explicit transaction shit instead of this nonsense.
-    with cursor.connection:
-        cursor.execute("BEGIN")
-        if position > ety.position:
-            cursor.execute(
-                """
-                UPDATE music__playlists_tracks
-                SET position = position - 1
-                WHERE playlist_id = ? AND position > ? AND position <= ?
-                """,
-                (ety.playlist_id, ety.position, position),
-            )
-            cursor.execute(
-                """
-                UPDATE music__playlists_tracks SET position = ? WHERE id = ?
-                """,
-                (position, ety.id),
-            )
-        else:
-            cursor.execute(
-                """
-                UPDATE music__playlists_tracks
-                SET position = position + 1
-                WHERE playlist_id = ? AND position < ? AND position >= ?
-                """,
-                (ety.playlist_id, ety.position, position),
-            )
-            cursor.execute(
-                """
-                UPDATE music__playlists_tracks SET position = ? WHERE id = ?
-                """,
-                (position, ety.id),
-            )
+    # I believe Python surrounds these with an implicit transaction.
+    if position > ety.position:
+        conn.execute(
+            """
+            UPDATE music__playlists_tracks
+            SET position = position - 1
+            WHERE playlist_id = ? AND position > ? AND position <= ?
+            """,
+            (ety.playlist_id, ety.position, position),
+        )
+        conn.execute(
+            """
+            UPDATE music__playlists_tracks SET position = ? WHERE id = ?
+            """,
+            (position, ety.id),
+        )
+    else:
+        conn.execute(
+            """
+            UPDATE music__playlists_tracks
+            SET position = position + 1
+            WHERE playlist_id = ? AND position < ? AND position >= ?
+            """,
+            (ety.playlist_id, ety.position, position),
+        )
+        conn.execute(
+            """
+            UPDATE music__playlists_tracks SET position = ? WHERE id = ?
+            """,
+            (position, ety.id),
+        )
 
     logger.info(f"Updated position of entry {id} to {position}.")
     return update_dataclass(ety, position=position)
@@ -256,7 +254,7 @@ def playlist(ety: T, conn: Connection) -> libplaylist.T:
     :param conn: A connection to the database.
     :return: The playlist the entry is in.
     """
-    return libplaylist.from_id(ety.playlist_id, cursor)  # type: ignore
+    return libplaylist.from_id(ety.playlist_id, conn)  # type: ignore
 
 
 def track(ety: T, conn: Connection) -> libtrack.T:
@@ -267,7 +265,7 @@ def track(ety: T, conn: Connection) -> libtrack.T:
     :param conn: A connection to the database.
     :return: The track the entry represents.
     """
-    return libtrack.from_id(ety.track_id, cursor)  # type: ignore
+    return libtrack.from_id(ety.track_id, conn)  # type: ignore
 
 
 def _highest_position(playlist_id: int, conn: Connection) -> int:
@@ -279,7 +277,7 @@ def _highest_position(playlist_id: int, conn: Connection) -> int:
     :param conn: A connection to the database.
     :return: The next unused position number in a playlist.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT MAX(position) FROM music__playlists_tracks WHERE playlist_id = ?
         """,

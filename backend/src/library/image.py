@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from sqlite3 import Cursor, Row
+from sqlite3 import Connection, Row
 from typing import Dict, Optional, Union
 
 from PIL import Image, UnidentifiedImageError
@@ -42,7 +42,7 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
     :param conn: A connection to the database.
     :return: An image with the provided ID, if it exists.
     """
-    cursor.execute("SELECT * from images WHERE id = ?", (id,))
+    cursor = conn.execute("SELECT * from images WHERE id = ?", (id,))
     if row := cursor.fetchone():
         logger.debug(f"Fetched image {id}.")
         return from_row(row)
@@ -59,7 +59,7 @@ def from_path(path: Union[Path, str], conn: Connection) -> Optional[T]:
     :param conn: A connection to the database.
     :return: An image with the provided ID, if it exists.
     """
-    cursor.execute("SELECT * from images WHERE path = ?", (str(path),))
+    cursor = conn.execute("SELECT * from images WHERE path = ?", (str(path),))
     if row := cursor.fetchone():
         logger.debug(f"Fetched image {row['id']} from path {path}.")
         return from_row(row)
@@ -78,10 +78,10 @@ def create(path: Union[Path, str], conn: Connection) -> T:
     :raises Duplicate: If an image with the given path already exists. The duplicate
                        image is passed as the ``entity`` argument.
     """
-    if img := from_path(path, cursor):
+    if img := from_path(path, conn):
         raise Duplicate("An image with the given path already exists.", img)
 
-    cursor.execute("INSERT INTO images (path) VALUES (?)", (str(path),))
+    cursor = conn.execute("INSERT INTO images (path) VALUES (?)", (str(path),))
     img = T(id=cursor.lastrowid, path=Path(path))
 
     logger.info(f"Created image {cursor.lastrowid} with path {path}")
@@ -89,7 +89,7 @@ def create(path: Union[Path, str], conn: Connection) -> T:
     try:
         _generate_thumbnail(img)
     except UnidentifiedImageError:
-        delete(img, cursor)
+        delete(img, conn)
         raise InvalidImage("The image file could not be read.")
 
     return img
@@ -114,7 +114,7 @@ def delete(img: T, conn: Connection) -> None:
     :param img: The image to delete.
     :param conn: A connection to the database.
     """
-    cursor.execute("DELETE FROM images WHERE id = ?", (img.id,))
+    conn.execute("DELETE FROM images WHERE id = ?", (img.id,))
     logger.info(f"Deleted image {img.id}")
 
     if img.path.exists():

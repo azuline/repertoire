@@ -10,8 +10,7 @@ def test_run_database_migrations(isolated_dir):
     assert db_path.exists()
 
     with sqlite3.connect(str(db_path)) as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT 1 FROM _yoyo_version")
+        cursor = conn.execute("SELECT 1 FROM _yoyo_version")
         assert len(cursor.fetchall()) > 0
 
 

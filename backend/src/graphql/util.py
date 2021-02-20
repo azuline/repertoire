@@ -13,7 +13,7 @@ def commit(func: Callable) -> Callable:
     @wraps(func)
     def wrapper(obj, info, **kwargs):
         rval = func(obj, info, **kwargs)
-        info.context.db.connection.commit()
+        info.context.db.commit()
         return rval
 
     return wrapper

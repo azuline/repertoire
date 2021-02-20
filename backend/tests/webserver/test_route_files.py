@@ -11,7 +11,7 @@ async def test_get_track(db, quart_client):
         f.write(b"owo")
 
     db.execute("UPDATE music__tracks SET filepath = ? WHERE id = 1", (str(path),))
-    db.connection.commit()
+    db.commit()
 
     response = await quart_client.authed_get("/api/files/tracks/1")
     assert b"owo" == await response.get_data()
@@ -28,7 +28,7 @@ async def test_get_track_nonexistent_file(db, quart_client):
     path = Path.cwd() / "nonexistent.flac"
 
     db.execute("UPDATE music__tracks SET filepath = ? WHERE id = 1", (str(path),))
-    db.connection.commit()
+    db.commit()
 
     response = await quart_client.authed_get("/api/files/tracks/1")
     assert response.status_code == 404
@@ -42,7 +42,7 @@ async def test_get_cover(db, quart_client):
         f.write(b"owo")
 
     db.execute("UPDATE images SET path = ? WHERE id = 1", (str(path),))
-    db.connection.commit()
+    db.commit()
 
     response = await quart_client.authed_get("/api/files/images/1")
     assert b"owo" == await response.get_data()
@@ -56,7 +56,7 @@ async def test_get_cover_thumbail(db, quart_client):
         f.write(b"owo")
 
     db.execute("UPDATE images SET path = ? WHERE id = 1", (str(path),))
-    db.connection.commit()
+    db.commit()
 
     response = await quart_client.authed_get("/api/files/images/1?thumbnail=true")
     assert b"owo" == await response.get_data()
@@ -73,7 +73,7 @@ async def test_get_cover_nonexistent_file(db, quart_client):
     path = Path.cwd() / "nonexistent.png"
 
     db.execute("UPDATE images SET path = ? WHERE id = 1", (str(path),))
-    db.connection.commit()
+    db.commit()
 
     response = await quart_client.authed_get("/api/files/images/1")
     assert response.status_code == 404

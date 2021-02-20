@@ -4,7 +4,7 @@ import logging
 import secrets
 import string
 from dataclasses import dataclass
-from sqlite3 import Cursor, Row
+from sqlite3 import Connection, Row
 from typing import Dict, Optional, Tuple, Union
 
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -37,7 +37,7 @@ def exists(id: int, conn: Connection) -> bool:
     :param id: The ID to check.
     :return: Whether a user has the given ID.
     """
-    cursor.execute("SELECT 1 FROM system__users WHERE id = ?", (id,))
+    cursor = conn.execute("SELECT 1 FROM system__users WHERE id = ?", (id,))
     return bool(cursor.fetchone())
 
 
@@ -59,7 +59,7 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
     :param conn: A connection to the database.
     :return: The user, if they exist.
     """
-    cursor.execute("SELECT id, nickname FROM system__users WHERE id = ?", (id,))
+    cursor = conn.execute("SELECT id, nickname FROM system__users WHERE id = ?", (id,))
 
     if row := cursor.fetchone():
         logger.debug("Fetched user {id}.")
@@ -77,7 +77,7 @@ def from_nickname(nickname: str, conn: Connection) -> Optional[T]:
     :param conn: A connection to the database.
     :return: The user, if they exist.
     """
-    cursor.execute(
+    cursor = conn.execute(
         "SELECT id, nickname FROM system__users WHERE nickname = ?",
         (nickname,),
     )
@@ -106,14 +106,14 @@ def from_token(token: bytes, conn: Connection) -> Optional[T]:
 
     token_prefix = token[:PREFIX_LENGTH]
 
-    cursor.execute(
+    cursor = conn.execute(
         "SELECT id, nickname FROM system__users WHERE token_prefix = ?",
         (token_prefix,),
     )
 
     if row := cursor.fetchone():
         usr = from_row(row)
-        if check_token(usr, token, cursor):
+        if check_token(usr, token, conn):
             logger.debug(f"Fetched user {usr.id} from token {token_prefix.hex()}.")
             return usr
 
@@ -135,13 +135,13 @@ def create(nickname: str, conn: Connection) -> Tuple[T, bytes]:
         raise InvalidNickname
 
     # Generate the token for the new user and hash it.
-    token, token_prefix = _generate_token(cursor)
+    token, token_prefix = _generate_token(conn)
     token_hash = generate_password_hash(token)
 
     # Generate a CSRF token.
     csrf_token = secrets.token_bytes(TOKEN_LENGTH)
 
-    cursor.execute(
+    cursor = conn.execute(
         """
         INSERT INTO system__users
         (nickname, token_prefix, token_hash, csrf_token)
@@ -170,7 +170,7 @@ def update(usr: T, conn: Connection, **changes) -> T:
     if changes.get("nickname", None) and not _validate_nickname(changes["nickname"]):
         raise InvalidNickname
 
-    cursor.execute(
+    conn.execute(
         """
         UPDATE system__users
         SET nickname = ?
@@ -193,10 +193,10 @@ def new_token(usr: T, conn: Connection) -> bytes:
     :return: The new token.
     :raises TokenGenerationFailure: If we could not generate a suitable token.
     """
-    token, token_prefix = _generate_token(cursor)
+    token, token_prefix = _generate_token(conn)
     token_hash = generate_password_hash(token)
 
-    cursor.execute(
+    conn.execute(
         "UPDATE system__users SET token_prefix = ?, token_hash = ? WHERE id = ?",
         (token_prefix, token_hash, usr.id),
     )
@@ -215,7 +215,10 @@ def check_token(usr: T, token: bytes, conn: Connection) -> bool:
     :param conn: A connection to the database.
     :return: Whether the token is valid.
     """
-    cursor.execute("SELECT token_hash FROM system__users WHERE id = ?", (usr.id,))
+    cursor = conn.execute(
+        "SELECT token_hash FROM system__users WHERE id = ?",
+        (usr.id,),
+    )
     if not (row := cursor.fetchone()):
         logger.debug(f"Did not find token for user {usr.id}.")
         return False
@@ -251,7 +254,10 @@ def _generate_token(conn: Connection) -> Tuple[bytes, bytes]:
         prefix = token[:PREFIX_LENGTH]
 
         # Check for token prefix uniqueness.
-        cursor.execute("SELECT 1 FROM system__users WHERE token_prefix = ?", (prefix,))
+        cursor = conn.execute(
+            "SELECT 1 FROM system__users WHERE token_prefix = ?",
+            (prefix,),
+        )
         if not cursor.fetchone():
             return token, prefix
 

@@ -12,7 +12,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from sqlite3 import Cursor, Row
+from sqlite3 import Connection, Row
 from typing import Dict, List, Optional, Union
 
 from src.enums import CollectionType, PlaylistType
@@ -53,7 +53,7 @@ def exists(id: int, conn: Connection) -> bool:
     :param conn: A connection to the database.
     :return: Whether a playlist has the given ID.
     """
-    cursor.execute("SELECT 1 FROM music__playlists WHERE id = ?", (id,))
+    cursor = conn.execute("SELECT 1 FROM music__playlists WHERE id = ?", (id,))
     return bool(cursor.fetchone())
 
 
@@ -91,7 +91,7 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
     :param conn: A connection to the database.
     :return: The playlist with the provided ID, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             plys.*,
@@ -123,7 +123,7 @@ def from_name_and_type(name: str, type: PlaylistType, conn: Connection) -> Optio
     :param conn: A connection to the database.
     :return: The playlist, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             plys.*,
@@ -156,7 +156,7 @@ def all(conn: Connection, types: List[PlaylistType] = []) -> List[T]:
     """
     filter_ = f"WHERE plys.type IN ({','.join('?' * len(types))})" if types else ""
 
-    cursor.execute(
+    cursor = conn.execute(
         f"""
         SELECT
             plys.*,
@@ -185,7 +185,7 @@ def create(name: str, type: PlaylistType, conn: Connection, starred: bool = Fals
 
     :param name: The name of the playlist.
     :param type: The type of the playlist.
-    :cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param starred: Whether the playlist is starred or not.
     :return: The newly created playlist.
     :raises Duplicate: If an playlist with the same name and type already exists. The
@@ -194,10 +194,10 @@ def create(name: str, type: PlaylistType, conn: Connection, starred: bool = Fals
     if type == PlaylistType.SYSTEM:
         raise InvalidPlaylistType("Cannot create system playlists.")
 
-    if ply := from_name_and_type(name, type, cursor):
+    if ply := from_name_and_type(name, type, conn):
         raise Duplicate(f'Playlist "{name}" already exists.', ply)
 
-    cursor.execute(
+    cursor = conn.execute(
         "INSERT INTO music__playlists (name, type, starred) VALUES (?, ?, ?)",
         (name, type.value, starred),
     )
@@ -236,12 +236,12 @@ def update(ply: T, conn: Connection, **changes) -> T:
 
     if (
         "name" in changes
-        and (dupl := from_name_and_type(changes["name"], ply.type, cursor))
+        and (dupl := from_name_and_type(changes["name"], ply.type, conn))
         and dupl != ply
     ):
         raise Duplicate(f'Playlist "{changes["name"]}" already exists.', dupl)
 
-    cursor.execute(
+    conn.execute(
         """
         UPDATE music__playlists
         SET name = ?,
@@ -268,7 +268,7 @@ def entries(ply: T, conn: Connection) -> List[pentry.T]:
     :param conn: A connection to the database.
     :return: A list of tracks in the playlist.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             plystrks.*
@@ -308,7 +308,7 @@ def top_genres(ply: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
     :param num_genres: The number of top genres to fetch.
     :return: The top genres.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             genres.*,
@@ -349,7 +349,7 @@ def image(ply: T, conn: Connection) -> Optional[libimage.T]:
     :param conn: A connection to the database.
     :return: The image, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT images.*
         FROM images

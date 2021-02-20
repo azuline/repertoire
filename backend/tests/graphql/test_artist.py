@@ -1,11 +1,10 @@
 import pytest
 
 from src.library import artist
-from src.util import database
 
 
 @pytest.mark.asyncio
-async def test_artist(db, graphql_query, snapshot):
+async def test_artist(graphql_query, snapshot):
     query = """
         query {
             artist(id: 4) {
@@ -17,7 +16,7 @@ async def test_artist(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_artist_not_found(db, graphql_query, snapshot):
+async def test_artist_not_found(graphql_query, snapshot):
     query = """
         query {
             artist(id: 999999) {
@@ -29,7 +28,7 @@ async def test_artist_not_found(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_artist_from_name(db, graphql_query, snapshot):
+async def test_artist_from_name(graphql_query, snapshot):
     query = """
         query {
             artistFromName(name: "Abakus") {
@@ -41,7 +40,7 @@ async def test_artist_from_name(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_artist_from_name_not_found(db, graphql_query, snapshot):
+async def test_artist_from_name_not_found(graphql_query, snapshot):
     query = """
         query {
             artistFromName(name: "Random Artist name") {
@@ -53,7 +52,7 @@ async def test_artist_from_name_not_found(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_artists(db, graphql_query, snapshot):
+async def test_artists(graphql_query, snapshot):
     query = """
         query {
             artists {
@@ -67,7 +66,7 @@ async def test_artists(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_artist_image(db, graphql_query, snapshot):
+async def test_artist_image(graphql_query, snapshot):
     query = """
         query {
             artist(id: 2) {
@@ -80,7 +79,7 @@ async def test_artist_image(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_artist_image_nonexistent(db, graphql_query, snapshot):
+async def test_artist_image_nonexistent(graphql_query, snapshot):
     query = """
         query {
             artist(id: 1) {
@@ -102,9 +101,7 @@ async def test_create_artist(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-
-    with database() as conn:
-        snapshot.assert_match(artist.from_id(6, conn.cursor()))
+    snapshot.assert_match(artist.from_id(6, db))
 
 
 @pytest.mark.asyncio
@@ -130,13 +127,11 @@ async def test_update_artist(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-
-    with database() as conn:
-        snapshot.assert_match(artist.from_id(4, conn.cursor()))
+    snapshot.assert_match(artist.from_id(4, db))
 
 
 @pytest.mark.asyncio
-async def test_update_artist_doesnt_exist(db, graphql_query, snapshot):
+async def test_update_artist_doesnt_exist(graphql_query, snapshot):
     query = """
         mutation {
             updateArtist(id: 999, name: "New Name", starred: true) {

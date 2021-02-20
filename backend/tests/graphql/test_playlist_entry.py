@@ -118,7 +118,7 @@ async def test_update_playlist_entry(db, graphql_query, snapshot):
     """
     snapshot.assert_match(await graphql_query(query))
 
-    db.execute(
+    cursor = db.execute(
         """
         SELECT id
         FROM music__playlists_tracks
@@ -127,7 +127,7 @@ async def test_update_playlist_entry(db, graphql_query, snapshot):
         """
     )
 
-    order = [row["id"] for row in db.fetchall()]
+    order = [row["id"] for row in cursor.fetchall()]
     assert order == [5, 3, 4, 6, 7, 8]
 
 

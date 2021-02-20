@@ -41,8 +41,8 @@ async def test_update_user(db, graphql_query, snapshot):
 
 @pytest.mark.asyncio
 async def test_new_token(db, graphql_query):
-    db.execute("SELECT token_prefix FROM system__users WHERE id = 1")
-    old_prefix = db.fetchone()[0]
+    cursor = db.execute("SELECT token_prefix FROM system__users WHERE id = 1")
+    old_prefix = cursor.fetchone()[0]
 
     _, result = await graphql_query(TOKEN_QUERY)
     assert result["data"]["newToken"]["hex"]

@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from sqlite3 import Cursor, Row
+from sqlite3 import Connection, Row
 from typing import Dict, List, Optional, Union
 
 from src.enums import CollectionType
@@ -49,7 +49,7 @@ def exists(id: int, conn: Connection) -> bool:
     :param id: The ID to check.
     :return: Whether a collection has the given ID.
     """
-    cursor.execute("SELECT 1 FROM music__collections WHERE id = ?", (id,))
+    cursor = conn.execute("SELECT 1 FROM music__collections WHERE id = ?", (id,))
     return bool(cursor.fetchone())
 
 
@@ -87,7 +87,7 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
     :param conn: A connection to the database.
     :return: The collection with the provided ID, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             cols.*,
@@ -121,7 +121,7 @@ def from_name_and_type(
     :param conn: A connection to the database.
     :return: The collection, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             cols.*,
@@ -156,7 +156,7 @@ def all(conn: Connection, types: List[CollectionType] = []) -> List[T]:
     """
     filter_ = f"WHERE cols.type IN ({','.join('?' * len(types))})" if types else ""
 
-    cursor.execute(
+    cursor = conn.execute(
         f"""
         SELECT
             cols.*,
@@ -187,7 +187,7 @@ def create(
 
     :param name: The name of the collection.
     :param type: The type of the collection.
-    :cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param starred: Whether the collection is starred or not.
     :return: The newly created collection.
     :raises Duplicate: If an collection with the same name and type already exists. The
@@ -196,10 +196,10 @@ def create(
     if type == CollectionType.SYSTEM:
         raise InvalidCollectionType("Cannot create system collections.")
 
-    if col := from_name_and_type(name, type, cursor):
+    if col := from_name_and_type(name, type, conn):
         raise Duplicate(f'Collection "{name}" already exists.', col)
 
-    cursor.execute(
+    cursor = conn.execute(
         "INSERT INTO music__collections (name, type, starred) VALUES (?, ?, ?)",
         (name, type.value, starred),
     )
@@ -240,12 +240,12 @@ def update(col: T, conn: Connection, **changes) -> T:
 
     if (
         "name" in changes
-        and (dupl := from_name_and_type(changes["name"], col.type, cursor))
+        and (dupl := from_name_and_type(changes["name"], col.type, conn))
         and dupl != col
     ):
         raise Duplicate(f'Collection "{changes["name"]}" already exists.', dupl)
 
-    cursor.execute(
+    conn.execute(
         """
         UPDATE music__collections
         SET name = ?,
@@ -272,7 +272,7 @@ def releases(col: T, conn: Connection) -> List[release.T]:
     :param conn: A connection to the database.
     :return: A list of releases in the collection.
     """
-    _, releases = release.search(collection_ids=[col.id], cursor=cursor)
+    _, releases = release.search(collection_ids=[col.id], conn=conn)
     logger.debug(f"Fetched releases of collection {col.id}.")
     return releases
 
@@ -288,11 +288,11 @@ def add_release(col: T, release_id: int, conn: Connection) -> T:
     :raises NotFound: If no release has the given release ID.
     :raises AlreadyExists: If the release is already in the collection.
     """
-    if not release.exists(release_id, cursor):
+    if not release.exists(release_id, conn):
         logger.debug(f"Release {release_id} does not exist.")
         raise NotFound(f"Release {release_id} does not exist.")
 
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT 1 FROM music__collections_releases
         WHERE collection_id = ? AND release_id = ?
@@ -303,7 +303,7 @@ def add_release(col: T, release_id: int, conn: Connection) -> T:
         logger.debug(f"Release {release_id} already in collection {col.id}.")
         raise AlreadyExists("Release is already in collection.")
 
-    cursor.execute(
+    conn.execute(
         """
         INSERT INTO music__collections_releases (collection_id, release_id)
         VALUES (?, ?)
@@ -332,11 +332,11 @@ def del_release(col: T, release_id: int, conn: Connection) -> T:
     :raises NotFound: If no release has the given release ID.
     :raises DoesNotExist: If the release is not in the collection.
     """
-    if not release.exists(release_id, cursor):
+    if not release.exists(release_id, conn):
         logger.debug(f"Release {release_id} does not exist.")
         raise NotFound(f"Release {release_id} does not exist.")
 
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT 1 FROM music__collections_releases
         WHERE collection_id = ? AND release_id = ?
@@ -347,7 +347,7 @@ def del_release(col: T, release_id: int, conn: Connection) -> T:
         logger.debug(f"Release {release_id} not in collection {col.id}.")
         raise DoesNotExist("Release is not in collection.")
 
-    cursor.execute(
+    conn.execute(
         """
         DELETE FROM music__collections_releases
         WHERE collection_id = ? AND release_id = ?
@@ -389,7 +389,7 @@ def top_genres(col: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
     :param num_genres: The number of top genres to fetch.
     :return: The top genres.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             genres.*,
@@ -429,7 +429,7 @@ def image(col: T, conn: Connection) -> Optional[libimage.T]:
     :param conn: A connection to the database.
     :return: The image, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT images.*
         FROM images

@@ -1,6 +1,8 @@
 from enum import Enum
 
-from tagfiles import ArtistRoles as ArtistRole  # noqa
+from tagfiles import ArtistRoles
+
+ArtistRole = ArtistRoles
 
 
 class ReleaseType(Enum):

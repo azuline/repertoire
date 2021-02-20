@@ -63,7 +63,7 @@ def seed_data(seed_db, isolated_dir):
 @pytest.fixture
 def db(seed_data):
     with database() as conn:
-        yield conn.cursor()
+        yield conn
 
 
 @pytest.fixture

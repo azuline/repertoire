@@ -1,7 +1,6 @@
 import pytest
 
 from src.library import collection
-from src.util import database
 
 
 @pytest.mark.asyncio
@@ -108,7 +107,7 @@ async def test_collections_type_param(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_create_collection(graphql_query, snapshot):
+async def test_create_collection(db, graphql_query, snapshot):
     query = """
         mutation {
             createCollection(name: "NewCollection", type: COLLAGE, starred: true) {
@@ -117,9 +116,7 @@ async def test_create_collection(graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-
-    with database() as conn:
-        snapshot.assert_match(collection.from_id(12, conn.cursor()))
+    snapshot.assert_match(collection.from_id(12, db))
 
 
 @pytest.mark.asyncio
@@ -136,7 +133,7 @@ async def test_create_collection_duplicate(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_update_collection(graphql_query, snapshot):
+async def test_update_collection(db, graphql_query, snapshot):
     query = """
         mutation {
             updateCollection(id: 3, name: "NewCollection", starred: true) {
@@ -145,9 +142,7 @@ async def test_update_collection(graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-
-    with database() as conn:
-        snapshot.assert_match(collection.from_id(3, conn.cursor()))
+    snapshot.assert_match(collection.from_id(3, db))
 
 
 @pytest.mark.asyncio
@@ -189,7 +184,7 @@ async def test_update_collection_immutable(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_add_release_to_collection(graphql_query, snapshot):
+async def test_add_release_to_collection(db, graphql_query, snapshot):
     query = """
         mutation {
             addReleaseToCollection(collectionId: 2, releaseId: 2) {
@@ -203,12 +198,9 @@ async def test_add_release_to_collection(graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-
-    with database() as conn:
-        cursor = conn.cursor()
-        snapshot.assert_match(
-            collection.releases(collection.from_id(2, cursor), cursor)
-        )
+    snapshot.assert_match(
+        collection.releases(collection.from_id(2, db), db)  # type: ignore
+    )
 
 
 @pytest.mark.asyncio
@@ -243,7 +235,9 @@ async def test_add_release_to_collection_bad_release(db, graphql_query, snapshot
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(collection.releases(collection.from_id(2, db), db))
+    snapshot.assert_match(
+        collection.releases(collection.from_id(2, db), db)  # type: ignore
+    )
 
 
 @pytest.mark.asyncio
@@ -261,11 +255,13 @@ async def test_add_release_to_collection_already_exists(db, graphql_query, snaps
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(collection.releases(collection.from_id(3, db), db))
+    snapshot.assert_match(
+        collection.releases(collection.from_id(3, db), db)  # type: ignore
+    )
 
 
 @pytest.mark.asyncio
-async def test_del_release_from_collection(graphql_query, snapshot):
+async def test_del_release_from_collection(db, graphql_query, snapshot):
     query = """
         mutation {
             delReleaseFromCollection(collectionId: 1, releaseId: 2) {
@@ -280,11 +276,9 @@ async def test_del_release_from_collection(graphql_query, snapshot):
     """
     snapshot.assert_match(await graphql_query(query))
 
-    with database() as conn:
-        cursor = conn.cursor()
-        snapshot.assert_match(
-            collection.releases(collection.from_id(1, cursor), cursor)
-        )
+    snapshot.assert_match(
+        collection.releases(collection.from_id(1, db), db)  # type: ignore
+    )
 
 
 @pytest.mark.asyncio
@@ -319,7 +313,9 @@ async def test_del_release_from_collection_bad_release(db, graphql_query, snapsh
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(collection.releases(collection.from_id(2, db), db))
+    snapshot.assert_match(
+        collection.releases(collection.from_id(2, db), db)  # type: ignore
+    )
 
 
 @pytest.mark.asyncio

@@ -70,8 +70,8 @@ def test_delete_image(db):
     image_path.touch()
     thumbnail_path.touch()
 
-    db.execute("INSERT INTO images (path) VALUES (?)", (str(image_path),))
-    image_id = db.lastrowid
+    cursor = db.execute("INSERT INTO images (path) VALUES (?)", (str(image_path),))
+    image_id = cursor.lastrowid
 
     image.delete(image.from_id(image_id, db), db)
 

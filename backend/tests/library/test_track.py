@@ -1,5 +1,5 @@
 from pathlib import Path
-from sqlite3 import Cursor
+from sqlite3 import Connection
 
 import pytest
 
@@ -8,23 +8,23 @@ from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
 from src.library import track
 
 
-def test_exists(db: Cursor):
+def test_exists(db: Connection):
     assert track.exists(1, db)
 
 
-def test_does_not_exist(db: Cursor):
+def test_does_not_exist(db: Connection):
     assert not track.exists(9999999, db)
 
 
-def test_from_id_success(db: Cursor, snapshot):
+def test_from_id_success(db: Connection, snapshot):
     snapshot.assert_match(track.from_id(1, db))
 
 
-def test_from_id_failure(db: Cursor):
+def test_from_id_failure(db: Connection):
     assert track.from_id(90, db) is None
 
 
-def test_from_filepath_success(db: Cursor):
+def test_from_filepath_success(db: Connection):
     trk = track.from_filepath(
         "/tmp/repertoire-library/Aaron West and the Roaring Twenties/"
         "2014. We Don’t Have Each Other/01. Our Apartment.m4a",
@@ -33,11 +33,11 @@ def test_from_filepath_success(db: Cursor):
     assert trk.id == 1
 
 
-def test_from_filepath_failure(db: Cursor):
+def test_from_filepath_failure(db: Connection):
     assert track.from_filepath("lol!", db) is None
 
 
-def test_from_sha256_success(db: Cursor):
+def test_from_sha256_success(db: Connection):
     sha256 = bytes.fromhex(
         "75ca14432165a9ee87ee63df654ef77f45d009bbe57da0610a453c48c6b26a1a"
     )
@@ -45,11 +45,11 @@ def test_from_sha256_success(db: Cursor):
     assert trk.id == 1
 
 
-def test_from_sha256_failure(db: Cursor):
+def test_from_sha256_failure(db: Connection):
     assert track.from_sha256(b"0" * 32, db) is None
 
 
-def test_create(db: Cursor, snapshot):
+def test_create(db: Connection, snapshot):
     artists = [{"artist_id": 2, "role": ArtistRole.MAIN}]
 
     trk = track.create(
@@ -61,7 +61,7 @@ def test_create(db: Cursor, snapshot):
         duration=9001,
         track_number="1",
         disc_number="2",
-        cursor=db,
+        conn=db,
     )
 
     assert trk.id == 22
@@ -69,7 +69,7 @@ def test_create(db: Cursor, snapshot):
     snapshot.assert_match(track.artists(trk, db))
 
 
-def test_create_same_sha256(db: Cursor):
+def test_create_same_sha256(db: Connection):
     filepath = Path("/tmp/repertoire-library/09-track.m4a")
     trk = track.create(
         title="new track",
@@ -82,14 +82,14 @@ def test_create_same_sha256(db: Cursor):
         duration=9001,
         track_number="1",
         disc_number="2",
-        cursor=db,
+        conn=db,
     )
     assert trk.id == 1
     assert trk.filepath == filepath
     assert trk == track.from_id(1, db)
 
 
-def test_create_duplicate_filepath(db: Cursor):
+def test_create_duplicate_filepath(db: Connection):
     with pytest.raises(Duplicate):
         track.create(
             title="Airwaves",
@@ -102,11 +102,11 @@ def test_create_duplicate_filepath(db: Cursor):
             duration=9001,
             track_number="1",
             disc_number="1",
-            cursor=db,
+            conn=db,
         )
 
 
-def test_create_bad_release_id(db: Cursor, snapshot):
+def test_create_bad_release_id(db: Connection, snapshot):
     with pytest.raises(NotFound) as e:
         track.create(
             title="new track",
@@ -117,13 +117,13 @@ def test_create_bad_release_id(db: Cursor, snapshot):
             duration=9001,
             track_number="1",
             disc_number="2",
-            cursor=db,
+            conn=db,
         )
 
     assert "Release 999" in e.value.message
 
 
-def test_create_bad_artist_ids(db: Cursor, snapshot):
+def test_create_bad_artist_ids(db: Connection, snapshot):
     with pytest.raises(NotFound) as e:
         track.create(
             title="new track",
@@ -138,16 +138,16 @@ def test_create_bad_artist_ids(db: Cursor, snapshot):
             duration=9001,
             track_number="1",
             disc_number="2",
-            cursor=db,
+            conn=db,
         )
 
     assert "Artist(s) 1000, 1001" in e.value.message
 
 
-def test_update_fields(db: Cursor, snapshot):
+def test_update_fields(db: Connection, snapshot):
     trk = track.update(
         track.from_id(1, db),
-        cursor=db,
+        conn=db,
         title="New Title",
         release_id=3,
         track_number="X Æ",
@@ -157,18 +157,18 @@ def test_update_fields(db: Cursor, snapshot):
     assert trk == track.from_id(1, db)
 
 
-def test_update_nothing(db: Cursor):
+def test_update_nothing(db: Connection):
     trk = track.from_id(1, db)
-    new_trk = track.update(trk, cursor=db)
+    new_trk = track.update(trk, conn=db)
     assert trk == new_trk
 
 
-def test_artists(db: Cursor, snapshot):
+def test_artists(db: Connection, snapshot):
     trk = track.from_id(10, db)
     snapshot.assert_match(track.artists(trk, db))
 
 
-def test_add_artist(db: Cursor, snapshot):
+def test_add_artist(db: Connection, snapshot):
     trk = track.from_id(10, db)
 
     snapshot.assert_match(track.add_artist(trk, 4, ArtistRole.MAIN, db))
@@ -178,7 +178,7 @@ def test_add_artist(db: Cursor, snapshot):
     snapshot.assert_match(artists)
 
 
-def test_add_artist_new_role(db: Cursor, snapshot):
+def test_add_artist_new_role(db: Connection, snapshot):
     trk = track.from_id(10, db)
 
     snapshot.assert_match(track.add_artist(trk, 2, ArtistRole.REMIXER, db))
@@ -188,14 +188,14 @@ def test_add_artist_new_role(db: Cursor, snapshot):
     snapshot.assert_match(artists)
 
 
-def test_add_artist_failure(db: Cursor):
+def test_add_artist_failure(db: Connection):
     trk = track.from_id(10, db)
 
     with pytest.raises(AlreadyExists):
         track.add_artist(trk, 2, ArtistRole.MAIN, db)
 
 
-def test_del_artist(db: Cursor, snapshot):
+def test_del_artist(db: Connection, snapshot):
     trk = track.from_id(10, db)
 
     snapshot.assert_match(track.del_artist(trk, 3, ArtistRole.COMPOSER, db))
@@ -205,14 +205,14 @@ def test_del_artist(db: Cursor, snapshot):
     snapshot.assert_match(artists)
 
 
-def test_del_artist_failure(db: Cursor):
+def test_del_artist_failure(db: Connection):
     trk = track.from_id(10, db)
 
     with pytest.raises(DoesNotExist):
         track.del_artist(trk, 4, ArtistRole.MAIN, db)
 
 
-def test_del_artist_failure_bad_role(db: Cursor):
+def test_del_artist_failure_bad_role(db: Connection):
     trk = track.from_id(10, db)
 
     with pytest.raises(DoesNotExist):

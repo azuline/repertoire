@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from sqlite3 import Cursor, Row
+from sqlite3 import Connection, Row
 from typing import Dict, List, Optional, Union
 
 from src.enums import CollectionType
@@ -38,7 +38,7 @@ def exists(id: int, conn: Connection) -> bool:
     :param id: The ID to check.
     :return: Whether an artist has the given ID.
     """
-    cursor.execute("SELECT 1 FROM music__artists WHERE id = ?", (id,))
+    cursor = conn.execute("SELECT 1 FROM music__artists WHERE id = ?", (id,))
     return bool(cursor.fetchone())
 
 
@@ -60,7 +60,7 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
     :param conn: A connection to the database.
     :return: The artist with the provided ID, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             arts.*,
@@ -90,7 +90,7 @@ def from_name(name: str, conn: Connection) -> Optional[T]:
     :param conn: A connection to the database.
     :return: The artist, if they exist.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             arts.*,
@@ -119,7 +119,7 @@ def all(conn: Connection) -> List[T]:
     :param conn: A connection to the database.
     :return: All artists with releases stored on the src.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             arts.*,
@@ -143,16 +143,16 @@ def create(name: str, conn: Connection, starred: bool = False) -> T:
     Create an artist and persist it to the database.
 
     :param name: The name of the artist.
-    :cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param starred: Whether the artist is starred or not.
     :return: The newly created artist.
     :raises Duplicate: If an artist with the same name already exists. The duplicate
                        artist is passed as the ``entity`` argument.
     """
-    if art := from_name(name, cursor):
+    if art := from_name(name, conn):
         raise Duplicate(f'Artist "{name}" already exists.', art)
 
-    cursor.execute(
+    cursor = conn.execute(
         "INSERT INTO music__artists (name, starred) VALUES (?, ?)", (name, starred)
     )
 
@@ -176,14 +176,10 @@ def update(art: T, conn: Connection, **changes) -> T:
     :return: The updated artist.
     :raises Duplicate: If an artist already exists with the new name.
     """
-    if (
-        "name" in changes
-        and (dupl := from_name(changes["name"], cursor))
-        and dupl != art
-    ):
+    if "name" in changes and (dupl := from_name(changes["name"], conn)) and dupl != art:
         raise Duplicate(f'Artist "{changes["name"]}" already exists.', dupl)
 
-    cursor.execute(
+    conn.execute(
         """
         UPDATE music__artists
         SET name = ?,
@@ -206,7 +202,7 @@ def releases(art: T, conn: Connection) -> List[release.T]:
     :param conn: A connection to the database.
     :return: A list of releases of the artist.
     """
-    _, releases = release.search(artist_ids=[art.id], cursor=cursor)
+    _, releases = release.search(artist_ids=[art.id], conn=conn)
     logger.debug(f"Fetched the releases of artist {art.id}.")
     return releases
 
@@ -232,7 +228,7 @@ def top_genres(art: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
     :param num_genres: The number of top genres to fetch.
     :return: The top genres.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             genres.*,
@@ -272,7 +268,7 @@ def image(art: T, conn: Connection) -> Optional[libimage.T]:
     :param conn: A connection to the database.
     :return: The image, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT images.*
         FROM images
