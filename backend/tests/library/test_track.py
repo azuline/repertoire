@@ -30,6 +30,7 @@ def test_from_filepath_success(db: Connection):
         "2014. We Don’t Have Each Other/01. Our Apartment.m4a",
         db,
     )
+    assert trk is not None
     assert trk.id == 1
 
 
@@ -42,6 +43,7 @@ def test_from_sha256_success(db: Connection):
         "75ca14432165a9ee87ee63df654ef77f45d009bbe57da0610a453c48c6b26a1a"
     )
     trk = track.from_sha256(sha256, db)
+    assert trk is not None
     assert trk.id == 1
 
 
@@ -120,6 +122,7 @@ def test_create_bad_release_id(db: Connection, snapshot):
             conn=db,
         )
 
+    assert e.value.message is not None
     assert "Release 999" in e.value.message
 
 
@@ -141,12 +144,15 @@ def test_create_bad_artist_ids(db: Connection, snapshot):
             conn=db,
         )
 
+    assert e.value.message is not None
     assert "Artist(s) 1000, 1001" in e.value.message
 
 
 def test_update_fields(db: Connection, snapshot):
+    trk = track.from_id(1, db)
+    assert trk is not None
     trk = track.update(
-        track.from_id(1, db),
+        trk,
         conn=db,
         title="New Title",
         release_id=3,
@@ -159,17 +165,20 @@ def test_update_fields(db: Connection, snapshot):
 
 def test_update_nothing(db: Connection):
     trk = track.from_id(1, db)
+    assert trk is not None
     new_trk = track.update(trk, conn=db)
     assert trk == new_trk
 
 
 def test_artists(db: Connection, snapshot):
     trk = track.from_id(10, db)
+    assert trk is not None
     snapshot.assert_match(track.artists(trk, db))
 
 
 def test_add_artist(db: Connection, snapshot):
     trk = track.from_id(10, db)
+    assert trk is not None
 
     snapshot.assert_match(track.add_artist(trk, 4, ArtistRole.MAIN, db))
     artists = track.artists(trk, db)
@@ -180,6 +189,7 @@ def test_add_artist(db: Connection, snapshot):
 
 def test_add_artist_new_role(db: Connection, snapshot):
     trk = track.from_id(10, db)
+    assert trk is not None
 
     snapshot.assert_match(track.add_artist(trk, 2, ArtistRole.REMIXER, db))
     artists = track.artists(trk, db)
@@ -190,6 +200,7 @@ def test_add_artist_new_role(db: Connection, snapshot):
 
 def test_add_artist_failure(db: Connection):
     trk = track.from_id(10, db)
+    assert trk is not None
 
     with pytest.raises(AlreadyExists):
         track.add_artist(trk, 2, ArtistRole.MAIN, db)
@@ -197,6 +208,7 @@ def test_add_artist_failure(db: Connection):
 
 def test_del_artist(db: Connection, snapshot):
     trk = track.from_id(10, db)
+    assert trk is not None
 
     snapshot.assert_match(track.del_artist(trk, 3, ArtistRole.COMPOSER, db))
     artists = track.artists(trk, db)
@@ -207,6 +219,7 @@ def test_del_artist(db: Connection, snapshot):
 
 def test_del_artist_failure(db: Connection):
     trk = track.from_id(10, db)
+    assert trk is not None
 
     with pytest.raises(DoesNotExist):
         track.del_artist(trk, 4, ArtistRole.MAIN, db)
@@ -214,6 +227,7 @@ def test_del_artist_failure(db: Connection):
 
 def test_del_artist_failure_bad_role(db: Connection):
     trk = track.from_id(10, db)
+    assert trk is not None
 
     with pytest.raises(DoesNotExist):
         track.del_artist(trk, 3, ArtistRole.MAIN, db)

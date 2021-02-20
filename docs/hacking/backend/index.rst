@@ -46,6 +46,10 @@ The backend can be split into several layers, from lowest to highest:
 
 The next several pages document each major section of the backend codebase.
 
+.. note::
+   We do not use namespace packages (packages without an ``__init__.py``)
+   because Mypy does not autodetect them.
+
 .. toctree::
    :maxdepth: 1
    :hidden:

@@ -66,16 +66,17 @@ def test_insert_first_track(db: Connection):
 
 def test_delete(db: Connection):
     ety = pentry.from_id(4, db)
+    assert ety is not None
 
-    p3 = pentry.from_id(3, db).position
-    p5 = pentry.from_id(5, db).position
-    p6 = pentry.from_id(6, db).position
+    p3 = pentry.from_id(3, db).position  # type: ignore
+    p5 = pentry.from_id(5, db).position  # type: ignore
+    p6 = pentry.from_id(6, db).position  # type: ignore
 
     pentry.delete(ety, db)
 
-    assert pentry.from_id(3, db).position == p3
-    assert pentry.from_id(5, db).position == p5 - 1
-    assert pentry.from_id(6, db).position == p6 - 1
+    assert pentry.from_id(3, db).position == p3  # type: ignore
+    assert pentry.from_id(5, db).position == p5 - 1  # type: ignore
+    assert pentry.from_id(6, db).position == p6 - 1  # type: ignore
 
 
 @pytest.mark.parametrize(
@@ -89,7 +90,10 @@ def test_delete(db: Connection):
     ],
 )
 def test_update(position: int, final_order: int, db: Connection):
-    ety = pentry.update(pentry.from_id(5, db), position=position, conn=db)
+    ety = pentry.from_id(5, db)
+    assert ety is not None
+
+    ety = pentry.update(ety, position=position, conn=db)
     assert ety.position == position
 
     cursor = db.execute(
@@ -107,13 +111,22 @@ def test_update(position: int, final_order: int, db: Connection):
 
 @pytest.mark.parametrize("position", [-1, 0, 7])
 def test_update_out_of_bounds(position: int, db: Connection):
+    ety = pentry.from_id(5, db)
+    assert ety is not None
+
     with pytest.raises(IndexError):
-        pentry.update(pentry.from_id(5, db), position=position, conn=db)
+        pentry.update(ety, position=position, conn=db)
 
 
 def test_playlist(db: Connection):
-    assert pentry.playlist(pentry.from_id(3, db), db).id == 2
+    ety = pentry.from_id(3, db)
+    assert ety is not None
+
+    assert pentry.playlist(ety, db).id == 2
 
 
 def test_track(db: Connection):
-    assert pentry.track(pentry.from_id(3, db), db).id == 3
+    ety = pentry.from_id(3, db)
+    assert ety is not None
+
+    assert pentry.track(ety, db).id == 3

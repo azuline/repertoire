@@ -3,7 +3,7 @@ tests:
 	poetry run coverage html
 
 typecheck:
-	poetry run mypy src/
+	poetry run mypy src/ tests/
 
 lintcheck:
 	poetry run black --check .

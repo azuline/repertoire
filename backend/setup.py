@@ -22,7 +22,7 @@ setup(
     author_email='azuline@riseup.net',
     license='AGPL-3.0',
     entry_points={"console_scripts": ["repertoire = src.__main__:run"]},
-    packages=['backend', 'backend.cli', 'backend.graphql', 'backend.indexer', 'backend.library', 'backend.webserver'],
+    packages=['backend', 'backend.cli', 'backend.graphql', 'backend.graphql.types', 'backend.indexer', 'backend.library', 'backend.webserver', 'backend.webserver.routes'],
     package_dir={"backend": "src"},
     package_data={"backend": ["migrations/*.sql"], "backend.graphql": ["*.gql"]},
     install_requires=['ariadne==0.*,>=0.12.0', 'click==7.*,>=7.1.0', 'huey==2.*,>=2.3.0', 'pillow==7.*,>=7.2.0', 'python-dotenv==0.*,>=0.14.0', 'quart==0.*,>=0.13.1', 'requests==2.*,>=2.24.0', 'tagfiles==0.*,>=0.3.2', 'unidecode==1.*,>=1.1.1', 'voluptuous==0.*,>=0.11.7', 'yoyo-migrations==7.*,>=7.2.0'],

@@ -26,6 +26,7 @@ def test_release_from_id_failure(db: Connection):
 
 def test_release_tracks(db: Connection, snapshot):
     rls = release.from_id(2, db)
+    assert rls is not None
     snapshot.assert_match(release.tracks(rls, db))
 
 
@@ -194,8 +195,11 @@ def test_create_duplicate_disallow(db: Connection):
 
 
 def test_update_fields(db: Connection, snapshot):
+    rls = release.from_id(2, db)
+    assert rls is not None
+
     rls = release.update(
-        release.from_id(2, db),
+        rls,
         conn=db,
         title="New Title",
         release_type=ReleaseType.COMPILATION,
@@ -209,23 +213,30 @@ def test_update_fields(db: Connection, snapshot):
 
 def test_update_nothing(db: Connection):
     rls = release.from_id(2, db)
+    assert rls is not None
+
     new_rls = release.update(rls, conn=db)
     assert rls == new_rls
 
 
 def test_reset_rating(db: Connection):
     rls = release.from_id(2, db)
+    assert rls is not None
+
     new_rls = release.update(rls, rating=0, conn=db)
     assert new_rls.rating is None
 
 
 def test_artists(db: Connection, snapshot):
     rls = release.from_id(2, db)
+    assert rls is not None
+
     snapshot.assert_match(release.artists(rls, db))
 
 
 def test_add_artist(db: Connection, snapshot):
     rls = release.from_id(2, db)
+    assert rls is not None
 
     snapshot.assert_match(release.add_artist(rls, 3, db))
     snapshot.assert_match(release.artists(rls, db))
@@ -233,6 +244,7 @@ def test_add_artist(db: Connection, snapshot):
 
 def test_add_artist_failure(db: Connection):
     rls = release.from_id(2, db)
+    assert rls is not None
 
     with pytest.raises(AlreadyExists):
         release.add_artist(rls, 2, db)
@@ -240,6 +252,7 @@ def test_add_artist_failure(db: Connection):
 
 def test_del_artist(db: Connection, snapshot):
     rls = release.from_id(2, db)
+    assert rls is not None
 
     snapshot.assert_match(release.del_artist(rls, 2, db))
     snapshot.assert_match(release.artists(rls, db))
@@ -247,6 +260,7 @@ def test_del_artist(db: Connection, snapshot):
 
 def test_del_artist_failure(db: Connection):
     rls = release.from_id(2, db)
+    assert rls is not None
 
     with pytest.raises(DoesNotExist):
         release.del_artist(rls, 3, db)
@@ -254,11 +268,15 @@ def test_del_artist_failure(db: Connection):
 
 def test_release_collections(db: Connection, snapshot):
     rls = release.from_id(2, db)
+    assert rls is not None
+
     snapshot.assert_match(release.collections(rls, db))
 
 
 def test_release_collections_filter_type(db: Connection, snapshot):
     rls = release.from_id(2, db)
+    assert rls is not None
+
     collections = release.collections(rls, db, type=CollectionType.SYSTEM)
 
     assert len(collections) == 1

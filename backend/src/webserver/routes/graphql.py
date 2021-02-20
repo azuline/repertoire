@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from sqlite3 import Cursor
+from typing import Tuple
 
 import quart
 from ariadne import graphql
@@ -21,7 +22,7 @@ class GraphQLContext:
 
 
 @bp.route("", methods=["GET"])
-async def graphql_playground() -> Response:  # pragma: no cover
+async def graphql_playground() -> Tuple[str, int]:  # pragma: no cover
     """
     **Developer endpoint.**
 
@@ -36,7 +37,7 @@ async def graphql_playground() -> Response:  # pragma: no cover
 
 @bp.route("", methods=["POST"])
 @check_auth(csrf=True)
-async def graphql_server() -> Response:
+async def graphql_server() -> Tuple[Response, int]:
     """
     Execute and return a GraphQL API request.
 
@@ -48,7 +49,7 @@ async def graphql_server() -> Response:
         context_value=GraphQLContext(
             user=getattr(quart.g, "user", None),
             db=quart.g.db,
-            request=quart.request,
+            request=quart.request,  # type: ignore
         ),
         error_formatter=error_formatter,
         debug=quart.current_app.debug,
