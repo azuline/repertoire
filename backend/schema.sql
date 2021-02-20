@@ -162,7 +162,7 @@ CREATE TABLE images (
     UNIQUE (path)
 );
 
-CREATE TABLE images__music_releases_to_fetch (
+CREATE TABLE music__releases_images_to_fetch (
     release_id INTEGER NOT NULL,
     PRIMARY KEY (release_id),
     FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE

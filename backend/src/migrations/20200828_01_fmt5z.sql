@@ -1,5 +1,9 @@
--- initial creation of the database
+-- initial database schema (application version 0.2.0)
 -- depends:
+
+-------------------------
+--- INITIALIZE TABLES ---
+-------------------------
 
 CREATE TABLE music__releases (
     id INTEGER NOT NULL,
@@ -25,7 +29,6 @@ CREATE INDEX idx__music__releases__release_year ON music__releases (release_year
 
 CREATE INDEX idx__music__releases__rating ON music__releases (rating);
 
-
 CREATE TABLE music__release_types__enum (
     id INTEGER NOT NULL,
     type VARCHAR NOT NULL,
@@ -33,7 +36,6 @@ CREATE TABLE music__release_types__enum (
     UNIQUE (type)
 );
 
---- Insert our release types.
 INSERT INTO music__release_types__enum (id, type)
     VALUES (1,  'ALBUM'),
            (2,  'SINGLE'),
@@ -48,11 +50,6 @@ INSERT INTO music__release_types__enum (id, type)
            (11, 'OTHER'),
            (12, 'UNKNOWN');
 
--- Create an Unknown release.
-INSERT INTO music__releases (id, title, release_type, added_on)
-    VALUES (1, 'Unknown Release', 12, '1970-01-01 00:00:00');
-
-
 CREATE TABLE music__artists (
     id INTEGER NOT NULL,
     name VARCHAR COLLATE 'NOCASE' NOT NULL,
@@ -62,9 +59,6 @@ CREATE TABLE music__artists (
 
 CREATE INDEX idx__music__artists__sorting ON music__artists (starred DESC, name);
 
--- Create an Unknown artist.
-INSERT INTO music__artists (id, name) VALUES (1, 'Unknown Artist');
-
 CREATE TABLE music__artist_roles__enum (
     id INTEGER NOT NULL,
     role VARCHAR NOT NULL,
@@ -72,7 +66,6 @@ CREATE TABLE music__artist_roles__enum (
     UNIQUE (role)
 );
 
--- Insert our role types.
 INSERT INTO music__artist_roles__enum (id, role)
     VALUES (1, 'MAIN'),
            (2, 'FEATURE'),
@@ -135,17 +128,11 @@ CREATE TABLE music__collection_types__enum (
     UNIQUE (type)
 );
 
--- Insert our collection types.
 INSERT INTO music__collection_types__enum (id, type)
     VALUES (1, 'System'),
            (2, 'Collage'),
            (3, 'Label'),
            (4, 'Genre');
-
--- Insert a system inbox collection.
-INSERT INTO music__collections (id, name, type, starred)
-    VALUES (1, 'Inbox', 1, 1),
-           (2, 'Favorites', 1, 1);
 
 CREATE TABLE music__collections_releases (
     collection_id INTEGER NOT NULL,
@@ -176,14 +163,9 @@ CREATE TABLE music__playlist_types__enum (
     UNIQUE (type)
 );
 
--- Insert our playlist types.
 INSERT INTO music__playlist_types__enum (id, type)
     VALUES (1, 'System'),
            (2, 'Playlist');
-
--- Insert a system inbox playlist.
-INSERT INTO music__playlists (id, name, type, starred)
-    VALUES (1, 'Favorites', 1, 1);
 
 CREATE TABLE music__playlists_tracks (
     id INTEGER NOT NULL,
@@ -199,17 +181,6 @@ CREATE TABLE music__playlists_tracks (
 CREATE INDEX idx__music__playlists_tracks__playlist_position
     ON music__playlists_tracks (playlist_id, position);
 
-CREATE TABLE music__releases_search_index (
-    id INTEGER NOT NULL,
-    release_id INTEGER NOT NULL,
-    word VARCHAR COLLATE 'NOCASE' NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE
-);
-
-CREATE INDEX idx__music__releases_search_index__word
-    ON music__releases_search_index (word);
-
 CREATE TABLE images (
     id INTEGER NOT NULL,
     path VARCHAR NOT NULL,
@@ -217,7 +188,7 @@ CREATE TABLE images (
     UNIQUE (path)
 );
 
-CREATE TABLE images__music_releases_to_fetch (
+CREATE TABLE music__releases_images_to_fetch (
     release_id INTEGER NOT NULL,
     PRIMARY KEY (release_id),
     FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE
@@ -237,3 +208,62 @@ CREATE TABLE system__secret_key (
     key BLOB NOT NULL,
     PRIMARY KEY (key)
 );
+
+------------------------
+--- FULL TEXT SEARCH ---
+------------------------
+
+CREATE VIRTUAL TABLE music__releases__fts USING fts5(
+    title,
+    artists,
+    content='music__releases', 
+    content_rowid='id' 
+);
+
+CREATE VIRTUAL TABLE music__artists__fts USING fts5(
+    name,
+    content='music__artists', 
+    content_rowid='id' 
+);
+
+CREATE VIRTUAL TABLE music__tracks__fts USING fts5(
+    title,
+    artists,
+    content='music__tracks', 
+    content_rowid='id' 
+);
+
+CREATE VIRTUAL TABLE music__collections__fts USING fts5(
+    name,
+    content='music__collections', 
+    content_rowid='id' 
+);
+
+CREATE VIRTUAL TABLE music__playlists__fts USING fts5(
+    name,
+    content='music__playlists', 
+    content_rowid='id' 
+);
+
+---------------------------
+--- INSERT INITIAL DATA ---
+---------------------------
+
+-- Create an unknown release.
+INSERT INTO music__releases (id, title, release_type, added_on)
+    VALUES (1, 'Unknown Release', 12, '1970-01-01 00:00:00');
+
+-- Create an unknown artist.
+INSERT INTO music__artists (id, name) VALUES (1, 'Unknown Artist');
+
+-- Assign the unknown artist to the unknown release.
+INSERT INTO music__releases_artists (release_id, artist_id) VALUES (1, 1);
+
+-- Insert a system inbox collection.
+INSERT INTO music__collections (id, name, type, starred)
+    VALUES (1, 'Inbox', 1, 1),
+           (2, 'Favorites', 1, 1);
+
+-- Insert a system inbox playlist.
+INSERT INTO music__playlists (id, name, type, starred)
+    VALUES (1, 'Favorites', 1, 1);
