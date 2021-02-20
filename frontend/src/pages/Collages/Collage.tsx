@@ -14,13 +14,17 @@ export const Collage: ICollage = ({ active }) => {
   const collection = data?.collection;
 
   React.useEffect(() => {
-    if (!collection) return;
+    if (!collection) {
+      return;
+    }
 
     setBackgroundImageId(collection.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [collection, setBackgroundImageId]);
+  }, [collection]);
 
-  if (!collection) return null;
+  if (!collection) {
+    return null;
+  }
 
   return (
     <div tw="flex flex-col w-full">

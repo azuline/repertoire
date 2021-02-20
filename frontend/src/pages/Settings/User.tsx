@@ -19,7 +19,9 @@ export const UserSettings: React.FC = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    if (!input || !input.current) return;
+    if (!input || !input.current) {
+      return;
+    }
 
     mutateUser({ variables: { nickname: input.current.value } });
   };

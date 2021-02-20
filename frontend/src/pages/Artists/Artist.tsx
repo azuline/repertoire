@@ -17,18 +17,22 @@ export const Artist: IArtist = ({ active }) => {
   const artist = data?.artist;
 
   React.useEffect(() => {
-    if (!artist) return;
+    if (!artist) {
+      return;
+    }
 
     setBackgroundImageId(artist.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [artist, setBackgroundImageId]);
+  }, [artist]);
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);
     return <ErrorPage errors={errors} title="Could not fetch playlist." />;
   }
 
-  if (!artist) return null;
+  if (!artist) {
+    return null;
+  }
 
   return (
     <div tw="flex flex-col w-full">

@@ -30,14 +30,18 @@ export const CollectionChooser: ICollectionChooser = ({
   const urlFactory = (id: number): string => `${urlPrefix}/${id}`;
 
   const toggleStarFactory: IToggleStarFactory = ({ id, starred, type }) => {
-    if (type === 'SYSTEM') return;
+    if (type === 'SYSTEM') {
+      return;
+    }
 
     return async (): Promise<void> => {
       await mutateCollection({ variables: { id, starred: !starred } });
     };
   };
 
-  if (!data || !data.collections || loading || error) return null;
+  if (!data || !data.collections || loading || error) {
+    return null;
+  }
 
   return (
     <Chooser

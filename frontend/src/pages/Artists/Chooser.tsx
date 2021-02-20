@@ -23,7 +23,9 @@ export const ArtistChooser: IArtistChooser = ({ active, className }) => {
     };
   };
 
-  if (!data || !data.artists || error || loading) return null;
+  if (!data || !data.artists || error || loading) {
+    return null;
+  }
 
   return (
     <Chooser

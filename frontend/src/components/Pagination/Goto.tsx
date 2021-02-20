@@ -14,7 +14,9 @@ export const Goto: IGoto = ({ setCurPage, numPages }) => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    if (!input.current || !/^\d+$/.test(input.current.value)) return;
+    if (!input.current || !/^\d+$/.test(input.current.value)) {
+      return;
+    }
 
     const page = parseInt(input.current.value, 10);
 

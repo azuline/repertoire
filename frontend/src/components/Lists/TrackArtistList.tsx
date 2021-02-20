@@ -36,7 +36,9 @@ export const TrackArtistList: IList = ({ artists, className, delimiter = ', ', l
   const rolesToArtists = React.useMemo(() => mapRolesToArtists(artists), [artists]);
   const dividerWords = React.useMemo(() => determineDividerWords(rolesToArtists), [rolesToArtists]);
 
-  if (!artists || artists.length === 0) return <div> </div>;
+  if (!artists || artists.length === 0) {
+    return <div> </div>;
+  }
 
   return (
     <div className={className}>

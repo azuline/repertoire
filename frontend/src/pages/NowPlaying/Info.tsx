@@ -16,11 +16,13 @@ export const Info: IInfo = ({ track }) => {
   const parentRelease = data?.release;
 
   React.useEffect(() => {
-    if (!parentRelease) return;
+    if (!parentRelease) {
+      return;
+    }
 
     setBackgroundImageId(parentRelease.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [parentRelease, setBackgroundImageId]);
+  }, [parentRelease]);
 
   return (
     <div tw="flex">

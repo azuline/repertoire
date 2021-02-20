@@ -30,11 +30,13 @@ const Release: IReleaseComponent = ({ id }) => {
   const release = data?.release as IRelease | undefined;
 
   React.useEffect(() => {
-    if (!release) return;
+    if (!release) {
+      return;
+    }
 
     setBackgroundImageId(release.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [release, setBackgroundImageId]);
+  }, [release]);
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);

@@ -12,7 +12,9 @@ type IList = React.FC<{
 
 export const makeList = (urlPrefix: string): IList => {
   const ElementList: IList = ({ className, delimiter = ', ', elements, link = false }) => {
-    if (!elements || elements.length === 0) return <div> </div>;
+    if (!elements || elements.length === 0) {
+      return <div> </div>;
+    }
 
     return (
       <div className={className}>

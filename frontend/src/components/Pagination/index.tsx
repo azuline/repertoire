@@ -22,7 +22,9 @@ export const Pagination: IPaginationComponent = ({
   const goForwardOnePage = (): void => setPage((p) => Math.min(Math.max(1, p + 1), numPages));
 
   // If there are no pages, don't render pagination.
-  if (numPages <= 1) return null;
+  if (numPages <= 1) {
+    return null;
+  }
 
   return (
     <div className={className} tw="flex items-center -ml-1">

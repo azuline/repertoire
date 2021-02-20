@@ -23,8 +23,6 @@ export const AuthorizationProvider: IProvider = ({ children }) => {
   const [csrf, setCsrf] = usePersistentState<string | null>('auth--csrfToken', null);
   const requestJson = useRequestJson<{ csrfToken: string }>();
 
-  const value = { csrf, loggedIn, setCsrf, setLoggedIn };
-
   React.useEffect(() => {
     (async (): Promise<void> => {
       try {
@@ -39,7 +37,9 @@ export const AuthorizationProvider: IProvider = ({ children }) => {
         setLoggedIn(false);
       }
     })();
-  }, [requestJson, setCsrf, setLoggedIn]);
+  }, []);
+
+  const value = { csrf, loggedIn, setCsrf, setLoggedIn };
 
   return <AuthorizationContext.Provider value={value}>{children}</AuthorizationContext.Provider>;
 };

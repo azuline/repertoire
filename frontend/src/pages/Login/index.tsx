@@ -16,7 +16,9 @@ export const Login: React.FC = () => {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
-    if (!input.current || !permanent.current) return;
+    if (!input.current || !permanent.current) {
+      return;
+    }
 
     try {
       const { csrfToken } = await requestJson('/api/session', {

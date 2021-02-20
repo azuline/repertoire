@@ -18,14 +18,18 @@ export const PlaylistChooser: IPlaylistChooser = ({ active, className }) => {
   const [mutatePlaylist] = usePlaylistChooserUpdatePlaylistStarredMutation();
 
   const toggleStarFactory: IToggleStarFactory = ({ id, starred, type }) => {
-    if (type === 'SYSTEM') return;
+    if (type === 'SYSTEM') {
+      return;
+    }
 
     return async (): Promise<void> => {
       await mutatePlaylist({ variables: { id, starred: !starred } });
     };
   };
 
-  if (!data || !data.playlists || error || loading) return null;
+  if (!data || !data.playlists || error || loading) {
+    return null;
+  }
 
   return (
     <Chooser

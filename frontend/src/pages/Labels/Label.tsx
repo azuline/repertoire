@@ -15,11 +15,13 @@ export const Label: ILabel = ({ active }) => {
   const collection = data?.collection;
 
   React.useEffect(() => {
-    if (!collection) return;
+    if (!collection) {
+      return;
+    }
 
     setBackgroundImageId(collection.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [collection, setBackgroundImageId]);
+  }, [collection]);
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);
