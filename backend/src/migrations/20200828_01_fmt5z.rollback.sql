@@ -21,6 +21,7 @@ DROP TABLE system__secret_key;
 DROP VIEW music__releases__fts_content;
 DROP TABLE music__releases__fts;
 DROP TABLE music__artists__fts;
+DROP VIEW music__tracks__fts_content;
 DROP TABLE music__tracks__fts;
 DROP TABLE music__collections__fts;
 DROP TABLE music__playlists__fts;
