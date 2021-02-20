@@ -1,7 +1,6 @@
 import pytest
 
 from src.library import release
-from src.util import database
 
 
 @pytest.mark.asyncio
@@ -149,7 +148,7 @@ async def test_releases_sort_desc(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_create_release(graphql_query, snapshot):
+async def test_create_release(db, graphql_query, snapshot):
     query = """
         mutation {
             createRelease(
@@ -167,9 +166,7 @@ async def test_create_release(graphql_query, snapshot):
     del response["data"]["createRelease"]["addedOn"]  # It changes every time.
 
     snapshot.assert_match(response)
-
-    with database() as conn:
-        assert release.from_id(4, conn.cursor()) is not None
+    assert release.from_id(4, db) is not None
 
 
 @pytest.mark.asyncio
@@ -211,7 +208,7 @@ async def test_create_release_bad_artists(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_update_release(graphql_query, snapshot):
+async def test_update_release(db, graphql_query, snapshot):
     query = """
         mutation {
             updateRelease(
@@ -227,9 +224,7 @@ async def test_update_release(graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-
-    with database() as conn:
-        snapshot.assert_match(release.from_id(2, conn.cursor()))
+    snapshot.assert_match(release.from_id(2, db))
 
 
 @pytest.mark.asyncio
@@ -264,7 +259,7 @@ async def test_update_release_not_found(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_add_artist_to_release(graphql_query, snapshot):
+async def test_add_artist_to_release(db, graphql_query, snapshot):
     query = """
         mutation {
             addArtistToRelease(releaseId: 2, artistId: 3) {
@@ -279,9 +274,7 @@ async def test_add_artist_to_release(graphql_query, snapshot):
     """
     snapshot.assert_match(await graphql_query(query))
 
-    with database() as conn:
-        cursor = conn.cursor()
-        snapshot.assert_match(release.artists(release.from_id(2, cursor), cursor))
+    snapshot.assert_match(release.artists(release.from_id(2, db), db))  # type: ignore
 
 
 @pytest.mark.asyncio
@@ -338,7 +331,7 @@ async def test_add_artist_to_release_already_exists(db, graphql_query, snapshot)
 
 
 @pytest.mark.asyncio
-async def test_del_artist_from_release(graphql_query, snapshot):
+async def test_del_artist_from_release(db, graphql_query, snapshot):
     query = """
         mutation {
             delArtistFromRelease(releaseId: 2, artistId: 2) {
@@ -352,10 +345,7 @@ async def test_del_artist_from_release(graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-
-    with database() as conn:
-        cursor = conn.cursor()
-        snapshot.assert_match(release.artists(release.from_id(2, cursor), cursor))
+    snapshot.assert_match(release.artists(release.from_id(2, db), db))
 
 
 @pytest.mark.asyncio

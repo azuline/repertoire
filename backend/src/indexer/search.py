@@ -1,5 +1,5 @@
 import logging
-from sqlite3 import Cursor, Row
+from sqlite3 import Connection, Row
 from typing import List, Optional, Set
 
 from unidecode import unidecode
@@ -19,17 +19,15 @@ def build_search_index() -> None:
     logger.info("Rebuilding search index...")
 
     with database() as conn:
-        cursor = conn.cursor()
-
         # Clear the pre-existing search indx.
-        cursor.execute("DELETE FROM music__releases_search_index")
+        conn.execute("DELETE FROM music__releases_search_index")
 
-        for rls in _get_releases_to_index(cursor):
+        for rls in _get_releases_to_index(conn):
             # Accumulate the strings whose words we will enter for this release.
             strings_to_use = [rls["title"], rls["artists"]]
 
             # For each track, extend our list of words with its words.
-            for trk in _get_tracks_of_release(rls["id"], cursor):
+            for trk in _get_tracks_of_release(rls["id"], conn):
                 strings_to_use.extend([trk["title"], trk["artists"]])
 
             # Compile the words we need (as the union of words of all our strings).
@@ -37,7 +35,7 @@ def build_search_index() -> None:
 
             # Insert each word into the database with the release id.
             for word in words:
-                cursor.execute(
+                conn.execute(
                     """
                     INSERT INTO music__releases_search_index (release_id, word)
                     VALUES (?, ?)
@@ -48,15 +46,15 @@ def build_search_index() -> None:
         conn.commit()
 
 
-def _get_releases_to_index(cursor: Cursor) -> List[Row]:
+def _get_releases_to_index(conn: Connection) -> List[Row]:
     """
     Get a list of releases in the database along with a space-delimited list of artist
     names that are associated with the release.
 
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: A list of queried database rows.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
             SELECT
                 rls.id,
@@ -74,16 +72,16 @@ def _get_releases_to_index(cursor: Cursor) -> List[Row]:
     return cursor.fetchall()
 
 
-def _get_tracks_of_release(rls_id: int, cursor: Cursor) -> List[Row]:
+def _get_tracks_of_release(rls_id: int, conn: Connection) -> List[Row]:
     """
     For a given release, get a list of its tracks along with a space-delimited list of
     artist names that are associated with the track.
 
     :param rls_id: The release id whose tracks we are fetching.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: A list of queried database rows.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             trks.title,

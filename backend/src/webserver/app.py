@@ -131,10 +131,10 @@ def _register_database_handler(app: Quart):
         )
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys = ON")
-        quart.g.db = conn.cursor()  # type: ignore
+        quart.g.db = conn  # type: ignore
 
     @app.after_request
     def close_db_connection(response: Response) -> Response:
-        quart.g.db.connection.close()
+        quart.g.db.close()
         logger.debug("Closing the database connection.")
         return response

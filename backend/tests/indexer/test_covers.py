@@ -29,7 +29,7 @@ def test_save_pending_covers(db, snapshot):
         artist_ids=[],
         release_type=ReleaseType.ALBUM,
         release_year=2020,
-        cursor=db,
+        conn=db,
     )
 
     track.create(
@@ -41,7 +41,7 @@ def test_save_pending_covers(db, snapshot):
         duration=100,
         track_number="1",
         disc_number="1",
-        cursor=db,
+        conn=db,
     )
 
     rls2_path = cwd / "rls2"
@@ -54,7 +54,7 @@ def test_save_pending_covers(db, snapshot):
         artist_ids=[],
         release_type=ReleaseType.ALBUM,
         release_year=2020,
-        cursor=db,
+        conn=db,
     )
 
     track.create(
@@ -66,7 +66,7 @@ def test_save_pending_covers(db, snapshot):
         duration=100,
         track_number="1",
         disc_number="1",
-        cursor=db,
+        conn=db,
     )
 
     db.execute(
@@ -76,7 +76,7 @@ def test_save_pending_covers(db, snapshot):
         """,
         (1, rls1.id, rls2.id),
     )
-    db.connection.commit()
+    db.commit()
 
     save_pending_covers()
 

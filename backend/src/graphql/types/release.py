@@ -75,6 +75,8 @@ def resolve_create_release(
 ) -> release.T:
     # Convert the "releaseDate" field from a string to a `dat` object. If it is not in
     # the changes dict, do nothing.
+    parsedDate: Optional[date] = None
+
     try:
         parsedDate = date.fromisoformat(releaseDate)  # type: ignore
     except ValueError:
@@ -87,9 +89,9 @@ def resolve_create_release(
         artist_ids=artistIds,
         release_type=releaseType,
         release_year=releaseYear,
-        cursor=info.context.db,
         release_date=parsedDate,
         rating=rating,
+        conn=info.context.db,
     )
 
 

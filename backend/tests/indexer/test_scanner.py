@@ -45,11 +45,11 @@ def test_scan_directory(mock_catalog_file, mock_fix_release_types, db):
         duration=4,
         track_number="1",
         disc_number="1",
-        cursor=db,
+        conn=db,
     )
-    db.connection.commit()
+    db.commit()
 
-    scan_directory(FAKE_MUSIC)
+    scan_directory(str(FAKE_MUSIC))
 
     filepaths = {
         str(NEW_ALBUM / "track2.m4a"),
@@ -65,9 +65,10 @@ def test_scan_directory(mock_catalog_file, mock_fix_release_types, db):
 def test_catalog_file(mock_fetch_or_create_release, db, snapshot):
     mock_fetch_or_create_release.return_value = Mock(id=3)
     filepath = NEW_ALBUM / "track1.flac"
-    catalog_file(filepath, db)
+    catalog_file(str(filepath), db)
 
     trk = track.from_filepath(filepath, db)
+    assert trk is not None
 
     # Because filepath is not a reproducible value (depends on environment), we exclude
     # it from our snapshot and test it separately.
@@ -136,6 +137,7 @@ def test_catalog_file_duplicate_artist(
     catalog_file(filepath, db)
 
     trk = track.from_filepath(filepath, db)
+    assert trk is not None
     assert len(track.artists(trk, db)) == 1
 
 
@@ -326,7 +328,7 @@ def test_fix_release_types(db, num_tracks, release_type):
             duration=4,
             track_number="1",
             disc_number="1",
-            cursor=db,
+            conn=db,
         )
 
     _fix_release_types(db)

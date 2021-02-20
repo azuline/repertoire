@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from sqlite3 import Cursor, Row
+from sqlite3 import Connection, Row
 from typing import Dict, List, Optional, Union
 
 from src.enums import CollectionType
@@ -42,14 +42,14 @@ class T:
     last_updated_on: Optional[datetime] = None
 
 
-def exists(id: int, cursor: Cursor) -> bool:
+def exists(id: int, conn: Connection) -> bool:
     """
     Return whether a collection exists with the given ID.
 
     :param id: The ID to check.
     :return: Whether a collection has the given ID.
     """
-    cursor.execute("SELECT 1 FROM music__collections WHERE id = ?", (id,))
+    cursor = conn.execute("SELECT 1 FROM music__collections WHERE id = ?", (id,))
     return bool(cursor.fetchone())
 
 
@@ -79,15 +79,15 @@ def from_row(row: Union[Dict, Row]) -> T:
     )
 
 
-def from_id(id: int, cursor: Cursor) -> Optional[T]:
+def from_id(id: int, conn: Connection) -> Optional[T]:
     """
     Return the collection with the provided ID.
 
     :param id: The ID of the collection to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The collection with the provided ID, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             cols.*,
@@ -110,16 +110,18 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     return None
 
 
-def from_name_and_type(name: str, type: CollectionType, cursor: Cursor) -> Optional[T]:
+def from_name_and_type(
+    name: str, type: CollectionType, conn: Connection
+) -> Optional[T]:
     """
     Return the collection with the given name and type, if it exists.
 
     :param name: The name of the collection.
     :param type: The type of the collection.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The collection, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             cols.*,
@@ -144,17 +146,17 @@ def from_name_and_type(name: str, type: CollectionType, cursor: Cursor) -> Optio
     return None
 
 
-def all(cursor: Cursor, types: List[CollectionType] = []) -> List[T]:
+def all(conn: Connection, types: List[CollectionType] = []) -> List[T]:
     """
     Get all collections.
 
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param types: Filter by collection types. Pass an empty list to fetch all types.
     :return: All collections stored on the src.
     """
     filter_ = f"WHERE cols.type IN ({','.join('?' * len(types))})" if types else ""
 
-    cursor.execute(
+    cursor = conn.execute(
         f"""
         SELECT
             cols.*,
@@ -177,13 +179,15 @@ def all(cursor: Cursor, types: List[CollectionType] = []) -> List[T]:
     return [from_row(row) for row in cursor.fetchall()]
 
 
-def create(name: str, type: CollectionType, cursor: Cursor, starred: bool = False) -> T:
+def create(
+    name: str, type: CollectionType, conn: Connection, starred: bool = False
+) -> T:
     """
     Create a collection and persist it to the database.
 
     :param name: The name of the collection.
     :param type: The type of the collection.
-    :cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param starred: Whether the collection is starred or not.
     :return: The newly created collection.
     :raises Duplicate: If an collection with the same name and type already exists. The
@@ -192,10 +196,10 @@ def create(name: str, type: CollectionType, cursor: Cursor, starred: bool = Fals
     if type == CollectionType.SYSTEM:
         raise InvalidCollectionType("Cannot create system collections.")
 
-    if col := from_name_and_type(name, type, cursor):
+    if col := from_name_and_type(name, type, conn):
         raise Duplicate(f'Collection "{name}" already exists.', col)
 
-    cursor.execute(
+    cursor = conn.execute(
         "INSERT INTO music__collections (name, type, starred) VALUES (?, ?, ?)",
         (name, type.value, starred),
     )
@@ -213,7 +217,7 @@ def create(name: str, type: CollectionType, cursor: Cursor, starred: bool = Fals
     )
 
 
-def update(col: T, cursor: Cursor, **changes) -> T:
+def update(col: T, conn: Connection, **changes) -> T:
     """
     Update a collection and persist changes to the database. To update a value, pass it
     in as a keyword argument. To keep the original value, do not pass in a keyword
@@ -222,7 +226,7 @@ def update(col: T, cursor: Cursor, **changes) -> T:
     **Note: The type of a collection cannot be changed.**
 
     :param col: The collection to update.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param name: New collection name.
     :type  name: :py:obj:`str`
     :param starred: Whether ew collection is starred.
@@ -236,12 +240,12 @@ def update(col: T, cursor: Cursor, **changes) -> T:
 
     if (
         "name" in changes
-        and (dupl := from_name_and_type(changes["name"], col.type, cursor))
+        and (dupl := from_name_and_type(changes["name"], col.type, conn))
         and dupl != col
     ):
         raise Duplicate(f'Collection "{changes["name"]}" already exists.', dupl)
 
-    cursor.execute(
+    conn.execute(
         """
         UPDATE music__collections
         SET name = ?,
@@ -260,35 +264,35 @@ def update(col: T, cursor: Cursor, **changes) -> T:
     return update_dataclass(col, **changes)
 
 
-def releases(col: T, cursor: Cursor) -> List[release.T]:
+def releases(col: T, conn: Connection) -> List[release.T]:
     """
     Get the releases in a collection.
 
     :param col: The collection whose releases we want to get.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: A list of releases in the collection.
     """
-    _, releases = release.search(collection_ids=[col.id], cursor=cursor)
+    _, releases = release.search(collection_ids=[col.id], conn=conn)
     logger.debug(f"Fetched releases of collection {col.id}.")
     return releases
 
 
-def add_release(col: T, release_id: int, cursor: Cursor) -> T:
+def add_release(col: T, release_id: int, conn: Connection) -> T:
     """
     Add the provided release to the provided collection.
 
     :param col: The collection to add the release to.
     :param release_id: The ID of the release to add.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The collection with the number of tracks (if present) updated.
     :raises NotFound: If no release has the given release ID.
     :raises AlreadyExists: If the release is already in the collection.
     """
-    if not release.exists(release_id, cursor):
+    if not release.exists(release_id, conn):
         logger.debug(f"Release {release_id} does not exist.")
         raise NotFound(f"Release {release_id} does not exist.")
 
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT 1 FROM music__collections_releases
         WHERE collection_id = ? AND release_id = ?
@@ -299,7 +303,7 @@ def add_release(col: T, release_id: int, cursor: Cursor) -> T:
         logger.debug(f"Release {release_id} already in collection {col.id}.")
         raise AlreadyExists("Release is already in collection.")
 
-    cursor.execute(
+    conn.execute(
         """
         INSERT INTO music__collections_releases (collection_id, release_id)
         VALUES (?, ?)
@@ -317,22 +321,22 @@ def add_release(col: T, release_id: int, cursor: Cursor) -> T:
     )
 
 
-def del_release(col: T, release_id: int, cursor: Cursor) -> T:
+def del_release(col: T, release_id: int, conn: Connection) -> T:
     """
     Remove the provided release from the provided collection.
 
     :param col: The collection to remove the release from.
     :param release_id: The release to remove.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The collection with the number of tracks (if present) updated.
     :raises NotFound: If no release has the given release ID.
     :raises DoesNotExist: If the release is not in the collection.
     """
-    if not release.exists(release_id, cursor):
+    if not release.exists(release_id, conn):
         logger.debug(f"Release {release_id} does not exist.")
         raise NotFound(f"Release {release_id} does not exist.")
 
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT 1 FROM music__collections_releases
         WHERE collection_id = ? AND release_id = ?
@@ -343,7 +347,7 @@ def del_release(col: T, release_id: int, cursor: Cursor) -> T:
         logger.debug(f"Release {release_id} not in collection {col.id}.")
         raise DoesNotExist("Release is not in collection.")
 
-    cursor.execute(
+    conn.execute(
         """
         DELETE FROM music__collections_releases
         WHERE collection_id = ? AND release_id = ?
@@ -361,7 +365,7 @@ def del_release(col: T, release_id: int, cursor: Cursor) -> T:
     )
 
 
-def top_genres(col: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
+def top_genres(col: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
     """
     Get the top genre collections of the releases in a collection.
 
@@ -381,11 +385,11 @@ def top_genres(col: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
     to ``None``.
 
     :param col: The collection whose top genres to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param num_genres: The number of top genres to fetch.
     :return: The top genres.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             genres.*,
@@ -414,7 +418,7 @@ def top_genres(col: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
     ]
 
 
-def image(col: T, cursor: Cursor) -> Optional[libimage.T]:
+def image(col: T, conn: Connection) -> Optional[libimage.T]:
     """
     Return an image for a collection.
 
@@ -422,10 +426,10 @@ def image(col: T, cursor: Cursor) -> Optional[libimage.T]:
     releases in the collection, if any exist.
 
     :param col: The collection whose image to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The image, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT images.*
         FROM images

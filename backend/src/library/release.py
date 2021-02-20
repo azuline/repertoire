@@ -4,7 +4,7 @@ import logging
 from dataclasses import dataclass
 from datetime import date, datetime
 from itertools import chain, repeat
-from sqlite3 import Cursor, Row
+from sqlite3 import Connection, Row
 from typing import Dict, Iterable, List, Optional, Tuple, Union
 
 from unidecode import unidecode
@@ -49,14 +49,14 @@ class T:
     image_id: Optional[int] = None
 
 
-def exists(id: int, cursor: Cursor) -> bool:
+def exists(id: int, conn: Connection) -> bool:
     """
     Return whether a release exists with the given ID.
 
     :param id: The ID to check.
     :return: Whether a release has the given ID.
     """
-    cursor.execute("SELECT 1 FROM music__releases WHERE id = ?", (id,))
+    cursor = conn.execute("SELECT 1 FROM music__releases WHERE id = ?", (id,))
     return bool(cursor.fetchone())
 
 
@@ -78,15 +78,15 @@ def from_row(row: Union[Dict, Row]) -> T:
     )
 
 
-def from_id(id: int, cursor: Cursor) -> Optional[T]:
+def from_id(id: int, conn: Connection) -> Optional[T]:
     """
     Return the release with the provided ID.
 
     :param id: The ID of the release to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The release with the provided ID, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             rls.*,
@@ -119,7 +119,7 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
 
 
 def search(
-    cursor: Cursor,
+    conn: Connection,
     *,
     search: str = "",
     collection_ids: List[int] = [],
@@ -154,7 +154,7 @@ def search(
                      releases (this will ignore ``page``).
     :param sort: How to sort the matching releases.
     :param asc: If true, sort in ascending order. If false, descending.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The total number of matching releases and the matching releases on the
              current page.
     """
@@ -174,7 +174,7 @@ def search(
         filter_params.extend(params)  # type: ignore
 
     # Fetch the total number of releases matching this criteria (ignoring pages).
-    cursor.execute(
+    cursor = conn.execute(
         f"""
         SELECT COUNT(1)
         FROM music__releases AS rls
@@ -328,7 +328,7 @@ def create(
     artist_ids: List[int],
     release_type: ReleaseType,
     release_year: Optional[int],
-    cursor: Cursor,
+    conn: Connection,
     release_date: Optional[date] = None,
     rating: Optional[int] = None,
     image_id: Optional[int] = None,
@@ -341,7 +341,7 @@ def create(
     :param artist_ids: The IDs of the "album artists" on the release.
     :param release_type: The type of the release.
     :param release_year: The year the release came out.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param release_date: The date the release came out.
     :param rating: A rating for the release.
     :param image_id: An ID of an image to serve as cover art.
@@ -353,18 +353,18 @@ def create(
     :raises Duplicate: If a release with the same name and artists already exists. The
                        duplicate release is passed as the ``entity`` argument.
     """
-    if bad_ids := [str(id) for id in artist_ids if not artist.exists(id, cursor)]:
+    if bad_ids := [str(id) for id in artist_ids if not artist.exists(id, conn)]:
         logger.debug(f"Artist(s) {', '.join(bad_ids)} do not exist.")
         raise NotFound(f"Artist(s) {', '.join(bad_ids)} do not exist.")
 
     if not allow_duplicate and (
-        rls := _find_duplicate_release(title, artist_ids, cursor)
+        rls := _find_duplicate_release(title, artist_ids, conn)
     ):
         logger.debug(f"Release already exists with ID {rls.id}.")
         raise Duplicate("A release with the same name and artists already exists.", rls)
 
     # Insert the release into the database.
-    cursor.execute(
+    cursor = conn.execute(
         """
         INSERT INTO music__releases (
             title, image_id, release_type, release_year, release_date, rating
@@ -386,13 +386,13 @@ def create(
     logger.info(f'Created release "{title}" with ID {id}.')
 
     # We fetch it from the database to also get the `added_on` column.
-    return from_id(id, cursor)  # type: ignore
+    return from_id(id, conn)  # type: ignore
 
 
 def _find_duplicate_release(
     title: str,
     artist_ids: List[int],
-    cursor: Cursor,
+    conn: Connection,
 ) -> Optional[T]:
     """
     Try to find a duplicate release with the given title and artists. If we find a
@@ -400,11 +400,11 @@ def _find_duplicate_release(
 
     :param title: The title of the release.
     :param artist_ids: The IDs of the artists that contributed to the release.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The duplicate release, if found.
     """
     # First fetch all releases with the same title.
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             rls.*,
@@ -456,14 +456,14 @@ def _find_duplicate_release(
     return None
 
 
-def update(rls: T, cursor: Cursor, **changes) -> T:
+def update(rls: T, conn: Connection, **changes) -> T:
     """
     Update a release and persist changes to the database. To update a value, pass it
     in as a keyword argument. To keep the original value, do not pass in a keyword
     argument.
 
     :param rls: The release to update.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param title: New release title.
     :type  title: :py:obj:`str`
     :param release_type: New release type.
@@ -481,7 +481,7 @@ def update(rls: T, cursor: Cursor, **changes) -> T:
     if changes.get("rating", rls.rating) == 0:
         changes["rating"] = None
 
-    cursor.execute(
+    conn.execute(
         """
         UPDATE music__releases
         SET title = ?,
@@ -506,28 +506,28 @@ def update(rls: T, cursor: Cursor, **changes) -> T:
     return update_dataclass(rls, **changes)
 
 
-def tracks(rls: T, cursor: Cursor) -> List[track.T]:
+def tracks(rls: T, conn: Connection) -> List[track.T]:
     """
     Get the tracks of the provided release.
 
     :param rls: The provided release.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The tracks of the provided release.
     """
-    cursor.execute("SELECT * FROM music__tracks WHERE release_id = ?", (rls.id,))
+    cursor = conn.execute("SELECT * FROM music__tracks WHERE release_id = ?", (rls.id,))
     logger.debug(f"Fetched tracks of release {rls.id}.")
     return [track.from_row(row) for row in cursor.fetchall()]
 
 
-def artists(rls: T, cursor: Cursor) -> List[artist.T]:
+def artists(rls: T, conn: Connection) -> List[artist.T]:
     """
     Get the "album artists" of the provided release.
 
     :param rls: The provided release.
-    :param cursor: A cursor to the datbase.
+    :param conn: A connection to the datbase.
     :return: The "album artists" of the provided release.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             artists.*,
@@ -548,22 +548,22 @@ def artists(rls: T, cursor: Cursor) -> List[artist.T]:
     return [artist.from_row(row) for row in cursor.fetchall()]
 
 
-def add_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
+def add_artist(rls: T, artist_id: int, conn: Connection) -> T:
     """
     Add the provided artist to the provided release.
 
     :param rls: The release to add the artist to.
     :param artist_id: The ID of the artist to add.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The release that was passed in.
     :raises NotFound: If no artist has the given artist ID.
     :raises AlreadyExists: If the artist is already on the release.
     """
-    if not artist.exists(artist_id, cursor):
+    if not artist.exists(artist_id, conn):
         logger.debug(f"Artist {artist_id} does not exist.")
         raise NotFound(f"Artist {artist_id} does not exist.")
 
-    cursor.execute(
+    cursor = conn.execute(
         "SELECT 1 FROM music__releases_artists WHERE release_id = ? AND artist_id = ?",
         (rls.id, artist_id),
     )
@@ -571,7 +571,7 @@ def add_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
         logger.debug(f"Artist {artist_id} is already on release {rls.id}.")
         raise AlreadyExists("Artist is already on release.")
 
-    cursor.execute(
+    conn.execute(
         "INSERT INTO music__releases_artists (release_id, artist_id) VALUES (?, ?)",
         (rls.id, artist_id),
     )
@@ -580,22 +580,22 @@ def add_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
     return rls
 
 
-def del_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
+def del_artist(rls: T, artist_id: int, conn: Connection) -> T:
     """
     Delete the provided artist to the provided release.
 
     :param rls: The release to delete the artist from.
     :param artist_id: The ID of the artist to delete.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The release that was passed in.
     :raises NotFound: If no artist has the given artist ID.
     :raises DoesNotExist: If the artist is not on the release.
     """
-    if not artist.exists(artist_id, cursor):
+    if not artist.exists(artist_id, conn):
         logger.debug(f"Artist {artist_id} does not exist.")
         raise NotFound(f"Artist {artist_id} does not exist.")
 
-    cursor.execute(
+    cursor = conn.execute(
         "SELECT 1 FROM music__releases_artists WHERE release_id = ? AND artist_id = ?",
         (rls.id, artist_id),
     )
@@ -603,7 +603,7 @@ def del_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
         logger.debug(f"Artist {artist_id} is not on release {rls.id}.")
         raise DoesNotExist("Artist is not on release.")
 
-    cursor.execute(
+    conn.execute(
         "DELETE FROM music__releases_artists WHERE release_id = ? AND artist_id = ?",
         (rls.id, artist_id),
     )
@@ -613,17 +613,17 @@ def del_artist(rls: T, artist_id: int, cursor: Cursor) -> T:
 
 
 def collections(
-    rls: T, cursor: Cursor, type: Optional[CollectionType] = None
+    rls: T, conn: Connection, type: Optional[CollectionType] = None
 ) -> List[collection.T]:
     """
     Get the collections that contain the provided release.
 
     :param rls: The provided release.
-    :param cursor: A cursor to the datbase.
+    :param conn: A connection to the datbase.
     :param type: The type of collections to fetch. Leave ``None`` to fetch all.
     :return: The collections that contain the provided release.
     """
-    cursor.execute(
+    cursor = conn.execute(
         f"""
         SELECT
             collections.*,
@@ -649,13 +649,13 @@ def collections(
     return [collection.from_row(row) for row in cursor.fetchall()]
 
 
-def all_years(cursor: Cursor) -> List[int]:
+def all_years(conn: Connection) -> List[int]:
     """
     Get all release years stored in the database, sorted in descending order.
 
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT DISTINCT release_year
         FROM music__releases

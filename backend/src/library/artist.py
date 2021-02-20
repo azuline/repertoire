@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from sqlite3 import Cursor, Row
+from sqlite3 import Connection, Row
 from typing import Dict, List, Optional, Union
 
 from src.enums import CollectionType
@@ -31,14 +31,14 @@ class T:
     num_releases: int
 
 
-def exists(id: int, cursor: Cursor) -> bool:
+def exists(id: int, conn: Connection) -> bool:
     """
     Return whether an artist exists with the given ID.
 
     :param id: The ID to check.
     :return: Whether an artist has the given ID.
     """
-    cursor.execute("SELECT 1 FROM music__artists WHERE id = ?", (id,))
+    cursor = conn.execute("SELECT 1 FROM music__artists WHERE id = ?", (id,))
     return bool(cursor.fetchone())
 
 
@@ -52,15 +52,15 @@ def from_row(row: Union[Dict, Row]) -> T:
     return T(**dict(row, starred=bool(row["starred"])))
 
 
-def from_id(id: int, cursor: Cursor) -> Optional[T]:
+def from_id(id: int, conn: Connection) -> Optional[T]:
     """
     Return the artist with the provided ID.
 
     :param id: The ID of the artist to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The artist with the provided ID, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             arts.*,
@@ -82,15 +82,15 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     return None
 
 
-def from_name(name: str, cursor: Cursor) -> Optional[T]:
+def from_name(name: str, conn: Connection) -> Optional[T]:
     """
     Return the artist with the given name, if they exist.
 
     :param name: The name of the artist.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The artist, if they exist.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             arts.*,
@@ -112,14 +112,14 @@ def from_name(name: str, cursor: Cursor) -> Optional[T]:
     return None
 
 
-def all(cursor: Cursor) -> List[T]:
+def all(conn: Connection) -> List[T]:
     """
     Get all artists with one-or-more releases.
 
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: All artists with releases stored on the src.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             arts.*,
@@ -138,21 +138,21 @@ def all(cursor: Cursor) -> List[T]:
     return [from_row(row) for row in cursor.fetchall() if row["num_releases"]]
 
 
-def create(name: str, cursor: Cursor, starred: bool = False) -> T:
+def create(name: str, conn: Connection, starred: bool = False) -> T:
     """
     Create an artist and persist it to the database.
 
     :param name: The name of the artist.
-    :cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param starred: Whether the artist is starred or not.
     :return: The newly created artist.
     :raises Duplicate: If an artist with the same name already exists. The duplicate
                        artist is passed as the ``entity`` argument.
     """
-    if art := from_name(name, cursor):
+    if art := from_name(name, conn):
         raise Duplicate(f'Artist "{name}" already exists.', art)
 
-    cursor.execute(
+    cursor = conn.execute(
         "INSERT INTO music__artists (name, starred) VALUES (?, ?)", (name, starred)
     )
 
@@ -161,14 +161,14 @@ def create(name: str, cursor: Cursor, starred: bool = False) -> T:
     return T(id=cursor.lastrowid, name=name, starred=starred, num_releases=0)
 
 
-def update(art: T, cursor: Cursor, **changes) -> T:
+def update(art: T, conn: Connection, **changes) -> T:
     """
     Update an artist and persist changes to the database. To update a value, pass it
     in as a keyword argument. To keep the original value, do not pass in a keyword
     argument.
 
     :param art: The artist to update.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param name: New artist name.
     :type  name: :py:obj:`str`
     :param starred: Whether new artist is starred.
@@ -176,14 +176,10 @@ def update(art: T, cursor: Cursor, **changes) -> T:
     :return: The updated artist.
     :raises Duplicate: If an artist already exists with the new name.
     """
-    if (
-        "name" in changes
-        and (dupl := from_name(changes["name"], cursor))
-        and dupl != art
-    ):
+    if "name" in changes and (dupl := from_name(changes["name"], conn)) and dupl != art:
         raise Duplicate(f'Artist "{changes["name"]}" already exists.', dupl)
 
-    cursor.execute(
+    conn.execute(
         """
         UPDATE music__artists
         SET name = ?,
@@ -198,20 +194,20 @@ def update(art: T, cursor: Cursor, **changes) -> T:
     return update_dataclass(art, **changes)
 
 
-def releases(art: T, cursor: Cursor) -> List[release.T]:
+def releases(art: T, conn: Connection) -> List[release.T]:
     """
     Get the releases of an artist.
 
     :param art: The artist whose releases we want to get.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: A list of releases of the artist.
     """
-    _, releases = release.search(artist_ids=[art.id], cursor=cursor)
+    _, releases = release.search(artist_ids=[art.id], conn=conn)
     logger.debug(f"Fetched the releases of artist {art.id}.")
     return releases
 
 
-def top_genres(art: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
+def top_genres(art: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
     """
     Get the top genre collections of the releases of an artist.
 
@@ -228,11 +224,11 @@ def top_genres(art: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
        ]
 
     :param art: The artist whose top genres to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param num_genres: The number of top genres to fetch.
     :return: The top genres.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             genres.*,
@@ -261,7 +257,7 @@ def top_genres(art: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
     ]
 
 
-def image(art: T, cursor: Cursor) -> Optional[libimage.T]:
+def image(art: T, conn: Connection) -> Optional[libimage.T]:
     """
     Return an image for an artist.
 
@@ -269,10 +265,10 @@ def image(art: T, cursor: Cursor) -> Optional[libimage.T]:
     one of the artists' releases, if any exist.
 
     :param art: The artist whose image to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The image, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT images.*
         FROM images

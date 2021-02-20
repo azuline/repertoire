@@ -1,7 +1,6 @@
 import pytest
 
 from src.library import playlist
-from src.util import database
 
 
 @pytest.mark.asyncio
@@ -109,7 +108,7 @@ async def test_playlists_type_param(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_create_playlist(graphql_query, snapshot):
+async def test_create_playlist(db, graphql_query, snapshot):
     query = """
         mutation {
             createPlaylist(name: "NewPlaylist", type: PLAYLIST, starred: true) {
@@ -119,8 +118,7 @@ async def test_create_playlist(graphql_query, snapshot):
     """
     snapshot.assert_match(await graphql_query(query))
 
-    with database() as conn:
-        snapshot.assert_match(playlist.from_id(4, conn.cursor()))
+    snapshot.assert_match(playlist.from_id(4, db))
 
 
 @pytest.mark.asyncio
@@ -137,7 +135,7 @@ async def test_create_playlist_duplicate(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_update_playlist(graphql_query, snapshot):
+async def test_update_playlist(db, graphql_query, snapshot):
     query = """
         mutation {
             updatePlaylist(id: 3, name: "NewPlaylist", starred: true) {
@@ -147,8 +145,7 @@ async def test_update_playlist(graphql_query, snapshot):
     """
     snapshot.assert_match(await graphql_query(query))
 
-    with database() as conn:
-        snapshot.assert_match(playlist.from_id(3, conn.cursor()))
+    snapshot.assert_match(playlist.from_id(3, db))
 
 
 @pytest.mark.asyncio

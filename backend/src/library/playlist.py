@@ -12,7 +12,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from sqlite3 import Cursor, Row
+from sqlite3 import Connection, Row
 from typing import Dict, List, Optional, Union
 
 from src.enums import CollectionType, PlaylistType
@@ -45,15 +45,15 @@ class T:
     last_updated_on: Optional[datetime] = None
 
 
-def exists(id: int, cursor: Cursor) -> bool:
+def exists(id: int, conn: Connection) -> bool:
     """
     Return whether a playlist exists with the given ID.
 
     :param id: The ID to check.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: Whether a playlist has the given ID.
     """
-    cursor.execute("SELECT 1 FROM music__playlists WHERE id = ?", (id,))
+    cursor = conn.execute("SELECT 1 FROM music__playlists WHERE id = ?", (id,))
     return bool(cursor.fetchone())
 
 
@@ -83,15 +83,15 @@ def from_row(row: Union[Dict, Row]) -> T:
     )
 
 
-def from_id(id: int, cursor: Cursor) -> Optional[T]:
+def from_id(id: int, conn: Connection) -> Optional[T]:
     """
     Return the playlist with the provided ID.
 
     :param id: The ID of the playlist to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The playlist with the provided ID, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             plys.*,
@@ -114,16 +114,16 @@ def from_id(id: int, cursor: Cursor) -> Optional[T]:
     return None
 
 
-def from_name_and_type(name: str, type: PlaylistType, cursor: Cursor) -> Optional[T]:
+def from_name_and_type(name: str, type: PlaylistType, conn: Connection) -> Optional[T]:
     """
     Return the playlist with the given name and type, if it exists.
 
     :param name: The name of the playlist.
     :param type: The type of the playlist.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The playlist, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             plys.*,
@@ -146,17 +146,17 @@ def from_name_and_type(name: str, type: PlaylistType, cursor: Cursor) -> Optiona
     return None
 
 
-def all(cursor: Cursor, types: List[PlaylistType] = []) -> List[T]:
+def all(conn: Connection, types: List[PlaylistType] = []) -> List[T]:
     """
     Get all playlists.
 
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param types: Filter by playlist types. Pass an empty list to fetch all types.
     :return: All playlists stored on the src.
     """
     filter_ = f"WHERE plys.type IN ({','.join('?' * len(types))})" if types else ""
 
-    cursor.execute(
+    cursor = conn.execute(
         f"""
         SELECT
             plys.*,
@@ -179,13 +179,13 @@ def all(cursor: Cursor, types: List[PlaylistType] = []) -> List[T]:
     return [from_row(row) for row in cursor.fetchall()]
 
 
-def create(name: str, type: PlaylistType, cursor: Cursor, starred: bool = False) -> T:
+def create(name: str, type: PlaylistType, conn: Connection, starred: bool = False) -> T:
     """
     Create a playlist and persist it to the database.
 
     :param name: The name of the playlist.
     :param type: The type of the playlist.
-    :cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param starred: Whether the playlist is starred or not.
     :return: The newly created playlist.
     :raises Duplicate: If an playlist with the same name and type already exists. The
@@ -194,10 +194,10 @@ def create(name: str, type: PlaylistType, cursor: Cursor, starred: bool = False)
     if type == PlaylistType.SYSTEM:
         raise InvalidPlaylistType("Cannot create system playlists.")
 
-    if ply := from_name_and_type(name, type, cursor):
+    if ply := from_name_and_type(name, type, conn):
         raise Duplicate(f'Playlist "{name}" already exists.', ply)
 
-    cursor.execute(
+    cursor = conn.execute(
         "INSERT INTO music__playlists (name, type, starred) VALUES (?, ?, ?)",
         (name, type.value, starred),
     )
@@ -213,7 +213,7 @@ def create(name: str, type: PlaylistType, cursor: Cursor, starred: bool = False)
     )
 
 
-def update(ply: T, cursor: Cursor, **changes) -> T:
+def update(ply: T, conn: Connection, **changes) -> T:
     """
     Update a playlist and persist changes to the database. To update a value, pass it
     in as a keyword argument. To keep the original value, do not pass in a keyword
@@ -222,7 +222,7 @@ def update(ply: T, cursor: Cursor, **changes) -> T:
     **Note: The type of a playlist cannot be changed.**
 
     :param ply: The playlist to update.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param name: New playlist name.
     :type  name: :py:obj:`str`
     :param starred: Whether ew playlist is starred.
@@ -236,12 +236,12 @@ def update(ply: T, cursor: Cursor, **changes) -> T:
 
     if (
         "name" in changes
-        and (dupl := from_name_and_type(changes["name"], ply.type, cursor))
+        and (dupl := from_name_and_type(changes["name"], ply.type, conn))
         and dupl != ply
     ):
         raise Duplicate(f'Playlist "{changes["name"]}" already exists.', dupl)
 
-    cursor.execute(
+    conn.execute(
         """
         UPDATE music__playlists
         SET name = ?,
@@ -260,15 +260,15 @@ def update(ply: T, cursor: Cursor, **changes) -> T:
     return update_dataclass(ply, **changes)
 
 
-def entries(ply: T, cursor: Cursor) -> List[pentry.T]:
+def entries(ply: T, conn: Connection) -> List[pentry.T]:
     """
     Get the tracks in a playlist.
 
     :param ply: The playlist whose tracks we want to get.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: A list of tracks in the playlist.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             plystrks.*
@@ -284,7 +284,7 @@ def entries(ply: T, cursor: Cursor) -> List[pentry.T]:
     return [pentry.from_row(row) for row in cursor.fetchall()]
 
 
-def top_genres(ply: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
+def top_genres(ply: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
     """
     Get the top genre collections of the tracks in a playlist.
 
@@ -304,11 +304,11 @@ def top_genres(ply: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
     to ``None``.
 
     :param ply: The playlist whose top genres to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :param num_genres: The number of top genres to fetch.
     :return: The top genres.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT
             genres.*,
@@ -338,7 +338,7 @@ def top_genres(ply: T, cursor: Cursor, *, num_genres: int = 5) -> List[Dict]:
     ]
 
 
-def image(ply: T, cursor: Cursor) -> Optional[libimage.T]:
+def image(ply: T, conn: Connection) -> Optional[libimage.T]:
     """
     Return an image for a playlist.
 
@@ -346,10 +346,10 @@ def image(ply: T, cursor: Cursor) -> Optional[libimage.T]:
     tracks in the playlist, if any exist.
 
     :param ply: The playlist whose image to fetch.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The image, if it exists.
     """
-    cursor.execute(
+    cursor = conn.execute(
         """
         SELECT images.*
         FROM images

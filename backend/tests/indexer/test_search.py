@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from src.enums import ArtistRole, ReleaseType
 from src.indexer.search import _words_from_string, build_search_index
 from src.library import artist, release, track
@@ -14,14 +16,14 @@ def test_search_index(db):
         artist_ids=[art1.id, art2.id],
         release_type=ReleaseType.ALBUM,
         release_year=2020,
-        cursor=db,
+        conn=db,
     )
 
     art3 = artist.create("artist3a, artist3b", db)
 
     track.create(
         title="i got a hát title",
-        filepath="/1.flac",
+        filepath=Path("/1.flac"),
         sha256=b"0" * 32,
         release_id=rls.id,
         artists=[
@@ -31,10 +33,10 @@ def test_search_index(db):
         duration=100,
         track_number="1",
         disc_number="1",
-        cursor=db,
+        conn=db,
     )
 
-    db.connection.commit()
+    db.commit()
 
     build_search_index()
 
@@ -54,12 +56,12 @@ def test_search_index(db):
         "hat",
     }
 
-    db.execute(
+    cursor = db.execute(
         "SELECT word FROM music__releases_search_index WHERE release_id = ?",
         (rls.id,),
     )
 
-    assert words == {row[0] for row in db.fetchall()}
+    assert words == {row[0] for row in cursor.fetchall()}
 
 
 def test_words_from_string():

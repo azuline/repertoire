@@ -2,7 +2,7 @@ import logging
 import os
 from hashlib import sha256
 from pathlib import Path
-from sqlite3 import Cursor
+from sqlite3 import Connection
 from typing import Generator, List, Optional, Tuple
 
 from tagfiles import TagFile
@@ -38,48 +38,47 @@ def save_pending_covers() -> None:
     logger.info("Saving cover art for newly-found releases.")
 
     with database() as conn:
-        cursor = conn.cursor()
-
-        for rls_id in _get_pending_releases(cursor):
+        for rls_id in _get_pending_releases(conn):
             logger.debug(f"Searching for cover art in release {rls_id}.")
 
-            if not (track_path := _get_track_path_of_release(rls_id, cursor)):
+            if not (track_path := _get_track_path_of_release(rls_id, conn)):
                 logger.debug(f"No tracks found for release {rls_id}.")
-                _delete_release_from_pending(rls_id, cursor)
+                _delete_release_from_pending(rls_id, conn)
                 continue
 
-            if not (img := save_image(TagFile(track_path), cursor)):
+            if not (img := save_image(TagFile(track_path), conn)):
                 logger.debug(f"No image found for release {rls_id}.")
-                _delete_release_from_pending(rls_id, cursor)
+                _delete_release_from_pending(rls_id, conn)
                 continue
 
-            _update_release_image(rls_id, img, cursor)
-            _delete_release_from_pending(rls_id, cursor)
+            _update_release_image(rls_id, img, conn)
+            _delete_release_from_pending(rls_id, conn)
 
         conn.commit()
 
 
-def _get_pending_releases(cursor: Cursor) -> List[int]:
+def _get_pending_releases(conn: Connection) -> List[int]:
     """
     Return the release ids of the releases pending cover art extraction.
 
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: Release IDs pending extraction.
     """
-    cursor.execute("SELECT release_id FROM images__music_releases_to_fetch")
+    cursor = conn.execute("SELECT release_id FROM images__music_releases_to_fetch")
     return [row[0] for row in cursor.fetchall()]
 
 
-def _get_track_path_of_release(rls_id: int, cursor: Cursor) -> Optional[str]:
+def _get_track_path_of_release(rls_id: int, conn: Connection) -> Optional[str]:
     """
     Return the filepath of a track belonging to a release with the provided ID.
 
     :param rls_id: The ID of the release whose track we are fetching.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     :return: The filepath of a track, if there is a track.
     """
-    cursor.execute(
-        "SELECT filepath FROM music__tracks WHERE release_id = ? LIMIT 1", (rls_id,)
+    cursor = conn.execute(
+        "SELECT filepath FROM music__tracks WHERE release_id = ? LIMIT 1",
+        (rls_id,),
     )
     if (track := cursor.fetchone()) and os.path.isfile(track[0]):
         return track[0]
@@ -87,34 +86,34 @@ def _get_track_path_of_release(rls_id: int, cursor: Cursor) -> Optional[str]:
     return None
 
 
-def _update_release_image(rls_id: int, img: image.T, cursor: Cursor) -> None:
+def _update_release_image(rls_id: int, img: image.T, conn: Connection) -> None:
     """
     Update the image path of a release with the given ID in the database.
 
     :param rls_id: The ID of the release to update.
     :param image_path: The image path to set for the release.
-    :param cursor: A cursor to the database.
+    :param conn: A conn to the database.
     """
     logger.debug(f"Setting image for release {rls_id}.")
-    cursor.execute(
+    conn.execute(
         "UPDATE music__releases SET image_id = ? WHERE id = ?", (img.id, rls_id)
     )
 
 
-def _delete_release_from_pending(rls_id: int, cursor: Cursor) -> None:
+def _delete_release_from_pending(rls_id: int, conn: Connection) -> None:
     """
     Remove the provided release ID from the pending cover extraction table.
 
     :param rls_id: The release ID to remove.
-    :param cursor: A cursor to the database.
+    :param conn: A connection to the database.
     """
     logger.debug(f"Removing release {rls_id} from pending cover extraction.")
-    cursor.execute(
+    conn.execute(
         "DELETE FROM images__music_releases_to_fetch WHERE release_id = ?", (rls_id,)
     )
 
 
-def save_image(tf: TagFile, cursor: Cursor) -> Optional[image.T]:
+def save_image(tf: TagFile, conn: Connection) -> Optional[image.T]:
     """
     If the track has attached cover art, save it to the cover_arts dir with
     the sha256 of the cover art as the filename.
@@ -132,7 +131,7 @@ def save_image(tf: TagFile, cursor: Cursor) -> Optional[image.T]:
         return None
 
     try:
-        return image.create(image_path, cursor)
+        return image.create(image_path, conn)
     except Duplicate as e:
         return e.entity
 
