@@ -5,11 +5,18 @@ Database
 
 We use SQLite for our database.
 
-Usage
------
+Search Index
+------------
 
-TODO. Talk a bit about transaction management in the system and database
-utility context manager.
+We use SQLite's FTS5 virtual tables for our search index. To keep the search
+index updated, we have a set of triggers defined in the database. These are
+applied via the database migrations.
+
+.. note::
+
+   SQLite does not support stored procedures, yet the triggers that maintain
+   the search index state are very repetetive. Thus the trigger SQL is heavily
+   duplicated. Please bear with it~
 
 Migrations
 ----------

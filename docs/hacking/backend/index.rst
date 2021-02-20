@@ -33,7 +33,7 @@ The backend is laid out as follows:
 The backend can be split into several layers, from lowest to highest:
 
 - The Music Files (Music Files, Bring Your Own!)
-- The Database (:ref:`backend_database`)
+- The Database & Search Index (:ref:`backend_database`)
 - The Library Indexer (:ref:`backend_indexer`)
 - The Library Interface (:ref:`backend_library`)
 - Consumer Interfaces:
@@ -47,6 +47,7 @@ The backend can be split into several layers, from lowest to highest:
 The next several pages document each major section of the backend codebase.
 
 .. note::
+
    We do not use namespace packages (packages without an ``__init__.py``)
    because Mypy does not autodetect them.
 
