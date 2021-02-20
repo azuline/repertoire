@@ -30,13 +30,15 @@ export const PagedReleases: IPagedReleases = ({ viewOptions, pagination, partial
 
   React.useEffect(() => {
     if (total) pagination.setTotal(total);
-  }, [total, pagination]);
+  }, [total, pagination.setTotal]);
 
-  if (error) {
+  React.useEffect(() => {
+    if (!error) return;
+
     error.graphQLErrors.forEach(({ message }) => {
       addToast(message, { appearance: 'error' });
     });
-  }
+  }, [error]);
 
   let releasesDiv = null;
 
