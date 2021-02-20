@@ -31,12 +31,12 @@ export const AppStyles = styled.div`
     scrollbar-color: var(--color-gray-500) transparent;
     scrollbar-width: thin;
   }
-  ::-webkit-scrollbar {
+  *::-webkit-scrollbar {
     background-color: transparent;
-    width: 0;
+    width: 0.375rem;
     height: 0.375rem;
   }
-  ::-webkit-scrollbar-thumb {
+  *::-webkit-scrollbar-thumb {
     background-color: var(--color-gray-500);
   }
 `;

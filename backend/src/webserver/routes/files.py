@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import Optional
 
 import quart
 from quart import Blueprint, Response
@@ -16,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 @bp.route("/tracks/<track_id>", methods=["GET"])
 @check_auth()
-async def get_track(track_id: int):
+async def get_track(track_id: int) -> Optional[Response]:
     """
     Returns a track's audio file.
 
@@ -32,19 +33,22 @@ async def get_track(track_id: int):
     ext = os.path.splitext(trk.filepath)[1]
 
     try:
-        return await quart.send_file(
+        resp = await quart.send_file(
             trk.filepath,
             attachment_filename=f"track{ext}",
             cache_timeout=604_800,
         )
+        await resp.make_conditional(quart.request.range)
+        return resp
     except FileNotFoundError:
+        logger.debug(f"Did not find track {id} on disk ({trk.filepath}).")
         quart.abort(404)
 
 
 @bp.route("/images/<id>", methods=["GET"])
 @check_auth()
 @validate_data(Schema({"thumbnail": StringBool}))
-async def get_cover(id: int, thumbnail: bool = False) -> Response:
+async def get_cover(id: int, thumbnail: bool = False) -> Optional[Response]:
     """
     Returns an image stored on the backend.
 
