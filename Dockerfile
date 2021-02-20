@@ -32,19 +32,21 @@ RUN echo '[repertoire]\n\
 music_directories = ["/music"]\n\
 index_crontab = 0 0 * * *' > /data/config.ini
 
-# For Pillow.
-RUN apk add jpeg-dev zlib-dev 
-RUN apk add --no-cache --virtual build-deps gcc musl-dev libffi-dev openssl-dev
-
 # To cache dependencies even if the code changes, we install deps
 # before copying the rest of the code.
 COPY backend/requirements.txt ./
-RUN pip install -r requirements.txt
+# Need these extra deps for Pillow. Run them all in a single layer to reduce
+# the container size.
+RUN apk add jpeg-dev zlib-dev \
+    && apk add --no-cache --virtual build-deps gcc musl-dev \
+    && pip install -r requirements.txt \
+    && apk del build-deps
 
+# Now copy and install  the rest of the backend.
 COPY backend/ ./
-RUN pip install -e .
-
-RUN apk del build-deps
+RUN apk add --no-cache --virtual build-deps gcc musl-dev libffi-dev openssl-dev \
+    && pip install -e . \
+    && apk del build-deps
 
 COPY --from=builder /app/build ./frontend
 
