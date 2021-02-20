@@ -24,6 +24,10 @@ TEST_SQL_PATH = SEED_DATA / "database.sql"
 
 ADMIN_TOKEN = "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc8"
 
+# TODO: These are the next autoincremented DB primary key IDs for each model.
+NEXT_RELEASE_ID = 4
+NEXT_TRACK_ID = 22
+
 
 @pytest.fixture(scope="session")
 def seed_db():
