@@ -41,6 +41,13 @@ Collection
    :members:
    :autosummary:
 
+Playlist
+--------
+
+.. automodule:: src.library.playlist
+   :members:
+   :autosummary:
+
 Release
 -------
 
