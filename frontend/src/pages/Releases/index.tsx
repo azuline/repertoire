@@ -1,5 +1,3 @@
-import 'twin.macro';
-
 import * as React from 'react';
 
 import { Header, PagedReleases } from '~/components';

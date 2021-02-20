@@ -1,5 +1,3 @@
-import 'twin.macro';
-
 import * as React from 'react';
 
 import { Icon, Link } from '~/components/common';

@@ -1,5 +1,3 @@
-import 'twin.macro';
-
 import * as React from 'react';
 
 import { CollectionChooser, Header } from '~/components';

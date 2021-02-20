@@ -14,7 +14,7 @@ export const YearChooser: IYearChooser = ({ active, className }) => {
 
   const elements =
     data?.releaseYears
-      ?.filter((year): year is number => year !== null)
+      ?.filter((year): year is number => year !== null && year !== 0)
       .map((year) => ({ id: year, name: `${year}` })) || [];
 
   return (

@@ -1,5 +1,3 @@
-import 'twin.macro';
-
 import { gql } from '@apollo/client';
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';

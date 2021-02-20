@@ -1,5 +1,3 @@
-import 'twin.macro';
-
 import * as React from 'react';
 import { matchPath } from 'react-router';
 import { useLocation } from 'react-router-dom';

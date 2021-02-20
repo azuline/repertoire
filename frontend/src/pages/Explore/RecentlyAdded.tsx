@@ -1,5 +1,3 @@
-import 'twin.macro';
-
 import { gql } from '@apollo/client';
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -25,7 +23,7 @@ export const RecentlyAdded: React.FC = () => {
       <Link href="/releases" onClick={toRecentlyAdded}>
         <SectionHeader tw="mt-4 cursor-pointer">
           Recently Added
-          <span tw="text-xl hover:text-primary-400 text-primary-500"> (View All)</span>
+          <span tw="text-xl ml-1 hover:text-primary-400 text-primary-500"> (View All)</span>
         </SectionHeader>
       </Link>
       <ScrolledReleases releases={releases} />
