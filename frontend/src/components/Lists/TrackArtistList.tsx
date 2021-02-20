@@ -32,9 +32,16 @@ const DIVIDER_WORDS_RAW: { [k in string]: string } = {
   REMIXER: ' remixed by ',
 };
 
-export const TrackArtistList: IList = ({ artists, className, delimiter = ', ', link = false }) => {
+export const TrackArtistList: IList = ({
+  artists,
+  className,
+  delimiter = ', ',
+  link = false,
+}) => {
   const rolesToArtists = React.useMemo(() => mapRolesToArtists(artists), [artists]);
-  const dividerWords = React.useMemo(() => determineDividerWords(rolesToArtists), [rolesToArtists]);
+  const dividerWords = React.useMemo(() => determineDividerWords(rolesToArtists), [
+    rolesToArtists,
+  ]);
 
   if (!artists || artists.length === 0) {
     return <div> </div>;
@@ -63,7 +70,9 @@ export const TrackArtistList: IList = ({ artists, className, delimiter = ', ', l
   );
 };
 
-export const mapRolesToArtists = (artists?: ITrackArtist[]): IRolesArtistsMapEntries => {
+export const mapRolesToArtists = (
+  artists?: ITrackArtist[],
+): IRolesArtistsMapEntries => {
   if (!artists) return [];
 
   // Get a map of artist roles to the artists in that role, filtering out
@@ -90,7 +99,9 @@ const sortRoles = ([a]: [string, IArtist[]], [b]: [string, IArtist[]]): number =
 // Determine the final list of divider words.
 // If we have a composer or a conductor, switch to "classical mode" and turn
 // main artists into performers.
-const determineDividerWords = (rolesToArtists: IRolesArtistsMapEntries): IDividerWords =>
+const determineDividerWords = (
+  rolesToArtists: IRolesArtistsMapEntries,
+): IDividerWords =>
   rolesToArtists.some(([role]) => role === 'PRODUCER' || role === 'FEATURE')
     ? { MAIN: ' performed by ', ...DIVIDER_WORDS_RAW }
     : DIVIDER_WORDS_RAW;

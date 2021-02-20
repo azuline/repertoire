@@ -46,7 +46,11 @@ export const Info: IInfo = ({ release }) => {
       <div tw="flex-none mt-2 truncate-2 md:mt-auto">
         {release.genres.length !== 0 && (
           <>
-            <CustomGenreList link delimiter=" " elements={filterNulls(release.genres)} />
+            <CustomGenreList
+              link
+              delimiter=" "
+              elements={filterNulls(release.genres)}
+            />
           </>
         )}
       </div>
@@ -68,6 +72,15 @@ const CustomLabelList = styled(LabelList)`
 
 const CustomGenreList = styled(GenreList)`
   .list--element {
-    ${tw`px-2 py-1 mr-1 rounded bg-primary-700 text-foreground hover:bg-primary-600 leading-9`}
+    ${tw`
+      px-2
+      py-1
+      mr-1
+      rounded
+      bg-primary-700
+      text-foreground
+      hover:bg-primary-600
+      leading-9
+    `}
   }
 `;

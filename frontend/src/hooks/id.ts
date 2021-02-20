@@ -2,8 +2,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 
 /**
- * Fetch the ID from the current route (from react-router-dom). If the ID exists but is not a
- * non-negative integer, redirect the client to `/404`.
+ * Fetch the ID from the current route (from react-router-dom). If the ID exists but is
+ * not a non-negative integer, redirect the client to `/404`.
  *
  * @returns The active ID.
  */

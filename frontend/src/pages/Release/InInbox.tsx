@@ -19,9 +19,13 @@ export const InInbox: IInInbox = ({ className, release }) => {
 
   const toggleInbox = (): void => {
     if (release.inInbox) {
-      mutateDel({ variables: { collectionId: INBOX_COLLECTION_ID, releaseId: release.id } });
+      mutateDel({
+        variables: { collectionId: INBOX_COLLECTION_ID, releaseId: release.id },
+      });
     } else {
-      mutateAdd({ variables: { collectionId: INBOX_COLLECTION_ID, releaseId: release.id } });
+      mutateAdd({
+        variables: { collectionId: INBOX_COLLECTION_ID, releaseId: release.id },
+      });
     }
   };
 

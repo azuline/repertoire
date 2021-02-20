@@ -27,10 +27,13 @@ export type IPagination = {
  * - ``setCurPage`` - A function to set ``curPage``.
  * - ``perPage`` - The number of elements per page.
  * - ``setPerPage`` - A function to set ``perPage``.
- * - ``numPages`` The total number of pages. Dynamically alculated from the total number of elements.
+ * - ``numPages`` The total number of pages. Dynamically calculated from the total
+ *                number of elements.
  * - ``setTotal`` - A function to set the total number of elements.
  */
-export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): IPagination => {
+export const usePagination = ({
+  useUrl = false,
+}: { useUrl?: boolean } = {}): IPagination => {
   const history = useHistory();
   const query = useQuery();
 
@@ -39,8 +42,8 @@ export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): IP
   const [perPage, setPerPage] = usePersistentState<number>('pagination--perPage', 40);
   const [total, setTotal] = React.useState<number>(0);
 
-  // We wrap the setCurPage function to sync the URL with the state. If ``useUrl`` is true, then
-  // sync!
+  // We wrap the setCurPage function to sync the URL with the state. If ``useUrl`` is
+  // true, then sync!
   const setPage = React.useCallback(
     (value: IStateValue<number>) => {
       const calculatedValue = value instanceof Function ? value(page) : value;
@@ -64,7 +67,8 @@ export const usePagination = ({ useUrl = false }: { useUrl?: boolean } = {}): IP
 };
 
 /**
- * Get the initial page. If ``useUrl`` is true, then source it from the URL. Otherwise, return 1.
+ * Get the initial page. If ``useUrl`` is true, then source it from the URL. Otherwise,
+ * return 1.
  */
 const getStartPage = (useUrl: boolean, query: URLSearchParams): number => {
   const page = query.get('page');

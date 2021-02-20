@@ -11,7 +11,9 @@ type IInfo = React.FC<{ track: ITrack }>;
 
 export const Info: IInfo = ({ track }) => {
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
-  const { data } = useNowPlayingInfoFetchReleaseQuery({ variables: { id: track.release.id } });
+  const { data } = useNowPlayingInfoFetchReleaseQuery({
+    variables: { id: track.release.id },
+  });
 
   const parentRelease = data?.release;
 
@@ -37,7 +39,11 @@ export const Info: IInfo = ({ track }) => {
           {track.artists.length === 0 ? (
             <Link href="/artists/1">Unknown Artist</Link>
           ) : (
-            <CustomTrackArtistList link artists={filterNulls(track.artists)} tw="inline" />
+            <CustomTrackArtistList
+              link
+              artists={filterNulls(track.artists)}
+              tw="inline"
+            />
           )}
         </div>
         <div tw="flex-none mb-2">
@@ -49,7 +55,11 @@ export const Info: IInfo = ({ track }) => {
         <div tw="flex-none mt-4 text-base truncate-2 md:mt-auto">
           {parentRelease && parentRelease.genres.length !== 0 && (
             <>
-              <CustomGenreList link delimiter=" " elements={filterNulls(parentRelease.genres)} />
+              <CustomGenreList
+                link
+                delimiter=" "
+                elements={filterNulls(parentRelease.genres)}
+              />
             </>
           )}
         </div>
@@ -66,7 +76,16 @@ const CustomTrackArtistList = styled(TrackArtistList)`
 
 const CustomGenreList = styled(GenreList)`
   .list--element {
-    ${tw`px-2 py-1 mr-1 rounded bg-primary-700 text-foreground hover:bg-primary-600 leading-9`}
+    ${tw`
+      px-2
+      py-1
+      mr-1
+      rounded
+      bg-primary-700
+      text-foreground
+      hover:bg-primary-600
+      leading-9
+    `}
   }
 `;
 

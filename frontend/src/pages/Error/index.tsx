@@ -20,4 +20,6 @@ export const ErrorPage: IErrorPage = ({ title, errors }) => (
   </div>
 );
 
-export const NotFound: React.FC = () => <ErrorPage errors={['you are lost ^.~']} title="404" />;
+export const NotFound: React.FC = () => (
+  <ErrorPage errors={['you are lost ^.~']} title="404" />
+);

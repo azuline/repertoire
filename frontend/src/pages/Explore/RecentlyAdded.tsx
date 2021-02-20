@@ -13,7 +13,10 @@ export const RecentlyAdded: React.FC = () => {
 
   const toRecentlyAdded = (): void => {
     // TODO: change these string keys to an enum.
-    localStorage.setItem('release-view-options--sort', JSON.stringify('RECENTLY_ADDED'));
+    localStorage.setItem(
+      'release-view-options--sort',
+      JSON.stringify('RECENTLY_ADDED'),
+    );
     localStorage.setItem('release-view-options--asc', JSON.stringify(false));
     history.push('/releases');
   };
@@ -23,7 +26,10 @@ export const RecentlyAdded: React.FC = () => {
       <Link href="/releases" onClick={toRecentlyAdded}>
         <SectionHeader tw="mt-4 cursor-pointer">
           Recently Added
-          <span tw="text-xl ml-1 hover:text-primary-400 text-primary-500"> (View All)</span>
+          <span tw="text-xl ml-1 hover:text-primary-400 text-primary-500">
+            {' '}
+            (View All)
+          </span>
         </SectionHeader>
       </Link>
       <ScrolledReleases releases={releases} />

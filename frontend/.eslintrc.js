@@ -38,6 +38,7 @@ module.exports = {
     'jsx-a11y/label-has-associated-control': 'off',
     'jsx-a11y/no-autofocus': 'off',
     'linebreak-style': ['error', 'unix'],
+    'max-len': ['warn', { code: 88, tabWidth: 2 }],
     'no-console': 'warn',
     'no-unused-vars': 'warn',
     'no-duplicate-imports': 'warn',

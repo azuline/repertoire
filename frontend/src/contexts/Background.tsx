@@ -19,5 +19,7 @@ export const BackgroundProvider: IProvider = ({ children }) => {
 
   const value = { backgroundImageId, setBackgroundImageId };
 
-  return <BackgroundContext.Provider value={value}>{children}</BackgroundContext.Provider>;
+  return (
+    <BackgroundContext.Provider value={value}>{children}</BackgroundContext.Provider>
+  );
 };

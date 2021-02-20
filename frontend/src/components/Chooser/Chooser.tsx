@@ -6,17 +6,20 @@ import { JumpToLetter } from './JumpToLetter';
 import { VirtualList } from './VirtualList';
 
 /**
- * TODO: At the moment, the pages on which this is used essentially have a fixed header. Whereas, on
- * other pages, the header scrolls with the rest of the page.
+ * TODO: At the moment, the pages on which this is used essentially have a fixed header.
+ * Whereas, on other pages, the header scrolls with the rest of the page.
  *
- * It would be nice if this could use the scroll container of the main application rather than its
- * own scroll container.
+ * It would be nice if this could use the scroll container of the main application
+ * rather than its own scroll container.
  *
- * I have attempted to use the WindowScroller, which worked well with the exception of one problem:
- * the scrollbar extended into the footer.
+ * I have attempted to use the WindowScroller, which worked well with the exception of
+ * one problem: the scrollbar extended into the footer.
  *
- * We are going for an application feel, and the scrollbar going into the footer just breaks the
- * feel entirely. So we are settling for the sticky header, **for now**.
+ * We are going for an application feel, and the scrollbar going into the footer just
+ * breaks the feel entirely. So we are settling for the sticky header, **for now**.
+ *
+ * I am considering moving back to a sticky header that minimizes on scroll. I think we
+ * can probably use AutoSizer in that case.
  */
 
 type IChooser = React.FC<{
@@ -49,7 +52,10 @@ export const Chooser: IChooser = ({
       ]}
     >
       <div
-        css={[tw`relative flex-auto h-full`, active && tw`xl:bg-background-800 xl:sticky xl:top-0`]}
+        css={[
+          tw`relative flex-auto h-full`,
+          active && tw`xl:bg-background-800 xl:sticky xl:top-0`,
+        ]}
       >
         <JumpToLetter active={active} results={results} setJumpTo={setJumpTo} />
         <VirtualList

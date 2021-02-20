@@ -14,10 +14,11 @@ type IAudioTracks = { curr?: IAudioTrack; next?: IAudioTrack };
 type IAudioTrack = { trackId: number; audio: HTMLAudioElement };
 
 /**
- * A hook to manage audio playback. This hook will play the current track in the queue if
- * one exists. Upon track completion, the hook will auto-play the next track in the queue.
+ * A hook to manage audio playback. This hook will play the current track in the queue
+ * if one exists. Upon track completion, the hook will auto-play the next track in the
+ * queue.
  *
- * This hook must exist below a ``PlayQueueProvider``.
+ * This hook must be inside a ``PlayQueueProvider``.
  *
  * @returns An object with four keys:
  *
@@ -35,8 +36,9 @@ export const useAudio = (): IAudio => {
 
   const atc = React.useRef<IAudioTracks>({}).current;
 
-  // Whenever we switch to a new track, load the corresponding audio file and begin playing it.
-  // For near-gapless playback, we preload the next track shortly after playing this track.
+  // Whenever we switch to a new track, load the corresponding audio file and begin
+  // playing it. For near-gapless playback, we preload the next track shortly after
+  // playing this track.
   React.useEffect(() => {
     const track = curIndex !== null ? playQueue[curIndex] : undefined;
     const nextTrack = curIndex !== null ? playQueue[curIndex + 1] : undefined;
@@ -52,19 +54,25 @@ export const useAudio = (): IAudio => {
       return;
     }
 
-    // Set the current track. If we preloaded it before, just move it up. Otherwise create a new
-    // audio track.
+    // Set the current track. If we preloaded it before, just move it up. Otherwise
+    // create a new audio track.
     if (atc.next !== undefined && atc.next.trackId === track.id) {
       atc.curr = atc.next;
       atc.curr.audio.play();
     } else {
-      atc.curr = { audio: new Audio(`/api/files/tracks/${track.id}`), trackId: track.id };
+      atc.curr = {
+        audio: new Audio(`/api/files/tracks/${track.id}`),
+        trackId: track.id,
+      };
       atc.curr.audio.preload = 'auto';
     }
 
     // Set the next track and begin preloading it.
     if (nextTrack !== undefined) {
-      atc.next = { audio: new Audio(`/api/files/tracks/${nextTrack.id}`), trackId: nextTrack.id };
+      atc.next = {
+        audio: new Audio(`/api/files/tracks/${nextTrack.id}`),
+        trackId: nextTrack.id,
+      };
       atc.next.audio.preload = 'auto';
     } else {
       atc.next = undefined;
@@ -78,7 +86,8 @@ export const useAudio = (): IAudio => {
     return (): void => atc.curr?.audio.removeEventListener('canplay', onCanPlay);
   }, [playQueue, curIndex]);
 
-  // Set up an event on the current playing audio that handles when a track finishes playing.
+  // Set up an event on the current playing audio that handles when a track finishes
+  // playing.
   React.useEffect(() => {
     if (atc.curr === undefined) {
       return;
@@ -96,8 +105,8 @@ export const useAudio = (): IAudio => {
     return (): void => audio.removeEventListener('ended', onTrackEnd);
   }, [playQueue, curIndex]);
 
-  // Sync the isPlaying variable with the audio. Return a timer to sync curTime with the track
-  // progress.
+  // Sync the isPlaying variable with the audio. Return a timer to sync curTime with the
+  // track progress.
   React.useEffect(() => {
     if (atc.curr === undefined) {
       setIsPlaying(false);

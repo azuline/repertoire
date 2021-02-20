@@ -25,7 +25,7 @@ export const Rewind: IRewind = ({ className, isPlaying, curTime, seek }) => {
     <Icon
       className={className}
       icon="rewind-small"
-      tw="cursor-pointer mr-1 hover:text-primary-400"
+      tw="cursor-pointer mr-1 hover:text-primary-400 w-9"
       onClick={rewind}
     />
   );

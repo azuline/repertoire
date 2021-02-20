@@ -27,7 +27,9 @@ export const NavLink: INavLink = ({ url, label, activeRoute }) => {
         </div>
       </Link>
       <Link href={url} tw="block sm:hidden">
-        <div tw="px-6 py-2 cursor-pointer md:px-8 text-foreground hover-bg">{label}</div>
+        <div tw="px-6 py-2 cursor-pointer md:px-8 text-foreground hover-bg">
+          {label}
+        </div>
       </Link>
     </>
   );

@@ -54,7 +54,8 @@ export const JumpToLetter: IJumpToLetter = ({ active, results, setJumpTo }) => {
   return (
     <div
       css={[
-        tw`absolute top-0 right-0 z-10 overflow-y-hidden text-right height[calc(100vh - 9.5rem)]`,
+        tw`absolute top-0 right-0 z-10 height[calc(100vh - 9.5rem)]`,
+        tw`overflow-y-hidden text-right`,
         active ? tw`mt-9 mr-5` : tw`mr-8 pt-1`,
       ]}
     >
@@ -63,7 +64,9 @@ export const JumpToLetter: IJumpToLetter = ({ active, results, setJumpTo }) => {
           key={letter}
           css={[
             tw`px-2`,
-            jumpFn ? tw`cursor-pointer hover:font-bold text-primary-500` : tw`text-primary-700`,
+            jumpFn
+              ? tw`cursor-pointer hover:font-bold text-primary-500`
+              : tw`text-primary-700`,
           ]}
           onClick={jumpFn}
         >
@@ -74,7 +77,10 @@ export const JumpToLetter: IJumpToLetter = ({ active, results, setJumpTo }) => {
   );
 };
 
-const mapLettersToIndex = (results: IElement[], setJumpTo: ISetValue<number | null>): IIndexMap => {
+const mapLettersToIndex = (
+  results: IElement[],
+  setJumpTo: ISetValue<number | null>,
+): IIndexMap => {
   const initialMap = jumpLetters.reduce<IIndexMap>((map, jumpLetter) => {
     map[jumpLetter] = undefined; // eslint-disable-line no-param-reassign
     return map;

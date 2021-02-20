@@ -27,23 +27,29 @@ export const User: IUserComponent = ({ className }) => {
   return (
     <div className={className} tw="flex items-center h-full min-w-0">
       <div tw="mr-2 truncate">{data?.user?.nickname || 'Loading...'}</div>
-      <Link
-        href="/settings"
-        tw="flex-none px-1 py-2 cursor-pointer hover:text-primary-400 text-primary-500 sm:hidden"
-      >
-        <Icon icon="cog-medium" title="Settings" tw="w-6" />
-      </Link>
-      <Link
-        href="/settings"
-        tw="flex-none hidden px-1 py-2 cursor-pointer hover:text-primary-400 text-primary-500 sm:block"
-      >
-        <Icon icon="cog-medium" title="Settings" tw="w-6" />
-      </Link>
-      <div
-        tw="flex-none px-2 py-1 -mr-2 cursor-pointer hover:text-primary-400 text-primary-500"
-        onClick={logout}
-      >
-        <Icon icon="logout-medium" title="Logout" tw="w-6" />
+      <div tw="flex-none px-1 py-2 sm:hidden">
+        <Link
+          href="/settings"
+          tw="cursor-pointer hover:text-primary-400 text-primary-500"
+        >
+          <Icon icon="cog-medium" title="Settings" tw="w-6" />
+        </Link>
+      </div>
+      <div tw="flex-none px-1 py-2 hidden sm:block">
+        <Link
+          href="/settings"
+          tw="cursor-pointer hover:text-primary-400 text-primary-500"
+        >
+          <Icon icon="cog-medium" title="Settings" tw="w-6" />
+        </Link>
+      </div>
+      <div tw="flex-none px-2 py-1 -mr-2">
+        <div
+          tw="cursor-pointer hover:text-primary-400 text-primary-500"
+          onClick={logout}
+        >
+          <Icon icon="logout-medium" title="Logout" tw="w-6" />
+        </div>
       </div>
     </div>
   );

@@ -22,7 +22,9 @@ export const VolumeControl: React.FC = () => {
           invert
           orientation="vertical"
           value={volume}
-          onChange={(value): void => (!value ? setVolume(0) : setVolume(value as number))}
+          onChange={(value): void =>
+            !value ? setVolume(0) : setVolume(value as number)
+          }
         />
       </VolumeSlider>
     </Wrapper>

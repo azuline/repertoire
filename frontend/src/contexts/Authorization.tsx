@@ -41,5 +41,9 @@ export const AuthorizationProvider: IProvider = ({ children }) => {
 
   const value = { csrf, loggedIn, setCsrf, setLoggedIn };
 
-  return <AuthorizationContext.Provider value={value}>{children}</AuthorizationContext.Provider>;
+  return (
+    <AuthorizationContext.Provider value={value}>
+      {children}
+    </AuthorizationContext.Provider>
+  );
 };

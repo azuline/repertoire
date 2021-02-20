@@ -18,8 +18,10 @@ export const Pagination: IPaginationComponent = ({
   const bottom = Math.max(page - 2, 2);
   const top = Math.min(page + 3, numPages);
 
-  const goBackOnePage = (): void => setPage((p) => Math.min(Math.max(1, p - 1), numPages));
-  const goForwardOnePage = (): void => setPage((p) => Math.min(Math.max(1, p + 1), numPages));
+  const goBackOnePage = (): void =>
+    setPage((p) => Math.min(Math.max(1, p - 1), numPages));
+  const goForwardOnePage = (): void =>
+    setPage((p) => Math.min(Math.max(1, p + 1), numPages));
 
   // If there are no pages, don't render pagination.
   if (numPages <= 1) {

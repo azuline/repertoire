@@ -31,7 +31,10 @@ const sections = [
       { exact: false, label: 'Playlists', path: '/playlists' },
     ],
   },
-  { name: 'Utilities', routes: [{ exact: false, label: 'Metadata Tools', path: '/metadata' }] },
+  {
+    name: 'Utilities',
+    routes: [{ exact: false, label: 'Metadata Tools', path: '/metadata' }],
+  },
 ];
 
 export const RouteList: React.FC = () => {
@@ -45,7 +48,9 @@ export const RouteList: React.FC = () => {
     <div>
       {sections.map(({ name, routes }) => (
         <div key={name} tw="py-3 -mx-6 md:-mx-8">
-          {name && <div tw="px-6 pb-6 text-sm uppercase md:px-8 text-primary-400">{name}</div>}
+          {name && (
+            <div tw="px-6 pb-6 text-sm uppercase md:px-8 text-primary-400">{name}</div>
+          )}
           {routes.map(({ path, label }, i) => (
             <NavLink key={i} activeRoute={activeRoute} label={label} url={path} />
           ))}

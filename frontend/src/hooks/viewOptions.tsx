@@ -5,9 +5,6 @@ import { IReleaseView, ISetValue } from '~/types';
 
 import { usePersistentState } from './persistentState';
 
-// TODO: Refactor this mess... I'm thinking that we should ditch all the useEffects here and just
-// let the callers create their own useEffects.
-
 export type IViewOptions = {
   search: string;
   setSearch: ISetValue<string>;
@@ -50,7 +47,9 @@ type IParams = {
  */
 export const useViewOptions = (defaults: IParams = {}): IViewOptions => {
   const [search, setSearch] = React.useState<string>(defaults.search ?? '');
-  const [collectionIds, setCollectionIds] = React.useState<number[]>(defaults.collectionIds ?? []);
+  const [collectionIds, setCollectionIds] = React.useState<number[]>(
+    defaults.collectionIds ?? [],
+  );
   const [artistIds, setArtistIds] = React.useState<number[]>(defaults.artistIds ?? []);
   const [releaseTypes, setReleaseTypes] = React.useState<IReleaseType[]>(
     defaults.releaseTypes ?? [],

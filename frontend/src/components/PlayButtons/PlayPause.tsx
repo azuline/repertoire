@@ -25,7 +25,7 @@ export const PlayPause: IPlayPause = ({ className, isPlaying, setIsPlaying }) =>
     <Icon
       className={className}
       icon={isPlaying ? 'pause-small' : 'play-small'}
-      tw="mr-1 cursor-pointer hover:text-primary-400"
+      tw="mr-1 cursor-pointer hover:text-primary-400 w-12"
       onClick={togglePlay}
     />
   );

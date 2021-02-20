@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import tw from 'twin.macro';
 
 import { Background, NowPlayingBar, Sidebar } from '~/components';
 import { AuthorizationContext, GlobalContexts, ThemeContext } from '~/contexts';
@@ -24,11 +25,21 @@ const Body: React.FC = () => {
     <div tw="w-full min-h-0 bg-background-700 text-foreground">
       {loggedIn ? (
         <div className={theme} tw="flex flex-col h-screen">
-          <div tw="flex flex-1 w-full height[calc(100% - 4rem)] min-height[calc(100% - 4rem)]">
+          <div
+            css={[
+              tw`w-full height[calc(100% - 4rem)] min-height[calc(100% - 4rem)]`,
+              tw`flex flex-1`,
+            ]}
+          >
             <Sidebar />
-            <div tw="relative flex flex-col min-w-0 full">
+            <div tw="full relative flex flex-col min-w-0">
               <Background />
-              <div tw="relative flex flex-col min-h-0 px-6 overflow-y-auto md:px-8 full">
+              <div
+                css={[
+                  tw`full px-6 md:px-8`,
+                  tw`relative flex flex-col min-h-0 overflow-y-auto`,
+                ]}
+              >
                 <Routes />
               </div>
             </div>

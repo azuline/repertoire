@@ -53,7 +53,12 @@ export const Login: React.FC = () => {
             <Button type="submit">Login</Button>
           </div>
           <div tw="flex items-center mt-2">
-            <Input ref={permanent} id="permanent" tw="mx-2 cursor-pointer" type="checkbox" />
+            <Input
+              ref={permanent}
+              id="permanent"
+              tw="mx-2 cursor-pointer"
+              type="checkbox"
+            />
             <label htmlFor="permanent" tw="cursor-pointer">
               Remember me
             </label>

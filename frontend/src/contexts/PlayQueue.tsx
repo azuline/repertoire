@@ -24,5 +24,7 @@ export const PlayQueueProvider: IProvider = ({ children }) => {
 
   const value = { curIndex, playQueue, setCurIndex, setPlayQueue };
 
-  return <PlayQueueContext.Provider value={value}>{children}</PlayQueueContext.Provider>;
+  return (
+    <PlayQueueContext.Provider value={value}>{children}</PlayQueueContext.Provider>
+  );
 };

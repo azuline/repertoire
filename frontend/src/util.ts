@@ -1,5 +1,6 @@
 /**
- * A function that filters the nulls from an array and recasts the type as a non-null list.
+ * A function that filters the nulls from an array and recasts the type as a
+ * non-null list.
  *
  * @param xs A list with nulls.
  * @returns A list without nulls.
@@ -9,8 +10,8 @@ export function filterNulls<T>(xs: (T | null)[]): T[] {
 }
 
 /**
- * A comparison function for track/disc numbers. This properly sorts track/disc
- * numbers that are not zero-padded.
+ * A comparison function for track/disc numbers. This properly sorts
+ * track/disc numbers that are not zero-padded.
  *
  * @param a - Comparison element 1.
  * @param b - Comparison element 2.
@@ -44,8 +45,8 @@ export const secondsToLength = (totalSeconds: number): string => {
 /**
  * Convert a REM unit into a Pixels unit.
  *
- * This is useful because our CSS is styled in REMs, but some components (e.g. react-virtualized)
- * expect units in pixels.
+ * This is useful because our CSS is styled in REMs, but some components
+ * (e.g. react-virtualized) expect units in pixels.
  *
  * @param rem Number of REMs.
  * @returns Number of pixels.

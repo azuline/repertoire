@@ -1,4 +1,5 @@
 import * as React from 'react';
+import tw from 'twin.macro';
 
 import { Link } from '~/components/common';
 import { Image } from '~/components/Image';
@@ -15,12 +16,19 @@ export const RowRelease: IRowRelease = ({ release, className }) => {
   return (
     <Link
       className={className}
+      css={[
+        tw`flex items-center -mx-3 p-3 width[calc(100% + 1.5rem)]`,
+        tw`cursor-pointer hover-bg`,
+      ]}
       href={`/releases/${release.id}`}
-      tw="flex items-center -mx-3 p-3 cursor-pointer hover-bg width[calc(100% + 1.5rem)]"
     >
       {release.inInbox ? <InInboxIndicator tw="w-5" /> : <div tw="w-5" />}
       <div tw="relative flex-none w-12 h-12 mr-3">
-        <Image thumbnail imageId={release.imageId} tw="absolute object-cover rounded-lg full" />
+        <Image
+          thumbnail
+          imageId={release.imageId}
+          tw="absolute object-cover rounded-lg full"
+        />
       </div>
       <div tw="flex-1 overflow-hidden">
         <div tw="flex">
@@ -42,7 +50,10 @@ export const RowRelease: IRowRelease = ({ release, className }) => {
           </div>
         </div>
         <div tw="flex text-foreground-300">
-          <ArtistList elements={filterNulls(release.artists)} tw="mr-8 truncate max-w-3/5" />
+          <ArtistList
+            elements={filterNulls(release.artists)}
+            tw="mr-8 truncate max-w-3/5"
+          />
           <div tw="flex-1 hidden overflow-hidden text-right md:block rtl">
             <GenreList elements={filterNulls(release.genres)} tw="truncate" />
           </div>

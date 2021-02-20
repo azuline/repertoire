@@ -6,10 +6,16 @@ import { ITrack } from '~/graphql';
 import { Track } from './Track';
 import { checkMatchingTracklists } from './util';
 
-type ITracklist = React.FC<{ className?: string; tracks: ITrack[]; showCovers?: boolean }>;
+type ITracklist = React.FC<{
+  className?: string;
+  tracks: ITrack[];
+  showCovers?: boolean;
+}>;
 
 export const Tracklist: ITracklist = ({ className, tracks, showCovers = false }) => {
-  const { playQueue, setPlayQueue, curIndex, setCurIndex } = React.useContext(PlayQueueContext);
+  const { playQueue, setPlayQueue, curIndex, setCurIndex } = React.useContext(
+    PlayQueueContext,
+  );
 
   // Check to see if the current track list matches up with the play queue--if
   // it does, we are currently playing this Tracklist.

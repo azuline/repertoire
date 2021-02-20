@@ -38,14 +38,16 @@ export const Track: ITrackComponent = ({
   return (
     <div
       css={[
-        tw`flex relative items-center py-1.5 pr-3 -mx-3 rounded width[calc(100% + 1.5rem)]`,
+        tw`flex relative items-center`,
+        tw`py-1.5 pr-3 -mx-3 rounded width[calc(100% + 1.5rem)]`,
         active && tw`font-bold`,
         onClick && tw`cursor-pointer hover-bg`,
       ]}
     >
       <div
         css={[
-          tw`flex-none flex items-center absolute top-0 left-0 px-3 cursor-pointer h-full`,
+          tw`flex-none flex items-center absolute top-0 left-0`,
+          tw`px-3 cursor-pointer h-full`,
           track.favorited
             ? tw`text-primary-500 fill-current hover:(text-gray-500 stroke-current)`
             : tw`text-gray-500 stroke-current hover:(text-primary-400 fill-current)`,
@@ -59,7 +61,9 @@ export const Track: ITrackComponent = ({
         tw="ml-12 md:ml-11 w-full flex items-center min-w-0"
         onClick={(): void => onClick && onClick(index)}
       >
-        {showCover && <Image imageId={track.release.imageId} tw="rounded w-8 h-8 mr-3" />}
+        {showCover && (
+          <Image imageId={track.release.imageId} tw="rounded w-8 h-8 mr-3" />
+        )}
         <div tw="flex-1">
           <div tw="flex items-center w-full min-w-0">
             <div tw="flex items-center flex-1 min-w-0">

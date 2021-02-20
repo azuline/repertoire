@@ -17,7 +17,9 @@ export const PlaylistTracks: IPlaylistTracks = ({ active }) => {
     return <ErrorPage errors={errors} title="Could not fetch release." />;
   }
 
-  const tracks = filterNulls(data?.playlist?.entries.map((e) => e?.track) ?? []) as ITrack[];
+  const tracks = filterNulls(
+    data?.playlist?.entries.map((e) => e?.track) ?? [],
+  ) as ITrack[];
 
   return <Tracklist showCovers tracks={tracks} />;
 };

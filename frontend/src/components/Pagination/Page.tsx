@@ -14,7 +14,9 @@ export const Page: IPage = ({ page, curPage, setCurPage, className }) => (
   <TextButton
     className={className}
     css={[
-      page === curPage ? tw`font-bold text-primary-500` : tw`text-black dark:text-white`,
+      page === curPage
+        ? tw`font-bold text-primary-500`
+        : tw`text-black dark:text-white`,
       tw`p-1 rounded-none`,
     ]}
     type="button"

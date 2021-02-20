@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
-import tw, { TwStyle } from 'twin.macro';
+import tw from 'twin.macro';
 
 import { Pagination } from '~/components/Pagination';
 import { ArtRelease, RowRelease } from '~/components/Release';
@@ -18,7 +18,11 @@ type IPagedReleases = React.FC<{
   partial?: boolean;
 }>;
 
-export const PagedReleases: IPagedReleases = ({ viewOptions, pagination, partial = false }) => {
+export const PagedReleases: IPagedReleases = ({
+  viewOptions,
+  pagination,
+  partial = false,
+}) => {
   const { addToast } = useToasts();
   const { data, error } = usePagedReleasesFetchReleasesQuery({
     variables: { ...viewOptions, ...pagination },
@@ -58,7 +62,14 @@ export const PagedReleases: IPagedReleases = ({ viewOptions, pagination, partial
       break;
     case IReleaseView.Artwork:
       releasesDiv = (
-        <div css={[tw`grid gap-4 md:gap-6`, calculateGridCss(partial)]}>
+        <div
+          css={[
+            tw`grid grid-cols-2 gap-4 md:(grid-cols-3 gap-6) lg:grid-cols-4`,
+            partial
+              ? tw`xl:grid-cols-4 2xl:grid-cols-5`
+              : tw`xl:grid-cols-5 2xl:grid-cols-6`,
+          ]}
+        >
           {results.map((rls) => (
             <ArtRelease key={rls.id} release={rls} />
           ))}
@@ -70,18 +81,16 @@ export const PagedReleases: IPagedReleases = ({ viewOptions, pagination, partial
 
   return (
     <div tw="pb-8">
-      <ViewSettings pagination={pagination} partial={partial} tw="mb-6" viewOptions={viewOptions} />
+      <ViewSettings
+        pagination={pagination}
+        partial={partial}
+        tw="mb-6"
+        viewOptions={viewOptions}
+      />
       {releasesDiv}
       <Pagination pagination={pagination} tw="mt-6" />
     </div>
   );
-};
-
-const calculateGridCss = (partial: boolean): TwStyle => {
-  if (partial) {
-    return tw`grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5`;
-  }
-  return tw`grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6`;
 };
 
 /* eslint-disable */
