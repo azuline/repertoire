@@ -144,17 +144,6 @@ CREATE TABLE music__playlists_tracks (
 CREATE INDEX idx__music__playlists_tracks__playlist_position
     ON music__playlists_tracks (playlist_id, position);
 
-CREATE TABLE music__releases_search_index (
-    id INTEGER NOT NULL,
-    release_id INTEGER NOT NULL,
-    word VARCHAR COLLATE 'NOCASE' NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (release_id) REFERENCES music__releases(id) ON DELETE CASCADE
-);
-
-CREATE INDEX idx__music__releases_search_index__word
-    ON music__releases_search_index (word);
-
 CREATE TABLE images (
     id INTEGER NOT NULL,
     path VARCHAR NOT NULL,
@@ -182,3 +171,335 @@ CREATE TABLE system__secret_key (
     key BLOB NOT NULL,
     PRIMARY KEY (key)
 );
+
+CREATE VIEW music__releases__fts_content AS
+    SELECT
+        rls.id AS id,
+        rls.title AS title,
+        GROUP_CONCAT(arts.name, " ") AS artists
+    FROM music__releases AS rls
+    LEFT JOIN music__releases_artists AS rlsarts ON rlsarts.release_id = rls.id
+    LEFT JOIN music__artists AS arts ON arts.id = rlsarts.artist_id
+/* music__releases__fts_content(id,title,artists) */;
+
+CREATE VIRTUAL TABLE music__releases__fts USING fts5(
+    title,
+    artists,
+    content='music__releases__fts_content',
+    content_rowid='id'
+)
+/* music__releases__fts(title,artists) */;
+
+CREATE TABLE IF NOT EXISTS 'music__releases__fts_data'(id INTEGER PRIMARY KEY, block BLOB);
+
+CREATE TABLE IF NOT EXISTS 'music__releases__fts_idx'(segid, term, pgno, PRIMARY KEY(segid, term)) WITHOUT ROWID;
+
+CREATE TABLE IF NOT EXISTS 'music__releases__fts_docsize'(id INTEGER PRIMARY KEY, sz BLOB);
+
+CREATE TABLE IF NOT EXISTS 'music__releases__fts_config'(k PRIMARY KEY, v) WITHOUT ROWID;
+
+CREATE TRIGGER music__releases__fts__release_insert
+    AFTER INSERT ON music__releases
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (rowid, title, artists)
+        SELECT id, title, artists FROM music__releases__fts_content WHERE id = new.id;
+    END;
+
+CREATE TRIGGER music__releases__fts__release_delete
+    BEFORE DELETE ON music__releases
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
+        SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = old.id;
+    END;
+
+CREATE TRIGGER music__releases__fts__release_update_pre
+    BEFORE UPDATE ON music__releases
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
+        SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = old.id;
+    END;
+
+CREATE TRIGGER music__releases__fts__release_update_post
+    AFTER UPDATE ON music__releases
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (rowid, title, artists)
+        SELECT id, title, artists FROM music__releases__fts_content WHERE id = new.id;
+    END;
+
+CREATE TRIGGER music__releases__fts__artist_insert_pre
+    AFTER INSERT ON music__releases_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
+        SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = new.release_id;
+    END;
+
+CREATE TRIGGER music__releases__fts__artist_insert_post
+    AFTER INSERT ON music__releases_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (rowid, title, artists)
+        SELECT id, title, artists FROM music__releases__fts_content WHERE id = new.release_id;
+    END;
+
+CREATE TRIGGER music__releases__fts__artist_delete_pre
+    AFTER DELETE ON music__releases_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
+        SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = old.release_id;
+    END;
+
+CREATE TRIGGER music__releases__fts__artist_delete_post
+    AFTER DELETE ON music__releases_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (rowid, title, artists)
+        SELECT id, title, artists FROM music__releases__fts_content WHERE id = old.release_id;
+    END;
+
+CREATE TRIGGER music__releases__fts__artist_update_pre
+    AFTER UPDATE ON music__releases_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
+        SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = old.release_id;
+    END;
+
+CREATE TRIGGER music__releases__fts__artist_update_post
+    AFTER UPDATE ON music__releases_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (rowid, title, artists)
+        SELECT id, title, artists FROM music__releases__fts_content WHERE id = new.release_id;
+    END;
+
+CREATE VIRTUAL TABLE music__artists__fts USING fts5(
+    name,
+    content='music__artists',
+    content_rowid='id'
+)
+/* music__artists__fts(name) */;
+
+CREATE TABLE IF NOT EXISTS 'music__artists__fts_data'(id INTEGER PRIMARY KEY, block BLOB);
+
+CREATE TABLE IF NOT EXISTS 'music__artists__fts_idx'(segid, term, pgno, PRIMARY KEY(segid, term)) WITHOUT ROWID;
+
+CREATE TABLE IF NOT EXISTS 'music__artists__fts_docsize'(id INTEGER PRIMARY KEY, sz BLOB);
+
+CREATE TABLE IF NOT EXISTS 'music__artists__fts_config'(k PRIMARY KEY, v) WITHOUT ROWID;
+
+CREATE TRIGGER music__artists__fts__insert
+    AFTER INSERT ON music__artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__artists__fts (rowid, name) VALUES (new.id, new.name);
+    END;
+
+CREATE TRIGGER music__artists__fts__delete
+    AFTER DELETE ON music__artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__artists__fts (music__artists__fts, rowid, name)
+        VALUES ('delete', old.id, old.name);
+    END;
+
+CREATE TRIGGER music__artists__fts__update
+    AFTER UPDATE ON music__artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__artists__fts (music__artists__fts, rowid, name)
+        VALUES ('delete', old.id, old.name);
+
+        INSERT INTO music__artists__fts (rowid, name) VALUES (new.id, new.name);
+    END;
+
+CREATE VIEW music__tracks__fts_content AS
+    SELECT
+        trks.id AS id,
+        trks.title AS title,
+        GROUP_CONCAT(arts.name, " ") AS artists
+    FROM music__tracks AS trks
+    LEFT JOIN music__tracks_artists AS trksarts ON trksarts.track_id = trks.id
+    LEFT JOIN music__artists AS arts ON arts.id = trksarts.artist_id
+/* music__tracks__fts_content(id,title,artists) */;
+
+CREATE VIRTUAL TABLE music__tracks__fts USING fts5(
+    title,
+    artists,
+    content='music__tracks__fts_content',
+    content_rowid='id'
+)
+/* music__tracks__fts(title,artists) */;
+
+CREATE TABLE IF NOT EXISTS 'music__tracks__fts_data'(id INTEGER PRIMARY KEY, block BLOB);
+
+CREATE TABLE IF NOT EXISTS 'music__tracks__fts_idx'(segid, term, pgno, PRIMARY KEY(segid, term)) WITHOUT ROWID;
+
+CREATE TABLE IF NOT EXISTS 'music__tracks__fts_docsize'(id INTEGER PRIMARY KEY, sz BLOB);
+
+CREATE TABLE IF NOT EXISTS 'music__tracks__fts_config'(k PRIMARY KEY, v) WITHOUT ROWID;
+
+CREATE TRIGGER music__tracks__fts__track_insert
+    AFTER INSERT ON music__tracks
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__tracks__fts (rowid, title, artists)
+        SELECT id, title, artists FROM music__tracks__fts_content WHERE id = new.id;
+    END;
+
+CREATE TRIGGER music__tracks__fts__track_delete
+    BEFORE DELETE ON music__tracks
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__tracks__fts (music__tracks__fts, rowid, title, artists)
+        SELECT 'delete', rowid, title, artists FROM music__tracks__fts WHERE rowid = old.id;
+    END;
+
+CREATE TRIGGER music__tracks__fts__track_update_pre
+    BEFORE UPDATE ON music__tracks
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__tracks__fts (music__tracks__fts, rowid, title, artists)
+        SELECT 'delete', rowid, title, artists FROM music__tracks__fts WHERE rowid = old.id;
+    END;
+
+CREATE TRIGGER music__tracks__fts__track_update_post
+    AFTER UPDATE ON music__tracks
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__tracks__fts (rowid, title, artists)
+        SELECT id, title, artists FROM music__tracks__fts_content WHERE id = new.id;
+    END;
+
+CREATE TRIGGER music__tracks__fts__artist_insert_pre
+    AFTER INSERT ON music__tracks_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__tracks__fts (music__tracks__fts, rowid, title, artists)
+        SELECT 'delete', rowid, title, artists FROM music__tracks__fts WHERE rowid = new.track_id;
+    END;
+
+CREATE TRIGGER music__tracks__fts__artist_insert_post
+    AFTER INSERT ON music__tracks_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__tracks__fts (rowid, title, artists)
+        SELECT id, title, artists FROM music__tracks__fts_content WHERE id = new.track_id;
+    END;
+
+CREATE TRIGGER music__tracks__fts__artist_delete_pre
+    AFTER DELETE ON music__tracks_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__tracks__fts (music__tracks__fts, rowid, title, artists)
+        SELECT 'delete', rowid, title, artists FROM music__tracks__fts WHERE rowid = old.track_id;
+    END;
+
+CREATE TRIGGER music__tracks__fts__artist_delete_post
+    AFTER DELETE ON music__tracks_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__tracks__fts (rowid, title, artists)
+        SELECT id, title, artists FROM music__tracks__fts_content WHERE id = old.track_id;
+    END;
+
+CREATE TRIGGER music__tracks__fts__artist_update_pre
+    AFTER UPDATE ON music__tracks_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__tracks__fts (music__tracks__fts, rowid, title, artists)
+        SELECT 'delete', rowid, title, artists FROM music__tracks__fts WHERE rowid = old.track_id;
+    END;
+
+CREATE TRIGGER music__tracks__fts__artist_update_post
+    AFTER UPDATE ON music__tracks_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__tracks__fts (rowid, title, artists)
+        SELECT id, title, artists FROM music__tracks__fts_content WHERE id = new.track_id;
+    END;
+
+CREATE VIRTUAL TABLE music__collections__fts USING fts5(
+    name,
+    content='music__collections',
+    content_rowid='id'
+)
+/* music__collections__fts(name) */;
+
+CREATE TABLE IF NOT EXISTS 'music__collections__fts_data'(id INTEGER PRIMARY KEY, block BLOB);
+
+CREATE TABLE IF NOT EXISTS 'music__collections__fts_idx'(segid, term, pgno, PRIMARY KEY(segid, term)) WITHOUT ROWID;
+
+CREATE TABLE IF NOT EXISTS 'music__collections__fts_docsize'(id INTEGER PRIMARY KEY, sz BLOB);
+
+CREATE TABLE IF NOT EXISTS 'music__collections__fts_config'(k PRIMARY KEY, v) WITHOUT ROWID;
+
+CREATE TRIGGER music__collections__fts__insert
+    AFTER INSERT ON music__collections
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__collections__fts (rowid, name) VALUES (new.id, new.name);
+    END;
+
+CREATE TRIGGER music__collections__fts__delete
+    AFTER DELETE ON music__collections
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__collections__fts (music__collections__fts, rowid, name)
+        VALUES ('delete', old.id, old.name);
+    END;
+
+CREATE TRIGGER music__collections__fts__update
+    AFTER UPDATE ON music__collections
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__collections__fts (music__collections__fts, rowid, name)
+        VALUES ('delete', old.id, old.name);
+
+        INSERT INTO music__collections__fts (rowid, name) VALUES (new.id, new.name);
+    END;
+
+CREATE VIRTUAL TABLE music__playlists__fts USING fts5(
+    name,
+    content='music__playlists',
+    content_rowid='id'
+)
+/* music__playlists__fts(name) */;
+
+CREATE TABLE IF NOT EXISTS 'music__playlists__fts_data'(id INTEGER PRIMARY KEY, block BLOB);
+
+CREATE TABLE IF NOT EXISTS 'music__playlists__fts_idx'(segid, term, pgno, PRIMARY KEY(segid, term)) WITHOUT ROWID;
+
+CREATE TABLE IF NOT EXISTS 'music__playlists__fts_docsize'(id INTEGER PRIMARY KEY, sz BLOB);
+
+CREATE TABLE IF NOT EXISTS 'music__playlists__fts_config'(k PRIMARY KEY, v) WITHOUT ROWID;
+
+CREATE TRIGGER music__playlists__fts__insert
+    AFTER INSERT ON music__playlists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__playlists__fts (rowid, name) VALUES (new.id, new.name);
+    END;
+
+CREATE TRIGGER music__playlists__fts__delete
+    AFTER DELETE ON music__playlists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__playlists__fts (music__playlists__fts, rowid, name)
+        VALUES ('delete', old.id, old.name);
+    END;
+
+CREATE TRIGGER music__playlists__fts__update
+    AFTER UPDATE ON music__playlists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__playlists__fts (music__playlists__fts, rowid, name)
+        VALUES ('delete', old.id, old.name);
+
+        INSERT INTO music__playlists__fts (rowid, name) VALUES (new.id, new.name);
+    END;

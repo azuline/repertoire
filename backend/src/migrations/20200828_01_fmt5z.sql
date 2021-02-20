@@ -226,8 +226,8 @@ CREATE VIEW music__releases__fts_content AS
 CREATE VIRTUAL TABLE music__releases__fts USING fts5(
     title,
     artists,
-    content='music__releases__fts_content', 
-    content_rowid='id' 
+    content='music__releases__fts_content',
+    content_rowid='id'
 );
 
 CREATE TRIGGER music__releases__fts__release_insert
@@ -312,8 +312,8 @@ CREATE TRIGGER music__releases__fts__artist_update_post
 
 CREATE VIRTUAL TABLE music__artists__fts USING fts5(
     name,
-    content='music__artists', 
-    content_rowid='id' 
+    content='music__artists',
+    content_rowid='id'
 );
 
 CREATE TRIGGER music__artists__fts__insert
@@ -353,8 +353,8 @@ CREATE VIEW music__tracks__fts_content AS
 CREATE VIRTUAL TABLE music__tracks__fts USING fts5(
     title,
     artists,
-    content='music__tracks__fts_content', 
-    content_rowid='id' 
+    content='music__tracks__fts_content',
+    content_rowid='id'
 );
 
 CREATE TRIGGER music__tracks__fts__track_insert
@@ -439,8 +439,8 @@ CREATE TRIGGER music__tracks__fts__artist_update_post
 
 CREATE VIRTUAL TABLE music__collections__fts USING fts5(
     name,
-    content='music__collections', 
-    content_rowid='id' 
+    content='music__collections',
+    content_rowid='id'
 );
 
 CREATE TRIGGER music__collections__fts__insert
@@ -470,8 +470,8 @@ CREATE TRIGGER music__collections__fts__update
 
 CREATE VIRTUAL TABLE music__playlists__fts USING fts5(
     name,
-    content='music__playlists', 
-    content_rowid='id' 
+    content='music__playlists',
+    content_rowid='id'
 );
 
 CREATE TRIGGER music__playlists__fts__insert
