@@ -129,7 +129,7 @@ def from_playlist_and_track(
     logger.debug(
         f"Fetched playlist entries for playlist {playlist_id} and track {track_id}."
     )
-    return [from_row(row) for row in cursor.fetchall()]
+    return [from_row(row) for row in cursor]
 
 
 def create(playlist_id: int, track_id: int, conn: Connection) -> T:

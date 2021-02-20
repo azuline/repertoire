@@ -127,7 +127,7 @@ async def test_update_playlist_entry(db, graphql_query, snapshot):
         """
     )
 
-    order = [row["id"] for row in cursor.fetchall()]
+    order = [row["id"] for row in cursor]
     assert order == [5, 3, 4, 6, 7, 8]
 
 

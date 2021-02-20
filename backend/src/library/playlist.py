@@ -178,7 +178,7 @@ def all(conn: Connection, types: List[PlaylistType] = []) -> List[T]:
     )
 
     logger.debug("Fetched all playlists.")
-    return [from_row(row) for row in cursor.fetchall()]
+    return [from_row(row) for row in cursor]
 
 
 def create(name: str, type: PlaylistType, conn: Connection, starred: bool = False) -> T:
@@ -283,7 +283,7 @@ def entries(ply: T, conn: Connection) -> List[pentry.T]:
     )
 
     logger.debug(f"Fetched tracks of playlist {ply}.")
-    return [pentry.from_row(row) for row in cursor.fetchall()]
+    return [pentry.from_row(row) for row in cursor]
 
 
 def top_genres(ply: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
@@ -336,7 +336,7 @@ def top_genres(ply: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
             "genre": collection.from_row(without_key(row, "num_matches")),
             "num_matches": row["num_matches"],
         }
-        for row in cursor.fetchall()
+        for row in cursor
     ]
 
 

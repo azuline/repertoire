@@ -178,7 +178,7 @@ def all(conn: Connection, types: List[CollectionType] = []) -> List[T]:
     )
 
     logger.debug(f"Fetched all collections of types {type}.")
-    return [from_row(row) for row in cursor.fetchall()]
+    return [from_row(row) for row in cursor]
 
 
 def create(
@@ -416,7 +416,7 @@ def top_genres(col: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
             "genre": from_row(without_key(row, "num_matches")),
             "num_matches": row["num_matches"],
         }
-        for row in cursor.fetchall()
+        for row in cursor
     ]
 
 

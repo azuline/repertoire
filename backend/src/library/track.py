@@ -283,7 +283,7 @@ def artists(trk: T, conn: Connection) -> List[Dict]:
             "artist": artist.from_row(without_key(row, "role")),
             "role": ArtistRole(row["role"]),
         }
-        for row in cursor.fetchall()
+        for row in cursor
     ]
 
 

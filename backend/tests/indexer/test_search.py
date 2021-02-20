@@ -61,7 +61,7 @@ def test_search_index(db):
         (rls.id,),
     )
 
-    assert words == {row[0] for row in cursor.fetchall()}
+    assert words == {row[0] for row in cursor}
 
 
 def test_words_from_string():

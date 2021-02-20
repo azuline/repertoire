@@ -65,7 +65,7 @@ def _get_pending_releases(conn: Connection) -> List[int]:
     :return: Release IDs pending extraction.
     """
     cursor = conn.execute("SELECT release_id FROM images__music_releases_to_fetch")
-    return [row[0] for row in cursor.fetchall()]
+    return [row[0] for row in cursor]
 
 
 def _get_track_path_of_release(rls_id: int, conn: Connection) -> Optional[str]:

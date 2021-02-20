@@ -105,7 +105,7 @@ def test_update(position: int, final_order: int, db: Connection):
         """
     )
 
-    order = [row["id"] for row in cursor.fetchall()]
+    order = [row["id"] for row in cursor]
     assert order == final_order
 
 

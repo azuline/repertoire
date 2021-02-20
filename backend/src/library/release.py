@@ -216,7 +216,7 @@ def search(
     )
 
     logger.debug(f"Searched releases with {total} results.")
-    return total, [from_row(row) for row in cursor.fetchall()]
+    return total, [from_row(row) for row in cursor]
 
 
 def _generate_collection_filter(
@@ -451,7 +451,7 @@ def _find_duplicate_release(
         )
 
         # Compare the artists of this release with our provided artists.
-        if provided_artists == {row["name"].lower() for row in cursor.fetchall()}:
+        if provided_artists == {row["name"].lower() for row in cursor}:
             # If they match, return this release, as it is a duplicate.
             return from_row(row)
 
@@ -518,7 +518,7 @@ def tracks(rls: T, conn: Connection) -> List[track.T]:
     """
     cursor = conn.execute("SELECT * FROM music__tracks WHERE release_id = ?", (rls.id,))
     logger.debug(f"Fetched tracks of release {rls.id}.")
-    return [track.from_row(row) for row in cursor.fetchall()]
+    return [track.from_row(row) for row in cursor]
 
 
 def artists(rls: T, conn: Connection) -> List[artist.T]:
@@ -547,7 +547,7 @@ def artists(rls: T, conn: Connection) -> List[artist.T]:
         (rls.id,),
     )
     logger.debug(f"Fetched artists of release {rls.id}.")
-    return [artist.from_row(row) for row in cursor.fetchall()]
+    return [artist.from_row(row) for row in cursor]
 
 
 def add_artist(rls: T, artist_id: int, conn: Connection) -> T:
@@ -648,7 +648,7 @@ def collections(
     )
 
     logger.debug(f"Fetched all collections of release {rls.id}.")
-    return [collection.from_row(row) for row in cursor.fetchall()]
+    return [collection.from_row(row) for row in cursor]
 
 
 def all_years(conn: Connection) -> List[int]:
@@ -666,4 +666,4 @@ def all_years(conn: Connection) -> List[int]:
         """
     )
     logger.debug("Fetched all release years.")
-    return [r[0] for r in cursor.fetchall()]
+    return [r[0] for r in cursor]

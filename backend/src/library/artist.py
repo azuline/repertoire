@@ -135,7 +135,7 @@ def all(conn: Connection) -> List[T]:
     )
 
     logger.debug("Fetched all artists.")
-    return [from_row(row) for row in cursor.fetchall() if row["num_releases"]]
+    return [from_row(row) for row in cursor if row["num_releases"]]
 
 
 def create(name: str, conn: Connection, starred: bool = False) -> T:
@@ -253,7 +253,7 @@ def top_genres(art: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
             "genre": collection.from_row(without_key(row, "num_matches")),
             "num_matches": row["num_matches"],
         }
-        for row in cursor.fetchall()
+        for row in cursor
     ]
 
 
