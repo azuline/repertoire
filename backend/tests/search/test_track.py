@@ -1,6 +1,7 @@
+from pathlib import Path
+
 from src.enums import ArtistRole
 from src.library import track
-from pathlib import Path
 from tests.conftest import NEXT_TRACK_ID
 
 
