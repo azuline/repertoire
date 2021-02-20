@@ -18,6 +18,7 @@ DROP TABLE images;
 DROP TABLE system__users;
 DROP TABLE system__secret_key;
 
+DROP VIEW music__releases__fts_content;
 DROP TABLE music__releases__fts;
 DROP TABLE music__artists__fts;
 DROP TABLE music__tracks__fts;

@@ -20,13 +20,9 @@ CREATE TABLE music__releases (
 );
 
 CREATE INDEX idx__music__releases__title ON music__releases (title);
-
 CREATE INDEX idx__music__releases__release_type ON music__releases (release_type);
-
 CREATE INDEX idx__music__releases__added_on ON music__releases (added_on);
-
 CREATE INDEX idx__music__releases__release_year ON music__releases (release_year);
-
 CREATE INDEX idx__music__releases__rating ON music__releases (rating);
 
 CREATE TABLE music__release_types__enum (
@@ -213,12 +209,86 @@ CREATE TABLE system__secret_key (
 --- FULL TEXT SEARCH ---
 ------------------------
 
+-- Unfortunately, as SQLite has no stored procedures, we are going to have a
+-- lot of duplication.
+
+-- Releases Search
+
+CREATE VIEW music__releases__fts_content AS
+    SELECT
+        rls.id AS id,
+        rls.title AS title,
+        GROUP_CONCAT(arts.name, " ") AS artists
+    FROM music__releases AS rls
+    LEFT JOIN music__releases_artists AS rlsarts  ON rls.id = rlsarts.release_id
+    LEFT JOIN music__artists AS arts ON rlsarts.artist_id = arts.id;
+
 CREATE VIRTUAL TABLE music__releases__fts USING fts5(
     title,
     artists,
-    content='music__releases', 
+    content='music__releases__fts_content', 
     content_rowid='id' 
 );
+
+CREATE TRIGGER music__releases__fts__release_insert
+    AFTER INSERT ON music__releases
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (rowid, title, artists)
+        SELECT id, title, artists FROM music__releases__fts_content WHERE id = new.id;
+    END;
+
+CREATE TRIGGER music__releases__fts__release_delete
+    AFTER DELETE ON music__releases
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
+        SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = old.id;
+    END;
+
+CREATE TRIGGER music__releases__fts__release_update
+    AFTER UPDATE ON music__releases
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
+        SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = old.id;
+
+        INSERT INTO music__releases__fts (rowid, title, artists)
+        SELECT id, title, artists FROM music__releases__fts_content WHERE id = new.id;
+    END;
+
+CREATE TRIGGER music__releases__fts__artist_insert
+   AFTER INSERT ON music__releases_artists
+   FOR EACH ROW
+   BEGIN
+       INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
+       SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = new.release_id;
+
+       INSERT INTO music__releases__fts (rowid, title, artists)
+       SELECT id, title, artists FROM music__releases__fts_content WHERE id = new.release_id;
+   END;
+
+CREATE TRIGGER music__releases__fts__artist_delete
+    AFTER DELETE ON music__releases_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
+        SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = old.release_id;
+
+        INSERT INTO music__releases__fts (rowid, title, artists)
+        SELECT id, title, artists FROM music__releases__fts_content WHERE id = old.release_id;
+    END;
+
+CREATE TRIGGER music__releases__fts__artist_update
+    AFTER UPDATE ON music__releases_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
+        SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = old.release_id;
+
+        INSERT INTO music__releases__fts (rowid, title, artists)
+        SELECT id, title, artists FROM music__releases__fts_content WHERE id = new.release_id;
+    END;
 
 CREATE VIRTUAL TABLE music__artists__fts USING fts5(
     name,
