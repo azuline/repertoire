@@ -3,15 +3,13 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from datetime import date, datetime
-from itertools import chain, repeat
+from itertools import repeat
 from sqlite3 import Connection, Row
 from typing import Dict, Iterable, List, Optional, Tuple, Union
 
-from unidecode import unidecode
-
 from src.enums import CollectionType, ReleaseSort, ReleaseType
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
-from src.util import strip_punctuation, update_dataclass
+from src.util import make_fts_match_query, update_dataclass
 
 from . import artist, collection, track
 
@@ -121,7 +119,7 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
 def search(
     conn: Connection,
     *,
-    search: str = "",
+    searchstr: str = "",
     collection_ids: List[int] = [],
     artist_ids: List[int] = [],
     release_types: List[ReleaseType] = [],
@@ -129,14 +127,14 @@ def search(
     ratings: List[int] = [],
     page: int = 1,
     per_page: Optional[int] = None,
-    sort: ReleaseSort = ReleaseSort.RECENTLY_ADDED,
+    sort: Optional[ReleaseSort] = None,
     asc: bool = True,
 ) -> Tuple[int, List[T]]:
     """
     Search for releases matching the passed-in criteria.
 
-    :param search: A search string. We split this up into individual punctuation-less
-                   words and return releases that contain each word.
+    :param searchstr: A search string. We split this up into individual punctuation-less
+                      words and return releases that contain each word.
     :param collection_ids: A list of collection IDs. We match releases by the
                            collections in this list. For a release to match, it must be
                            in all collections in this list.
@@ -152,7 +150,9 @@ def search(
     :param page: Which page of releases to return.
     :param per_page: The number of releases per-page. Pass ``None`` to return all
                      releases (this will ignore ``page``).
-    :param sort: How to sort the matching releases.
+    :param sort: How to sort the matching releases. If not explicitly passed, this
+                 defaults to ``SEARCH_RANK`` if ``searchstr`` is not ``None`` and
+                 ``RECENTLY_ADDED`` otherwise.
     :param asc: If true, sort in ascending order. If false, descending.
     :param conn: A connection to the database.
     :return: The total number of matching releases and the matching releases on the
@@ -168,16 +168,21 @@ def search(
         _generate_release_types_filter(release_types),
         _generate_year_filter(years),
         _generate_rating_filter(ratings),
-        _generate_search_filter(search),
+        _generate_search_filter(searchstr),
     ]:
         filter_sql.extend(sql)
         filter_params.extend(params)  # type: ignore
+
+    # Set the default sort if it's not specified
+    if not sort:
+        sort = ReleaseSort.SEARCH_RANK if searchstr else ReleaseSort.RECENTLY_ADDED
 
     # Fetch the total number of releases matching this criteria (ignoring pages).
     cursor = conn.execute(
         f"""
         SELECT COUNT(1)
         FROM music__releases AS rls
+            JOIN music__releases__fts AS fts ON fts.rowid = rls.id
         {"WHERE " + " AND ".join(filter_sql) if filter_sql else ""}
         """,
         filter_params,
@@ -206,6 +211,7 @@ def search(
                 WHERE release_id = rls.id AND collection_id = 2
             ) AS in_favorites
         FROM music__releases AS rls
+            JOIN music__releases__fts AS fts ON fts.rowid = rls.id
             LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
         {"WHERE " + " AND ".join(filter_sql) if filter_sql else ""}
         GROUP BY rls.id
@@ -308,17 +314,11 @@ def _generate_search_filter(search: str) -> Tuple[Iterable[str], Iterable[str]]:
     :param search: The search words to filter on.
     :return: The filter SQL and query parameters.
     """
-    sql = """
-          EXISTS (
-              SELECT 1 FROM music__releases_search_index
-              WHERE (word = ? OR word = ?) AND release_id = rls.id
-          )
-          """
+    if not search:
+        return [], []
 
-    words = [w for w in strip_punctuation(search).split(" ") if w]
-
-    filter_sql = repeat(sql, len(words))
-    filter_params = chain(*((word, unidecode(word)) for word in words))
+    filter_sql = ["fts.music__releases__fts MATCH ?"]
+    filter_params = [make_fts_match_query(search)]
 
     return filter_sql, filter_params
 

@@ -35,7 +35,7 @@ def test_release_search_all(db: Connection, snapshot):
 
 
 def test_release_search_search(db: Connection, snapshot):
-    snapshot.assert_match(release.search(search="Aaron", conn=db))
+    snapshot.assert_match(release.search(searchstr="Aaron", conn=db))
 
 
 def test_release_search_page(db: Connection, snapshot):
@@ -72,7 +72,9 @@ def test_release_search_sort_year_desc(db: Connection):
 
 def test_release_search_sort_random(db: Connection):
     # Make sure it returns **something**.
-    assert release.search(sort=ReleaseSort.RANDOM, asc=True, conn=db)
+    num_results, results = release.search(sort=ReleaseSort.RANDOM, asc=True, conn=db)
+    assert num_results > 0
+    assert len(results) > 0
 
 
 def test_release_search_asc(db: Connection, snapshot):

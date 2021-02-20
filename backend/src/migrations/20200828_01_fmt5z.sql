@@ -222,7 +222,7 @@ CREATE VIEW music__releases__fts_content AS
     FROM music__releases AS rls
     LEFT JOIN music__releases_artists AS rlsarts ON rlsarts.release_id = rls.id
     LEFT JOIN music__artists AS arts ON arts.id = rlsarts.artist_id
-    GROUP BY rls.id, rls.title;
+    GROUP BY rls.id;
 
 CREATE VIRTUAL TABLE music__releases__fts USING fts5(
     title,
@@ -352,7 +352,7 @@ CREATE VIEW music__tracks__fts_content AS
     FROM music__tracks AS trks
     LEFT JOIN music__tracks_artists AS trksarts ON trksarts.track_id = trks.id
     LEFT JOIN music__artists AS arts ON arts.id = trksarts.artist_id
-    GROUP BY trks.id, trks.title;
+    GROUP BY trks.id;
 
 CREATE VIRTUAL TABLE music__tracks__fts USING fts5(
     title,

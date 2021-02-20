@@ -415,6 +415,7 @@ enum ReleaseSort {
   YEAR
   RATING
   RANDOM
+  SEARCH_RANK
 }
 
 enum PlaylistType {

@@ -72,3 +72,5 @@ class ReleaseSort(Enum):
     RATING = "rls.rating IS NULL, rls.rating"
     #:
     RANDOM = "RANDOM()"
+    #:
+    SEARCH_RANK = "fts.rank"

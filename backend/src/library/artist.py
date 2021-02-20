@@ -135,7 +135,7 @@ def all(conn: Connection) -> List[T]:
     )
 
     logger.debug("Fetched all artists.")
-    return [from_row(row) for row in cursor if row["num_releases"]]
+    return [from_row(row) for row in cursor]
 
 
 def create(name: str, conn: Connection, starred: bool = False) -> T:

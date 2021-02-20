@@ -4,10 +4,8 @@ from contextlib import contextmanager
 from dataclasses import asdict
 from hashlib import sha256
 from pathlib import Path
-from string import ascii_uppercase, punctuation
+from string import ascii_uppercase
 from typing import Any, Dict, Iterable, List, Union
-
-from unidecode import unidecode
 
 from src.constants import Constants
 
@@ -62,16 +60,6 @@ def parse_crontab(crontab: str) -> Dict:
         month=month,
         day_of_week=day_of_week,
     )
-
-
-def strip_punctuation(string: str) -> str:
-    """
-    Strip the punctuation from a string.
-
-    :param string: The string to strip.
-    :return: The stripped string.
-    """
-    return "".join(c for c in string if unidecode(c) not in punctuation)
 
 
 def calculate_sha_256(filepath: Path) -> bytes:
@@ -138,3 +126,20 @@ def uniq_list(list_: Iterable) -> List:
         seen.add(elem)
 
     return rval
+
+
+def make_fts_match_query(searchstr: str) -> str:
+    """
+    Convert a search string into a FTS match query parameter. This function returns a
+    parameter that searches for a result matching each space-delimited fragment in the
+    searchstr.
+
+    :param searchstr: A list of space-delimited search terms.
+    :return: A FTS match query parameter.
+    """
+    # We surround each term with double quotes because that is FTS standard. It is also
+    # standard for double quotes inside the term to be escaped as "".
+
+    # First do the escaping for double quotes in the searchstr.
+    searchstr = searchstr.replace('"', '""')
+    return " AND ".join(f'"{w}"' for w in searchstr.split(" "))

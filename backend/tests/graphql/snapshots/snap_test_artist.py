@@ -266,6 +266,20 @@ snapshots['test_artists 1'] = (
                                 'numMatches': 1
                             }
                         ]
+                    },
+                    {
+                        'id': 1,
+                        'name': 'Unknown Artist',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 1,
+                                'title': 'Unknown Release'
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                        ]
                     }
                 ]
             }
