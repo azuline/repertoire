@@ -12,6 +12,8 @@ We use SQLite's FTS5 virtual tables for our search index. To keep the search
 index updated, we have a set of triggers defined in the database. These are
 applied via the database migrations.
 
+See https://www.sqlite.org/fts5.html for an overview of FTS5.
+
 .. note::
 
    SQLite does not support stored procedures, yet the triggers that maintain

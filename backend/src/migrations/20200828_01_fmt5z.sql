@@ -221,13 +221,15 @@ CREATE VIEW music__releases__fts_content AS
         GROUP_CONCAT(arts.name, " ") AS artists
     FROM music__releases AS rls
     LEFT JOIN music__releases_artists AS rlsarts ON rlsarts.release_id = rls.id
-    LEFT JOIN music__artists AS arts ON arts.id = rlsarts.artist_id;
+    LEFT JOIN music__artists AS arts ON arts.id = rlsarts.artist_id
+    GROUP BY rls.id, rls.title;
 
 CREATE VIRTUAL TABLE music__releases__fts USING fts5(
     title,
     artists,
     content='music__releases__fts_content',
-    content_rowid='id'
+    content_rowid='id',
+    tokenize='trigram'
 );
 
 CREATE TRIGGER music__releases__fts__release_insert
@@ -263,7 +265,7 @@ CREATE TRIGGER music__releases__fts__release_update_post
     END;
 
 CREATE TRIGGER music__releases__fts__artist_insert_pre
-    AFTER INSERT ON music__releases_artists
+    BEFORE INSERT ON music__releases_artists
     FOR EACH ROW
     BEGIN
         INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
@@ -279,7 +281,7 @@ CREATE TRIGGER music__releases__fts__artist_insert_post
     END;
 
 CREATE TRIGGER music__releases__fts__artist_delete_pre
-    AFTER DELETE ON music__releases_artists
+    BEFORE DELETE ON music__releases_artists
     FOR EACH ROW
     BEGIN
         INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
@@ -295,7 +297,7 @@ CREATE TRIGGER music__releases__fts__artist_delete_post
     END;
 
 CREATE TRIGGER music__releases__fts__artist_update_pre
-    AFTER UPDATE ON music__releases_artists
+    BEFORE UPDATE ON music__releases_artists
     FOR EACH ROW
     BEGIN
         INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
@@ -313,7 +315,8 @@ CREATE TRIGGER music__releases__fts__artist_update_post
 CREATE VIRTUAL TABLE music__artists__fts USING fts5(
     name,
     content='music__artists',
-    content_rowid='id'
+    content_rowid='id',
+    tokenize='trigram'
 );
 
 CREATE TRIGGER music__artists__fts__insert
@@ -348,13 +351,15 @@ CREATE VIEW music__tracks__fts_content AS
         GROUP_CONCAT(arts.name, " ") AS artists
     FROM music__tracks AS trks
     LEFT JOIN music__tracks_artists AS trksarts ON trksarts.track_id = trks.id
-    LEFT JOIN music__artists AS arts ON arts.id = trksarts.artist_id;
+    LEFT JOIN music__artists AS arts ON arts.id = trksarts.artist_id
+    GROUP BY trks.id, trks.title;
 
 CREATE VIRTUAL TABLE music__tracks__fts USING fts5(
     title,
     artists,
     content='music__tracks__fts_content',
-    content_rowid='id'
+    content_rowid='id',
+    tokenize='trigram'
 );
 
 CREATE TRIGGER music__tracks__fts__track_insert
@@ -390,7 +395,7 @@ CREATE TRIGGER music__tracks__fts__track_update_post
     END;
 
 CREATE TRIGGER music__tracks__fts__artist_insert_pre
-    AFTER INSERT ON music__tracks_artists
+    BEFORE INSERT ON music__tracks_artists
     FOR EACH ROW
     BEGIN
         INSERT INTO music__tracks__fts (music__tracks__fts, rowid, title, artists)
@@ -406,7 +411,7 @@ CREATE TRIGGER music__tracks__fts__artist_insert_post
     END;
 
 CREATE TRIGGER music__tracks__fts__artist_delete_pre
-    AFTER DELETE ON music__tracks_artists
+    BEFORE DELETE ON music__tracks_artists
     FOR EACH ROW
     BEGIN
         INSERT INTO music__tracks__fts (music__tracks__fts, rowid, title, artists)
@@ -422,7 +427,7 @@ CREATE TRIGGER music__tracks__fts__artist_delete_post
     END;
 
 CREATE TRIGGER music__tracks__fts__artist_update_pre
-    AFTER UPDATE ON music__tracks_artists
+    BEFORE UPDATE ON music__tracks_artists
     FOR EACH ROW
     BEGIN
         INSERT INTO music__tracks__fts (music__tracks__fts, rowid, title, artists)
@@ -440,7 +445,8 @@ CREATE TRIGGER music__tracks__fts__artist_update_post
 CREATE VIRTUAL TABLE music__collections__fts USING fts5(
     name,
     content='music__collections',
-    content_rowid='id'
+    content_rowid='id',
+    tokenize='trigram'
 );
 
 CREATE TRIGGER music__collections__fts__insert
@@ -471,7 +477,8 @@ CREATE TRIGGER music__collections__fts__update
 CREATE VIRTUAL TABLE music__playlists__fts USING fts5(
     name,
     content='music__playlists',
-    content_rowid='id'
+    content_rowid='id',
+    tokenize='trigram'
 );
 
 CREATE TRIGGER music__playlists__fts__insert
