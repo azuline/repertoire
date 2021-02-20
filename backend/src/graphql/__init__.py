@@ -21,15 +21,15 @@ from src.graphql.enums import (
 from src.graphql.mutation import mutation
 from src.graphql.query import query
 from src.graphql.scalars import posix_time_scalar
-from src.graphql.types.artist import gql_artist, gql_artists  # type: ignore
-from src.graphql.types.collection import gql_collection, gql_collections  # type: ignore
-from src.graphql.types.playlist import gql_playlist, gql_playlists  # type: ignore
-from src.graphql.types.playlist_entry import gql_pentry  # type: ignore
-from src.graphql.types.release import gql_release, gql_releases  # type: ignore
-from src.graphql.types.top_genre import gql_top_genre  # type: ignore
-from src.graphql.types.track import gql_track  # type: ignore
-from src.graphql.types.track_artist import gql_track_artist  # type: ignore
-from src.graphql.types.user import gql_token, gql_user  # type: ignore
+from src.graphql.types.artist import gql_artist, gql_artists
+from src.graphql.types.collection import gql_collection, gql_collections
+from src.graphql.types.playlist import gql_playlist, gql_playlists
+from src.graphql.types.playlist_entry import gql_pentry
+from src.graphql.types.release import gql_release, gql_releases
+from src.graphql.types.top_genre import gql_top_genre
+from src.graphql.types.track import gql_track
+from src.graphql.types.track_artist import gql_track_artist
+from src.graphql.types.user import gql_token, gql_user
 
 SCHEMA_PATH = Path(__file__).parent / "schema.gql"
 

@@ -273,8 +273,9 @@ async def test_add_artist_to_release(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-
-    snapshot.assert_match(release.artists(release.from_id(2, db), db))  # type: ignore
+    rls = release.from_id(2, db)
+    assert rls is not None
+    snapshot.assert_match(release.artists(rls, db))
 
 
 @pytest.mark.asyncio

@@ -37,7 +37,9 @@ def resolve_favorited(obj: track.T, info: GraphQLResolveInfo) -> bool:
 
 @gql_track.field("release")
 def resolve_tracks(obj: track.T, info: GraphQLResolveInfo) -> release.T:
-    return release.from_id(obj.release_id, info.context.db)  # type: ignore
+    rls = release.from_id(obj.release_id, info.context.db)
+    assert rls is not None
+    return rls
 
 
 @gql_track.field("artists")

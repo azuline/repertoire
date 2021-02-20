@@ -64,10 +64,12 @@ def from_row(row: Union[Dict, Row]) -> T:
     :param row: A row from the database.
     :return: A collection dataclass.
     """
+    last_updated_on: Optional[datetime] = None
+
     try:
         last_updated_on = datetime.fromisoformat(row["last_updated_on"])
     except (KeyError, TypeError):
-        last_updated_on = None  # type: ignore
+        pass
 
     return T(
         **dict(

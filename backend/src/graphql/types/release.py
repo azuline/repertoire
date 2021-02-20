@@ -77,12 +77,11 @@ def resolve_create_release(
     # the changes dict, do nothing.
     parsedDate: Optional[date] = None
 
-    try:
-        parsedDate = date.fromisoformat(releaseDate)  # type: ignore
-    except ValueError:
-        raise ParseError("Invalid release date.")
-    except TypeError:
-        pass
+    if releaseDate is not None:
+        try:
+            parsedDate = date.fromisoformat(releaseDate)
+        except ValueError:
+            raise ParseError("Invalid release date.")
 
     return release.create(
         title=title,

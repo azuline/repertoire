@@ -7,9 +7,11 @@ import functools
 import json
 import logging
 import secrets
+from typing import Optional
 
 import quart
 from voluptuous import Invalid
+from werkzeug.datastructures import Headers
 
 from src.library import user
 
@@ -105,16 +107,20 @@ def _check_token_auth() -> bool:
 
     :return: Whether current request has valid token authentication.
     """
+    token_str = _get_token(quart.request.headers)
+    if token_str is None:
+        return False
+
     try:
-        token = bytes.fromhex(_get_token(quart.request.headers))  # type: ignore
-        quart.g.user = user.from_token(token, quart.g.db)  # type: ignore
-    except (TypeError, ValueError):
-        pass
+        token = bytes.fromhex(token_str)
+    except ValueError:
+        return False
 
-    return bool(quart.g.user)
+    quart.g.user = user.from_token(token, quart.g.db)  # type: ignore
+    return True
 
 
-def _get_token(headers):
+def _get_token(headers: Headers) -> Optional[str]:
     """
     Given the HTTP headers, parse the Authorization header for the token and
     extract the API Key. Returns ``None`` if the Authorization header is not

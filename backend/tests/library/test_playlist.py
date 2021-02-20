@@ -25,8 +25,10 @@ def test_from_id_failure(db: Connection):
 
 def test_from_name_and_type_success(db: Connection):
     ply = playlist.from_name_and_type("AAAAAA", PlaylistType.PLAYLIST, db)
-    assert ply.name == "AAAAAA"  # type: ignore
-    assert ply.type == PlaylistType.PLAYLIST  # type: ignore
+    assert ply is not None
+
+    assert ply.name == "AAAAAA"
+    assert ply.type == PlaylistType.PLAYLIST
 
 
 def test_from_name_and_type_failure(db: Connection):
@@ -66,70 +68,81 @@ def test_create_invalid_type(db: Connection):
 
 
 def test_update_fields(db: Connection, snapshot):
-    ply = playlist.update(
-        playlist.from_id(2, db),  # type: ignore
-        conn=db,
-        name="New Name",
-        starred=True,
-    )
+    ply = playlist.from_id(2, db)
+    assert ply is not None
+
+    ply = playlist.update(ply, conn=db, name="New Name", starred=True)
     snapshot.assert_match(ply)
     assert ply == playlist.from_id(2, db)
 
 
 def test_update_immutable(db: Connection):
+    ply = playlist.from_id(1, db)
+    assert ply is not None
+
     with pytest.raises(Immutable):
-        playlist.update(
-            playlist.from_id(1, db),  # type: ignore
-            conn=db,
-            name="New Name",
-        )
+        playlist.update(ply, conn=db, name="New Name")
 
 
 def test_update_duplicate(db: Connection):
+    ply = playlist.from_id(2, db)
+    assert ply is not None
+
     with pytest.raises(Duplicate) as e:
-        playlist.update(
-            playlist.from_id(2, db),  # type: ignore
-            conn=db,
-            name="BBBBBB",
-        )
+        playlist.update(ply, conn=db, name="BBBBBB")
 
     assert e.value.entity.id == 3
 
 
 def test_update_nothing(db: Connection):
     ply = playlist.from_id(2, db)
-    new_ply = playlist.update(ply, conn=db)  # type: ignore
+    assert ply is not None
+
+    new_ply = playlist.update(ply, conn=db)
     assert ply == new_ply
 
 
 def test_update_starred(db: Connection):
-    ply = playlist.update(
-        playlist.from_id(3, db),  # type: ignore
-        conn=db,
-        starred=True,
-    )
+    ply = playlist.from_id(3, db)
+    assert ply is not None
+
+    ply = playlist.update(ply, conn=db, starred=True)
     assert ply.starred is True
     assert ply == playlist.from_id(3, db)
 
 
 def test_entries(db: Connection, snapshot):
     ply = playlist.from_id(2, db)
-    snapshot.assert_match(playlist.entries(ply, db))  # type: ignore
+    assert ply is not None
+
+    snapshot.assert_match(playlist.entries(ply, db))
 
 
 def test_top_genres(db: Connection, snapshot):
     ply = playlist.from_id(2, db)
-    snapshot.assert_match(playlist.top_genres(ply, db))  # type: ignore
+    assert ply is not None
+
+    snapshot.assert_match(playlist.top_genres(ply, db))
 
 
 def test_image(db: Connection):
-    ply1 = playlist.from_id(1, db)
-    assert playlist.image(ply1, db).id == 1  # type: ignore
+    ply = playlist.from_id(1, db)
+    assert ply is not None
+    img = playlist.image(ply, db)
+    assert img is not None
+    assert img.id == 1
 
-    ply2 = playlist.from_id(1, db)
-    assert isinstance(playlist.image(ply2, db).id, int)  # type: ignore
+
+def test_multiple_images(db: Connection):
+    ply = playlist.from_id(1, db)
+    assert ply is not None
+    img = playlist.image(ply, db)
+    assert img is not None
+    assert isinstance(img.id, int)
 
 
 def test_image_nonexistent(db: Connection):
     ply = playlist.from_id(3, db)
-    assert playlist.image(ply, db) is None  # type: ignore
+    assert ply is not None
+
+    assert playlist.image(ply, db) is None

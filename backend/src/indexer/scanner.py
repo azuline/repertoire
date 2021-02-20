@@ -131,12 +131,16 @@ def _fetch_or_create_release(tf: TagFile, conn: Connection) -> release.T:
     """
     if not tf.album:
         logger.debug(f"Fetched `Unknown Release` for track `{tf.path}`.")
-        return release.from_id(1, conn)  # type: ignore
+        rls = release.from_id(1, conn)
+        assert rls is not None
+        return rls
+
+    release_date: Optional[date] = None
 
     try:
         release_date = date.fromisoformat(tf.date.date)
     except (TypeError, ValueError):
-        release_date = None  # type: ignore
+        pass
 
     # Try to create a release with the given title and album artists. If it raises a
     # duplicate error, return the duplicate entity.
@@ -201,7 +205,9 @@ def _fetch_or_create_artist(name: str, conn: Connection) -> artist.T:
     :return: The fetched/created artist.
     """
     if not name:
-        return artist.from_id(1, conn)  # type: ignore
+        art = artist.from_id(1, conn)
+        assert art is not None
+        return art
 
     try:
         return artist.create(name, conn)
@@ -219,7 +225,8 @@ def _insert_into_inbox_collection(rls: release.T, conn: Connection) -> None:
     logger.debug(f"Adding release {rls.id} to the inbox collection.")
     # Inbox has ID 1--this is specified in the database schema.
     inbox = collection.from_id(1, conn)
-    collection.add_release(inbox, rls.id, conn)  # type: ignore
+    assert inbox is not None
+    collection.add_release(inbox, rls.id, conn)
 
 
 def _insert_into_label_collection(

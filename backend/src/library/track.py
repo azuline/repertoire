@@ -172,7 +172,9 @@ def create(
             (str(filepath), row["id"]),
         )
         logger.debug("Found track with the same SHA256; updated filepath.")
-        return from_id(row["id"], conn)  # type: ignore
+        trk = from_id(row["id"], conn)
+        assert trk is not None
+        return trk
 
     # Track is not a duplicate, so we can insert and return.
     cursor.execute(

@@ -48,7 +48,7 @@ def from_row(row: Union[Dict, Row]) -> T:
     :param row: A row from the database.
     :return: A user dataclass.
     """
-    return T(**row)  # type: ignore
+    return T(**dict(row))
 
 
 def from_id(id: int, conn: Connection) -> Optional[T]:

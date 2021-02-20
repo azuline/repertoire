@@ -198,9 +198,9 @@ async def test_add_release_to_collection(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(
-        collection.releases(collection.from_id(2, db), db)  # type: ignore
-    )
+    col = collection.from_id(2, db)
+    assert col is not None
+    snapshot.assert_match(collection.releases(col, db))
 
 
 @pytest.mark.asyncio
@@ -235,9 +235,9 @@ async def test_add_release_to_collection_bad_release(db, graphql_query, snapshot
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(
-        collection.releases(collection.from_id(2, db), db)  # type: ignore
-    )
+    col = collection.from_id(2, db)
+    assert col is not None
+    snapshot.assert_match(collection.releases(col, db))
 
 
 @pytest.mark.asyncio
@@ -255,9 +255,9 @@ async def test_add_release_to_collection_already_exists(db, graphql_query, snaps
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(
-        collection.releases(collection.from_id(3, db), db)  # type: ignore
-    )
+    col = collection.from_id(3, db)
+    assert col is not None
+    snapshot.assert_match(collection.releases(col, db))
 
 
 @pytest.mark.asyncio
@@ -275,10 +275,9 @@ async def test_del_release_from_collection(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-
-    snapshot.assert_match(
-        collection.releases(collection.from_id(1, db), db)  # type: ignore
-    )
+    col = collection.from_id(1, db)
+    assert col is not None
+    snapshot.assert_match(collection.releases(col, db))
 
 
 @pytest.mark.asyncio
@@ -313,9 +312,9 @@ async def test_del_release_from_collection_bad_release(db, graphql_query, snapsh
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(
-        collection.releases(collection.from_id(2, db), db)  # type: ignore
-    )
+    col = collection.from_id(2, db)
+    assert col is not None
+    snapshot.assert_match(collection.releases(col, db))
 
 
 @pytest.mark.asyncio

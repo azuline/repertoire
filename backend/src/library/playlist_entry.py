@@ -162,7 +162,9 @@ def create(playlist_id: int, track_id: int, conn: Connection) -> T:
         f"Created entry {cursor.lastrowid} with "
         "track {track_id} and playlist {playlist_id}."
     )
-    return from_id(cursor.lastrowid, conn)  # type: ignore
+    pety = from_id(cursor.lastrowid, conn)
+    assert pety is not None
+    return pety
 
 
 def delete(ety: T, conn: Connection):
@@ -254,7 +256,9 @@ def playlist(ety: T, conn: Connection) -> libplaylist.T:
     :param conn: A connection to the database.
     :return: The playlist the entry is in.
     """
-    return libplaylist.from_id(ety.playlist_id, conn)  # type: ignore
+    ply = libplaylist.from_id(ety.playlist_id, conn)
+    assert ply is not None
+    return ply
 
 
 def track(ety: T, conn: Connection) -> libtrack.T:
@@ -265,7 +269,9 @@ def track(ety: T, conn: Connection) -> libtrack.T:
     :param conn: A connection to the database.
     :return: The track the entry represents.
     """
-    return libtrack.from_id(ety.track_id, conn)  # type: ignore
+    trk = libtrack.from_id(ety.track_id, conn)
+    assert trk is not None
+    return trk
 
 
 def _highest_position(playlist_id: int, conn: Connection) -> int:

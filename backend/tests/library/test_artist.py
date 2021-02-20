@@ -24,7 +24,8 @@ def test_from_id_failure(db: Connection):
 
 def test_from_name_success(db: Connection):
     art = artist.from_name("aaron west and the roaring twenties", db)
-    assert art.name == "Aaron West and the Roaring Twenties"  # type: ignore
+    assert art is not None
+    assert art.name == "Aaron West and the Roaring Twenties"
 
 
 def test_from_name_failure(db: Connection):
@@ -49,48 +50,61 @@ def test_create_duplicate(db: Connection):
 
 
 def test_update_fields(db: Connection, snapshot):
-    col = artist.update(
-        artist.from_id(2, db),  # type: ignore
+    art = artist.from_id(2, db)
+    assert art is not None
+
+    art = artist.update(
+        art,
         conn=db,
         name="New Name",
         starred=True,
     )
-    snapshot.assert_match(col)
-    assert col == artist.from_id(2, db)
+    snapshot.assert_match(art)
+    assert art == artist.from_id(2, db)
 
 
 def test_update_duplicate(db: Connection, snapshot):
+    art = artist.from_id(5, db)
+    assert art is not None
+
     with pytest.raises(Duplicate) as e:
-        artist.update(
-            artist.from_id(5, db),  # type: ignore
-            conn=db,
-            name="Abakus",
-        )
+        artist.update(art, conn=db, name="Abakus")
 
     assert e.value.entity.id == 4
 
 
 def test_update_nothing(db: Connection):
-    col = artist.from_id(2, db)
-    new_col = artist.update(col, conn=db)  # type: ignore
-    assert col == new_col
+    art = artist.from_id(2, db)
+    assert art is not None
+
+    new_art = artist.update(art, conn=db)
+    assert art == new_art
 
 
 def test_releases(db: Connection, snapshot):
     art = artist.from_id(2, db)
-    snapshot.assert_match(artist.releases(art, db))  # type: ignore
+    assert art is not None
+
+    snapshot.assert_match(artist.releases(art, db))
 
 
 def test_top_genres(db: Connection, snapshot):
     art = artist.from_id(2, db)
-    snapshot.assert_match(artist.top_genres(art, db))  # type: ignore
+    assert art is not None
+
+    snapshot.assert_match(artist.top_genres(art, db))
 
 
 def test_image(db: Connection):
     art = artist.from_id(2, db)
-    assert artist.image(art, db).id == 1  # type: ignore
+    assert art is not None
+    img = artist.image(art, db)
+    assert img is not None
+    assert img.id == 1
 
 
 def test_image_nonexistent(db: Connection):
     art = artist.from_id(1, db)
-    assert artist.image(art, db) is None  # type: ignore
+    assert art is not None
+
+    assert artist.image(art, db) is None

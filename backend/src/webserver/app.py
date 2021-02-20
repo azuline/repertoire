@@ -14,7 +14,7 @@ from werkzeug.exceptions import HTTPException
 
 from src.constants import Constants
 from src.util import database
-from src.webserver.routes import files, graphql, session  # type: ignore
+from src.webserver.routes import files, graphql, session
 
 SECRET_LENGTH = 32
 

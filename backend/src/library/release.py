@@ -267,7 +267,7 @@ def _generate_release_types_filter(
     :return: The filter SQL and query parameters.
     """
     if not release_types:
-        return [], []  # type: ignore
+        return [], []
 
     filter_sql = [f"rls.release_type IN ({', '.join('?' * len(release_types))})"]
     filter_params = [rtype.value for rtype in release_types]
@@ -283,7 +283,7 @@ def _generate_year_filter(years: List[int]) -> Tuple[Iterable[str], Iterable[int
     :return: The filter SQL and query parameters.
     """
     if not years:
-        return [], []  # type: ignore
+        return [], []
 
     return [f"rls.release_year IN ({', '.join('?' * len(years))})"], years
 
@@ -296,7 +296,7 @@ def _generate_rating_filter(ratings: List[int]) -> Tuple[Iterable[str], Iterable
     :return: The filter SQL and query parameters.
     """
     if not ratings:
-        return [], []  # type: ignore
+        return [], []
 
     return [f"rls.rating IN ({', '.join('?' * len(ratings))})"], ratings
 
@@ -386,7 +386,9 @@ def create(
     logger.info(f'Created release "{title}" with ID {id}.')
 
     # We fetch it from the database to also get the `added_on` column.
-    return from_id(id, conn)  # type: ignore
+    rls = from_id(id, conn)
+    assert rls is not None
+    return rls
 
 
 def _find_duplicate_release(

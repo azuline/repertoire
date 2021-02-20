@@ -71,23 +71,31 @@ def test_create_user_invalid_nickname(db: Connection):
 
 def test_update_user(db: Connection):
     usr = user.from_id(1, db)
-    usr = user.update(usr, db, nickname="not admin")  # type: ignore
+    assert usr is not None
+
+    usr = user.update(usr, db, nickname="not admin")
     db.commit()
+
     assert usr.nickname == "not admin"
     assert usr == user.from_id(1, db)
 
 
 def test_update_user_bad_nickname(db: Connection):
     usr = user.from_id(1, db)
+    assert usr is not None
+
     with pytest.raises(InvalidNickname):
-        user.update(usr, db, nickname="not admin" * 24)  # type: ignore
+        user.update(usr, db, nickname="not admin" * 24)
 
 
 def test_generate_new_token(db: Connection):
     cursor = db.execute("SELECT token_hash FROM system__users WHERE id = 1")
     old_hash = cursor.fetchone()["token_hash"]
 
-    token = user.new_token(user.from_id(1, db), db)  # type: ignore
+    usr = user.from_id(1, db)
+    assert usr is not None
+
+    token = user.new_token(usr, db)
 
     cursor = db.execute("SELECT token_hash FROM system__users WHERE id = 1")
     new_hash = cursor.fetchone()["token_hash"]
@@ -97,14 +105,20 @@ def test_generate_new_token(db: Connection):
 
 
 def test_check_token_success(db: Connection):
+    usr = user.from_id(1, db)
+    assert usr is not None
+
     token = bytes.fromhex(
         "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc8"
     )
-    assert user.check_token(user.from_id(1, db), token, db)  # type: ignore
+    assert user.check_token(usr, token, db)
 
 
 def test_check_token_failure(db: Connection):
-    assert not user.check_token(user.from_id(1, db), b"0" * 32, db)  # type: ignore
+    usr = user.from_id(1, db)
+    assert usr is not None
+
+    assert not user.check_token(usr, b"0" * 32, db)
 
 
 def test_check_token_bad_user(db: Connection):

@@ -31,8 +31,10 @@ def test_from_id_failure(db: Connection):
 
 def test_from_name_and_type_success(db: Connection):
     col = collection.from_name_and_type("Electronic", CollectionType.GENRE, db)
-    assert col.name == "Electronic"  # type: ignore
-    assert col.type == CollectionType.GENRE  # type: ignore
+    assert col is not None
+
+    assert col.name == "Electronic"
+    assert col.type == CollectionType.GENRE
 
 
 def test_from_name_and_type_failure(db: Connection):
@@ -80,29 +82,29 @@ def test_create_invalid_type(db: Connection):
 
 
 def test_update_fields(db: Connection, snapshot):
-    col = collection.update(
-        collection.from_id(4, db),  # type: ignore
-        conn=db,
-        name="New Name",
-        starred=True,
-    )
+    col = collection.from_id(4, db)
+    assert col is not None
+
+    col = collection.update(col, conn=db, name="New Name", starred=True)
     snapshot.assert_match(col)
     assert col == collection.from_id(4, db)
 
 
 def test_update_immutable(db: Connection):
+    col = collection.from_id(1, db)
+    assert col is not None
+
     with pytest.raises(Immutable):
-        collection.update(
-            collection.from_id(1, db),  # type: ignore
-            conn=db,
-            name="New Name",
-        )
+        collection.update(col, conn=db, name="New Name")
 
 
 def test_update_duplicate(db: Connection):
+    col = collection.from_id(9, db)
+    assert col is not None
+
     with pytest.raises(Duplicate) as e:
         collection.update(
-            collection.from_id(9, db),  # type: ignore
+            col,
             conn=db,
             name="Folk",
         )
@@ -112,63 +114,77 @@ def test_update_duplicate(db: Connection):
 
 def test_update_nothing(db: Connection):
     col = collection.from_id(4, db)
-    new_col = collection.update(col, conn=db)  # type: ignore
+    assert col is not None
+
+    new_col = collection.update(col, conn=db)
     assert col == new_col
 
 
 def test_update_starred(db: Connection):
-    col = collection.update(
-        collection.from_id(3, db),  # type: ignore
-        conn=db,
-        starred=True,
-    )
+    col = collection.from_id(3, db)
+    assert col is not None
+
+    col = collection.update(col, conn=db, starred=True)
     assert col.starred is True
     assert col == collection.from_id(3, db)
 
 
 def test_releases(db: Connection, snapshot):
     col = collection.from_id(7, db)
-    snapshot.assert_match(collection.releases(col, db))  # type: ignore
+    assert col is not None
+
+    snapshot.assert_match(collection.releases(col, db))
 
 
 def test_add_release(db: Connection, snapshot):
     col = collection.from_id(2, db)
+    assert col is not None
 
-    snapshot.assert_match(collection.add_release(col, 2, db))  # type: ignore
-    snapshot.assert_match(collection.releases(col, db))  # type: ignore
+    snapshot.assert_match(collection.add_release(col, 2, db))
+    snapshot.assert_match(collection.releases(col, db))
 
 
 def test_add_release_failure(db: Connection):
     col = collection.from_id(3, db)
+    assert col is not None
 
     with pytest.raises(AlreadyExists):
-        collection.add_release(col, 2, db)  # type: ignore
+        collection.add_release(col, 2, db)
 
 
 def test_del_release(db: Connection, snapshot):
     col = collection.from_id(3, db)
+    assert col is not None
 
-    snapshot.assert_match(collection.del_release(col, 2, db))  # type: ignore
-    snapshot.assert_match(collection.releases(col, db))  # type: ignore
+    snapshot.assert_match(collection.del_release(col, 2, db))
+    snapshot.assert_match(collection.releases(col, db))
 
 
 def test_del_release_failure(db: Connection):
     col = collection.from_id(2, db)
+    assert col is not None
 
     with pytest.raises(DoesNotExist):
-        collection.del_release(col, 2, db)  # type: ignore
+        collection.del_release(col, 2, db)
 
 
 def test_top_genres(db: Connection, snapshot):
     col = collection.from_id(7, db)
-    snapshot.assert_match(collection.top_genres(col, db))  # type: ignore
+    assert col is not None
+
+    snapshot.assert_match(collection.top_genres(col, db))
 
 
 def test_image(db: Connection):
     col = collection.from_id(3, db)
-    assert collection.image(col, db).id == 1  # type: ignore
+    assert col is not None
+    img = collection.image(col, db)
+    assert img is not None
+    assert img.id == 1
 
 
 def test_image_nonexistent(db: Connection):
     col = collection.from_id(2, db)
-    assert collection.image(col, db) is None  # type: ignore
+    assert col is not None
+
+    assert collection.image(col, db) is None
