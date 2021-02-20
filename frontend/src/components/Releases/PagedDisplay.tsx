@@ -38,7 +38,7 @@ export const PagedReleases: IPagedReleases = ({ viewOptions, pagination, partial
     error.graphQLErrors.forEach(({ message }) => {
       addToast(message, { appearance: 'error' });
     });
-  }, [error]);
+  }, [error, addToast]);
 
   let releasesDiv = null;
 

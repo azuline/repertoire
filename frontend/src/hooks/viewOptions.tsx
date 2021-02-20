@@ -48,60 +48,36 @@ type IParams = {
  * @param root0 - The "seed" object: initial values for the hook.
  * @returns A mega-state object containing the viewOptions parameters.
  */
-export const useViewOptions = ({
-  search,
-  collectionIds,
-  artistIds,
-  releaseTypes,
-  years,
-  ratings,
-  sort,
-  asc,
-  releaseView,
-}: IParams = {}): IViewOptions => {
-  const [searchState, setSearch] = React.useState<string>(search ?? '');
-  const [collectionIdsState, setCollectionIds] = React.useState<number[]>(collectionIds ?? []);
-  const [artistIdsState, setArtistIds] = React.useState<number[]>(artistIds ?? []);
-  const [releaseTypesState, setReleaseTypes] = React.useState<IReleaseType[]>(releaseTypes ?? []);
-  const [yearsState, setYears] = React.useState<number[]>(years ?? []);
-  const [ratingsState, setRatings] = React.useState<number[]>(ratings ?? []);
-  const [sortState, setSort] = usePersistentState<IReleaseSort>(
+export const useViewOptions = (defaults: IParams = {}): IViewOptions => {
+  const [search, setSearch] = React.useState<string>(defaults.search ?? '');
+  const [collectionIds, setCollectionIds] = React.useState<number[]>(defaults.collectionIds ?? []);
+  const [artistIds, setArtistIds] = React.useState<number[]>(defaults.artistIds ?? []);
+  const [releaseTypes, setReleaseTypes] = React.useState<IReleaseType[]>(
+    defaults.releaseTypes ?? [],
+  );
+  const [years, setYears] = React.useState<number[]>(defaults.years ?? []);
+  const [ratings, setRatings] = React.useState<number[]>(defaults.ratings ?? []);
+  const [sort, setSort] = usePersistentState<IReleaseSort>(
     'release-view-options--sort',
-    sort ?? IReleaseSort.RecentlyAdded,
+    defaults.sort ?? IReleaseSort.RecentlyAdded,
   );
-  const [ascState, setAsc] = usePersistentState<boolean>('release-view-options--asc', asc ?? false);
-  const [releaseViewState, setReleaseView] = usePersistentState<IReleaseView>(
+  const [asc, setAsc] = usePersistentState<boolean>(
+    'release-view-options--asc',
+    defaults.asc ?? false,
+  );
+  const [releaseView, setReleaseView] = usePersistentState<IReleaseView>(
     'release-view-options--view',
-    releaseView ?? IReleaseView.Artwork,
+    defaults.releaseView ?? IReleaseView.Artwork,
   );
-
-  React.useEffect(() => (search !== undefined ? setSearch(search) : undefined), [
-    search,
-    setSearch,
-  ]);
-  React.useEffect(() => collectionIds && setCollectionIds(collectionIds), [
-    collectionIds,
-    setCollectionIds,
-  ]);
-  React.useEffect(() => artistIds && setArtistIds(artistIds), [artistIds, setArtistIds]);
-  React.useEffect(() => releaseTypes && setReleaseTypes(releaseTypes), [
-    releaseTypes,
-    setReleaseTypes,
-  ]);
-  React.useEffect(() => years && setYears(years), [years, setYears]);
-  React.useEffect(() => ratings && setRatings(ratings), [ratings, setRatings]);
-  React.useEffect(() => sort && setSort(sort), [sort, setSort]);
-  React.useEffect(() => (asc !== undefined ? setAsc(asc) : undefined), [asc, setAsc]);
-  React.useEffect(() => releaseView && setReleaseView(releaseView), [releaseView, setReleaseView]);
 
   return {
-    artistIds: artistIdsState,
-    asc: ascState,
-    collectionIds: collectionIdsState,
-    ratings: ratingsState,
-    releaseTypes: releaseTypesState,
-    releaseView: releaseViewState,
-    search: searchState,
+    artistIds,
+    asc,
+    collectionIds,
+    ratings,
+    releaseTypes,
+    releaseView,
+    search,
     setArtistIds,
     setAsc,
     setCollectionIds,
@@ -111,7 +87,7 @@ export const useViewOptions = ({
     setSearch,
     setSort,
     setYears,
-    sort: sortState,
-    years: yearsState,
+    sort,
+    years,
   };
 };

@@ -9,5 +9,9 @@ export const ArtistReleases: IArtistReleases = ({ active }) => {
   const viewOptions = useViewOptions({ artistIds: [active] });
   const pagination = usePagination();
 
+  React.useEffect(() => {
+    viewOptions.setArtistIds([active]);
+  }, [viewOptions.setArtistIds, active]);
+
   return <PagedReleases partial pagination={pagination} viewOptions={viewOptions} />;
 };
