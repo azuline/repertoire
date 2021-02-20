@@ -6,7 +6,7 @@ import click
 
 
 @click.group()
-def commands():
+def commands():  # pragma: no cover
     """A release-oriented music server."""
     pass
 
@@ -31,10 +31,9 @@ def shared_options(func: Callable) -> Callable:
         help="Logging level",
     )
     @functools.wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args, log_level: str, **kwargs):
         logger = logging.getLogger()
-        logger.setLevel(kwargs.get("log_level"))
-        del kwargs["log_level"]
+        logger.setLevel(log_level)
         return func(*args, **kwargs)
 
     return wrapper
