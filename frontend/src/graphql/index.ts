@@ -476,7 +476,8 @@ export enum IReleaseSort {
   Title = 'TITLE',
   Year = 'YEAR',
   Rating = 'RATING',
-  Random = 'RANDOM'
+  Random = 'RANDOM',
+  SearchRank = 'SEARCH_RANK'
 }
 
 export enum IPlaylistType {
