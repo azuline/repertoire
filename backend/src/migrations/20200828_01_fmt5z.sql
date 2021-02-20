@@ -239,53 +239,73 @@ CREATE TRIGGER music__releases__fts__release_insert
     END;
 
 CREATE TRIGGER music__releases__fts__release_delete
-    AFTER DELETE ON music__releases
+    BEFORE DELETE ON music__releases
     FOR EACH ROW
     BEGIN
         INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
         SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = old.id;
     END;
 
-CREATE TRIGGER music__releases__fts__release_update
-    AFTER UPDATE ON music__releases
+CREATE TRIGGER music__releases__fts__release_update_pre
+    BEFORE UPDATE ON music__releases
     FOR EACH ROW
     BEGIN
         INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
         SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = old.id;
+    END;
 
+CREATE TRIGGER music__releases__fts__release_update_post
+    AFTER UPDATE ON music__releases
+    FOR EACH ROW
+    BEGIN
         INSERT INTO music__releases__fts (rowid, title, artists)
         SELECT id, title, artists FROM music__releases__fts_content WHERE id = new.id;
     END;
 
-CREATE TRIGGER music__releases__fts__artist_insert
-   AFTER INSERT ON music__releases_artists
-   FOR EACH ROW
-   BEGIN
-       INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
-       SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = new.release_id;
+CREATE TRIGGER music__releases__fts__artist_insert_pre
+    AFTER INSERT ON music__releases_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
+        SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = new.release_id;
+    END;
 
-       INSERT INTO music__releases__fts (rowid, title, artists)
-       SELECT id, title, artists FROM music__releases__fts_content WHERE id = new.release_id;
-   END;
+CREATE TRIGGER music__releases__fts__artist_insert_post
+    AFTER INSERT ON music__releases_artists
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO music__releases__fts (rowid, title, artists)
+        SELECT id, title, artists FROM music__releases__fts_content WHERE id = new.release_id;
+    END;
 
-CREATE TRIGGER music__releases__fts__artist_delete
+CREATE TRIGGER music__releases__fts__artist_delete_pre
     AFTER DELETE ON music__releases_artists
     FOR EACH ROW
     BEGIN
         INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
         SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = old.release_id;
+    END;
 
+CREATE TRIGGER music__releases__fts__artist_delete_post
+    AFTER DELETE ON music__releases_artists
+    FOR EACH ROW
+    BEGIN
         INSERT INTO music__releases__fts (rowid, title, artists)
         SELECT id, title, artists FROM music__releases__fts_content WHERE id = old.release_id;
     END;
 
-CREATE TRIGGER music__releases__fts__artist_update
+CREATE TRIGGER music__releases__fts__artist_update_pre
     AFTER UPDATE ON music__releases_artists
     FOR EACH ROW
     BEGIN
         INSERT INTO music__releases__fts (music__releases__fts, rowid, title, artists)
         SELECT 'delete', rowid, title, artists FROM music__releases__fts WHERE rowid = old.release_id;
+    END;
 
+CREATE TRIGGER music__releases__fts__artist_update_post
+    AFTER UPDATE ON music__releases_artists
+    FOR EACH ROW
+    BEGIN
         INSERT INTO music__releases__fts (rowid, title, artists)
         SELECT id, title, artists FROM music__releases__fts_content WHERE id = new.release_id;
     END;
