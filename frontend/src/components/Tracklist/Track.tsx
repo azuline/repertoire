@@ -92,6 +92,7 @@ gql`
     createPlaylistEntry(playlistId: 1, trackId: $trackId) {
       id
       playlist {
+        id
         numTracks
         entries {
           id
@@ -107,6 +108,7 @@ gql`
   mutation PlaylistsUnfavoriteTrack($trackId: Int!) {
     delPlaylistEntries(playlistId: 1, trackId: $trackId) {
       playlist {
+        id
         numTracks
         entries {
           id

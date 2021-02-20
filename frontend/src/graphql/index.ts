@@ -540,7 +540,7 @@ export type IPlaylistsFavoriteTrackMutation = (
     & Pick<IPlaylistEntry, 'id'>
     & { playlist: (
       { __typename?: 'Playlist' }
-      & Pick<IPlaylist, 'numTracks'>
+      & Pick<IPlaylist, 'id' | 'numTracks'>
       & { entries: Array<Maybe<(
         { __typename?: 'PlaylistEntry' }
         & Pick<IPlaylistEntry, 'id'>
@@ -563,7 +563,7 @@ export type IPlaylistsUnfavoriteTrackMutation = (
     { __typename?: 'PlaylistAndTrack' }
     & { playlist: (
       { __typename?: 'Playlist' }
-      & Pick<IPlaylist, 'numTracks'>
+      & Pick<IPlaylist, 'id' | 'numTracks'>
       & { entries: Array<Maybe<(
         { __typename?: 'PlaylistEntry' }
         & Pick<IPlaylistEntry, 'id'>
@@ -1224,6 +1224,7 @@ export const PlaylistsFavoriteTrackDocument = gql`
   createPlaylistEntry(playlistId: 1, trackId: $trackId) {
     id
     playlist {
+      id
       numTracks
       entries {
         id
@@ -1265,6 +1266,7 @@ export const PlaylistsUnfavoriteTrackDocument = gql`
     mutation PlaylistsUnfavoriteTrack($trackId: Int!) {
   delPlaylistEntries(playlistId: 1, trackId: $trackId) {
     playlist {
+      id
       numTracks
       entries {
         id

@@ -9,9 +9,9 @@ import { AuthorizationContext } from '~/contexts';
 import { useHeaderFetchUserQuery } from '~/graphql';
 import { useRequest } from '~/hooks';
 
-type IUser = React.FC<{ className?: string }>;
+type IUserComponent = React.FC<{ className?: string }>;
 
-export const User: IUser = ({ className }) => {
+export const User: IUserComponent = ({ className }) => {
   const { setLoggedIn } = React.useContext(AuthorizationContext);
   const { addToast } = useToasts();
   const { data } = useHeaderFetchUserQuery();
