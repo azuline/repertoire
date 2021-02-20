@@ -1,11 +1,13 @@
 import shutil
 import sqlite3
 from pathlib import Path
+from sqlite3 import Connection
 
 import pytest
 import quart
 from ariadne import graphql
 from click.testing import CliRunner
+from quart.testing import QuartClient
 from yoyo import get_backend, read_migrations
 
 from src.config import Config, _Config
@@ -83,9 +85,6 @@ async def quart_client(quart_app):
     async with quart_app.app_context():
         async with quart_app.test_client() as test_client:
 
-            async def delete(*args, **kwargs):
-                return await test_client.open(*args, **dict(kwargs, method="DELETE"))
-
             async def authed_get(*args, **kwargs):
                 return await test_client.get(*args, **update_kwargs(kwargs))
 
@@ -95,7 +94,6 @@ async def quart_client(quart_app):
             async def authed_delete(*args, **kwargs):
                 return await test_client.delete(*args, **update_kwargs(kwargs))
 
-            test_client.delete = delete
             test_client.authed_get = authed_get
             test_client.authed_post = authed_post
             test_client.authed_delete = authed_delete
@@ -104,7 +102,7 @@ async def quart_client(quart_app):
 
 
 @pytest.fixture
-def graphql_query(db, quart_app):
+def graphql_query(db: Connection, quart_app: QuartClient):
     async def executor(query):
         used_fragments = "\n".join(v for k, v in FRAGMENTS.items() if k in query)
         query = f"{query}\n{used_fragments}"
@@ -114,7 +112,7 @@ def graphql_query(db, quart_app):
                 schema=schema,
                 data={"operationName": None, "variables": {}, "query": query},
                 context_value=GraphQLContext(
-                    user=user.from_id(1, db),
+                    user=user.from_id(1, db),  # type: ignore
                     db=db,
                     request=quart.request,
                 ),

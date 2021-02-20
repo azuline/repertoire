@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from sqlite3 import Cursor
+from sqlite3 import Connection
 from typing import Tuple
 
 import quart
@@ -17,7 +17,7 @@ bp = Blueprint("graphql", __name__, url_prefix="/graphql")
 @dataclass
 class GraphQLContext:
     user: user.T
-    db: Cursor
+    db: Connection
     request: Request
 
 
