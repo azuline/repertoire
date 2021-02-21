@@ -154,4 +154,4 @@ def del_pagination_keys(mapping: Dict) -> Dict:
     :return: An altered dict.
     """
     illegal_keys = ["page", "per_page", "sort", "asc"]
-    return {k: v for k, v in mapping if k not in illegal_keys}
+    return {k: v for k, v in mapping.items() if k not in illegal_keys}

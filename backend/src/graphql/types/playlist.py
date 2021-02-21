@@ -10,7 +10,7 @@ from src.graphql.query import query
 from src.graphql.util import commit
 from src.library import playlist
 from src.library import playlist_entry as pentry
-from src.util import convert_keys_case
+from src.util import convert_keys_case, del_pagination_keys
 
 gql_playlist = ObjectType("Playlist")
 gql_playlists = ObjectType("Playlists")
@@ -38,12 +38,12 @@ def resolve_playlist_from_name_and_type(
 
 
 @query.field("playlists")
-def resolve_playlists(
-    obj: Any,
-    info: GraphQLResolveInfo,
-    types: List[PlaylistType] = [],
-) -> Dict:
-    return {"results": playlist.search(info.context.db, types=types)}
+def resolve_playlists(obj: Any, info: GraphQLResolveInfo, **kwargs) -> Dict:
+    kwargs = convert_keys_case(kwargs)
+    return {
+        "results": playlist.search(info.context.db, **kwargs),
+        "total": playlist.count(info.context.db, **del_pagination_keys(kwargs)),
+    }
 
 
 @gql_playlist.field("entries")

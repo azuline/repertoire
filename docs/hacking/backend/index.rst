@@ -6,7 +6,10 @@ Backend
 This section contains the documentation for the backend source code. This page
 goes over the organization of the backend and provides a general overview.
 
-TODO: Add testing page.
+.. TODO: Add testing page.
+   TODO: Make a note of logging practices. Debug logging should provide an
+   informative idea of what the backend is doing. Info logging should log all
+   important events (e.g. writes & mutations).
 
 The backend is laid out as follows:
 

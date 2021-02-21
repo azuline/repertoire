@@ -8,7 +8,7 @@ from src.graphql.mutation import mutation
 from src.graphql.query import query
 from src.graphql.util import commit
 from src.library import artist, release
-from src.util import convert_keys_case
+from src.util import convert_keys_case, del_pagination_keys
 
 gql_artist = ObjectType("Artist")
 gql_artists = ObjectType("Artists")
@@ -31,8 +31,12 @@ def resolve_artist_from_name(obj: Any, info: GraphQLResolveInfo, name: str) -> a
 
 
 @query.field("artists")
-def resolve_artists(obj: Any, info: GraphQLResolveInfo) -> Dict:
-    return {"results": artist.search(info.context.db)}
+def resolve_artists(obj: Any, info: GraphQLResolveInfo, **kwargs) -> Dict:
+    kwargs = convert_keys_case(kwargs)
+    return {
+        "results": artist.search(info.context.db, **kwargs),
+        "total": artist.count(info.context.db, **del_pagination_keys(kwargs)),
+    }
 
 
 @gql_artist.field("releases")

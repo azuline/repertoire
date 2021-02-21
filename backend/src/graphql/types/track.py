@@ -11,7 +11,7 @@ from src.graphql.util import commit
 from src.library import artist
 from src.library import playlist_entry as pentry
 from src.library import release, track
-from src.util import convert_keys_case
+from src.util import convert_keys_case, del_pagination_keys
 
 gql_track = ObjectType("Track")
 
@@ -26,6 +26,15 @@ def resolve_track(obj: Any, info: GraphQLResolveInfo, id: int) -> track.T:
     raise NotFound(f"Track {id} not found.")
 
 
+@query.field("tracks")
+def resolve_tracks(obj: Any, info: GraphQLResolveInfo, **kwargs) -> Dict:
+    kwargs = convert_keys_case(kwargs)
+    return {
+        "results": track.search(info.context.db, **kwargs),
+        "total": track.count(info.context.db, **del_pagination_keys(kwargs)),
+    }
+
+
 @gql_track.field("favorited")
 def resolve_favorited(obj: track.T, info: GraphQLResolveInfo) -> bool:
     return pentry.exists_playlist_and_track(
@@ -36,10 +45,8 @@ def resolve_favorited(obj: track.T, info: GraphQLResolveInfo) -> bool:
 
 
 @gql_track.field("release")
-def resolve_tracks(obj: track.T, info: GraphQLResolveInfo) -> release.T:
-    rls = release.from_id(obj.release_id, info.context.db)
-    assert rls is not None
-    return rls
+def resolve_release(obj: track.T, info: GraphQLResolveInfo) -> release.T:
+    return track.release(obj, info.context.db)
 
 
 @gql_track.field("artists")
