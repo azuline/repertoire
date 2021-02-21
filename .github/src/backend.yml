@@ -30,10 +30,18 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9.1'
-      - uses: abatilo/actions-poetry@v2.1.0
+      - name: Cache poetry
+        id: cache-poetry
+        uses: actions/cache@v2
         with:
-          poetry-version: 1.1.4
-      - name: Cache dependencies
+          path: ~/.poetry
+          key: {{ "${{ runner.os }}-poetry-1.1.4" }}
+      - name: Install poetry
+        if: steps.cache-poetry.outputs.cache-hit != 'true'
+        run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
+      - name: Configure PATH
+        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - name: Cache dependencies.
         id: cache-deps
         uses: actions/cache@v2
         with:

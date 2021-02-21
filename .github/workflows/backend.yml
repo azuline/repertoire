@@ -15,28 +15,38 @@ jobs:
         working-directory: 'backend/'
     steps:
       - uses: actions/checkout@v2
-      - name: Cache SQLite.
+      - name: Cache SQLite
         id: cache-sqlite
         uses: actions/cache@v2
         with:
           path: /tmp/sqlite
           key: ${{ runner.os }}-sqlite-2021-02-21
-      - if: steps.cache-sqlite.outputs.cache-hit != 'true'
+      - name: Build SQLite
+        if: steps.cache-sqlite.outputs.cache-hit != 'true'
         uses: ./.github/actions/build-sqlite
-      - uses: ./.github/actions/install-sqlite
+      - name: Install SQLite
+        uses: ./.github/actions/install-sqlite
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9.1'
-      - uses: abatilo/actions-poetry@v2.1.0
+      - name: Cache poetry
+        id: cache-poetry
+        uses: actions/cache@v2
         with:
-          poetry-version: 1.1.4
+          path: ~/.poetry
+          key: ${{ runner.os }}-poetry-1.1.4
+      - name: Install poetry
+        if: steps.cache-poetry.outputs.cache-hit != 'true'
+        run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
+      - name: Configure PATH
+        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: Cache dependencies.
         id: cache-deps
         uses: actions/cache@v2
         with:
           path: ~/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
-      - name: Install dependencies.
+      - name: Install dependencie
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
       - name: Run tests
@@ -51,28 +61,38 @@ jobs:
         working-directory: 'backend/'
     steps:
       - uses: actions/checkout@v2
-      - name: Cache SQLite.
+      - name: Cache SQLite
         id: cache-sqlite
         uses: actions/cache@v2
         with:
           path: /tmp/sqlite
           key: ${{ runner.os }}-sqlite-2021-02-21
-      - if: steps.cache-sqlite.outputs.cache-hit != 'true'
+      - name: Build SQLite
+        if: steps.cache-sqlite.outputs.cache-hit != 'true'
         uses: ./.github/actions/build-sqlite
-      - uses: ./.github/actions/install-sqlite
+      - name: Install SQLite
+        uses: ./.github/actions/install-sqlite
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9.1'
-      - uses: abatilo/actions-poetry@v2.1.0
+      - name: Cache poetry
+        id: cache-poetry
+        uses: actions/cache@v2
         with:
-          poetry-version: 1.1.4
+          path: ~/.poetry
+          key: ${{ runner.os }}-poetry-1.1.4
+      - name: Install poetry
+        if: steps.cache-poetry.outputs.cache-hit != 'true'
+        run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
+      - name: Configure PATH
+        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: Cache dependencies.
         id: cache-deps
         uses: actions/cache@v2
         with:
           path: ~/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
-      - name: Install dependencies.
+      - name: Install dependencie
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
       - name: Run type check
@@ -85,28 +105,38 @@ jobs:
         working-directory: 'backend/'
     steps:
       - uses: actions/checkout@v2
-      - name: Cache SQLite.
+      - name: Cache SQLite
         id: cache-sqlite
         uses: actions/cache@v2
         with:
           path: /tmp/sqlite
           key: ${{ runner.os }}-sqlite-2021-02-21
-      - if: steps.cache-sqlite.outputs.cache-hit != 'true'
+      - name: Build SQLite
+        if: steps.cache-sqlite.outputs.cache-hit != 'true'
         uses: ./.github/actions/build-sqlite
-      - uses: ./.github/actions/install-sqlite
+      - name: Install SQLite
+        uses: ./.github/actions/install-sqlite
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9.1'
-      - uses: abatilo/actions-poetry@v2.1.0
+      - name: Cache poetry
+        id: cache-poetry
+        uses: actions/cache@v2
         with:
-          poetry-version: 1.1.4
+          path: ~/.poetry
+          key: ${{ runner.os }}-poetry-1.1.4
+      - name: Install poetry
+        if: steps.cache-poetry.outputs.cache-hit != 'true'
+        run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
+      - name: Configure PATH
+        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: Cache dependencies.
         id: cache-deps
         uses: actions/cache@v2
         with:
           path: ~/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
-      - name: Install dependencies.
+      - name: Install dependencie
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
       - name: Run lint check
@@ -119,28 +149,38 @@ jobs:
         working-directory: 'backend/'
     steps:
       - uses: actions/checkout@v2
-      - name: Cache SQLite.
+      - name: Cache SQLite
         id: cache-sqlite
         uses: actions/cache@v2
         with:
           path: /tmp/sqlite
           key: ${{ runner.os }}-sqlite-2021-02-21
-      - if: steps.cache-sqlite.outputs.cache-hit != 'true'
+      - name: Build SQLite
+        if: steps.cache-sqlite.outputs.cache-hit != 'true'
         uses: ./.github/actions/build-sqlite
-      - uses: ./.github/actions/install-sqlite
+      - name: Install SQLite
+        uses: ./.github/actions/install-sqlite
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9.1'
-      - uses: abatilo/actions-poetry@v2.1.0
+      - name: Cache poetry
+        id: cache-poetry
+        uses: actions/cache@v2
         with:
-          poetry-version: 1.1.4
+          path: ~/.poetry
+          key: ${{ runner.os }}-poetry-1.1.4
+      - name: Install poetry
+        if: steps.cache-poetry.outputs.cache-hit != 'true'
+        run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
+      - name: Configure PATH
+        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: Cache dependencies.
         id: cache-deps
         uses: actions/cache@v2
         with:
           path: ~/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
-      - name: Install dependencies.
+      - name: Install dependencie
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
       - name: Generate schema
@@ -157,28 +197,38 @@ jobs:
         working-directory: 'backend/'
     steps:
       - uses: actions/checkout@v2
-      - name: Cache SQLite.
+      - name: Cache SQLite
         id: cache-sqlite
         uses: actions/cache@v2
         with:
           path: /tmp/sqlite
           key: ${{ runner.os }}-sqlite-2021-02-21
-      - if: steps.cache-sqlite.outputs.cache-hit != 'true'
+      - name: Build SQLite
+        if: steps.cache-sqlite.outputs.cache-hit != 'true'
         uses: ./.github/actions/build-sqlite
-      - uses: ./.github/actions/install-sqlite
+      - name: Install SQLite
+        uses: ./.github/actions/install-sqlite
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9.1'
-      - uses: abatilo/actions-poetry@v2.1.0
+      - name: Cache poetry
+        id: cache-poetry
+        uses: actions/cache@v2
         with:
-          poetry-version: 1.1.4
+          path: ~/.poetry
+          key: ${{ runner.os }}-poetry-1.1.4
+      - name: Install poetry
+        if: steps.cache-poetry.outputs.cache-hit != 'true'
+        run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
+      - name: Configure PATH
+        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: Cache dependencies.
         id: cache-deps
         uses: actions/cache@v2
         with:
           path: ~/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
-      - name: Install dependencies.
+      - name: Install dependencie
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
       - name: Generate setup files
