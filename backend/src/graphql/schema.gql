@@ -1,51 +1,90 @@
 scalar PosixTime
 
 type Query {
+  "Fetch the currently authenticated user."
+  user: User
+
+  "Search artists."
+  artists(
+    """
+    A search string. We split this up into individual punctuation-less
+    token and return artists whose name contain each token.
+    """
+    search: String
+    "Which page of artists to return."
+    page: Int
+    """
+    The number of artists per-page. Leave null to return all artists (and
+    ignore `page`).
+    """
+    perPage: Int
+  ): Artists
+
+  "Fetch an artist by ID."
   artist(id: Int!): Artist
 
+  "Fetch an artist by name."
   artistFromName(name: String!): Artist
 
+  "Search collections."
+  collections(
+    """
+    A search string. We split this up into individual punctuation-less
+    token and return collections whose name contain each token.
+    """
+    search: String
+    "If provided, only collections of these type will be returned."
+    types: [CollectionType]
+    "Which page of collections to return."
+    page: Int
+    """
+    The number of collections per-page. Leave null to return all collections
+    (and ignore `page`).
+    """
+    perPage: Int
+  ): Collections
+
+  "Fetch a collection by ID."
   collection(id: Int!): Collection
 
+  "Fetch a collection by name and type."
   collectionFromNameAndType(
     name: String!
     type: CollectionType!
   ): Collection
 
+  "Search playlists."
+  playlists(
+    """
+    A search string. We split this up into individual punctuation-less
+    token and return playlists whose name contain each token.
+    """
+    search: String
+    "If provided, only playlists of these type will be returned."
+    types: [PlaylistType]
+    "Which page of playlists to return."
+    page: Int
+    """
+    The number of playlists per-page. Leave null to return all playlists (and
+    ignore `page`).
+    """
+    perPage: Int
+  ): Playlists
+
+  "Fetch a playlist by id."
   playlist(id: Int!): Playlist
 
+  "Fetch a playlist by name and type."
   playlistFromNameAndType(
     name: String!
     type: PlaylistType!
   ): Playlist
 
-  release(id: Int!): Release
-
-  track(id: Int!): Track
-
-  "Fetch the currently authenticated user."
-  user: User
-
-  "Fetch all artists."
-  artists: Artists
-
-  "Fetch all collections (of one or more types)."
-  collections(
-    "If provided, only collections of these type will be returned."
-    types: [CollectionType]
-  ): Collections
-
-  "Fetch all playlists (of one or more types)."
-  playlists(
-    "If provided, only playlists of these type will be returned."
-    types: [PlaylistType]
-  ): Playlists
-
-  "Search for releases matching a certain criteria."
+  "Search releases."
   releases(
     """
     A search string. We split this up into individual punctuation-less
-    words and return releases that contain each word.
+    token and return releases whose title and artists contain each token.
     """
     search: String
     """
@@ -56,7 +95,7 @@ type Query {
     collectionIds: [Int]
     """
     A list of artist IDs. We match releases by the artists in this list.
-    For a release to match, all artists in this list must be included.
+    For a release to match, all artists in this list must have participated.
     """
     artistIds: [Int]
     """
@@ -65,7 +104,7 @@ type Query {
     """
     releaseTypes: [ReleaseType]
     """
-    A list of years. Filter out releases that do not match one of these
+    A list of years. Filter out releases that were not released on one of these
     years.
     """
     years: [Int]
@@ -87,11 +126,63 @@ type Query {
     asc: Boolean
   ): Releases
 
+  "Fetch a release by ID."
+  release(id: Int!): Release
+
+  "Search tracks."
+  tracks(
+    """
+    A search string. We split this up into individual punctuation-less
+    token and return tracks whose title and artists contain each token.
+    """
+    search: String
+    """
+    A list of playlist IDs. We match tracks by the playlists in this
+    list. For a track to match, it must be in all playlists in this
+    list.
+    """
+    playlistIds: [Int]
+    """
+    A list of artist IDs. We match track by the artists in this list. For a
+    track to match, all artists in this list must have participated.
+    """
+    artistIds: [Int]
+    """
+    A list of years. Filter out tracks that were not released on one of these
+    years.
+    """
+    years: [Int]
+    "Which page of tracks to return."
+    page: Int
+    """
+    The number of tracks per-page. Leave null to return all tracks (and ignore
+    `page`).
+    """
+    perPage: Int
+    "How to sort the matching tracks."
+    sort: TrackSort
+    "If true, sort in ascending order. If false, descending."
+    asc: Boolean
+  ): Releases
+  "Fetch a track by ID."
+  track(id: Int!): Track
+
   "Fetch all existing release years sorted in descending order."
   releaseYears: [Int]
 }
 
 type Mutation {
+  "Update the authenticated user."
+  updateUser(
+    nickname: String
+  ): User
+
+  """
+  Generate a new authentication token for the current user. Invalidate the
+  old one.
+  """
+  newToken: Token
+
   createArtist(
     name: String!
     starred: Boolean
@@ -208,18 +299,6 @@ type Mutation {
     artistId: Int!
     role: ArtistRole!
   ): TrackAndArtist
-
-  "Update the authenticated user."
-  updateUser(
-    nickname: String
-  ): User
-
-  """
-  Generate a new authentication token for the current user. Invalidate the
-  old one.
-  """
-  newToken: Token
-
 }
 
 type Artist {
@@ -236,6 +315,9 @@ type Artist {
 }
 
 type Artists {
+  "The total number of artists matching the query across all pages."
+  total: Int!
+  "The artists on the current page."
   results: [Artist]!
 }
 
@@ -256,6 +338,9 @@ type Collection {
 }
 
 type Collections {
+  "The total number of collections matching the query across all pages."
+  total: Int!
+  "The collections on the current page."
   results: [Collection]!
 }
 
@@ -276,6 +361,9 @@ type Playlist {
 }
 
 type Playlists {
+  "The total number of playlists matching the query across all pages."
+  total: Int!
+  "The playlists on the current page."
   results: [Playlist]!
 }
 
@@ -333,6 +421,13 @@ type Track {
 
   release: Release!
   artists: [TrackArtist]!
+}
+
+type Tracks {
+  "The total number of tracks matching the query across all pages."
+  total: Int!
+  "The tracks on the current page."
+  results: [Track]!
 }
 
 type TrackArtist {
@@ -414,6 +509,14 @@ enum ReleaseSort {
   TITLE
   YEAR
   RATING
+  RANDOM
+  SEARCH_RANK
+}
+
+enum TrackSort {
+  RECENTLY_ADDED
+  TITLE
+  YEAR
   RANDOM
   SEARCH_RANK
 }
