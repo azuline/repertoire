@@ -1,12 +1,12 @@
 import shutil
-import pysqlite3 as sqlite3
 from pathlib import Path
-from pysqlite3 import Connection
 
+import pysqlite3 as sqlite3
 import pytest
 import quart
 from ariadne import graphql
 from click.testing import CliRunner
+from pysqlite3 import Connection
 from quart.testing import QuartClient
 from yoyo import get_backend, read_migrations
 

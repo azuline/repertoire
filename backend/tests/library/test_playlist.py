@@ -1,6 +1,5 @@
-from pysqlite3 import Connection
-
 import pytest
+from pysqlite3 import Connection
 
 from src.enums import PlaylistType
 from src.errors import Duplicate, Immutable, InvalidPlaylistType

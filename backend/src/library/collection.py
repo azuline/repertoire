@@ -3,8 +3,9 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from pysqlite3 import Connection, Row
 from typing import Dict, List, Optional, Union
+
+from pysqlite3 import Connection, Row
 
 from src.enums import CollectionType
 from src.errors import (

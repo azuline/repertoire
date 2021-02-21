@@ -2,9 +2,9 @@ import logging
 import os
 from hashlib import sha256
 from pathlib import Path
-from pysqlite3 import Connection
 from typing import Generator, List, Optional, Tuple
 
+from pysqlite3 import Connection
 from tagfiles import TagFile
 
 from src.constants import Constants

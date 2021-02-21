@@ -4,9 +4,9 @@ import logging
 import re
 from datetime import date
 from itertools import chain
-from pysqlite3 import Connection
 from typing import List, Optional
 
+from pysqlite3 import Connection
 from tagfiles import TagFile
 
 from src.config import Config
