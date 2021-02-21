@@ -301,7 +301,7 @@ def _fix_release_types(conn: Connection) -> None:
     """
     logger.info("Fixing release types...")
 
-    _, releases = release.search(conn, release_types=[ReleaseType.UNKNOWN])
+    releases = release.search(conn, release_types=[ReleaseType.UNKNOWN])
 
     for rls in releases:
         if rls.num_tracks < 3:

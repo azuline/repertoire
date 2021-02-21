@@ -10,7 +10,7 @@ from src.graphql.mutation import mutation
 from src.graphql.query import query
 from src.graphql.util import commit
 from src.library import artist, collection, release, track
-from src.util import convert_keys_case
+from src.util import convert_keys_case, del_pagination_keys
 
 gql_release = ObjectType("Release")
 
@@ -27,7 +27,11 @@ def resolve_release(_: Any, info: GraphQLResolveInfo, id: int) -> release.T:
 
 @query.field("releases")
 def resolve_releases(_: Any, info: GraphQLResolveInfo, **kwargs) -> Dict:
-    total, releases = release.search(info.context.db, **convert_keys_case(kwargs))
+    releases = release.search(info.context.db, **convert_keys_case(kwargs))
+    total = release.count(
+        info.context.db,
+        **convert_keys_case(del_pagination_keys(kwargs)),
+    )
     return {"total": total, "results": releases}
 
 

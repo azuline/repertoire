@@ -144,3 +144,14 @@ def make_fts_match_query(searchstr: str) -> str:
     # First do the escaping for double quotes in the searchstr.
     searchstr = searchstr.replace('"', '""')
     return " AND ".join(f'"{w}"' for w in searchstr.split(" "))
+
+
+def del_pagination_keys(mapping: Dict) -> Dict:
+    """
+    Delete the keys related to pagination: page, per_page, sort, asc.
+
+    :param mapping: The dict to alter.
+    :return: An altered dict.
+    """
+    illegal_keys = ["page", "per_page", "sort", "asc"]
+    return {k: v for k, v in mapping if k not in illegal_keys}

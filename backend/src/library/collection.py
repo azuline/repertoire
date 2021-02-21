@@ -275,7 +275,7 @@ def releases(col: T, conn: Connection) -> List[release.T]:
     :param conn: A connection to the database.
     :return: A list of releases in the collection.
     """
-    _, releases = release.search(collection_ids=[col.id], conn=conn)
+    releases = release.search(collection_ids=[col.id], conn=conn)
     logger.debug(f"Fetched releases of collection {col.id}.")
     return releases
 

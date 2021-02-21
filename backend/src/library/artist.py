@@ -203,7 +203,7 @@ def releases(art: T, conn: Connection) -> List[release.T]:
     :param conn: A connection to the database.
     :return: A list of releases of the artist.
     """
-    _, releases = release.search(artist_ids=[art.id], conn=conn)
+    releases = release.search(artist_ids=[art.id], conn=conn)
     logger.debug(f"Fetched the releases of artist {art.id}.")
     return releases
 

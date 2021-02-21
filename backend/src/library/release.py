@@ -130,7 +130,7 @@ def search(
     per_page: Optional[int] = None,
     sort: Optional[ReleaseSort] = None,
     asc: bool = True,
-) -> Tuple[int, List[T]]:
+) -> List[T]:
     """
     Search for releases matching the passed-in criteria.
 
@@ -156,8 +156,7 @@ def search(
                  ``RECENTLY_ADDED`` otherwise.
     :param asc: If true, sort in ascending order. If false, descending.
     :param conn: A connection to the database.
-    :return: The total number of matching releases and the matching releases on the
-             current page.
+    :return: The matching releases on the current page.
     """
     # Dynamically generate the filter SQL and filter params.
     filter_sql: List[str] = []
@@ -178,24 +177,12 @@ def search(
     if not sort:
         sort = ReleaseSort.SEARCH_RANK if searchstr else ReleaseSort.RECENTLY_ADDED
 
-    # Fetch the total number of releases matching this criteria (ignoring pages).
-    cursor = conn.execute(
-        f"""
-        SELECT COUNT(1)
-        FROM music__releases AS rls
-            JOIN music__releases__fts AS fts ON fts.rowid = rls.id
-        {"WHERE " + " AND ".join(filter_sql) if filter_sql else ""}
-        """,
-        filter_params,
-    )
-    total = cursor.fetchone()[0]
-
     # If we have pagination, add the pagination params to the filter SQL.
     if per_page:
         filter_params.extend([per_page, (page - 1) * per_page])
 
     # Fetch the releases on the current page.
-    cursor.execute(
+    cursor = conn.execute(
         f"""
         SELECT
             rls.*,
@@ -222,8 +209,66 @@ def search(
         filter_params,
     )
 
-    logger.debug(f"Searched releases with {total} results.")
-    return total, [from_row(row) for row in cursor]
+    logger.debug(f"Searched releases with {cursor.rowcount} paged results.")
+    return [from_row(row) for row in cursor]
+
+
+def count(
+    conn: Connection,
+    *,
+    searchstr: str = "",
+    collection_ids: List[int] = [],
+    artist_ids: List[int] = [],
+    release_types: List[ReleaseType] = [],
+    years: List[int] = [],
+    ratings: List[int] = [],
+) -> int:
+    """
+    Fetch the number of releases matching the passed-in criteria.
+
+    :param searchstr: A search string. We split this up into individual punctuation-less
+                      words and return releases that contain each word.
+    :param collection_ids: A list of collection IDs. We match releases by the
+                           collections in this list. For a release to match, it must be
+                           in all collections in this list.
+    :param artist_ids: A list of artist IDs. We match releases by the artists in this
+                       list. For a release to match, all artists in this list must be
+                       included.
+    :param release_types: A list of release types. Filter out releases that do not match
+                          one of the release types in this list.
+    :param years: A list of years. Filter out releases to do not match one of the years
+                  in this list.
+    :param ratings: A list of ratings. Filter out releases that do not match one of the
+                    ratings in this list.
+    :param conn: A connection to the database.
+    :return: The number of matching releases.
+    """
+    # Dynamically generate the filter SQL and filter params.
+    filter_sql: List[str] = []
+    filter_params: List[Union[str, int]] = []
+
+    for sql, params in [
+        _generate_collection_filter(collection_ids),
+        _generate_artist_filter(artist_ids),
+        _generate_release_types_filter(release_types),
+        _generate_year_filter(years),
+        _generate_rating_filter(ratings),
+        _generate_search_filter(searchstr),
+    ]:
+        filter_sql.extend(sql)
+        filter_params.extend(params)  # type: ignore
+
+    # Fetch the total number of releases matching this criteria (ignoring pages).
+    cursor = conn.execute(
+        f"""
+        SELECT COUNT(1)
+        FROM music__releases AS rls
+            JOIN music__releases__fts AS fts ON fts.rowid = rls.id
+        {"WHERE " + " AND ".join(filter_sql) if filter_sql else ""}
+        """,
+        filter_params,
+    )
+    return cursor.fetchone()[0]
 
 
 def _generate_collection_filter(
