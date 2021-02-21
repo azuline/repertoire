@@ -1,0 +1,32 @@
+name: Frontend
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  {% for job in jobs %}
+  {{ job.id }}:
+    name: {{ job.name }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'frontend/'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache dependencies.
+        id: cache-deps
+        uses: actions/cache@v2
+        with:
+          path: frontend/node_modules
+          key: {{ "${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}" }}
+      - name: Install dependencies.
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: CI=true yarn install
+      {% for step in job.steps %}
+      - name: {{ step.name }}
+        run: {{ step.run }}
+      {% endfor %}
+  {% endfor %}

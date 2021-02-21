@@ -19,6 +19,8 @@ jobs:
         with:
           python-version: '3.9.1'
       - uses: abatilo/actions-poetry@v2.1.0
+        with:
+          poetry-version: 1.1.4
       - name: Cache dependencies.
         id: cache-deps
         uses: actions/cache@v2
@@ -28,11 +30,10 @@ jobs:
       - name: Install dependencies.
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
-      - name: Run tests.
+      - name: Run tests
         run: poetry run pytest --cov-report=xml --cov=. --cov-branch tests/
-      - name: Upload coverage.
+      - name: Upload coverage
         run: bash <(curl -s https://codecov.io/bash) -cF python
-
   type_check:
     name: Type check
     runs-on: ubuntu-latest
@@ -56,9 +57,8 @@ jobs:
       - name: Install dependencies.
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
-      - name: Run type check.
+      - name: Run type check
         run: make typecheck
-
   lint_check:
     name: Lint check
     runs-on: ubuntu-latest
@@ -82,9 +82,8 @@ jobs:
       - name: Install dependencies.
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
-      - name: Run lint check.
+      - name: Run lint check
         run: make lintcheck
-
   schema:
     name: Schema
     runs-on: ubuntu-latest
@@ -108,13 +107,14 @@ jobs:
       - name: Install dependencies.
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
-      - name: Generate schema.
+      - name: Generate schema
         run: make schema
-      - name: Check for dirty files.
+      - name: Diff
+        run: git diff
+      - name: Compare
         run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'
-
   setupfiles:
-    name: Setupfiles
+    name: Setup files
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -136,7 +136,9 @@ jobs:
       - name: Install dependencies.
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
-      - name: Generate setupfiles.
+      - name: Generate setup files
         run: make setupfiles
-      - name: Check for dirty files.
+      - name: Diff
+        run: git diff
+      - name: Compare
         run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'

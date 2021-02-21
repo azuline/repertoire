@@ -1,0 +1,38 @@
+name: Backend
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  {% for job in jobs %}
+  {{ job.id }}:
+    name: {{ job.name }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'backend/'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9.1'
+      - uses: abatilo/actions-poetry@v2.1.0
+        with:
+          poetry-version: 1.1.4
+      - name: Cache dependencies.
+        id: cache-deps
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: {{ "${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}" }}
+      - name: Install dependencies.
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: poetry install
+      {% for step in job.steps %}
+      - name: {{ step.name }}
+        run: {{ step.run }}
+      {% endfor %}
+  {% endfor %}
