@@ -115,7 +115,7 @@ def from_name(name: str, conn: Connection) -> Optional[T]:
 
 def search(
     conn: Connection,
-    searchstr: str = "",
+    search: str = "",
     page: int = 1,
     per_page: Optional[int] = None,
 ) -> List[T]:
@@ -124,15 +124,15 @@ def search(
     matching criteria.
 
     :param conn: A connection to the database.
-    :param searchstr: A search string. We split this up into individual punctuation-less
-                      tokens and return artists whose names contain each token. If
-                      specified, the returned artists will be sorted by match proximity.
+    :param search: A search string. We split this up into individual punctuation-less
+                   tokens and return artists whose names contain each token. If
+                   specified, the returned artists will be sorted by match proximity.
     :param page: Which page of artists to return.
     :param per_page: The number of artists per page. Pass ``None`` to return all
                      artists (this will ignore ``page``).
     :return: All matching artists.
     """
-    filters, params = _generate_filters(searchstr)
+    filters, params = _generate_filters(search)
 
     if per_page:
         params.extend([per_page, (page - 1) * per_page])
@@ -149,7 +149,7 @@ def search(
         {"WHERE " + " AND ".join(filters) if filters else ""}
         GROUP BY arts.id
         ORDER BY
-            {"fts.rank" if searchstr else "arts.starred DESC, arts.name"}
+            {"fts.rank" if search else "arts.starred DESC, arts.name"}
         {"LIMIT ? OFFSET ?" if per_page else ""}
         """,
         params,
@@ -161,18 +161,18 @@ def search(
 
 def count(
     conn: Connection,
-    searchstr: str = "",
+    search: str = "",
 ) -> List[T]:
     """
     Fetch the number of artists matching the passed-in criteria. Parameters are
     optional; omitted ones are excluded from the matching criteria.
 
     :param conn: A connection to the database.
-    :param searchstr: A search string. We split this up into individual punctuation-less
-                      tokens and return artists whose names contain each token.
+    :param search: A search string. We split this up into individual punctuation-less
+                   tokens and return artists whose names contain each token.
     :return: The number of matching artists.
     """
-    filters, params = _generate_filters(searchstr)
+    filters, params = _generate_filters(search)
 
     cursor = conn.execute(
         f"""
@@ -189,9 +189,7 @@ def count(
     return count
 
 
-def _generate_filters(
-    searchstr: str = "",
-) -> Tuple[List[str], List[Union[str, int]]]:
+def _generate_filters(search: str = "") -> Tuple[List[str], List[Union[str, int]]]:
     """
     Dynamically generate the SQL filters and parameters from the criteria. See the
     search and total functions for parameter descriptions.
@@ -202,9 +200,9 @@ def _generate_filters(
     filters: List[str] = []
     params: List[Union[str, int]] = []
 
-    if searchstr:
+    if search:
         filters.append("fts.music__artists__fts MATCH ?")
-        params.append(make_fts_match_query(searchstr))
+        params.append(make_fts_match_query(search))
 
     return filters, params
 

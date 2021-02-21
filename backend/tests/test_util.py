@@ -39,6 +39,6 @@ def test_uniq_list():
 
 
 def test_make_fts_match_query():
-    searchstr = "test terms one two three"
+    search = "test terms one two three"
     expect = '"test" AND "terms" AND "one" AND "two" AND "three"'
-    assert make_fts_match_query(searchstr) == expect
+    assert make_fts_match_query(search) == expect

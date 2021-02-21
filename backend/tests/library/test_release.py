@@ -36,7 +36,7 @@ def test_search_all(db: Connection, snapshot):
 
 
 def test_search_search(db: Connection, snapshot):
-    snapshot.assert_match(release.search(searchstr="Aaron", conn=db))
+    snapshot.assert_match(release.search(search="Aaron", conn=db))
 
 
 def test_search_page(db: Connection, snapshot):
@@ -118,7 +118,7 @@ def test_count_all(db: Connection):
 
 
 def test_count_one(db: Connection):
-    count = release.count(db, searchstr="Have Each")
+    count = release.count(db, search="Have Each")
     assert count == 1
 
 

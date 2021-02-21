@@ -84,7 +84,7 @@ class TrackSort(Enum):
     tracks. The enum values are templates with an ``$order`` key--this key should be ASC
     or DESC.
 
-    The RECENTLY_ADDED, YEAR, AND RATING methods sort on the release fields and then on
+    The RECENTLY_ADDED, YEAR methods sort on the release fields and then on
     the track's disc and track numbers.
     """
 
@@ -104,15 +104,6 @@ class TrackSort(Enum):
         """
         rls.release_year IS NULL,
         rls.release_year $order,
-        trks.disc_number,
-        trks.track_number
-        """
-    )
-    #:
-    RATING = Template(
-        """
-        rls.rating IS NULL,
-        rls.rating $order,
         trks.disc_number,
         trks.track_number
         """

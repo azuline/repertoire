@@ -57,7 +57,7 @@ def test_search_all(db: Connection, snapshot):
 
 
 def test_search_search(db: Connection, snapshot):
-    snapshot.assert_match(track.search(searchstr="Aaron", conn=db))
+    snapshot.assert_match(track.search(search="Aaron", conn=db))
 
 
 def test_search_page(db: Connection, snapshot):
@@ -140,7 +140,7 @@ def test_count_all(db: Connection):
 
 
 def test_count_one(db: Connection):
-    count = track.count(db, searchstr="Apartment")
+    count = track.count(db, search="Apartment")
     assert count == 1
 
 

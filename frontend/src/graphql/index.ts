@@ -43,7 +43,7 @@ export type IQuery = {
   /** Fetch a release by ID. */
   release: Maybe<IRelease>;
   /** Search tracks. */
-  tracks: Maybe<IReleases>;
+  tracks: Maybe<ITracks>;
   /** Fetch a track by ID. */
   track: Maybe<ITrack>;
   /** Fetch all existing release years sorted in descending order. */

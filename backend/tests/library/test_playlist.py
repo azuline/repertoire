@@ -41,7 +41,7 @@ def test_search(db: Connection, snapshot):
 
 
 def test_search_name(db: Connection, snapshot):
-    plys = playlist.search(db, searchstr="AaA")
+    plys = playlist.search(db, search="AaA")
     assert len(plys) == 1
     assert plys[0].name == "AAAAAA"
 
@@ -50,7 +50,7 @@ def test_search_one(db: Connection, snapshot):
     plys = playlist.search(
         db,
         types=[PlaylistType.SYSTEM, PlaylistType.PLAYLIST],
-        searchstr="aaaa",
+        search="aaaa",
     )
     assert plys[0].name == "AAAAAA"
 
@@ -75,7 +75,7 @@ def test_count_one(db: Connection, snapshot):
     count = playlist.count(
         db,
         types=[PlaylistType.SYSTEM, PlaylistType.PLAYLIST],
-        searchstr="aaaa",
+        search="aaaa",
     )
     assert count == 1
 

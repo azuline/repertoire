@@ -54,7 +54,7 @@ def test_search_filters(db: Connection, snapshot):
     collections = collection.search(
         db,
         types=[CollectionType.SYSTEM, CollectionType.GENRE],
-        searchstr="Folk",
+        search="Folk",
     )
     assert len(collections) == 1
     assert collections[0].name == "Folk"
@@ -80,7 +80,7 @@ def test_count_one(db: Connection, snapshot):
     count = collection.count(
         db,
         types=[CollectionType.SYSTEM, CollectionType.GENRE],
-        searchstr="Folk",
+        search="Folk",
     )
     assert count == 1
 

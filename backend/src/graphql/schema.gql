@@ -163,7 +163,7 @@ type Query {
     sort: TrackSort
     "If true, sort in ascending order. If false, descending."
     asc: Boolean
-  ): Releases
+  ): Tracks
   "Fetch a track by ID."
   track(id: Int!): Track
 

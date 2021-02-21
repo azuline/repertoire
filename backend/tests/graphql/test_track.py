@@ -54,6 +54,111 @@ async def test_track_favorited_false(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
+async def test_tracks(graphql_query, snapshot):
+    query = """
+        query {
+            tracks {
+                total
+                results {
+                    ...TrackFields
+                }
+            }
+        }
+    """
+    snapshot.assert_match(await graphql_query(query))
+
+
+@pytest.mark.asyncio
+async def test_tracks_search(graphql_query, snapshot):
+    query = """
+        query {
+            tracks(search: "Aaron") {
+                total
+                results {
+                    ...TrackFields
+                }
+            }
+        }
+    """
+    snapshot.assert_match(await graphql_query(query))
+
+
+@pytest.mark.asyncio
+async def test_tracks_filter_playlists(graphql_query, snapshot):
+    query = """
+        query {
+            tracks(playlistIds: [1]) {
+                total
+                results {
+                    ...TrackFields
+                }
+            }
+        }
+    """
+    snapshot.assert_match(await graphql_query(query))
+
+
+@pytest.mark.asyncio
+async def test_tracks_filter_artists(graphql_query, snapshot):
+    query = """
+        query {
+            tracks(artistIds: [2]) {
+                total
+                results {
+                    ...TrackFields
+                }
+            }
+        }
+    """
+    snapshot.assert_match(await graphql_query(query))
+
+
+@pytest.mark.asyncio
+async def test_tracks_pagination(graphql_query, snapshot):
+    query = """
+        query {
+            tracks(page: 2, perPage: 2) {
+                total
+                results {
+                    ...TrackFields
+                }
+            }
+        }
+    """
+    snapshot.assert_match(await graphql_query(query))
+
+
+@pytest.mark.asyncio
+async def test_tracks_sort(graphql_query, snapshot):
+    query = """
+        query {
+            tracks(sort: TITLE) {
+                total
+                results {
+                    ...TrackFields
+                }
+            }
+        }
+    """
+    snapshot.assert_match(await graphql_query(query))
+
+
+@pytest.mark.asyncio
+async def test_tracks_sort_desc(graphql_query, snapshot):
+    query = """
+        query {
+            tracks(sort: TITLE, asc: false) {
+                total
+                results {
+                    ...TrackFields
+                }
+            }
+        }
+    """
+    snapshot.assert_match(await graphql_query(query))
+
+
+@pytest.mark.asyncio
 async def test_update_track(db, graphql_query, snapshot):
     query = """
         mutation {

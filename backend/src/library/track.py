@@ -122,7 +122,7 @@ def from_sha256(sha256: bytes, conn: Connection) -> Optional[T]:
 def search(
     conn: Connection,
     *,
-    searchstr: str = "",
+    search: str = "",
     playlist_ids: List[int] = [],
     artist_ids: List[int] = [],
     years: List[int] = [],
@@ -135,9 +135,9 @@ def search(
     Search for tracks matching the passed-in criteria. Parameters are optional;
     omitted ones are excluded from the matching criteria.
 
-    :param searchstr: A search string. We split this up into individual punctuation-less
-                      tokens and return tracks whose titles and artists contain each
-                      token.
+    :param search: A search string. We split this up into individual punctuation-less
+                   tokens and return tracks whose titles and artists contain each
+                   token.
     :param playlist_ids: A list of playlist IDs. We match tracks by the playlists in
                          this list. For a track to match, it must be in all playlists in
                          this list.
@@ -150,17 +150,17 @@ def search(
     :param per_page: The number of tracks per page. Pass ``None`` to return all releases
                      (this will ignore ``page``).
     :param sort: How to sort the matching releases. If not explicitly passed, this
-                 defaults to ``SEARCH_RANK`` if ``searchstr`` is not ``None`` and
+                 defaults to ``SEARCH_RANK`` if ``search`` is not ``None`` and
                  ``RECENTLY_ADDED`` otherwise.
     :param asc: If true, sort in ascending order. If false, descending.
     :param conn: A connection to the database.
     :return: The matching tracks on the current page.
     """
-    filters, params = _generate_filters(searchstr, playlist_ids, artist_ids, years)
+    filters, params = _generate_filters(search, playlist_ids, artist_ids, years)
 
     # Set the default sort if it's not specified
     if not sort:
-        sort = TrackSort.SEARCH_RANK if searchstr else TrackSort.RECENTLY_ADDED
+        sort = TrackSort.SEARCH_RANK if search else TrackSort.RECENTLY_ADDED
 
     if per_page:
         params.extend([per_page, (page - 1) * per_page])
@@ -186,8 +186,8 @@ def search(
 def count(
     conn: Connection,
     *,
-    searchstr: str = "",
-    collection_ids: List[int] = [],
+    search: str = "",
+    playlist_ids: List[int] = [],
     artist_ids: List[int] = [],
     years: List[int] = [],
 ) -> int:
@@ -195,9 +195,9 @@ def count(
     Fetch the number of tracks matching the passed-in criteria. Parameters are
     optional; omitted ones are excluded from the matching criteria.
 
-    :param searchstr: A search string. We split this up into individual punctuation-less
-                      tokens and return tracks whose titles and artists contain each
-                      token.
+    :param search: A search string. We split this up into individual punctuation-less
+                   tokens and return tracks whose titles and artists contain each
+                   token.
     :param playlist_ids: A list of playlist IDs. We match tracks by the playlists in
                          this list. For a track to match, it must be in all playlists in
                          this list.
@@ -209,7 +209,7 @@ def count(
     :param conn: A connection to the database.
     :return: The number of matching releases.
     """
-    filters, params = _generate_filters(searchstr, collection_ids, artist_ids, years)
+    filters, params = _generate_filters(search, playlist_ids, artist_ids, years)
 
     cursor = conn.execute(
         f"""
@@ -228,7 +228,7 @@ def count(
 
 
 def _generate_filters(
-    searchstr: str,
+    search: str,
     collection_ids: List[int],
     artist_ids: List[int],
     years: List[int],
@@ -244,7 +244,7 @@ def _generate_filters(
     params: List[Union[str, int]] = []
 
     for sql, sql_args in [
-        _generate_search_filter(searchstr),
+        _generate_search_filter(search),
         _generate_collection_filter(collection_ids),
         _generate_artist_filter(artist_ids),
         _generate_year_filter(years),

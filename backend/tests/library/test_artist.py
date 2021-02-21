@@ -38,7 +38,7 @@ def test_search_all(db: Connection, snapshot):
 
 
 def test_search_one(db: Connection, snapshot):
-    artists = artist.search(db, searchstr="aba")
+    artists = artist.search(db, search="aba")
     assert len(artists) == 1
     assert artists[0].name == "Abakus"
 
@@ -60,7 +60,7 @@ def test_count_all(db: Connection, snapshot):
 
 
 def test_count_search(db: Connection, snapshot):
-    count = artist.count(db, searchstr="aba")
+    count = artist.count(db, search="aba")
     assert count == 1
 
 

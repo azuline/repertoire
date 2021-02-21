@@ -1233,22 +1233,95 @@ snapshots['test_releases_search 1'] = (
     True,
     {
         'data': {
-            'releases': None
-        },
-        'errors': [
-            {
-                'locations': [
+            'releases': {
+                'results': [
                     {
-                        'column': 13,
-                        'line': 3
+                        'addedOn': 1603067134,
+                        'artists': [
+                            {
+                                'id': 2,
+                                'name': 'Aaron West and the Roaring Twenties'
+                            }
+                        ],
+                        'collages': [
+                        ],
+                        'genres': [
+                            {
+                                'id': 3,
+                                'name': 'Folk'
+                            },
+                            {
+                                'id': 4,
+                                'name': 'Rock'
+                            },
+                            {
+                                'id': 5,
+                                'name': 'Country'
+                            },
+                            {
+                                'id': 6,
+                                'name': 'World'
+                            }
+                        ],
+                        'id': 2,
+                        'imageId': 1,
+                        'inFavorites': False,
+                        'inInbox': True,
+                        'labels': [
+                        ],
+                        'numTracks': 10,
+                        'releaseDate': '2014-07-08',
+                        'releaseType': 'ALBUM',
+                        'releaseYear': 2014,
+                        'runtime': 2258,
+                        'title': 'We Don’t Have Each Other',
+                        'tracks': [
+                            {
+                                'id': 1,
+                                'title': 'Our Apartment'
+                            },
+                            {
+                                'id': 2,
+                                'title': 'Grapefruit'
+                            },
+                            {
+                                'id': 3,
+                                'title': 'St. Joe Keeps Us Safe'
+                            },
+                            {
+                                'id': 4,
+                                'title': 'Runnin’ Scared'
+                            },
+                            {
+                                'id': 5,
+                                'title': 'Divorce and the American South'
+                            },
+                            {
+                                'id': 6,
+                                'title': 'The Thunderbird Inn'
+                            },
+                            {
+                                'id': 7,
+                                'title': 'Get Me Out of Here Alive'
+                            },
+                            {
+                                'id': 8,
+                                'title': 'You Ain’t No Saint'
+                            },
+                            {
+                                'id': 9,
+                                'title': 'Carolina Coast'
+                            },
+                            {
+                                'id': 10,
+                                'title': 'Going to Georgia'
+                            }
+                        ]
                     }
                 ],
-                'message': "search() got an unexpected keyword argument 'search'",
-                'path': [
-                    'releases'
-                ]
+                'total': 1
             }
-        ]
+        }
     }
 )
 

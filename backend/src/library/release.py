@@ -120,7 +120,7 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
 def search(
     conn: Connection,
     *,
-    searchstr: str = "",
+    search: str = "",
     collection_ids: List[int] = [],
     artist_ids: List[int] = [],
     release_types: List[ReleaseType] = [],
@@ -135,9 +135,9 @@ def search(
     Search for releases matching the passed-in criteria. Parameters are optional;
     omitted ones are excluded from the matching criteria.
 
-    :param searchstr: A search string. We split this up into individual punctuation-less
-                      tokens and return releases whose titles and artists contain each
-                      token.
+    :param search: A search string. We split this up into individual punctuation-less
+                   tokens and return releases whose titles and artists contain each
+                   token.
     :param collection_ids: A list of collection IDs. We match releases by the
                            collections in this list. For a release to match, it must be
                            in all collections in this list.
@@ -154,14 +154,14 @@ def search(
     :param per_page: The number of releases per page. Pass ``None`` to return all
                      releases (this will ignore ``page``).
     :param sort: How to sort the matching releases. If not explicitly passed, this
-                 defaults to ``SEARCH_RANK`` if ``searchstr`` is not ``None`` and
+                 defaults to ``SEARCH_RANK`` if ``search`` is not ``None`` and
                  ``RECENTLY_ADDED`` otherwise.
     :param asc: If true, sort in ascending order. If false, descending.
     :param conn: A connection to the database.
     :return: The matching releases on the current page.
     """
     filters, params = _generate_filters(
-        searchstr,
+        search,
         collection_ids,
         artist_ids,
         release_types,
@@ -171,7 +171,7 @@ def search(
 
     # Set the default sort if it's not specified
     if not sort:
-        sort = ReleaseSort.SEARCH_RANK if searchstr else ReleaseSort.RECENTLY_ADDED
+        sort = ReleaseSort.SEARCH_RANK if search else ReleaseSort.RECENTLY_ADDED
 
     if per_page:
         params.extend([per_page, (page - 1) * per_page])
@@ -210,7 +210,7 @@ def search(
 def count(
     conn: Connection,
     *,
-    searchstr: str = "",
+    search: str = "",
     collection_ids: List[int] = [],
     artist_ids: List[int] = [],
     release_types: List[ReleaseType] = [],
@@ -221,8 +221,8 @@ def count(
     Fetch the number of releases matching the passed-in criteria. Parameters are
     optional; omitted ones are excluded from the matching criteria.
 
-    :param searchstr: A search string. We split this up into individual punctuation-less
-                      words and return releases that contain each word.
+    :param search: A search string. We split this up into individual punctuation-less
+                   words and return releases that contain each word.
     :param collection_ids: A list of collection IDs. We match releases by the
                            collections in this list. For a release to match, it must be
                            in all collections in this list.
@@ -239,7 +239,7 @@ def count(
     :return: The number of matching releases.
     """
     filters, params = _generate_filters(
-        searchstr,
+        search,
         collection_ids,
         artist_ids,
         release_types,
@@ -263,7 +263,7 @@ def count(
 
 
 def _generate_filters(
-    searchstr: str,
+    search: str,
     collection_ids: List[int],
     artist_ids: List[int],
     release_types: List[ReleaseType],
@@ -281,7 +281,7 @@ def _generate_filters(
     params: List[Union[str, int]] = []
 
     for sql, sql_args in [
-        _generate_search_filter(searchstr),
+        _generate_search_filter(search),
         _generate_collection_filter(collection_ids),
         _generate_artist_filter(artist_ids),
         _generate_release_types_filter(release_types),

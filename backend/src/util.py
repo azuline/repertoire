@@ -129,21 +129,21 @@ def uniq_list(list_: Iterable) -> List:
     return rval
 
 
-def make_fts_match_query(searchstr: str) -> str:
+def make_fts_match_query(search: str) -> str:
     """
     Convert a search string into a FTS match query parameter. This function returns a
     parameter that searches for a result matching each space-delimited fragment in the
-    searchstr.
+    search.
 
-    :param searchstr: A list of space-delimited search terms.
+    :param search: A list of space-delimited search terms.
     :return: A FTS match query parameter.
     """
     # We surround each term with double quotes because that is FTS standard. It is also
     # standard for double quotes inside the term to be escaped as "".
 
-    # First do the escaping for double quotes in the searchstr.
-    searchstr = searchstr.replace('"', '""')
-    return " AND ".join(f'"{w}"' for w in searchstr.split(" "))
+    # First do the escaping for double quotes in the search string.
+    search = search.replace('"', '""')
+    return " AND ".join(f'"{w}"' for w in search.split(" "))
 
 
 def del_pagination_keys(mapping: Dict) -> Dict:

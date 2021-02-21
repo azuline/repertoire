@@ -152,7 +152,7 @@ def from_name_and_type(
 def search(
     conn: Connection,
     *,
-    searchstr: str = "",
+    search: str = "",
     types: List[CollectionType] = [],
     page: int = 1,
     per_page: Optional[int] = None,
@@ -162,17 +162,17 @@ def search(
     matching criteria.
 
     :param conn: A connection to the database.
-    :param searchstr: A search string. We split this up into individual punctuation-less
-                      tokens and return collections whose titles contain each token. If
-                      specified, the returned collections will be sorted by match
-                      proximity.
+    :param search: A search string. We split this up into individual punctuation-less
+                   tokens and return collections whose titles contain each token. If
+                   specified, the returned collections will be sorted by match
+                   proximity.
     :param types: Filter by collection types.
     :param page: Which page of collections to return.
     :param per_page: The number of collections per page. Pass ``None`` to return all
                      collections (this will ignore ``page``).
     :return: All matching collections.
     """
-    filters, params = _generate_filters(searchstr, types)
+    filters, params = _generate_filters(search, types)
 
     if per_page:
         params.extend([per_page, (page - 1) * per_page])
@@ -190,7 +190,7 @@ def search(
         {"WHERE " + " AND ".join(filters) if filters else ""}
         GROUP BY cols.id
         ORDER BY
-            {"fts.rank" if searchstr else "cols.type, cols.starred DESC, cols.name"}
+            {"fts.rank" if search else "cols.type, cols.starred DESC, cols.name"}
         {"LIMIT ? OFFSET ?" if per_page else ""}
         """,
         params,
@@ -203,7 +203,7 @@ def search(
 def count(
     conn: Connection,
     *,
-    searchstr: str = "",
+    search: str = "",
     types: List[CollectionType] = [],
 ) -> List[T]:
     """
@@ -211,12 +211,12 @@ def count(
     optional; omitted ones are excluded from the matching criteria.
 
     :param conn: A connection to the database.
-    :param searchstr: A search string. We split this up into individual punctuation-less
-                      tokens and return collections whose titles contain each token.
+    :param search: A search string. We split this up into individual punctuation-less
+                   tokens and return collections whose titles contain each token.
     :param types: Filter by collection types.
     :return: The number of matching collections.
     """
-    filters, params = _generate_filters(searchstr, types)
+    filters, params = _generate_filters(search, types)
 
     cursor = conn.execute(
         f"""
@@ -234,7 +234,7 @@ def count(
 
 
 def _generate_filters(
-    searchstr: str = "",
+    search: str = "",
     types: List[CollectionType] = [],
 ) -> Tuple[List[str], List[Union[str, int]]]:
     """
@@ -247,9 +247,9 @@ def _generate_filters(
     filters: List[str] = []
     params: List[Union[str, int]] = []
 
-    if searchstr:
+    if search:
         filters.append("fts.music__collections__fts MATCH ?")
-        params.append(make_fts_match_query(searchstr))
+        params.append(make_fts_match_query(search))
 
     if types:
         filters.append(f"cols.type IN ({','.join('?' * len(types))})")
