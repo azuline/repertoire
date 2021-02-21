@@ -2,4 +2,4 @@
 omit =
     src/__main__.py
     setup.py
-    snapshots/
+    */snapshots/*

@@ -86,13 +86,28 @@ class TrackSort(Enum):
     """
 
     #:
-    RECENTLY_ADDED = "rls.added_on, rls.id, trks.disc_number, trks.track_number"
+    RECENTLY_ADDED = """
+        rls.added_on,
+        rls.id,
+        trks.disc_number,
+        trks.track_number
+    """
     #:
     TITLE = "trks.title"
     #:
-    YEAR = "rls.release_year IS NULL, rls.release_year, trks.disc_number, trks.track_number"
+    YEAR = """
+        rls.release_year IS NULL,
+        rls.release_year,
+        trks.disc_number,
+        trks.track_number
+    """
     #:
-    RATING = "rls.rating IS NULL, rls.rating, trks.disc_number, trks.track_number"
+    RATING = """
+        rls.rating IS NULL,
+        rls.rating,
+        trks.disc_number,
+        trks.track_number
+    """
     #:
     RANDOM = "RANDOM()"
     #:

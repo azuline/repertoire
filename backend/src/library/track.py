@@ -1,8 +1,8 @@
 from __future__ import annotations
-from itertools import repeat
 
 import logging
 from dataclasses import dataclass
+from itertools import repeat
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple, Union
 
@@ -150,7 +150,7 @@ def search(
                      (this will ignore ``page``).
     :param sort: How to sort the matching releases. If not explicitly passed, this
                  defaults to ``SEARCH_RANK`` if ``searchstr`` is not ``None`` and
-                 ``RELEASE`` otherwise.
+                 ``RECENTLY_ADDED`` otherwise.
     :param asc: If true, sort in ascending order. If false, descending.
     :param conn: A connection to the database.
     :return: The matching tracks on the current page.
@@ -159,7 +159,7 @@ def search(
 
     # Set the default sort if it's not specified
     if not sort:
-        sort = TrackSort.SEARCH_RANK if searchstr else TrackSort.RELEASE
+        sort = TrackSort.SEARCH_RANK if searchstr else TrackSort.RECENTLY_ADDED
 
     if per_page:
         params.extend([per_page, (page - 1) * per_page])
