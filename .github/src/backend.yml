@@ -16,7 +16,15 @@ jobs:
         working-directory: 'backend/'
     steps:
       - uses: actions/checkout@v2
-      - uses: ./.github/actions/build-sqlite
+      - name: Cache SQLite.
+        id: cache-sqlite
+        uses: actions/cache@v2
+        with:
+          path: /tmp/sqlite
+          key: {{ "${{ runner.os }}-sqlite-2021-02-21" }}
+      - if: steps.cache-sqlite.outputs.cache-hit != 'true'
+        uses: ./.github/actions/build-sqlite
+      - uses: ./.github/actions/install-sqlite
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9.1'

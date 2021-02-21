@@ -1,10 +1,11 @@
 name: 'Build SQLite'
-description: 'Build SQLite3 from source and install system wide.'
+description: 'Build SQLite3 from source into /tmp/sqlite.'
 
 runs:
   using: 'composite'
   steps:
     - run: |
+        cd /tmp/
         wget https://www.sqlite.org/src/tarball/sqlite.tar.gz
         tar xzf sqlite.tar.gz
         cd sqlite/
@@ -25,5 +26,4 @@ runs:
         export PREFIX="/usr/local"
         LIBS="-lm" ./configure --disable-tcl --enable-shared --enable-tempstore=always --prefix="$PREFIX"
         make
-        sudo make install
       shell: bash
