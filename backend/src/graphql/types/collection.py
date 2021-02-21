@@ -42,7 +42,7 @@ def resolve_collections(
     info: GraphQLResolveInfo,
     types: List[CollectionType] = [],
 ) -> Dict:
-    return {"results": collection.all(info.context.db, types=types)}
+    return {"results": collection.search(info.context.db, types=types)}
 
 
 @gql_collection.field("releases")

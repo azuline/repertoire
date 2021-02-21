@@ -45,17 +45,17 @@ def test_from_name_and_type_failure(db: Connection):
 
 
 def test_all(db: Connection, snapshot):
-    collections = collection.all(db)
+    collections = collection.search(db)
     snapshot.assert_match(collections)
 
 
 def test_all_filter_type(db: Connection, snapshot):
-    collections = collection.all(db, types=[CollectionType.SYSTEM])
+    collections = collection.search(db, types=[CollectionType.SYSTEM])
     snapshot.assert_match(collections)
 
 
 def test_all_filter_type_multiple(db: Connection, snapshot):
-    collections = collection.all(
+    collections = collection.search(
         db, types=[CollectionType.SYSTEM, CollectionType.GENRE]
     )
     snapshot.assert_match(collections)

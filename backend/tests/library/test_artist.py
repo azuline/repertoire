@@ -31,8 +31,8 @@ def test_from_name_failure(db: Connection):
     assert artist.from_name("nonexistent", db) is None
 
 
-def test_all(db: Connection, snapshot):
-    artists = artist.all(db)
+def test_search_all(db: Connection, snapshot):
+    artists = artist.search(db)
     snapshot.assert_match(artists)
 
 

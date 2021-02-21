@@ -113,12 +113,15 @@ def from_name(name: str, conn: Connection) -> Optional[T]:
     return None
 
 
-def all(conn: Connection) -> List[T]:
+def search(conn: Connection, searchstr: str = "") -> List[T]:
     """
-    Get all artists with one-or-more releases.
+    Search for artists.
 
     :param conn: A connection to the database.
-    :return: All artists with releases stored on the src.
+    :param searchstr: A search string. We split this up into individual punctuation-less
+                      tokens and return artists whose names contain each token. Pass an
+                      empty searchstr to fetch all artists.
+    :return: All matching artists.
     """
     cursor = conn.execute(
         """

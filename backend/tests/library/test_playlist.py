@@ -34,19 +34,36 @@ def test_from_name_and_type_failure(db: Connection):
     assert playlist.from_name_and_type("CCCCCC", PlaylistType.PLAYLIST, db) is None
 
 
-def test_all(db: Connection, snapshot):
-    playlists = playlist.all(db)
+def test_search(db: Connection, snapshot):
+    playlists = playlist.search(db)
     snapshot.assert_match(playlists)
 
 
-def test_all_filter_type(db: Connection, snapshot):
-    playlists = playlist.all(db, types=[PlaylistType.PLAYLIST])
+def test_search_name(db: Connection, snapshot):
+    playlists = playlist.search(db, searchstr="AaA")
+    assert len(playlists) == 1
+    assert playlists[0].name == "AAAAAA"
+
+
+def test_search_filter_type(db: Connection, snapshot):
+    playlists = playlist.search(db, types=[PlaylistType.PLAYLIST])
     snapshot.assert_match(playlists)
 
 
-def test_all_filter_type_multiple(db: Connection, snapshot):
-    playlists = playlist.all(db, types=[PlaylistType.SYSTEM, PlaylistType.PLAYLIST])
+def test_search_filter_type_multiple(db: Connection, snapshot):
+    playlists = playlist.search(db, types=[PlaylistType.SYSTEM, PlaylistType.PLAYLIST])
     snapshot.assert_match(playlists)
+
+
+def test_search_page(db: Connection, snapshot):
+    p1 = playlist.search(db, page=1, per_page=1)[0]
+    p2 = playlist.search(db, page=2, per_page=1)[0]
+    assert p1 != p2
+
+
+def test_search_per_page(db: Connection, snapshot):
+    playlists = playlist.search(db, page=1, per_page=2)
+    assert len(playlists) == 2
 
 
 @pytest.mark.parametrize("type", [PlaylistType.PLAYLIST])

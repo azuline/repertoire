@@ -32,7 +32,7 @@ def resolve_artist_from_name(obj: Any, info: GraphQLResolveInfo, name: str) -> a
 
 @query.field("artists")
 def resolve_artists(obj: Any, info: GraphQLResolveInfo) -> Dict:
-    return {"results": artist.all(info.context.db)}
+    return {"results": artist.search(info.context.db)}
 
 
 @gql_artist.field("releases")

@@ -149,7 +149,7 @@ def from_name_and_type(
     return None
 
 
-def all(conn: Connection, types: List[CollectionType] = []) -> List[T]:
+def search(conn: Connection, types: List[CollectionType] = []) -> List[T]:
     """
     Get all collections.
 

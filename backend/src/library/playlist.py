@@ -18,7 +18,7 @@ from pysqlite3 import Connection, Row
 
 from src.enums import CollectionType, PlaylistType
 from src.errors import Duplicate, Immutable, InvalidPlaylistType
-from src.util import update_dataclass, without_key
+from src.util import make_fts_match_query, update_dataclass, without_key
 
 from . import collection
 from . import image as libimage
@@ -149,15 +149,41 @@ def from_name_and_type(name: str, type: PlaylistType, conn: Connection) -> Optio
     return None
 
 
-def all(conn: Connection, types: List[PlaylistType] = []) -> List[T]:
+def search(
+    conn: Connection,
+    *,
+    searchstr: str = "",
+    types: List[PlaylistType] = [],
+    page: int = 1,
+    per_page: Optional[int] = None,
+) -> List[T]:
     """
-    Get all playlists.
+    Search for playlists.
 
     :param conn: A connection to the database.
+    :param searchstr: A search string. We split this up into individual punctuation-less
+                      tokens and return playlists whose titles contain each token. Pass
+                      an empty searchstr to fetch any playlist. If this is specified,
+                      the returned playlists will be sorted by match proximity.
     :param types: Filter by playlist types. Pass an empty list to fetch all types.
-    :return: All playlists stored on the src.
+    :param page: Which page of playlists to return.
+    :param per_page: The number of playlists per page. Pass ``None`` to return all
+                     playlists (this will ignore ``page``).
+    :return: All matching playlists.
     """
-    filter_ = f"WHERE plys.type IN ({','.join('?' * len(types))})" if types else ""
+    filters = []
+    params = []
+
+    if types:
+        filters.append(f"plys.type IN ({','.join('?' * len(types))})")
+        params.extend([t.value for t in types])
+
+    if searchstr:
+        filters.append("fts.music__playlists__fts MATCH ?")
+        params.append(make_fts_match_query(searchstr))
+
+    if per_page:
+        params.extend([per_page, (page - 1) * per_page])
 
     cursor = conn.execute(
         f"""
@@ -166,16 +192,16 @@ def all(conn: Connection, types: List[PlaylistType] = []) -> List[T]:
             COUNT(plystrks.track_id) AS num_tracks,
             MAX(plystrks.added_on) AS last_updated_on
         FROM music__playlists AS plys
+        JOIN music__playlists__fts AS fts ON fts.rowid = plys.id
         LEFT JOIN music__playlists_tracks AS plystrks
             ON plystrks.playlist_id = plys.id
-        {filter_}
+        {"WHERE " + " AND ".join(filters) if filters else ""}
         GROUP BY plys.id
         ORDER BY
-            plys.type,
-            plys.starred DESC,
-            plys.name
+            {"fts.rank" if searchstr else "plys.type, plys.starred DESC, plys.name"}
+        {"LIMIT ? OFFSET ?" if per_page else ""}
         """,
-        tuple(type_.value for type_ in types),
+        params,
     )
 
     logger.debug("Fetched all playlists.")

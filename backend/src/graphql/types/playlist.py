@@ -43,7 +43,7 @@ def resolve_playlists(
     info: GraphQLResolveInfo,
     types: List[PlaylistType] = [],
 ) -> Dict:
-    return {"results": playlist.all(info.context.db, types=types)}
+    return {"results": playlist.search(info.context.db, types=types)}
 
 
 @gql_playlist.field("entries")

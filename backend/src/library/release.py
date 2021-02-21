@@ -135,7 +135,8 @@ def search(
     Search for releases matching the passed-in criteria.
 
     :param searchstr: A search string. We split this up into individual punctuation-less
-                      words and return releases that contain each word.
+                      tokens and return releases whose titles and artists contain each
+                      token.
     :param collection_ids: A list of collection IDs. We match releases by the
                            collections in this list. For a release to match, it must be
                            in all collections in this list.
@@ -149,7 +150,7 @@ def search(
     :param ratings: A list of ratings. Filter out releases that do not match one of the
                     ratings in this list.
     :param page: Which page of releases to return.
-    :param per_page: The number of releases per-page. Pass ``None`` to return all
+    :param per_page: The number of releases per page. Pass ``None`` to return all
                      releases (this will ignore ``page``).
     :param sort: How to sort the matching releases. If not explicitly passed, this
                  defaults to ``SEARCH_RANK`` if ``searchstr`` is not ``None`` and
@@ -159,10 +160,10 @@ def search(
     :return: The matching releases on the current page.
     """
     # Dynamically generate the filter SQL and filter params.
-    filter_sql: List[str] = []
-    filter_params: List[Union[str, int]] = []
+    filters: List[str] = []
+    params: List[Union[str, int]] = []
 
-    for sql, params in [
+    for sql, sql_args in [
         _generate_collection_filter(collection_ids),
         _generate_artist_filter(artist_ids),
         _generate_release_types_filter(release_types),
@@ -170,18 +171,16 @@ def search(
         _generate_rating_filter(ratings),
         _generate_search_filter(searchstr),
     ]:
-        filter_sql.extend(sql)
-        filter_params.extend(params)  # type: ignore
+        filters.extend(sql)
+        params.extend(sql_args)  # type: ignore
 
     # Set the default sort if it's not specified
     if not sort:
         sort = ReleaseSort.SEARCH_RANK if searchstr else ReleaseSort.RECENTLY_ADDED
 
-    # If we have pagination, add the pagination params to the filter SQL.
     if per_page:
-        filter_params.extend([per_page, (page - 1) * per_page])
+        params.extend([per_page, (page - 1) * per_page])
 
-    # Fetch the releases on the current page.
     cursor = conn.execute(
         f"""
         SELECT
@@ -201,12 +200,12 @@ def search(
         FROM music__releases AS rls
             JOIN music__releases__fts AS fts ON fts.rowid = rls.id
             LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
-        {"WHERE " + " AND ".join(filter_sql) if filter_sql else ""}
+        {"WHERE " + " AND ".join(filters) if filters else ""}
         GROUP BY rls.id
         ORDER BY {sort.value} {"ASC" if asc else "DESC"}
         {"LIMIT ? OFFSET ?" if per_page else ""}
         """,
-        filter_params,
+        params,
     )
 
     logger.debug(f"Searched releases with {cursor.rowcount} paged results.")
@@ -244,10 +243,10 @@ def count(
     :return: The number of matching releases.
     """
     # Dynamically generate the filter SQL and filter params.
-    filter_sql: List[str] = []
-    filter_params: List[Union[str, int]] = []
+    filters: List[str] = []
+    params: List[Union[str, int]] = []
 
-    for sql, params in [
+    for sql, sql_args in [
         _generate_collection_filter(collection_ids),
         _generate_artist_filter(artist_ids),
         _generate_release_types_filter(release_types),
@@ -255,18 +254,17 @@ def count(
         _generate_rating_filter(ratings),
         _generate_search_filter(searchstr),
     ]:
-        filter_sql.extend(sql)
-        filter_params.extend(params)  # type: ignore
+        filters.extend(sql)
+        params.extend(sql_args)  # type: ignore
 
-    # Fetch the total number of releases matching this criteria (ignoring pages).
     cursor = conn.execute(
         f"""
         SELECT COUNT(1)
         FROM music__releases AS rls
             JOIN music__releases__fts AS fts ON fts.rowid = rls.id
-        {"WHERE " + " AND ".join(filter_sql) if filter_sql else ""}
+        {"WHERE " + " AND ".join(filters) if filters else ""}
         """,
-        filter_params,
+        params,
     )
     return cursor.fetchone()[0]
 
