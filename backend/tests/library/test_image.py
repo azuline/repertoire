@@ -73,11 +73,26 @@ def test_delete_image(db):
     cursor = db.execute("INSERT INTO images (path) VALUES (?)", (str(image_path),))
     image_id = cursor.lastrowid
 
-    image.delete(image.from_id(image_id, db), db)
+    img = image.from_id(image_id, db)
+    assert img is not None
+    image.delete(img, db)
 
     assert not image.from_id(image_id, db)
     assert not image_path.exists()
     assert not thumbnail_path.exists()
+
+
+def test_delete_image_files_missing(db):
+    # Check to see it doesn't error when the files are missing.
+    image_path = Path.cwd() / "cover.jpg"
+    cursor = db.execute("INSERT INTO images (path) VALUES (?)", (str(image_path),))
+    image_id = cursor.lastrowid
+
+    img = image.from_id(image_id, db)
+    assert img is not None
+    image.delete(img, db)
+
+    assert not image.from_id(image_id, db)
 
 
 def test_thumbnail_path():
