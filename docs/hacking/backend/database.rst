@@ -9,15 +9,15 @@ Search Index
 ------------
 
 We use SQLite's FTS5 virtual tables for our search index. To keep the search
-index updated, we have a set of triggers defined in the database. These are
-applied via the database migrations.
+index in sync with the database content, we have a set of triggers defined in
+the database. These are written in and applied via the database migrations.
 
 See https://www.sqlite.org/fts5.html for an overview of FTS5.
 
 .. note::
 
    SQLite does not support stored procedures, yet the triggers that maintain
-   the search index state are very repetetive. Thus the trigger SQL is heavily
+   the search index state share logic. Thus, our trigger SQL is heavily
    duplicated. Please bear with it~
 
 Migrations

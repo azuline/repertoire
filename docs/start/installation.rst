@@ -53,7 +53,7 @@ To install and run repertoire, reference the following commands:
 
 Example ``docker-compose.yml``:
 
-.. code-block::
+.. code-block:: yml
 
    version: '3'
    services:
@@ -64,6 +64,10 @@ Example ``docker-compose.yml``:
          - "127.0.0.1:45731:45731"
        volumes:
          - data:/data
+         # You should replace the following elements with your music
+         # directories. For each directory with music on your computer,
+         # map it to a subdirectory of `/music` in the container. The format of
+         # each line is `{directory_on_computer}:{directory_in_docker_container}`.
          - /my/music1:/music/lib1
          - /my/music2:/music/lib2
    volumes:
