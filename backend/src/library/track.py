@@ -12,7 +12,8 @@ from src.enums import ArtistRole, TrackSort
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
 from src.util import make_fts_match_query, update_dataclass, without_key
 
-from . import artist, release
+from . import artist
+from . import release as librelease
 
 logger = logging.getLogger(__name__)
 
@@ -172,7 +173,7 @@ def search(
         JOIN music__releases AS rls ON rls.id = trks.release_id
         {"WHERE " + " AND ".join(filters) if filters else ""}
         GROUP BY trks.id
-        ORDER BY {sort.value} {"ASC" if asc else "DESC"}
+        ORDER BY {sort.value.substitute(order="ASC" if asc else "DESC")}
         {"LIMIT ? OFFSET ?" if per_page else ""}
         """,
         params,
@@ -353,7 +354,7 @@ def create(
     :raises Duplicate: If a track with the same filepath already exists. The duplicate
                        track is passed as the ``entity`` argument.
     """
-    if not release.exists(release_id, conn):
+    if not librelease.exists(release_id, conn):
         logger.debug(f"Release {release_id} does not exist.")
         raise NotFound(f"Release {release_id} does not exist.")
 
@@ -430,7 +431,7 @@ def update(trk: T, conn: Connection, **changes) -> T:
     :return: The updated track.
     :raise NotFound: If the new release ID does not exist.
     """
-    if "release_id" in changes and not release.exists(changes["release_id"], conn):
+    if "release_id" in changes and not librelease.exists(changes["release_id"], conn):
         logger.debug(f"Release {changes['release_id']} does not exist.")
         raise NotFound(f"Release {changes['release_id']} does not exist.")
 
@@ -455,6 +456,20 @@ def update(trk: T, conn: Connection, **changes) -> T:
     logger.info(f"Updated track {trk.id} with {changes}.")
 
     return update_dataclass(trk, **changes)
+
+
+def release(trk: T, conn: Connection) -> librelease.T:
+    """
+    Get the release that this track belongs to.
+
+    :param trk: The track whose artists to fetch.
+    :param conn: A connection to the database.
+    :return: A list of ``{"artist": artist.T, "role": ArtistRole}`` dicts.
+    """
+    rls = librelease.from_id(trk.release_id, conn)
+    assert rls is not None
+    logger.debug(f"Fetched release of track {trk.id}.")
+    return rls
 
 
 def artists(trk: T, conn: Connection) -> List[Dict]:

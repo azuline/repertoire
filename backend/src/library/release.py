@@ -197,7 +197,7 @@ def search(
             LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
         {"WHERE " + " AND ".join(filters) if filters else ""}
         GROUP BY rls.id
-        ORDER BY {sort.value} {"ASC" if asc else "DESC"}
+        ORDER BY {sort.value.substitute(order="ASC" if asc else "DESC")}
         {"LIMIT ? OFFSET ?" if per_page else ""}
         """,
         params,

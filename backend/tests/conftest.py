@@ -27,7 +27,7 @@ ADMIN_TOKEN = "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc8"
 # These are the next autoincremented DB primary key IDs for each model.
 NUM_RELEASES = 3
 NUM_ARTISTS = 5
-NEXT_TRACK_ID = 22
+NUM_TRACKS = 21
 NUM_COLLECTIONS = 11
 NUM_PLAYLISTS = 3
 NEXT_PLAYLIST_ENTRY_ID = 9

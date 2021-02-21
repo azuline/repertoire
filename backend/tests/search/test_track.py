@@ -2,7 +2,7 @@ from pathlib import Path
 
 from src.enums import ArtistRole
 from src.library import track
-from tests.conftest import NEXT_TRACK_ID
+from tests.conftest import NUM_TRACKS
 
 
 def test_query(db):
@@ -36,7 +36,7 @@ def test_insert(db):
         ORDER BY rank
         """
     )
-    assert cursor.fetchone()[0] == NEXT_TRACK_ID
+    assert cursor.fetchone()[0] == NUM_TRACKS + 1
 
 
 def test_delete(db):
