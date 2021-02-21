@@ -43,6 +43,17 @@ def test_search_one(db: Connection, snapshot):
     assert artists[0].name == "Abakus"
 
 
+def test_search_page(db: Connection, snapshot):
+    a1 = artist.search(db, page=1, per_page=1)[0]
+    a2 = artist.search(db, page=2, per_page=1)[0]
+    assert a1 != a2
+
+
+def test_search_per_page(db: Connection, snapshot):
+    arts = artist.search(db, page=1, per_page=2)
+    assert len(arts) == 2
+
+
 def test_count_all(db: Connection, snapshot):
     count = artist.count(db)
     assert count == NUM_ARTISTS
