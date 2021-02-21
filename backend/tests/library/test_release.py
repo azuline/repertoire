@@ -1,11 +1,12 @@
 from datetime import date
-from sqlite3 import Connection
 
 import pytest
+from pysqlite3 import Connection
 
 from src.enums import CollectionType, ReleaseSort, ReleaseType
 from src.errors import AlreadyExists, DoesNotExist, Duplicate
 from src.library import release
+from tests.conftest import NUM_RELEASES
 
 
 def test_exists(db: Connection):
@@ -30,96 +31,95 @@ def test_release_tracks(db: Connection, snapshot):
     snapshot.assert_match(release.tracks(rls, db))
 
 
-def test_release_search_all(db: Connection, snapshot):
+def test_search_all(db: Connection, snapshot):
     snapshot.assert_match(release.search(conn=db))
 
 
-def test_release_search_search(db: Connection, snapshot):
+def test_search_search(db: Connection, snapshot):
     snapshot.assert_match(release.search(search="Aaron", conn=db))
 
 
-def test_release_search_page(db: Connection, snapshot):
+def test_search_page(db: Connection, snapshot):
     snapshot.assert_match(release.search(page=1, per_page=2, conn=db))
 
 
-def test_release_search_page_2(db: Connection, snapshot):
+def test_search_page_2(db: Connection, snapshot):
     snapshot.assert_match(release.search(page=2, per_page=2, conn=db))
 
 
-def test_release_search_sort_recently_added(db: Connection):
-    _, releases = release.search(sort=ReleaseSort.RECENTLY_ADDED, asc=True, conn=db)
+def test_search_sort_recently_added(db: Connection):
+    releases = release.search(sort=ReleaseSort.RECENTLY_ADDED, asc=True, conn=db)
     added_ons = [rls.added_on for rls in releases]
 
     assert added_ons == sorted(added_ons)
 
 
-def test_release_search_sort_title(db: Connection):
-    _, releases = release.search(sort=ReleaseSort.TITLE, asc=True, conn=db)
+def test_search_sort_title(db: Connection):
+    releases = release.search(sort=ReleaseSort.TITLE, asc=True, conn=db)
     titles = [rls.title for rls in releases]
 
     assert titles == sorted(titles)
 
 
-def test_release_search_sort_year(db: Connection):
-    _, releases = release.search(sort=ReleaseSort.YEAR, asc=True, conn=db)
+def test_search_sort_year(db: Connection):
+    releases = release.search(sort=ReleaseSort.YEAR, asc=True, conn=db)
     assert [rls.release_year for rls in releases] == [2014, 2016, None]
 
 
-def test_release_search_sort_year_desc(db: Connection):
-    _, releases = release.search(sort=ReleaseSort.YEAR, asc=False, conn=db)
+def test_search_sort_year_desc(db: Connection):
+    releases = release.search(sort=ReleaseSort.YEAR, asc=False, conn=db)
     assert [rls.release_year for rls in releases] == [2016, 2014, None]
 
 
-def test_release_search_sort_random(db: Connection):
+def test_search_sort_random(db: Connection):
     # Make sure it returns **something**.
-    assert release.search(sort=ReleaseSort.RANDOM, asc=True, conn=db)
+    results = release.search(sort=ReleaseSort.RANDOM, asc=True, conn=db)
+    assert len(results) > 0
 
 
-def test_release_search_asc(db: Connection, snapshot):
-    _, asc_true = release.search(sort=ReleaseSort.TITLE, asc=True, conn=db)
-    _, asc_false = release.search(sort=ReleaseSort.TITLE, asc=False, conn=db)
+def test_search_asc(db: Connection, snapshot):
+    asc_true = release.search(sort=ReleaseSort.TITLE, asc=True, conn=db)
+    asc_false = release.search(sort=ReleaseSort.TITLE, asc=False, conn=db)
 
     assert asc_true == asc_false[::-1]
 
 
-def test_release_search_filter_collections(db: Connection):
-    total, inbox = release.search(db, collection_ids=[1])
-
-    assert total == 2
+def test_search_filter_collections(db: Connection):
+    inbox = release.search(db, collection_ids=[1])
     assert {r.id for r in inbox} == {2, 3}
 
-    total, folk = release.search(db, collection_ids=[3])
-
-    assert total == 1
+    folk = release.search(db, collection_ids=[3])
     assert {r.id for r in folk} == {2}
 
 
-def test_release_search_filter_artists(db: Connection):
-    total, releases = release.search(db, artist_ids=[4, 5])
-
-    assert total == 1
+def test_search_filter_artists(db: Connection):
+    releases = release.search(db, artist_ids=[4, 5])
     assert {r.id for r in releases} == {3}
 
 
-def test_release_search_filter_release_type(db: Connection):
-    total, releases = release.search(db, release_types=[ReleaseType.EP])
-
-    assert total == 1
+def test_search_filter_release_type(db: Connection):
+    releases = release.search(db, release_types=[ReleaseType.EP])
     assert {r.id for r in releases} == {3}
 
 
-def test_release_search_filter_year(db: Connection):
-    total, releases = release.search(db, years=[2014])
-
-    assert total == 1
+def test_search_filter_year(db: Connection):
+    releases = release.search(db, years=[2014])
     assert {r.id for r in releases} == {2}
 
 
-def test_release_search_filter_rating(db: Connection):
-    total, releases = release.search(db, ratings=[6, 4])
-
-    assert total == 1
+def test_search_filter_rating(db: Connection):
+    releases = release.search(db, ratings=[6, 4])
     assert {r.id for r in releases} == {2}
+
+
+def test_count_all(db: Connection):
+    count = release.count(db)
+    assert count == NUM_RELEASES
+
+
+def test_count_one(db: Connection):
+    count = release.count(db, search="Have Each")
+    assert count == 1
 
 
 def test_create(db: Connection):

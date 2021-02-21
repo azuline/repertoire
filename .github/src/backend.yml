@@ -16,6 +16,17 @@ jobs:
         working-directory: 'backend/'
     steps:
       - uses: actions/checkout@v2
+      - name: Cache SQLite
+        id: cache-sqlite
+        uses: actions/cache@v2
+        with:
+          path: /tmp/sqlite
+          key: {{ "${{ runner.os }}-sqlite-2021-02-21" }}
+      - name: Build SQLite
+        if: steps.cache-sqlite.outputs.cache-hit != 'true'
+        uses: ./.github/actions/build-sqlite
+      - name: Install SQLite
+        uses: ./.github/actions/install-sqlite
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9.1'
@@ -36,7 +47,7 @@ jobs:
         with:
           path: ~/.cache/pypoetry/virtualenvs
           key: {{ "${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}" }}
-      - name: Install dependencies.
+      - name: Install dependencie
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
       {% for step in job.steps %}

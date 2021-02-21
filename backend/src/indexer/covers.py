@@ -2,9 +2,9 @@ import logging
 import os
 from hashlib import sha256
 from pathlib import Path
-from sqlite3 import Connection
 from typing import Generator, List, Optional, Tuple
 
+from pysqlite3 import Connection
 from tagfiles import TagFile
 
 from src.constants import Constants
@@ -64,7 +64,7 @@ def _get_pending_releases(conn: Connection) -> List[int]:
     :param conn: A connection to the database.
     :return: Release IDs pending extraction.
     """
-    cursor = conn.execute("SELECT release_id FROM images__music_releases_to_fetch")
+    cursor = conn.execute("SELECT release_id FROM music__releases_images_to_fetch")
     return [row[0] for row in cursor]
 
 
@@ -109,7 +109,7 @@ def _delete_release_from_pending(rls_id: int, conn: Connection) -> None:
     """
     logger.debug(f"Removing release {rls_id} from pending cover extraction.")
     conn.execute(
-        "DELETE FROM images__music_releases_to_fetch WHERE release_id = ?", (rls_id,)
+        "DELETE FROM music__releases_images_to_fetch WHERE release_id = ?", (rls_id,)
     )
 
 

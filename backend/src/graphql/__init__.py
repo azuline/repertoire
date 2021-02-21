@@ -17,6 +17,7 @@ from src.graphql.enums import (
     playlist_type_enum,
     release_sort_enum,
     release_type_enum,
+    track_sort_enum,
 )
 from src.graphql.mutation import mutation
 from src.graphql.query import query
@@ -55,8 +56,9 @@ resolvers = [
     posix_time_scalar,
     artist_role_enum,
     collection_type_enum,
-    release_sort_enum,
     release_type_enum,
+    release_sort_enum,
+    track_sort_enum,
     playlist_type_enum,
     snake_case_fallback_resolvers,
 ]

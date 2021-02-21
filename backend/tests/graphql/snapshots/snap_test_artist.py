@@ -266,8 +266,135 @@ snapshots['test_artists 1'] = (
                                 'numMatches': 1
                             }
                         ]
+                    },
+                    {
+                        'id': 3,
+                        'name': 'John Darnielle',
+                        'numReleases': 0,
+                        'releases': [
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                        ]
+                    },
+                    {
+                        'id': 1,
+                        'name': 'Unknown Artist',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 1,
+                                'title': 'Unknown Release'
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                        ]
                     }
-                ]
+                ],
+                'total': 5
+            }
+        }
+    }
+)
+
+snapshots['test_artists_pagination 1'] = (
+    True,
+    {
+        'data': {
+            'artists': {
+                'results': [
+                    {
+                        'id': 2,
+                        'name': 'Aaron West and the Roaring Twenties',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 3
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 4
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 5
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 6
+                                },
+                                'numMatches': 1
+                            }
+                        ]
+                    }
+                ],
+                'total': 5
+            }
+        }
+    }
+)
+
+snapshots['test_artists_search 1'] = (
+    True,
+    {
+        'data': {
+            'artists': {
+                'results': [
+                    {
+                        'id': 2,
+                        'name': 'Aaron West and the Roaring Twenties',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 3
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 4
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 5
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 6
+                                },
+                                'numMatches': 1
+                            }
+                        ]
+                    }
+                ],
+                'total': 1
             }
         }
     }

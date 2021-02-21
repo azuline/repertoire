@@ -18,26 +18,43 @@ export type Scalars = {
 
 export type IQuery = {
   __typename?: 'Query';
-  artist: Maybe<IArtist>;
-  artistFromName: Maybe<IArtist>;
-  collection: Maybe<ICollection>;
-  collectionFromNameAndType: Maybe<ICollection>;
-  playlist: Maybe<IPlaylist>;
-  playlistFromNameAndType: Maybe<IPlaylist>;
-  release: Maybe<IRelease>;
-  track: Maybe<ITrack>;
   /** Fetch the currently authenticated user. */
   user: Maybe<IUser>;
-  /** Fetch all artists. */
+  /** Search artists. */
   artists: Maybe<IArtists>;
-  /** Fetch all collections (of one or more types). */
+  /** Fetch an artist by ID. */
+  artist: Maybe<IArtist>;
+  /** Fetch an artist by name. */
+  artistFromName: Maybe<IArtist>;
+  /** Search collections. */
   collections: Maybe<ICollections>;
-  /** Fetch all playlists (of one or more types). */
+  /** Fetch a collection by ID. */
+  collection: Maybe<ICollection>;
+  /** Fetch a collection by name and type. */
+  collectionFromNameAndType: Maybe<ICollection>;
+  /** Search playlists. */
   playlists: Maybe<IPlaylists>;
-  /** Search for releases matching a certain criteria. */
+  /** Fetch a playlist by id. */
+  playlist: Maybe<IPlaylist>;
+  /** Fetch a playlist by name and type. */
+  playlistFromNameAndType: Maybe<IPlaylist>;
+  /** Search releases. */
   releases: Maybe<IReleases>;
+  /** Fetch a release by ID. */
+  release: Maybe<IRelease>;
+  /** Search tracks. */
+  tracks: Maybe<ITracks>;
+  /** Fetch a track by ID. */
+  track: Maybe<ITrack>;
   /** Fetch all existing release years sorted in descending order. */
   releaseYears: Maybe<Array<Maybe<Scalars['Int']>>>;
+};
+
+
+export type IQueryArtistsArgs = {
+  search: Maybe<Scalars['String']>;
+  page: Maybe<Scalars['Int']>;
+  perPage: Maybe<Scalars['Int']>;
 };
 
 
@@ -48,6 +65,14 @@ export type IQueryArtistArgs = {
 
 export type IQueryArtistFromNameArgs = {
   name: Scalars['String'];
+};
+
+
+export type IQueryCollectionsArgs = {
+  search: Maybe<Scalars['String']>;
+  types: Maybe<Array<Maybe<ICollectionType>>>;
+  page: Maybe<Scalars['Int']>;
+  perPage: Maybe<Scalars['Int']>;
 };
 
 
@@ -62,6 +87,14 @@ export type IQueryCollectionFromNameAndTypeArgs = {
 };
 
 
+export type IQueryPlaylistsArgs = {
+  search: Maybe<Scalars['String']>;
+  types: Maybe<Array<Maybe<IPlaylistType>>>;
+  page: Maybe<Scalars['Int']>;
+  perPage: Maybe<Scalars['Int']>;
+};
+
+
 export type IQueryPlaylistArgs = {
   id: Scalars['Int'];
 };
@@ -70,26 +103,6 @@ export type IQueryPlaylistArgs = {
 export type IQueryPlaylistFromNameAndTypeArgs = {
   name: Scalars['String'];
   type: IPlaylistType;
-};
-
-
-export type IQueryReleaseArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type IQueryTrackArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type IQueryCollectionsArgs = {
-  types: Maybe<Array<Maybe<ICollectionType>>>;
-};
-
-
-export type IQueryPlaylistsArgs = {
-  types: Maybe<Array<Maybe<IPlaylistType>>>;
 };
 
 
@@ -106,8 +119,37 @@ export type IQueryReleasesArgs = {
   asc: Maybe<Scalars['Boolean']>;
 };
 
+
+export type IQueryReleaseArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type IQueryTracksArgs = {
+  search: Maybe<Scalars['String']>;
+  playlistIds: Maybe<Array<Maybe<Scalars['Int']>>>;
+  artistIds: Maybe<Array<Maybe<Scalars['Int']>>>;
+  years: Maybe<Array<Maybe<Scalars['Int']>>>;
+  page: Maybe<Scalars['Int']>;
+  perPage: Maybe<Scalars['Int']>;
+  sort: Maybe<ITrackSort>;
+  asc: Maybe<Scalars['Boolean']>;
+};
+
+
+export type IQueryTrackArgs = {
+  id: Scalars['Int'];
+};
+
 export type IMutation = {
   __typename?: 'Mutation';
+  /** Update the authenticated user. */
+  updateUser: Maybe<IUser>;
+  /**
+   * Generate a new authentication token for the current user. Invalidate the
+   * old one.
+   */
+  newToken: Maybe<IToken>;
   createArtist: Maybe<IArtist>;
   updateArtist: Maybe<IArtist>;
   createCollection: Maybe<ICollection>;
@@ -127,13 +169,11 @@ export type IMutation = {
   updateTrack: Maybe<ITrack>;
   addArtistToTrack: Maybe<ITrackAndArtist>;
   delArtistFromTrack: Maybe<ITrackAndArtist>;
-  /** Update the authenticated user. */
-  updateUser: Maybe<IUser>;
-  /**
-   * Generate a new authentication token for the current user. Invalidate the
-   * old one.
-   */
-  newToken: Maybe<IToken>;
+};
+
+
+export type IMutationUpdateUserArgs = {
+  nickname: Maybe<Scalars['String']>;
 };
 
 
@@ -267,11 +307,6 @@ export type IMutationDelArtistFromTrackArgs = {
   role: IArtistRole;
 };
 
-
-export type IMutationUpdateUserArgs = {
-  nickname: Maybe<Scalars['String']>;
-};
-
 export type IArtist = {
   __typename?: 'Artist';
   id: Scalars['Int'];
@@ -287,6 +322,9 @@ export type IArtist = {
 
 export type IArtists = {
   __typename?: 'Artists';
+  /** The total number of artists matching the query across all pages. */
+  total: Scalars['Int'];
+  /** The artists on the current page. */
   results: Array<Maybe<IArtist>>;
 };
 
@@ -308,6 +346,9 @@ export type ICollection = {
 
 export type ICollections = {
   __typename?: 'Collections';
+  /** The total number of collections matching the query across all pages. */
+  total: Scalars['Int'];
+  /** The collections on the current page. */
   results: Array<Maybe<ICollection>>;
 };
 
@@ -329,6 +370,9 @@ export type IPlaylist = {
 
 export type IPlaylists = {
   __typename?: 'Playlists';
+  /** The total number of playlists matching the query across all pages. */
+  total: Scalars['Int'];
+  /** The playlists on the current page. */
   results: Array<Maybe<IPlaylist>>;
 };
 
@@ -387,6 +431,14 @@ export type ITrack = {
   favorited: Scalars['Boolean'];
   release: IRelease;
   artists: Array<Maybe<ITrackArtist>>;
+};
+
+export type ITracks = {
+  __typename?: 'Tracks';
+  /** The total number of tracks matching the query across all pages. */
+  total: Scalars['Int'];
+  /** The tracks on the current page. */
+  results: Array<Maybe<ITrack>>;
 };
 
 export type ITrackArtist = {
@@ -476,7 +528,16 @@ export enum IReleaseSort {
   Title = 'TITLE',
   Year = 'YEAR',
   Rating = 'RATING',
-  Random = 'RANDOM'
+  Random = 'RANDOM',
+  SearchRank = 'SEARCH_RANK'
+}
+
+export enum ITrackSort {
+  RecentlyAdded = 'RECENTLY_ADDED',
+  Title = 'TITLE',
+  Year = 'YEAR',
+  Random = 'RANDOM',
+  SearchRank = 'SEARCH_RANK'
 }
 
 export enum IPlaylistType {
@@ -2167,25 +2228,28 @@ export function useYearsFetchReleaseYearsLazyQuery(baseOptions?: Apollo.LazyQuer
 export type YearsFetchReleaseYearsQueryHookResult = ReturnType<typeof useYearsFetchReleaseYearsQuery>;
 export type YearsFetchReleaseYearsLazyQueryHookResult = ReturnType<typeof useYearsFetchReleaseYearsLazyQuery>;
 export type YearsFetchReleaseYearsQueryResult = Apollo.QueryResult<IYearsFetchReleaseYearsQuery, IYearsFetchReleaseYearsQueryVariables>;
-export type QueryKeySpecifier = ('artist' | 'artistFromName' | 'collection' | 'collectionFromNameAndType' | 'playlist' | 'playlistFromNameAndType' | 'release' | 'track' | 'user' | 'artists' | 'collections' | 'playlists' | 'releases' | 'releaseYears' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('user' | 'artists' | 'artist' | 'artistFromName' | 'collections' | 'collection' | 'collectionFromNameAndType' | 'playlists' | 'playlist' | 'playlistFromNameAndType' | 'releases' | 'release' | 'tracks' | 'track' | 'releaseYears' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
-	artist?: FieldPolicy<any> | FieldReadFunction<any>,
-	artistFromName?: FieldPolicy<any> | FieldReadFunction<any>,
-	collection?: FieldPolicy<any> | FieldReadFunction<any>,
-	collectionFromNameAndType?: FieldPolicy<any> | FieldReadFunction<any>,
-	playlist?: FieldPolicy<any> | FieldReadFunction<any>,
-	playlistFromNameAndType?: FieldPolicy<any> | FieldReadFunction<any>,
-	release?: FieldPolicy<any> | FieldReadFunction<any>,
-	track?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	artists?: FieldPolicy<any> | FieldReadFunction<any>,
+	artist?: FieldPolicy<any> | FieldReadFunction<any>,
+	artistFromName?: FieldPolicy<any> | FieldReadFunction<any>,
 	collections?: FieldPolicy<any> | FieldReadFunction<any>,
+	collection?: FieldPolicy<any> | FieldReadFunction<any>,
+	collectionFromNameAndType?: FieldPolicy<any> | FieldReadFunction<any>,
 	playlists?: FieldPolicy<any> | FieldReadFunction<any>,
+	playlist?: FieldPolicy<any> | FieldReadFunction<any>,
+	playlistFromNameAndType?: FieldPolicy<any> | FieldReadFunction<any>,
 	releases?: FieldPolicy<any> | FieldReadFunction<any>,
+	release?: FieldPolicy<any> | FieldReadFunction<any>,
+	tracks?: FieldPolicy<any> | FieldReadFunction<any>,
+	track?: FieldPolicy<any> | FieldReadFunction<any>,
 	releaseYears?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('createArtist' | 'updateArtist' | 'createCollection' | 'updateCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createPlaylist' | 'updatePlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'delPlaylistEntries' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | 'updateUser' | 'newToken' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('updateUser' | 'newToken' | 'createArtist' | 'updateArtist' | 'createCollection' | 'updateCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createPlaylist' | 'updatePlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'delPlaylistEntries' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
+	updateUser?: FieldPolicy<any> | FieldReadFunction<any>,
+	newToken?: FieldPolicy<any> | FieldReadFunction<any>,
 	createArtist?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateArtist?: FieldPolicy<any> | FieldReadFunction<any>,
 	createCollection?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2204,9 +2268,7 @@ export type MutationFieldPolicy = {
 	delArtistFromRelease?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateTrack?: FieldPolicy<any> | FieldReadFunction<any>,
 	addArtistToTrack?: FieldPolicy<any> | FieldReadFunction<any>,
-	delArtistFromTrack?: FieldPolicy<any> | FieldReadFunction<any>,
-	updateUser?: FieldPolicy<any> | FieldReadFunction<any>,
-	newToken?: FieldPolicy<any> | FieldReadFunction<any>
+	delArtistFromTrack?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ArtistKeySpecifier = ('id' | 'name' | 'starred' | 'numReleases' | 'imageId' | 'releases' | 'topGenres' | ArtistKeySpecifier)[];
 export type ArtistFieldPolicy = {
@@ -2218,8 +2280,9 @@ export type ArtistFieldPolicy = {
 	releases?: FieldPolicy<any> | FieldReadFunction<any>,
 	topGenres?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ArtistsKeySpecifier = ('results' | ArtistsKeySpecifier)[];
+export type ArtistsKeySpecifier = ('total' | 'results' | ArtistsKeySpecifier)[];
 export type ArtistsFieldPolicy = {
+	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type CollectionKeySpecifier = ('id' | 'name' | 'starred' | 'type' | 'numReleases' | 'lastUpdatedOn' | 'imageId' | 'releases' | 'topGenres' | CollectionKeySpecifier)[];
@@ -2234,8 +2297,9 @@ export type CollectionFieldPolicy = {
 	releases?: FieldPolicy<any> | FieldReadFunction<any>,
 	topGenres?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CollectionsKeySpecifier = ('results' | CollectionsKeySpecifier)[];
+export type CollectionsKeySpecifier = ('total' | 'results' | CollectionsKeySpecifier)[];
 export type CollectionsFieldPolicy = {
+	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type PlaylistKeySpecifier = ('id' | 'name' | 'starred' | 'type' | 'numTracks' | 'lastUpdatedOn' | 'imageId' | 'entries' | 'topGenres' | PlaylistKeySpecifier)[];
@@ -2250,8 +2314,9 @@ export type PlaylistFieldPolicy = {
 	entries?: FieldPolicy<any> | FieldReadFunction<any>,
 	topGenres?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type PlaylistsKeySpecifier = ('results' | PlaylistsKeySpecifier)[];
+export type PlaylistsKeySpecifier = ('total' | 'results' | PlaylistsKeySpecifier)[];
 export type PlaylistsFieldPolicy = {
+	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type PlaylistEntryKeySpecifier = ('id' | 'playlistId' | 'trackId' | 'position' | 'addedOn' | 'playlist' | 'track' | PlaylistEntryKeySpecifier)[];
@@ -2299,6 +2364,11 @@ export type TrackFieldPolicy = {
 	favorited?: FieldPolicy<any> | FieldReadFunction<any>,
 	release?: FieldPolicy<any> | FieldReadFunction<any>,
 	artists?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type TracksKeySpecifier = ('total' | 'results' | TracksKeySpecifier)[];
+export type TracksFieldPolicy = {
+	total?: FieldPolicy<any> | FieldReadFunction<any>,
+	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type TrackArtistKeySpecifier = ('artist' | 'role' | TrackArtistKeySpecifier)[];
 export type TrackArtistFieldPolicy = {
@@ -2387,6 +2457,10 @@ export type TypedTypePolicies = TypePolicies & {
 	Track?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TrackKeySpecifier | (() => undefined | TrackKeySpecifier),
 		fields?: TrackFieldPolicy,
+	},
+	Tracks?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | TracksKeySpecifier | (() => undefined | TracksKeySpecifier),
+		fields?: TracksFieldPolicy,
 	},
 	TrackArtist?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TrackArtistKeySpecifier | (() => undefined | TrackArtistKeySpecifier),

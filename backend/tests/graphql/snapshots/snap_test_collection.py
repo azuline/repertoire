@@ -767,7 +767,154 @@ snapshots['test_collections 1'] = (
                         ],
                         'type': 'GENRE'
                     }
-                ]
+                ],
+                'total': 11
+            }
+        }
+    }
+)
+
+snapshots['test_collections_filter 1'] = (
+    True,
+    {
+        'data': {
+            'collections': {
+                'results': [
+                    {
+                        'id': 3,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'Folk',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 3
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 4
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 5
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 6
+                                },
+                                'numMatches': 1
+                            }
+                        ],
+                        'type': 'GENRE'
+                    }
+                ],
+                'total': 1
+            }
+        }
+    }
+)
+
+snapshots['test_collections_pagination 1'] = (
+    True,
+    {
+        'data': {
+            'collections': {
+                'results': [
+                    {
+                        'id': 5,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'Country',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 2,
+                                'title': 'We Don’t Have Each Other'
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 3
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 4
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 5
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 6
+                                },
+                                'numMatches': 1
+                            }
+                        ],
+                        'type': 'GENRE'
+                    },
+                    {
+                        'id': 7,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'Downtempo',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 3,
+                                'title': 'Departure'
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 7
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 8
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 9
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 10
+                                },
+                                'numMatches': 1
+                            }
+                        ],
+                        'type': 'GENRE'
+                    }
+                ],
+                'total': 11
             }
         }
     }

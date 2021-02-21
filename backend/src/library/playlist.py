@@ -12,12 +12,13 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from sqlite3 import Connection, Row
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Tuple, Union
+
+from pysqlite3 import Connection, Row
 
 from src.enums import CollectionType, PlaylistType
 from src.errors import Duplicate, Immutable, InvalidPlaylistType
-from src.util import update_dataclass, without_key
+from src.util import make_fts_match_query, update_dataclass, without_key
 
 from . import collection
 from . import image as libimage
@@ -148,15 +149,32 @@ def from_name_and_type(name: str, type: PlaylistType, conn: Connection) -> Optio
     return None
 
 
-def all(conn: Connection, types: List[PlaylistType] = []) -> List[T]:
+def search(
+    conn: Connection,
+    *,
+    search: str = "",
+    types: List[PlaylistType] = [],
+    page: int = 1,
+    per_page: Optional[int] = None,
+) -> List[T]:
     """
-    Get all playlists.
+    Search for playlists. Parameters are optional; omitted ones are excluded from the
+    matching criteria.
 
     :param conn: A connection to the database.
-    :param types: Filter by playlist types. Pass an empty list to fetch all types.
-    :return: All playlists stored on the src.
+    :param search: A search string. We split this up into individual punctuation-less
+                   tokens and return playlists whose titles contain each token. If
+                   specified, the returned playlists will be sorted by match proximity.
+    :param types: Filter by playlist types.
+    :param page: Which page of playlists to return.
+    :param per_page: The number of playlists per page. Pass ``None`` to return all
+                     playlists (this will ignore ``page``).
+    :return: All matching playlists.
     """
-    filter_ = f"WHERE plys.type IN ({','.join('?' * len(types))})" if types else ""
+    filters, params = _generate_filters(search, types)
+
+    if per_page:
+        params.extend([per_page, (page - 1) * per_page])
 
     cursor = conn.execute(
         f"""
@@ -165,20 +183,78 @@ def all(conn: Connection, types: List[PlaylistType] = []) -> List[T]:
             COUNT(plystrks.track_id) AS num_tracks,
             MAX(plystrks.added_on) AS last_updated_on
         FROM music__playlists AS plys
+        JOIN music__playlists__fts AS fts ON fts.rowid = plys.id
         LEFT JOIN music__playlists_tracks AS plystrks
             ON plystrks.playlist_id = plys.id
-        {filter_}
+        {"WHERE " + " AND ".join(filters) if filters else ""}
         GROUP BY plys.id
         ORDER BY
-            plys.type,
-            plys.starred DESC,
-            plys.name
+            {"fts.rank" if search else "plys.type, plys.starred DESC, plys.name"}
+        {"LIMIT ? OFFSET ?" if per_page else ""}
         """,
-        tuple(type_.value for type_ in types),
+        params,
     )
 
-    logger.debug("Fetched all playlists.")
+    logger.debug(f"Searched playlists with {cursor.rowcount} results.")
     return [from_row(row) for row in cursor]
+
+
+def count(
+    conn: Connection,
+    *,
+    search: str = "",
+    types: List[PlaylistType] = [],
+) -> List[T]:
+    """
+    Fetch the number of playlists matching the passed-in criteria. Parameters are
+    optional; omitted ones are excluded from the matching criteria.
+
+    :param conn: A connection to the database.
+    :param search: A search string. We split this up into individual punctuation-less
+                   tokens and return playlists whose titles contain each token.
+    :param types: Filter by playlist types.
+    :return: The number of matching playlists.
+    """
+    filters, params = _generate_filters(search, types)
+
+    cursor = conn.execute(
+        f"""
+        SELECT COUNT(1)
+        FROM music__playlists AS plys
+        JOIN music__playlists__fts AS fts ON fts.rowid = plys.id
+        {"WHERE " + " AND ".join(filters) if filters else ""}
+        """,
+        params,
+    )
+
+    count = cursor.fetchone()[0]
+    logger.debug(f"Counted {count} playlists that matched the filters.")
+    return count
+
+
+def _generate_filters(
+    search: str = "",
+    types: List[PlaylistType] = [],
+) -> Tuple[List[str], List[Union[str, int]]]:
+    """
+    Dynamically generate the SQL filters and parameters from the criteria. See the
+    search and total functions for parameter descriptions.
+
+    :return: A tuple of SQL filter strings and parameters. The SQL filter strings can be
+    joined with `` AND `` and injected into the where clause.
+    """
+    filters: List[str] = []
+    params: List[Union[str, int]] = []
+
+    if search:
+        filters.append("fts.music__playlists__fts MATCH ?")
+        params.append(make_fts_match_query(search))
+
+    if types:
+        filters.append(f"plys.type IN ({','.join('?' * len(types))})")
+        params.extend([t.value for t in types])
+
+    return filters, params
 
 
 def create(name: str, type: PlaylistType, conn: Connection, starred: bool = False) -> T:
@@ -275,7 +351,7 @@ def entries(ply: T, conn: Connection) -> List[pentry.T]:
         SELECT
             plystrks.*
         FROM music__playlists AS plys
-            JOIN music__playlists_tracks AS plystrks ON plystrks.playlist_id = plys.id
+        JOIN music__playlists_tracks AS plystrks ON plystrks.playlist_id = plys.id
         WHERE plys.id = ?
         ORDER BY plystrks.position ASC
         """,
@@ -355,9 +431,9 @@ def image(ply: T, conn: Connection) -> Optional[libimage.T]:
         """
         SELECT images.*
         FROM images
-            JOIN music__releases AS rls ON rls.image_id = images.id
-            JOIN music__tracks AS trk ON trk.release_id = rls.id
-            JOIN music__playlists_tracks AS plystrks ON plystrks.track_id = trk.id
+        JOIN music__releases AS rls ON rls.image_id = images.id
+        JOIN music__tracks AS trk ON trk.release_id = rls.id
+        JOIN music__playlists_tracks AS plystrks ON plystrks.track_id = trk.id
         WHERE plystrks.playlist_id = ?
         ORDER BY RANDOM()
         LIMIT 1

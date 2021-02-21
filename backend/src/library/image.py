@@ -3,10 +3,10 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from sqlite3 import Connection, Row
 from typing import Dict, Optional, Union
 
 from PIL import Image, UnidentifiedImageError
+from pysqlite3 import Connection, Row
 
 from src.errors import Duplicate, InvalidImage
 

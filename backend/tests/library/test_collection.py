@@ -1,6 +1,5 @@
-from sqlite3 import Connection
-
 import pytest
+from pysqlite3 import Connection
 
 from src.enums import CollectionType
 from src.errors import (
@@ -11,6 +10,7 @@ from src.errors import (
     InvalidCollectionType,
 )
 from src.library import collection
+from tests.conftest import NUM_COLLECTIONS
 
 
 def test_exists(db: Connection):
@@ -45,21 +45,44 @@ def test_from_name_and_type_failure(db: Connection):
     assert col2 is None
 
 
-def test_all(db: Connection, snapshot):
-    collections = collection.all(db)
+def test_search_all(db: Connection, snapshot):
+    collections = collection.search(db)
     snapshot.assert_match(collections)
 
 
-def test_all_filter_type(db: Connection, snapshot):
-    collections = collection.all(db, types=[CollectionType.SYSTEM])
-    snapshot.assert_match(collections)
-
-
-def test_all_filter_type_multiple(db: Connection, snapshot):
-    collections = collection.all(
-        db, types=[CollectionType.SYSTEM, CollectionType.GENRE]
+def test_search_filters(db: Connection, snapshot):
+    collections = collection.search(
+        db,
+        types=[CollectionType.SYSTEM, CollectionType.GENRE],
+        search="Folk",
     )
-    snapshot.assert_match(collections)
+    assert len(collections) == 1
+    assert collections[0].name == "Folk"
+
+
+def test_search_page(db: Connection, snapshot):
+    c1 = collection.search(db, page=1, per_page=1)[0]
+    c2 = collection.search(db, page=2, per_page=1)[0]
+    assert c1 != c2
+
+
+def test_search_per_page(db: Connection, snapshot):
+    cols = collection.search(db, page=1, per_page=2)
+    assert len(cols) == 2
+
+
+def test_count_all(db: Connection, snapshot):
+    count = collection.count(db)
+    assert count == NUM_COLLECTIONS
+
+
+def test_count_one(db: Connection, snapshot):
+    count = collection.count(
+        db,
+        types=[CollectionType.SYSTEM, CollectionType.GENRE],
+        search="Folk",
+    )
+    assert count == 1
 
 
 @pytest.mark.parametrize(

@@ -71,7 +71,7 @@ def test_save_pending_covers(db, snapshot):
 
     db.execute(
         """
-        INSERT INTO images__music_releases_to_fetch (release_id)
+        INSERT INTO music__releases_images_to_fetch (release_id)
         VALUES (?), (?), (?)
         """,
         (1, rls1.id, rls2.id),

@@ -57,6 +57,37 @@ async def test_playlists(graphql_query, snapshot):
     query = """
         query {
             playlists {
+                total
+                results {
+                    ...PlaylistFields
+                }
+            }
+        }
+    """
+    snapshot.assert_match(await graphql_query(query))
+
+
+@pytest.mark.asyncio
+async def test_playlists_filter(graphql_query, snapshot):
+    query = """
+        query {
+            playlists(search: "aaaa", types: [PLAYLIST]) {
+                total
+                results {
+                    ...PlaylistFields
+                }
+            }
+        }
+    """
+    snapshot.assert_match(await graphql_query(query))
+
+
+@pytest.mark.asyncio
+async def test_playlists_pagination(graphql_query, snapshot):
+    query = """
+        query {
+            playlists(page: 2, perPage: 2) {
+                total
                 results {
                     ...PlaylistFields
                 }

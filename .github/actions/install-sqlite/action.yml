@@ -1,0 +1,10 @@
+name: 'Install SQLite'
+description: 'Install the SQLite built in /tmp/sqlite system-wide.'
+
+runs:
+  using: 'composite'
+  steps:
+    - run: |
+        cd /tmp/sqlite/
+        sudo make install
+      shell: bash

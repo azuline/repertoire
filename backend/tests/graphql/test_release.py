@@ -94,7 +94,7 @@ async def test_releases_filter_types(graphql_query, snapshot):
             releases(releaseTypes: [ALBUM]) {
                 total
                 results {
-                        ...ReleaseFields
+                    ...ReleaseFields
                 }
             }
         }
@@ -109,7 +109,7 @@ async def test_releases_pagination(graphql_query, snapshot):
             releases(page: 2, perPage: 2) {
                 total
                 results {
-                        ...ReleaseFields
+                    ...ReleaseFields
                 }
             }
         }
@@ -124,7 +124,7 @@ async def test_releases_sort(graphql_query, snapshot):
             releases(sort: TITLE) {
                 total
                 results {
-                        ...ReleaseFields
+                    ...ReleaseFields
                 }
             }
         }
@@ -139,7 +139,7 @@ async def test_releases_sort_desc(graphql_query, snapshot):
             releases(sort: TITLE, asc: false) {
                 total
                 results {
-                        ...ReleaseFields
+                    ...ReleaseFields
                 }
             }
         }

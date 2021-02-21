@@ -6,7 +6,10 @@ Backend
 This section contains the documentation for the backend source code. This page
 goes over the organization of the backend and provides a general overview.
 
-TODO: Add testing page.
+.. TODO: Add testing page.
+   TODO: Make a note of logging practices. Debug logging should provide an
+   informative idea of what the backend is doing. Info logging should log all
+   important events (e.g. writes & mutations).
 
 The backend is laid out as follows:
 
@@ -33,7 +36,7 @@ The backend is laid out as follows:
 The backend can be split into several layers, from lowest to highest:
 
 - The Music Files (Music Files, Bring Your Own!)
-- The Database (:ref:`backend_database`)
+- The Database & Search Index (:ref:`backend_database`)
 - The Library Indexer (:ref:`backend_indexer`)
 - The Library Interface (:ref:`backend_library`)
 - Consumer Interfaces:
@@ -47,6 +50,7 @@ The backend can be split into several layers, from lowest to highest:
 The next several pages document each major section of the backend codebase.
 
 .. note::
+
    We do not use namespace packages (packages without an ``__init__.py``)
    because Mypy does not autodetect them.
 

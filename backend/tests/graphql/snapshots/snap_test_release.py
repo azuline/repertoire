@@ -632,6 +632,10 @@ snapshots['test_releases 1'] = (
                     {
                         'addedOn': 0,
                         'artists': [
+                            {
+                                'id': 1,
+                                'name': 'Unknown Artist'
+                            }
                         ],
                         'collages': [
                         ],
@@ -1421,6 +1425,10 @@ snapshots['test_releases_sort 1'] = (
                     {
                         'addedOn': 0,
                         'artists': [
+                            {
+                                'id': 1,
+                                'name': 'Unknown Artist'
+                            }
                         ],
                         'collages': [
                         ],
@@ -1623,6 +1631,10 @@ snapshots['test_releases_sort_desc 1'] = (
                     {
                         'addedOn': 0,
                         'artists': [
+                            {
+                                'id': 1,
+                                'name': 'Unknown Artist'
+                            }
                         ],
                         'collages': [
                         ],

@@ -57,6 +57,37 @@ async def test_collections(graphql_query, snapshot):
     query = """
         query {
             collections {
+                total
+                results {
+                    ...CollectionFields
+                }
+            }
+        }
+    """
+    snapshot.assert_match(await graphql_query(query))
+
+
+@pytest.mark.asyncio
+async def test_collections_filter(graphql_query, snapshot):
+    query = """
+        query {
+            collections(search: "folk", types: [GENRE]) {
+                total
+                results {
+                    ...CollectionFields
+                }
+            }
+        }
+    """
+    snapshot.assert_match(await graphql_query(query))
+
+
+@pytest.mark.asyncio
+async def test_collections_pagination(graphql_query, snapshot):
+    query = """
+        query {
+            collections(page: 3, perPage: 2) {
+                total
                 results {
                     ...CollectionFields
                 }

@@ -9,7 +9,7 @@ from src.graphql.mutation import mutation
 from src.graphql.query import query
 from src.graphql.util import commit
 from src.library import collection, release
-from src.util import convert_keys_case
+from src.util import convert_keys_case, del_pagination_keys
 
 gql_collection = ObjectType("Collection")
 gql_collections = ObjectType("Collections")
@@ -37,12 +37,12 @@ def resolve_collection_from_name_and_type(
 
 
 @query.field("collections")
-def resolve_collections(
-    obj: Any,
-    info: GraphQLResolveInfo,
-    types: List[CollectionType] = [],
-) -> Dict:
-    return {"results": collection.all(info.context.db, types=types)}
+def resolve_collections(obj: Any, info: GraphQLResolveInfo, **kwargs) -> Dict:
+    kwargs = convert_keys_case(kwargs)
+    return {
+        "results": collection.search(info.context.db, **kwargs),
+        "total": collection.count(info.context.db, **del_pagination_keys(kwargs)),
+    }
 
 
 @gql_collection.field("releases")

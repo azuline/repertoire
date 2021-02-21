@@ -1,13 +1,12 @@
 import logging
-import sqlite3
 from contextlib import contextmanager
 from dataclasses import asdict
 from hashlib import sha256
 from pathlib import Path
-from string import ascii_uppercase, punctuation
+from string import ascii_uppercase
 from typing import Any, Dict, Iterable, List, Union
 
-from unidecode import unidecode
+import pysqlite3 as sqlite3
 
 from src.constants import Constants
 
@@ -62,16 +61,6 @@ def parse_crontab(crontab: str) -> Dict:
         month=month,
         day_of_week=day_of_week,
     )
-
-
-def strip_punctuation(string: str) -> str:
-    """
-    Strip the punctuation from a string.
-
-    :param string: The string to strip.
-    :return: The stripped string.
-    """
-    return "".join(c for c in string if unidecode(c) not in punctuation)
 
 
 def calculate_sha_256(filepath: Path) -> bytes:
@@ -138,3 +127,31 @@ def uniq_list(list_: Iterable) -> List:
         seen.add(elem)
 
     return rval
+
+
+def make_fts_match_query(search: str) -> str:
+    """
+    Convert a search string into a FTS match query parameter. This function returns a
+    parameter that searches for a result matching each space-delimited fragment in the
+    search.
+
+    :param search: A list of space-delimited search terms.
+    :return: A FTS match query parameter.
+    """
+    # We surround each term with double quotes because that is FTS standard. It is also
+    # standard for double quotes inside the term to be escaped as "".
+
+    # First do the escaping for double quotes in the search string.
+    search = search.replace('"', '""')
+    return " AND ".join(f'"{w}"' for w in search.split(" "))
+
+
+def del_pagination_keys(mapping: Dict) -> Dict:
+    """
+    Delete the keys related to pagination: page, per_page, sort, asc.
+
+    :param mapping: The dict to alter.
+    :return: An altered dict.
+    """
+    illegal_keys = ["page", "per_page", "sort", "asc"]
+    return {k: v for k, v in mapping.items() if k not in illegal_keys}

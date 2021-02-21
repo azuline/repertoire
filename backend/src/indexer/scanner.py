@@ -4,9 +4,9 @@ import logging
 import re
 from datetime import date
 from itertools import chain
-from sqlite3 import Connection
 from typing import List, Optional
 
+from pysqlite3 import Connection
 from tagfiles import TagFile
 
 from src.config import Config
@@ -170,7 +170,7 @@ def _fetch_or_create_release(tf: TagFile, conn: Connection) -> release.T:
 
     # Flag the release to have its cover art extracted and stored.
     conn.execute(
-        "INSERT INTO images__music_releases_to_fetch (release_id) VALUES (?)",
+        "INSERT INTO music__releases_images_to_fetch (release_id) VALUES (?)",
         (rls.id,),
     )
 
@@ -301,7 +301,7 @@ def _fix_release_types(conn: Connection) -> None:
     """
     logger.info("Fixing release types...")
 
-    _, releases = release.search(conn, release_types=[ReleaseType.UNKNOWN])
+    releases = release.search(conn, release_types=[ReleaseType.UNKNOWN])
 
     for rls in releases:
         if rls.num_tracks < 3:

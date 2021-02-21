@@ -3,15 +3,14 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from datetime import date, datetime
-from itertools import chain, repeat
-from sqlite3 import Connection, Row
+from itertools import repeat
 from typing import Dict, Iterable, List, Optional, Tuple, Union
 
-from unidecode import unidecode
+from pysqlite3 import Connection, Row
 
 from src.enums import CollectionType, ReleaseSort, ReleaseType
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
-from src.util import strip_punctuation, update_dataclass
+from src.util import make_fts_match_query, update_dataclass
 
 from . import artist, collection, track
 
@@ -129,14 +128,16 @@ def search(
     ratings: List[int] = [],
     page: int = 1,
     per_page: Optional[int] = None,
-    sort: ReleaseSort = ReleaseSort.RECENTLY_ADDED,
+    sort: Optional[ReleaseSort] = None,
     asc: bool = True,
-) -> Tuple[int, List[T]]:
+) -> List[T]:
     """
-    Search for releases matching the passed-in criteria.
+    Search for releases matching the passed-in criteria. Parameters are optional;
+    omitted ones are excluded from the matching criteria.
 
     :param search: A search string. We split this up into individual punctuation-less
-                   words and return releases that contain each word.
+                   tokens and return releases whose titles and artists contain each
+                   token.
     :param collection_ids: A list of collection IDs. We match releases by the
                            collections in this list. For a release to match, it must be
                            in all collections in this list.
@@ -145,51 +146,37 @@ def search(
                        included.
     :param release_types: A list of release types. Filter out releases that do not match
                           one of the release types in this list.
-    :param years: A list of years. Filter out releases to do not match one of the years
-                  in this list.
+    :param years: A list of years. Filter out releases that were not released in one of
+                  the years in this list.
     :param ratings: A list of ratings. Filter out releases that do not match one of the
                     ratings in this list.
     :param page: Which page of releases to return.
-    :param per_page: The number of releases per-page. Pass ``None`` to return all
+    :param per_page: The number of releases per page. Pass ``None`` to return all
                      releases (this will ignore ``page``).
-    :param sort: How to sort the matching releases.
+    :param sort: How to sort the matching releases. If not explicitly passed, this
+                 defaults to ``SEARCH_RANK`` if ``search`` is not ``None`` and
+                 ``RECENTLY_ADDED`` otherwise.
     :param asc: If true, sort in ascending order. If false, descending.
     :param conn: A connection to the database.
-    :return: The total number of matching releases and the matching releases on the
-             current page.
+    :return: The matching releases on the current page.
     """
-    # Dynamically generate the filter SQL and filter params.
-    filter_sql: List[str] = []
-    filter_params: List[Union[str, int]] = []
-
-    for sql, params in [
-        _generate_collection_filter(collection_ids),
-        _generate_artist_filter(artist_ids),
-        _generate_release_types_filter(release_types),
-        _generate_year_filter(years),
-        _generate_rating_filter(ratings),
-        _generate_search_filter(search),
-    ]:
-        filter_sql.extend(sql)
-        filter_params.extend(params)  # type: ignore
-
-    # Fetch the total number of releases matching this criteria (ignoring pages).
-    cursor = conn.execute(
-        f"""
-        SELECT COUNT(1)
-        FROM music__releases AS rls
-        {"WHERE " + " AND ".join(filter_sql) if filter_sql else ""}
-        """,
-        filter_params,
+    filters, params = _generate_filters(
+        search,
+        collection_ids,
+        artist_ids,
+        release_types,
+        years,
+        ratings,
     )
-    total = cursor.fetchone()[0]
 
-    # If we have pagination, add the pagination params to the filter SQL.
+    # Set the default sort if it's not specified
+    if not sort:
+        sort = ReleaseSort.SEARCH_RANK if search else ReleaseSort.RECENTLY_ADDED
+
     if per_page:
-        filter_params.extend([per_page, (page - 1) * per_page])
+        params.extend([per_page, (page - 1) * per_page])
 
-    # Fetch the releases on the current page.
-    cursor.execute(
+    cursor = conn.execute(
         f"""
         SELECT
             rls.*,
@@ -206,17 +193,121 @@ def search(
                 WHERE release_id = rls.id AND collection_id = 2
             ) AS in_favorites
         FROM music__releases AS rls
+            JOIN music__releases__fts AS fts ON fts.rowid = rls.id
             LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
-        {"WHERE " + " AND ".join(filter_sql) if filter_sql else ""}
+        {"WHERE " + " AND ".join(filters) if filters else ""}
         GROUP BY rls.id
-        ORDER BY {sort.value} {"ASC" if asc else "DESC"}
+        ORDER BY {sort.value.substitute(order="ASC" if asc else "DESC")}
         {"LIMIT ? OFFSET ?" if per_page else ""}
         """,
-        filter_params,
+        params,
     )
 
-    logger.debug(f"Searched releases with {total} results.")
-    return total, [from_row(row) for row in cursor]
+    logger.debug(f"Searched releases with {cursor.rowcount} paged results.")
+    return [from_row(row) for row in cursor]
+
+
+def count(
+    conn: Connection,
+    *,
+    search: str = "",
+    collection_ids: List[int] = [],
+    artist_ids: List[int] = [],
+    release_types: List[ReleaseType] = [],
+    years: List[int] = [],
+    ratings: List[int] = [],
+) -> int:
+    """
+    Fetch the number of releases matching the passed-in criteria. Parameters are
+    optional; omitted ones are excluded from the matching criteria.
+
+    :param search: A search string. We split this up into individual punctuation-less
+                   words and return releases that contain each word.
+    :param collection_ids: A list of collection IDs. We match releases by the
+                           collections in this list. For a release to match, it must be
+                           in all collections in this list.
+    :param artist_ids: A list of artist IDs. We match releases by the artists in this
+                       list. For a release to match, all artists in this list must be
+                       included.
+    :param release_types: A list of release types. Filter out releases that do not match
+                          one of the release types in this list.
+    :param years: A list of years. Filter out releases that were not released in one of
+                  the years in this list.
+    :param ratings: A list of ratings. Filter out releases that do not match one of the
+                    ratings in this list.
+    :param conn: A connection to the database.
+    :return: The number of matching releases.
+    """
+    filters, params = _generate_filters(
+        search,
+        collection_ids,
+        artist_ids,
+        release_types,
+        years,
+        ratings,
+    )
+
+    cursor = conn.execute(
+        f"""
+        SELECT COUNT(1)
+        FROM music__releases AS rls
+        JOIN music__releases__fts AS fts ON fts.rowid = rls.id
+        {"WHERE " + " AND ".join(filters) if filters else ""}
+        """,
+        params,
+    )
+
+    count = cursor.fetchone()[0]
+    logger.debug(f"Counted {count} releases that matched the filters.")
+    return count
+
+
+def _generate_filters(
+    search: str,
+    collection_ids: List[int],
+    artist_ids: List[int],
+    release_types: List[ReleaseType],
+    years: List[int],
+    ratings: List[int],
+) -> Tuple[List[str], List[Union[str, int]]]:
+    """
+    Dynamically generate the SQL filters and parameters from the criteria. See the
+    search and total functions for parameter descriptions.
+
+    :return: A tuple of SQL filter strings and parameters. The SQL filter strings can be
+    joined with `` AND `` and injected into the where clause.
+    """
+    filters: List[str] = []
+    params: List[Union[str, int]] = []
+
+    for sql, sql_args in [
+        _generate_search_filter(search),
+        _generate_collection_filter(collection_ids),
+        _generate_artist_filter(artist_ids),
+        _generate_release_types_filter(release_types),
+        _generate_year_filter(years),
+        _generate_rating_filter(ratings),
+    ]:
+        filters.extend(sql)
+        params.extend(sql_args)  # type: ignore
+
+    return filters, params
+
+
+def _generate_search_filter(search: str) -> Tuple[Iterable[str], Iterable[str]]:
+    """
+    Generate the SQL and params for filtering on the search words.
+
+    :param search: The search words to filter on.
+    :return: The filter SQL and query parameters.
+    """
+    if not search:
+        return [], []
+
+    filter_sql = ["fts.music__releases__fts MATCH ?"]
+    filter_params = [make_fts_match_query(search)]
+
+    return filter_sql, filter_params
 
 
 def _generate_collection_filter(
@@ -299,28 +390,6 @@ def _generate_rating_filter(ratings: List[int]) -> Tuple[Iterable[str], Iterable
         return [], []
 
     return [f"rls.rating IN ({', '.join('?' * len(ratings))})"], ratings
-
-
-def _generate_search_filter(search: str) -> Tuple[Iterable[str], Iterable[str]]:
-    """
-    Generate the SQL and params for filtering on the search words.
-
-    :param search: The search words to filter on.
-    :return: The filter SQL and query parameters.
-    """
-    sql = """
-          EXISTS (
-              SELECT 1 FROM music__releases_search_index
-              WHERE (word = ? OR word = ?) AND release_id = rls.id
-          )
-          """
-
-    words = [w for w in strip_punctuation(search).split(" ") if w]
-
-    filter_sql = repeat(sql, len(words))
-    filter_params = chain(*((word, unidecode(word)) for word in words))
-
-    return filter_sql, filter_params
 
 
 def create(
@@ -423,7 +492,7 @@ def _find_duplicate_release(
                 WHERE release_id = rls.id AND collection_id = 2
             ) AS in_favorites
         FROM music__releases AS rls
-            LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
+        LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
         WHERE rls.title = ?
         GROUP BY rls.id
         """,

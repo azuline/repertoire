@@ -1,11 +1,12 @@
 from pathlib import Path
-from sqlite3 import Connection
 
 import pytest
+from pysqlite3 import Connection
 
-from src.enums import ArtistRole
+from src.enums import ArtistRole, TrackSort
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
 from src.library import track
+from tests.conftest import NUM_TRACKS
 
 
 def test_exists(db: Connection):
@@ -49,6 +50,98 @@ def test_from_sha256_success(db: Connection):
 
 def test_from_sha256_failure(db: Connection):
     assert track.from_sha256(b"0" * 32, db) is None
+
+
+def test_search_all(db: Connection, snapshot):
+    snapshot.assert_match(track.search(conn=db))
+
+
+def test_search_search(db: Connection, snapshot):
+    snapshot.assert_match(track.search(search="Aaron", conn=db))
+
+
+def test_search_page(db: Connection, snapshot):
+    snapshot.assert_match(track.search(page=1, per_page=2, conn=db))
+
+
+def test_search_page_2(db: Connection, snapshot):
+    snapshot.assert_match(track.search(page=2, per_page=2, conn=db))
+
+
+def test_search_sort_recently_added(db: Connection):
+    trks = track.search(sort=TrackSort.RECENTLY_ADDED, asc=True, conn=db)
+    added_ons = [track.release(t, db).added_on for t in trks]
+
+    assert added_ons == sorted(added_ons)
+
+
+def test_search_sort_title(db: Connection):
+    trks = track.search(sort=TrackSort.TITLE, asc=True, conn=db)
+    titles = [t.title for t in trks]
+
+    assert titles == sorted(titles)
+
+
+def test_search_sort_year(db: Connection):
+    trks = track.search(sort=TrackSort.YEAR, asc=True, conn=db)
+    years = [track.release(t, db).release_year for t in trks]
+
+    # Check that all Nones are at the end of the sorted list.
+    while years[-1] is None:
+        years = years[:-1]
+    assert None not in years
+
+    assert years == sorted(years)  # type: ignore
+
+
+def test_search_sort_year_desc(db: Connection):
+    trks = track.search(sort=TrackSort.YEAR, asc=False, conn=db)
+    years = [track.release(t, db).release_year for t in trks]
+
+    # Check that all Nones are at the end of the sorted list.
+    while years[-1] is None:
+        years = years[:-1]
+    assert None not in years
+
+    assert years == sorted(years, reverse=True)  # type: ignore
+
+
+def test_search_sort_random(db: Connection):
+    # Make sure it returns **something**.
+    results = track.search(sort=TrackSort.RANDOM, asc=True, conn=db)
+    assert len(results) > 0
+
+
+def test_search_asc(db: Connection, snapshot):
+    asc_true = track.search(sort=TrackSort.TITLE, asc=True, conn=db)
+    asc_false = track.search(sort=TrackSort.TITLE, asc=False, conn=db)
+
+    assert asc_true == asc_false[::-1]
+
+
+def test_search_filter_playlists(db: Connection):
+    favs = track.search(db, playlist_ids=[1])
+    assert {r.id for r in favs} == {1, 2}
+
+
+def test_search_filter_artists(db: Connection):
+    tracks = track.search(db, artist_ids=[4, 5])
+    assert all(t.release_id for t in tracks)
+
+
+def test_search_filter_year(db: Connection):
+    tracks = track.search(db, years=[2014])
+    assert all(t.release_id == 2 for t in tracks)
+
+
+def test_count_all(db: Connection):
+    count = track.count(db)
+    assert count == NUM_TRACKS
+
+
+def test_count_one(db: Connection):
+    count = track.count(db, search="Apartment")
+    assert count == 1
 
 
 def test_create(db: Connection, snapshot):
@@ -168,6 +261,12 @@ def test_update_nothing(db: Connection):
     assert trk is not None
     new_trk = track.update(trk, conn=db)
     assert trk == new_trk
+
+
+def test_release(db: Connection, snapshot):
+    trk = track.from_id(3, db)
+    assert trk is not None
+    assert track.release(trk, db).id == trk.release_id
 
 
 def test_artists(db: Connection, snapshot):

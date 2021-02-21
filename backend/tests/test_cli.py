@@ -1,6 +1,5 @@
-from sqlite3 import Connection
-
 from click.testing import CliRunner
+from pysqlite3 import Connection
 from werkzeug.security import check_password_hash
 
 from src.cli.token import token

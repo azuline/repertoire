@@ -1,10 +1,10 @@
 from dataclasses import dataclass
-from sqlite3 import Connection
 from typing import Tuple
 
 import quart
 from ariadne import graphql
 from ariadne.constants import PLAYGROUND_HTML
+from pysqlite3 import Connection
 from quart import Blueprint, Request, Response
 
 from src.graphql import error_formatter, schema

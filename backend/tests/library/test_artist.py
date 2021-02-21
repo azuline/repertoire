@@ -1,9 +1,9 @@
-from sqlite3 import Connection
-
 import pytest
+from pysqlite3 import Connection
 
 from src.errors import Duplicate
 from src.library import artist
+from tests.conftest import NUM_ARTISTS
 
 
 def test_exists(db: Connection):
@@ -32,10 +32,36 @@ def test_from_name_failure(db: Connection):
     assert artist.from_name("nonexistent", db) is None
 
 
-def test_all(db: Connection, snapshot):
-    artists = artist.all(db)
-    assert all(art.num_releases for art in artists)
+def test_search_all(db: Connection, snapshot):
+    artists = artist.search(db)
     snapshot.assert_match(artists)
+
+
+def test_search_one(db: Connection, snapshot):
+    artists = artist.search(db, search="aba")
+    assert len(artists) == 1
+    assert artists[0].name == "Abakus"
+
+
+def test_search_page(db: Connection, snapshot):
+    a1 = artist.search(db, page=1, per_page=1)[0]
+    a2 = artist.search(db, page=2, per_page=1)[0]
+    assert a1 != a2
+
+
+def test_search_per_page(db: Connection, snapshot):
+    arts = artist.search(db, page=1, per_page=2)
+    assert len(arts) == 2
+
+
+def test_count_all(db: Connection, snapshot):
+    count = artist.count(db)
+    assert count == NUM_ARTISTS
+
+
+def test_count_search(db: Connection, snapshot):
+    count = artist.count(db, search="aba")
+    assert count == 1
 
 
 def test_create(db: Connection):

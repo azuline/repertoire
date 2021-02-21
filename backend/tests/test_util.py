@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
 from src.util import (
+    make_fts_match_query,
     parse_crontab,
-    strip_punctuation,
     uniq_list,
     update_dataclass,
     without_key,
@@ -23,10 +23,6 @@ def test_parse_crontab():
     assert dict_["day_of_week"] == "4"
 
 
-def test_strip_punctuation():
-    assert "abcàà" == strip_punctuation("[a.b!?c))àà")
-
-
 def test_update_dataclass():
     @dataclass(frozen=True)
     class Example:
@@ -40,3 +36,9 @@ def test_update_dataclass():
 
 def test_uniq_list():
     assert [1, 2, 3] == uniq_list([1, 1, 2, 3, 2, 1, 3])
+
+
+def test_make_fts_match_query():
+    search = "test terms one two three"
+    expect = '"test" AND "terms" AND "one" AND "two" AND "three"'
+    assert make_fts_match_query(search) == expect

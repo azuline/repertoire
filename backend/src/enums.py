@@ -1,4 +1,5 @@
 from enum import Enum
+from string import Template
 
 from tagfiles import ArtistRoles
 
@@ -59,16 +60,55 @@ class PlaylistType(Enum):
 class ReleaseSort(Enum):
     """
     The possible ways to sort releases; used when querying the database for a list of
-    releases.
+    releases.  The enum values are templates with an ``$order`` key--this key should be
+    ASC or DESC.
     """
 
     #:
-    RECENTLY_ADDED = "rls.added_on"
+    RECENTLY_ADDED = Template("rls.added_on $order")
     #:
-    TITLE = "rls.title"
+    TITLE = Template("rls.title $order")
     #:
-    YEAR = "rls.release_year IS NULL, rls.release_year"
+    YEAR = Template("rls.release_year IS NULL, rls.release_year $order")
     #:
-    RATING = "rls.rating IS NULL, rls.rating"
+    RATING = Template("rls.rating IS NULL, rls.rating $order")
     #:
-    RANDOM = "RANDOM()"
+    RANDOM = Template("RANDOM() $order")
+    #:
+    SEARCH_RANK = Template("fts.rank $order")
+
+
+class TrackSort(Enum):
+    """
+    The possible ways to sort tracks; used when querying the database for a list of
+    tracks. The enum values are templates with an ``$order`` key--this key should be ASC
+    or DESC.
+
+    The RECENTLY_ADDED, YEAR methods sort on the release fields and then on
+    the track's disc and track numbers.
+    """
+
+    #:
+    RECENTLY_ADDED = Template(
+        """
+        rls.added_on $order,
+        rls.id,
+        trks.disc_number,
+        trks.track_number
+        """
+    )
+    #:
+    TITLE = Template("trks.title $order")
+    #:
+    YEAR = Template(
+        """
+        rls.release_year IS NULL,
+        rls.release_year $order,
+        trks.disc_number,
+        trks.track_number
+        """
+    )
+    #:
+    RANDOM = Template("RANDOM() $order")
+    #:
+    SEARCH_RANK = Template("fts.rank $order")

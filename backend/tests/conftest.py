@@ -1,12 +1,12 @@
 import shutil
-import sqlite3
 from pathlib import Path
-from sqlite3 import Connection
 
+import pysqlite3 as sqlite3
 import pytest
 import quart
 from ariadne import graphql
 from click.testing import CliRunner
+from pysqlite3 import Connection
 from quart.testing import QuartClient
 from yoyo import get_backend, read_migrations
 
@@ -23,6 +23,16 @@ SEED_DATA = Path(__file__).parent / "seed_data"
 TEST_SQL_PATH = SEED_DATA / "database.sql"
 
 ADMIN_TOKEN = "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc8"
+
+# These are the next autoincremented DB primary key IDs for each model.
+NUM_RELEASES = 3
+NUM_ARTISTS = 5
+NUM_TRACKS = 21
+NUM_COLLECTIONS = 11
+NUM_PLAYLISTS = 3
+NEXT_PLAYLIST_ENTRY_ID = 9
+NEXT_IMAGE_ID = 2
+NEXT_USER_ID = 2
 
 
 @pytest.fixture(scope="session")
