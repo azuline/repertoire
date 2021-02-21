@@ -27,7 +27,19 @@ backend_data = dict(
         dict(
             id="type_check",
             name="Type check",
-            steps=[dict(name="Run type check", run="make typecheck")],
+            steps=[
+                dict(
+                    name="Download mypy cache",
+                    uses="actions/download-artifact@v2",
+                    with_=dict(name=".mypy_cache"),
+                ),
+                dict(name="Run type check", run="make typecheck"),
+                dict(
+                    name="Upload mypy cache",
+                    uses="actions/download-artifact@v2",
+                    with_=dict(name=".mypy_cache", path=".mypy_cache"),
+                ),
+            ],
         ),
         dict(
             id="lint_check",

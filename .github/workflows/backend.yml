@@ -73,8 +73,17 @@ jobs:
       - name: Install dependencies.
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
+      - name: Download mypy cache
+        uses: actions/download-artifact@v2
+        with:
+            name: .mypy_cache
       - name: Run type check
         run: make typecheck
+      - name: Upload mypy cache
+        uses: actions/download-artifact@v2
+        with:
+            name: .mypy_cache
+            path: .mypy_cache
   lint_check:
     name: Lint check
     runs-on: ubuntu-latest

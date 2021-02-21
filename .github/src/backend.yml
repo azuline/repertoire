@@ -41,6 +41,17 @@ jobs:
         run: poetry install
       {% for step in job.steps %}
       - name: {{ step.name }}
+        {% if step.run %}
         run: {{ step.run }}
+        {% endif %}
+        {% if step.uses %}
+        uses: {{ step.uses }}
+        {% endif %}
+        {% if step.with_ %}
+        with:
+          {% for k, v in step.with_.items() %}
+            {{ k }}: {{ v }}
+          {% endfor %}
+        {% endif %}
       {% endfor %}
   {% endfor %}
