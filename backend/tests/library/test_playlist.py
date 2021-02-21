@@ -4,6 +4,7 @@ from pysqlite3 import Connection
 from src.enums import PlaylistType
 from src.errors import Duplicate, Immutable, InvalidPlaylistType
 from src.library import playlist
+from tests.conftest import NUM_PLAYLISTS
 
 
 def test_exists(db: Connection):
@@ -35,24 +36,23 @@ def test_from_name_and_type_failure(db: Connection):
 
 
 def test_search(db: Connection, snapshot):
-    playlists = playlist.search(db)
-    snapshot.assert_match(playlists)
+    plys = playlist.search(db)
+    snapshot.assert_match(plys)
 
 
 def test_search_name(db: Connection, snapshot):
-    playlists = playlist.search(db, searchstr="AaA")
-    assert len(playlists) == 1
-    assert playlists[0].name == "AAAAAA"
+    plys = playlist.search(db, searchstr="AaA")
+    assert len(plys) == 1
+    assert plys[0].name == "AAAAAA"
 
 
-def test_search_filter_type(db: Connection, snapshot):
-    playlists = playlist.search(db, types=[PlaylistType.PLAYLIST])
-    snapshot.assert_match(playlists)
-
-
-def test_search_filter_type_multiple(db: Connection, snapshot):
-    playlists = playlist.search(db, types=[PlaylistType.SYSTEM, PlaylistType.PLAYLIST])
-    snapshot.assert_match(playlists)
+def test_search_one(db: Connection, snapshot):
+    plys = playlist.search(
+        db,
+        types=[PlaylistType.SYSTEM, PlaylistType.PLAYLIST],
+        searchstr="aaaa",
+    )
+    assert plys[0].name == "AAAAAA"
 
 
 def test_search_page(db: Connection, snapshot):
@@ -62,8 +62,22 @@ def test_search_page(db: Connection, snapshot):
 
 
 def test_search_per_page(db: Connection, snapshot):
-    playlists = playlist.search(db, page=1, per_page=2)
-    assert len(playlists) == 2
+    plys = playlist.search(db, page=1, per_page=2)
+    assert len(plys) == 2
+
+
+def test_count_all(db: Connection, snapshot):
+    count = playlist.count(db)
+    assert count == NUM_PLAYLISTS
+
+
+def test_count_one(db: Connection, snapshot):
+    count = playlist.count(
+        db,
+        types=[PlaylistType.SYSTEM, PlaylistType.PLAYLIST],
+        searchstr="aaaa",
+    )
+    assert count == 1
 
 
 @pytest.mark.parametrize("type", [PlaylistType.PLAYLIST])

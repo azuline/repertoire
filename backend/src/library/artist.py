@@ -184,8 +184,9 @@ def count(
         params,
     )
 
-    logger.debug(f"Counted {cursor.rowcount} artists that matched the filters.")
-    return [from_row(row) for row in cursor]
+    count = cursor.fetchone()[0]
+    logger.debug(f"Counted {count} artists that matched the filters.")
+    return count
 
 
 def _generate_filters(

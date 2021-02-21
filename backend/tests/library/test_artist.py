@@ -3,6 +3,7 @@ from pysqlite3 import Connection
 
 from src.errors import Duplicate
 from src.library import artist
+from tests.conftest import NUM_ARTISTS
 
 
 def test_exists(db: Connection):
@@ -34,6 +35,22 @@ def test_from_name_failure(db: Connection):
 def test_search_all(db: Connection, snapshot):
     artists = artist.search(db)
     snapshot.assert_match(artists)
+
+
+def test_search_one(db: Connection, snapshot):
+    artists = artist.search(db, searchstr="aba")
+    assert len(artists) == 1
+    assert artists[0].name == "Abakus"
+
+
+def test_count_all(db: Connection, snapshot):
+    count = artist.count(db)
+    assert count == NUM_ARTISTS
+
+
+def test_count_search(db: Connection, snapshot):
+    count = artist.count(db, searchstr="aba")
+    assert count == 1
 
 
 def test_create(db: Connection):

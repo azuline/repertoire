@@ -257,9 +257,9 @@ def count(
         params,
     )
 
-    total = cursor.fetchone()[0]
-    logger.debug(f"Counted {cursor.rowcount} releases that matched the filters.")
-    return total
+    count = cursor.fetchone()[0]
+    logger.debug(f"Counted {count} releases that matched the filters.")
+    return count
 
 
 def _generate_filters(

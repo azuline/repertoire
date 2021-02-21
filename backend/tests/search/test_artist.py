@@ -1,5 +1,5 @@
 from src.library import artist
-from tests.conftest import NEXT_ARTIST_ID
+from tests.conftest import NUM_ARTISTS
 
 
 def test_query(db):
@@ -23,7 +23,7 @@ def test_insert(db):
         ORDER BY rank
         """
     )
-    assert cursor.fetchone()[0] == NEXT_ARTIST_ID
+    assert cursor.fetchone()[0] == NUM_ARTISTS + 1
 
 
 def test_delete(db):

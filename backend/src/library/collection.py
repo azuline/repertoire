@@ -228,8 +228,9 @@ def count(
         params,
     )
 
-    logger.debug(f"Counted {cursor.rowcount} collections that matched the filters.")
-    return [from_row(row) for row in cursor]
+    count = cursor.fetchone()[0]
+    logger.debug(f"Counted {count} collections that matched the filters.")
+    return count
 
 
 def _generate_filters(
