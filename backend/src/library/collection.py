@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 from pysqlite3 import Connection, Row
 
@@ -16,7 +16,7 @@ from src.errors import (
     InvalidCollectionType,
     NotFound,
 )
-from src.util import update_dataclass, without_key
+from src.util import make_fts_match_query, update_dataclass, without_key
 
 from . import image as libimage
 from . import release
@@ -149,15 +149,33 @@ def from_name_and_type(
     return None
 
 
-def search(conn: Connection, types: List[CollectionType] = []) -> List[T]:
+def search(
+    conn: Connection,
+    *,
+    searchstr: str = "",
+    types: List[CollectionType] = [],
+    page: int = 1,
+    per_page: Optional[int] = None,
+) -> List[T]:
     """
-    Get all collections.
+    Search for collections. Parameters are optional; omitted ones are excluded from the
+    matching criteria.
 
     :param conn: A connection to the database.
-    :param types: Filter by collection types. Pass an empty list to fetch all types.
-    :return: All collections stored on the src.
+    :param searchstr: A search string. We split this up into individual punctuation-less
+                      tokens and return collections whose titles contain each token. If
+                      specified, the returned collections will be sorted by match
+                      proximity.
+    :param types: Filter by collection types.
+    :param page: Which page of collections to return.
+    :param per_page: The number of collections per page. Pass ``None`` to return all
+                     collections (this will ignore ``page``).
+    :return: All matching collections.
     """
-    filter_ = f"WHERE cols.type IN ({','.join('?' * len(types))})" if types else ""
+    filters, params = _generate_filters(searchstr, types)
+
+    if per_page:
+        params.extend([per_page, (page - 1) * per_page])
 
     cursor = conn.execute(
         f"""
@@ -166,20 +184,77 @@ def search(conn: Connection, types: List[CollectionType] = []) -> List[T]:
             COUNT(colsrls.release_id) AS num_releases,
             MAX(colsrls.added_on) AS last_updated_on
         FROM music__collections AS cols
+        JOIN music__collections__fts AS fts ON fts.rowid = cols.id
         LEFT JOIN music__collections_releases AS colsrls
             ON colsrls.collection_id = cols.id
-        {filter_}
+        {"WHERE " + " AND ".join(filters) if filters else ""}
         GROUP BY cols.id
         ORDER BY
-            cols.type,
-            cols.starred DESC,
-            cols.name
+            {"fts.rank" if searchstr else "cols.type, cols.starred DESC, cols.name"}
+        {"LIMIT ? OFFSET ?" if per_page else ""}
         """,
-        tuple(type_.value for type_ in types),
+        params,
     )
 
     logger.debug(f"Fetched all collections of types {type}.")
     return [from_row(row) for row in cursor]
+
+
+def count(
+    conn: Connection,
+    *,
+    searchstr: str = "",
+    types: List[CollectionType] = [],
+) -> List[T]:
+    """
+    Fetch the number of collections matching the passed-in criteria. Parameters are
+    optional; omitted ones are excluded from the matching criteria.
+
+    :param conn: A connection to the database.
+    :param searchstr: A search string. We split this up into individual punctuation-less
+                      tokens and return collections whose titles contain each token.
+    :param types: Filter by collection types.
+    :return: The number of matching collections.
+    """
+    filters, params = _generate_filters(searchstr, types)
+
+    cursor = conn.execute(
+        f"""
+        SELECT COUNT(1)
+        FROM music__collections AS cols
+        JOIN music__collections__fts AS fts ON fts.rowid = cols.id
+        {"WHERE " + " AND ".join(filters) if filters else ""}
+        """,
+        params,
+    )
+
+    logger.debug(f"Counted {cursor.rowcount} collections that matched the filters.")
+    return [from_row(row) for row in cursor]
+
+
+def _generate_filters(
+    searchstr: str = "",
+    types: List[CollectionType] = [],
+) -> Tuple[List[str], List[Union[str, int]]]:
+    """
+    Dynamically generate the SQL filters and parameters from the criteria. See the
+    search and total functions for parameter descriptions.
+
+    :return: A tuple of SQL filter strings and parameters. The SQL filter strings can be
+    joined with `` AND `` and injected into the where clause.
+    """
+    filters: List[str] = []
+    params: List[Union[str, int]] = []
+
+    if searchstr:
+        filters.append("fts.music__collections__fts MATCH ?")
+        params.append(make_fts_match_query(searchstr))
+
+    if types:
+        filters.append(f"cols.type IN ({','.join('?' * len(types))})")
+        params.extend([t.value for t in types])
+
+    return filters, params
 
 
 def create(

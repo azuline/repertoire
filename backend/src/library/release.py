@@ -132,7 +132,8 @@ def search(
     asc: bool = True,
 ) -> List[T]:
     """
-    Search for releases matching the passed-in criteria.
+    Search for releases matching the passed-in criteria. Parameters are optional;
+    omitted ones are excluded from the matching criteria.
 
     :param searchstr: A search string. We split this up into individual punctuation-less
                       tokens and return releases whose titles and artists contain each
@@ -159,20 +160,14 @@ def search(
     :param conn: A connection to the database.
     :return: The matching releases on the current page.
     """
-    # Dynamically generate the filter SQL and filter params.
-    filters: List[str] = []
-    params: List[Union[str, int]] = []
-
-    for sql, sql_args in [
-        _generate_collection_filter(collection_ids),
-        _generate_artist_filter(artist_ids),
-        _generate_release_types_filter(release_types),
-        _generate_year_filter(years),
-        _generate_rating_filter(ratings),
-        _generate_search_filter(searchstr),
-    ]:
-        filters.extend(sql)
-        params.extend(sql_args)  # type: ignore
+    filters, params = _generate_filters(
+        searchstr,
+        collection_ids,
+        artist_ids,
+        release_types,
+        years,
+        ratings,
+    )
 
     # Set the default sort if it's not specified
     if not sort:
@@ -223,7 +218,8 @@ def count(
     ratings: List[int] = [],
 ) -> int:
     """
-    Fetch the number of releases matching the passed-in criteria.
+    Fetch the number of releases matching the passed-in criteria. Parameters are
+    optional; omitted ones are excluded from the matching criteria.
 
     :param searchstr: A search string. We split this up into individual punctuation-less
                       words and return releases that contain each word.
@@ -242,31 +238,60 @@ def count(
     :param conn: A connection to the database.
     :return: The number of matching releases.
     """
-    # Dynamically generate the filter SQL and filter params.
-    filters: List[str] = []
-    params: List[Union[str, int]] = []
-
-    for sql, sql_args in [
-        _generate_collection_filter(collection_ids),
-        _generate_artist_filter(artist_ids),
-        _generate_release_types_filter(release_types),
-        _generate_year_filter(years),
-        _generate_rating_filter(ratings),
-        _generate_search_filter(searchstr),
-    ]:
-        filters.extend(sql)
-        params.extend(sql_args)  # type: ignore
+    filters, params = _generate_filters(
+        searchstr,
+        collection_ids,
+        artist_ids,
+        release_types,
+        years,
+        ratings,
+    )
 
     cursor = conn.execute(
         f"""
         SELECT COUNT(1)
         FROM music__releases AS rls
-            JOIN music__releases__fts AS fts ON fts.rowid = rls.id
+        JOIN music__releases__fts AS fts ON fts.rowid = rls.id
         {"WHERE " + " AND ".join(filters) if filters else ""}
         """,
         params,
     )
-    return cursor.fetchone()[0]
+
+    total = cursor.fetchone()[0]
+    logger.debug(f"Counted {cursor.rowcount} releases that matched the filters.")
+    return total
+
+
+def _generate_filters(
+    searchstr: str,
+    collection_ids: List[int],
+    artist_ids: List[int],
+    release_types: List[ReleaseType],
+    years: List[int],
+    ratings: List[int],
+) -> Tuple[List[str], List[Union[str, int]]]:
+    """
+    Dynamically generate the SQL filters and parameters from the criteria. See the
+    search and total functions for parameter descriptions.
+
+    :return: A tuple of SQL filter strings and parameters. The SQL filter strings can be
+    joined with `` AND `` and injected into the where clause.
+    """
+    filters: List[str] = []
+    params: List[Union[str, int]] = []
+
+    for sql, sql_args in [
+        _generate_search_filter(searchstr),
+        _generate_collection_filter(collection_ids),
+        _generate_artist_filter(artist_ids),
+        _generate_release_types_filter(release_types),
+        _generate_year_filter(years),
+        _generate_rating_filter(ratings),
+    ]:
+        filters.extend(sql)
+        params.extend(sql_args)  # type: ignore
+
+    return filters, params
 
 
 def _generate_collection_filter(
@@ -467,7 +492,7 @@ def _find_duplicate_release(
                 WHERE release_id = rls.id AND collection_id = 2
             ) AS in_favorites
         FROM music__releases AS rls
-            LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
+        LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
         WHERE rls.title = ?
         GROUP BY rls.id
         """,

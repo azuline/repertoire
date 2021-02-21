@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 from pysqlite3 import Connection, Row
 
 from src.enums import CollectionType
 from src.errors import Duplicate
-from src.util import update_dataclass, without_key
+from src.util import make_fts_match_query, update_dataclass, without_key
 
 from . import collection
 from . import image as libimage
@@ -113,33 +113,99 @@ def from_name(name: str, conn: Connection) -> Optional[T]:
     return None
 
 
-def search(conn: Connection, searchstr: str = "") -> List[T]:
+def search(
+    conn: Connection,
+    searchstr: str = "",
+    page: int = 1,
+    per_page: Optional[int] = None,
+) -> List[T]:
     """
-    Search for artists.
+    Search for artists. Parameters are optional; omitted ones are excluded from the
+    matching criteria.
 
     :param conn: A connection to the database.
     :param searchstr: A search string. We split this up into individual punctuation-less
-                      tokens and return artists whose names contain each token. Pass an
-                      empty searchstr to fetch all artists.
+                      tokens and return artists whose names contain each token. If
+                      specified, the returned artists will be sorted by match proximity.
+    :param page: Which page of artists to return.
+    :param per_page: The number of artists per page. Pass ``None`` to return all
+                     artists (this will ignore ``page``).
     :return: All matching artists.
     """
+    filters, params = _generate_filters(searchstr)
+
+    if per_page:
+        params.extend([per_page, (page - 1) * per_page])
+
     cursor = conn.execute(
-        """
+        f"""
         SELECT
             arts.*,
             COUNT(artsrls.release_id) AS num_releases
         FROM music__artists AS arts
+        JOIN music__artists__fts AS fts ON fts.rowid = arts.id
         LEFT JOIN music__releases_artists AS artsrls
             ON artsrls.artist_id = arts.id
+        {"WHERE " + " AND ".join(filters) if filters else ""}
         GROUP BY arts.id
         ORDER BY
-            arts.starred DESC,
-            arts.name
-        """
+            {"fts.rank" if searchstr else "arts.starred DESC, arts.name"}
+        {"LIMIT ? OFFSET ?" if per_page else ""}
+        """,
+        params,
     )
 
-    logger.debug("Fetched all artists.")
+    logger.debug(f"Searched artists with {cursor.rowcount} results.")
     return [from_row(row) for row in cursor]
+
+
+def count(
+    conn: Connection,
+    searchstr: str = "",
+) -> List[T]:
+    """
+    Fetch the number of artists matching the passed-in criteria. Parameters are
+    optional; omitted ones are excluded from the matching criteria.
+
+    :param conn: A connection to the database.
+    :param searchstr: A search string. We split this up into individual punctuation-less
+                      tokens and return artists whose names contain each token.
+    :return: The number of matching artists.
+    """
+    filters, params = _generate_filters(searchstr)
+
+    cursor = conn.execute(
+        f"""
+        SELECT COUNT(1)
+        FROM music__artists AS arts
+        JOIN music__artists__fts AS fts ON fts.rowid = arts.id
+        {"WHERE " + " AND ".join(filters) if filters else ""}
+        """,
+        params,
+    )
+
+    logger.debug(f"Counted {cursor.rowcount} artists that matched the filters.")
+    return [from_row(row) for row in cursor]
+
+
+def _generate_filters(
+    searchstr: str = "",
+) -> Tuple[List[str], List[Union[str, int]]]:
+    """
+    Dynamically generate the SQL filters and parameters from the criteria. See the
+    search and total functions for parameter descriptions.
+
+    :return: A tuple of SQL filter strings and parameters. The SQL filter strings can be
+    joined with `` AND `` and injected into the where clause.
+    """
+    filters: List[str] = []
+    params: List[Union[str, int]] = []
+
+    if searchstr:
+        filters.append("fts.music__artists__fts MATCH ?")
+        params.append(make_fts_match_query(searchstr))
+
+    return filters, params
 
 
 def create(name: str, conn: Connection, starred: bool = False) -> T:

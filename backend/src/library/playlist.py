@@ -12,7 +12,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 from pysqlite3 import Connection, Row
 
@@ -158,29 +158,21 @@ def search(
     per_page: Optional[int] = None,
 ) -> List[T]:
     """
-    Search for playlists.
+    Search for playlists. Parameters are optional; omitted ones are excluded from the
+    matching criteria.
 
     :param conn: A connection to the database.
     :param searchstr: A search string. We split this up into individual punctuation-less
-                      tokens and return playlists whose titles contain each token. Pass
-                      an empty searchstr to fetch any playlist. If this is specified,
-                      the returned playlists will be sorted by match proximity.
-    :param types: Filter by playlist types. Pass an empty list to fetch all types.
+                      tokens and return playlists whose titles contain each token. If
+                      specified, the returned playlists will be sorted by match
+                      proximity.
+    :param types: Filter by playlist types.
     :param page: Which page of playlists to return.
     :param per_page: The number of playlists per page. Pass ``None`` to return all
                      playlists (this will ignore ``page``).
     :return: All matching playlists.
     """
-    filters = []
-    params = []
-
-    if types:
-        filters.append(f"plys.type IN ({','.join('?' * len(types))})")
-        params.extend([t.value for t in types])
-
-    if searchstr:
-        filters.append("fts.music__playlists__fts MATCH ?")
-        params.append(make_fts_match_query(searchstr))
+    filters, params = _generate_filters(searchstr, types)
 
     if per_page:
         params.extend([per_page, (page - 1) * per_page])
@@ -204,8 +196,65 @@ def search(
         params,
     )
 
-    logger.debug("Fetched all playlists.")
+    logger.debug(f"Searched playlists with {cursor.rowcount} results.")
     return [from_row(row) for row in cursor]
+
+
+def count(
+    conn: Connection,
+    *,
+    searchstr: str = "",
+    types: List[PlaylistType] = [],
+) -> List[T]:
+    """
+    Fetch the number of playlists matching the passed-in criteria. Parameters are
+    optional; omitted ones are excluded from the matching criteria.
+
+    :param conn: A connection to the database.
+    :param searchstr: A search string. We split this up into individual punctuation-less
+                      tokens and return playlists whose titles contain each token.
+    :param types: Filter by playlist types.
+    :return: The number of matching playlists.
+    """
+    filters, params = _generate_filters(searchstr, types)
+
+    cursor = conn.execute(
+        f"""
+        SELECT COUNT(1)
+        FROM music__playlists AS plys
+        JOIN music__playlists__fts AS fts ON fts.rowid = plys.id
+        {"WHERE " + " AND ".join(filters) if filters else ""}
+        """,
+        params,
+    )
+
+    logger.debug(f"Counted {cursor.rowcount} playlists that matched the filters.")
+    return [from_row(row) for row in cursor]
+
+
+def _generate_filters(
+    searchstr: str = "",
+    types: List[PlaylistType] = [],
+) -> Tuple[List[str], List[Union[str, int]]]:
+    """
+    Dynamically generate the SQL filters and parameters from the criteria. See the
+    search and total functions for parameter descriptions.
+
+    :return: A tuple of SQL filter strings and parameters. The SQL filter strings can be
+    joined with `` AND `` and injected into the where clause.
+    """
+    filters: List[str] = []
+    params: List[Union[str, int]] = []
+
+    if searchstr:
+        filters.append("fts.music__playlists__fts MATCH ?")
+        params.append(make_fts_match_query(searchstr))
+
+    if types:
+        filters.append(f"plys.type IN ({','.join('?' * len(types))})")
+        params.extend([t.value for t in types])
+
+    return filters, params
 
 
 def create(name: str, type: PlaylistType, conn: Connection, starred: bool = False) -> T:
@@ -302,7 +351,7 @@ def entries(ply: T, conn: Connection) -> List[pentry.T]:
         SELECT
             plystrks.*
         FROM music__playlists AS plys
-            JOIN music__playlists_tracks AS plystrks ON plystrks.playlist_id = plys.id
+        JOIN music__playlists_tracks AS plystrks ON plystrks.playlist_id = plys.id
         WHERE plys.id = ?
         ORDER BY plystrks.position ASC
         """,
@@ -382,9 +431,9 @@ def image(ply: T, conn: Connection) -> Optional[libimage.T]:
         """
         SELECT images.*
         FROM images
-            JOIN music__releases AS rls ON rls.image_id = images.id
-            JOIN music__tracks AS trk ON trk.release_id = rls.id
-            JOIN music__playlists_tracks AS plystrks ON plystrks.track_id = trk.id
+        JOIN music__releases AS rls ON rls.image_id = images.id
+        JOIN music__tracks AS trk ON trk.release_id = rls.id
+        JOIN music__playlists_tracks AS plystrks ON plystrks.track_id = trk.id
         WHERE plystrks.playlist_id = ?
         ORDER BY RANDOM()
         LIMIT 1
