@@ -31,10 +31,6 @@ const sections = [
       { exact: false, label: 'Playlists', path: '/playlists' },
     ],
   },
-  {
-    name: 'Utilities',
-    routes: [{ exact: false, label: 'Metadata Tools', path: '/metadata' }],
-  },
 ];
 
 export const RouteList: React.FC = () => {
