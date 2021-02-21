@@ -13,17 +13,20 @@ There are three installation options:
 - :ref:`installation_virtualenv`
 
 Choose whichever is right for you! If you do not know which option to choose, I
-recommend :ref:`installation_docker`.
+recommend :ref:`installation_docker`. The other options are primarily intended
+for developers.
 
 .. note::
+
+   Regardless of which installation option is chosen, repertoire will run on
+   port 45731. You should be able to access it via ``http://127.0.0.1:45731``.
+
+.. note::
+
    Commands that should be run in the shell are prefixed with ``$``. The ``$``
    should not be included when running the command.
 
    Lines beginning with a `#` are comments and should not be executed.
-
-.. note::
-   Regardless of which installation option is chosen, repertoire will run on
-   port 45731. You should be able to access it via ``http://127.0.0.1:45731``.
 
 .. _installation_docker:
 
@@ -72,6 +75,7 @@ Poetry
 ------
 
 .. note::
+
    repertoire is only tested on specific versions of Python and JavaScript. See
    :ref:`installing_python_and_javascript` for instructions on installing the
    required versions of Python and JavaScript.
@@ -123,6 +127,7 @@ Pip & Virtualenv
 ----------------
 
 .. note::
+
    repertoire is only tested on specific versions of Python and JavaScript. See
    :ref:`installing_python_and_javascript` for instructions on installing the
    required versions of Python and JavaScript.

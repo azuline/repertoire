@@ -4,7 +4,7 @@ import logging
 import secrets
 import string
 from dataclasses import dataclass
-from sqlite3 import Connection, Row
+from pysqlite3 import Connection, Row
 from typing import Dict, Optional, Tuple, Union
 
 from werkzeug.security import check_password_hash, generate_password_hash

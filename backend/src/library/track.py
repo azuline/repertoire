@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from sqlite3 import Connection, Row
+from pysqlite3 import Connection, Row
 from typing import Dict, List, Optional, Union
 
 from src.enums import ArtistRole

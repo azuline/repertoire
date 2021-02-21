@@ -4,7 +4,7 @@ import logging
 from dataclasses import dataclass
 from datetime import date, datetime
 from itertools import repeat
-from sqlite3 import Connection, Row
+from pysqlite3 import Connection, Row
 from typing import Dict, Iterable, List, Optional, Tuple, Union
 
 from src.enums import CollectionType, ReleaseSort, ReleaseType

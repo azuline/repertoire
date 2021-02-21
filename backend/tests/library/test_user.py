@@ -1,4 +1,4 @@
-from sqlite3 import Connection
+from pysqlite3 import Connection
 
 import pytest
 from werkzeug.security import check_password_hash

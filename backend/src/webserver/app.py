@@ -5,7 +5,7 @@ Quart app instance, call ``create_app()``.
 
 import logging
 import secrets
-import sqlite3
+import pysqlite3 as sqlite3
 import sys
 
 import quart

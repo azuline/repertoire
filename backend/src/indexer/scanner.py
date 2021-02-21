@@ -4,7 +4,7 @@ import logging
 import re
 from datetime import date
 from itertools import chain
-from sqlite3 import Connection
+from pysqlite3 import Connection
 from typing import List, Optional
 
 from tagfiles import TagFile

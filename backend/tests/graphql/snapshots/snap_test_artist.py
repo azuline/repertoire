@@ -268,6 +268,16 @@ snapshots['test_artists 1'] = (
                         ]
                     },
                     {
+                        'id': 3,
+                        'name': 'John Darnielle',
+                        'numReleases': 0,
+                        'releases': [
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                        ]
+                    },
+                    {
                         'id': 1,
                         'name': 'Unknown Artist',
                         'numReleases': 1,

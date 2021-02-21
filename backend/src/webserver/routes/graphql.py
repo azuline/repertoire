@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from sqlite3 import Connection
+from pysqlite3 import Connection
 from typing import Tuple
 
 import quart

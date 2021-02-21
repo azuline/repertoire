@@ -10,6 +10,7 @@ const displays: { [k in IReleaseSort]: string } = {
   [IReleaseSort.Year]: 'Year',
   [IReleaseSort.Rating]: 'Rating',
   [IReleaseSort.Random]: 'Random',
+  [IReleaseSort.SearchRank]: 'Relevance',
 };
 
 type ISort = React.FC<{ viewOptions: IViewOptions; className?: string }>;
@@ -26,11 +27,13 @@ export const Sort: ISort = ({ viewOptions, className }) => {
       value={viewOptions.sort}
       onChange={updateSort}
     >
-      {Object.values(IReleaseSort).map((value) => (
-        <option key={value} value={value}>
-          {displays[value]}
-        </option>
-      ))}
+      {Object.values(IReleaseSort)
+        .filter((value) => value !== IReleaseSort.SearchRank)
+        .map((value) => (
+          <option key={value} value={value}>
+            {displays[value]}
+          </option>
+        ))}
     </Select>
   );
 };

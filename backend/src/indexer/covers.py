@@ -2,7 +2,7 @@ import logging
 import os
 from hashlib import sha256
 from pathlib import Path
-from sqlite3 import Connection
+from pysqlite3 import Connection
 from typing import Generator, List, Optional, Tuple
 
 from tagfiles import TagFile

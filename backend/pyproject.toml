@@ -23,6 +23,7 @@ requests = "^2.24"
 tagfiles = "^0.3.2"
 voluptuous = "^0.11.7"
 yoyo-migrations = "^7.2"
+pysqlite3-binary = "^0.4.5"
 
 [tool.poetry.dev-dependencies]
 autodocsumm = "0.1.13"

@@ -1,4 +1,4 @@
-from sqlite3 import Connection
+from pysqlite3 import Connection
 
 import pytest
 
@@ -34,7 +34,6 @@ def test_from_name_failure(db: Connection):
 
 def test_all(db: Connection, snapshot):
     artists = artist.all(db)
-    assert all(art.num_releases for art in artists)
     snapshot.assert_match(artists)
 
 

@@ -1,7 +1,7 @@
 import shutil
-import sqlite3
+import pysqlite3 as sqlite3
 from pathlib import Path
-from sqlite3 import Connection
+from pysqlite3 import Connection
 
 import pytest
 import quart

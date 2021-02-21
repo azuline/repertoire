@@ -1,5 +1,5 @@
 from pathlib import Path
-from sqlite3 import Connection
+from pysqlite3 import Connection
 
 import pytest
 

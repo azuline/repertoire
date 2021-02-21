@@ -11,6 +11,7 @@ snapshots['test_all 1'] = [
     GenericRepr("T(id=5, name='Bacchus', starred=True, num_releases=1)"),
     GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)"),
     GenericRepr("T(id=4, name='Abakus', starred=False, num_releases=1)"),
+    GenericRepr("T(id=3, name='John Darnielle', starred=False, num_releases=0)"),
     GenericRepr("T(id=1, name='Unknown Artist', starred=False, num_releases=1)")
 ]
 

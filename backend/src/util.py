@@ -1,5 +1,5 @@
 import logging
-import sqlite3
+import pysqlite3 as sqlite3
 from contextlib import contextmanager
 from dataclasses import asdict
 from hashlib import sha256
