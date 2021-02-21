@@ -15,6 +15,7 @@ jobs:
         working-directory: 'backend/'
     steps:
       - uses: actions/checkout@v2
+      - uses: ./.github/actions/build-sqlite
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9.1'
@@ -42,6 +43,7 @@ jobs:
         working-directory: 'backend/'
     steps:
       - uses: actions/checkout@v2
+      - uses: ./.github/actions/build-sqlite
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9.1'
@@ -67,6 +69,7 @@ jobs:
         working-directory: 'backend/'
     steps:
       - uses: actions/checkout@v2
+      - uses: ./.github/actions/build-sqlite
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9.1'
@@ -92,6 +95,7 @@ jobs:
         working-directory: 'backend/'
     steps:
       - uses: actions/checkout@v2
+      - uses: ./.github/actions/build-sqlite
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9.1'
@@ -121,6 +125,7 @@ jobs:
         working-directory: 'backend/'
     steps:
       - uses: actions/checkout@v2
+      - uses: ./.github/actions/build-sqlite
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9.1'
