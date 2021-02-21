@@ -38,7 +38,7 @@ backend_data = dict(
             id="schema",
             name="Schema",
             steps=[
-                dict(name="Generate schema", run="make schema"),
+                dict(name="Generate schema", run="DATA_PATH=../data make schema"),
                 dict(name="Diff", run="git diff"),
                 dict(
                     name="Compare",
