@@ -437,7 +437,202 @@ snapshots['test_playlists 1'] = (
                         ],
                         'type': 'PLAYLIST'
                     }
-                ]
+                ],
+                'total': 3
+            }
+        }
+    }
+)
+
+snapshots['test_playlists_filter 1'] = (
+    True,
+    {
+        'data': {
+            'playlists': {
+                'results': [
+                    {
+                        'entries': [
+                            {
+                                'id': 3,
+                                'track': {
+                                    'id': 3,
+                                    'title': 'St. Joe Keeps Us Safe'
+                                }
+                            },
+                            {
+                                'id': 4,
+                                'track': {
+                                    'id': 4,
+                                    'title': 'Runnin’ Scared'
+                                }
+                            },
+                            {
+                                'id': 5,
+                                'track': {
+                                    'id': 13,
+                                    'title': 'Hope'
+                                }
+                            },
+                            {
+                                'id': 6,
+                                'track': {
+                                    'id': 14,
+                                    'title': 'Dreamer'
+                                }
+                            },
+                            {
+                                'id': 7,
+                                'track': {
+                                    'id': 14,
+                                    'title': 'Dreamer'
+                                }
+                            },
+                            {
+                                'id': 8,
+                                'track': {
+                                    'id': 15,
+                                    'title': 'Stay with Me'
+                                }
+                            }
+                        ],
+                        'id': 2,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'AAAAAA',
+                        'numTracks': 6,
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 7
+                                },
+                                'numMatches': 4
+                            },
+                            {
+                                'genre': {
+                                    'id': 8
+                                },
+                                'numMatches': 4
+                            },
+                            {
+                                'genre': {
+                                    'id': 9
+                                },
+                                'numMatches': 4
+                            },
+                            {
+                                'genre': {
+                                    'id': 10
+                                },
+                                'numMatches': 4
+                            },
+                            {
+                                'genre': {
+                                    'id': 3
+                                },
+                                'numMatches': 2
+                            }
+                        ],
+                        'type': 'PLAYLIST'
+                    }
+                ],
+                'total': 1
+            }
+        }
+    }
+)
+
+snapshots['test_playlists_pagination 1'] = (
+    True,
+    {
+        'data': {
+            'playlists': {
+                'results': [
+                    {
+                        'entries': [
+                            {
+                                'id': 3,
+                                'track': {
+                                    'id': 3,
+                                    'title': 'St. Joe Keeps Us Safe'
+                                }
+                            },
+                            {
+                                'id': 4,
+                                'track': {
+                                    'id': 4,
+                                    'title': 'Runnin’ Scared'
+                                }
+                            },
+                            {
+                                'id': 5,
+                                'track': {
+                                    'id': 13,
+                                    'title': 'Hope'
+                                }
+                            },
+                            {
+                                'id': 6,
+                                'track': {
+                                    'id': 14,
+                                    'title': 'Dreamer'
+                                }
+                            },
+                            {
+                                'id': 7,
+                                'track': {
+                                    'id': 14,
+                                    'title': 'Dreamer'
+                                }
+                            },
+                            {
+                                'id': 8,
+                                'track': {
+                                    'id': 15,
+                                    'title': 'Stay with Me'
+                                }
+                            }
+                        ],
+                        'id': 2,
+                        'lastUpdatedOn': 1603067134,
+                        'name': 'AAAAAA',
+                        'numTracks': 6,
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 7
+                                },
+                                'numMatches': 4
+                            },
+                            {
+                                'genre': {
+                                    'id': 8
+                                },
+                                'numMatches': 4
+                            },
+                            {
+                                'genre': {
+                                    'id': 9
+                                },
+                                'numMatches': 4
+                            },
+                            {
+                                'genre': {
+                                    'id': 10
+                                },
+                                'numMatches': 4
+                            },
+                            {
+                                'genre': {
+                                    'id': 3
+                                },
+                                'numMatches': 2
+                            }
+                        ],
+                        'type': 'PLAYLIST'
+                    }
+                ],
+                'total': 3
             }
         }
     }

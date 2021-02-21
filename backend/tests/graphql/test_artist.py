@@ -56,6 +56,37 @@ async def test_artists(graphql_query, snapshot):
     query = """
         query {
             artists {
+                total
+                results {
+                    ...ArtistFields
+                }
+            }
+        }
+    """
+    snapshot.assert_match(await graphql_query(query))
+
+
+@pytest.mark.asyncio
+async def test_artists_search(graphql_query, snapshot):
+    query = """
+        query {
+            artists(search: "west") {
+                total
+                results {
+                    ...ArtistFields
+                }
+            }
+        }
+    """
+    snapshot.assert_match(await graphql_query(query))
+
+
+@pytest.mark.asyncio
+async def test_artists_pagination(graphql_query, snapshot):
+    query = """
+        query {
+            artists(page: 2, perPage: 1) {
+                total
                 results {
                     ...ArtistFields
                 }
