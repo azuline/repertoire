@@ -1,15 +1,16 @@
 from __future__ import annotations
+from itertools import repeat
 
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional, Union
+from typing import Dict, Iterable, List, Optional, Tuple, Union
 
 from pysqlite3 import Connection, Row
 
-from src.enums import ArtistRole
+from src.enums import ArtistRole, TrackSort
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
-from src.util import update_dataclass, without_key
+from src.util import make_fts_match_query, update_dataclass, without_key
 
 from . import artist, release
 
@@ -115,6 +116,209 @@ def from_sha256(sha256: bytes, conn: Connection) -> Optional[T]:
 
     logger.debug("Failed to fetch track from SHA256 {sha256.hex()}.")
     return None
+
+
+def search(
+    conn: Connection,
+    *,
+    searchstr: str = "",
+    playlist_ids: List[int] = [],
+    artist_ids: List[int] = [],
+    years: List[int] = [],
+    page: int = 1,
+    per_page: Optional[int] = None,
+    sort: Optional[TrackSort] = None,
+    asc: bool = True,
+) -> List[T]:
+    """
+    Search for tracks matching the passed-in criteria. Parameters are optional;
+    omitted ones are excluded from the matching criteria.
+
+    :param searchstr: A search string. We split this up into individual punctuation-less
+                      tokens and return tracks whose titles and artists contain each
+                      token.
+    :param playlist_ids: A list of playlist IDs. We match tracks by the playlists in
+                         this list. For a track to match, it must be in all playlists in
+                         this list.
+    :param artist_ids: A list of artist IDs. We match tracks by the artists in this
+                       list. For a track to match, all artists in this list must be
+                       included.
+    :param years: A list of years. Filter out tracks that were not released in one of
+                  the years in this list.
+    :param page: Which page of tracks to return.
+    :param per_page: The number of tracks per page. Pass ``None`` to return all releases
+                     (this will ignore ``page``).
+    :param sort: How to sort the matching releases. If not explicitly passed, this
+                 defaults to ``SEARCH_RANK`` if ``searchstr`` is not ``None`` and
+                 ``RELEASE`` otherwise.
+    :param asc: If true, sort in ascending order. If false, descending.
+    :param conn: A connection to the database.
+    :return: The matching tracks on the current page.
+    """
+    filters, params = _generate_filters(searchstr, playlist_ids, artist_ids, years)
+
+    # Set the default sort if it's not specified
+    if not sort:
+        sort = TrackSort.SEARCH_RANK if searchstr else TrackSort.RELEASE
+
+    if per_page:
+        params.extend([per_page, (page - 1) * per_page])
+
+    cursor = conn.execute(
+        f"""
+        SELECT trks.*
+        FROM music__tracks AS trks
+        JOIN music__tracks__fts AS fts on fts.rowid = trks.id
+        JOIN music__releases AS rls ON rls.id = trks.release_id
+        {"WHERE " + " AND ".join(filters) if filters else ""}
+        GROUP BY trks.id
+        ORDER BY {sort.value} {"ASC" if asc else "DESC"}
+        {"LIMIT ? OFFSET ?" if per_page else ""}
+        """,
+        params,
+    )
+
+    logger.debug(f"Searched tracks with {cursor.rowcount} paged results.")
+    return [from_row(row) for row in cursor]
+
+
+def count(
+    conn: Connection,
+    *,
+    searchstr: str = "",
+    collection_ids: List[int] = [],
+    artist_ids: List[int] = [],
+    years: List[int] = [],
+) -> int:
+    """
+    Fetch the number of tracks matching the passed-in criteria. Parameters are
+    optional; omitted ones are excluded from the matching criteria.
+
+    :param searchstr: A search string. We split this up into individual punctuation-less
+                      tokens and return tracks whose titles and artists contain each
+                      token.
+    :param playlist_ids: A list of playlist IDs. We match tracks by the playlists in
+                         this list. For a track to match, it must be in all playlists in
+                         this list.
+    :param artist_ids: A list of artist IDs. We match tracks by the artists in this
+                       list. For a track to match, all artists in this list must be
+                       included.
+    :param years: A list of years. Filter out tracks that were not released in one of
+                  the years in this list.
+    :param conn: A connection to the database.
+    :return: The number of matching releases.
+    """
+    filters, params = _generate_filters(searchstr, collection_ids, artist_ids, years)
+
+    cursor = conn.execute(
+        f"""
+        SELECT COUNT(1)
+        FROM music__tracks AS trks
+        JOIN music__tracks__fts AS fts ON fts.rowid = trks.id
+        JOIN music__releases AS rls ON rls.id = trks.release_id
+        {"WHERE " + " AND ".join(filters) if filters else ""}
+        """,
+        params,
+    )
+
+    count = cursor.fetchone()[0]
+    logger.debug(f"Counted {count} tracks that matched the filters.")
+    return count
+
+
+def _generate_filters(
+    searchstr: str,
+    collection_ids: List[int],
+    artist_ids: List[int],
+    years: List[int],
+) -> Tuple[List[str], List[Union[str, int]]]:
+    """
+    Dynamically generate the SQL filters and parameters from the criteria. See the
+    search and total functions for parameter descriptions.
+
+    :return: A tuple of SQL filter strings and parameters. The SQL filter strings can be
+    joined with `` AND `` and injected into the where clause.
+    """
+    filters: List[str] = []
+    params: List[Union[str, int]] = []
+
+    for sql, sql_args in [
+        _generate_search_filter(searchstr),
+        _generate_collection_filter(collection_ids),
+        _generate_artist_filter(artist_ids),
+        _generate_year_filter(years),
+    ]:
+        filters.extend(sql)
+        params.extend(sql_args)  # type: ignore
+
+    return filters, params
+
+
+def _generate_search_filter(search: str) -> Tuple[Iterable[str], Iterable[str]]:
+    """
+    Generate the SQL and params for filtering on the search words.
+
+    :param search: The search words to filter on.
+    :return: The filter SQL and query parameters.
+    """
+    if not search:
+        return [], []
+
+    filter_sql = ["fts.music__tracks__fts MATCH ?"]
+    filter_params = [make_fts_match_query(search)]
+
+    return filter_sql, filter_params
+
+
+def _generate_collection_filter(
+    collection_ids: List[int],
+) -> Tuple[Iterable[str], Iterable[int]]:
+    """
+    Generate the SQL and params for filtering on collections.
+
+    :param collection_ids: The collection IDs to filter on.
+    :return: The filter SQL and query parameters.
+    """
+    sql = """
+          EXISTS (
+              SELECT 1 FROM music__playlists_tracks
+              WHERE track_id = trks.id AND playlist_id = ?
+          )
+          """
+
+    return repeat(sql, len(collection_ids)), collection_ids
+
+
+def _generate_artist_filter(
+    artist_ids: List[int],
+) -> Tuple[Iterable[str], Iterable[int]]:
+    """
+    Generate the SQL and params for filtering on artists.
+
+    :param artist_ids: The artist IDs to filter on.
+    :return: The filter SQL and query parameters.
+    """
+    sql = """
+          EXISTS (
+              SELECT 1 FROM music__tracks_artists
+              WHERE track_id = trks.id AND artist_id = ?
+          )
+          """
+
+    return repeat(sql, len(artist_ids)), artist_ids
+
+
+def _generate_year_filter(years: List[int]) -> Tuple[Iterable[str], Iterable[int]]:
+    """
+    Generate the SQL and params for filtering on the years.
+
+    :param years: The years to filter on.
+    :return: The filter SQL and query parameters.
+    """
+    if not years:
+        return [], []
+
+    return [f"rls.release_year IN ({', '.join('?' * len(years))})"], years
 
 
 def create(

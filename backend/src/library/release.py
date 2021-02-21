@@ -146,8 +146,8 @@ def search(
                        included.
     :param release_types: A list of release types. Filter out releases that do not match
                           one of the release types in this list.
-    :param years: A list of years. Filter out releases to do not match one of the years
-                  in this list.
+    :param years: A list of years. Filter out releases that were not released in one of
+                  the years in this list.
     :param ratings: A list of ratings. Filter out releases that do not match one of the
                     ratings in this list.
     :param page: Which page of releases to return.
@@ -231,8 +231,8 @@ def count(
                        included.
     :param release_types: A list of release types. Filter out releases that do not match
                           one of the release types in this list.
-    :param years: A list of years. Filter out releases to do not match one of the years
-                  in this list.
+    :param years: A list of years. Filter out releases that were not released in one of
+                  the years in this list.
     :param ratings: A list of ratings. Filter out releases that do not match one of the
                     ratings in this list.
     :param conn: A connection to the database.
@@ -292,6 +292,22 @@ def _generate_filters(
         params.extend(sql_args)  # type: ignore
 
     return filters, params
+
+
+def _generate_search_filter(search: str) -> Tuple[Iterable[str], Iterable[str]]:
+    """
+    Generate the SQL and params for filtering on the search words.
+
+    :param search: The search words to filter on.
+    :return: The filter SQL and query parameters.
+    """
+    if not search:
+        return [], []
+
+    filter_sql = ["fts.music__releases__fts MATCH ?"]
+    filter_params = [make_fts_match_query(search)]
+
+    return filter_sql, filter_params
 
 
 def _generate_collection_filter(
@@ -374,22 +390,6 @@ def _generate_rating_filter(ratings: List[int]) -> Tuple[Iterable[str], Iterable
         return [], []
 
     return [f"rls.rating IN ({', '.join('?' * len(ratings))})"], ratings
-
-
-def _generate_search_filter(search: str) -> Tuple[Iterable[str], Iterable[str]]:
-    """
-    Generate the SQL and params for filtering on the search words.
-
-    :param search: The search words to filter on.
-    :return: The filter SQL and query parameters.
-    """
-    if not search:
-        return [], []
-
-    filter_sql = ["fts.music__releases__fts MATCH ?"]
-    filter_params = [make_fts_match_query(search)]
-
-    return filter_sql, filter_params
 
 
 def create(

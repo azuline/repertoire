@@ -19,11 +19,11 @@ CREATE TABLE music__releases (
     FOREIGN KEY (image_id) REFERENCES images(id)
 );
 
-CREATE INDEX idx__music__releases__title ON music__releases (title);
-CREATE INDEX idx__music__releases__release_type ON music__releases (release_type);
-CREATE INDEX idx__music__releases__added_on ON music__releases (added_on);
-CREATE INDEX idx__music__releases__release_year ON music__releases (release_year);
-CREATE INDEX idx__music__releases__rating ON music__releases (rating);
+CREATE INDEX music__releases__title__idx ON music__releases (title);
+CREATE INDEX music__releases__release_type__idx ON music__releases (release_type);
+CREATE INDEX music__releases__added_on__idx ON music__releases (added_on);
+CREATE INDEX music__releases__release_year__idx ON music__releases (release_year);
+CREATE INDEX music__releases__rating__idx ON music__releases (rating);
 
 CREATE TABLE music__release_types__enum (
     id INTEGER NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE music__artists (
     PRIMARY KEY (id)
 );
 
-CREATE INDEX idx__music__artists__sorting ON music__artists (starred DESC, name);
+CREATE INDEX music__artists__sorting__idx ON music__artists (starred DESC, name);
 
 CREATE TABLE music__artist_roles__enum (
     id INTEGER NOT NULL,
@@ -94,6 +94,9 @@ CREATE TABLE music__tracks (
     UNIQUE (sha256)
 );
 
+CREATE INDEX music__tracks__disc_track_numbers__idx
+    ON music__tracks (disc_number, track_number);
+
 CREATE TABLE music__tracks_artists (
     track_id INTEGER NOT NULL,
     artist_id INTEGER NOT NULL,
@@ -114,8 +117,8 @@ CREATE TABLE music__collections (
     UNIQUE (name, type)
 );
 
-CREATE INDEX idx__music__collections__sorting ON
-    music__collections (type, starred DESC, name);
+CREATE INDEX music__collections__sorting__idx
+    ON music__collections (type, starred DESC, name);
 
 CREATE TABLE music__collection_types__enum (
     id INTEGER NOT NULL,
@@ -149,7 +152,7 @@ CREATE TABLE music__playlists (
     UNIQUE (name, type)
 );
 
-CREATE INDEX idx__music__playlists__sorting
+CREATE INDEX music__playlists__sorting__idx
     ON music__playlists (type, starred DESC, name);
 
 CREATE TABLE music__playlist_types__enum (
@@ -174,7 +177,7 @@ CREATE TABLE music__playlists_tracks (
     FOREIGN KEY (playlist_id) REFERENCES music__playlists(id) ON DELETE CASCADE
 );
 
-CREATE INDEX idx__music__playlists_tracks__playlist_position
+CREATE INDEX music__playlists_tracks__playlist_position__idx
     ON music__playlists_tracks (playlist_id, position);
 
 CREATE TABLE images (

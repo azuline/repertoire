@@ -74,3 +74,26 @@ class ReleaseSort(Enum):
     RANDOM = "RANDOM()"
     #:
     SEARCH_RANK = "fts.rank"
+
+
+class TrackSort(Enum):
+    """
+    The possible ways to sort tracks; used when querying the database for a list of
+    tracks.
+
+    The RECENTLY_ADDED, YEAR, AND RATING methods sort on the release fields and then on
+    the track's disc and track numbers.
+    """
+
+    #:
+    RECENTLY_ADDED = "rls.added_on, rls.id, trks.disc_number, trks.track_number"
+    #:
+    TITLE = "trks.title"
+    #:
+    YEAR = "rls.release_year IS NULL, rls.release_year, trks.disc_number, trks.track_number"
+    #:
+    RATING = "rls.rating IS NULL, rls.rating, trks.disc_number, trks.track_number"
+    #:
+    RANDOM = "RANDOM()"
+    #:
+    SEARCH_RANK = "fts.rank"
