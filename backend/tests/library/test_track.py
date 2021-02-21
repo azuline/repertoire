@@ -2,11 +2,11 @@ from pathlib import Path
 
 import pytest
 from pysqlite3 import Connection
-from tests.conftest import NUM_TRACKS
 
 from src.enums import ArtistRole, TrackSort
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
 from src.library import track
+from tests.conftest import NUM_TRACKS
 
 
 def test_exists(db: Connection):

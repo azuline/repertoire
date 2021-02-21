@@ -1,7 +1,7 @@
 from enum import Enum
+from string import Template
 
 from tagfiles import ArtistRoles
-from string import Template
 
 ArtistRole = ArtistRoles
 
