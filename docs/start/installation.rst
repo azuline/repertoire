@@ -38,7 +38,10 @@ for developers.
    Docker.
 
    See https://charlesleifer.com/blog/compiling-sqlite-for-use-with-python-applications/
-   for upgrade / installation instructions for SQLite.
+   for upgrade / installation instructions for SQLite. In addition to these
+   instructions, if your system already has a version of SQLite installed, you
+   may need to run ``export LD_LIBRARY_PATH=/usr/local/lib`` to get Python to
+   use the newly installed version of SQLite.
 
 .. _installation_docker:
 
