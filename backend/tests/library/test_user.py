@@ -1,5 +1,6 @@
+from sqlite3 import Connection
+
 import pytest
-from pysqlite3 import Connection
 from werkzeug.security import check_password_hash
 
 from src.errors import InvalidNickname

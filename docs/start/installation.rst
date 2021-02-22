@@ -28,6 +28,18 @@ for developers.
 
    Lines beginning with a `#` are comments and should not be executed.
 
+.. warning::
+
+   This only applies to Poetry and Pip+Virtualenv installations.
+
+   The backend requires SQLite version 3.34.0 or newer (for its trigram
+   tokenizer extension), which many systems do not have. If your system does
+   not have SQLite 3.34.0 or newer, you will need to upgrade or switch to
+   Docker.
+
+   See https://charlesleifer.com/blog/compiling-sqlite-for-use-with-python-applications/
+   for upgrade / installation instructions for SQLite.
+
 .. _installation_docker:
 
 Docker

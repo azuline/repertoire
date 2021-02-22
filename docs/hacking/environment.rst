@@ -37,22 +37,6 @@ commands.
    $ make schema     # (Re)generate `schema.sql`.
    $ make setupfiles # (Re)generate `setup.py` & `requirements.txt`.
 
-.. note::
-
-   The backend requires SQLite version 3.34.0 or newer, which many systems do
-   not have. Due to this, we use ``pysqlite3`` over ``sqlite3``, which takes us
-   off the system ``libsqlite3``.
-
-   Unfortunately, developer tooling, namely the ``yoyo`` migrations CLI tool,
-   uses the system version of libsqlite3. For developing the database, it is
-   strongly recommended that you have SQLite3 version 3.34.0 or above installed
-   on your system.
-
-   See https://charlesleifer.com/blog/compiling-sqlite-for-use-with-python-applications/
-   for upgrade / installation instructions for SQLite.
-
-   It is for this reason that we build SQLite in our CI jobs.
-
 Frontend
 --------
 

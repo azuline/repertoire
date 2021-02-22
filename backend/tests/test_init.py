@@ -1,4 +1,4 @@
-import pysqlite3 as sqlite3
+import sqlite3 as sqlite3
 
 from src import initialize_config, run_database_migrations
 

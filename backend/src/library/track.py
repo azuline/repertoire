@@ -4,9 +4,8 @@ import logging
 from dataclasses import dataclass
 from itertools import repeat
 from pathlib import Path
+from sqlite3 import Connection, Row
 from typing import Dict, Iterable, List, Optional, Tuple, Union
-
-from pysqlite3 import Connection, Row
 
 from src.enums import ArtistRole, TrackSort
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound

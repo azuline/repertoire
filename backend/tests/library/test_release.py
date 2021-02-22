@@ -1,7 +1,7 @@
 from datetime import date
+from sqlite3 import Connection
 
 import pytest
-from pysqlite3 import Connection
 
 from src.enums import CollectionType, ReleaseSort, ReleaseType
 from src.errors import AlreadyExists, DoesNotExist, Duplicate

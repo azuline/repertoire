@@ -1,5 +1,6 @@
+from sqlite3 import Connection
+
 import pytest
-from pysqlite3 import Connection
 
 from src.errors import Duplicate
 from src.library import artist

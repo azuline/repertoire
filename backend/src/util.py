@@ -1,12 +1,11 @@
 import logging
+import sqlite3 as sqlite3
 from contextlib import contextmanager
 from dataclasses import asdict
 from hashlib import sha256
 from pathlib import Path
 from string import ascii_uppercase
 from typing import Any, Dict, Iterable, List, Union
-
-import pysqlite3 as sqlite3
 
 from src.constants import Constants
 

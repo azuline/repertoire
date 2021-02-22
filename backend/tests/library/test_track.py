@@ -1,7 +1,7 @@
 from pathlib import Path
+from sqlite3 import Connection
 
 import pytest
-from pysqlite3 import Connection
 
 from src.enums import ArtistRole, TrackSort
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound

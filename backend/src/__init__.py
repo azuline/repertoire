@@ -1,8 +1,3 @@
-# Monkey patch yoyo to use pysqlite3 instead of sqlite3.
-from yoyo.backends import SQLiteBackend
-
-SQLiteBackend.driver_module = "pysqlite3"
-
 import logging
 import sys
 

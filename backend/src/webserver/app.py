@@ -5,9 +5,9 @@ Quart app instance, call ``create_app()``.
 
 import logging
 import secrets
+import sqlite3 as sqlite3
 import sys
 
-import pysqlite3 as sqlite3
 import quart
 from quart import Quart, Response
 from werkzeug.exceptions import HTTPException

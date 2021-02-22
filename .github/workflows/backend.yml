@@ -13,6 +13,8 @@ jobs:
     defaults:
       run:
         working-directory: 'backend/'
+    env:
+      LD_LIBRARY_PATH: /usr/local/lib
     steps:
       - uses: actions/checkout@v2
       - name: Cache SQLite
@@ -38,7 +40,7 @@ jobs:
       - name: Install poetry
         if: steps.cache-poetry.outputs.cache-hit != 'true'
         run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
-      - name: Configure PATH
+      - name: Configure environment
         run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: Cache dependencies
         id: cache-deps
@@ -59,6 +61,8 @@ jobs:
     defaults:
       run:
         working-directory: 'backend/'
+    env:
+      LD_LIBRARY_PATH: /usr/local/lib
     steps:
       - uses: actions/checkout@v2
       - name: Cache SQLite
@@ -84,7 +88,7 @@ jobs:
       - name: Install poetry
         if: steps.cache-poetry.outputs.cache-hit != 'true'
         run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
-      - name: Configure PATH
+      - name: Configure environment
         run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: Cache dependencies
         id: cache-deps
@@ -103,6 +107,8 @@ jobs:
     defaults:
       run:
         working-directory: 'backend/'
+    env:
+      LD_LIBRARY_PATH: /usr/local/lib
     steps:
       - uses: actions/checkout@v2
       - name: Cache SQLite
@@ -128,7 +134,7 @@ jobs:
       - name: Install poetry
         if: steps.cache-poetry.outputs.cache-hit != 'true'
         run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
-      - name: Configure PATH
+      - name: Configure environment
         run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: Cache dependencies
         id: cache-deps
@@ -147,6 +153,8 @@ jobs:
     defaults:
       run:
         working-directory: 'backend/'
+    env:
+      LD_LIBRARY_PATH: /usr/local/lib
     steps:
       - uses: actions/checkout@v2
       - name: Cache SQLite
@@ -172,7 +180,7 @@ jobs:
       - name: Install poetry
         if: steps.cache-poetry.outputs.cache-hit != 'true'
         run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
-      - name: Configure PATH
+      - name: Configure environment
         run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: Cache dependencies
         id: cache-deps
@@ -195,6 +203,8 @@ jobs:
     defaults:
       run:
         working-directory: 'backend/'
+    env:
+      LD_LIBRARY_PATH: /usr/local/lib
     steps:
       - uses: actions/checkout@v2
       - name: Cache SQLite
@@ -220,7 +230,7 @@ jobs:
       - name: Install poetry
         if: steps.cache-poetry.outputs.cache-hit != 'true'
         run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
-      - name: Configure PATH
+      - name: Configure environment
         run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: Cache dependencies
         id: cache-deps
