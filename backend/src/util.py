@@ -183,9 +183,9 @@ def freeze_database_time(conn: Connection):
     This function freezes the CURRENT_TIMESTAMP function in SQLite3 to
     "2020-01-01 01:01:01". This should only be used in testing.
     """
-    conn.create_function(
-        "CURRENT_TIMESTAMP",
-        0,
-        lambda: "2020-01-01 01:01:01",
-        deterministic=True,
-    )
+    # conn.create_function(
+    #     "CURRENT_TIMESTAMP",
+    #     0,
+    #     lambda: "2020-01-01 01:01:01",
+    #     deterministic=True,
+    # )
