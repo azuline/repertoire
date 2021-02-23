@@ -186,6 +186,10 @@ def freeze_database_time(conn: Connection):
     conn.create_function(
         "CURRENT_TIMESTAMP",
         0,
-        lambda: "2020-01-01 01:01:01",
+        _return_fake_timestamp,
         deterministic=True,
     )
+
+
+def _return_fake_timestamp() -> str:
+    return "2020-01-01 01:01:01"
