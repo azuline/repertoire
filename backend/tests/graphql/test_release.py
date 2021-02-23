@@ -163,8 +163,6 @@ async def test_create_release(db, graphql_query, snapshot):
         }
     """
     _, response = await graphql_query(query)
-    del response["data"]["createRelease"]["addedOn"]  # It changes every time.
-
     snapshot.assert_match(response)
     assert release.from_id(4, db) is not None
 

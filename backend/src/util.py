@@ -1,9 +1,11 @@
 import logging
-import sqlite3 as sqlite3
+import sqlite3
+import sys
 from contextlib import contextmanager
 from dataclasses import asdict
 from hashlib import sha256
 from pathlib import Path
+from sqlite3 import Connection
 from string import ascii_uppercase
 from typing import Any, Dict, Iterable, List, Union
 
@@ -15,19 +17,39 @@ logger = logging.getLogger(__name__)
 @contextmanager
 def database():
     """
-    A simple wrapper for the sqlite3 connection context manager.
+    A simple wrapper for the SQLite3 connection context manager.
 
     :return: A context manager that yields a database connection.
     """
+    conn = raw_database()
+    yield conn
+    conn.close()
+
+
+def raw_database(check_same_thread: bool = True) -> Connection:
+    """
+    A function that returns a SQLite3 connection. The caller is responsible for closing
+    the connection. You should use the ``database`` context manager unless you need
+    more control over when to close the connection.
+
+    :param check_same_thread: Whether only the creating thread can use the DB
+                              connection.
+    :return: A connection to the database.
+    """
     cons = Constants()
     logger.debug(f"Opening a connection to database {cons.database_path}.")
-    with sqlite3.connect(
+    conn = sqlite3.connect(
         cons.database_path,
         detect_types=sqlite3.PARSE_DECLTYPES,
-    ) as conn:
-        conn.row_factory = sqlite3.Row
-        conn.execute("PRAGMA foreign_keys = ON")
-        yield conn
+        check_same_thread=check_same_thread,
+    )
+
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA foreign_keys = ON")
+    if "pytest" in sys.modules:
+        freeze_database_time(conn)
+
+    return conn
 
 
 def without_key(mapping: Union[Dict, sqlite3.Row], key: Any) -> Dict:
@@ -154,3 +176,16 @@ def del_pagination_keys(mapping: Dict) -> Dict:
     """
     illegal_keys = ["page", "per_page", "sort", "asc"]
     return {k: v for k, v in mapping.items() if k not in illegal_keys}
+
+
+def freeze_database_time(conn: Connection):
+    """
+    This function freezes the CURRENT_TIMESTAMP function in SQLite3 to
+    "2020-01-01 01:01:01". This should only be used in testing.
+    """
+    conn.create_function(
+        "CURRENT_TIMESTAMP",
+        0,
+        lambda: "2020-01-01 01:01:01",
+        deterministic=True,
+    )

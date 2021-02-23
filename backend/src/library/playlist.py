@@ -61,26 +61,14 @@ def from_row(row: Union[Dict, Row]) -> T:
     """
     Return a playlist dataclass containing data from a row from the database.
 
-    _Note: For some reason, SQLite doesn't parse the ``last_updated_on`` row as a
-    ``datetime`` object, instead parsing it as a string. So we do the manual conversion
-    here to a datetime object.
-
     :param row: A row from the database.
     :return: A playlist dataclass.
     """
-    last_updated_on: Optional[datetime] = None
-
-    try:
-        last_updated_on = datetime.fromisoformat(row["last_updated_on"])
-    except (KeyError, TypeError):
-        pass
-
     return T(
         **dict(
             row,
             starred=bool(row["starred"]),
             type=PlaylistType(row["type"]),
-            last_updated_on=last_updated_on,
         )
     )
 
@@ -97,8 +85,7 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
         """
         SELECT
             plys.*,
-            COUNT(plystrks.track_id) AS num_tracks,
-            MAX(plystrks.added_on) AS last_updated_on
+            COUNT(plystrks.track_id) AS num_tracks
         FROM music__playlists AS plys
         LEFT JOIN music__playlists_tracks AS plystrks
             ON plystrks.playlist_id = plys.id
@@ -129,8 +116,7 @@ def from_name_and_type(name: str, type: PlaylistType, conn: Connection) -> Optio
         """
         SELECT
             plys.*,
-            COUNT(plystrks.track_id) AS num_tracks,
-            MAX(plystrks.added_on) AS last_updated_on
+            COUNT(plystrks.track_id) AS num_tracks
         FROM music__playlists AS plys
         LEFT JOIN music__playlists_tracks AS plystrks
             ON plystrks.playlist_id = plys.id
@@ -179,8 +165,7 @@ def search(
         f"""
         SELECT
             plys.*,
-            COUNT(plystrks.track_id) AS num_tracks,
-            MAX(plystrks.added_on) AS last_updated_on
+            COUNT(plystrks.track_id) AS num_tracks
         FROM music__playlists AS plys
         JOIN music__playlists__fts AS fts ON fts.rowid = plys.id
         LEFT JOIN music__playlists_tracks AS plystrks
@@ -281,13 +266,9 @@ def create(name: str, type: PlaylistType, conn: Connection, starred: bool = Fals
 
     logger.info(f'Created playlist "{name}" of type {type} with ID {cursor.lastrowid}.')
 
-    return T(
-        id=cursor.lastrowid,
-        name=name,
-        type=type,
-        starred=starred,
-        num_tracks=0,
-    )
+    ply = from_id(cursor.lastrowid, conn)
+    assert ply is not None
+    return ply
 
 
 def update(ply: T, conn: Connection, **changes) -> T:
@@ -318,16 +299,20 @@ def update(ply: T, conn: Connection, **changes) -> T:
     ):
         raise Duplicate(f'Playlist "{changes["name"]}" already exists.', dupl)
 
+    changes["last_updated_on"] = datetime.utcnow()
+
     conn.execute(
         """
         UPDATE music__playlists
         SET name = ?,
-            starred = ?
+            starred = ?,
+            last_updated_on = ?
         WHERE id = ?
         """,
         (
             changes.get("name", ply.name),
             changes.get("starred", ply.starred),
+            changes["last_updated_on"],
             ply.id,
         ),
     )
@@ -377,8 +362,7 @@ def top_genres(ply: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
          ...
        ]
 
-    The fields ``num_tracks`` and ``last_updated_on`` in the genre playlists are set
-    to ``None``.
+    The field ``num_releases`` in the genre collections is set to ``None``.
 
     :param ply: The playlist whose top genres to fetch.
     :param conn: A connection to the database.

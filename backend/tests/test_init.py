@@ -1,6 +1,7 @@
-import sqlite3 as sqlite3
+import sqlite3
 
 from src import initialize_config, run_database_migrations
+from src.util import freeze_database_time
 
 
 def test_run_database_migrations(isolated_dir):
@@ -10,6 +11,7 @@ def test_run_database_migrations(isolated_dir):
     assert db_path.exists()
 
     with sqlite3.connect(str(db_path)) as conn:
+        freeze_database_time(conn)
         cursor = conn.execute("SELECT 1 FROM _yoyo_version")
         assert len(cursor.fetchall()) > 0
 

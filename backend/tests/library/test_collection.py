@@ -136,14 +136,6 @@ def test_update_duplicate(db: Connection):
     assert e.value.entity.id == 3
 
 
-def test_update_nothing(db: Connection):
-    col = collection.from_id(4, db)
-    assert col is not None
-
-    new_col = collection.update(col, conn=db)
-    assert col == new_col
-
-
 def test_update_starred(db: Connection):
     col = collection.from_id(3, db)
     assert col is not None

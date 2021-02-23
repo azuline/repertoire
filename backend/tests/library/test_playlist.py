@@ -125,14 +125,6 @@ def test_update_duplicate(db: Connection):
     assert e.value.entity.id == 3
 
 
-def test_update_nothing(db: Connection):
-    ply = playlist.from_id(2, db)
-    assert ply is not None
-
-    new_ply = playlist.update(ply, conn=db)
-    assert ply == new_ply
-
-
 def test_update_starred(db: Connection):
     ply = playlist.from_id(3, db)
     assert ply is not None

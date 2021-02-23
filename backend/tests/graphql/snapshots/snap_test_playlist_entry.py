@@ -112,7 +112,7 @@ snapshots['test_delete_entries 1'] = (
                         }
                     ],
                     'id': 2,
-                    'lastUpdatedOn': 1603067134,
+                    'lastUpdatedOn': 1577840461,
                     'name': 'AAAAAA',
                     'numTracks': 4,
                     'starred': False,
@@ -191,7 +191,7 @@ snapshots['test_delete_entry 1'] = (
                         }
                     ],
                     'id': 1,
-                    'lastUpdatedOn': 1603067134,
+                    'lastUpdatedOn': 1577840461,
                     'name': 'Favorites',
                     'numTracks': 1,
                     'starred': True,

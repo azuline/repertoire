@@ -15,7 +15,7 @@ snapshots['test_create_playlist 1'] = (
                 'entries': [
                 ],
                 'id': 4,
-                'lastUpdatedOn': None,
+                'lastUpdatedOn': 1577840461,
                 'name': 'NewPlaylist',
                 'numTracks': 0,
                 'starred': True,
@@ -27,7 +27,7 @@ snapshots['test_create_playlist 1'] = (
     }
 )
 
-snapshots['test_create_playlist 2'] = GenericRepr("T(id=4, name='NewPlaylist', starred=True, type=<PlaylistType.PLAYLIST: 2>, num_tracks=0, last_updated_on=None)")
+snapshots['test_create_playlist 2'] = GenericRepr("T(id=4, name='NewPlaylist', starred=True, type=<PlaylistType.PLAYLIST: 2>, num_tracks=0, last_updated_on=FakeDatetime(2020, 1, 1, 1, 1, 1))")
 
 snapshots['test_create_playlist_duplicate 1'] = (
     True,
@@ -309,7 +309,7 @@ snapshots['test_playlists 1'] = (
                             }
                         ],
                         'id': 1,
-                        'lastUpdatedOn': 1603067134,
+                        'lastUpdatedOn': 1577840461,
                         'name': 'Favorites',
                         'numTracks': 2,
                         'starred': True,
@@ -345,7 +345,7 @@ snapshots['test_playlists 1'] = (
                         'entries': [
                         ],
                         'id': 3,
-                        'lastUpdatedOn': None,
+                        'lastUpdatedOn': 1603067134,
                         'name': 'BBBBBB',
                         'numTracks': 0,
                         'starred': True,
@@ -662,7 +662,7 @@ snapshots['test_playlists_type_param 1'] = (
                             }
                         ],
                         'id': 1,
-                        'lastUpdatedOn': 1603067134,
+                        'lastUpdatedOn': 1577840461,
                         'name': 'Favorites',
                         'numTracks': 2,
                         'starred': True,
@@ -698,7 +698,7 @@ snapshots['test_playlists_type_param 1'] = (
                         'entries': [
                         ],
                         'id': 3,
-                        'lastUpdatedOn': None,
+                        'lastUpdatedOn': 1603067134,
                         'name': 'BBBBBB',
                         'numTracks': 0,
                         'starred': True,
@@ -804,7 +804,7 @@ snapshots['test_update_playlist 1'] = (
                 'entries': [
                 ],
                 'id': 3,
-                'lastUpdatedOn': None,
+                'lastUpdatedOn': 1577840461,
                 'name': 'NewPlaylist',
                 'numTracks': 0,
                 'starred': True,
@@ -816,7 +816,7 @@ snapshots['test_update_playlist 1'] = (
     }
 )
 
-snapshots['test_update_playlist 2'] = GenericRepr("T(id=3, name='NewPlaylist', starred=True, type=<PlaylistType.PLAYLIST: 2>, num_tracks=0, last_updated_on=None)")
+snapshots['test_update_playlist 2'] = GenericRepr("T(id=3, name='NewPlaylist', starred=True, type=<PlaylistType.PLAYLIST: 2>, num_tracks=0, last_updated_on=FakeDatetime(2020, 1, 1, 1, 1, 1))")
 
 snapshots['test_update_playlist_duplicate 1'] = (
     True,
@@ -842,7 +842,7 @@ snapshots['test_update_playlist_duplicate 1'] = (
     }
 )
 
-snapshots['test_update_playlist_duplicate 2'] = GenericRepr("T(id=2, name='AAAAAA', starred=False, type=<PlaylistType.PLAYLIST: 2>, num_tracks=6, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
+snapshots['test_update_playlist_duplicate 2'] = GenericRepr("T(id=2, name='AAAAAA', starred=False, type=<PlaylistType.PLAYLIST: 2>, num_tracks=6, last_updated_on=FakeDatetime(2020, 10, 19, 0, 25, 34))")
 
 snapshots['test_update_playlist_immutable 1'] = (
     True,
@@ -868,7 +868,7 @@ snapshots['test_update_playlist_immutable 1'] = (
     }
 )
 
-snapshots['test_update_playlist_immutable 2'] = GenericRepr("T(id=1, name='Favorites', starred=True, type=<PlaylistType.SYSTEM: 1>, num_tracks=2, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
+snapshots['test_update_playlist_immutable 2'] = GenericRepr("T(id=1, name='Favorites', starred=True, type=<PlaylistType.SYSTEM: 1>, num_tracks=2, last_updated_on=FakeDatetime(2020, 1, 1, 1, 1, 1))")
 
 snapshots['test_update_playlist_not_found 1'] = (
     True,

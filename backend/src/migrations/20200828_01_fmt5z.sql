@@ -112,6 +112,7 @@ CREATE TABLE music__collections (
     name VARCHAR COLLATE 'NOCASE' NOT NULL,
     starred BOOLEAN NOT NULL DEFAULT 0 CHECK (starred IN (0, 1)),
     type INTEGER NOT NULL,
+    last_updated_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (type) REFERENCES music__collection_types__enum(id),
     UNIQUE (name, type)
@@ -147,6 +148,7 @@ CREATE TABLE music__playlists (
     name VARCHAR COLLATE 'NOCASE' NOT NULL,
     starred BOOLEAN NOT NULL DEFAULT 0 CHECK (starred IN (0, 1)),
     type INTEGER NOT NULL,
+    last_updated_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (type) REFERENCES music__playlist_types__enum(id),
     UNIQUE (name, type)

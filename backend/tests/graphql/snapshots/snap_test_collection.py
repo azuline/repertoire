@@ -14,7 +14,7 @@ snapshots['test_add_release_to_collection 1'] = (
             'addReleaseToCollection': {
                 'collection': {
                     'id': 2,
-                    'lastUpdatedOn': None,
+                    'lastUpdatedOn': 1577840461,
                     'name': 'Favorites',
                     'numReleases': 1,
                     'releases': [
@@ -141,7 +141,7 @@ snapshots['test_add_release_to_collection 1'] = (
 )
 
 snapshots['test_add_release_to_collection 2'] = [
-    GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, in_favorites=True, rating=6, runtime=2258, release_date=datetime.date(2014, 7, 8), image_id=1)")
+    GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=FakeDatetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, in_favorites=True, rating=6, runtime=2258, release_date=FakeDate(2014, 7, 8), image_id=1)")
 ]
 
 snapshots['test_add_release_to_collection_already_exists 1'] = (
@@ -169,7 +169,7 @@ snapshots['test_add_release_to_collection_already_exists 1'] = (
 )
 
 snapshots['test_add_release_to_collection_already_exists 2'] = [
-    GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=datetime.datetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, in_favorites=False, rating=6, runtime=2258, release_date=datetime.date(2014, 7, 8), image_id=1)")
+    GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=FakeDatetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, in_favorites=False, rating=6, runtime=2258, release_date=FakeDate(2014, 7, 8), image_id=1)")
 ]
 
 snapshots['test_add_release_to_collection_bad_collection 1'] = (
@@ -375,7 +375,7 @@ snapshots['test_collections 1'] = (
                 'results': [
                     {
                         'id': 2,
-                        'lastUpdatedOn': None,
+                        'lastUpdatedOn': 1577840461,
                         'name': 'Favorites',
                         'numReleases': 0,
                         'releases': [
@@ -387,7 +387,7 @@ snapshots['test_collections 1'] = (
                     },
                     {
                         'id': 1,
-                        'lastUpdatedOn': 1603067134,
+                        'lastUpdatedOn': 1577840461,
                         'name': 'Inbox',
                         'numReleases': 2,
                         'releases': [
@@ -437,7 +437,7 @@ snapshots['test_collections 1'] = (
                     },
                     {
                         'id': 11,
-                        'lastUpdatedOn': None,
+                        'lastUpdatedOn': 1603067134,
                         'name': 'MyLabel',
                         'numReleases': 0,
                         'releases': [
@@ -928,7 +928,7 @@ snapshots['test_collections_type_param 1'] = (
                 'results': [
                     {
                         'id': 2,
-                        'lastUpdatedOn': None,
+                        'lastUpdatedOn': 1577840461,
                         'name': 'Favorites',
                         'numReleases': 0,
                         'releases': [
@@ -940,7 +940,7 @@ snapshots['test_collections_type_param 1'] = (
                     },
                     {
                         'id': 1,
-                        'lastUpdatedOn': 1603067134,
+                        'lastUpdatedOn': 1577840461,
                         'name': 'Inbox',
                         'numReleases': 2,
                         'releases': [
@@ -1320,7 +1320,7 @@ snapshots['test_create_collection 1'] = (
         'data': {
             'createCollection': {
                 'id': 12,
-                'lastUpdatedOn': None,
+                'lastUpdatedOn': 1577840461,
                 'name': 'NewCollection',
                 'numReleases': 0,
                 'releases': [
@@ -1334,7 +1334,7 @@ snapshots['test_create_collection 1'] = (
     }
 )
 
-snapshots['test_create_collection 2'] = GenericRepr("T(id=12, name='NewCollection', starred=True, type=<CollectionType.COLLAGE: 2>, num_releases=0, last_updated_on=None)")
+snapshots['test_create_collection 2'] = GenericRepr("T(id=12, name='NewCollection', starred=True, type=<CollectionType.COLLAGE: 2>, num_releases=0, last_updated_on=FakeDatetime(2020, 1, 1, 1, 1, 1))")
 
 snapshots['test_create_collection_duplicate 1'] = (
     True,
@@ -1367,7 +1367,7 @@ snapshots['test_del_release_from_collection 1'] = (
             'delReleaseFromCollection': {
                 'collection': {
                     'id': 1,
-                    'lastUpdatedOn': 1603067134,
+                    'lastUpdatedOn': 1577840461,
                     'name': 'Inbox',
                     'numReleases': 1,
                     'releases': [
@@ -1494,7 +1494,7 @@ snapshots['test_del_release_from_collection 1'] = (
 )
 
 snapshots['test_del_release_from_collection 2'] = [
-    GenericRepr("T(id=3, title='Departure', release_type=<ReleaseType.EP: 3>, added_on=datetime.datetime(2020, 10, 19, 8, 29, 34), release_year=2016, num_tracks=11, in_inbox=True, in_favorites=False, rating=None, runtime=3513, release_date=None, image_id=2)")
+    GenericRepr("T(id=3, title='Departure', release_type=<ReleaseType.EP: 3>, added_on=FakeDatetime(2020, 10, 19, 8, 29, 34), release_year=2016, num_tracks=11, in_inbox=True, in_favorites=False, rating=None, runtime=3513, release_date=None, image_id=2)")
 ]
 
 snapshots['test_del_release_from_collection_bad_collection 1'] = (
@@ -1578,7 +1578,7 @@ snapshots['test_update_collection 1'] = (
         'data': {
             'updateCollection': {
                 'id': 3,
-                'lastUpdatedOn': 1603067134,
+                'lastUpdatedOn': 1577840461,
                 'name': 'NewCollection',
                 'numReleases': 1,
                 'releases': [
@@ -1620,7 +1620,7 @@ snapshots['test_update_collection 1'] = (
     }
 )
 
-snapshots['test_update_collection 2'] = GenericRepr("T(id=3, name='NewCollection', starred=True, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
+snapshots['test_update_collection 2'] = GenericRepr("T(id=3, name='NewCollection', starred=True, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=FakeDatetime(2020, 1, 1, 1, 1, 1))")
 
 snapshots['test_update_collection_duplicate 1'] = (
     True,
@@ -1646,7 +1646,7 @@ snapshots['test_update_collection_duplicate 1'] = (
     }
 )
 
-snapshots['test_update_collection_duplicate 2'] = GenericRepr("T(id=7, name='Downtempo', starred=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
+snapshots['test_update_collection_duplicate 2'] = GenericRepr("T(id=7, name='Downtempo', starred=False, type=<CollectionType.GENRE: 4>, num_releases=1, last_updated_on=FakeDatetime(2020, 10, 19, 0, 25, 34))")
 
 snapshots['test_update_collection_immutable 1'] = (
     True,
@@ -1672,7 +1672,7 @@ snapshots['test_update_collection_immutable 1'] = (
     }
 )
 
-snapshots['test_update_collection_immutable 2'] = GenericRepr("T(id=1, name='Inbox', starred=True, type=<CollectionType.SYSTEM: 1>, num_releases=2, last_updated_on=datetime.datetime(2020, 10, 19, 0, 25, 34))")
+snapshots['test_update_collection_immutable 2'] = GenericRepr("T(id=1, name='Inbox', starred=True, type=<CollectionType.SYSTEM: 1>, num_releases=2, last_updated_on=FakeDatetime(2020, 1, 1, 1, 1, 1))")
 
 snapshots['test_update_collection_not_found 1'] = (
     True,

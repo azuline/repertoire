@@ -291,6 +291,8 @@ def top_genres(art: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
          ...
        ]
 
+    The field ``num_releases`` in the genre collections is set to ``None``.
+
     :param art: The artist whose top genres to fetch.
     :param conn: A connection to the database.
     :param num_genres: The number of top genres to fetch.

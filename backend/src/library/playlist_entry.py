@@ -158,6 +158,15 @@ def create(playlist_id: int, track_id: int, conn: Connection) -> T:
         (playlist_id, track_id, _highest_position(playlist_id, conn) + 1),
     )
 
+    conn.execute(
+        """
+        UPDATE music__playlists
+        SET last_updated_on = CURRENT_TIMESTAMP
+        WHERE id = ?
+        """,
+        (playlist_id,),
+    )
+
     logger.info(
         f"Created entry {cursor.lastrowid} with "
         "track {track_id} and playlist {playlist_id}."
@@ -188,6 +197,15 @@ def delete(ety: T, conn: Connection):
         WHERE playlist_id = ? AND position > ?
         """,
         (ety.playlist_id, ety.position),
+    )
+
+    conn.execute(
+        """
+        UPDATE music__playlists
+        SET last_updated_on = CURRENT_TIMESTAMP
+        WHERE id = ?
+        """,
+        (ety.playlist_id,),
     )
 
     logger.info(f"Deleted entry {ety.id}.")
@@ -243,6 +261,15 @@ def update(ety: T, position: int, conn: Connection) -> T:
             """,
             (position, ety.id),
         )
+
+    conn.execute(
+        """
+        UPDATE music__playlists
+        SET last_updated_on = CURRENT_TIMESTAMP
+        WHERE id = ?
+        """,
+        (ety.playlist_id,),
+    )
 
     logger.info(f"Updated position of entry {id} to {position}.")
     return update_dataclass(ety, position=position)

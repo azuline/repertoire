@@ -16,4 +16,6 @@ def token():
         else:
             _, token = user.create("admin", conn)
 
+        conn.commit()
+
     click.echo(f"Generated new authorization token: {token.hex()}")

@@ -697,8 +697,7 @@ def collections(
         f"""
         SELECT
             collections.*,
-            COUNT(colsrls.release_id) AS num_releases,
-            MAX(colsrls.added_on) AS last_updated_on
+            COUNT(colsrls.release_id) AS num_releases
         FROM (
             SELECT cols.*
             FROM music__collections AS cols

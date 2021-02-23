@@ -1,5 +1,5 @@
 import shutil
-import sqlite3 as sqlite3
+import sqlite3
 from pathlib import Path
 from sqlite3 import Connection
 
@@ -7,6 +7,7 @@ import pytest
 import quart
 from ariadne import graphql
 from click.testing import CliRunner
+from freezegun import freeze_time
 from quart.testing import QuartClient
 from yoyo import get_backend, read_migrations
 
@@ -14,7 +15,7 @@ from src.config import Config, _Config
 from src.constants import Constants
 from src.graphql import error_formatter, schema
 from src.library import user
-from src.util import database
+from src.util import database, freeze_database_time
 from src.webserver.app import create_app
 from src.webserver.routes.graphql import GraphQLContext
 from tests.fragments import FRAGMENTS
@@ -44,6 +45,8 @@ def seed_db():
     db_backend = get_backend(f"sqlite:///{db_path}")
     db_migrations = read_migrations(str(cons.migrations_path))
 
+    freeze_database_time(db_backend._connection)
+
     with db_backend.lock():
         db_backend.apply_migrations(db_backend.to_apply(db_migrations))
 
@@ -51,6 +54,7 @@ def seed_db():
         test_sql = f.read()
 
     with sqlite3.connect(db_path) as conn:
+        freeze_database_time(conn)
         conn.executescript(test_sql)
         conn.commit()
 
@@ -62,6 +66,12 @@ def isolated_dir(seed_db):
         cons.data_path = Path.cwd() / "_data"
         cons.data_path.mkdir()
         yield Path.cwd()
+
+
+@pytest.fixture(autouse=True)
+def stop_the_clock():
+    with freeze_time("2020-01-01 01:01:01"):
+        yield
 
 
 @pytest.fixture

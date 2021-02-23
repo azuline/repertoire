@@ -57,26 +57,14 @@ def from_row(row: Union[Dict, Row]) -> T:
     """
     Return a collection dataclass containing data from a row from the database.
 
-    _Note: For some reason, SQLite doesn't parse the ``last_updated_on`` row as a
-    ``datetime`` object, instead parsing it as a string. So we do the manual conversion
-    here to a datetime object.
-
     :param row: A row from the database.
     :return: A collection dataclass.
     """
-    last_updated_on: Optional[datetime] = None
-
-    try:
-        last_updated_on = datetime.fromisoformat(row["last_updated_on"])
-    except (KeyError, TypeError):
-        pass
-
     return T(
         **dict(
             row,
             starred=bool(row["starred"]),
             type=CollectionType(row["type"]),
-            last_updated_on=last_updated_on,
         )
     )
 
@@ -93,8 +81,7 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
         """
         SELECT
             cols.*,
-            COUNT(colsrls.release_id) AS num_releases,
-            MAX(colsrls.added_on) AS last_updated_on
+            COUNT(colsrls.release_id) AS num_releases
         FROM music__collections AS cols
         LEFT JOIN music__collections_releases AS colsrls
             ON colsrls.collection_id = cols.id
@@ -127,8 +114,7 @@ def from_name_and_type(
         """
         SELECT
             cols.*,
-            COUNT(colsrls.release_id) AS num_releases,
-            MAX(colsrls.added_on) AS last_updated_on
+            COUNT(colsrls.release_id) AS num_releases
         FROM music__collections AS cols
         LEFT JOIN music__collections_releases AS colsrls
             ON colsrls.collection_id = cols.id
@@ -180,8 +166,7 @@ def search(
         f"""
         SELECT
             cols.*,
-            COUNT(colsrls.release_id) AS num_releases,
-            MAX(colsrls.added_on) AS last_updated_on
+            COUNT(colsrls.release_id) AS num_releases
         FROM music__collections AS cols
         JOIN music__collections__fts AS fts ON fts.rowid = cols.id
         LEFT JOIN music__collections_releases AS colsrls
@@ -286,13 +271,9 @@ def create(
         f'Created collection "{name}" of type {type} with ID {cursor.lastrowid}.'
     )
 
-    return T(
-        id=cursor.lastrowid,
-        name=name,
-        type=type,
-        starred=starred,
-        num_releases=0,
-    )
+    col = from_id(cursor.lastrowid, conn)
+    assert col is not None
+    return col
 
 
 def update(col: T, conn: Connection, **changes) -> T:
@@ -323,16 +304,20 @@ def update(col: T, conn: Connection, **changes) -> T:
     ):
         raise Duplicate(f'Collection "{changes["name"]}" already exists.', dupl)
 
+    changes["last_updated_on"] = datetime.utcnow()
+
     conn.execute(
         """
         UPDATE music__collections
         SET name = ?,
-            starred = ?
+            starred = ?,
+            last_updated_on = ?
         WHERE id = ?
         """,
         (
             changes.get("name", col.name),
             changes.get("starred", col.starred),
+            changes["last_updated_on"],
             col.id,
         ),
     )
@@ -389,6 +374,20 @@ def add_release(col: T, release_id: int, conn: Connection) -> T:
         (col.id, release_id),
     )
 
+    now = datetime.now()
+
+    conn.execute(
+        """
+        UPDATE music__collections
+        SET last_updated_on = ?
+        WHERE id = ?
+        """,
+        (
+            col.id,
+            now,
+        ),
+    )
+
     logger.info(f"Added release {release_id} to collection {col.id}.")
 
     return update_dataclass(
@@ -396,6 +395,7 @@ def add_release(col: T, release_id: int, conn: Connection) -> T:
         num_releases=(
             col.num_releases + 1 if col.num_releases is not None else col.num_releases
         ),
+        last_updated_on=now,
     )
 
 
@@ -433,6 +433,20 @@ def del_release(col: T, release_id: int, conn: Connection) -> T:
         (col.id, release_id),
     )
 
+    now = datetime.utcnow()
+
+    conn.execute(
+        """
+        UPDATE music__collections
+        SET last_updated_on = ?
+        WHERE id = ?
+        """,
+        (
+            now,
+            col.id,
+        ),
+    )
+
     logger.info(f"Deleted release {release_id} from collection {col.id}.")
 
     return update_dataclass(
@@ -440,6 +454,7 @@ def del_release(col: T, release_id: int, conn: Connection) -> T:
         num_releases=(
             col.num_releases - 1 if col.num_releases is not None else col.num_releases
         ),
+        last_updated_on=now,
     )
 
 
@@ -459,8 +474,7 @@ def top_genres(col: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
          ...
        ]
 
-    The fields ``num_releases`` and ``last_updated_on`` in the genre collections are set
-    to ``None``.
+    The field ``num_releases`` in the genre collections is set to ``None``.
 
     :param col: The collection whose top genres to fetch.
     :param conn: A connection to the database.

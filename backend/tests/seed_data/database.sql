@@ -58,15 +58,15 @@ INSERT INTO music__tracks_artists VALUES(19,4,1);
 INSERT INTO music__tracks_artists VALUES(20,4,1);
 INSERT INTO music__tracks_artists VALUES(21,4,1);
 
-INSERT INTO music__collections VALUES(3,'Folk',0,4);
-INSERT INTO music__collections VALUES(4,'Rock',0,4);
-INSERT INTO music__collections VALUES(5,'Country',0,4);
-INSERT INTO music__collections VALUES(6,'World',0,4);
-INSERT INTO music__collections VALUES(7,'Downtempo',0,4);
-INSERT INTO music__collections VALUES(8,'Electronic',0,4);
-INSERT INTO music__collections VALUES(9,'House',0,4);
-INSERT INTO music__collections VALUES(10,'Ambient',0,4);
-INSERT INTO music__collections VALUES(11,'MyLabel',0,3);
+INSERT INTO music__collections VALUES(3,'Folk',0,4,'2020-10-19 00:25:34');
+INSERT INTO music__collections VALUES(4,'Rock',0,4,'2020-10-19 00:25:34');
+INSERT INTO music__collections VALUES(5,'Country',0,4,'2020-10-19 00:25:34');
+INSERT INTO music__collections VALUES(6,'World',0,4,'2020-10-19 00:25:34');
+INSERT INTO music__collections VALUES(7,'Downtempo',0,4,'2020-10-19 00:25:34');
+INSERT INTO music__collections VALUES(8,'Electronic',0,4,'2020-10-19 00:25:34');
+INSERT INTO music__collections VALUES(9,'House',0,4,'2020-10-19 00:25:34');
+INSERT INTO music__collections VALUES(10,'Ambient',0,4,'2020-10-19 00:25:34');
+INSERT INTO music__collections VALUES(11,'MyLabel',0,3,'2020-10-19 00:25:34');
 
 INSERT INTO music__collections_releases VALUES(1,2,'2020-10-19 00:25:34');
 INSERT INTO music__collections_releases VALUES(3,2,'2020-10-19 00:25:34');
@@ -79,8 +79,8 @@ INSERT INTO music__collections_releases VALUES(8,3,'2020-10-19 00:25:34');
 INSERT INTO music__collections_releases VALUES(9,3,'2020-10-19 00:25:34');
 INSERT INTO music__collections_releases VALUES(10,3,'2020-10-19 00:25:34');
 
-INSERT INTO music__playlists VALUES(2,'AAAAAA',0,2);
-INSERT INTO music__playlists VALUES(3,'BBBBBB',1,2);
+INSERT INTO music__playlists VALUES(2,'AAAAAA',0,2,'2020-10-19 00:25:34');
+INSERT INTO music__playlists VALUES(3,'BBBBBB',1,2,'2020-10-19 00:25:34');
 
 INSERT INTO music__playlists_tracks VALUES(1,1,1,'2020-10-19 00:25:34',1);
 INSERT INTO music__playlists_tracks VALUES(2,1,2,'2020-10-19 00:25:34',2);

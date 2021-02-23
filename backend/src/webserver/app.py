@@ -5,7 +5,6 @@ Quart app instance, call ``create_app()``.
 
 import logging
 import secrets
-import sqlite3 as sqlite3
 import sys
 
 import quart
@@ -13,7 +12,7 @@ from quart import Quart, Response
 from werkzeug.exceptions import HTTPException
 
 from src.constants import Constants
-from src.util import database
+from src.util import database, raw_database
 from src.webserver.routes import files, graphql, session
 
 SECRET_LENGTH = 32
@@ -122,16 +121,7 @@ def _register_database_handler(app: Quart):
 
     @app.before_request
     def connect_to_db() -> None:
-        cons = Constants()
-        logger.debug(f"Opening a connection to database {cons.database_path}.")
-        conn = sqlite3.connect(
-            cons.database_path,
-            detect_types=sqlite3.PARSE_DECLTYPES,
-            check_same_thread=False,
-        )
-        conn.row_factory = sqlite3.Row
-        conn.execute("PRAGMA foreign_keys = ON")
-        quart.g.db = conn  # type: ignore
+        quart.g.db = raw_database(check_same_thread=False)  # type: ignore
 
     @app.after_request
     def close_db_connection(response: Response) -> Response:
