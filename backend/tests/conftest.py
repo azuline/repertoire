@@ -1,7 +1,6 @@
 import shutil
 import sqlite3
 from pathlib import Path
-from sqlite3 import Connection
 
 import pytest
 import quart
@@ -122,22 +121,23 @@ async def quart_client(quart_app):
 
 
 @pytest.fixture
-def graphql_query(db: Connection, quart_app: QuartClient):
+def graphql_query(seed_data, quart_app: QuartClient):
     async def executor(query):
         used_fragments = "\n".join(v for k, v in FRAGMENTS.items() if k in query)
         query = f"{query}\n{used_fragments}"
 
         async with quart_app.test_request_context("/testing", method="GET"):
-            return await graphql(
-                schema=schema,
-                data={"operationName": None, "variables": {}, "query": query},
-                context_value=GraphQLContext(
-                    user=user.from_id(1, db),  # type: ignore
-                    db=db,
-                    request=quart.request,
-                ),
-                error_formatter=error_formatter,
-                debug=False,
-            )
+            with database() as conn:
+                return await graphql(
+                    schema=schema,
+                    data={"operationName": None, "variables": {}, "query": query},
+                    context_value=GraphQLContext(
+                        user=user.from_id(1, conn),  # type: ignore
+                        db=conn,
+                        request=quart.request,
+                    ),
+                    error_formatter=error_formatter,
+                    debug=False,
+                )
 
     yield executor
