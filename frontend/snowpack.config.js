@@ -1,6 +1,8 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 const httpProxy = require('http-proxy');
-const proxy = httpProxy.createServer({ target: 'http://localhost:5000' });
+
+const backendHost = process.env.BACKEND_HOST ?? 'localhost';
+const proxy = httpProxy.createServer({ target: `http://${backendHost}:5000` });
 
 module.exports = {
   extends: '@snowpack/app-scripts-react',
@@ -24,6 +26,7 @@ module.exports = {
   },
   devOptions: {
     port: 3000,
+    output: 'stream',
   },
   buildOptions: {},
 };

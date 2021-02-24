@@ -1,13 +1,21 @@
+# This docker-compose file is for local development. For a production
+# docker-compose file, refer to the documentation's Installation page.
+
 version: '3'
 services:
-  server:
-    build: .
-    command: start
+  backend:
+    build: ./backend
     ports:
-      - "127.0.0.1:45731:45731"
+      - "127.0.0.1:5000:5000"
     volumes:
-      - data:/data
-      - /my/music1:/music/lib1
-      - /my/music2:/music/lib2
-volumes:
-  data:
+      - ./backend:/app
+      - ./data:/data
+      - ./testlib:/music
+  frontend:
+    build: ./frontend
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - ./frontend:/app
+      - ./data:/data
+      - ./testlib:/music

@@ -1,6 +1,6 @@
-########################
-### FRONTEND BUILDER ###
-########################
+# This is a Dockerfile for building production images.
+
+# Frontend builder.
 
 FROM mhart/alpine-node:15.8.0 AS builder
 
@@ -14,9 +14,7 @@ RUN yarn install
 COPY frontend/ ./
 RUN yarn build
 
-#######################
-### BACKEND COMMAND ###
-#######################
+# Backend server.
 
 FROM python:3.9.1-alpine
 

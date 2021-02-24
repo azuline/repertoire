@@ -64,5 +64,5 @@ force-exclude = '''
 '''
 
 [build-system]
-requires = ["poetry>=0.12", "setuptools", "wheel"]
+requires = ["poetry>=1.1.4", "setuptools", "wheel"]
 build-src = "poetry.masonry.api"
