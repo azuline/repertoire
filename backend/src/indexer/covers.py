@@ -3,7 +3,7 @@ import os
 from hashlib import sha256
 from pathlib import Path
 from sqlite3 import Connection
-from typing import Generator, List, Optional, Tuple
+from typing import Generator, Optional
 
 from tagfiles import TagFile
 
@@ -57,7 +57,7 @@ def save_pending_covers() -> None:
         conn.commit()
 
 
-def _get_pending_releases(conn: Connection) -> List[int]:
+def _get_pending_releases(conn: Connection) -> list[int]:
     """
     Return the release ids of the releases pending cover art extraction.
 
@@ -94,7 +94,7 @@ def _update_release_image(rls_id: int, img: image.T, conn: Connection) -> None:
     :param image_path: The image path to set for the release.
     :param conn: A conn to the database.
     """
-    logger.debug(f"Setting image for release {rls_id}.")
+    logger.debug(f"setting image for release {rls_id}.")
     conn.execute(
         "UPDATE music__releases SET image_id = ? WHERE id = ?", (img.id, rls_id)
     )
@@ -178,7 +178,7 @@ def _save_external_image(tf: TagFile) -> Optional[Path]:
 
 def _get_possible_cover_paths(
     track_path: Path,
-) -> Generator[Tuple[Path, str], None, None]:
+) -> Generator[tuple[Path, str], None, None]:
     """
     Generate and yield tuples of possible cover filepaths and the file extension of that
     path.

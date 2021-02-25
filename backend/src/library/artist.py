@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from sqlite3 import Connection, Row
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Optional, Union
 
 from src.enums import CollectionType
 from src.errors import Duplicate
@@ -42,7 +42,7 @@ def exists(id: int, conn: Connection) -> bool:
     return bool(cursor.fetchone())
 
 
-def from_row(row: Union[Dict, Row]) -> T:
+def from_row(row: Union[dict, Row]) -> T:
     """
     Return an artist dataclass containing data from a row from the database.
 
@@ -117,7 +117,7 @@ def search(
     search: str = "",
     page: int = 1,
     per_page: Optional[int] = None,
-) -> List[T]:
+) -> list[T]:
     """
     Search for artists. Parameters are optional; omitted ones are excluded from the
     matching criteria.
@@ -161,7 +161,7 @@ def search(
 def count(
     conn: Connection,
     search: str = "",
-) -> List[T]:
+) -> list[T]:
     """
     Fetch the number of artists matching the passed-in criteria. Parameters are
     optional; omitted ones are excluded from the matching criteria.
@@ -188,7 +188,7 @@ def count(
     return count
 
 
-def _generate_filters(search: str = "") -> Tuple[List[str], List[Union[str, int]]]:
+def _generate_filters(search: str = "") -> tuple[list[str], list[Union[str, int]]]:
     """
     Dynamically generate the SQL filters and parameters from the criteria. See the
     search and total functions for parameter descriptions.
@@ -196,8 +196,8 @@ def _generate_filters(search: str = "") -> Tuple[List[str], List[Union[str, int]
     :return: A tuple of SQL filter strings and parameters. The SQL filter strings can be
     joined with `` AND `` and injected into the where clause.
     """
-    filters: List[str] = []
-    params: List[Union[str, int]] = []
+    filters: list[str] = []
+    params: list[Union[str, int]] = []
 
     if search:
         filters.append("fts.music__artists__fts MATCH ?")
@@ -262,7 +262,7 @@ def update(art: T, conn: Connection, **changes) -> T:
     return update_dataclass(art, **changes)
 
 
-def releases(art: T, conn: Connection) -> List[release.T]:
+def releases(art: T, conn: Connection) -> list[release.T]:
     """
     Get the releases of an artist.
 
@@ -275,7 +275,7 @@ def releases(art: T, conn: Connection) -> List[release.T]:
     return releases
 
 
-def top_genres(art: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
+def top_genres(art: T, conn: Connection, *, num_genres: int = 5) -> list[dict]:
     """
     Get the top genre collections of the releases of an artist.
 

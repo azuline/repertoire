@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Optional
 
 import pytest
 import quart
@@ -77,7 +77,7 @@ async def test_check_auth_token_failure(check_auth_app: Quart, quart_client):
 async def test_check_auth_failure_bad_token(
     check_auth_app: Quart,
     quart_client,
-    headers: Optional[Dict],
+    headers: Optional[dict],
 ):
     response = await quart_client.get("/testing", headers=headers)
     assert response.status_code == 401

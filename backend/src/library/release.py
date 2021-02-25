@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from datetime import date, datetime
 from itertools import repeat
 from sqlite3 import Connection, Row
-from typing import Dict, Iterable, List, Optional, Tuple, Union
+from typing import Iterable, Optional, Union
 
 from src.enums import CollectionType, ReleaseSort, ReleaseType
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
@@ -58,7 +58,7 @@ def exists(id: int, conn: Connection) -> bool:
     return bool(cursor.fetchone())
 
 
-def from_row(row: Union[Dict, Row]) -> T:
+def from_row(row: Union[dict, Row]) -> T:
     """
     Return a release dataclass containing data from a row from the database.
 
@@ -120,16 +120,16 @@ def search(
     conn: Connection,
     *,
     search: str = "",
-    collection_ids: List[int] = [],
-    artist_ids: List[int] = [],
-    release_types: List[ReleaseType] = [],
-    years: List[int] = [],
-    ratings: List[int] = [],
+    collection_ids: list[int] = [],
+    artist_ids: list[int] = [],
+    release_types: list[ReleaseType] = [],
+    years: list[int] = [],
+    ratings: list[int] = [],
     page: int = 1,
     per_page: Optional[int] = None,
     sort: Optional[ReleaseSort] = None,
     asc: bool = True,
-) -> List[T]:
+) -> list[T]:
     """
     Search for releases matching the passed-in criteria. Parameters are optional;
     omitted ones are excluded from the matching criteria.
@@ -168,7 +168,7 @@ def search(
         ratings,
     )
 
-    # Set the default sort if it's not specified
+    # set the default sort if it's not specified
     if not sort:
         sort = ReleaseSort.SEARCH_RANK if search else ReleaseSort.RECENTLY_ADDED
 
@@ -210,11 +210,11 @@ def count(
     conn: Connection,
     *,
     search: str = "",
-    collection_ids: List[int] = [],
-    artist_ids: List[int] = [],
-    release_types: List[ReleaseType] = [],
-    years: List[int] = [],
-    ratings: List[int] = [],
+    collection_ids: list[int] = [],
+    artist_ids: list[int] = [],
+    release_types: list[ReleaseType] = [],
+    years: list[int] = [],
+    ratings: list[int] = [],
 ) -> int:
     """
     Fetch the number of releases matching the passed-in criteria. Parameters are
@@ -263,12 +263,12 @@ def count(
 
 def _generate_filters(
     search: str,
-    collection_ids: List[int],
-    artist_ids: List[int],
-    release_types: List[ReleaseType],
-    years: List[int],
-    ratings: List[int],
-) -> Tuple[List[str], List[Union[str, int]]]:
+    collection_ids: list[int],
+    artist_ids: list[int],
+    release_types: list[ReleaseType],
+    years: list[int],
+    ratings: list[int],
+) -> tuple[list[str], list[Union[str, int]]]:
     """
     Dynamically generate the SQL filters and parameters from the criteria. See the
     search and total functions for parameter descriptions.
@@ -276,8 +276,8 @@ def _generate_filters(
     :return: A tuple of SQL filter strings and parameters. The SQL filter strings can be
     joined with `` AND `` and injected into the where clause.
     """
-    filters: List[str] = []
-    params: List[Union[str, int]] = []
+    filters: list[str] = []
+    params: list[Union[str, int]] = []
 
     for sql, sql_args in [
         _generate_search_filter(search),
@@ -293,7 +293,7 @@ def _generate_filters(
     return filters, params
 
 
-def _generate_search_filter(search: str) -> Tuple[Iterable[str], Iterable[str]]:
+def _generate_search_filter(search: str) -> tuple[Iterable[str], Iterable[str]]:
     """
     Generate the SQL and params for filtering on the search words.
 
@@ -310,8 +310,8 @@ def _generate_search_filter(search: str) -> Tuple[Iterable[str], Iterable[str]]:
 
 
 def _generate_collection_filter(
-    collection_ids: List[int],
-) -> Tuple[Iterable[str], Iterable[int]]:
+    collection_ids: list[int],
+) -> tuple[Iterable[str], Iterable[int]]:
     """
     Generate the SQL and params for filtering on collections.
 
@@ -329,8 +329,8 @@ def _generate_collection_filter(
 
 
 def _generate_artist_filter(
-    artist_ids: List[int],
-) -> Tuple[Iterable[str], Iterable[int]]:
+    artist_ids: list[int],
+) -> tuple[Iterable[str], Iterable[int]]:
     """
     Generate the SQL and params for filtering on artists.
 
@@ -348,8 +348,8 @@ def _generate_artist_filter(
 
 
 def _generate_release_types_filter(
-    release_types: List[ReleaseType],
-) -> Tuple[Iterable[str], Iterable[int]]:
+    release_types: list[ReleaseType],
+) -> tuple[Iterable[str], Iterable[int]]:
     """
     Generate the SQL and params for filtering on the release types.
 
@@ -365,7 +365,7 @@ def _generate_release_types_filter(
     return filter_sql, filter_params
 
 
-def _generate_year_filter(years: List[int]) -> Tuple[Iterable[str], Iterable[int]]:
+def _generate_year_filter(years: list[int]) -> tuple[Iterable[str], Iterable[int]]:
     """
     Generate the SQL and params for filtering on the years.
 
@@ -378,7 +378,7 @@ def _generate_year_filter(years: List[int]) -> Tuple[Iterable[str], Iterable[int
     return [f"rls.release_year IN ({', '.join('?' * len(years))})"], years
 
 
-def _generate_rating_filter(ratings: List[int]) -> Tuple[Iterable[str], Iterable[int]]:
+def _generate_rating_filter(ratings: list[int]) -> tuple[Iterable[str], Iterable[int]]:
     """
     Generate the SQL and params for filtering on the ratings.
 
@@ -393,7 +393,7 @@ def _generate_rating_filter(ratings: List[int]) -> Tuple[Iterable[str], Iterable
 
 def create(
     title: str,
-    artist_ids: List[int],
+    artist_ids: list[int],
     release_type: ReleaseType,
     release_year: Optional[int],
     conn: Connection,
@@ -461,7 +461,7 @@ def create(
 
 def _find_duplicate_release(
     title: str,
-    artist_ids: List[int],
+    artist_ids: list[int],
     conn: Connection,
 ) -> Optional[T]:
     """
@@ -576,7 +576,7 @@ def update(rls: T, conn: Connection, **changes) -> T:
     return update_dataclass(rls, **changes)
 
 
-def tracks(rls: T, conn: Connection) -> List[track.T]:
+def tracks(rls: T, conn: Connection) -> list[track.T]:
     """
     Get the tracks of the provided release.
 
@@ -589,7 +589,7 @@ def tracks(rls: T, conn: Connection) -> List[track.T]:
     return [track.from_row(row) for row in cursor]
 
 
-def artists(rls: T, conn: Connection) -> List[artist.T]:
+def artists(rls: T, conn: Connection) -> list[artist.T]:
     """
     Get the "album artists" of the provided release.
 
@@ -684,7 +684,7 @@ def del_artist(rls: T, artist_id: int, conn: Connection) -> T:
 
 def collections(
     rls: T, conn: Connection, type: Optional[CollectionType] = None
-) -> List[collection.T]:
+) -> list[collection.T]:
     """
     Get the collections that contain the provided release.
 
@@ -718,7 +718,7 @@ def collections(
     return [collection.from_row(row) for row in cursor]
 
 
-def all_years(conn: Connection) -> List[int]:
+def all_years(conn: Connection) -> list[int]:
     """
     Get all release years stored in the database, sorted in descending order.
 

@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Dict
 
 from ariadne import (
     format_error,
@@ -66,7 +65,7 @@ resolvers = [
 schema = make_executable_schema(gql(type_defs), *resolvers)
 
 
-def error_formatter(error: GraphQLError, debug: bool = False) -> Dict:
+def error_formatter(error: GraphQLError, debug: bool = False) -> dict:
     lib_error = unwrap_graphql_error(error)
 
     def enhance_error(error):

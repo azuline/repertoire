@@ -10,7 +10,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from sqlite3 import Connection, Row
-from typing import Dict, List, Optional, Union
+from typing import Optional, Union
 
 from src.errors import NotFound
 from src.util import update_dataclass
@@ -71,7 +71,7 @@ def exists_playlist_and_track(
     return bool(cursor.fetchone())
 
 
-def from_row(row: Union[Dict, Row]) -> T:
+def from_row(row: Union[dict, Row]) -> T:
     """
     Return a playlist entry dataclass containing data from a row from the database.
 
@@ -108,7 +108,7 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
 
 def from_playlist_and_track(
     playlist_id: int, track_id: int, conn: Connection
-) -> List[T]:
+) -> list[T]:
     """
     Return the playlist entries with the provided playlist and track IDs.
 

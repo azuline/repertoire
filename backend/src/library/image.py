@@ -4,7 +4,7 @@ import logging
 from dataclasses import dataclass
 from pathlib import Path
 from sqlite3 import Connection, Row
-from typing import Dict, Optional, Union
+from typing import Optional, Union
 
 from PIL import Image, UnidentifiedImageError
 
@@ -24,7 +24,7 @@ class T:
     path: Path
 
 
-def from_row(row: Union[Dict, Row]) -> T:
+def from_row(row: Union[dict, Row]) -> T:
     """
     Return an image dataclass containing data from a row from the database.
 

@@ -13,7 +13,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from sqlite3 import Connection, Row
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Optional, Union
 
 from src.enums import CollectionType, PlaylistType
 from src.errors import Duplicate, Immutable, InvalidPlaylistType
@@ -57,7 +57,7 @@ def exists(id: int, conn: Connection) -> bool:
     return bool(cursor.fetchone())
 
 
-def from_row(row: Union[Dict, Row]) -> T:
+def from_row(row: Union[dict, Row]) -> T:
     """
     Return a playlist dataclass containing data from a row from the database.
 
@@ -138,10 +138,10 @@ def search(
     conn: Connection,
     *,
     search: str = "",
-    types: List[PlaylistType] = [],
+    types: list[PlaylistType] = [],
     page: int = 1,
     per_page: Optional[int] = None,
-) -> List[T]:
+) -> list[T]:
     """
     Search for playlists. Parameters are optional; omitted ones are excluded from the
     matching criteria.
@@ -187,8 +187,8 @@ def count(
     conn: Connection,
     *,
     search: str = "",
-    types: List[PlaylistType] = [],
-) -> List[T]:
+    types: list[PlaylistType] = [],
+) -> list[T]:
     """
     Fetch the number of playlists matching the passed-in criteria. Parameters are
     optional; omitted ones are excluded from the matching criteria.
@@ -218,8 +218,8 @@ def count(
 
 def _generate_filters(
     search: str = "",
-    types: List[PlaylistType] = [],
-) -> Tuple[List[str], List[Union[str, int]]]:
+    types: list[PlaylistType] = [],
+) -> tuple[list[str], list[Union[str, int]]]:
     """
     Dynamically generate the SQL filters and parameters from the criteria. See the
     search and total functions for parameter descriptions.
@@ -227,8 +227,8 @@ def _generate_filters(
     :return: A tuple of SQL filter strings and parameters. The SQL filter strings can be
     joined with `` AND `` and injected into the where clause.
     """
-    filters: List[str] = []
-    params: List[Union[str, int]] = []
+    filters: list[str] = []
+    params: list[Union[str, int]] = []
 
     if search:
         filters.append("fts.music__playlists__fts MATCH ?")
@@ -322,7 +322,7 @@ def update(ply: T, conn: Connection, **changes) -> T:
     return update_dataclass(ply, **changes)
 
 
-def entries(ply: T, conn: Connection) -> List[pentry.T]:
+def entries(ply: T, conn: Connection) -> list[pentry.T]:
     """
     Get the tracks in a playlist.
 
@@ -346,7 +346,7 @@ def entries(ply: T, conn: Connection) -> List[pentry.T]:
     return [pentry.from_row(row) for row in cursor]
 
 
-def top_genres(ply: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
+def top_genres(ply: T, conn: Connection, *, num_genres: int = 5) -> list[dict]:
     """
     Get the top genre collections of the tracks in a playlist.
 

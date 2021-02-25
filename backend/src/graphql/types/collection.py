@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ariadne import ObjectType
 
@@ -37,7 +37,7 @@ def resolve_collection_from_name_and_type(
 
 
 @query.field("collections")
-def resolve_collections(obj: Any, info: GraphQLResolveInfo, **kwargs) -> Dict:
+def resolve_collections(obj: Any, info: GraphQLResolveInfo, **kwargs) -> dict:
     kwargs = convert_keys_case(kwargs)
     return {
         "results": collection.search(info.context.db, **kwargs),
@@ -46,12 +46,12 @@ def resolve_collections(obj: Any, info: GraphQLResolveInfo, **kwargs) -> Dict:
 
 
 @gql_collection.field("releases")
-def resolve_releases(obj: collection.T, info: GraphQLResolveInfo) -> List[release.T]:
+def resolve_releases(obj: collection.T, info: GraphQLResolveInfo) -> list[release.T]:
     return collection.releases(obj, info.context.db)
 
 
 @gql_collection.field("topGenres")
-def resolve_top_genres(obj: collection.T, info: GraphQLResolveInfo) -> List[Dict]:
+def resolve_top_genres(obj: collection.T, info: GraphQLResolveInfo) -> list[dict]:
     return collection.top_genres(obj, info.context.db)
 
 
@@ -96,7 +96,7 @@ def resolve_add_release_to_collection(
     info: GraphQLResolveInfo,
     collectionId: int,
     releaseId: int,
-) -> Dict:
+) -> dict:
     if not (col := collection.from_id(collectionId, info.context.db)):
         raise NotFound(f"Collection {collectionId} does not exist.")
 
@@ -113,7 +113,7 @@ def resolve_del_release_from_collection(
     info: GraphQLResolveInfo,
     collectionId: int,
     releaseId: int,
-) -> Dict:
+) -> dict:
     if not (col := collection.from_id(collectionId, info.context.db)):
         raise NotFound(f"Collection {collectionId} does not exist.")
 

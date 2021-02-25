@@ -3,7 +3,7 @@ import logging
 import threading
 from configparser import ConfigParser
 from pathlib import Path
-from typing import Callable, List
+from typing import Callable
 
 from huey import crontab
 
@@ -91,7 +91,7 @@ class _Config:
         self.parser = _load_config(cons.config_path)
 
     @property
-    def music_directories(self) -> List[str]:
+    def music_directories(self) -> list[str]:
         try:
             return json.loads(self.parser["repertoire"]["music_directories"])
         except json.decoder.JSONDecodeError:
@@ -118,7 +118,7 @@ class Config:
     _local: threading.local = threading.local()
 
     #: Music directories to index.
-    music_directories: List[str]
+    music_directories: list[str]
     #: Crontab to schedule library indexing. Its type is a Huey ``crontab``.
     index_crontab: Callable
 

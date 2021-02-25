@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any
 
 from ariadne import ObjectType
 
@@ -27,7 +27,7 @@ def resolve_track(obj: Any, info: GraphQLResolveInfo, id: int) -> track.T:
 
 
 @query.field("tracks")
-def resolve_tracks(obj: Any, info: GraphQLResolveInfo, **kwargs) -> Dict:
+def resolve_tracks(obj: Any, info: GraphQLResolveInfo, **kwargs) -> dict:
     kwargs = convert_keys_case(kwargs)
     return {
         "results": track.search(info.context.db, **kwargs),
@@ -50,7 +50,7 @@ def resolve_release(obj: track.T, info: GraphQLResolveInfo) -> release.T:
 
 
 @gql_track.field("artists")
-def resolve_top_genres(obj: track.T, info: GraphQLResolveInfo) -> List[Dict]:
+def resolve_top_genres(obj: track.T, info: GraphQLResolveInfo) -> list[dict]:
     return track.artists(obj, info.context.db)
 
 
@@ -76,7 +76,7 @@ def resolve_add_artist_to_track(
     trackId: int,
     artistId: int,
     role: ArtistRole,
-) -> Dict:
+) -> dict:
     if not (trk := track.from_id(trackId, info.context.db)):
         raise NotFound("Track does not exist.")
 
@@ -94,7 +94,7 @@ def resolve_del_artist_from_track(
     trackId: int,
     artistId: int,
     role: ArtistRole,
-) -> Dict:
+) -> dict:
     if not (trk := track.from_id(trackId, info.context.db)):
         raise NotFound("Track does not exist.")
 

@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ariadne import ObjectType
 
@@ -31,7 +31,7 @@ def resolve_artist_from_name(obj: Any, info: GraphQLResolveInfo, name: str) -> a
 
 
 @query.field("artists")
-def resolve_artists(obj: Any, info: GraphQLResolveInfo, **kwargs) -> Dict:
+def resolve_artists(obj: Any, info: GraphQLResolveInfo, **kwargs) -> dict:
     kwargs = convert_keys_case(kwargs)
     return {
         "results": artist.search(info.context.db, **kwargs),
@@ -40,12 +40,12 @@ def resolve_artists(obj: Any, info: GraphQLResolveInfo, **kwargs) -> Dict:
 
 
 @gql_artist.field("releases")
-def resolve_releases(obj: artist.T, info: GraphQLResolveInfo) -> List[release.T]:
+def resolve_releases(obj: artist.T, info: GraphQLResolveInfo) -> list[release.T]:
     return artist.releases(obj, info.context.db)
 
 
 @gql_artist.field("topGenres")
-def resolve_top_genres(obj: artist.T, info: GraphQLResolveInfo) -> List[Dict]:
+def resolve_top_genres(obj: artist.T, info: GraphQLResolveInfo) -> list[dict]:
     return artist.top_genres(obj, info.context.db)
 
 

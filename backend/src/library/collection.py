@@ -4,7 +4,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from sqlite3 import Connection, Row
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Optional, Union
 
 from src.enums import CollectionType
 from src.errors import (
@@ -53,7 +53,7 @@ def exists(id: int, conn: Connection) -> bool:
     return bool(cursor.fetchone())
 
 
-def from_row(row: Union[Dict, Row]) -> T:
+def from_row(row: Union[dict, Row]) -> T:
     """
     Return a collection dataclass containing data from a row from the database.
 
@@ -138,10 +138,10 @@ def search(
     conn: Connection,
     *,
     search: str = "",
-    types: List[CollectionType] = [],
+    types: list[CollectionType] = [],
     page: int = 1,
     per_page: Optional[int] = None,
-) -> List[T]:
+) -> list[T]:
     """
     Search for collections. Parameters are optional; omitted ones are excluded from the
     matching criteria.
@@ -188,8 +188,8 @@ def count(
     conn: Connection,
     *,
     search: str = "",
-    types: List[CollectionType] = [],
-) -> List[T]:
+    types: list[CollectionType] = [],
+) -> list[T]:
     """
     Fetch the number of collections matching the passed-in criteria. Parameters are
     optional; omitted ones are excluded from the matching criteria.
@@ -219,8 +219,8 @@ def count(
 
 def _generate_filters(
     search: str = "",
-    types: List[CollectionType] = [],
-) -> Tuple[List[str], List[Union[str, int]]]:
+    types: list[CollectionType] = [],
+) -> tuple[list[str], list[Union[str, int]]]:
     """
     Dynamically generate the SQL filters and parameters from the criteria. See the
     search and total functions for parameter descriptions.
@@ -228,8 +228,8 @@ def _generate_filters(
     :return: A tuple of SQL filter strings and parameters. The SQL filter strings can be
     joined with `` AND `` and injected into the where clause.
     """
-    filters: List[str] = []
-    params: List[Union[str, int]] = []
+    filters: list[str] = []
+    params: list[Union[str, int]] = []
 
     if search:
         filters.append("fts.music__collections__fts MATCH ?")
@@ -327,7 +327,7 @@ def update(col: T, conn: Connection, **changes) -> T:
     return update_dataclass(col, **changes)
 
 
-def releases(col: T, conn: Connection) -> List[release.T]:
+def releases(col: T, conn: Connection) -> list[release.T]:
     """
     Get the releases in a collection.
 
@@ -458,7 +458,7 @@ def del_release(col: T, release_id: int, conn: Connection) -> T:
     )
 
 
-def top_genres(col: T, conn: Connection, *, num_genres: int = 5) -> List[Dict]:
+def top_genres(col: T, conn: Connection, *, num_genres: int = 5) -> list[dict]:
     """
     Get the top genre collections of the releases in a collection.
 

@@ -5,7 +5,7 @@ import re
 from datetime import date
 from itertools import chain
 from sqlite3 import Connection
-from typing import List, Optional
+from typing import Optional
 
 from tagfiles import TagFile
 
@@ -253,7 +253,7 @@ def _insert_into_label_collection(
 
 
 def _insert_into_genre_collections(
-    rls: release.T, genres: List[str], conn: Connection
+    rls: release.T, genres: list[str], conn: Connection
 ) -> None:
     """
     Split each genre in the ``genres`` parameter on the defined genre delimiters. Insert
@@ -276,7 +276,7 @@ def _insert_into_genre_collections(
         col = collection.add_release(col, rls.id, conn)
 
 
-def _split_genres(genres: str) -> List[str]:
+def _split_genres(genres: str) -> list[str]:
     """
     Split a string of multiple delimited genres into a list of genres.
 

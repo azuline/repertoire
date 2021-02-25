@@ -24,7 +24,7 @@ def start_webserver(host: int, port: int) -> None:
     config.bind = [f"{host}:{port}"]
 
     app = create_app()
-    asyncio.run(serve(app, config))
+    asyncio.run(serve(app, config))  # type: ignore
 
 
 def start_task_queue(num_workers: int) -> None:

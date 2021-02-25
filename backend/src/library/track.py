@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from itertools import repeat
 from pathlib import Path
 from sqlite3 import Connection, Row
-from typing import Dict, Iterable, List, Optional, Tuple, Union
+from typing import Iterable, Optional, Union
 
 from src.enums import ArtistRole, TrackSort
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
@@ -51,7 +51,7 @@ def exists(id: int, conn: Connection) -> bool:
     return bool(cursor.fetchone())
 
 
-def from_row(row: Union[Dict, Row]) -> T:
+def from_row(row: Union[dict, Row]) -> T:
     """
     Return a track dataclass containing data from a row in the database.
 
@@ -122,14 +122,14 @@ def search(
     conn: Connection,
     *,
     search: str = "",
-    playlist_ids: List[int] = [],
-    artist_ids: List[int] = [],
-    years: List[int] = [],
+    playlist_ids: list[int] = [],
+    artist_ids: list[int] = [],
+    years: list[int] = [],
     page: int = 1,
     per_page: Optional[int] = None,
     sort: Optional[TrackSort] = None,
     asc: bool = True,
-) -> List[T]:
+) -> list[T]:
     """
     Search for tracks matching the passed-in criteria. Parameters are optional;
     omitted ones are excluded from the matching criteria.
@@ -157,7 +157,7 @@ def search(
     """
     filters, params = _generate_filters(search, playlist_ids, artist_ids, years)
 
-    # Set the default sort if it's not specified
+    # set the default sort if it's not specified
     if not sort:
         sort = TrackSort.SEARCH_RANK if search else TrackSort.RECENTLY_ADDED
 
@@ -186,9 +186,9 @@ def count(
     conn: Connection,
     *,
     search: str = "",
-    playlist_ids: List[int] = [],
-    artist_ids: List[int] = [],
-    years: List[int] = [],
+    playlist_ids: list[int] = [],
+    artist_ids: list[int] = [],
+    years: list[int] = [],
 ) -> int:
     """
     Fetch the number of tracks matching the passed-in criteria. Parameters are
@@ -228,10 +228,10 @@ def count(
 
 def _generate_filters(
     search: str,
-    collection_ids: List[int],
-    artist_ids: List[int],
-    years: List[int],
-) -> Tuple[List[str], List[Union[str, int]]]:
+    collection_ids: list[int],
+    artist_ids: list[int],
+    years: list[int],
+) -> tuple[list[str], list[Union[str, int]]]:
     """
     Dynamically generate the SQL filters and parameters from the criteria. See the
     search and total functions for parameter descriptions.
@@ -239,8 +239,8 @@ def _generate_filters(
     :return: A tuple of SQL filter strings and parameters. The SQL filter strings can be
     joined with `` AND `` and injected into the where clause.
     """
-    filters: List[str] = []
-    params: List[Union[str, int]] = []
+    filters: list[str] = []
+    params: list[Union[str, int]] = []
 
     for sql, sql_args in [
         _generate_search_filter(search),
@@ -254,7 +254,7 @@ def _generate_filters(
     return filters, params
 
 
-def _generate_search_filter(search: str) -> Tuple[Iterable[str], Iterable[str]]:
+def _generate_search_filter(search: str) -> tuple[Iterable[str], Iterable[str]]:
     """
     Generate the SQL and params for filtering on the search words.
 
@@ -271,8 +271,8 @@ def _generate_search_filter(search: str) -> Tuple[Iterable[str], Iterable[str]]:
 
 
 def _generate_collection_filter(
-    collection_ids: List[int],
-) -> Tuple[Iterable[str], Iterable[int]]:
+    collection_ids: list[int],
+) -> tuple[Iterable[str], Iterable[int]]:
     """
     Generate the SQL and params for filtering on collections.
 
@@ -290,8 +290,8 @@ def _generate_collection_filter(
 
 
 def _generate_artist_filter(
-    artist_ids: List[int],
-) -> Tuple[Iterable[str], Iterable[int]]:
+    artist_ids: list[int],
+) -> tuple[Iterable[str], Iterable[int]]:
     """
     Generate the SQL and params for filtering on artists.
 
@@ -308,7 +308,7 @@ def _generate_artist_filter(
     return repeat(sql, len(artist_ids)), artist_ids
 
 
-def _generate_year_filter(years: List[int]) -> Tuple[Iterable[str], Iterable[int]]:
+def _generate_year_filter(years: list[int]) -> tuple[Iterable[str], Iterable[int]]:
     """
     Generate the SQL and params for filtering on the years.
 
@@ -326,7 +326,7 @@ def create(
     filepath: Path,
     sha256: bytes,
     release_id: int,
-    artists: List[Dict],
+    artists: list[dict],
     duration: int,
     track_number: str,
     disc_number: str,
@@ -471,7 +471,7 @@ def release(trk: T, conn: Connection) -> librelease.T:
     return rls
 
 
-def artists(trk: T, conn: Connection) -> List[Dict]:
+def artists(trk: T, conn: Connection) -> list[dict]:
     """
     Get the artists that contributed to a track and their roles.
 

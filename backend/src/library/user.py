@@ -5,7 +5,7 @@ import secrets
 import string
 from dataclasses import dataclass
 from sqlite3 import Connection, Row
-from typing import Dict, Optional, Tuple, Union
+from typing import Optional, Union
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -41,7 +41,7 @@ def exists(id: int, conn: Connection) -> bool:
     return bool(cursor.fetchone())
 
 
-def from_row(row: Union[Dict, Row]) -> T:
+def from_row(row: Union[dict, Row]) -> T:
     """
     Return a user dataclass containing data from a row from the database.
 
@@ -121,7 +121,7 @@ def from_token(token: bytes, conn: Connection) -> Optional[T]:
     return None
 
 
-def create(nickname: str, conn: Connection) -> Tuple[T, bytes]:
+def create(nickname: str, conn: Connection) -> tuple[T, bytes]:
     """
     Create a user.
 
@@ -239,7 +239,7 @@ def _validate_nickname(nickname: str) -> bool:
     return len(nickname) < 24
 
 
-def _generate_token(conn: Connection) -> Tuple[bytes, bytes]:
+def _generate_token(conn: Connection) -> tuple[bytes, bytes]:
     """
     Generate a new token with a unique prefix. If we fail to generate a token with a
     unique prefix after 64 rounds, ``TokenGenerationFailure`` will be raised.

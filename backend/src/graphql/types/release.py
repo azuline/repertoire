@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ariadne import ObjectType
 
@@ -26,7 +26,7 @@ def resolve_release(_: Any, info: GraphQLResolveInfo, id: int) -> release.T:
 
 
 @query.field("releases")
-def resolve_releases(_: Any, info: GraphQLResolveInfo, **kwargs) -> Dict:
+def resolve_releases(_: Any, info: GraphQLResolveInfo, **kwargs) -> dict:
     kwargs = convert_keys_case(kwargs)
     return {
         "results": release.search(info.context.db, **kwargs),
@@ -35,32 +35,32 @@ def resolve_releases(_: Any, info: GraphQLResolveInfo, **kwargs) -> Dict:
 
 
 @gql_release.field("artists")
-def resolve_artists(obj: release.T, info: GraphQLResolveInfo) -> List[artist.T]:
+def resolve_artists(obj: release.T, info: GraphQLResolveInfo) -> list[artist.T]:
     return release.artists(obj, info.context.db)
 
 
 @gql_release.field("tracks")
-def resolve_tracks(obj: release.T, info: GraphQLResolveInfo) -> List[track.T]:
+def resolve_tracks(obj: release.T, info: GraphQLResolveInfo) -> list[track.T]:
     return release.tracks(obj, info.context.db)
 
 
 @gql_release.field("genres")
-def resolve_genres(obj: release.T, info: GraphQLResolveInfo) -> List[collection.T]:
+def resolve_genres(obj: release.T, info: GraphQLResolveInfo) -> list[collection.T]:
     return release.collections(obj, info.context.db, type=CollectionType.GENRE)
 
 
 @gql_release.field("labels")
-def resolve_labels(obj: release.T, info: GraphQLResolveInfo) -> List[collection.T]:
+def resolve_labels(obj: release.T, info: GraphQLResolveInfo) -> list[collection.T]:
     return release.collections(obj, info.context.db, type=CollectionType.LABEL)
 
 
 @gql_release.field("collages")
-def resolve_collages(obj: release.T, info: GraphQLResolveInfo) -> List[collection.T]:
+def resolve_collages(obj: release.T, info: GraphQLResolveInfo) -> list[collection.T]:
     return release.collections(obj, info.context.db, type=CollectionType.COLLAGE)
 
 
 @query.field("releaseYears")
-def resolve_release_years(_: release.T, info: GraphQLResolveInfo) -> List[int]:
+def resolve_release_years(_: release.T, info: GraphQLResolveInfo) -> list[int]:
     return release.all_years(info.context.db)
 
 
@@ -70,7 +70,7 @@ def resolve_create_release(
     _,
     info: GraphQLResolveInfo,
     title: str,
-    artistIds: List[int],
+    artistIds: list[int],
     releaseType: ReleaseType,
     releaseYear: Optional[int],
     releaseDate: Optional[str] = None,
@@ -127,7 +127,7 @@ def resolve_add_artist_to_release(
     info: GraphQLResolveInfo,
     releaseId: int,
     artistId: int,
-) -> Dict:
+) -> dict:
     if not (rls := release.from_id(releaseId, info.context.db)):
         raise NotFound(f"Release {releaseId} does not exist.")
 
@@ -144,7 +144,7 @@ def resolve_del_artist_from_release(
     info: GraphQLResolveInfo,
     releaseId: int,
     artistId: int,
-) -> Dict:
+) -> dict:
     if not (rls := release.from_id(releaseId, info.context.db)):
         raise NotFound(f"Release {releaseId} does not exist.")
 

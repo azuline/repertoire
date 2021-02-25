@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any
 
 from ariadne import ObjectType
 
@@ -40,7 +40,7 @@ def delete_playlist_entry(
     obj: Any,
     info: GraphQLResolveInfo,
     id: int,
-) -> Dict:
+) -> dict:
     if ety := pentry.from_id(id, info.context.db):
         pentry.delete(ety, info.context.db)
         return {
@@ -58,7 +58,7 @@ def delete_playlist_entries(
     info: GraphQLResolveInfo,
     playlistId: int,
     trackId: int,
-) -> Dict:
+) -> dict:
     for ety in pentry.from_playlist_and_track(playlistId, trackId, info.context.db):
         pentry.delete(ety, info.context.db)
 

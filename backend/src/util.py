@@ -7,7 +7,7 @@ from hashlib import sha256
 from pathlib import Path
 from sqlite3 import Connection
 from string import ascii_uppercase
-from typing import Any, Dict, Iterable, List, Union
+from typing import Any, Iterable, Union
 
 from src.constants import Constants
 
@@ -52,7 +52,7 @@ def raw_database(check_same_thread: bool = True) -> Connection:
     return conn
 
 
-def without_key(mapping: Union[Dict, sqlite3.Row], key: Any) -> Dict:
+def without_key(mapping: Union[dict, sqlite3.Row], key: Any) -> dict:
     """
     Return a dict/Row without a certain key. This function does not modify the original
     dictionary/Row.
@@ -64,7 +64,7 @@ def without_key(mapping: Union[Dict, sqlite3.Row], key: Any) -> Dict:
     return {k: mapping[k] for k in mapping.keys() if k != key}
 
 
-def parse_crontab(crontab: str) -> Dict:
+def parse_crontab(crontab: str) -> dict:
     """
     Given a crontab entry from the config, split the values and create a dictionary
     mapping each value to their huey key.
@@ -94,7 +94,7 @@ def calculate_sha_256(filepath: Path) -> bytes:
     return hash_.digest()
 
 
-def convert_keys_case(mapping: Dict) -> Dict:
+def convert_keys_case(mapping: dict) -> dict:
     """
     Given a dict, convert the keys from camelCase to snake_case.
 
@@ -127,7 +127,7 @@ def update_dataclass(dataclass: Any, **kwargs) -> Any:
     return dataclass.__class__(**dict(asdict(dataclass), **kwargs))
 
 
-def uniq_list(list_: Iterable) -> List:
+def uniq_list(list_: Iterable) -> list:
     """
     Given a list, return a new list with any duplicate elements removed. Preserves
     order.
@@ -167,7 +167,7 @@ def make_fts_match_query(search: str) -> str:
     return " AND ".join(f'"{w}"' for w in search.split(" "))
 
 
-def del_pagination_keys(mapping: Dict) -> Dict:
+def del_pagination_keys(mapping: dict) -> dict:
     """
     Delete the keys related to pagination: page, per_page, sort, asc.
 
