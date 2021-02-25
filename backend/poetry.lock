@@ -1276,7 +1276,7 @@ pyodbc = ["pyodbc"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.8"
+python-versions = "^3.9"
 content-hash = "57b17f2d491ebd69d624b75a2e020f0cd93af1f5fa2892478fd155e2c9bd9ec9"
 
 [metadata.files]
