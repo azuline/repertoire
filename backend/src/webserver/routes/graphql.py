@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from sqlite3 import Connection
+
 import quart
 from ariadne import graphql
 from ariadne.constants import PLAYGROUND_HTML

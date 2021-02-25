@@ -20,7 +20,7 @@ backend_data = {
         id: cache-mypy
         uses: actions/cache@v2
         with:
-          path: .mypy_cache
+          path: backend/.mypy_cache
           key: "${{ runner.os }}-mypy"
       - name: Run type check
         run: make typecheck
