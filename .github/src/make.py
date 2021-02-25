@@ -8,90 +8,71 @@ WORKFLOWS = SRC.parent / "workflows"
 
 # Define data
 
-backend_data = dict(
-    jobs=[
-        dict(
-            id="test",
-            name="Test",
-            steps=[
-                dict(
-                    name="Run tests",
-                    run="poetry run pytest --cov-report=xml --cov=. --cov-branch tests/",
-                ),
-                dict(
-                    name="Upload coverage",
-                    run="bash <(curl -s https://codecov.io/bash) -cF python",
-                ),
-            ],
-        ),
-        dict(
-            id="type_check",
-            name="Type check",
-            steps=[dict(name="Run type check", run="make typecheck")],
-        ),
-        dict(
-            id="lint_check",
-            name="Lint check",
-            steps=[dict(name="Run lint check", run="make lintcheck")],
-        ),
-        dict(
-            id="schema",
-            name="Schema",
-            steps=[
-                dict(name="Generate schema", run="DATA_PATH=../data make schema"),
-                dict(name="Diff", run="git diff"),
-                dict(
-                    name="Compare",
-                    run="bash -c '[[ -z $(git status -s) ]] || (exit 1)'",
-                ),
-            ],
-        ),
-        dict(
-            id="setupfiles",
-            name="Setup files",
-            steps=[
-                dict(name="Generate setup files", run="make setupfiles"),
-                dict(name="Diff", run="git diff"),
-                dict(
-                    name="Compare",
-                    run="bash -c '[[ -z $(git status -s) ]] || (exit 1)'",
-                ),
-            ],
-        ),
-    ],
-)
+backend_data = {
+    "Test": """
+      - name: Run tests
+        run: poetry run pytest --cov-report=xml --cov=. --cov-branch tests/
+      - name: Upload coverage
+        run: bash <(curl -s https://codecov.io/bash) -cF python
+        """,
+    "Type check": """
+      - name: Run type check
+        run: make typecheck
+        """,
+    "Lint check": """
+      - name: Run lint check
+        run: make lintcheck
+        """,
+    "Schema": """
+      - name: Generate schema
+        run: DATA_PATH=../data make schema
+      - name: Diff
+        run: git diff
+      - name: Compare
+        run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'
+        """,
+    "Setup files": """
+      - name: Generate setup files
+        run: make setupfiles
+      - name: Diff
+        run: git diff
+      - name: Compare
+        run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'
+         """,
+}
 
-frontend_data = dict(
-    jobs=[
-        dict(
-            id="type_check",
-            name="Type check",
-            steps=[dict(name="Run type check", run="CI=true yarn tsc")],
-        ),
-        dict(
-            id="lint_check",
-            name="Lint check",
-            steps=[
-                dict(
-                    name="Run lint check",
-                    run="CI=true yarn eslint src/ --ext .ts,.tsx --max-warnings=0",
-                )
-            ],
-        ),
-        dict(
-            id="gql_codegen",
-            name="GraphQL Codegen",
-            steps=[
-                dict(name="Run codegen", run="CI=true yarn codegen"),
-                dict(name="Diff", run="git diff"),
-                dict(
-                    name="Compare",
-                    run="bash -c '[[ -z $(git status -s) ]] || (exit 1)'",
-                ),
-            ],
-        ),
-    ],
-)
+frontend_data = {
+    "Type check": """
+      - name: Run type check
+        run: CI=true yarn tsc
+        """,
+    "Lint check": """
+      - name: Run lint check
+        run: CI=true yarn eslint src/ --ext .ts,.tsx --max-warnings=0
+        """,
+    "GraphQL Codegen": """
+      - name: Run codegen
+        run: CI=true yarn codegen
+      - name: Diff
+        run: git diff
+      - name: Compare
+        run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'
+        """,
+}
+
+
+def convert_data(data):
+    return dict(
+        jobs=[
+            {
+                "id": key.lower().replace(" ", "_"),
+                "name": key,
+                "steps": value.strip(),
+            }
+            for key, value in data.items()
+        ]
+    )
+
 
 # Generate workflows.
 
@@ -100,13 +81,13 @@ env = Environment(loader=FileSystemLoader(SRC), trim_blocks=True, lstrip_blocks=
 print("Writing backend workflows...")
 
 with (WORKFLOWS / "backend.yml").open("w") as fp:
-    fp.write(env.get_template("backend.yml").render(backend_data))
+    fp.write(env.get_template("backend.yml").render(convert_data(backend_data)))
     fp.truncate()
 
 print("Writing frontend workflows...")
 
 with (WORKFLOWS / "frontend.yml").open("w") as fp:
-    fp.write(env.get_template("frontend.yml").render(frontend_data))
+    fp.write(env.get_template("frontend.yml").render(convert_data(frontend_data)))
     fp.truncate()
 
 print("Done!")

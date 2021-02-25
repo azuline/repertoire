@@ -25,8 +25,5 @@ jobs:
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: CI=true yarn install
-      {% for step in job.steps %}
-      - name: {{ step.name }}
-        run: {{ step.run }}
-      {% endfor %}
+      {{ job.steps }}
   {% endfor %}

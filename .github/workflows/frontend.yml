@@ -45,7 +45,7 @@ jobs:
         run: CI=true yarn install
       - name: Run lint check
         run: CI=true yarn eslint src/ --ext .ts,.tsx --max-warnings=0
-  gql_codegen:
+  graphql_codegen:
     name: GraphQL Codegen
     runs-on: ubuntu-latest
     defaults:

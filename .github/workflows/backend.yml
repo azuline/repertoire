@@ -197,7 +197,7 @@ jobs:
         run: git diff
       - name: Compare
         run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'
-  setupfiles:
+  setup_files:
     name: Setup files
     runs-on: ubuntu-latest
     defaults:
