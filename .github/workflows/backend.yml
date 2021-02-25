@@ -99,6 +99,12 @@ jobs:
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
+      - name: Cache mypy cache
+        id: cache-mypy
+        uses: actions/cache@v2
+        with:
+          path: .mypy_cache
+          key: "${{ runner.os }}-mypy"
       - name: Run type check
         run: make typecheck
   lint_check:

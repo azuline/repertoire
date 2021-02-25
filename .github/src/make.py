@@ -16,6 +16,12 @@ backend_data = {
         run: bash <(curl -s https://codecov.io/bash) -cF python
         """,
     "Type check": """
+      - name: Cache mypy cache
+        id: cache-mypy
+        uses: actions/cache@v2
+        with:
+          path: .mypy_cache
+          key: "${{ runner.os }}-mypy"
       - name: Run type check
         run: make typecheck
         """,
