@@ -6,14 +6,14 @@ typecheck:
 	poetry run mypy src/ tests/
 
 lintcheck:
-	poetry run black --check .
-	poetry run isort -c .
-	poetry run flake8 .
+	poetry run black --check src/ tests/
+	poetry run isort -c src/ tests/
+	poetry run flake8 src/ tests/
 
 lint:
-	poetry run black .
-	poetry run isort .
-	poetry run flake8 .
+	poetry run black src/ tests/
+	poetry run isort src/ tests/
+	poetry run flake8 src/ tests/
 
 schema:
 	mkdir -p ../data
