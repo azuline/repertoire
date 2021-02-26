@@ -1,6 +1,7 @@
 import pytest
 
 from src.library import artist
+from tests.conftest import NEXT_ARTIST_ID
 
 
 @pytest.mark.asyncio
@@ -132,7 +133,7 @@ async def test_create_artist(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(artist.from_id(6, db))
+    snapshot.assert_match(artist.from_id(NEXT_ARTIST_ID, db))
 
 
 @pytest.mark.asyncio
@@ -145,7 +146,7 @@ async def test_create_artist_duplicate(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    assert artist.from_id(6, db) is None
+    assert artist.from_id(NEXT_ARTIST_ID, db) is None
 
 
 @pytest.mark.asyncio

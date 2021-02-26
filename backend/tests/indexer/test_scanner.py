@@ -19,7 +19,7 @@ from src.indexer.scanner import (
     scan_directory,
 )
 from src.library import artist, collection, release, track
-from tests.conftest import SEED_DATA
+from tests.conftest import NEXT_RELEASE_ID, SEED_DATA
 
 FAKE_MUSIC = SEED_DATA / "fake_music"
 NEW_ALBUM = FAKE_MUSIC / "New Album"
@@ -190,7 +190,7 @@ def test_fetch_or_create_release_bad_date(db):
         ),
         db,
     )
-    assert rls.id == 4
+    assert rls.id == NEXT_RELEASE_ID
     assert rls.release_date is None
 
 
@@ -218,7 +218,10 @@ def test_fetch_or_create_artist_duplicate(db):
 
 def test_insert_into_inbox_collection(db):
     inbox = collection.from_id(1, db)
+    assert inbox is not None
+
     rls = release.from_id(1, db)
+    assert rls is not None
 
     assert rls not in collection.releases(inbox, db)
 
@@ -229,35 +232,36 @@ def test_insert_into_inbox_collection(db):
 
 def test_insert_into_label_collection_nonexistent(db):
     rls = release.from_id(1, db)
-    _insert_into_label_collection(rls, "", db)
+    assert rls is not None
 
+    _insert_into_label_collection(rls, "", db)
     assert not release.collections(rls, db)
 
 
 def test_insert_into_label_collection_existing(db):
     rls = release.from_id(1, db)
+    assert rls is not None
+
     _insert_into_label_collection(rls, "MyLabel", db)
-
     col = collection.from_id(11, db)
-
     assert col in release.collections(rls, db)
 
 
 def test_insert_into_label_collection_new(db):
     rls = release.from_id(1, db)
+    assert rls is not None
+
     _insert_into_label_collection(rls, "asdf", db)
-
     col = collection.from_name_and_type("asdf", CollectionType.LABEL, db)
-
     assert col in release.collections(rls, db)
 
 
 def test_insert_into_genre_collections(db):
     rls = release.from_id(1, db)
+    assert rls is not None
+
     _insert_into_genre_collections(rls, ["1, 2, 3", "4; 5"], db)
-
     collections = release.collections(rls, db)
-
     for genre in ["1", "2", "3", "4", "5"]:
         col = collection.from_name_and_type(genre, CollectionType.GENRE, db)
         assert col in collections
@@ -265,10 +269,10 @@ def test_insert_into_genre_collections(db):
 
 def test_duplicate_genre(db):
     rls = release.from_id(1, db)
+    assert rls is not None
+
     _insert_into_genre_collections(rls, ["1, 2, 3", "2/3"], db)
-
     collections = release.collections(rls, db)
-
     for genre in ["1", "2", "3"]:
         col = collection.from_name_and_type(genre, CollectionType.GENRE, db)
         assert col in collections
@@ -276,15 +280,17 @@ def test_duplicate_genre(db):
 
 def test_insert_into_genre_preexisting(db):
     rls = release.from_id(1, db)
-    _insert_into_genre_collections(rls, ["Folk"], db)
+    assert rls is not None
 
+    _insert_into_genre_collections(rls, ["Folk"], db)
     assert collection.from_id(3, db) in release.collections(rls, db)
 
 
 def test_insert_into_genre_collections_nothing(db):
     rls = release.from_id(1, db)
-    _insert_into_genre_collections(rls, "  ", db)
+    assert rls is not None
 
+    _insert_into_genre_collections(rls, ["  "], db)
     assert not release.collections(rls, db)
 
 
@@ -321,7 +327,7 @@ def test_fix_release_types(db, num_tracks, release_type):
     for i in range(num_tracks):
         track.create(
             title="a",
-            filepath=f"/lol{i}.flac",
+            filepath=Path(f"/lol{i}.flac"),
             sha256=bytes([i] * 32),
             release_id=rls.id,
             artists=[],

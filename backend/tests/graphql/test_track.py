@@ -226,7 +226,9 @@ async def test_add_artist_to_track(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(track.artists(track.from_id(1, db), db))
+    trk = track.from_id(1, db)
+    assert trk is not None
+    snapshot.assert_match(track.artists(trk, db))
 
 
 @pytest.mark.asyncio
@@ -267,7 +269,9 @@ async def test_add_artist_to_track_bad_artist(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(track.artists(track.from_id(1, db), db))
+    trk = track.from_id(1, db)
+    assert trk is not None
+    snapshot.assert_match(track.artists(trk, db))
 
 
 @pytest.mark.asyncio
@@ -288,7 +292,9 @@ async def test_add_artist_to_track_already_exists(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(track.artists(track.from_id(1, db), db))
+    trk = track.from_id(1, db)
+    assert trk is not None
+    snapshot.assert_match(track.artists(trk, db))
 
 
 @pytest.mark.asyncio
@@ -309,7 +315,9 @@ async def test_del_artist_from_track(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(track.artists(track.from_id(1, db), db))
+    trk = track.from_id(1, db)
+    assert trk is not None
+    snapshot.assert_match(track.artists(trk, db))
 
 
 @pytest.mark.asyncio
@@ -350,7 +358,9 @@ async def test_del_artist_from_track_bad_artist(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(track.artists(track.from_id(2, db), db))
+    trk = track.from_id(2, db)
+    assert trk is not None
+    snapshot.assert_match(track.artists(trk, db))
 
 
 @pytest.mark.asyncio

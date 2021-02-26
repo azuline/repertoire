@@ -1,6 +1,6 @@
 from src.enums import PlaylistType
 from src.library import playlist
-from tests.conftest import NUM_PLAYLISTS
+from tests.conftest import NEXT_PLAYLIST_ID
 
 
 def test_query(db):
@@ -24,7 +24,7 @@ def test_insert(db):
         ORDER BY rank
         """
     )
-    assert cursor.fetchone()[0] == NUM_PLAYLISTS + 1
+    assert cursor.fetchone()[0] == NEXT_PLAYLIST_ID
 
 
 def test_delete(db):

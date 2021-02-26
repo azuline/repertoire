@@ -1,6 +1,7 @@
 import pytest
 
 from src.library import playlist
+from tests.conftest import NEXT_PLAYLIST_ID
 
 
 @pytest.mark.asyncio
@@ -149,7 +150,7 @@ async def test_create_playlist(db, graphql_query, snapshot):
     """
     snapshot.assert_match(await graphql_query(query))
 
-    snapshot.assert_match(playlist.from_id(4, db))
+    snapshot.assert_match(playlist.from_id(NEXT_PLAYLIST_ID, db))
 
 
 @pytest.mark.asyncio
@@ -162,7 +163,7 @@ async def test_create_playlist_duplicate(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    assert playlist.from_id(4, db) is None
+    assert playlist.from_id(NEXT_PLAYLIST_ID, db) is None
 
 
 @pytest.mark.asyncio
@@ -175,7 +176,6 @@ async def test_update_playlist(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-
     snapshot.assert_match(playlist.from_id(3, db))
 
 

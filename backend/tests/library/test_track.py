@@ -6,7 +6,7 @@ import pytest
 from src.enums import ArtistRole, TrackSort
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
 from src.library import track
-from tests.conftest import NUM_TRACKS
+from tests.conftest import NEXT_TRACK_ID, NUM_TRACKS
 
 
 def test_exists(db: Connection):
@@ -159,8 +159,8 @@ def test_create(db: Connection, snapshot):
         conn=db,
     )
 
-    assert trk.id == 22
-    assert trk == track.from_id(22, db)
+    assert trk.id == NEXT_TRACK_ID
+    assert trk == track.from_id(NEXT_TRACK_ID, db)
     snapshot.assert_match(track.artists(trk, db))
 
 

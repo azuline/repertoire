@@ -6,7 +6,7 @@ import pytest
 from src.enums import CollectionType, ReleaseSort, ReleaseType
 from src.errors import AlreadyExists, DoesNotExist, Duplicate
 from src.library import release
-from tests.conftest import NUM_RELEASES
+from tests.conftest import NEXT_RELEASE_ID, NUM_RELEASES
 
 
 def test_exists(db: Connection):
@@ -131,8 +131,8 @@ def test_create(db: Connection):
         conn=db,
     )
 
-    assert rls.id == 4
-    assert rls == release.from_id(4, db)
+    assert rls.id == NEXT_RELEASE_ID
+    assert rls == release.from_id(NEXT_RELEASE_ID, db)
     assert len(release.artists(rls, db)) == 2
 
 
@@ -146,8 +146,8 @@ def test_create_same_album_name_no_duplicate_trigger(db: Connection):
         allow_duplicate=False,
     )
 
-    assert rls.id == 4
-    assert rls == release.from_id(4, db)
+    assert rls.id == NEXT_RELEASE_ID
+    assert rls == release.from_id(NEXT_RELEASE_ID, db)
     assert len(release.artists(rls, db)) == 2
 
 
@@ -161,8 +161,8 @@ def test_create_same_album_name_artist_subset_no_duplicate_trigger(db: Connectio
         allow_duplicate=False,
     )
 
-    assert rls.id == 4
-    assert rls == release.from_id(4, db)
+    assert rls.id == NEXT_RELEASE_ID
+    assert rls == release.from_id(NEXT_RELEASE_ID, db)
     assert len(release.artists(rls, db)) == 1
 
 
@@ -176,8 +176,8 @@ def test_create_duplicate_allow(db: Connection):
         allow_duplicate=True,
     )
 
-    assert rls.id == 4
-    assert rls == release.from_id(4, db)
+    assert rls.id == NEXT_RELEASE_ID
+    assert rls == release.from_id(NEXT_RELEASE_ID, db)
 
 
 def test_create_duplicate_disallow(db: Connection):

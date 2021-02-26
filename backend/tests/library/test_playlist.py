@@ -5,7 +5,7 @@ import pytest
 from src.enums import PlaylistType
 from src.errors import Duplicate, Immutable, InvalidPlaylistType
 from src.library import playlist
-from tests.conftest import NUM_PLAYLISTS
+from tests.conftest import NEXT_PLAYLIST_ID, NUM_PLAYLISTS
 
 
 def test_exists(db: Connection):
@@ -84,8 +84,8 @@ def test_count_one(db: Connection, snapshot):
 @pytest.mark.parametrize("type", [PlaylistType.PLAYLIST])
 def test_create(db: Connection, type):
     ply = playlist.create("new plylist", type, starred=True, conn=db)
-    assert ply.id == 4
-    assert ply == playlist.from_id(4, db)
+    assert ply.id == NEXT_PLAYLIST_ID
+    assert ply == playlist.from_id(NEXT_PLAYLIST_ID, db)
 
 
 def test_create_duplicate(db: Connection):

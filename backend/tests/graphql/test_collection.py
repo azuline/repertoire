@@ -1,6 +1,7 @@
 import pytest
 
 from src.library import collection
+from tests.conftest import NEXT_COLLECTION_ID
 
 
 @pytest.mark.asyncio
@@ -147,7 +148,7 @@ async def test_create_collection(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(collection.from_id(12, db))
+    snapshot.assert_match(collection.from_id(NEXT_COLLECTION_ID, db))
 
 
 @pytest.mark.asyncio
@@ -160,7 +161,7 @@ async def test_create_collection_duplicate(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    assert collection.from_id(12, db) is None
+    assert collection.from_id(NEXT_COLLECTION_ID, db) is None
 
 
 @pytest.mark.asyncio

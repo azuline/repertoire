@@ -1,6 +1,6 @@
 from src.enums import CollectionType
 from src.library import collection
-from tests.conftest import NUM_COLLECTIONS
+from tests.conftest import NEXT_COLLECTION_ID
 
 
 def test_query(db):
@@ -24,7 +24,7 @@ def test_insert(db):
         ORDER BY rank
         """
     )
-    assert cursor.fetchone()[0] == NUM_COLLECTIONS + 1
+    assert cursor.fetchone()[0] == NEXT_COLLECTION_ID
 
 
 def test_delete(db):

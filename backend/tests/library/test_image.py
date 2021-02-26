@@ -6,7 +6,7 @@ from PIL import Image
 
 from src.errors import Duplicate, InvalidImage
 from src.library import image
-from tests.conftest import SEED_DATA
+from tests.conftest import NEXT_IMAGE_ID, SEED_DATA
 
 FAKE_COVER = SEED_DATA / "fake_cover.jpg"
 
@@ -34,9 +34,9 @@ def test_create(db):
     shutil.copyfile(FAKE_COVER, image_path)
     img = image.create(image_path, db)
 
-    assert img.id == 3
+    assert img.id == NEXT_IMAGE_ID
     assert img.path == image_path
-    assert img == image.from_id(3, db)
+    assert img == image.from_id(NEXT_IMAGE_ID, db)
 
     # Check thumbnail was generated.
     im = Image.open(Path.cwd() / "cover.thumbnail")
@@ -60,7 +60,7 @@ def test_create_invalid_image(db):
     with pytest.raises(InvalidImage):
         image.create(image_path, db)
 
-    assert image.from_id(3, db) is None
+    assert image.from_id(NEXT_IMAGE_ID, db) is None
     assert not image_path.exists()
 
 

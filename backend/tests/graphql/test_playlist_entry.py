@@ -1,6 +1,7 @@
 import pytest
 
 from src.library import playlist_entry as pentry
+from tests.conftest import NEXT_PLAYLIST_ENTRY_ID
 
 
 @pytest.mark.asyncio
@@ -27,7 +28,7 @@ async def test_create_playlist_entry(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    assert pentry.from_id(9, db).track_id == 10
+    assert pentry.from_id(NEXT_PLAYLIST_ENTRY_ID, db).track_id == 10
 
 
 @pytest.mark.asyncio

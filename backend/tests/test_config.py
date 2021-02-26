@@ -12,7 +12,7 @@ from src.errors import InvalidConfig
 
 def test_valid_index_crontab():
     config = Config()
-    config.parser = {"repertoire": {"index_crontab": "0 0 * * *"}}
+    config.parser = {"repertoire": {"index_crontab": "0 0 * * *"}}  # type: ignore
     config.index_crontab  # If it doesn't exception we are good.
 
 
@@ -22,7 +22,7 @@ def test_valid_index_crontab():
 )
 def test_invalid_index_crontab(crontab):
     config = Config()
-    config.parser = {"repertoire": {"index_crontab": crontab}}
+    config.parser = {"repertoire": {"index_crontab": crontab}}  # type: ignore
 
     with pytest.raises(InvalidConfig):
         config.index_crontab
@@ -34,7 +34,7 @@ def test_invalid_index_crontab(crontab):
 )
 def test_valid_music_directories(directories):
     config = Config()
-    config.parser = {"repertoire": {"music_directories": directories}}
+    config.parser = {"repertoire": {"music_directories": directories}}  # type: ignore
     config.music_directories  # If it doesn't exception we are good.
 
 
@@ -44,7 +44,7 @@ def test_valid_music_directories(directories):
 )
 def test_invalid_music_directories(directories):
     config = Config()
-    config.parser = {"repertoire": {"music_directories": directories}}
+    config.parser = {"repertoire": {"music_directories": directories}}  # type: ignore
 
     with pytest.raises(InvalidConfig):
         config.music_directories

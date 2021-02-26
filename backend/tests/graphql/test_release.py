@@ -1,6 +1,7 @@
 import pytest
 
 from src.library import release
+from tests.conftest import NEXT_RELEASE_ID
 
 
 @pytest.mark.asyncio
@@ -164,7 +165,7 @@ async def test_create_release(db, graphql_query, snapshot):
     """
     _, response = await graphql_query(query)
     snapshot.assert_match(response)
-    assert release.from_id(4, db) is not None
+    assert release.from_id(NEXT_RELEASE_ID, db) is not None
 
 
 @pytest.mark.asyncio
@@ -183,7 +184,7 @@ async def test_create_release_bad_date(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    assert release.from_id(4, db) is None
+    assert release.from_id(NEXT_RELEASE_ID, db) is None
 
 
 @pytest.mark.asyncio
@@ -202,7 +203,7 @@ async def test_create_release_bad_artists(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    assert release.from_id(4, db) is None
+    assert release.from_id(NEXT_RELEASE_ID, db) is None
 
 
 @pytest.mark.asyncio
@@ -308,7 +309,9 @@ async def test_add_artist_to_release_bad_artist(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(release.artists(release.from_id(2, db), db))
+    rls = release.from_id(2, db)
+    assert rls is not None
+    snapshot.assert_match(release.artists(rls, db))
 
 
 @pytest.mark.asyncio
@@ -326,7 +329,9 @@ async def test_add_artist_to_release_already_exists(db, graphql_query, snapshot)
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(release.artists(release.from_id(2, db), db))
+    rls = release.from_id(2, db)
+    assert rls is not None
+    snapshot.assert_match(release.artists(rls, db))
 
 
 @pytest.mark.asyncio
@@ -344,7 +349,9 @@ async def test_del_artist_from_release(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(release.artists(release.from_id(2, db), db))
+    rls = release.from_id(2, db)
+    assert rls is not None
+    snapshot.assert_match(release.artists(rls, db))
 
 
 @pytest.mark.asyncio
@@ -379,7 +386,9 @@ async def test_del_artist_from_release_bad_artist(db, graphql_query, snapshot):
         }
     """
     snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(release.artists(release.from_id(2, db), db))
+    rls = release.from_id(2, db)
+    assert rls is not None
+    snapshot.assert_match(release.artists(rls, db))
 
 
 @pytest.mark.asyncio

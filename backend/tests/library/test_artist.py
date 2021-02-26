@@ -4,7 +4,7 @@ import pytest
 
 from src.errors import Duplicate
 from src.library import artist
-from tests.conftest import NUM_ARTISTS
+from tests.conftest import NEXT_ARTIST_ID, NUM_ARTISTS
 
 
 def test_exists(db: Connection):
@@ -67,8 +67,8 @@ def test_count_search(db: Connection, snapshot):
 
 def test_create(db: Connection):
     art = artist.create("new artist", starred=True, conn=db)
-    assert art.id == 6
-    assert art == artist.from_id(6, db)
+    assert art.id == NEXT_ARTIST_ID
+    assert art == artist.from_id(NEXT_ARTIST_ID, db)
 
 
 def test_create_duplicate(db: Connection):

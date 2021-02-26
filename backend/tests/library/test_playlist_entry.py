@@ -6,6 +6,7 @@ from src.enums import PlaylistType
 from src.errors import NotFound
 from src.library import playlist
 from src.library import playlist_entry as pentry
+from tests.conftest import NEXT_PLAYLIST_ENTRY_ID
 
 
 def test_exists(db: Connection):
@@ -42,7 +43,7 @@ def test_from_playlist_and_track_failure(db: Connection):
 
 def test_create_success(db: Connection):
     ety = pentry.create(1, 1, db)
-    assert ety.id == 9
+    assert ety.id == NEXT_PLAYLIST_ENTRY_ID
     assert ety.track_id == 1
     assert ety.playlist_id == 1
     assert ety.position == 3
