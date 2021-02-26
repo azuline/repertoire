@@ -20,7 +20,6 @@ from src.webserver.routes.graphql import GraphQLContext
 from tests.fragments import FRAGMENTS
 
 SEED_DATA = Path(__file__).parent / "seed_data"
-TEST_SQL_PATH = SEED_DATA / "database.sql"
 
 ADMIN_TOKEN = "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc8"
 
@@ -57,14 +56,6 @@ def seed_db():
 
     with db_backend.lock():
         db_backend.apply_migrations(db_backend.to_apply(db_migrations))
-
-    with TEST_SQL_PATH.open("r") as f:
-        test_sql = f.read()
-
-    with sqlite3.connect(db_path) as conn:
-        freeze_database_time(conn)
-        conn.executescript(test_sql)
-        conn.commit()
 
 
 @pytest.fixture(autouse=True)
