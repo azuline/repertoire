@@ -59,7 +59,7 @@ def seed_db():
 
 
 @pytest.fixture(autouse=True)
-def isolated_dir(seed_db):
+def isolated_dir():
     with CliRunner().isolated_filesystem():
         cons = Constants()
         cons.data_path = Path.cwd() / "_data"
@@ -94,24 +94,25 @@ def quart_app(seed_data):
 
 @pytest.fixture
 async def quart_client(quart_app):
-    def update_kwargs(kwargs):
+    def update_kwargs(token: bytes, **kwargs):
+        print(f"{token=}")
         kwargs["headers"] = {
             **kwargs.get("headers", {}),
-            "Authorization": f"Token {ADMIN_TOKEN}",
+            "Authorization": f"Token {token.hex()}",
         }
         return kwargs
 
     async with quart_app.app_context():
         async with quart_app.test_client() as test_client:
 
-            async def authed_get(*args, **kwargs):
-                return await test_client.get(*args, **update_kwargs(kwargs))
+            async def authed_get(*args, token, **kwargs):
+                return await test_client.get(*args, **update_kwargs(token, **kwargs))
 
-            async def authed_post(*args, **kwargs):
-                return await test_client.post(*args, **update_kwargs(kwargs))
+            async def authed_post(*args, token, **kwargs):
+                return await test_client.post(*args, **update_kwargs(token, **kwargs))
 
-            async def authed_delete(*args, **kwargs):
-                return await test_client.delete(*args, **update_kwargs(kwargs))
+            async def authed_delete(*args, token, **kwargs):
+                return await test_client.delete(*args, **update_kwargs(token, **kwargs))
 
             test_client.authed_get = authed_get
             test_client.authed_post = authed_post

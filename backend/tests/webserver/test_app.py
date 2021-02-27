@@ -1,14 +1,21 @@
 import pytest
 import quart
 
+from src.library import user
 from src.webserver.app import _get_secret_key
 
 
 @pytest.mark.asyncio
 async def test_database_handler(db, quart_app):
+    usr, _ = user.create("admin", db)
+    db.commit()
+
     async with quart_app.test_request_context("/", method="GET"):
         await quart_app.preprocess_request()
-        cursor = quart.g.db.execute("SELECT nickname FROM system__users WHERE id = 1")
+        cursor = quart.g.db.execute(
+            "SELECT nickname FROM system__users WHERE id = ?",
+            (usr.id,),
+        )
         assert "admin" == cursor.fetchone()[0]
 
 

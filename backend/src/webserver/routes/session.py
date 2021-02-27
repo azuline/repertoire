@@ -31,7 +31,8 @@ async def create_session(permanent=False):
     quart.session.permanent = permanent
 
     cursor = quart.g.db.execute(
-        "SELECT csrf_token FROM system__users WHERE id = ?", (quart.g.user.id,)
+        "SELECT csrf_token FROM system__users WHERE id = ?",
+        (quart.g.user.id,),
     )
     csrf_token = cursor.fetchone()[0]
 
