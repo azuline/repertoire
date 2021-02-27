@@ -3,6 +3,15 @@
 Configuration
 =============
 
+.. note::
+
+   If you installed repertoire with Docker, most of this is taken care of
+   provided that your music libraries are mounted (volumes) as subdirectories
+   of ``/music``.
+
+   The configuration can then be edited by invoking ``repertoire config`` in the
+   container.
+
 All backend configuration and data is stored in a data directory. This
 directory is configured by the ``DATA_PATH`` environment variable.
 
