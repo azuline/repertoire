@@ -2,7 +2,7 @@
 
 [![Backend](https://img.shields.io/github/workflow/status/azuline/repertoire/Backend?label=backend)](https://github.com/azuline/repertoire/actions?query=workflow%3ABackend)
 [![Frontend](https://img.shields.io/github/workflow/status/azuline/repertoire/Frontend?label=frontend)](https://github.com/azuline/repertoire/actions?query=workflow%3AFrontend)
-[![Documentation Status](https://readthedocs.org/projects/repertoire/badge/?version=latest)](https://repertoire.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/repertoire/badge/?version=latest)](https://readthedocs.org/projects/repertoire/builds)
 [![Docker](https://img.shields.io/docker/cloud/build/blissful/repertoire)](https://hub.docker.com/r/blissful/repertoire)
 [![Codecov](https://img.shields.io/codecov/c/github/azuline/repertoire?token=98M8XQLWLH)](https://codecov.io/gh/azuline/repertoire)
 
