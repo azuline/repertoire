@@ -5,6 +5,12 @@ Database
 
 We use SQLite for our database.
 
+.. note::
+
+   Developer tooling expects that the data directory is in ``repertoire/data``.
+   The yoyo database migration tool (for developers) is configured to also look
+   in that directory for the database.
+
 Search Index
 ------------
 
@@ -29,19 +35,6 @@ automatically perform any pending migrations when repertoire is run.
 
 Migrations are stored in ``backend/src/migrations``.
 
-See https://ollycope.com/software/yoyo/latest/ for documentation on the
-using ``yoyo`` for development. The following ``yoyo.ini`` file can be created
-in the ``backend/`` directory to configure the ``yoyo`` command.
-
-.. code-block:: ini
-
-   [DEFAULT]
-   sources = src/migrations
-   migration_table = _yoyo_migration
-   batch_mode = off
-   verbosity = 0
-   database = sqlite:///../data/db.sqlite3
-
 .. warning::
 
    Commands such as ``yoyo reapply`` can cause data loss. Be very careful if
@@ -49,6 +42,8 @@ in the ``backend/`` directory to configure the ``yoyo`` command.
 
 Schema
 ------
+
+The DB schema is included below.
 
 .. literalinclude:: ../../../backend/schema.sql
    :language: sql
