@@ -1,11 +1,18 @@
-from pathlib import Path
+from sqlite3 import Connection
 
 from src.enums import ArtistRole
 from src.library import track
-from tests.conftest import NEXT_TRACK_ID
+from tests.factory import Factory
 
 
-def test_query(db):
+def test_insert_and_query(factory: Factory, db: Connection):
+    art = factory.artist(name="Aaron West", conn=db)
+    trk = factory.track(
+        title="Our Apartment",
+        artists=[{"artist_id": art.id, "role": ArtistRole.MAIN}],
+        conn=db,
+    )
+
     cursor = db.execute(
         """
         SELECT rowid FROM music__tracks__fts
@@ -13,40 +20,16 @@ def test_query(db):
         ORDER BY rank
         """
     )
-    assert cursor.fetchone()[0] == 1
+    assert cursor.fetchone()[0] == trk.id
 
 
-def test_insert(db):
-    track.create(
-        "Title",
-        filepath=Path("/tmp/hello.m4a"),
-        sha256=b"0" * 32,
-        release_id=1,
-        artists=[{"artist_id": 4, "role": ArtistRole.MAIN}],
-        duration=100,
-        track_number="1",
-        disc_number="1",
-        conn=db,
-    )
-
-    cursor = db.execute(
-        """
-        SELECT rowid FROM music__tracks__fts
-        WHERE music__tracks__fts MATCH 'Title AND Abakus'
-        ORDER BY rank
-        """
-    )
-    assert cursor.fetchone()[0] == NEXT_TRACK_ID
-
-
-def test_delete(db):
+def test_delete(db: Connection):
     # TODO: Dependent on #178.
     pass
 
 
-def test_update(db):
-    trk = track.from_id(1, db)
-    assert trk is not None
+def test_update(factory: Factory, db: Connection):
+    trk = factory.track(title="Old Name", conn=db)
 
     track.update(trk, title="New Title", conn=db)
 
@@ -57,4 +40,4 @@ def test_update(db):
         ORDER BY rank
         """
     )
-    assert cursor.fetchone()[0] == 1
+    assert cursor.fetchone()[0] == trk.id

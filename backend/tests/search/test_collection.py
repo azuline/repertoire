@@ -1,9 +1,11 @@
-from src.enums import CollectionType
+from sqlite3 import Connection
+
 from src.library import collection
-from tests.conftest import NEXT_COLLECTION_ID
+from tests.factory import Factory
 
 
-def test_query(db):
+def test_query(factory: Factory, db: Connection):
+    col = factory.collection(name="Country", conn=db)
     cursor = db.execute(
         """
         SELECT rowid FROM music__collections__fts
@@ -11,31 +13,16 @@ def test_query(db):
         ORDER BY rank
         """
     )
-    assert cursor.fetchone()[0] == 5
+    assert cursor.fetchone()[0] == col.id
 
 
-def test_insert(db):
-    collection.create("Title", type=CollectionType.COLLAGE, conn=db)
-
-    cursor = db.execute(
-        """
-        SELECT rowid FROM music__collections__fts
-        WHERE music__collections__fts MATCH 'Title'
-        ORDER BY rank
-        """
-    )
-    assert cursor.fetchone()[0] == NEXT_COLLECTION_ID
-
-
-def test_delete(db):
+def test_delete(db: Connection):
     # TODO: Dependent on #178.
     pass
 
 
-def test_update(db):
-    col = collection.from_id(3, db)
-    assert col is not None
-
+def test_update(factory: Factory, db: Connection):
+    col = factory.collection(name="Country", conn=db)
     collection.update(col, name="New Title", conn=db)
 
     cursor = db.execute(
@@ -45,4 +32,4 @@ def test_update(db):
         ORDER BY rank
         """
     )
-    assert cursor.fetchone()[0] == 3
+    assert cursor.fetchone()[0] == col.id
