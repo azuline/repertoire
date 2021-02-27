@@ -322,7 +322,7 @@ def test_split_genres(string, genres):
     ],
 )
 def test_fix_release_types(factory: Factory, db: Connection, num_tracks, release_type):
-    rls = factory.release(conn=db)
+    rls = factory.release( release_type=ReleaseType.UNKNOWN, conn=db)
 
     for i in range(num_tracks):
         track.create(
