@@ -11,6 +11,7 @@ from src.library import artist as libartist
 from src.library import collection as libcollection
 from src.library import image as libimage
 from src.library import playlist as libplaylist
+from src.library import playlist_entry as libpentry
 from src.library import release as librelease
 from src.library import track as libtrack
 from src.library import user as libuser
@@ -91,6 +92,21 @@ class Factory:
             conn=conn,
             override_immutable=True,
         )
+
+    def playlist_entry(
+        self,
+        *,
+        conn: Connection,
+        playlist_id: Optional[int] = None,
+        track_id: Optional[int] = None,
+    ) -> libpentry.T:
+        if playlist_id is None:
+            playlist_id = self.playlist(conn=conn).id
+
+        if track_id is None:
+            track_id = self.track(conn=conn).id
+
+        return libpentry.create(playlist_id, track_id, conn)
 
     def release(
         self,
