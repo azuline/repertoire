@@ -2,12 +2,11 @@ from sqlite3 import Connection
 
 import pytest
 
-from tests.factory import Factory
-from src.enums import PlaylistType, CollectionType
+from src.enums import CollectionType, PlaylistType
 from src.errors import Duplicate, Immutable, InvalidPlaylistType
-from src.library import playlist, collection
+from src.library import collection, playlist
 from src.library import playlist_entry as pentry
-from tests.conftest import NEXT_PLAYLIST_ID, NUM_PLAYLISTS
+from tests.factory import Factory
 
 
 def test_exists(factory: Factory, db: Connection):
@@ -61,7 +60,7 @@ def test_search_one(factory: Factory, db: Connection):
 
 
 def test_search_page(factory: Factory, db: Connection):
-    plys = [factory.playlist(conn=db) for _ in range(5)]
+    [factory.playlist(conn=db) for _ in range(5)]
     p1 = playlist.search(db, page=1, per_page=1)[0]
     p2 = playlist.search(db, page=2, per_page=1)[0]
     assert p1 != p2

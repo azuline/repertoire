@@ -1,6 +1,4 @@
-import shutil
 from pathlib import Path
-from tests.factory import Factory
 from sqlite3 import Connection
 
 import pytest
@@ -8,7 +6,8 @@ from PIL import Image
 
 from src.errors import Duplicate, InvalidImage
 from src.library import image
-from tests.conftest import NEXT_IMAGE_ID, SEED_DATA
+from tests.conftest import SEED_DATA
+from tests.factory import Factory
 
 FAKE_COVER = SEED_DATA / "fake_cover.jpg"
 
