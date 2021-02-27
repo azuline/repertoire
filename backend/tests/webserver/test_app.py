@@ -1,13 +1,14 @@
 import pytest
+from sqlite3 import Connection
 import quart
 
-from src.library import user
 from src.webserver.app import _get_secret_key
+from tests.factory import Factory
 
 
 @pytest.mark.asyncio
-async def test_database_handler(db, quart_app):
-    usr, _ = user.create("admin", db)
+async def test_database_handler(factory: Factory, db: Connection, quart_app):
+    usr, _ = factory.user(nickname="admin", conn=db)
     db.commit()
 
     async with quart_app.test_request_context("/", method="GET"):

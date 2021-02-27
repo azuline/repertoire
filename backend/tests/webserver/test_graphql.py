@@ -1,11 +1,12 @@
 import pytest
 import json
-from src.library import user
+
+from tests.factory import Factory
 
 
 @pytest.mark.asyncio
-async def test_graphql_endpoint(db, quart_client, snapshot):
-    usr, token = user.create("admin", db)
+async def test_graphql_endpoint(factory: Factory, db, quart_client):
+    usr, token = factory.user(conn=db)
     db.commit()
 
     query = """
@@ -37,7 +38,7 @@ async def test_graphql_endpoint(db, quart_client, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_graphql_endpoint_no_auth(quart_client, snapshot):
+async def test_graphql_endpoint_no_auth(quart_client):
     query = """
         query {
             user {
@@ -48,6 +49,11 @@ async def test_graphql_endpoint_no_auth(quart_client, snapshot):
     """
 
     response = await quart_client.post(
-        "/graphql", json={"operationName": None, "variables": {}, "query": query}
+        "/graphql",
+        json={
+            "operationName": None,
+            "variables": {},
+            "query": query,
+        },
     )
     assert response.status_code == 401

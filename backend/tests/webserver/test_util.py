@@ -1,6 +1,5 @@
 from typing import Optional
 from sqlite3 import Connection
-from src.library import user
 
 import pytest
 import quart
@@ -8,6 +7,7 @@ from quart import Quart
 from voluptuous import Coerce, Schema
 
 from src.webserver.util import check_auth, validate_data
+from tests.factory import Factory
 
 
 @pytest.fixture
@@ -42,11 +42,12 @@ def validate_data_app(quart_app: Quart):
 
 @pytest.mark.asyncio
 async def test_check_auth_token_success(
+    factory: Factory,
     db: Connection,
     check_auth_app: Quart,
     quart_client,
 ):
-    _, token = user.create("admin", db)
+    _, token = factory.user(nickname="admin", conn=db)
     db.commit()
 
     response = await quart_client.authed_get("/testing", token=token)
@@ -56,11 +57,12 @@ async def test_check_auth_token_success(
 
 @pytest.mark.asyncio
 async def test_check_auth_session_success(
+    factory: Factory,
     db: Connection,
     check_auth_app: Quart,
     quart_client,
 ):
-    usr, _ = user.create("admin", db)
+    usr, _ = factory.user(nickname="admin", conn=db)
     db.commit()
 
     async with quart_client.session_transaction() as sess:
@@ -100,8 +102,13 @@ async def test_check_auth_failure_bad_token(
 
 
 @pytest.mark.asyncio
-async def test_token_csrf_bypass(db: Connection, check_csrf_app: Quart, quart_client):
-    usr, token = user.create("admin", db)
+async def test_token_csrf_bypass(
+    factory: Factory,
+    db: Connection,
+    check_csrf_app: Quart,
+    quart_client,
+):
+    usr, token = factory.user(nickname="admin", conn=db)
     db.commit()
 
     response = await quart_client.authed_post("/testing", token=token)
@@ -110,36 +117,32 @@ async def test_token_csrf_bypass(db: Connection, check_csrf_app: Quart, quart_cl
 
 @pytest.mark.asyncio
 async def test_session_csrf_success(
+    factory: Factory,
     db: Connection,
     check_csrf_app: Quart,
     quart_client,
 ):
-    usr, _ = user.create("admin", db)
+    usr, _ = factory.user(nickname="admin", conn=db)
     db.commit()
-
-    cursor = db.execute(
-        "SELECT csrf_token FROM system__users WHERE id = ?",
-        (usr.id,),
-    )
-    csrf_token = cursor.fetchone()[0]
 
     async with quart_client.session_transaction() as sess:
         sess["user_id"] = usr.id
 
     response = await quart_client.post(
         "/testing",
-        headers={"X-CSRF-Token": csrf_token.hex()},
+        headers={"X-CSRF-Token": usr.csrf_token.hex()},
     )
     assert b"admin" == await response.get_data()
 
 
 @pytest.mark.asyncio
 async def test_session_csrf_failure(
+    factory: Factory,
     db: Connection,
     check_csrf_app: Quart,
     quart_client,
 ):
-    usr, _ = user.create("admin", db)
+    usr, _ = factory.user(conn=db)
     db.commit()
 
     async with quart_client.session_transaction() as sess:

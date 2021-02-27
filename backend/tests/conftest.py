@@ -17,6 +17,7 @@ from src.library import user
 from src.util import database, freeze_database_time
 from src.webserver.app import create_app
 from src.webserver.routes.graphql import GraphQLContext
+from tests.factory import Factory
 from tests.fragments import FRAGMENTS
 
 SEED_DATA = Path(__file__).parent / "seed_data"
@@ -88,6 +89,11 @@ def db(seed_data):
 
 
 @pytest.fixture
+def factory() -> Factory:
+    return Factory()
+
+
+@pytest.fixture
 def quart_app(seed_data):
     yield create_app()
 
@@ -122,7 +128,7 @@ async def quart_client(quart_app):
 
 
 @pytest.fixture
-def graphql_query(seed_data, quart_app: QuartClient):
+def graphql_query(seed_data, quart_app):
     async def executor(query):
         used_fragments = "\n".join(v for k, v in FRAGMENTS.items() if k in query)
         query = f"{query}\n{used_fragments}"

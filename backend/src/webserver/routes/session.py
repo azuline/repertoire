@@ -30,13 +30,7 @@ async def create_session(permanent=False):
     quart.session["user_id"] = quart.g.user.id
     quart.session.permanent = permanent
 
-    cursor = quart.g.db.execute(
-        "SELECT csrf_token FROM system__users WHERE id = ?",
-        (quart.g.user.id,),
-    )
-    csrf_token = cursor.fetchone()[0]
-
-    return quart.jsonify({"csrfToken": csrf_token.hex()}), 201
+    return quart.jsonify({"csrfToken": quart.g.user.csrf_token.hex()}), 201
 
 
 @bp.route("", methods=["DELETE"])

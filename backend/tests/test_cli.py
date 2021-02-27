@@ -2,13 +2,13 @@ from sqlite3 import Connection
 
 from click.testing import CliRunner
 from werkzeug.security import check_password_hash
-from src.library import user
 
 from src.cli.token import token
+from tests.factory import Factory
 
 
-def test_update_token(db: Connection):
-    usr, _ = user.create("admin", db)
+def test_update_token(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
     db.commit()
 
     cursor = db.execute(
@@ -18,7 +18,6 @@ def test_update_token(db: Connection):
     old_token_hash = cursor.fetchone()["token_hash"]
 
     output = CliRunner().invoke(token).output
-    print(f"{output=}")
     tkn = bytes.fromhex(output.split(": ")[1])
 
     cursor = db.execute(
