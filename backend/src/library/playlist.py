@@ -188,7 +188,7 @@ def count(
     *,
     search: str = "",
     types: list[PlaylistType] = [],
-) -> list[T]:
+) -> int:
     """
     Fetch the number of playlists matching the passed-in criteria. Parameters are
     optional; omitted ones are excluded from the matching criteria.
