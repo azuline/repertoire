@@ -2,7 +2,7 @@
 name = "repertoire"
 version = "0.1.0"
 description = "A release-oriented music server."
-authors = ["azuline <azuline@riseup.net>"]
+authors = ["blissful <blissful@sunsetglow.net>"]
 license = "AGPL-3.0"
 packages = [
 	{ include = "src" },

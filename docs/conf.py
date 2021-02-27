@@ -12,8 +12,8 @@ sys.path.insert(0, os.path.abspath("../backend"))
 # -- Project information
 
 project = "repertoire"
-copyright = "2020, azuline"
-author = "azuline"
+copyright = "2021, blissful"
+author = "blissful"
 release = "0.2.0"
 
 # -- General configuration

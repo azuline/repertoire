@@ -22,9 +22,9 @@ repertoire is licensed under the AGPL-3.0.
 
 .. code-block::
 
-   repertoire :: a release-oriented music server
+   repertoire :: a music server for cataloguing and exploring large music libraries
 
-   Copyright (C) 2020 azuline
+   Copyright (C) 2021 blissful
 
    This program is free software: you can redistribute it and/or modify it under
    the terms of the GNU Affero General Public License as published by the Free
