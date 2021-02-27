@@ -30,24 +30,12 @@ The backend is laid out as follows:
    ├── graphql/      # GraphQL API; contains the schema definition.
    ├── library/      # Library with data abstractions.
    ├── migrations/   # Database migrations.
-   ├── tests/        # The tests for the backend.
    └── webserver/    # The webserver (duh!).
+   tests/            # The tests for the backend.
 
-The backend can be split into several layers, from lowest to highest:
-
-- The Music Files (Music Files, Bring Your Own!)
-- The Database & Search Index (:ref:`backend_database`)
-- The Library Indexer (:ref:`backend_indexer`)
-- The Library Interface (:ref:`backend_library`)
-- Consumer Interfaces:
-
-  - The Task Queue
-  - The Command Line (:ref:`backend_command_line`)
-  - The Webserver (:ref:`backend_webserver`)
-
-    - GraphQL API (:ref:`backend_graphql`)
-
-The next several pages document each major section of the backend codebase.
+The next several pages document major sections of the backend codebase. Refer
+to :ref:`backend_architecture` to view the major components and their
+connections.
 
 .. note::
 
@@ -59,6 +47,7 @@ The next several pages document each major section of the backend codebase.
    :hidden:
    :caption: Backend
 
+   architecture
    top_level
    command_line
    database

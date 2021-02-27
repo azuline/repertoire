@@ -32,15 +32,15 @@ The frontend is laid out as follows:
    I still need to figure out the appropriate amount/type of documentation for
    a frontend. More will come when that happens. Sorry!
 
-   Some things I plan on documenting in the future:
+..
+   TODO: Some things I plan on documenting in the future:
 
    - Keeping layout styles (i.e. positioning) separate from style (i.e. appearance).
      - layout e.g. width, height, padding, margin, float, position, etc.
-       - layout can be further separated into self vs child, can be in same
-         element but keep them separated
+     - layout can be further separated into self vs child, can be in same
+       element but keep them separated
      - appearance e.g. color font (for our purposes, anything that does not
        affect the layout)
-
    - Testing setup.
 
 .. toctree::

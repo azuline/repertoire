@@ -68,7 +68,7 @@ To install and run repertoire, reference the following commands:
 
 Example ``docker-compose.yml``:
 
-.. code-block:: yml
+.. code-block:: yaml
 
    version: '3'
    services:
