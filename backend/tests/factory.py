@@ -89,6 +89,7 @@ class Factory:
             name=name if name is not None else _rand_string(12),
             type=type if type is not None else PlaylistType.PLAYLIST,
             conn=conn,
+            override_immutable=True,
         )
 
     def release(

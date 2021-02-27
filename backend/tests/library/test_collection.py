@@ -119,6 +119,16 @@ def test_create_invalid_type(db: Connection):
         collection.create("new collage", CollectionType.SYSTEM, conn=db)
 
 
+def test_create_invalid_type_override(db: Connection):
+    col = collection.create(
+        "new collage",
+        CollectionType.SYSTEM,
+        conn=db,
+        override_immutable=True,
+    )
+    assert col is not None
+
+
 def test_update_fields(factory: Factory, db: Connection):
     col = factory.collection(conn=db)
     new_col = collection.update(col, conn=db, name="New Name", starred=True)

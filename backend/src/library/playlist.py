@@ -241,7 +241,13 @@ def _generate_filters(
     return filters, params
 
 
-def create(name: str, type: PlaylistType, conn: Connection, starred: bool = False) -> T:
+def create(
+    name: str,
+    type: PlaylistType,
+    conn: Connection,
+    starred: bool = False,
+    override_immutable: bool = False,
+) -> T:
     """
     Create a playlist and persist it to the database.
 
@@ -249,11 +255,13 @@ def create(name: str, type: PlaylistType, conn: Connection, starred: bool = Fals
     :param type: The type of the playlist.
     :param conn: A connection to the database.
     :param starred: Whether the playlist is starred or not.
+    :param override_immutable: Whether to allow creation of immutable playlists. For
+                               internal use.
     :return: The newly created playlist.
     :raises Duplicate: If an playlist with the same name and type already exists. The
                        duplicate playlist is passed as the ``entity`` argument.
     """
-    if type == PlaylistType.SYSTEM:
+    if type == PlaylistType.SYSTEM and not override_immutable:
         raise InvalidPlaylistType("Cannot create system playlists.")
 
     if ply := from_name_and_type(name, type, conn):
