@@ -1,5 +1,6 @@
-import pytest
 from sqlite3 import Connection
+
+import pytest
 import quart
 
 from src.webserver.app import _get_secret_key

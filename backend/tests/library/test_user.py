@@ -125,6 +125,6 @@ def test_check_token_bad_user(db: Connection):
     token = bytes.fromhex(
         "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc8"
     )
-    usr = user.T(id=3, nickname="lol")
+    usr = user.T(id=3, nickname="lol", csrf_token=b"0" * 32)
 
     assert not user.check_token(usr, token, db)

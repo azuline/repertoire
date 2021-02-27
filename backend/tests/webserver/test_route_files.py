@@ -2,6 +2,7 @@ from pathlib import Path
 from sqlite3 import Connection
 
 import pytest
+
 from tests.factory import Factory
 
 
@@ -69,7 +70,7 @@ async def test_get_cover_thumbail(factory: Factory, db: Connection, quart_client
     with path.with_suffix(".thumbnail").open("wb") as f:
         f.write(b"owo")
 
-    img = factory.mock_image(path=path, conn=db)
+    factory.mock_image(path=path, conn=db)
     _, token = factory.user(conn=db)
     db.commit()
 

@@ -1,5 +1,4 @@
 import shutil
-import sqlite3
 from pathlib import Path
 
 import pytest
@@ -7,7 +6,6 @@ import quart
 from ariadne import graphql
 from click.testing import CliRunner
 from freezegun import freeze_time
-from quart.testing import QuartClient
 from yoyo import get_backend, read_migrations
 
 from src.config import Config, _Config

@@ -1,5 +1,6 @@
-import pytest
 import json
+
+import pytest
 
 from tests.factory import Factory
 

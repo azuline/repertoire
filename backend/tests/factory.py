@@ -1,19 +1,19 @@
-from datetime import date
+import random
 import shutil
+import string
+from datetime import date
 from pathlib import Path
-from src.enums import ArtistRole, CollectionType, PlaylistType, ReleaseType
+from sqlite3 import Connection
 from typing import Optional
-from src.library import track as libtrack
+
+from src.enums import ArtistRole, CollectionType, PlaylistType, ReleaseType
 from src.library import artist as libartist
-from src.library import release as librelease
 from src.library import collection as libcollection
 from src.library import image as libimage
 from src.library import playlist as libplaylist
-from src.library import playlist_entry as libpentry
+from src.library import release as librelease
+from src.library import track as libtrack
 from src.library import user as libuser
-import string
-import random
-from sqlite3 import Connection
 
 FAKE_COVER = Path(__file__).parent / "seed_data" / "fake_cover.jpg"
 

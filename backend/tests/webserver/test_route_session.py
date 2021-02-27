@@ -3,6 +3,7 @@ from sqlite3 import Connection
 
 import pytest
 import quart
+
 from tests.factory import Factory
 
 
