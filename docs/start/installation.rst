@@ -134,6 +134,7 @@ Or, as a set of shell commands:
    $ nano .env               # Set `DATA_PATH`.
    $ repertoire config       # Configure the backend.
    $ cd ../frontend/
+   $ yarn install            # Install frontend dependencies.
    $ yarn build              # Build the frontend.
    $ cd ..
    $ repertoire index        # Index your music library.
@@ -187,6 +188,7 @@ Or, as a set of shell commands:
    $ nano .env                 # Set `DATA_PATH`.
    $ repertoire config         # Configure the backend.
    $ cd ../frontend/
+   $ yarn install              # Install frontend dependencies.
    $ yarn build                # Build the frontend.
    $ cd ..
    $ repertoire index          # Index your music library.
