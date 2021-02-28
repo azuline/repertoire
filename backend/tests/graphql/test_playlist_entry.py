@@ -2,8 +2,8 @@ from sqlite3 import Connection
 
 import pytest
 
-from src.library import playlist_entry as pentry
 from src.library import playlist
+from src.library import playlist_entry as pentry
 
 
 @pytest.mark.asyncio

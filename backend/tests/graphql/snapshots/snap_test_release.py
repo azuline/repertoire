@@ -2,36 +2,114 @@
 # snapshottest: v1 - https://goo.gl/zC4yUc
 from __future__ import unicode_literals
 
-from snapshottest import GenericRepr, Snapshot
+from snapshottest import Snapshot
 
 
 snapshots = Snapshot()
 
 snapshots['test_add_artist_to_release 1'] = {
     'data': {
-        'addArtistToRelease': None
-    },
-    'errors': [
-        {
-            'locations': [
-                {
-                    'column': 13,
-                    'line': 3
-                }
-            ],
-            'message': 'Artist is already on release.',
-            'path': [
-                'addArtistToRelease'
-            ],
-            'type': 'AlreadyExists'
+        'addArtistToRelease': {
+            'artist': {
+                'id': 5,
+                'name': 'Artist4',
+                'numReleases': 2,
+                'releases': [
+                    {
+                        'id': 2,
+                        'title': 'Release1'
+                    },
+                    {
+                        'id': 4,
+                        'title': 'Release3'
+                    }
+                ],
+                'starred': False,
+                'topGenres': [
+                    {
+                        'genre': {
+                            'id': 9
+                        },
+                        'numMatches': 2
+                    },
+                    {
+                        'genre': {
+                            'id': 10
+                        },
+                        'numMatches': 2
+                    }
+                ]
+            },
+            'release': {
+                'addedOn': 1577840461,
+                'artists': [
+                    {
+                        'id': 2,
+                        'name': 'Artist1'
+                    },
+                    {
+                        'id': 3,
+                        'name': 'Artist2'
+                    },
+                    {
+                        'id': 5,
+                        'name': 'Artist4'
+                    }
+                ],
+                'collages': [
+                    {
+                        'id': 3,
+                        'name': 'Collage1'
+                    },
+                    {
+                        'id': 4,
+                        'name': 'Collage2'
+                    }
+                ],
+                'genres': [
+                    {
+                        'id': 9,
+                        'name': 'Genre1'
+                    },
+                    {
+                        'id': 10,
+                        'name': 'Genre2'
+                    }
+                ],
+                'id': 2,
+                'imageId': 1,
+                'inFavorites': False,
+                'inInbox': False,
+                'labels': [
+                    {
+                        'id': 6,
+                        'name': 'Label1'
+                    }
+                ],
+                'numTracks': 3,
+                'releaseDate': '1970-02-05',
+                'releaseType': 'ALBUM',
+                'releaseYear': 1970,
+                'runtime': 3,
+                'title': 'Release1',
+                'tracks': [
+                    {
+                        'id': 1,
+                        'title': 'Track0'
+                    },
+                    {
+                        'id': 2,
+                        'title': 'Track1'
+                    },
+                    {
+                        'id': 3,
+                        'title': 'Track2'
+                    }
+                ]
+            }
         }
-    ]
+    }
 }
-
-snapshots['test_add_artist_to_release 2'] = [
-    GenericRepr("T(id=2, name='Artist1', starred=False, num_releases=2)"),
-    GenericRepr("T(id=3, name='Artist2', starred=False, num_releases=2)")
-]
 
 snapshots['test_add_artist_to_release_already_exists 1'] = {
     'data': {
@@ -54,11 +132,6 @@ snapshots['test_add_artist_to_release_already_exists 1'] = {
     ]
 }
 
-snapshots['test_add_artist_to_release_already_exists 2'] = [
-    GenericRepr("T(id=2, name='Artist1', starred=False, num_releases=2)"),
-    GenericRepr("T(id=3, name='Artist2', starred=False, num_releases=2)")
-]
-
 snapshots['test_add_artist_to_release_bad_artist 1'] = {
     'data': {
         'addArtistToRelease': None
@@ -79,11 +152,6 @@ snapshots['test_add_artist_to_release_bad_artist 1'] = {
         }
     ]
 }
-
-snapshots['test_add_artist_to_release_bad_artist 2'] = [
-    GenericRepr("T(id=2, name='Artist1', starred=False, num_releases=2)"),
-    GenericRepr("T(id=3, name='Artist2', starred=False, num_releases=2)")
-]
 
 snapshots['test_add_artist_to_release_bad_release 1'] = {
     'data': {
@@ -135,7 +203,7 @@ snapshots['test_create_release 1'] = {
             'releaseType': 'ALBUM',
             'releaseYear': 2020,
             'runtime': 0,
-            'title': 'aa',
+            'title': 'NewRelease',
             'tracks': [
             ]
         }
@@ -270,10 +338,6 @@ snapshots['test_del_artist_from_release 1'] = {
     }
 }
 
-snapshots['test_del_artist_from_release 2'] = [
-    GenericRepr("T(id=3, name='Artist2', starred=False, num_releases=2)")
-]
-
 snapshots['test_del_artist_from_release_bad_artist 1'] = {
     'data': {
         'delArtistFromRelease': None
@@ -294,11 +358,6 @@ snapshots['test_del_artist_from_release_bad_artist 1'] = {
         }
     ]
 }
-
-snapshots['test_del_artist_from_release_bad_artist 2'] = [
-    GenericRepr("T(id=2, name='Artist1', starred=False, num_releases=2)"),
-    GenericRepr("T(id=3, name='Artist2', starred=False, num_releases=2)")
-]
 
 snapshots['test_del_artist_from_release_bad_release 1'] = {
     'data': {
@@ -348,18 +407,22 @@ snapshots['test_release 1'] = {
             'addedOn': 1577840461,
             'artists': [
                 {
-                    'id': 3,
-                    'name': 'Artist2'
+                    'id': 2,
+                    'name': 'Artist1'
                 },
                 {
-                    'id': 4,
-                    'name': 'Artist3'
+                    'id': 3,
+                    'name': 'Artist2'
                 }
             ],
             'collages': [
                 {
                     'id': 3,
                     'name': 'Collage1'
+                },
+                {
+                    'id': 4,
+                    'name': 'Collage2'
                 }
             ],
             'genres': [
@@ -372,8 +435,8 @@ snapshots['test_release 1'] = {
                     'name': 'Genre2'
                 }
             ],
-            'id': 3,
-            'imageId': None,
+            'id': 2,
+            'imageId': 1,
             'inFavorites': False,
             'inInbox': False,
             'labels': [
@@ -382,20 +445,24 @@ snapshots['test_release 1'] = {
                     'name': 'Label1'
                 }
             ],
-            'numTracks': 2,
-            'releaseDate': None,
+            'numTracks': 3,
+            'releaseDate': '1970-02-05',
             'releaseType': 'ALBUM',
-            'releaseYear': 1980,
-            'runtime': 7,
-            'title': 'Release2',
+            'releaseYear': 1970,
+            'runtime': 3,
+            'title': 'Release1',
             'tracks': [
                 {
-                    'id': 4,
-                    'title': 'Track3'
+                    'id': 1,
+                    'title': 'Track0'
                 },
                 {
-                    'id': 5,
-                    'title': 'Track4'
+                    'id': 2,
+                    'title': 'Track1'
+                },
+                {
+                    'id': 3,
+                    'title': 'Track2'
                 }
             ]
         }
@@ -1314,8 +1381,71 @@ snapshots['test_releases_search 1'] = {
     'data': {
         'releases': {
             'results': [
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 2,
+                            'name': 'Artist1'
+                        },
+                        {
+                            'id': 3,
+                            'name': 'Artist2'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Collage2'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 2,
+                    'imageId': 1,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 6,
+                            'name': 'Label1'
+                        }
+                    ],
+                    'numTracks': 3,
+                    'releaseDate': '1970-02-05',
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 1970,
+                    'runtime': 3,
+                    'title': 'Release1',
+                    'tracks': [
+                        {
+                            'id': 1,
+                            'title': 'Track0'
+                        },
+                        {
+                            'id': 2,
+                            'title': 'Track1'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'Track2'
+                        }
+                    ]
+                }
             ],
-            'total': 0
+            'total': 1
         }
     }
 }
@@ -2004,8 +2134,6 @@ snapshots['test_update_release 1'] = {
     }
 }
 
-snapshots['test_update_release 2'] = GenericRepr("T(id=2, title='aa', release_type=<ReleaseType.SINGLE: 2>, added_on=FakeDatetime(2020, 1, 1, 1, 1, 1), release_year=2020, num_tracks=3, in_inbox=False, in_favorites=False, rating=1, runtime=3, release_date=FakeDate(2020, 10, 23), image_id=1)")
-
 snapshots['test_update_release_bad_date 1'] = {
     'data': {
         'updateRelease': None
@@ -2026,8 +2154,6 @@ snapshots['test_update_release_bad_date 1'] = {
         }
     ]
 }
-
-snapshots['test_update_release_bad_date 2'] = GenericRepr("T(id=2, title='Release1', release_type=<ReleaseType.ALBUM: 1>, added_on=FakeDatetime(2020, 1, 1, 1, 1, 1), release_year=1970, num_tracks=3, in_inbox=False, in_favorites=False, rating=8, runtime=3, release_date=FakeDate(1970, 2, 5), image_id=1)")
 
 snapshots['test_update_release_not_found 1'] = {
     'data': {
