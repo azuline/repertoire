@@ -1,5 +1,8 @@
+from sqlite3 import Connection
+
 import pytest
 
+from src.enums import PlaylistType
 from src.library import playlist
 
 
@@ -35,7 +38,7 @@ async def test_playlist_not_found(graphql_query, snapshot):
 async def test_playlist_from_name_and_type(graphql_query, snapshot):
     query = """
         query {
-            playlistFromNameAndType(name: "AAAAAA", type: PLAYLIST) {
+            playlistFromNameAndType(name: "playlist1", type: PLAYLIST) {
                 ...PlaylistFields
             }
         }
@@ -81,7 +84,7 @@ async def test_playlists(graphql_query, snapshot):
 async def test_playlists_filter(graphql_query, snapshot):
     query = """
         query {
-            playlists(search: "aaaa", types: [PLAYLIST]) {
+            playlists(search: "Playlist1", types: [PLAYLIST]) {
                 total
                 results {
                     ...PlaylistFields
@@ -120,28 +123,28 @@ async def test_playlist_image(graphql_query):
             }
         }
     """
-    _, result = await graphql_query(query)
-    assert isinstance(result["data"]["playlist"]["imageId"], int)
+    _, data = await graphql_query(query)
+    assert isinstance(data["data"]["playlist"]["imageId"], int)
 
 
 @pytest.mark.asyncio
 async def test_playlist_image_nonexistent(graphql_query):
     query = """
         query {
-            playlist(id: 3) {
+            playlist(id: 1) {
                 imageId
             }
         }
     """
-    _, result = await graphql_query(query)
-    assert result["data"]["playlist"]["imageId"] is None
+    _, data = await graphql_query(query)
+    assert data["data"]["playlist"]["imageId"] is None
 
 
 @pytest.mark.asyncio
 async def test_playlists_type_param(graphql_query, snapshot):
     query = """
         query {
-            playlists(types: [PLAYLIST, SYSTEM]) {
+            playlists(types: [SYSTEM]) {
                 results {
                     ...PlaylistFields
                 }
@@ -155,7 +158,7 @@ async def test_playlists_type_param(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_create_playlist(db, graphql_query, snapshot):
+async def test_create_playlist(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
             createPlaylist(name: "NewPlaylist", type: PLAYLIST, starred: true) {
@@ -167,14 +170,18 @@ async def test_create_playlist(db, graphql_query, snapshot):
     assert success is True
     snapshot.assert_match(data)
 
-    snapshot.assert_match(playlist.from_id(NEXT_PLAYLIST_ID, db))
+    ply = playlist.from_id(data["data"]["createPlaylist"]["id"], db)
+    assert ply is not None
+    assert ply.name == "NewPlaylist"
+    assert ply.type == PlaylistType.PLAYLIST
+    assert ply.starred is True
 
 
 @pytest.mark.asyncio
-async def test_create_playlist_duplicate(db, graphql_query, snapshot):
+async def test_create_playlist_duplicate(graphql_query, snapshot):
     query = """
         mutation {
-            createPlaylist(name: "AAAAAA", type: PLAYLIST, starred: true) {
+            createPlaylist(name: "Playlist1", type: PLAYLIST, starred: true) {
                 ...PlaylistFields
             }
         }
@@ -182,11 +189,10 @@ async def test_create_playlist_duplicate(db, graphql_query, snapshot):
     success, data = await graphql_query(query)
     assert success is True
     snapshot.assert_match(data)
-    assert playlist.from_id(NEXT_PLAYLIST_ID, db) is None
 
 
 @pytest.mark.asyncio
-async def test_update_playlist(db, graphql_query, snapshot):
+async def test_update_playlist(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
             updatePlaylist(id: 3, name: "NewPlaylist", starred: true) {
@@ -197,14 +203,18 @@ async def test_update_playlist(db, graphql_query, snapshot):
     success, data = await graphql_query(query)
     assert success is True
     snapshot.assert_match(data)
-    snapshot.assert_match(playlist.from_id(3, db))
+
+    ply = playlist.from_id(3, db)
+    assert ply is not None
+    assert ply.name == "NewPlaylist"
+    assert ply.starred is True
 
 
 @pytest.mark.asyncio
-async def test_update_playlist_duplicate(db, graphql_query, snapshot):
+async def test_update_playlist_duplicate(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            updatePlaylist(id: 2, name: "BBBBBB") {
+            updatePlaylist(id: 2, name: "Playlist3") {
                 ...PlaylistFields
             }
         }
@@ -212,7 +222,10 @@ async def test_update_playlist_duplicate(db, graphql_query, snapshot):
     success, data = await graphql_query(query)
     assert success is True
     snapshot.assert_match(data)
-    snapshot.assert_match(playlist.from_id(2, db))
+
+    ply = playlist.from_id(2, db)
+    assert ply is not None
+    assert ply.name != "Playlist3"
 
 
 @pytest.mark.asyncio
@@ -230,7 +243,7 @@ async def test_update_playlist_not_found(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_update_playlist_immutable(db, graphql_query, snapshot):
+async def test_update_playlist_immutable(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
             updatePlaylist(id: 1, name: "NewPlaylist", starred: true) {
@@ -241,4 +254,7 @@ async def test_update_playlist_immutable(db, graphql_query, snapshot):
     success, data = await graphql_query(query)
     assert success is True
     snapshot.assert_match(data)
-    snapshot.assert_match(playlist.from_id(1, db))
+
+    ply = playlist.from_id(1, db)
+    assert ply is not None
+    assert ply.name != "NewPlaylist"

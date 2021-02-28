@@ -186,7 +186,7 @@ def _add_test_data(conn: Connection):
     r1tracks = [
         factory.track(
             title=f"Track{i}",
-            filepath=Path.cwd() / "music" / f"track{i}.flac",
+            filepath=Path.cwd() / "music" / f"track{i+1}.flac",
             sha256=bytes([i] * 32),
             release_id=releases[0].id,
             artists=[
@@ -203,7 +203,7 @@ def _add_test_data(conn: Connection):
     r2tracks = [
         factory.track(
             title=f"Track{i}",
-            filepath=Path.cwd() / "music" / f"track{i}.flac",
+            filepath=Path.cwd() / "music" / f"track{i+1}.flac",
             sha256=bytes([i] * 32),
             release_id=releases[1].id,
             artists=[
@@ -220,7 +220,7 @@ def _add_test_data(conn: Connection):
     r3tracks = [
         factory.track(
             title=f"Track{i}",
-            filepath=Path.cwd() / "music" / f"track{i}.flac",
+            filepath=Path.cwd() / "music" / f"track{i+1}.flac",
             sha256=bytes([i] * 32),
             release_id=releases[2].id,
             artists=[{"artist_id": artists[3].id, "role": ArtistRole.MAIN}],
@@ -234,7 +234,7 @@ def _add_test_data(conn: Connection):
     r4tracks = [
         factory.track(
             title=f"Track{i}",
-            filepath=Path.cwd() / "music" / f"track{i}.flac",
+            filepath=Path.cwd() / "music" / f"track{i+1}.flac",
             sha256=bytes([i] * 32),
             release_id=releases[3].id,
             artists=[
@@ -252,7 +252,7 @@ def _add_test_data(conn: Connection):
     r5tracks = [
         factory.track(
             title=f"Track{i}",
-            filepath=Path.cwd() / "music" / f"track{i}.flac",
+            filepath=Path.cwd() / "music" / f"track{i+1}.flac",
             sha256=bytes([i] * 32),
             release_id=releases[4].id,
             artists=[],
