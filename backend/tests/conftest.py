@@ -20,27 +20,6 @@ from tests.fragments import FRAGMENTS
 
 SEED_DATA = Path(__file__).parent / "seed_data"
 
-ADMIN_TOKEN = "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc8"
-
-NUM_RELEASES = 3
-NUM_ARTISTS = 5
-NUM_TRACKS = 21
-NUM_COLLECTIONS = 11
-NUM_PLAYLISTS = 3
-NUM_PLAYLIST_ENTRIES = 8
-NUM_IMAGES = 2
-NUM_USERS = 2
-
-# These are the next autoincremented DB primary key IDs for each model.
-NEXT_RELEASE_ID = NUM_RELEASES + 1
-NEXT_ARTIST_ID = NUM_ARTISTS + 1
-NEXT_TRACK_ID = NUM_TRACKS + 1
-NEXT_COLLECTION_ID = NUM_COLLECTIONS + 1
-NEXT_PLAYLIST_ID = NUM_PLAYLISTS + 1
-NEXT_PLAYLIST_ENTRY_ID = NUM_PLAYLIST_ENTRIES + 1
-NEXT_IMAGE_ID = NUM_IMAGES + 1
-NEXT_USER_ID = NUM_USERS + 1
-
 
 @pytest.fixture(scope="session")
 def seed_db():
