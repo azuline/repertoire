@@ -1,7 +1,6 @@
 import pytest
 
 from src.library import collection
-from tests.conftest import NEXT_COLLECTION_ID
 
 
 @pytest.mark.asyncio

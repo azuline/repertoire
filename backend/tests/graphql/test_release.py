@@ -1,7 +1,6 @@
 import pytest
 
 from src.library import release
-from tests.conftest import NEXT_RELEASE_ID
 
 
 @pytest.mark.asyncio

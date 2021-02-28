@@ -1,7 +1,6 @@
 import pytest
 
 from src.library import artist
-from tests.conftest import NEXT_ARTIST_ID
 
 
 @pytest.mark.asyncio

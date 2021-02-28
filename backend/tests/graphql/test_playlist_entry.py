@@ -1,7 +1,6 @@
 import pytest
 
 from src.library import playlist_entry as pentry
-from tests.conftest import NEXT_PLAYLIST_ENTRY_ID
 
 
 @pytest.mark.asyncio
