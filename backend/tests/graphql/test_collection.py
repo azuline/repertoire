@@ -1,5 +1,8 @@
+from sqlite3 import Connection
+
 import pytest
 
+from src.enums import CollectionType
 from src.library import collection
 
 
@@ -12,7 +15,9 @@ async def test_collection(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -24,20 +29,23 @@ async def test_collection_not_found(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
 async def test_collection_from_name_and_type(graphql_query, snapshot):
     query = """
         query {
-            collectionFromNameAndType(name: "Folk", type: GENRE) {
+            collectionFromNameAndType(name: "Genre1", type: GENRE) {
                 ...CollectionFields
             }
         }
     """
-
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -49,7 +57,9 @@ async def test_collection_from_name_and_type_not_found(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -64,14 +74,16 @@ async def test_collections(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
 async def test_collections_filter(graphql_query, snapshot):
     query = """
         query {
-            collections(search: "folk", types: [GENRE]) {
+            collections(search: "genre1", types: [GENRE]) {
                 total
                 results {
                     ...CollectionFields
@@ -79,7 +91,9 @@ async def test_collections_filter(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -94,7 +108,9 @@ async def test_collections_pagination(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -106,21 +122,23 @@ async def test_collection_image(graphql_query):
             }
         }
     """
-    _, result = await graphql_query(query)
-    assert isinstance(result["data"]["collection"]["imageId"], int)
+    success, data = await graphql_query(query)
+    assert success is True
+    assert isinstance(data["data"]["collection"]["imageId"], int)
 
 
 @pytest.mark.asyncio
 async def test_collection_image_nonexistent(graphql_query):
     query = """
         query {
-            collection(id: 2) {
+            collection(id: 1) {
                 imageId
             }
         }
     """
-    _, result = await graphql_query(query)
-    assert result["data"]["collection"]["imageId"] is None
+    success, data = await graphql_query(query)
+    assert success is True
+    assert data["data"]["collection"]["imageId"] is None
 
 
 @pytest.mark.asyncio
@@ -134,11 +152,13 @@ async def test_collections_type_param(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
-async def test_create_collection(db, graphql_query, snapshot):
+async def test_create_collection(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
             createCollection(name: "NewCollection", type: COLLAGE, starred: true) {
@@ -146,25 +166,32 @@ async def test_create_collection(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(collection.from_id(NEXT_COLLECTION_ID, db))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    col = collection.from_id(data["data"]["createCollection"]["id"], db)
+    assert col.name == "NewCollection"
+    assert col.type == CollectionType.COLLAGE
+    assert col.starred is True
 
 
 @pytest.mark.asyncio
-async def test_create_collection_duplicate(db, graphql_query, snapshot):
+async def test_create_collection_duplicate(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            createCollection(name: "Folk", type: GENRE, starred: true) {
+            createCollection(name: "Collage1", type: COLLAGE, starred: true) {
                 ...CollectionFields
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
-    assert collection.from_id(NEXT_COLLECTION_ID, db) is None
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
-async def test_update_collection(db, graphql_query, snapshot):
+async def test_update_collection(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
             updateCollection(id: 3, name: "NewCollection", starred: true) {
@@ -172,21 +199,30 @@ async def test_update_collection(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(collection.from_id(3, db))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    col = collection.from_id(3, db)
+    assert col.name == "NewCollection"
+    assert col.starred is True
 
 
 @pytest.mark.asyncio
-async def test_update_collection_duplicate(db, graphql_query, snapshot):
+async def test_update_collection_duplicate(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            updateCollection(id: 7, name: "Folk") {
+            updateCollection(id: 3, name: "Collage3") {
                 ...CollectionFields
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(collection.from_id(7, db))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    col = collection.from_id(3, db)
+    assert col.name != "Collage3"
 
 
 @pytest.mark.asyncio
@@ -198,27 +234,33 @@ async def test_update_collection_not_found(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
-async def test_update_collection_immutable(db, graphql_query, snapshot):
+async def test_update_collection_immutable(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            updateCollection(id: 1, name: "NewCollection", starred: true) {
+            updateCollection(id: 1, name: "NewCollection") {
                 ...CollectionFields
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(collection.from_id(1, db))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    col = collection.from_id(1, db)
+    assert col.name != "NewCollection"
 
 
 @pytest.mark.asyncio
-async def test_add_release_to_collection(db, graphql_query, snapshot):
+async def test_add_release_to_collection(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            addReleaseToCollection(collectionId: 2, releaseId: 2) {
+            addReleaseToCollection(collectionId: 1, releaseId: 2) {
                 collection {
                     ...CollectionFields
                 }
@@ -228,10 +270,14 @@ async def test_add_release_to_collection(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
-    col = collection.from_id(2, db)
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    col = collection.from_id(1, db)
     assert col is not None
-    snapshot.assert_match(collection.releases(col, db))
+
+    assert 2 in [r.id for r in collection.releases(col, db)]
 
 
 @pytest.mark.asyncio
@@ -248,11 +294,17 @@ async def test_add_release_to_collection_bad_collection(graphql_query, snapshot)
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
-async def test_add_release_to_collection_bad_release(db, graphql_query, snapshot):
+async def test_add_release_to_collection_bad_release(
+    db: Connection,
+    graphql_query,
+    snapshot,
+):
     query = """
         mutation {
             addReleaseToCollection(collectionId: 2, releaseId: 9999) {
@@ -265,14 +317,26 @@ async def test_add_release_to_collection_bad_release(db, graphql_query, snapshot
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
     col = collection.from_id(2, db)
     assert col is not None
-    snapshot.assert_match(collection.releases(col, db))
+
+    releases_before = collection.releases(col, db)
+
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    releases_after = collection.releases(col, db)
+
+    assert releases_before == releases_after
 
 
 @pytest.mark.asyncio
-async def test_add_release_to_collection_already_exists(db, graphql_query, snapshot):
+async def test_add_release_to_collection_already_exists(
+    db: Connection,
+    graphql_query,
+    snapshot,
+):
     query = """
         mutation {
             addReleaseToCollection(collectionId: 3, releaseId: 2) {
@@ -285,17 +349,25 @@ async def test_add_release_to_collection_already_exists(db, graphql_query, snaps
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
     col = collection.from_id(3, db)
     assert col is not None
-    snapshot.assert_match(collection.releases(col, db))
+
+    releases_before = collection.releases(col, db)
+
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    releases_after = collection.releases(col, db)
+
+    assert releases_before == releases_after
 
 
 @pytest.mark.asyncio
-async def test_del_release_from_collection(db, graphql_query, snapshot):
+async def test_del_release_from_collection(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            delReleaseFromCollection(collectionId: 1, releaseId: 2) {
+            delReleaseFromCollection(collectionId: 3, releaseId: 2) {
                 collection {
                     ...CollectionFields
                 }
@@ -305,10 +377,13 @@ async def test_del_release_from_collection(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
-    col = collection.from_id(1, db)
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    col = collection.from_id(3, db)
     assert col is not None
-    snapshot.assert_match(collection.releases(col, db))
+    assert 2 not in [r.id for r in collection.releases(col, db)]
 
 
 @pytest.mark.asyncio
@@ -325,11 +400,17 @@ async def test_del_release_from_collection_bad_collection(graphql_query, snapsho
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
-async def test_del_release_from_collection_bad_release(db, graphql_query, snapshot):
+async def test_del_release_from_collection_bad_release(
+    db: Connection,
+    graphql_query,
+    snapshot,
+):
     query = """
         mutation {
             delReleaseFromCollection(collectionId: 2, releaseId: 9999) {
@@ -342,17 +423,29 @@ async def test_del_release_from_collection_bad_release(db, graphql_query, snapsh
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
     col = collection.from_id(2, db)
     assert col is not None
-    snapshot.assert_match(collection.releases(col, db))
+
+    releases_before = collection.releases(col, db)
+
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    releases_after = collection.releases(col, db)
+
+    assert releases_before == releases_after
 
 
 @pytest.mark.asyncio
-async def test_del_release_from_collection_doesnt_exist(graphql_query, snapshot):
+async def test_del_release_from_collection_doesnt_exist(
+    db: Connection,
+    graphql_query,
+    snapshot,
+):
     query = """
         mutation {
-            delReleaseFromCollection(collectionId: 2, releaseId: 2) {
+            delReleaseFromCollection(collectionId: 1, releaseId: 1) {
                 collection {
                     ...CollectionFields
                 }
@@ -362,4 +455,15 @@ async def test_del_release_from_collection_doesnt_exist(graphql_query, snapshot)
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    col = collection.from_id(1, db)
+    assert col is not None
+
+    releases_before = collection.releases(col, db)
+
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    releases_after = collection.releases(col, db)
+
+    assert releases_before == releases_after

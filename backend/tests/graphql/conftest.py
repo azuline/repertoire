@@ -61,6 +61,8 @@ def _add_test_data(conn: Connection):
     usr_admin, _ = factory.user(nickname="admin", conn=conn)
     usr_blissful, _ = factory.user(nickname="blissful", conn=conn)
 
+    # These start at ID 2.
+
     artists = [
         factory.artist(name="Artist1", conn=conn),
         factory.artist(name="Artist2", conn=conn),
@@ -68,6 +70,8 @@ def _add_test_data(conn: Connection):
         factory.artist(name="Artist4", conn=conn),
         factory.artist(name="Artist5", conn=conn),
     ]
+
+    # These start at ID 3.
 
     collages = [
         factory.collection(name="Collage1", type=CollectionType.COLLAGE, conn=conn),
@@ -87,17 +91,23 @@ def _add_test_data(conn: Connection):
         factory.collection(name="Genre3", type=CollectionType.GENRE, conn=conn),
     ]
 
+    # These start at ID 1.
+
     images = [
         factory.mock_image(path=Path.cwd() / "image1.png", conn=conn),
         factory.mock_image(path=Path.cwd() / "image2.png", conn=conn),
         factory.mock_image(path=Path.cwd() / "image3.png", conn=conn),
     ]
 
+    # These start at ID 2.
+
     playlists = [
         factory.playlist(name="Playlist1", type=PlaylistType.PLAYLIST, conn=conn),
         factory.playlist(name="Playlist2", type=PlaylistType.PLAYLIST, conn=conn),
         factory.playlist(name="Playlist3", type=PlaylistType.PLAYLIST, conn=conn),
     ]
+
+    # These start at ID 2.
 
     releases = [
         factory.release(
@@ -170,6 +180,8 @@ def _add_test_data(conn: Connection):
     collection.add_release(genres[1], releases[2].id, conn)
     collection.add_release(genres[2], releases[3].id, conn)
     collection.add_release(genres[2], releases[4].id, conn)
+
+    # These start at ID 0.
 
     r1tracks = [
         factory.track(
@@ -253,6 +265,8 @@ def _add_test_data(conn: Connection):
     ]
 
     tracks = r1tracks + r2tracks + r3tracks + r4tracks + r5tracks
+
+    # These start at ID 1.
 
     for trk in tracks[:5]:
         pentry.create(playlists[0].id, trk.id, conn)

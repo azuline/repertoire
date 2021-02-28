@@ -1,3 +1,5 @@
+from sqlite3 import Connection
+
 import pytest
 
 from src.library import artist
@@ -139,7 +141,7 @@ async def test_artist_image_nonexistent(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_create_artist(db, graphql_query, snapshot):
+async def test_create_artist(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
             createArtist(name: "New Artist", starred: true) {
@@ -157,7 +159,7 @@ async def test_create_artist(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_create_artist_duplicate(db, graphql_query, snapshot):
+async def test_create_artist_duplicate(graphql_query, snapshot):
     query = """
         mutation {
             createArtist(name: "Artist1") {
@@ -171,7 +173,7 @@ async def test_create_artist_duplicate(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_update_artist(db, graphql_query, snapshot):
+async def test_update_artist(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
             updateArtist(id: 4, name: "New Name", starred: true) {
@@ -203,7 +205,7 @@ async def test_update_artist_doesnt_exist(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_update_artist_duplicate(db, graphql_query, snapshot):
+async def test_update_artist_duplicate(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
             updateArtist(id: 4, name: "Artist1") {
