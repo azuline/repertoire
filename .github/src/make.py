@@ -21,7 +21,8 @@ backend_data = {
         uses: actions/cache@v2
         with:
           path: backend/.mypy_cache
-          key: "${{ runner.os }}-mypy"
+          key: "${{ runner.os }}-mypy-${{ github.sha }}"
+          restore-key: "${{ runner.os }}-mypy-"
       - name: Run type check
         run: make typecheck
         """,
