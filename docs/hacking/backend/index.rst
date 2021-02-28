@@ -55,3 +55,4 @@ connections.
    indexer
    library
    webserver
+   testing
