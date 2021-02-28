@@ -34,7 +34,7 @@ class Factory:
         name: Optional[str] = None,
     ) -> libartist.T:
         return libartist.create(
-            name=name if name is not None else _rand_string(12),
+            name=name if name is not None else self.rand_string(12),
             conn=conn,
         )
 
@@ -46,7 +46,7 @@ class Factory:
         type: Optional[CollectionType] = None,
     ) -> libcollection.T:
         return libcollection.create(
-            name=name if name is not None else _rand_string(12),
+            name=name if name is not None else self.rand_string(12),
             type=type if type is not None else CollectionType.COLLAGE,
             conn=conn,
             override_immutable=True,
@@ -59,7 +59,7 @@ class Factory:
         path: Optional[Path] = None,
     ) -> libimage.T:
         if path is None:
-            path = Path.cwd() / f"{_rand_string(12)}.png"
+            path = Path.cwd() / f"{self.rand_string(12)}.png"
             shutil.copyfile(FAKE_COVER, path)
 
         return libimage.create(path=path, conn=conn)
@@ -72,7 +72,7 @@ class Factory:
     ) -> libimage.T:
         """This creates an dummy image in the database. No actual image files."""
         if path is None:
-            path = Path.cwd() / f"{_rand_string(12)}.png"
+            path = Path.cwd() / f"{self.rand_string(12)}.png"
 
         cursor = conn.execute("INSERT INTO images(path) VALUES (?)", (str(path),))
         img = libimage.from_id(cursor.lastrowid, conn=conn)
@@ -87,7 +87,7 @@ class Factory:
         type: Optional[PlaylistType] = None,
     ) -> libplaylist.T:
         return libplaylist.create(
-            name=name if name is not None else _rand_string(12),
+            name=name if name is not None else self.rand_string(12),
             type=type if type is not None else PlaylistType.PLAYLIST,
             conn=conn,
             override_immutable=True,
@@ -124,7 +124,7 @@ class Factory:
             artist_ids = [self.artist(conn=conn).id]
 
         return librelease.create(
-            title=title if title is not None else _rand_string(12),
+            title=title if title is not None else self.rand_string(12),
             artist_ids=artist_ids,
             release_type=(
                 release_type if release_type is not None else ReleaseType.ALBUM
@@ -173,8 +173,8 @@ class Factory:
                 ]
 
         return libtrack.create(
-            title=title if title is not None else _rand_string(12),
-            filepath=filepath if filepath is not None else _rand_path(".m4a"),
+            title=title if title is not None else self.rand_string(12),
+            filepath=filepath if filepath is not None else self.rand_path(".m4a"),
             sha256=sha256 if sha256 is not None else random.randbytes(12),
             release_id=release_id,
             artists=artists,
@@ -191,14 +191,15 @@ class Factory:
         nickname: Optional[str] = None,
     ) -> tuple[libuser.T, bytes]:
         return libuser.create(
-            nickname=nickname if nickname is not None else _rand_string(12),
+            nickname=nickname if nickname is not None else self.rand_string(12),
             conn=conn,
         )
 
+    def rand_string(self, length: int) -> str:
+        return "".join(random.choice(string.ascii_letters) for _ in range(length))
 
-def _rand_string(length: int) -> str:
-    return "".join(random.choice(string.ascii_letters) for _ in range(length))
+    def rand_path(self, ext: str) -> Path:
+        return Path.cwd() / f"{self.rand_string(12)}{ext}"
 
-
-def _rand_path(ext: str) -> Path:
-    return Path.cwd() / f"{_rand_string(12)}{ext}"
+    def rand_year(self) -> int:
+        return random.randint(0, 2022)

@@ -54,7 +54,9 @@ def test_search_one(factory: Factory, db: Connection):
 
 
 def test_search_page(factory: Factory, db: Connection):
-    [factory.artist(conn=db) for _ in range(5)]
+    for _ in range(5):
+        factory.artist(conn=db)
+
     a1 = artist.search(db, page=1, per_page=1)[0]
     a2 = artist.search(db, page=2, per_page=1)[0]
     assert a1 != a2
@@ -67,7 +69,9 @@ def test_search_per_page(factory: Factory, db: Connection):
 
 
 def test_count_all(factory: Factory, db: Connection):
-    [factory.artist(conn=db) for _ in range(5)]
+    for _ in range(5):
+        factory.artist(conn=db)
+
     count = artist.count(db)
     # The extra 1 is the Unknown Artist.
     assert count == 5 + 1

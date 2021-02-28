@@ -60,7 +60,9 @@ def test_search_one(factory: Factory, db: Connection):
 
 
 def test_search_page(factory: Factory, db: Connection):
-    [factory.playlist(conn=db) for _ in range(5)]
+    for _ in range(5):
+        factory.playlist(conn=db)
+
     p1 = playlist.search(db, page=1, per_page=1)[0]
     p2 = playlist.search(db, page=2, per_page=1)[0]
     assert p1 != p2

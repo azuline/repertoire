@@ -70,7 +70,9 @@ def test_search_filters(factory: Factory, db: Connection):
 
 
 def test_search_page(factory: Factory, db: Connection):
-    [factory.collection(conn=db) for _ in range(5)]
+    for _ in range(5):
+        factory.collection(conn=db)
+
     c1 = collection.search(db, page=1, per_page=1)[0]
     c2 = collection.search(db, page=2, per_page=1)[0]
     assert c1 != c2
