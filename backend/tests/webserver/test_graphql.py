@@ -1,8 +1,15 @@
+import json
+
 import pytest
+
+from tests.factory import Factory
 
 
 @pytest.mark.asyncio
-async def test_graphql_endpoint(quart_client, snapshot):
+async def test_graphql_endpoint(factory: Factory, db, quart_client):
+    usr, token = factory.user(conn=db)
+    db.commit()
+
     query = """
         query {
             user {
@@ -13,13 +20,26 @@ async def test_graphql_endpoint(quart_client, snapshot):
     """
 
     response = await quart_client.authed_post(
-        "/graphql", json={"operationName": None, "variables": {}, "query": query}
+        "/graphql",
+        token=token,
+        json={
+            "operationName": None,
+            "variables": {},
+            "query": query,
+        },
     )
-    snapshot.assert_match(await response.get_data())
+    data = await response.get_data()
+    from pprint import pprint
+
+    pprint(data)
+    data = json.loads(data)
+
+    assert data["data"]["user"]["id"] == usr.id
+    assert data["data"]["user"]["nickname"] == usr.nickname
 
 
 @pytest.mark.asyncio
-async def test_graphql_endpoint_no_auth(quart_client, snapshot):
+async def test_graphql_endpoint_no_auth(quart_client):
     query = """
         query {
             user {
@@ -30,6 +50,11 @@ async def test_graphql_endpoint_no_auth(quart_client, snapshot):
     """
 
     response = await quart_client.post(
-        "/graphql", json={"operationName": None, "variables": {}, "query": query}
+        "/graphql",
+        json={
+            "operationName": None,
+            "variables": {},
+            "query": query,
+        },
     )
-    snapshot.assert_match(await response.get_data())
+    assert response.status_code == 401

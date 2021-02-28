@@ -1,5 +1,6 @@
 from dataclasses import asdict
 from pathlib import Path
+from sqlite3 import Connection
 from unittest.mock import Mock, call, patch
 
 import pytest
@@ -19,14 +20,15 @@ from src.indexer.scanner import (
     scan_directory,
 )
 from src.library import artist, collection, release, track
-from tests.conftest import NEXT_RELEASE_ID, SEED_DATA
+from tests.conftest import SEED_DATA
+from tests.factory import Factory
 
 FAKE_MUSIC = SEED_DATA / "fake_music"
 NEW_ALBUM = FAKE_MUSIC / "New Album"
 
 
 @patch("src.indexer.scanner.scan_directory")
-def test_scan_directories(mock_scan_directory):
+def test_scan_directories(mock_scan_directory, seed_data):
     scan_directories()
 
     mock_scan_directory.assert_has_calls([call("/dir1"), call("/dir2")])
@@ -34,19 +36,14 @@ def test_scan_directories(mock_scan_directory):
 
 @patch("src.indexer.scanner._fix_release_types")
 @patch("src.indexer.scanner.catalog_file")
-def test_scan_directory(mock_catalog_file, mock_fix_release_types, db):
+def test_scan_directory(
+    mock_catalog_file,
+    mock_fix_release_types,
+    factory: Factory,
+    db: Connection,
+):
     # Add one track to the library; it should be skipped in the scan.
-    track.create(
-        title="a",
-        filepath=NEW_ALBUM / "track1.flac",
-        sha256=b"0" * 32,
-        release_id=1,
-        artists=[],
-        duration=4,
-        track_number="1",
-        disc_number="1",
-        conn=db,
-    )
+    factory.track(filepath=NEW_ALBUM / "track1.flac", conn=db)
     db.commit()
 
     scan_directory(str(FAKE_MUSIC))
@@ -62,8 +59,16 @@ def test_scan_directory(mock_catalog_file, mock_fix_release_types, db):
 
 
 @patch("src.indexer.scanner._fetch_or_create_release")
-def test_catalog_file(mock_fetch_or_create_release, db, snapshot):
-    mock_fetch_or_create_release.return_value = Mock(id=3)
+def test_catalog_file(
+    mock_fetch_or_create_release,
+    factory: Factory,
+    db: Connection,
+    snapshot,
+):
+    rls = factory.release(conn=db)
+
+    mock_fetch_or_create_release.return_value = Mock(id=rls.id)
+
     filepath = NEW_ALBUM / "track1.flac"
     catalog_file(str(filepath), db)
 
@@ -75,8 +80,8 @@ def test_catalog_file(mock_fetch_or_create_release, db, snapshot):
     track_dict = asdict(trk)
     del track_dict["filepath"]
 
-    snapshot.assert_match(track_dict)
     assert str(trk.filepath).endswith("/track1.flac")
+    snapshot.assert_match(track_dict)
     snapshot.assert_match(track.artists(trk, db))
 
 
@@ -87,12 +92,13 @@ def test_catalog_file_null_title(
     tagfile,
     calc_sha,
     mock_fetch_or_create_release,
-    db,
+    factory: Factory,
+    db: Connection,
     snapshot,
 ):
     filepath = "/tmp/music.m4a"
-
-    mock_fetch_or_create_release.return_value = Mock(id=3)
+    rls = factory.release(conn=db)
+    mock_fetch_or_create_release.return_value = Mock(id=rls.id)
     calc_sha.return_value = b"0" * 32
     tagfile.return_value = Mock(
         artist={ArtistRole.MAIN: ["art1"]},
@@ -107,6 +113,7 @@ def test_catalog_file_null_title(
     catalog_file(filepath, db)
 
     trk = track.from_filepath(filepath, db)
+    assert trk is not None
     assert trk.title == "Untitled"
 
 
@@ -117,12 +124,13 @@ def test_catalog_file_duplicate_artist(
     tagfile,
     calc_sha,
     mock_fetch_or_create_release,
-    db,
+    factory: Factory,
+    db: Connection,
     snapshot,
 ):
     filepath = "/tmp/music.m4a"
-
-    mock_fetch_or_create_release.return_value = Mock(id=3)
+    rls = factory.release(conn=db)
+    mock_fetch_or_create_release.return_value = Mock(id=rls.id)
     calc_sha.return_value = b"0" * 32
     tagfile.return_value = Mock(
         artist={ArtistRole.MAIN: ["art1", "art1"]},
@@ -141,17 +149,22 @@ def test_catalog_file_duplicate_artist(
     assert len(track.artists(trk, db)) == 1
 
 
-def test_fetch_or_create_release_unknown(db):
+def test_fetch_or_create_release_unknown(db: Connection):
     assert release.from_id(1, db) == _fetch_or_create_release(Mock(album=None), db)
 
 
-def test_fetch_or_create_release_fetch(db):
-    assert release.from_id(3, db) == _fetch_or_create_release(
-        Mock(album="Departure", artist_album=["Abakus", "Bacchus"]), db
+def test_fetch_or_create_release_fetch(factory: Factory, db: Connection):
+    rls = factory.release(conn=db)
+    assert release.from_id(rls.id, db) == _fetch_or_create_release(
+        tf=Mock(
+            album=rls.title,
+            artist_album=[art.name for art in release.artists(rls, conn=db)],
+        ),
+        conn=db,
     )
 
 
-def test_fetch_or_create_release_no_fetch(db):
+def test_fetch_or_create_release_no_fetch(db: Connection):
     assert release.from_id(3, db) != _fetch_or_create_release(
         Mock(
             album="Departure",
@@ -164,7 +177,7 @@ def test_fetch_or_create_release_no_fetch(db):
     )
 
 
-def test_fetch_or_create_release_duplicate_artists(db):
+def test_fetch_or_create_release_duplicate_artists(db: Connection):
     rls = _fetch_or_create_release(
         Mock(
             album="aaaaa",
@@ -179,7 +192,7 @@ def test_fetch_or_create_release_duplicate_artists(db):
     assert len(release.artists(rls, db)) == 1
 
 
-def test_fetch_or_create_release_bad_date(db):
+def test_fetch_or_create_release_bad_date(db: Connection):
     rls = _fetch_or_create_release(
         Mock(
             album="Departure",
@@ -190,7 +203,6 @@ def test_fetch_or_create_release_bad_date(db):
         ),
         db,
     )
-    assert rls.id == NEXT_RELEASE_ID
     assert rls.release_date is None
 
 
@@ -208,57 +220,48 @@ def test_get_release_type_no_match():
     assert ReleaseType.UNKNOWN == _get_release_type(Mock(release_type="efjaefj"))
 
 
-def test_fetch_or_create_artist_unknown(db):
+def test_fetch_or_create_artist_unknown(db: Connection):
     assert artist.from_id(1, db) == _fetch_or_create_artist("", db)
 
 
-def test_fetch_or_create_artist_duplicate(db):
-    assert artist.from_id(5, db) == _fetch_or_create_artist("Bacchus", db)
+def test_fetch_or_create_artist_duplicate(factory: Factory, db: Connection):
+    art = factory.artist(conn=db)
+    assert artist.from_id(art.id, db) == _fetch_or_create_artist(art.name, db)
 
 
-def test_insert_into_inbox_collection(db):
+def test_insert_into_inbox_collection(factory: Factory, db: Connection):
     inbox = collection.from_id(1, db)
     assert inbox is not None
 
-    rls = release.from_id(1, db)
-    assert rls is not None
-
+    rls = factory.release(conn=db)
     assert rls not in collection.releases(inbox, db)
 
     _insert_into_inbox_collection(rls, db)
+    assert release.from_id(rls.id, db) in collection.releases(inbox, db)
 
-    assert release.from_id(1, db) in collection.releases(inbox, db)
 
-
-def test_insert_into_label_collection_nonexistent(db):
-    rls = release.from_id(1, db)
-    assert rls is not None
-
+def test_insert_into_label_collection_nonexistent(factory: Factory, db: Connection):
+    rls = factory.release(conn=db)
     _insert_into_label_collection(rls, "", db)
     assert not release.collections(rls, db)
 
 
-def test_insert_into_label_collection_existing(db):
-    rls = release.from_id(1, db)
-    assert rls is not None
-
-    _insert_into_label_collection(rls, "MyLabel", db)
-    col = collection.from_id(11, db)
-    assert col in release.collections(rls, db)
+def test_insert_into_label_collection_existing(factory: Factory, db: Connection):
+    rls = factory.release(conn=db)
+    col = factory.collection(type=CollectionType.LABEL, conn=db)
+    _insert_into_label_collection(rls, col.name, db)
+    assert collection.from_id(col.id, db) in release.collections(rls, db)
 
 
-def test_insert_into_label_collection_new(db):
-    rls = release.from_id(1, db)
-    assert rls is not None
-
+def test_insert_into_label_collection_new(factory: Factory, db: Connection):
+    rls = factory.release(conn=db)
     _insert_into_label_collection(rls, "asdf", db)
     col = collection.from_name_and_type("asdf", CollectionType.LABEL, db)
     assert col in release.collections(rls, db)
 
 
-def test_insert_into_genre_collections(db):
-    rls = release.from_id(1, db)
-    assert rls is not None
+def test_insert_into_genre_collections(factory: Factory, db: Connection):
+    rls = factory.release(conn=db)
 
     _insert_into_genre_collections(rls, ["1, 2, 3", "4; 5"], db)
     collections = release.collections(rls, db)
@@ -267,9 +270,8 @@ def test_insert_into_genre_collections(db):
         assert col in collections
 
 
-def test_duplicate_genre(db):
-    rls = release.from_id(1, db)
-    assert rls is not None
+def test_duplicate_genre(factory: Factory, db: Connection):
+    rls = factory.release(conn=db)
 
     _insert_into_genre_collections(rls, ["1, 2, 3", "2/3"], db)
     collections = release.collections(rls, db)
@@ -278,18 +280,16 @@ def test_duplicate_genre(db):
         assert col in collections
 
 
-def test_insert_into_genre_preexisting(db):
-    rls = release.from_id(1, db)
-    assert rls is not None
+def test_insert_into_genre_preexisting(factory: Factory, db: Connection):
+    rls = factory.release(conn=db)
+    col = factory.collection(type=CollectionType.GENRE, conn=db)
 
-    _insert_into_genre_collections(rls, ["Folk"], db)
-    assert collection.from_id(3, db) in release.collections(rls, db)
+    _insert_into_genre_collections(rls, [col.name], db)
+    assert collection.from_id(col.id, db) in release.collections(rls, db)
 
 
-def test_insert_into_genre_collections_nothing(db):
-    rls = release.from_id(1, db)
-    assert rls is not None
-
+def test_insert_into_genre_collections_nothing(factory: Factory, db: Connection):
+    rls = factory.release(conn=db)
     _insert_into_genre_collections(rls, ["  "], db)
     assert not release.collections(rls, db)
 
@@ -321,8 +321,8 @@ def test_split_genres(string, genres):
         (9, ReleaseType.ALBUM),
     ],
 )
-def test_fix_release_types(db, num_tracks, release_type):
-    rls = release.from_id(1, db)
+def test_fix_release_types(factory: Factory, db: Connection, num_tracks, release_type):
+    rls = factory.release(release_type=ReleaseType.UNKNOWN, conn=db)
 
     for i in range(num_tracks):
         track.create(
@@ -339,4 +339,6 @@ def test_fix_release_types(db, num_tracks, release_type):
 
     _fix_release_types(db)
 
-    assert release.from_id(1, db).release_type == release_type
+    new_rls = release.from_id(rls.id, db)
+    assert new_rls is not None
+    assert new_rls.release_type == release_type

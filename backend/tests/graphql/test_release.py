@@ -1,19 +1,23 @@
+from datetime import date
+
 import pytest
 
+from src.enums import ReleaseType
 from src.library import release
-from tests.conftest import NEXT_RELEASE_ID
 
 
 @pytest.mark.asyncio
 async def test_release(graphql_query, snapshot):
     query = """
         query {
-            release(id: 3) {
+            release(id: 2) {
                 ...ReleaseFields
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -25,7 +29,9 @@ async def test_release_not_found(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -40,14 +46,16 @@ async def test_releases(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
 async def test_releases_search(graphql_query, snapshot):
     query = """
         query {
-            releases(search: "Aaron") {
+            releases(search: "Release1") {
                 total
                 results {
                     ...ReleaseFields
@@ -55,7 +63,9 @@ async def test_releases_search(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -70,7 +80,9 @@ async def test_releases_filter_collections(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -85,7 +97,9 @@ async def test_releases_filter_artists(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -100,7 +114,9 @@ async def test_releases_filter_types(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -115,7 +131,9 @@ async def test_releases_pagination(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -130,7 +148,9 @@ async def test_releases_sort(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -145,7 +165,9 @@ async def test_releases_sort_desc(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -153,7 +175,7 @@ async def test_create_release(db, graphql_query, snapshot):
     query = """
         mutation {
             createRelease(
-                title: "aa"
+                title: "NewRelease"
                 artistIds: [2, 3]
                 releaseType: ALBUM
                 releaseYear: 2020
@@ -163,9 +185,18 @@ async def test_create_release(db, graphql_query, snapshot):
             }
         }
     """
-    _, response = await graphql_query(query)
-    snapshot.assert_match(response)
-    assert release.from_id(NEXT_RELEASE_ID, db) is not None
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    rls = release.from_id(data["data"]["createRelease"]["id"], db)
+    assert rls is not None
+    assert rls.title == "NewRelease"
+    assert rls.release_type == ReleaseType.ALBUM
+    assert rls.release_year == 2020
+    assert rls.release_date == date(2020, 10, 23)
+
+    assert {2, 3} == {a.id for a in release.artists(rls, db)}
 
 
 @pytest.mark.asyncio
@@ -183,8 +214,9 @@ async def test_create_release_bad_date(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
-    assert release.from_id(NEXT_RELEASE_ID, db) is None
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -202,8 +234,9 @@ async def test_create_release_bad_artists(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
-    assert release.from_id(NEXT_RELEASE_ID, db) is None
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -222,8 +255,16 @@ async def test_update_release(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(release.from_id(2, db))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    rls = release.from_id(2, db)
+    assert rls.title == "aa"
+    assert rls.release_type == ReleaseType.SINGLE
+    assert rls.release_year == 2020
+    assert rls.release_date == date(2020, 10, 23)
+    assert rls.rating == 1
 
 
 @pytest.mark.asyncio
@@ -238,8 +279,12 @@ async def test_update_release_bad_date(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
-    snapshot.assert_match(release.from_id(2, db))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    rls = release.from_id(2, db)
+    assert rls.release_date == date(1970, 2, 5)
 
 
 @pytest.mark.asyncio
@@ -254,14 +299,16 @@ async def test_update_release_not_found(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
 async def test_add_artist_to_release(db, graphql_query, snapshot):
     query = """
         mutation {
-            addArtistToRelease(releaseId: 2, artistId: 3) {
+            addArtistToRelease(releaseId: 2, artistId: 5) {
                 release {
                     ...ReleaseFields
                 }
@@ -271,10 +318,13 @@ async def test_add_artist_to_release(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
     rls = release.from_id(2, db)
     assert rls is not None
-    snapshot.assert_match(release.artists(rls, db))
+    assert 5 in [a.id for a in release.artists(rls, db)]
 
 
 @pytest.mark.asyncio
@@ -291,7 +341,9 @@ async def test_add_artist_to_release_bad_release(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -308,10 +360,18 @@ async def test_add_artist_to_release_bad_artist(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
     rls = release.from_id(2, db)
     assert rls is not None
-    snapshot.assert_match(release.artists(rls, db))
+
+    before_artists = release.artists(rls, db)
+
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    after_artists = release.artists(rls, db)
+
+    assert before_artists == after_artists
 
 
 @pytest.mark.asyncio
@@ -328,10 +388,18 @@ async def test_add_artist_to_release_already_exists(db, graphql_query, snapshot)
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
     rls = release.from_id(2, db)
     assert rls is not None
-    snapshot.assert_match(release.artists(rls, db))
+
+    before_artists = release.artists(rls, db)
+
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    after_artists = release.artists(rls, db)
+
+    assert before_artists == after_artists
 
 
 @pytest.mark.asyncio
@@ -348,10 +416,16 @@ async def test_del_artist_from_release(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
     rls = release.from_id(2, db)
     assert rls is not None
-    snapshot.assert_match(release.artists(rls, db))
+
+    assert 2 in [a.id for a in release.artists(rls, db)]
+
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    assert 2 not in [a.id for a in release.artists(rls, db)]
 
 
 @pytest.mark.asyncio
@@ -368,7 +442,9 @@ async def test_del_artist_from_release_bad_release(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -385,17 +461,25 @@ async def test_del_artist_from_release_bad_artist(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
     rls = release.from_id(2, db)
     assert rls is not None
-    snapshot.assert_match(release.artists(rls, db))
+
+    before_artists = release.artists(rls, db)
+
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    after_artists = release.artists(rls, db)
+
+    assert before_artists == after_artists
 
 
 @pytest.mark.asyncio
 async def test_del_artist_from_release_doesnt_exist(graphql_query, snapshot):
     query = """
         mutation {
-            delArtistFromRelease(releaseId: 3, artistId: 2) {
+            delArtistFromRelease(releaseId: 3, artistId: 1) {
                 release {
                     ...ReleaseFields
                 }
@@ -405,7 +489,9 @@ async def test_del_artist_from_release_doesnt_exist(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -415,4 +501,6 @@ async def test_release_years(graphql_query, snapshot):
             releaseYears
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)

@@ -1,47 +1,34 @@
-from src.enums import ReleaseType
+from sqlite3 import Connection
+
 from src.library import release
-from tests.conftest import NEXT_RELEASE_ID
+from tests.factory import Factory
 
 
-def test_query(db):
-    cursor = db.execute(
-        """
-        SELECT rowid FROM music__releases__fts
-        WHERE music__releases__fts MATCH '"Have Each Other" AND "Aaron West"'
-        ORDER BY rank
-        """
-    )
-    assert cursor.fetchone()[0] == 2
-
-
-def test_insert(db):
-    release.create(
-        "Title",
-        artist_ids=[4],
-        release_type=ReleaseType.ALBUM,
-        release_year=2000,
+def test_query(factory: Factory, db: Connection):
+    art = factory.artist(name="Aaron West", conn=db)
+    rls = factory.release(
+        title="We Will Always Have a Paris",
+        artist_ids=[art.id],
         conn=db,
     )
 
     cursor = db.execute(
         """
         SELECT rowid FROM music__releases__fts
-        WHERE music__releases__fts MATCH 'Title AND Abakus'
+        WHERE music__releases__fts MATCH '"Have a Paris" AND "Aaron West"'
         ORDER BY rank
         """
     )
-    assert cursor.fetchone()[0] == NEXT_RELEASE_ID
+    assert cursor.fetchone()[0] == rls.id
 
 
-def test_delete(db):
+def test_delete(db: Connection):
     # TODO: Dependent on #178.
     pass
 
 
-def test_update(db):
-    rls = release.from_id(2, db)
-    assert rls is not None
-
+def test_update(factory: Factory, db: Connection):
+    rls = factory.release(title="Old Bible", conn=db)
     release.update(rls, title="New Title", conn=db)
 
     cursor = db.execute(
@@ -51,4 +38,4 @@ def test_update(db):
         ORDER BY rank
         """
     )
-    assert cursor.fetchone()[0] == 2
+    assert cursor.fetchone()[0] == rls.id

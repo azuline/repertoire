@@ -189,7 +189,7 @@ def count(
     *,
     search: str = "",
     types: list[CollectionType] = [],
-) -> list[T]:
+) -> int:
     """
     Fetch the number of collections matching the passed-in criteria. Parameters are
     optional; omitted ones are excluded from the matching criteria.
@@ -243,7 +243,11 @@ def _generate_filters(
 
 
 def create(
-    name: str, type: CollectionType, conn: Connection, starred: bool = False
+    name: str,
+    type: CollectionType,
+    conn: Connection,
+    starred: bool = False,
+    override_immutable: bool = False,
 ) -> T:
     """
     Create a collection and persist it to the database.
@@ -252,11 +256,13 @@ def create(
     :param type: The type of the collection.
     :param conn: A connection to the database.
     :param starred: Whether the collection is starred or not.
+    :param override_immutable: Whether to allow creation of immutable collections. For
+                               internal use.
     :return: The newly created collection.
     :raises Duplicate: If an collection with the same name and type already exists. The
                        duplicate collection is passed as the ``entity`` argument.
     """
-    if type == CollectionType.SYSTEM:
+    if type == CollectionType.SYSTEM and not override_immutable:
         raise InvalidCollectionType("Cannot create system collections.")
 
     if col := from_name_and_type(name, type, conn):

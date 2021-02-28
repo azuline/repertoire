@@ -65,7 +65,7 @@ class ReleaseSort(Enum):
     """
 
     #:
-    RECENTLY_ADDED = Template("rls.added_on $order")
+    RECENTLY_ADDED = Template("rls.added_on $order, rls.id $order")
     #:
     TITLE = Template("rls.title $order")
     #:
@@ -92,7 +92,7 @@ class TrackSort(Enum):
     RECENTLY_ADDED = Template(
         """
         rls.added_on $order,
-        rls.id,
+        rls.id $order,
         trks.disc_number,
         trks.track_number
         """

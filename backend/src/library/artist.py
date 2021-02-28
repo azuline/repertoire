@@ -161,7 +161,7 @@ def search(
 def count(
     conn: Connection,
     search: str = "",
-) -> list[T]:
+) -> int:
     """
     Fetch the number of artists matching the passed-in criteria. Parameters are
     optional; omitted ones are excluded from the matching criteria.

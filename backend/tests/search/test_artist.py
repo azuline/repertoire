@@ -1,41 +1,30 @@
+from sqlite3 import Connection
+
 from src.library import artist
-from tests.conftest import NEXT_ARTIST_ID
+from tests.factory import Factory
 
 
-def test_query(db):
-    cursor = db.execute(
-        """
-        SELECT rowid FROM music__artists__fts
-        WHERE music__artists__fts MATCH '"Aaron"'
-        ORDER BY rank
-        """
-    )
-    assert cursor.fetchone()[0] == 2
-
-
-def test_insert(db):
-    artist.create("Name", conn=db)
+def test_query(factory: Factory, db: Connection):
+    art = factory.artist(name="Aaron West and the Roaring Seventies", conn=db)
 
     cursor = db.execute(
         """
         SELECT rowid FROM music__artists__fts
-        WHERE music__artists__fts MATCH 'Name'
+        WHERE music__artists__fts MATCH '"Aaron" AND "Seventies"'
         ORDER BY rank
         """
     )
-    assert cursor.fetchone()[0] == NEXT_ARTIST_ID
+    assert cursor.fetchone()[0] == art.id
 
 
-def test_delete(db):
+def test_delete(db: Connection):
     # TODO: Dependent on #178.
     pass
 
 
-def test_update(db):
-    col = artist.from_id(3, db)
-    assert col is not None
-
-    artist.update(col, name="New Name", conn=db)
+def test_update(factory: Factory, db: Connection):
+    art = factory.artist(name="Old Mane", conn=db)
+    artist.update(art, name="New Name", conn=db)
 
     cursor = db.execute(
         """
@@ -44,4 +33,4 @@ def test_update(db):
         ORDER BY rank
         """
     )
-    assert cursor.fetchone()[0] == 3
+    assert cursor.fetchone()[0] == art.id

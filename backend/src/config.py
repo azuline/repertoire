@@ -87,7 +87,6 @@ class _Config:
 
     def __init__(self):
         cons = Constants()
-
         self.parser = _load_config(cons.config_path)
 
     @property

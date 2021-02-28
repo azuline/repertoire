@@ -1,9 +1,11 @@
-from src.enums import PlaylistType
+from sqlite3 import Connection
+
 from src.library import playlist
-from tests.conftest import NEXT_PLAYLIST_ID
+from tests.factory import Factory
 
 
-def test_query(db):
+def test_query(factory: Factory, db: Connection):
+    ply = factory.playlist(name="AAAAAA", conn=db)
     cursor = db.execute(
         """
         SELECT rowid FROM music__playlists__fts
@@ -11,31 +13,16 @@ def test_query(db):
         ORDER BY rank
         """
     )
-    assert cursor.fetchone()[0] == 2
+    assert cursor.fetchone()[0] == ply.id
 
 
-def test_insert(db):
-    playlist.create("Title", type=PlaylistType.PLAYLIST, conn=db)
-
-    cursor = db.execute(
-        """
-        SELECT rowid FROM music__playlists__fts
-        WHERE music__playlists__fts MATCH 'Title'
-        ORDER BY rank
-        """
-    )
-    assert cursor.fetchone()[0] == NEXT_PLAYLIST_ID
-
-
-def test_delete(db):
+def test_delete(db: Connection):
     # TODO: Dependent on #178.
     pass
 
 
-def test_update(db):
-    ply = playlist.from_id(2, db)
-    assert ply is not None
-
+def test_update(factory: Factory, db: Connection):
+    ply = factory.playlist(name="AAAAAA", conn=db)
     playlist.update(ply, name="New Title", conn=db)
 
     cursor = db.execute(
@@ -45,4 +32,4 @@ def test_update(db):
         ORDER BY rank
         """
     )
-    assert cursor.fetchone()[0] == 2
+    assert cursor.fetchone()[0] == ply.id

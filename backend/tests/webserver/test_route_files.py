@@ -1,79 +1,106 @@
 from pathlib import Path
+from sqlite3 import Connection
 
 import pytest
 
+from tests.factory import Factory
+
 
 @pytest.mark.asyncio
-async def test_get_track(db, quart_client):
+async def test_get_track(factory: Factory, db: Connection, quart_client):
     path = Path.cwd() / "track01.flac"
-
     with path.open("wb") as f:
         f.write(b"owo")
 
-    db.execute("UPDATE music__tracks SET filepath = ? WHERE id = 1", (str(path),))
+    trk = factory.track(filepath=path, conn=db)
+    _, token = factory.user(conn=db)
+
     db.commit()
 
-    response = await quart_client.authed_get("/api/files/tracks/1")
+    response = await quart_client.authed_get(
+        f"/api/files/tracks/{trk.id}",
+        token=token,
+    )
     assert b"owo" == await response.get_data()
 
 
 @pytest.mark.asyncio
-async def test_get_track_bad_track_id(quart_client):
-    response = await quart_client.authed_get("/api/files/tracks/999999")
+async def test_get_track_bad_track_id(factory: Factory, db: Connection, quart_client):
+    _, token = factory.user(conn=db)
+    db.commit()
+
+    response = await quart_client.authed_get("/api/files/tracks/999999", token=token)
     assert response.status_code == 404
 
 
 @pytest.mark.asyncio
-async def test_get_track_nonexistent_file(db, quart_client):
+async def test_get_track_nonexistent_file(
+    factory: Factory,
+    db: Connection,
+    quart_client,
+):
     path = Path.cwd() / "nonexistent.flac"
+    factory.track(filepath=path, conn=db)
+    _, token = factory.user(conn=db)
 
-    db.execute("UPDATE music__tracks SET filepath = ? WHERE id = 1", (str(path),))
     db.commit()
 
-    response = await quart_client.authed_get("/api/files/tracks/1")
+    response = await quart_client.authed_get("/api/files/tracks/1", token=token)
     assert response.status_code == 404
 
 
 @pytest.mark.asyncio
-async def test_get_cover(db, quart_client):
+async def test_get_cover(factory: Factory, db: Connection, quart_client):
     path = Path.cwd() / "cover01.png"
-
     with path.open("wb") as f:
         f.write(b"owo")
 
-    db.execute("UPDATE images SET path = ? WHERE id = 1", (str(path),))
+    factory.mock_image(path=path, conn=db)
+    _, token = factory.user(conn=db)
+
     db.commit()
 
-    response = await quart_client.authed_get("/api/files/images/1")
+    response = await quart_client.authed_get("/api/files/images/1", token=token)
     assert b"owo" == await response.get_data()
 
 
 @pytest.mark.asyncio
-async def test_get_cover_thumbail(db, quart_client):
+async def test_get_cover_thumbail(factory: Factory, db: Connection, quart_client):
     path = Path.cwd() / "cover01.png"
-
     with path.with_suffix(".thumbnail").open("wb") as f:
         f.write(b"owo")
 
-    db.execute("UPDATE images SET path = ? WHERE id = 1", (str(path),))
+    factory.mock_image(path=path, conn=db)
+    _, token = factory.user(conn=db)
     db.commit()
 
-    response = await quart_client.authed_get("/api/files/images/1?thumbnail=true")
+    response = await quart_client.authed_get(
+        "/api/files/images/1?thumbnail=true",
+        token=token,
+    )
     assert b"owo" == await response.get_data()
 
 
 @pytest.mark.asyncio
-async def test_get_cover_bad_release_id(quart_client):
-    response = await quart_client.authed_get("/api/files/images/999999")
+async def test_get_cover_bad_release_id(factory: Factory, db: Connection, quart_client):
+    _, token = factory.user(conn=db)
+    db.commit()
+
+    response = await quart_client.authed_get("/api/files/images/999999", token=token)
     assert response.status_code == 404
 
 
 @pytest.mark.asyncio
-async def test_get_cover_nonexistent_file(db, quart_client):
+async def test_get_cover_nonexistent_file(
+    factory: Factory,
+    db: Connection,
+    quart_client,
+):
     path = Path.cwd() / "nonexistent.png"
+    factory.mock_image(path=path, conn=db)
+    _, token = factory.user(conn=db)
 
-    db.execute("UPDATE images SET path = ? WHERE id = 1", (str(path),))
     db.commit()
 
-    response = await quart_client.authed_get("/api/files/images/1")
+    response = await quart_client.authed_get("/api/files/images/1", token=token)
     assert response.status_code == 404

@@ -83,7 +83,7 @@ CREATE TABLE music__tracks (
     id INTEGER NOT NULL,
     filepath VARCHAR NOT NULL,
     sha256 BLOB NOT NULL,
-    title VARCHAR NOT NULL DEFAULT 'Untitled',
+    title VARCHAR COLLATE 'NOCASE' NOT NULL DEFAULT 'Untitled',
     release_id INTEGER NOT NULL DEFAULT 1,
     track_number VARCHAR NOT NULL DEFAULT '1',
     disc_number VARCHAR NOT NULL DEFAULT '1',

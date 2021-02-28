@@ -28,6 +28,8 @@ class T:
     id: int
     #:
     nickname: str
+    #:
+    csrf_token: bytes
 
 
 def exists(id: int, conn: Connection) -> bool:
@@ -59,7 +61,10 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
     :param conn: A connection to the database.
     :return: The user, if they exist.
     """
-    cursor = conn.execute("SELECT id, nickname FROM system__users WHERE id = ?", (id,))
+    cursor = conn.execute(
+        "SELECT id, nickname, csrf_token FROM system__users WHERE id = ?",
+        (id,),
+    )
 
     if row := cursor.fetchone():
         logger.debug("Fetched user {id}.")
@@ -78,7 +83,7 @@ def from_nickname(nickname: str, conn: Connection) -> Optional[T]:
     :return: The user, if they exist.
     """
     cursor = conn.execute(
-        "SELECT id, nickname FROM system__users WHERE nickname = ?",
+        "SELECT id, nickname, csrf_token FROM system__users WHERE nickname = ?",
         (nickname,),
     )
 
@@ -107,7 +112,7 @@ def from_token(token: bytes, conn: Connection) -> Optional[T]:
     token_prefix = token[:PREFIX_LENGTH]
 
     cursor = conn.execute(
-        "SELECT id, nickname FROM system__users WHERE token_prefix = ?",
+        "SELECT id, nickname, csrf_token FROM system__users WHERE token_prefix = ?",
         (token_prefix,),
     )
 
@@ -152,7 +157,7 @@ def create(nickname: str, conn: Connection) -> tuple[T, bytes]:
 
     logger.info(f"Created user {nickname} with ID {cursor.lastrowid}.")
 
-    return T(id=cursor.lastrowid, nickname=nickname), token
+    return T(id=cursor.lastrowid, nickname=nickname, csrf_token=csrf_token), token
 
 
 def update(usr: T, conn: Connection, **changes) -> T:

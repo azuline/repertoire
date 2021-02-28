@@ -2,230 +2,177 @@
 # snapshottest: v1 - https://goo.gl/zC4yUc
 from __future__ import unicode_literals
 
-from snapshottest import GenericRepr, Snapshot
+from snapshottest import Snapshot
 
 
 snapshots = Snapshot()
 
-snapshots['test_add_artist_to_release 1'] = (
-    True,
-    {
-        'data': {
-            'addArtistToRelease': {
-                'artist': {
-                    'id': 3,
-                    'name': 'John Darnielle',
-                    'numReleases': 1,
-                    'releases': [
-                        {
-                            'id': 2,
-                            'title': 'We Don’t Have Each Other'
-                        }
-                    ],
-                    'starred': False,
-                    'topGenres': [
-                        {
-                            'genre': {
-                                'id': 3
-                            },
-                            'numMatches': 1
+snapshots['test_add_artist_to_release 1'] = {
+    'data': {
+        'addArtistToRelease': {
+            'artist': {
+                'id': 5,
+                'name': 'Artist4',
+                'numReleases': 2,
+                'releases': [
+                    {
+                        'id': 2,
+                        'title': 'Release1'
+                    },
+                    {
+                        'id': 4,
+                        'title': 'Release3'
+                    }
+                ],
+                'starred': False,
+                'topGenres': [
+                    {
+                        'genre': {
+                            'id': 9
                         },
-                        {
-                            'genre': {
-                                'id': 4
-                            },
-                            'numMatches': 1
+                        'numMatches': 2
+                    },
+                    {
+                        'genre': {
+                            'id': 10
                         },
-                        {
-                            'genre': {
-                                'id': 5
-                            },
-                            'numMatches': 1
-                        },
-                        {
-                            'genre': {
-                                'id': 6
-                            },
-                            'numMatches': 1
-                        }
-                    ]
-                },
-                'release': {
-                    'addedOn': 1603067134,
-                    'artists': [
-                        {
-                            'id': 2,
-                            'name': 'Aaron West and the Roaring Twenties'
-                        },
-                        {
-                            'id': 3,
-                            'name': 'John Darnielle'
-                        }
-                    ],
-                    'collages': [
-                    ],
-                    'genres': [
-                        {
-                            'id': 3,
-                            'name': 'Folk'
-                        },
-                        {
-                            'id': 4,
-                            'name': 'Rock'
-                        },
-                        {
-                            'id': 5,
-                            'name': 'Country'
-                        },
-                        {
-                            'id': 6,
-                            'name': 'World'
-                        }
-                    ],
-                    'id': 2,
-                    'imageId': 1,
-                    'inFavorites': False,
-                    'inInbox': True,
-                    'labels': [
-                    ],
-                    'numTracks': 10,
-                    'releaseDate': '2014-07-08',
-                    'releaseType': 'ALBUM',
-                    'releaseYear': 2014,
-                    'runtime': 2258,
-                    'title': 'We Don’t Have Each Other',
-                    'tracks': [
-                        {
-                            'id': 1,
-                            'title': 'Our Apartment'
-                        },
-                        {
-                            'id': 2,
-                            'title': 'Grapefruit'
-                        },
-                        {
-                            'id': 3,
-                            'title': 'St. Joe Keeps Us Safe'
-                        },
-                        {
-                            'id': 4,
-                            'title': 'Runnin’ Scared'
-                        },
-                        {
-                            'id': 5,
-                            'title': 'Divorce and the American South'
-                        },
-                        {
-                            'id': 6,
-                            'title': 'The Thunderbird Inn'
-                        },
-                        {
-                            'id': 7,
-                            'title': 'Get Me Out of Here Alive'
-                        },
-                        {
-                            'id': 8,
-                            'title': 'You Ain’t No Saint'
-                        },
-                        {
-                            'id': 9,
-                            'title': 'Carolina Coast'
-                        },
-                        {
-                            'id': 10,
-                            'title': 'Going to Georgia'
-                        }
-                    ]
-                }
+                        'numMatches': 2
+                    }
+                ]
+            },
+            'release': {
+                'addedOn': 1577840461,
+                'artists': [
+                    {
+                        'id': 2,
+                        'name': 'Artist1'
+                    },
+                    {
+                        'id': 3,
+                        'name': 'Artist2'
+                    },
+                    {
+                        'id': 5,
+                        'name': 'Artist4'
+                    }
+                ],
+                'collages': [
+                    {
+                        'id': 3,
+                        'name': 'Collage1'
+                    },
+                    {
+                        'id': 4,
+                        'name': 'Collage2'
+                    }
+                ],
+                'genres': [
+                    {
+                        'id': 9,
+                        'name': 'Genre1'
+                    },
+                    {
+                        'id': 10,
+                        'name': 'Genre2'
+                    }
+                ],
+                'id': 2,
+                'imageId': 1,
+                'inFavorites': False,
+                'inInbox': False,
+                'labels': [
+                    {
+                        'id': 6,
+                        'name': 'Label1'
+                    }
+                ],
+                'numTracks': 3,
+                'releaseDate': '1970-02-05',
+                'releaseType': 'ALBUM',
+                'releaseYear': 1970,
+                'runtime': 3,
+                'title': 'Release1',
+                'tracks': [
+                    {
+                        'id': 1,
+                        'title': 'Track0'
+                    },
+                    {
+                        'id': 2,
+                        'title': 'Track1'
+                    },
+                    {
+                        'id': 3,
+                        'title': 'Track2'
+                    }
+                ]
             }
         }
     }
-)
+}
 
-snapshots['test_add_artist_to_release 2'] = [
-    GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)"),
-    GenericRepr("T(id=3, name='John Darnielle', starred=False, num_releases=1)")
-]
+snapshots['test_add_artist_to_release_already_exists 1'] = {
+    'data': {
+        'addArtistToRelease': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'Artist is already on release.',
+            'path': [
+                'addArtistToRelease'
+            ],
+            'type': 'AlreadyExists'
+        }
+    ]
+}
 
-snapshots['test_add_artist_to_release_already_exists 1'] = (
-    True,
-    {
-        'data': {
-            'addArtistToRelease': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Artist is already on release.',
-                'path': [
-                    'addArtistToRelease'
-                ],
-                'type': 'AlreadyExists'
-            }
-        ]
-    }
-)
+snapshots['test_add_artist_to_release_bad_artist 1'] = {
+    'data': {
+        'addArtistToRelease': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'Artist 9999 does not exist.',
+            'path': [
+                'addArtistToRelease'
+            ],
+            'type': 'NotFound'
+        }
+    ]
+}
 
-snapshots['test_add_artist_to_release_already_exists 2'] = [
-    GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)")
-]
-
-snapshots['test_add_artist_to_release_bad_artist 1'] = (
-    True,
-    {
-        'data': {
-            'addArtistToRelease': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Artist 9999 does not exist.',
-                'path': [
-                    'addArtistToRelease'
-                ],
-                'type': 'NotFound'
-            }
-        ]
-    }
-)
-
-snapshots['test_add_artist_to_release_bad_artist 2'] = [
-    GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)")
-]
-
-snapshots['test_add_artist_to_release_bad_release 1'] = (
-    True,
-    {
-        'data': {
-            'addArtistToRelease': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Release 999 does not exist.',
-                'path': [
-                    'addArtistToRelease'
-                ],
-                'type': 'NotFound'
-            }
-        ]
-    }
-)
+snapshots['test_add_artist_to_release_bad_release 1'] = {
+    'data': {
+        'addArtistToRelease': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'Release 999 does not exist.',
+            'path': [
+                'addArtistToRelease'
+            ],
+            'type': 'NotFound'
+        }
+    ]
+}
 
 snapshots['test_create_release 1'] = {
     'data': {
@@ -234,18 +181,18 @@ snapshots['test_create_release 1'] = {
             'artists': [
                 {
                     'id': 2,
-                    'name': 'Aaron West and the Roaring Twenties'
+                    'name': 'Artist1'
                 },
                 {
                     'id': 3,
-                    'name': 'John Darnielle'
+                    'name': 'Artist2'
                 }
             ],
             'collages': [
             ],
             'genres': [
             ],
-            'id': 4,
+            'id': 7,
             'imageId': None,
             'inFavorites': False,
             'inInbox': False,
@@ -256,1643 +203,1975 @@ snapshots['test_create_release 1'] = {
             'releaseType': 'ALBUM',
             'releaseYear': 2020,
             'runtime': 0,
-            'title': 'aa',
+            'title': 'NewRelease',
             'tracks': [
             ]
         }
     }
 }
 
-snapshots['test_create_release_bad_artists 1'] = (
-    True,
-    {
-        'data': {
-            'createRelease': None
-        },
-        'errors': [
-            {
-                'locations': [
+snapshots['test_create_release_bad_artists 1'] = {
+    'data': {
+        'createRelease': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'Artist(s) 9999 do not exist.',
+            'path': [
+                'createRelease'
+            ],
+            'type': 'NotFound'
+        }
+    ]
+}
+
+snapshots['test_create_release_bad_date 1'] = {
+    'data': {
+        'createRelease': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'Invalid release date.',
+            'path': [
+                'createRelease'
+            ],
+            'type': 'ParseError'
+        }
+    ]
+}
+
+snapshots['test_del_artist_from_release 1'] = {
+    'data': {
+        'delArtistFromRelease': {
+            'artist': {
+                'id': 2,
+                'name': 'Artist1',
+                'numReleases': 1,
+                'releases': [
                     {
-                        'column': 13,
-                        'line': 3
+                        'id': 5,
+                        'title': 'Release4'
                     }
                 ],
-                'message': 'Artist(s) 9999 do not exist.',
-                'path': [
-                    'createRelease'
-                ],
-                'type': 'NotFound'
-            }
-        ]
-    }
-)
-
-snapshots['test_create_release_bad_date 1'] = (
-    True,
-    {
-        'data': {
-            'createRelease': None
-        },
-        'errors': [
-            {
-                'locations': [
+                'starred': False,
+                'topGenres': [
                     {
-                        'column': 13,
-                        'line': 3
+                        'genre': {
+                            'id': 11
+                        },
+                        'numMatches': 1
+                    }
+                ]
+            },
+            'release': {
+                'addedOn': 1577840461,
+                'artists': [
+                    {
+                        'id': 3,
+                        'name': 'Artist2'
                     }
                 ],
-                'message': 'Invalid release date.',
-                'path': [
-                    'createRelease'
+                'collages': [
+                    {
+                        'id': 3,
+                        'name': 'Collage1'
+                    },
+                    {
+                        'id': 4,
+                        'name': 'Collage2'
+                    }
                 ],
-                'type': 'ParseError'
+                'genres': [
+                    {
+                        'id': 9,
+                        'name': 'Genre1'
+                    },
+                    {
+                        'id': 10,
+                        'name': 'Genre2'
+                    }
+                ],
+                'id': 2,
+                'imageId': 1,
+                'inFavorites': False,
+                'inInbox': False,
+                'labels': [
+                    {
+                        'id': 6,
+                        'name': 'Label1'
+                    }
+                ],
+                'numTracks': 3,
+                'releaseDate': '1970-02-05',
+                'releaseType': 'ALBUM',
+                'releaseYear': 1970,
+                'runtime': 3,
+                'title': 'Release1',
+                'tracks': [
+                    {
+                        'id': 1,
+                        'title': 'Track0'
+                    },
+                    {
+                        'id': 2,
+                        'title': 'Track1'
+                    },
+                    {
+                        'id': 3,
+                        'title': 'Track2'
+                    }
+                ]
             }
-        ]
+        }
     }
-)
+}
 
-snapshots['test_del_artist_from_release 1'] = (
-    True,
-    {
-        'data': {
-            'delArtistFromRelease': {
-                'artist': {
+snapshots['test_del_artist_from_release_bad_artist 1'] = {
+    'data': {
+        'delArtistFromRelease': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'Artist 9999 does not exist.',
+            'path': [
+                'delArtistFromRelease'
+            ],
+            'type': 'NotFound'
+        }
+    ]
+}
+
+snapshots['test_del_artist_from_release_bad_release 1'] = {
+    'data': {
+        'delArtistFromRelease': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'Release 999 does not exist.',
+            'path': [
+                'delArtistFromRelease'
+            ],
+            'type': 'NotFound'
+        }
+    ]
+}
+
+snapshots['test_del_artist_from_release_doesnt_exist 1'] = {
+    'data': {
+        'delArtistFromRelease': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'Artist is not on release.',
+            'path': [
+                'delArtistFromRelease'
+            ],
+            'type': 'DoesNotExist'
+        }
+    ]
+}
+
+snapshots['test_release 1'] = {
+    'data': {
+        'release': {
+            'addedOn': 1577840461,
+            'artists': [
+                {
                     'id': 2,
-                    'name': 'Aaron West and the Roaring Twenties',
-                    'numReleases': 0,
-                    'releases': [
+                    'name': 'Artist1'
+                },
+                {
+                    'id': 3,
+                    'name': 'Artist2'
+                }
+            ],
+            'collages': [
+                {
+                    'id': 3,
+                    'name': 'Collage1'
+                },
+                {
+                    'id': 4,
+                    'name': 'Collage2'
+                }
+            ],
+            'genres': [
+                {
+                    'id': 9,
+                    'name': 'Genre1'
+                },
+                {
+                    'id': 10,
+                    'name': 'Genre2'
+                }
+            ],
+            'id': 2,
+            'imageId': 1,
+            'inFavorites': False,
+            'inInbox': False,
+            'labels': [
+                {
+                    'id': 6,
+                    'name': 'Label1'
+                }
+            ],
+            'numTracks': 3,
+            'releaseDate': '1970-02-05',
+            'releaseType': 'ALBUM',
+            'releaseYear': 1970,
+            'runtime': 3,
+            'title': 'Release1',
+            'tracks': [
+                {
+                    'id': 1,
+                    'title': 'Track0'
+                },
+                {
+                    'id': 2,
+                    'title': 'Track1'
+                },
+                {
+                    'id': 3,
+                    'title': 'Track2'
+                }
+            ]
+        }
+    }
+}
+
+snapshots['test_release_not_found 1'] = {
+    'data': {
+        'release': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'Release 999 not found.',
+            'path': [
+                'release'
+            ],
+            'type': 'NotFound'
+        }
+    ]
+}
+
+snapshots['test_release_years 1'] = {
+    'data': {
+        'releaseYears': [
+            2010,
+            2000,
+            1990,
+            1980,
+            1970
+        ]
+    }
+}
+
+snapshots['test_releases 1'] = {
+    'data': {
+        'releases': {
+            'results': [
+                {
+                    'addedOn': 0,
+                    'artists': [
+                        {
+                            'id': 1,
+                            'name': 'Unknown Artist'
+                        }
                     ],
-                    'starred': False,
-                    'topGenres': [
+                    'collages': [
+                    ],
+                    'genres': [
+                    ],
+                    'id': 1,
+                    'imageId': None,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                    ],
+                    'numTracks': 0,
+                    'releaseDate': None,
+                    'releaseType': 'UNKNOWN',
+                    'releaseYear': None,
+                    'runtime': 0,
+                    'title': 'Unknown Release',
+                    'tracks': [
                     ]
                 },
-                'release': {
-                    'addedOn': 1603067134,
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 2,
+                            'name': 'Artist1'
+                        },
+                        {
+                            'id': 3,
+                            'name': 'Artist2'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Collage2'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 2,
+                    'imageId': 1,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 6,
+                            'name': 'Label1'
+                        }
+                    ],
+                    'numTracks': 3,
+                    'releaseDate': '1970-02-05',
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 1970,
+                    'runtime': 3,
+                    'title': 'Release1',
+                    'tracks': [
+                        {
+                            'id': 1,
+                            'title': 'Track0'
+                        },
+                        {
+                            'id': 2,
+                            'title': 'Track1'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'Track2'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 3,
+                            'name': 'Artist2'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Artist3'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 3,
+                    'imageId': None,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 6,
+                            'name': 'Label1'
+                        }
+                    ],
+                    'numTracks': 2,
+                    'releaseDate': None,
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 1980,
+                    'runtime': 7,
+                    'title': 'Release2',
+                    'tracks': [
+                        {
+                            'id': 4,
+                            'title': 'Track3'
+                        },
+                        {
+                            'id': 5,
+                            'title': 'Track4'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 5,
+                            'name': 'Artist4'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 4,
+                    'imageId': 2,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 7,
+                            'name': 'Label2'
+                        }
+                    ],
+                    'numTracks': 3,
+                    'releaseDate': '1970-02-05',
+                    'releaseType': 'COMPILATION',
+                    'releaseYear': 1990,
+                    'runtime': 18,
+                    'title': 'Release3',
+                    'tracks': [
+                        {
+                            'id': 6,
+                            'title': 'Track5'
+                        },
+                        {
+                            'id': 7,
+                            'title': 'Track6'
+                        },
+                        {
+                            'id': 8,
+                            'title': 'Track7'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 2,
+                            'name': 'Artist1'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Artist3'
+                        },
+                        {
+                            'id': 6,
+                            'name': 'Artist5'
+                        }
+                    ],
+                    'collages': [
+                    ],
+                    'genres': [
+                        {
+                            'id': 11,
+                            'name': 'Genre3'
+                        }
+                    ],
+                    'id': 5,
+                    'imageId': None,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 7,
+                            'name': 'Label2'
+                        }
+                    ],
+                    'numTracks': 5,
+                    'releaseDate': None,
+                    'releaseType': 'UNKNOWN',
+                    'releaseYear': 2000,
+                    'runtime': 50,
+                    'title': 'Release4',
+                    'tracks': [
+                        {
+                            'id': 9,
+                            'title': 'Track8'
+                        },
+                        {
+                            'id': 10,
+                            'title': 'Track9'
+                        },
+                        {
+                            'id': 11,
+                            'title': 'Track10'
+                        },
+                        {
+                            'id': 12,
+                            'title': 'Track11'
+                        },
+                        {
+                            'id': 13,
+                            'title': 'Track12'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
                     'artists': [
                     ],
                     'collages': [
                     ],
                     'genres': [
                         {
+                            'id': 11,
+                            'name': 'Genre3'
+                        }
+                    ],
+                    'id': 6,
+                    'imageId': 3,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                    ],
+                    'numTracks': 2,
+                    'releaseDate': None,
+                    'releaseType': 'EP',
+                    'releaseYear': 2010,
+                    'runtime': 27,
+                    'title': 'Release5',
+                    'tracks': [
+                        {
+                            'id': 14,
+                            'title': 'Track13'
+                        },
+                        {
+                            'id': 15,
+                            'title': 'Track14'
+                        }
+                    ]
+                }
+            ],
+            'total': 6
+        }
+    }
+}
+
+snapshots['test_releases_filter_artists 1'] = {
+    'data': {
+        'releases': {
+            'results': [
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 2,
+                            'name': 'Artist1'
+                        },
+                        {
                             'id': 3,
-                            'name': 'Folk'
+                            'name': 'Artist2'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
                         },
                         {
                             'id': 4,
-                            'name': 'Rock'
+                            'name': 'Collage2'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
                         },
                         {
-                            'id': 5,
-                            'name': 'Country'
-                        },
-                        {
-                            'id': 6,
-                            'name': 'World'
+                            'id': 10,
+                            'name': 'Genre2'
                         }
                     ],
                     'id': 2,
                     'imageId': 1,
                     'inFavorites': False,
-                    'inInbox': True,
+                    'inInbox': False,
                     'labels': [
+                        {
+                            'id': 6,
+                            'name': 'Label1'
+                        }
                     ],
-                    'numTracks': 10,
-                    'releaseDate': '2014-07-08',
+                    'numTracks': 3,
+                    'releaseDate': '1970-02-05',
                     'releaseType': 'ALBUM',
-                    'releaseYear': 2014,
-                    'runtime': 2258,
-                    'title': 'We Don’t Have Each Other',
+                    'releaseYear': 1970,
+                    'runtime': 3,
+                    'title': 'Release1',
                     'tracks': [
                         {
                             'id': 1,
-                            'title': 'Our Apartment'
+                            'title': 'Track0'
                         },
                         {
                             'id': 2,
-                            'title': 'Grapefruit'
+                            'title': 'Track1'
                         },
                         {
                             'id': 3,
-                            'title': 'St. Joe Keeps Us Safe'
+                            'title': 'Track2'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 2,
+                            'name': 'Artist1'
                         },
                         {
                             'id': 4,
-                            'title': 'Runnin’ Scared'
-                        },
-                        {
-                            'id': 5,
-                            'title': 'Divorce and the American South'
+                            'name': 'Artist3'
                         },
                         {
                             'id': 6,
-                            'title': 'The Thunderbird Inn'
-                        },
+                            'name': 'Artist5'
+                        }
+                    ],
+                    'collages': [
+                    ],
+                    'genres': [
+                        {
+                            'id': 11,
+                            'name': 'Genre3'
+                        }
+                    ],
+                    'id': 5,
+                    'imageId': None,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
                         {
                             'id': 7,
-                            'title': 'Get Me Out of Here Alive'
-                        },
-                        {
-                            'id': 8,
-                            'title': 'You Ain’t No Saint'
-                        },
+                            'name': 'Label2'
+                        }
+                    ],
+                    'numTracks': 5,
+                    'releaseDate': None,
+                    'releaseType': 'UNKNOWN',
+                    'releaseYear': 2000,
+                    'runtime': 50,
+                    'title': 'Release4',
+                    'tracks': [
                         {
                             'id': 9,
-                            'title': 'Carolina Coast'
+                            'title': 'Track8'
                         },
                         {
                             'id': 10,
-                            'title': 'Going to Georgia'
+                            'title': 'Track9'
+                        },
+                        {
+                            'id': 11,
+                            'title': 'Track10'
+                        },
+                        {
+                            'id': 12,
+                            'title': 'Track11'
+                        },
+                        {
+                            'id': 13,
+                            'title': 'Track12'
                         }
                     ]
                 }
-            }
+            ],
+            'total': 2
         }
     }
-)
+}
 
-snapshots['test_del_artist_from_release 2'] = [
-]
-
-snapshots['test_del_artist_from_release_bad_artist 1'] = (
-    True,
-    {
-        'data': {
-            'delArtistFromRelease': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Artist 9999 does not exist.',
-                'path': [
-                    'delArtistFromRelease'
-                ],
-                'type': 'NotFound'
-            }
-        ]
-    }
-)
-
-snapshots['test_del_artist_from_release_bad_artist 2'] = [
-    GenericRepr("T(id=2, name='Aaron West and the Roaring Twenties', starred=False, num_releases=1)")
-]
-
-snapshots['test_del_artist_from_release_bad_release 1'] = (
-    True,
-    {
-        'data': {
-            'delArtistFromRelease': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Release 999 does not exist.',
-                'path': [
-                    'delArtistFromRelease'
-                ],
-                'type': 'NotFound'
-            }
-        ]
-    }
-)
-
-snapshots['test_del_artist_from_release_doesnt_exist 1'] = (
-    True,
-    {
-        'data': {
-            'delArtistFromRelease': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Artist is not on release.',
-                'path': [
-                    'delArtistFromRelease'
-                ],
-                'type': 'DoesNotExist'
-            }
-        ]
-    }
-)
-
-snapshots['test_release 1'] = (
-    True,
-    {
-        'data': {
-            'release': {
-                'addedOn': 1603096174,
-                'artists': [
-                    {
-                        'id': 4,
-                        'name': 'Abakus'
-                    },
-                    {
-                        'id': 5,
-                        'name': 'Bacchus'
-                    }
-                ],
-                'collages': [
-                ],
-                'genres': [
-                    {
-                        'id': 7,
-                        'name': 'Downtempo'
-                    },
-                    {
-                        'id': 8,
-                        'name': 'Electronic'
-                    },
-                    {
-                        'id': 9,
-                        'name': 'House'
-                    },
-                    {
-                        'id': 10,
-                        'name': 'Ambient'
-                    }
-                ],
-                'id': 3,
-                'imageId': 2,
-                'inFavorites': False,
-                'inInbox': True,
-                'labels': [
-                ],
-                'numTracks': 11,
-                'releaseDate': None,
-                'releaseType': 'EP',
-                'releaseYear': 2016,
-                'runtime': 3513,
-                'title': 'Departure',
-                'tracks': [
-                    {
-                        'id': 11,
-                        'title': 'Airwaves'
-                    },
-                    {
-                        'id': 12,
-                        'title': 'Liberated from the Negative'
-                    },
-                    {
-                        'id': 13,
-                        'title': 'Hope'
-                    },
-                    {
-                        'id': 14,
-                        'title': 'Dreamer'
-                    },
-                    {
-                        'id': 15,
-                        'title': 'Stay with Me'
-                    },
-                    {
-                        'id': 16,
-                        'title': 'Still a Soul in There'
-                    },
-                    {
-                        'id': 17,
-                        'title': 'Lost Myself'
-                    },
-                    {
-                        'id': 18,
-                        'title': 'The Beginning'
-                    },
-                    {
-                        'id': 19,
-                        'title': 'Let Go'
-                    },
-                    {
-                        'id': 20,
-                        'title': 'Storm'
-                    },
-                    {
-                        'id': 21,
-                        'title': 'Kite'
-                    }
-                ]
-            }
+snapshots['test_releases_filter_collections 1'] = {
+    'data': {
+        'releases': {
+            'results': [
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 2,
+                            'name': 'Artist1'
+                        },
+                        {
+                            'id': 3,
+                            'name': 'Artist2'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Collage2'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 2,
+                    'imageId': 1,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 6,
+                            'name': 'Label1'
+                        }
+                    ],
+                    'numTracks': 3,
+                    'releaseDate': '1970-02-05',
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 1970,
+                    'runtime': 3,
+                    'title': 'Release1',
+                    'tracks': [
+                        {
+                            'id': 1,
+                            'title': 'Track0'
+                        },
+                        {
+                            'id': 2,
+                            'title': 'Track1'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'Track2'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 3,
+                            'name': 'Artist2'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Artist3'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 3,
+                    'imageId': None,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 6,
+                            'name': 'Label1'
+                        }
+                    ],
+                    'numTracks': 2,
+                    'releaseDate': None,
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 1980,
+                    'runtime': 7,
+                    'title': 'Release2',
+                    'tracks': [
+                        {
+                            'id': 4,
+                            'title': 'Track3'
+                        },
+                        {
+                            'id': 5,
+                            'title': 'Track4'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 5,
+                            'name': 'Artist4'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 4,
+                    'imageId': 2,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 7,
+                            'name': 'Label2'
+                        }
+                    ],
+                    'numTracks': 3,
+                    'releaseDate': '1970-02-05',
+                    'releaseType': 'COMPILATION',
+                    'releaseYear': 1990,
+                    'runtime': 18,
+                    'title': 'Release3',
+                    'tracks': [
+                        {
+                            'id': 6,
+                            'title': 'Track5'
+                        },
+                        {
+                            'id': 7,
+                            'title': 'Track6'
+                        },
+                        {
+                            'id': 8,
+                            'title': 'Track7'
+                        }
+                    ]
+                }
+            ],
+            'total': 3
         }
     }
-)
+}
 
-snapshots['test_release_not_found 1'] = (
-    True,
-    {
-        'data': {
-            'release': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Release 999 not found.',
-                'path': [
-                    'release'
-                ],
-                'type': 'NotFound'
-            }
-        ]
+snapshots['test_releases_filter_types 1'] = {
+    'data': {
+        'releases': {
+            'results': [
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 2,
+                            'name': 'Artist1'
+                        },
+                        {
+                            'id': 3,
+                            'name': 'Artist2'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Collage2'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 2,
+                    'imageId': 1,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 6,
+                            'name': 'Label1'
+                        }
+                    ],
+                    'numTracks': 3,
+                    'releaseDate': '1970-02-05',
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 1970,
+                    'runtime': 3,
+                    'title': 'Release1',
+                    'tracks': [
+                        {
+                            'id': 1,
+                            'title': 'Track0'
+                        },
+                        {
+                            'id': 2,
+                            'title': 'Track1'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'Track2'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 3,
+                            'name': 'Artist2'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Artist3'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 3,
+                    'imageId': None,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 6,
+                            'name': 'Label1'
+                        }
+                    ],
+                    'numTracks': 2,
+                    'releaseDate': None,
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 1980,
+                    'runtime': 7,
+                    'title': 'Release2',
+                    'tracks': [
+                        {
+                            'id': 4,
+                            'title': 'Track3'
+                        },
+                        {
+                            'id': 5,
+                            'title': 'Track4'
+                        }
+                    ]
+                }
+            ],
+            'total': 2
+        }
     }
-)
+}
 
-snapshots['test_release_years 1'] = (
-    True,
-    {
-        'data': {
-            'releaseYears': [
-                2016,
-                2014
+snapshots['test_releases_pagination 1'] = {
+    'data': {
+        'releases': {
+            'results': [
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 3,
+                            'name': 'Artist2'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Artist3'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 3,
+                    'imageId': None,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 6,
+                            'name': 'Label1'
+                        }
+                    ],
+                    'numTracks': 2,
+                    'releaseDate': None,
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 1980,
+                    'runtime': 7,
+                    'title': 'Release2',
+                    'tracks': [
+                        {
+                            'id': 4,
+                            'title': 'Track3'
+                        },
+                        {
+                            'id': 5,
+                            'title': 'Track4'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 5,
+                            'name': 'Artist4'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 4,
+                    'imageId': 2,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 7,
+                            'name': 'Label2'
+                        }
+                    ],
+                    'numTracks': 3,
+                    'releaseDate': '1970-02-05',
+                    'releaseType': 'COMPILATION',
+                    'releaseYear': 1990,
+                    'runtime': 18,
+                    'title': 'Release3',
+                    'tracks': [
+                        {
+                            'id': 6,
+                            'title': 'Track5'
+                        },
+                        {
+                            'id': 7,
+                            'title': 'Track6'
+                        },
+                        {
+                            'id': 8,
+                            'title': 'Track7'
+                        }
+                    ]
+                }
+            ],
+            'total': 6
+        }
+    }
+}
+
+snapshots['test_releases_search 1'] = {
+    'data': {
+        'releases': {
+            'results': [
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 2,
+                            'name': 'Artist1'
+                        },
+                        {
+                            'id': 3,
+                            'name': 'Artist2'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Collage2'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 2,
+                    'imageId': 1,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 6,
+                            'name': 'Label1'
+                        }
+                    ],
+                    'numTracks': 3,
+                    'releaseDate': '1970-02-05',
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 1970,
+                    'runtime': 3,
+                    'title': 'Release1',
+                    'tracks': [
+                        {
+                            'id': 1,
+                            'title': 'Track0'
+                        },
+                        {
+                            'id': 2,
+                            'title': 'Track1'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'Track2'
+                        }
+                    ]
+                }
+            ],
+            'total': 1
+        }
+    }
+}
+
+snapshots['test_releases_sort 1'] = {
+    'data': {
+        'releases': {
+            'results': [
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 2,
+                            'name': 'Artist1'
+                        },
+                        {
+                            'id': 3,
+                            'name': 'Artist2'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Collage2'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 2,
+                    'imageId': 1,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 6,
+                            'name': 'Label1'
+                        }
+                    ],
+                    'numTracks': 3,
+                    'releaseDate': '1970-02-05',
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 1970,
+                    'runtime': 3,
+                    'title': 'Release1',
+                    'tracks': [
+                        {
+                            'id': 1,
+                            'title': 'Track0'
+                        },
+                        {
+                            'id': 2,
+                            'title': 'Track1'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'Track2'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 3,
+                            'name': 'Artist2'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Artist3'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 3,
+                    'imageId': None,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 6,
+                            'name': 'Label1'
+                        }
+                    ],
+                    'numTracks': 2,
+                    'releaseDate': None,
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 1980,
+                    'runtime': 7,
+                    'title': 'Release2',
+                    'tracks': [
+                        {
+                            'id': 4,
+                            'title': 'Track3'
+                        },
+                        {
+                            'id': 5,
+                            'title': 'Track4'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 5,
+                            'name': 'Artist4'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 4,
+                    'imageId': 2,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 7,
+                            'name': 'Label2'
+                        }
+                    ],
+                    'numTracks': 3,
+                    'releaseDate': '1970-02-05',
+                    'releaseType': 'COMPILATION',
+                    'releaseYear': 1990,
+                    'runtime': 18,
+                    'title': 'Release3',
+                    'tracks': [
+                        {
+                            'id': 6,
+                            'title': 'Track5'
+                        },
+                        {
+                            'id': 7,
+                            'title': 'Track6'
+                        },
+                        {
+                            'id': 8,
+                            'title': 'Track7'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 2,
+                            'name': 'Artist1'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Artist3'
+                        },
+                        {
+                            'id': 6,
+                            'name': 'Artist5'
+                        }
+                    ],
+                    'collages': [
+                    ],
+                    'genres': [
+                        {
+                            'id': 11,
+                            'name': 'Genre3'
+                        }
+                    ],
+                    'id': 5,
+                    'imageId': None,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 7,
+                            'name': 'Label2'
+                        }
+                    ],
+                    'numTracks': 5,
+                    'releaseDate': None,
+                    'releaseType': 'UNKNOWN',
+                    'releaseYear': 2000,
+                    'runtime': 50,
+                    'title': 'Release4',
+                    'tracks': [
+                        {
+                            'id': 9,
+                            'title': 'Track8'
+                        },
+                        {
+                            'id': 10,
+                            'title': 'Track9'
+                        },
+                        {
+                            'id': 11,
+                            'title': 'Track10'
+                        },
+                        {
+                            'id': 12,
+                            'title': 'Track11'
+                        },
+                        {
+                            'id': 13,
+                            'title': 'Track12'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                    ],
+                    'collages': [
+                    ],
+                    'genres': [
+                        {
+                            'id': 11,
+                            'name': 'Genre3'
+                        }
+                    ],
+                    'id': 6,
+                    'imageId': 3,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                    ],
+                    'numTracks': 2,
+                    'releaseDate': None,
+                    'releaseType': 'EP',
+                    'releaseYear': 2010,
+                    'runtime': 27,
+                    'title': 'Release5',
+                    'tracks': [
+                        {
+                            'id': 14,
+                            'title': 'Track13'
+                        },
+                        {
+                            'id': 15,
+                            'title': 'Track14'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 0,
+                    'artists': [
+                        {
+                            'id': 1,
+                            'name': 'Unknown Artist'
+                        }
+                    ],
+                    'collages': [
+                    ],
+                    'genres': [
+                    ],
+                    'id': 1,
+                    'imageId': None,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                    ],
+                    'numTracks': 0,
+                    'releaseDate': None,
+                    'releaseType': 'UNKNOWN',
+                    'releaseYear': None,
+                    'runtime': 0,
+                    'title': 'Unknown Release',
+                    'tracks': [
+                    ]
+                }
+            ],
+            'total': 6
+        }
+    }
+}
+
+snapshots['test_releases_sort_desc 1'] = {
+    'data': {
+        'releases': {
+            'results': [
+                {
+                    'addedOn': 0,
+                    'artists': [
+                        {
+                            'id': 1,
+                            'name': 'Unknown Artist'
+                        }
+                    ],
+                    'collages': [
+                    ],
+                    'genres': [
+                    ],
+                    'id': 1,
+                    'imageId': None,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                    ],
+                    'numTracks': 0,
+                    'releaseDate': None,
+                    'releaseType': 'UNKNOWN',
+                    'releaseYear': None,
+                    'runtime': 0,
+                    'title': 'Unknown Release',
+                    'tracks': [
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                    ],
+                    'collages': [
+                    ],
+                    'genres': [
+                        {
+                            'id': 11,
+                            'name': 'Genre3'
+                        }
+                    ],
+                    'id': 6,
+                    'imageId': 3,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                    ],
+                    'numTracks': 2,
+                    'releaseDate': None,
+                    'releaseType': 'EP',
+                    'releaseYear': 2010,
+                    'runtime': 27,
+                    'title': 'Release5',
+                    'tracks': [
+                        {
+                            'id': 14,
+                            'title': 'Track13'
+                        },
+                        {
+                            'id': 15,
+                            'title': 'Track14'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 2,
+                            'name': 'Artist1'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Artist3'
+                        },
+                        {
+                            'id': 6,
+                            'name': 'Artist5'
+                        }
+                    ],
+                    'collages': [
+                    ],
+                    'genres': [
+                        {
+                            'id': 11,
+                            'name': 'Genre3'
+                        }
+                    ],
+                    'id': 5,
+                    'imageId': None,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 7,
+                            'name': 'Label2'
+                        }
+                    ],
+                    'numTracks': 5,
+                    'releaseDate': None,
+                    'releaseType': 'UNKNOWN',
+                    'releaseYear': 2000,
+                    'runtime': 50,
+                    'title': 'Release4',
+                    'tracks': [
+                        {
+                            'id': 9,
+                            'title': 'Track8'
+                        },
+                        {
+                            'id': 10,
+                            'title': 'Track9'
+                        },
+                        {
+                            'id': 11,
+                            'title': 'Track10'
+                        },
+                        {
+                            'id': 12,
+                            'title': 'Track11'
+                        },
+                        {
+                            'id': 13,
+                            'title': 'Track12'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 5,
+                            'name': 'Artist4'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 4,
+                    'imageId': 2,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 7,
+                            'name': 'Label2'
+                        }
+                    ],
+                    'numTracks': 3,
+                    'releaseDate': '1970-02-05',
+                    'releaseType': 'COMPILATION',
+                    'releaseYear': 1990,
+                    'runtime': 18,
+                    'title': 'Release3',
+                    'tracks': [
+                        {
+                            'id': 6,
+                            'title': 'Track5'
+                        },
+                        {
+                            'id': 7,
+                            'title': 'Track6'
+                        },
+                        {
+                            'id': 8,
+                            'title': 'Track7'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 3,
+                            'name': 'Artist2'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Artist3'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 3,
+                    'imageId': None,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 6,
+                            'name': 'Label1'
+                        }
+                    ],
+                    'numTracks': 2,
+                    'releaseDate': None,
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 1980,
+                    'runtime': 7,
+                    'title': 'Release2',
+                    'tracks': [
+                        {
+                            'id': 4,
+                            'title': 'Track3'
+                        },
+                        {
+                            'id': 5,
+                            'title': 'Track4'
+                        }
+                    ]
+                },
+                {
+                    'addedOn': 1577840461,
+                    'artists': [
+                        {
+                            'id': 2,
+                            'name': 'Artist1'
+                        },
+                        {
+                            'id': 3,
+                            'name': 'Artist2'
+                        }
+                    ],
+                    'collages': [
+                        {
+                            'id': 3,
+                            'name': 'Collage1'
+                        },
+                        {
+                            'id': 4,
+                            'name': 'Collage2'
+                        }
+                    ],
+                    'genres': [
+                        {
+                            'id': 9,
+                            'name': 'Genre1'
+                        },
+                        {
+                            'id': 10,
+                            'name': 'Genre2'
+                        }
+                    ],
+                    'id': 2,
+                    'imageId': 1,
+                    'inFavorites': False,
+                    'inInbox': False,
+                    'labels': [
+                        {
+                            'id': 6,
+                            'name': 'Label1'
+                        }
+                    ],
+                    'numTracks': 3,
+                    'releaseDate': '1970-02-05',
+                    'releaseType': 'ALBUM',
+                    'releaseYear': 1970,
+                    'runtime': 3,
+                    'title': 'Release1',
+                    'tracks': [
+                        {
+                            'id': 1,
+                            'title': 'Track0'
+                        },
+                        {
+                            'id': 2,
+                            'title': 'Track1'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'Track2'
+                        }
+                    ]
+                }
+            ],
+            'total': 6
+        }
+    }
+}
+
+snapshots['test_update_release 1'] = {
+    'data': {
+        'updateRelease': {
+            'addedOn': 1577840461,
+            'artists': [
+                {
+                    'id': 2,
+                    'name': 'Artist1'
+                },
+                {
+                    'id': 3,
+                    'name': 'Artist2'
+                }
+            ],
+            'collages': [
+                {
+                    'id': 3,
+                    'name': 'Collage1'
+                },
+                {
+                    'id': 4,
+                    'name': 'Collage2'
+                }
+            ],
+            'genres': [
+                {
+                    'id': 9,
+                    'name': 'Genre1'
+                },
+                {
+                    'id': 10,
+                    'name': 'Genre2'
+                }
+            ],
+            'id': 2,
+            'imageId': 1,
+            'inFavorites': False,
+            'inInbox': False,
+            'labels': [
+                {
+                    'id': 6,
+                    'name': 'Label1'
+                }
+            ],
+            'numTracks': 3,
+            'releaseDate': '2020-10-23',
+            'releaseType': 'SINGLE',
+            'releaseYear': 2020,
+            'runtime': 3,
+            'title': 'aa',
+            'tracks': [
+                {
+                    'id': 1,
+                    'title': 'Track0'
+                },
+                {
+                    'id': 2,
+                    'title': 'Track1'
+                },
+                {
+                    'id': 3,
+                    'title': 'Track2'
+                }
             ]
         }
     }
-)
+}
 
-snapshots['test_releases 1'] = (
-    True,
-    {
-        'data': {
-            'releases': {
-                'results': [
-                    {
-                        'addedOn': 0,
-                        'artists': [
-                            {
-                                'id': 1,
-                                'name': 'Unknown Artist'
-                            }
-                        ],
-                        'collages': [
-                        ],
-                        'genres': [
-                        ],
-                        'id': 1,
-                        'imageId': None,
-                        'inFavorites': False,
-                        'inInbox': False,
-                        'labels': [
-                        ],
-                        'numTracks': 0,
-                        'releaseDate': None,
-                        'releaseType': 'UNKNOWN',
-                        'releaseYear': None,
-                        'runtime': 0,
-                        'title': 'Unknown Release',
-                        'tracks': [
-                        ]
-                    },
-                    {
-                        'addedOn': 1603067134,
-                        'artists': [
-                            {
-                                'id': 2,
-                                'name': 'Aaron West and the Roaring Twenties'
-                            }
-                        ],
-                        'collages': [
-                        ],
-                        'genres': [
-                            {
-                                'id': 3,
-                                'name': 'Folk'
-                            },
-                            {
-                                'id': 4,
-                                'name': 'Rock'
-                            },
-                            {
-                                'id': 5,
-                                'name': 'Country'
-                            },
-                            {
-                                'id': 6,
-                                'name': 'World'
-                            }
-                        ],
-                        'id': 2,
-                        'imageId': 1,
-                        'inFavorites': False,
-                        'inInbox': True,
-                        'labels': [
-                        ],
-                        'numTracks': 10,
-                        'releaseDate': '2014-07-08',
-                        'releaseType': 'ALBUM',
-                        'releaseYear': 2014,
-                        'runtime': 2258,
-                        'title': 'We Don’t Have Each Other',
-                        'tracks': [
-                            {
-                                'id': 1,
-                                'title': 'Our Apartment'
-                            },
-                            {
-                                'id': 2,
-                                'title': 'Grapefruit'
-                            },
-                            {
-                                'id': 3,
-                                'title': 'St. Joe Keeps Us Safe'
-                            },
-                            {
-                                'id': 4,
-                                'title': 'Runnin’ Scared'
-                            },
-                            {
-                                'id': 5,
-                                'title': 'Divorce and the American South'
-                            },
-                            {
-                                'id': 6,
-                                'title': 'The Thunderbird Inn'
-                            },
-                            {
-                                'id': 7,
-                                'title': 'Get Me Out of Here Alive'
-                            },
-                            {
-                                'id': 8,
-                                'title': 'You Ain’t No Saint'
-                            },
-                            {
-                                'id': 9,
-                                'title': 'Carolina Coast'
-                            },
-                            {
-                                'id': 10,
-                                'title': 'Going to Georgia'
-                            }
-                        ]
-                    },
-                    {
-                        'addedOn': 1603096174,
-                        'artists': [
-                            {
-                                'id': 4,
-                                'name': 'Abakus'
-                            },
-                            {
-                                'id': 5,
-                                'name': 'Bacchus'
-                            }
-                        ],
-                        'collages': [
-                        ],
-                        'genres': [
-                            {
-                                'id': 7,
-                                'name': 'Downtempo'
-                            },
-                            {
-                                'id': 8,
-                                'name': 'Electronic'
-                            },
-                            {
-                                'id': 9,
-                                'name': 'House'
-                            },
-                            {
-                                'id': 10,
-                                'name': 'Ambient'
-                            }
-                        ],
-                        'id': 3,
-                        'imageId': 2,
-                        'inFavorites': False,
-                        'inInbox': True,
-                        'labels': [
-                        ],
-                        'numTracks': 11,
-                        'releaseDate': None,
-                        'releaseType': 'EP',
-                        'releaseYear': 2016,
-                        'runtime': 3513,
-                        'title': 'Departure',
-                        'tracks': [
-                            {
-                                'id': 11,
-                                'title': 'Airwaves'
-                            },
-                            {
-                                'id': 12,
-                                'title': 'Liberated from the Negative'
-                            },
-                            {
-                                'id': 13,
-                                'title': 'Hope'
-                            },
-                            {
-                                'id': 14,
-                                'title': 'Dreamer'
-                            },
-                            {
-                                'id': 15,
-                                'title': 'Stay with Me'
-                            },
-                            {
-                                'id': 16,
-                                'title': 'Still a Soul in There'
-                            },
-                            {
-                                'id': 17,
-                                'title': 'Lost Myself'
-                            },
-                            {
-                                'id': 18,
-                                'title': 'The Beginning'
-                            },
-                            {
-                                'id': 19,
-                                'title': 'Let Go'
-                            },
-                            {
-                                'id': 20,
-                                'title': 'Storm'
-                            },
-                            {
-                                'id': 21,
-                                'title': 'Kite'
-                            }
-                        ]
-                    }
-                ],
-                'total': 3
-            }
+snapshots['test_update_release_bad_date 1'] = {
+    'data': {
+        'updateRelease': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'Invalid release date.',
+            'path': [
+                'updateRelease'
+            ],
+            'type': 'ParseError'
         }
-    }
-)
+    ]
+}
 
-snapshots['test_releases_filter_artists 1'] = (
-    True,
-    {
-        'data': {
-            'releases': {
-                'results': [
-                    {
-                        'addedOn': 1603067134,
-                        'artists': [
-                            {
-                                'id': 2,
-                                'name': 'Aaron West and the Roaring Twenties'
-                            }
-                        ],
-                        'collages': [
-                        ],
-                        'genres': [
-                            {
-                                'id': 3,
-                                'name': 'Folk'
-                            },
-                            {
-                                'id': 4,
-                                'name': 'Rock'
-                            },
-                            {
-                                'id': 5,
-                                'name': 'Country'
-                            },
-                            {
-                                'id': 6,
-                                'name': 'World'
-                            }
-                        ],
-                        'id': 2,
-                        'imageId': 1,
-                        'inFavorites': False,
-                        'inInbox': True,
-                        'labels': [
-                        ],
-                        'numTracks': 10,
-                        'releaseDate': '2014-07-08',
-                        'releaseType': 'ALBUM',
-                        'releaseYear': 2014,
-                        'runtime': 2258,
-                        'title': 'We Don’t Have Each Other',
-                        'tracks': [
-                            {
-                                'id': 1,
-                                'title': 'Our Apartment'
-                            },
-                            {
-                                'id': 2,
-                                'title': 'Grapefruit'
-                            },
-                            {
-                                'id': 3,
-                                'title': 'St. Joe Keeps Us Safe'
-                            },
-                            {
-                                'id': 4,
-                                'title': 'Runnin’ Scared'
-                            },
-                            {
-                                'id': 5,
-                                'title': 'Divorce and the American South'
-                            },
-                            {
-                                'id': 6,
-                                'title': 'The Thunderbird Inn'
-                            },
-                            {
-                                'id': 7,
-                                'title': 'Get Me Out of Here Alive'
-                            },
-                            {
-                                'id': 8,
-                                'title': 'You Ain’t No Saint'
-                            },
-                            {
-                                'id': 9,
-                                'title': 'Carolina Coast'
-                            },
-                            {
-                                'id': 10,
-                                'title': 'Going to Georgia'
-                            }
-                        ]
-                    }
-                ],
-                'total': 1
-            }
+snapshots['test_update_release_not_found 1'] = {
+    'data': {
+        'updateRelease': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'Release 99999 does not exist.',
+            'path': [
+                'updateRelease'
+            ],
+            'type': 'NotFound'
         }
-    }
-)
-
-snapshots['test_releases_filter_collections 1'] = (
-    True,
-    {
-        'data': {
-            'releases': {
-                'results': [
-                    {
-                        'addedOn': 1603067134,
-                        'artists': [
-                            {
-                                'id': 2,
-                                'name': 'Aaron West and the Roaring Twenties'
-                            }
-                        ],
-                        'collages': [
-                        ],
-                        'genres': [
-                            {
-                                'id': 3,
-                                'name': 'Folk'
-                            },
-                            {
-                                'id': 4,
-                                'name': 'Rock'
-                            },
-                            {
-                                'id': 5,
-                                'name': 'Country'
-                            },
-                            {
-                                'id': 6,
-                                'name': 'World'
-                            }
-                        ],
-                        'id': 2,
-                        'imageId': 1,
-                        'inFavorites': False,
-                        'inInbox': True,
-                        'labels': [
-                        ],
-                        'numTracks': 10,
-                        'releaseDate': '2014-07-08',
-                        'releaseType': 'ALBUM',
-                        'releaseYear': 2014,
-                        'runtime': 2258,
-                        'title': 'We Don’t Have Each Other',
-                        'tracks': [
-                            {
-                                'id': 1,
-                                'title': 'Our Apartment'
-                            },
-                            {
-                                'id': 2,
-                                'title': 'Grapefruit'
-                            },
-                            {
-                                'id': 3,
-                                'title': 'St. Joe Keeps Us Safe'
-                            },
-                            {
-                                'id': 4,
-                                'title': 'Runnin’ Scared'
-                            },
-                            {
-                                'id': 5,
-                                'title': 'Divorce and the American South'
-                            },
-                            {
-                                'id': 6,
-                                'title': 'The Thunderbird Inn'
-                            },
-                            {
-                                'id': 7,
-                                'title': 'Get Me Out of Here Alive'
-                            },
-                            {
-                                'id': 8,
-                                'title': 'You Ain’t No Saint'
-                            },
-                            {
-                                'id': 9,
-                                'title': 'Carolina Coast'
-                            },
-                            {
-                                'id': 10,
-                                'title': 'Going to Georgia'
-                            }
-                        ]
-                    }
-                ],
-                'total': 1
-            }
-        }
-    }
-)
-
-snapshots['test_releases_filter_types 1'] = (
-    True,
-    {
-        'data': {
-            'releases': {
-                'results': [
-                    {
-                        'addedOn': 1603067134,
-                        'artists': [
-                            {
-                                'id': 2,
-                                'name': 'Aaron West and the Roaring Twenties'
-                            }
-                        ],
-                        'collages': [
-                        ],
-                        'genres': [
-                            {
-                                'id': 3,
-                                'name': 'Folk'
-                            },
-                            {
-                                'id': 4,
-                                'name': 'Rock'
-                            },
-                            {
-                                'id': 5,
-                                'name': 'Country'
-                            },
-                            {
-                                'id': 6,
-                                'name': 'World'
-                            }
-                        ],
-                        'id': 2,
-                        'imageId': 1,
-                        'inFavorites': False,
-                        'inInbox': True,
-                        'labels': [
-                        ],
-                        'numTracks': 10,
-                        'releaseDate': '2014-07-08',
-                        'releaseType': 'ALBUM',
-                        'releaseYear': 2014,
-                        'runtime': 2258,
-                        'title': 'We Don’t Have Each Other',
-                        'tracks': [
-                            {
-                                'id': 1,
-                                'title': 'Our Apartment'
-                            },
-                            {
-                                'id': 2,
-                                'title': 'Grapefruit'
-                            },
-                            {
-                                'id': 3,
-                                'title': 'St. Joe Keeps Us Safe'
-                            },
-                            {
-                                'id': 4,
-                                'title': 'Runnin’ Scared'
-                            },
-                            {
-                                'id': 5,
-                                'title': 'Divorce and the American South'
-                            },
-                            {
-                                'id': 6,
-                                'title': 'The Thunderbird Inn'
-                            },
-                            {
-                                'id': 7,
-                                'title': 'Get Me Out of Here Alive'
-                            },
-                            {
-                                'id': 8,
-                                'title': 'You Ain’t No Saint'
-                            },
-                            {
-                                'id': 9,
-                                'title': 'Carolina Coast'
-                            },
-                            {
-                                'id': 10,
-                                'title': 'Going to Georgia'
-                            }
-                        ]
-                    }
-                ],
-                'total': 1
-            }
-        }
-    }
-)
-
-snapshots['test_releases_pagination 1'] = (
-    True,
-    {
-        'data': {
-            'releases': {
-                'results': [
-                    {
-                        'addedOn': 1603096174,
-                        'artists': [
-                            {
-                                'id': 4,
-                                'name': 'Abakus'
-                            },
-                            {
-                                'id': 5,
-                                'name': 'Bacchus'
-                            }
-                        ],
-                        'collages': [
-                        ],
-                        'genres': [
-                            {
-                                'id': 7,
-                                'name': 'Downtempo'
-                            },
-                            {
-                                'id': 8,
-                                'name': 'Electronic'
-                            },
-                            {
-                                'id': 9,
-                                'name': 'House'
-                            },
-                            {
-                                'id': 10,
-                                'name': 'Ambient'
-                            }
-                        ],
-                        'id': 3,
-                        'imageId': 2,
-                        'inFavorites': False,
-                        'inInbox': True,
-                        'labels': [
-                        ],
-                        'numTracks': 11,
-                        'releaseDate': None,
-                        'releaseType': 'EP',
-                        'releaseYear': 2016,
-                        'runtime': 3513,
-                        'title': 'Departure',
-                        'tracks': [
-                            {
-                                'id': 11,
-                                'title': 'Airwaves'
-                            },
-                            {
-                                'id': 12,
-                                'title': 'Liberated from the Negative'
-                            },
-                            {
-                                'id': 13,
-                                'title': 'Hope'
-                            },
-                            {
-                                'id': 14,
-                                'title': 'Dreamer'
-                            },
-                            {
-                                'id': 15,
-                                'title': 'Stay with Me'
-                            },
-                            {
-                                'id': 16,
-                                'title': 'Still a Soul in There'
-                            },
-                            {
-                                'id': 17,
-                                'title': 'Lost Myself'
-                            },
-                            {
-                                'id': 18,
-                                'title': 'The Beginning'
-                            },
-                            {
-                                'id': 19,
-                                'title': 'Let Go'
-                            },
-                            {
-                                'id': 20,
-                                'title': 'Storm'
-                            },
-                            {
-                                'id': 21,
-                                'title': 'Kite'
-                            }
-                        ]
-                    }
-                ],
-                'total': 3
-            }
-        }
-    }
-)
-
-snapshots['test_releases_search 1'] = (
-    True,
-    {
-        'data': {
-            'releases': {
-                'results': [
-                    {
-                        'addedOn': 1603067134,
-                        'artists': [
-                            {
-                                'id': 2,
-                                'name': 'Aaron West and the Roaring Twenties'
-                            }
-                        ],
-                        'collages': [
-                        ],
-                        'genres': [
-                            {
-                                'id': 3,
-                                'name': 'Folk'
-                            },
-                            {
-                                'id': 4,
-                                'name': 'Rock'
-                            },
-                            {
-                                'id': 5,
-                                'name': 'Country'
-                            },
-                            {
-                                'id': 6,
-                                'name': 'World'
-                            }
-                        ],
-                        'id': 2,
-                        'imageId': 1,
-                        'inFavorites': False,
-                        'inInbox': True,
-                        'labels': [
-                        ],
-                        'numTracks': 10,
-                        'releaseDate': '2014-07-08',
-                        'releaseType': 'ALBUM',
-                        'releaseYear': 2014,
-                        'runtime': 2258,
-                        'title': 'We Don’t Have Each Other',
-                        'tracks': [
-                            {
-                                'id': 1,
-                                'title': 'Our Apartment'
-                            },
-                            {
-                                'id': 2,
-                                'title': 'Grapefruit'
-                            },
-                            {
-                                'id': 3,
-                                'title': 'St. Joe Keeps Us Safe'
-                            },
-                            {
-                                'id': 4,
-                                'title': 'Runnin’ Scared'
-                            },
-                            {
-                                'id': 5,
-                                'title': 'Divorce and the American South'
-                            },
-                            {
-                                'id': 6,
-                                'title': 'The Thunderbird Inn'
-                            },
-                            {
-                                'id': 7,
-                                'title': 'Get Me Out of Here Alive'
-                            },
-                            {
-                                'id': 8,
-                                'title': 'You Ain’t No Saint'
-                            },
-                            {
-                                'id': 9,
-                                'title': 'Carolina Coast'
-                            },
-                            {
-                                'id': 10,
-                                'title': 'Going to Georgia'
-                            }
-                        ]
-                    }
-                ],
-                'total': 1
-            }
-        }
-    }
-)
-
-snapshots['test_releases_sort 1'] = (
-    True,
-    {
-        'data': {
-            'releases': {
-                'results': [
-                    {
-                        'addedOn': 1603096174,
-                        'artists': [
-                            {
-                                'id': 4,
-                                'name': 'Abakus'
-                            },
-                            {
-                                'id': 5,
-                                'name': 'Bacchus'
-                            }
-                        ],
-                        'collages': [
-                        ],
-                        'genres': [
-                            {
-                                'id': 7,
-                                'name': 'Downtempo'
-                            },
-                            {
-                                'id': 8,
-                                'name': 'Electronic'
-                            },
-                            {
-                                'id': 9,
-                                'name': 'House'
-                            },
-                            {
-                                'id': 10,
-                                'name': 'Ambient'
-                            }
-                        ],
-                        'id': 3,
-                        'imageId': 2,
-                        'inFavorites': False,
-                        'inInbox': True,
-                        'labels': [
-                        ],
-                        'numTracks': 11,
-                        'releaseDate': None,
-                        'releaseType': 'EP',
-                        'releaseYear': 2016,
-                        'runtime': 3513,
-                        'title': 'Departure',
-                        'tracks': [
-                            {
-                                'id': 11,
-                                'title': 'Airwaves'
-                            },
-                            {
-                                'id': 12,
-                                'title': 'Liberated from the Negative'
-                            },
-                            {
-                                'id': 13,
-                                'title': 'Hope'
-                            },
-                            {
-                                'id': 14,
-                                'title': 'Dreamer'
-                            },
-                            {
-                                'id': 15,
-                                'title': 'Stay with Me'
-                            },
-                            {
-                                'id': 16,
-                                'title': 'Still a Soul in There'
-                            },
-                            {
-                                'id': 17,
-                                'title': 'Lost Myself'
-                            },
-                            {
-                                'id': 18,
-                                'title': 'The Beginning'
-                            },
-                            {
-                                'id': 19,
-                                'title': 'Let Go'
-                            },
-                            {
-                                'id': 20,
-                                'title': 'Storm'
-                            },
-                            {
-                                'id': 21,
-                                'title': 'Kite'
-                            }
-                        ]
-                    },
-                    {
-                        'addedOn': 0,
-                        'artists': [
-                            {
-                                'id': 1,
-                                'name': 'Unknown Artist'
-                            }
-                        ],
-                        'collages': [
-                        ],
-                        'genres': [
-                        ],
-                        'id': 1,
-                        'imageId': None,
-                        'inFavorites': False,
-                        'inInbox': False,
-                        'labels': [
-                        ],
-                        'numTracks': 0,
-                        'releaseDate': None,
-                        'releaseType': 'UNKNOWN',
-                        'releaseYear': None,
-                        'runtime': 0,
-                        'title': 'Unknown Release',
-                        'tracks': [
-                        ]
-                    },
-                    {
-                        'addedOn': 1603067134,
-                        'artists': [
-                            {
-                                'id': 2,
-                                'name': 'Aaron West and the Roaring Twenties'
-                            }
-                        ],
-                        'collages': [
-                        ],
-                        'genres': [
-                            {
-                                'id': 3,
-                                'name': 'Folk'
-                            },
-                            {
-                                'id': 4,
-                                'name': 'Rock'
-                            },
-                            {
-                                'id': 5,
-                                'name': 'Country'
-                            },
-                            {
-                                'id': 6,
-                                'name': 'World'
-                            }
-                        ],
-                        'id': 2,
-                        'imageId': 1,
-                        'inFavorites': False,
-                        'inInbox': True,
-                        'labels': [
-                        ],
-                        'numTracks': 10,
-                        'releaseDate': '2014-07-08',
-                        'releaseType': 'ALBUM',
-                        'releaseYear': 2014,
-                        'runtime': 2258,
-                        'title': 'We Don’t Have Each Other',
-                        'tracks': [
-                            {
-                                'id': 1,
-                                'title': 'Our Apartment'
-                            },
-                            {
-                                'id': 2,
-                                'title': 'Grapefruit'
-                            },
-                            {
-                                'id': 3,
-                                'title': 'St. Joe Keeps Us Safe'
-                            },
-                            {
-                                'id': 4,
-                                'title': 'Runnin’ Scared'
-                            },
-                            {
-                                'id': 5,
-                                'title': 'Divorce and the American South'
-                            },
-                            {
-                                'id': 6,
-                                'title': 'The Thunderbird Inn'
-                            },
-                            {
-                                'id': 7,
-                                'title': 'Get Me Out of Here Alive'
-                            },
-                            {
-                                'id': 8,
-                                'title': 'You Ain’t No Saint'
-                            },
-                            {
-                                'id': 9,
-                                'title': 'Carolina Coast'
-                            },
-                            {
-                                'id': 10,
-                                'title': 'Going to Georgia'
-                            }
-                        ]
-                    }
-                ],
-                'total': 3
-            }
-        }
-    }
-)
-
-snapshots['test_releases_sort_desc 1'] = (
-    True,
-    {
-        'data': {
-            'releases': {
-                'results': [
-                    {
-                        'addedOn': 1603067134,
-                        'artists': [
-                            {
-                                'id': 2,
-                                'name': 'Aaron West and the Roaring Twenties'
-                            }
-                        ],
-                        'collages': [
-                        ],
-                        'genres': [
-                            {
-                                'id': 3,
-                                'name': 'Folk'
-                            },
-                            {
-                                'id': 4,
-                                'name': 'Rock'
-                            },
-                            {
-                                'id': 5,
-                                'name': 'Country'
-                            },
-                            {
-                                'id': 6,
-                                'name': 'World'
-                            }
-                        ],
-                        'id': 2,
-                        'imageId': 1,
-                        'inFavorites': False,
-                        'inInbox': True,
-                        'labels': [
-                        ],
-                        'numTracks': 10,
-                        'releaseDate': '2014-07-08',
-                        'releaseType': 'ALBUM',
-                        'releaseYear': 2014,
-                        'runtime': 2258,
-                        'title': 'We Don’t Have Each Other',
-                        'tracks': [
-                            {
-                                'id': 1,
-                                'title': 'Our Apartment'
-                            },
-                            {
-                                'id': 2,
-                                'title': 'Grapefruit'
-                            },
-                            {
-                                'id': 3,
-                                'title': 'St. Joe Keeps Us Safe'
-                            },
-                            {
-                                'id': 4,
-                                'title': 'Runnin’ Scared'
-                            },
-                            {
-                                'id': 5,
-                                'title': 'Divorce and the American South'
-                            },
-                            {
-                                'id': 6,
-                                'title': 'The Thunderbird Inn'
-                            },
-                            {
-                                'id': 7,
-                                'title': 'Get Me Out of Here Alive'
-                            },
-                            {
-                                'id': 8,
-                                'title': 'You Ain’t No Saint'
-                            },
-                            {
-                                'id': 9,
-                                'title': 'Carolina Coast'
-                            },
-                            {
-                                'id': 10,
-                                'title': 'Going to Georgia'
-                            }
-                        ]
-                    },
-                    {
-                        'addedOn': 0,
-                        'artists': [
-                            {
-                                'id': 1,
-                                'name': 'Unknown Artist'
-                            }
-                        ],
-                        'collages': [
-                        ],
-                        'genres': [
-                        ],
-                        'id': 1,
-                        'imageId': None,
-                        'inFavorites': False,
-                        'inInbox': False,
-                        'labels': [
-                        ],
-                        'numTracks': 0,
-                        'releaseDate': None,
-                        'releaseType': 'UNKNOWN',
-                        'releaseYear': None,
-                        'runtime': 0,
-                        'title': 'Unknown Release',
-                        'tracks': [
-                        ]
-                    },
-                    {
-                        'addedOn': 1603096174,
-                        'artists': [
-                            {
-                                'id': 4,
-                                'name': 'Abakus'
-                            },
-                            {
-                                'id': 5,
-                                'name': 'Bacchus'
-                            }
-                        ],
-                        'collages': [
-                        ],
-                        'genres': [
-                            {
-                                'id': 7,
-                                'name': 'Downtempo'
-                            },
-                            {
-                                'id': 8,
-                                'name': 'Electronic'
-                            },
-                            {
-                                'id': 9,
-                                'name': 'House'
-                            },
-                            {
-                                'id': 10,
-                                'name': 'Ambient'
-                            }
-                        ],
-                        'id': 3,
-                        'imageId': 2,
-                        'inFavorites': False,
-                        'inInbox': True,
-                        'labels': [
-                        ],
-                        'numTracks': 11,
-                        'releaseDate': None,
-                        'releaseType': 'EP',
-                        'releaseYear': 2016,
-                        'runtime': 3513,
-                        'title': 'Departure',
-                        'tracks': [
-                            {
-                                'id': 11,
-                                'title': 'Airwaves'
-                            },
-                            {
-                                'id': 12,
-                                'title': 'Liberated from the Negative'
-                            },
-                            {
-                                'id': 13,
-                                'title': 'Hope'
-                            },
-                            {
-                                'id': 14,
-                                'title': 'Dreamer'
-                            },
-                            {
-                                'id': 15,
-                                'title': 'Stay with Me'
-                            },
-                            {
-                                'id': 16,
-                                'title': 'Still a Soul in There'
-                            },
-                            {
-                                'id': 17,
-                                'title': 'Lost Myself'
-                            },
-                            {
-                                'id': 18,
-                                'title': 'The Beginning'
-                            },
-                            {
-                                'id': 19,
-                                'title': 'Let Go'
-                            },
-                            {
-                                'id': 20,
-                                'title': 'Storm'
-                            },
-                            {
-                                'id': 21,
-                                'title': 'Kite'
-                            }
-                        ]
-                    }
-                ],
-                'total': 3
-            }
-        }
-    }
-)
-
-snapshots['test_update_release 1'] = (
-    True,
-    {
-        'data': {
-            'updateRelease': {
-                'addedOn': 1603067134,
-                'artists': [
-                    {
-                        'id': 2,
-                        'name': 'Aaron West and the Roaring Twenties'
-                    }
-                ],
-                'collages': [
-                ],
-                'genres': [
-                    {
-                        'id': 3,
-                        'name': 'Folk'
-                    },
-                    {
-                        'id': 4,
-                        'name': 'Rock'
-                    },
-                    {
-                        'id': 5,
-                        'name': 'Country'
-                    },
-                    {
-                        'id': 6,
-                        'name': 'World'
-                    }
-                ],
-                'id': 2,
-                'imageId': 1,
-                'inFavorites': False,
-                'inInbox': True,
-                'labels': [
-                ],
-                'numTracks': 10,
-                'releaseDate': '2020-10-23',
-                'releaseType': 'SINGLE',
-                'releaseYear': 2020,
-                'runtime': 2258,
-                'title': 'aa',
-                'tracks': [
-                    {
-                        'id': 1,
-                        'title': 'Our Apartment'
-                    },
-                    {
-                        'id': 2,
-                        'title': 'Grapefruit'
-                    },
-                    {
-                        'id': 3,
-                        'title': 'St. Joe Keeps Us Safe'
-                    },
-                    {
-                        'id': 4,
-                        'title': 'Runnin’ Scared'
-                    },
-                    {
-                        'id': 5,
-                        'title': 'Divorce and the American South'
-                    },
-                    {
-                        'id': 6,
-                        'title': 'The Thunderbird Inn'
-                    },
-                    {
-                        'id': 7,
-                        'title': 'Get Me Out of Here Alive'
-                    },
-                    {
-                        'id': 8,
-                        'title': 'You Ain’t No Saint'
-                    },
-                    {
-                        'id': 9,
-                        'title': 'Carolina Coast'
-                    },
-                    {
-                        'id': 10,
-                        'title': 'Going to Georgia'
-                    }
-                ]
-            }
-        }
-    }
-)
-
-snapshots['test_update_release 2'] = GenericRepr("T(id=2, title='aa', release_type=<ReleaseType.SINGLE: 2>, added_on=FakeDatetime(2020, 10, 19, 0, 25, 34), release_year=2020, num_tracks=10, in_inbox=True, in_favorites=False, rating=1, runtime=2258, release_date=FakeDate(2020, 10, 23), image_id=1)")
-
-snapshots['test_update_release_bad_date 1'] = (
-    True,
-    {
-        'data': {
-            'updateRelease': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Invalid release date.',
-                'path': [
-                    'updateRelease'
-                ],
-                'type': 'ParseError'
-            }
-        ]
-    }
-)
-
-snapshots['test_update_release_bad_date 2'] = GenericRepr("T(id=2, title='We Don’t Have Each Other', release_type=<ReleaseType.ALBUM: 1>, added_on=FakeDatetime(2020, 10, 19, 0, 25, 34), release_year=2014, num_tracks=10, in_inbox=True, in_favorites=False, rating=6, runtime=2258, release_date=FakeDate(2014, 7, 8), image_id=1)")
-
-snapshots['test_update_release_not_found 1'] = (
-    True,
-    {
-        'data': {
-            'updateRelease': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
-                ],
-                'message': 'Release 99999 does not exist.',
-                'path': [
-                    'updateRelease'
-                ],
-                'type': 'NotFound'
-            }
-        ]
-    }
-)
+    ]
+}
