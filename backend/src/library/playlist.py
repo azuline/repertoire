@@ -16,12 +16,13 @@ from sqlite3 import Connection, Row
 from typing import Optional, Union
 
 from src.enums import CollectionType, PlaylistType
-from src.errors import Duplicate, Immutable, InvalidPlaylistType
+from src.errors import Duplicate, Immutable, InvalidArgument, InvalidPlaylistType
 from src.util import make_fts_match_query, update_dataclass, without_key
 
 from . import collection
 from . import image as libimage
 from . import playlist_entry as pentry
+from . import user as libuser
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +40,9 @@ class T:
     starred: bool
     #:
     type: PlaylistType
+    #: The ID of the user that the playlist belongs to. Only set for System and Personal
+    #  playlists.
+    user_id: Optional[int]
     #:
     num_tracks: Optional[int] = None
     #:
@@ -246,6 +250,7 @@ def create(
     type: PlaylistType,
     conn: Connection,
     starred: bool = False,
+    user_id: Optional[int] = None,
     override_immutable: bool = False,
 ) -> T:
     """
@@ -255,21 +260,36 @@ def create(
     :param type: The type of the playlist.
     :param conn: A connection to the database.
     :param starred: Whether the playlist is starred or not.
+    :param user_id: The ID of the user that this playlist belongs to. Should be set for
+                    Personal playlists; unset otherwise.
     :param override_immutable: Whether to allow creation of immutable playlists. For
                                internal use.
     :return: The newly created playlist.
     :raises Duplicate: If an playlist with the same name and type already exists. The
                        duplicate playlist is passed as the ``entity`` argument.
+    :raises InvalidArgument: If the user_id argument is passed with a non-personal
+                             playlist type.
     """
     if type == PlaylistType.SYSTEM and not override_immutable:
         raise InvalidPlaylistType("Cannot create system playlists.")
+
+    if type == PlaylistType.PERSONAL and user_id is None:
+        raise InvalidArgument("Missing user_id argument for personal collections.")
+
+    if type != PlaylistType.PERSONAL and user_id is not None:
+        raise InvalidArgument(
+            "The user_id argument can only be set for personal collections."
+        )
 
     if ply := from_name_and_type(name, type, conn):
         raise Duplicate(f'Playlist "{name}" already exists.', ply)
 
     cursor = conn.execute(
-        "INSERT INTO music__playlists (name, type, starred) VALUES (?, ?, ?)",
-        (name, type.value, starred),
+        """
+        INSERT INTO music__playlists (name, type, starred, user_id)
+        VALUES (?, ?, ?, ?)
+        """,
+        (name, type.value, starred, user_id),
     )
 
     logger.info(f'Created playlist "{name}" of type {type} with ID {cursor.lastrowid}.')
@@ -438,3 +458,14 @@ def image(ply: T, conn: Connection) -> Optional[libimage.T]:
 
     logger.debug(f"Failed to fetch image for playlist {ply.id}.")
     return None
+
+
+def user(ply: T, conn: Connection) -> Optional[libuser.T]:
+    """
+    Returns the user the playlist belongs to, if it belongs to a user.
+
+    :param ply: The playlist whose user to fetch.
+    :param conn: A connection to the database.
+    :return: The user, if one exists.
+    """
+    return libuser.from_id(ply.user_id, conn) if ply.user_id else None

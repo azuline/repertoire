@@ -12,6 +12,7 @@ from src.errors import (
     DoesNotExist,
     Duplicate,
     Immutable,
+    InvalidArgument,
     InvalidCollectionType,
     NotFound,
 )
@@ -19,6 +20,7 @@ from src.util import make_fts_match_query, update_dataclass, without_key
 
 from . import image as libimage
 from . import release
+from . import user as libuser
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +38,9 @@ class T:
     starred: bool
     #:
     type: CollectionType
+    #: The ID of the user that the playlist belongs to. Only set for System and Personal
+    #  playlists.
+    user_id: Optional[int]
     #:
     num_releases: Optional[int] = None
     #:
@@ -247,6 +252,7 @@ def create(
     type: CollectionType,
     conn: Connection,
     starred: bool = False,
+    user_id: Optional[int] = None,
     override_immutable: bool = False,
 ) -> T:
     """
@@ -256,21 +262,36 @@ def create(
     :param type: The type of the collection.
     :param conn: A connection to the database.
     :param starred: Whether the collection is starred or not.
+    :param user_id: The ID of the user that this collection belongs to. Should be set
+                    for Personal collections; unset otherwise.
     :param override_immutable: Whether to allow creation of immutable collections. For
                                internal use.
     :return: The newly created collection.
     :raises Duplicate: If an collection with the same name and type already exists. The
                        duplicate collection is passed as the ``entity`` argument.
+    :raises InvalidArgument: If the user_id argument is passed with an non-personal
+                             collection type.
     """
     if type == CollectionType.SYSTEM and not override_immutable:
         raise InvalidCollectionType("Cannot create system collections.")
+
+    if type == CollectionType.PERSONAL and user_id is None:
+        raise InvalidArgument("Missing user_id argument for personal collections.")
+
+    if type != CollectionType.PERSONAL and user_id is not None:
+        raise InvalidArgument(
+            "The user_id argument can only be set for personal collections."
+        )
 
     if col := from_name_and_type(name, type, conn):
         raise Duplicate(f'Collection "{name}" already exists.', col)
 
     cursor = conn.execute(
-        "INSERT INTO music__collections (name, type, starred) VALUES (?, ?, ?)",
-        (name, type.value, starred),
+        """
+        INSERT INTO music__collections (name, type, starred, user_id)
+        VALUES (?, ?, ?, ?)
+        """,
+        (name, type.value, starred, user_id),
     )
 
     logger.info(
@@ -546,3 +567,14 @@ def image(col: T, conn: Connection) -> Optional[libimage.T]:
 
     logger.debug(f"Failed to fetch image for collection {col.id}.")
     return None
+
+
+def user(col: T, conn: Connection) -> Optional[libuser.T]:
+    """
+    Returns the user the collection belongs to, if it belongs to a user.
+
+    :param col: The collection whose user to fetch.
+    :param conn: A connection to the database.
+    :return: The user, if one exists.
+    """
+    return libuser.from_id(col.user_id, conn) if col.user_id else None

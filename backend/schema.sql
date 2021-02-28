@@ -89,10 +89,14 @@ CREATE TABLE music__collections (
     name VARCHAR COLLATE 'NOCASE' NOT NULL,
     starred BOOLEAN NOT NULL DEFAULT 0 CHECK (starred IN (0, 1)),
     type INTEGER NOT NULL,
+    user_id INTEGER,
     last_updated_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (type) REFERENCES music__collection_types__enum(id),
-    UNIQUE (name, type)
+    FOREIGN KEY (user_id) REFERENCES system__users(id) ON DELETE CASCADE,
+    UNIQUE (name, type, user_id),
+    -- Assert that all System & Personal collections have a user ID attached.
+    CHECK (type NOT IN (1, 2) OR user_id IS NOT NULL)
 );
 
 CREATE INDEX music__collections__sorting__idx
@@ -119,10 +123,14 @@ CREATE TABLE music__playlists (
     name VARCHAR COLLATE 'NOCASE' NOT NULL,
     starred BOOLEAN NOT NULL DEFAULT 0 CHECK (starred IN (0, 1)),
     type INTEGER NOT NULL,
+    user_id INTEGER,
     last_updated_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (type) REFERENCES music__playlist_types__enum(id),
-    UNIQUE (name, type)
+    FOREIGN KEY (user_id) REFERENCES system__users(id) ON DELETE CASCADE,
+    UNIQUE (name, type, user_id),
+    -- Assert that all System & Personal playlists have a user ID attached.
+    CHECK (type NOT IN (1, 2) OR user_id IS NOT NULL)
 );
 
 CREATE INDEX music__playlists__sorting__idx

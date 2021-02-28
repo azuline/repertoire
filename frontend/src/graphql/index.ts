@@ -71,6 +71,7 @@ export type ICollectionAndRelease = {
 
 export enum ICollectionType {
   System = 'SYSTEM',
+  Personal = 'PERSONAL',
   Collage = 'COLLAGE',
   Label = 'LABEL',
   Genre = 'GENRE'
@@ -304,6 +305,7 @@ export type IPlaylistEntry = {
 
 export enum IPlaylistType {
   System = 'SYSTEM',
+  Personal = 'PERSONAL',
   Playlist = 'PLAYLIST'
 }
 
