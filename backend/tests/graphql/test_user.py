@@ -22,7 +22,9 @@ TOKEN_QUERY = """
 
 @pytest.mark.asyncio
 async def test_user(graphql_query, snapshot):
-    snapshot.assert_match(await graphql_query(USER_QUERY))
+    success, data = await graphql_query(USER_QUERY)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio

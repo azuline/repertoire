@@ -154,6 +154,7 @@ async def test_create_artist(db: Connection, graphql_query, snapshot):
     snapshot.assert_match(data)
 
     art = artist.from_id(data["data"]["createArtist"]["id"], db)
+    assert art is not None
     assert art.name == "New Artist"
     assert art.starred is True
 
@@ -186,6 +187,7 @@ async def test_update_artist(db: Connection, graphql_query, snapshot):
     snapshot.assert_match(data)
 
     art = artist.from_id(4, db)
+    assert art is not None
     assert art.name == "New Name"
     assert art.starred is True
 
@@ -218,4 +220,5 @@ async def test_update_artist_duplicate(db: Connection, graphql_query, snapshot):
     snapshot.assert_match(data)
 
     art = artist.from_id(4, db)
+    assert art is not None
     assert art.name != "Artist1"

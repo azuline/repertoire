@@ -16,14 +16,11 @@ snapshots['test_update_user 1'] = {
     }
 }
 
-snapshots['test_user 1'] = (
-    True,
-    {
-        'data': {
-            'user': {
-                'id': 1,
-                'nickname': 'admin'
-            }
+snapshots['test_user 1'] = {
+    'data': {
+        'user': {
+            'id': 1,
+            'nickname': 'admin'
         }
     }
-)
+}

@@ -171,6 +171,7 @@ async def test_create_collection(db: Connection, graphql_query, snapshot):
     snapshot.assert_match(data)
 
     col = collection.from_id(data["data"]["createCollection"]["id"], db)
+    assert col is not None
     assert col.name == "NewCollection"
     assert col.type == CollectionType.COLLAGE
     assert col.starred is True
@@ -204,6 +205,7 @@ async def test_update_collection(db: Connection, graphql_query, snapshot):
     snapshot.assert_match(data)
 
     col = collection.from_id(3, db)
+    assert col is not None
     assert col.name == "NewCollection"
     assert col.starred is True
 
@@ -222,6 +224,7 @@ async def test_update_collection_duplicate(db: Connection, graphql_query, snapsh
     snapshot.assert_match(data)
 
     col = collection.from_id(3, db)
+    assert col is not None
     assert col.name != "Collage3"
 
 
@@ -253,6 +256,7 @@ async def test_update_collection_immutable(db: Connection, graphql_query, snapsh
     snapshot.assert_match(data)
 
     col = collection.from_id(1, db)
+    assert col is not None
     assert col.name != "NewCollection"
 
 

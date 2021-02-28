@@ -193,4 +193,6 @@ async def test_update_playlist_entry_bad_position(
     assert success is True
     snapshot.assert_match(data)
 
-    assert pentry.from_id(3, db).position == 3
+    ety = pentry.from_id(3, db)
+    assert ety is not None
+    assert ety.position == 3

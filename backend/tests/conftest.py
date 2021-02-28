@@ -2,21 +2,15 @@ import shutil
 from pathlib import Path
 
 import pytest
-import quart
-from ariadne import graphql
 from click.testing import CliRunner
 from freezegun import freeze_time
 from yoyo import get_backend, read_migrations
 
 from src.config import Config, _Config
 from src.constants import Constants
-from src.graphql import error_formatter, schema
-from src.library import user
 from src.util import database, freeze_database_time
 from src.webserver.app import create_app
-from src.webserver.routes.graphql import GraphQLContext
 from tests.factory import Factory
-from tests.fragments import FRAGMENTS
 
 SEED_DATA = Path(__file__).parent / "seed_data"
 
@@ -102,26 +96,3 @@ async def quart_client(quart_app):
             test_client.authed_delete = authed_delete
 
             yield test_client
-
-
-@pytest.fixture
-def graphql_query(seed_data, quart_app):
-    async def executor(query):
-        used_fragments = "\n".join(v for k, v in FRAGMENTS.items() if k in query)
-        query = f"{query}\n{used_fragments}"
-
-        async with quart_app.test_request_context("/testing", method="GET"):
-            with database() as conn:
-                return await graphql(
-                    schema=schema,
-                    data={"operationName": None, "variables": {}, "query": query},
-                    context_value=GraphQLContext(
-                        user=user.from_id(1, conn),  # type: ignore
-                        db=conn,
-                        request=quart.request,
-                    ),
-                    error_formatter=error_formatter,
-                    debug=False,
-                )
-
-    yield executor
