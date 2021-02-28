@@ -82,6 +82,7 @@ def test_search_sort_year(factory: Factory, db: Connection):
         factory.release(release_year=factory.rand_year(), conn=db)
 
     releases = release.search(sort=ReleaseSort.YEAR, asc=True, conn=db)
+
     # This is the Unknown Release (with a null year). Should be sorted last.
     assert releases[-1].release_year is None
 
