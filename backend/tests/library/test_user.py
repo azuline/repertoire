@@ -5,57 +5,62 @@ from werkzeug.security import check_password_hash
 
 from src.errors import InvalidNickname
 from src.library import user
+from tests.factory import Factory
 
 
-def test_exists(db: Connection):
-    assert user.exists(1, db)
+def test_exists(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    assert user.exists(usr.id, db)
 
 
 def test_does_not_exist(db: Connection):
     assert not user.exists(9999999, db)
 
 
-def test_from_id_success(db: Connection, snapshot):
-    snapshot.assert_match(user.from_id(1, db))
+def test_from_id_success(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    new_usr = user.from_id(usr.id, db)
+    assert new_usr == usr
 
 
 def test_from_id_failure(db: Connection):
-    assert user.from_id(3, db) is None
+    assert user.from_id(999999, db) is None
 
 
-def test_from_nickname_success(db: Connection, snapshot):
-    snapshot.assert_match(user.from_nickname("admin", db))
+def test_from_nickname_success(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    new_usr = user.from_nickname(usr.nickname, db)
+    assert new_usr == usr
 
 
 def test_from_nickname_failure(db: Connection):
     assert user.from_nickname("garbage", db) is None
 
 
-def test_from_token_success(db: Connection, snapshot):
-    token = bytes.fromhex(
-        "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc8"
-    )
-    snapshot.assert_match(user.from_token(token, db))
+def test_from_token_success(factory: Factory, db: Connection):
+    usr, token = factory.user(conn=db)
+    new_usr = user.from_token(token, db)
+    assert new_usr == usr
 
 
-def test_from_token_failure_but_correct_prefix(db: Connection, snapshot):
-    token = bytes.fromhex(
-        "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc0"
+def test_from_token_failure_but_correct_prefix(factory: Factory, db: Connection):
+    usr, token = factory.user(conn=db)
+    new_token = token[: user.PREFIX_LENGTH] + b"0" * (
+        user.TOKEN_LENGTH - user.PREFIX_LENGTH
     )
-    snapshot.assert_match(user.from_token(token, db))
+    assert user.from_token(new_token, db) is None
 
 
 def test_from_token_failure(db: Connection):
-    assert user.from_token(b"0" * 32, db) is None
+    assert user.from_token(b"0" * user.TOKEN_LENGTH, db) is None
 
 
 def test_from_token_bad_length(db: Connection):
     assert user.from_token(b"0" * 100, db) is None
 
 
-def test_create_user_success(db: Connection, snapshot):
+def test_create_user_success(db: Connection):
     new_user, token = user.create("neW1", db)
-    snapshot.assert_match(new_user)
     cursor = db.execute(
         "SELECT token_hash FROM system__users WHERE id = ?",
         (new_user.id,),
@@ -69,59 +74,49 @@ def test_create_user_invalid_nickname(db: Connection):
         user.create("a" * 24, db)
 
 
-def test_update_user(db: Connection):
-    usr = user.from_id(1, db)
-    assert usr is not None
+def test_update_user(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
 
-    usr = user.update(usr, db, nickname="not admin")
-    db.commit()
+    new_usr = user.update(usr, nickname="not admin", conn=db)
 
-    assert usr.nickname == "not admin"
-    assert usr == user.from_id(1, db)
+    assert new_usr.nickname == "not admin"
+    assert new_usr == user.from_id(usr.id, db)
 
 
-def test_update_user_bad_nickname(db: Connection):
-    usr = user.from_id(1, db)
-    assert usr is not None
+def test_update_user_bad_nickname(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
 
     with pytest.raises(InvalidNickname):
         user.update(usr, db, nickname="not admin" * 24)
 
 
-def test_generate_new_token(db: Connection):
+def test_generate_new_token(factory: Factory, db: Connection):
+    usr, old_token = factory.user(conn=db)
+
     cursor = db.execute("SELECT token_hash FROM system__users WHERE id = 1")
     old_hash = cursor.fetchone()["token_hash"]
 
-    usr = user.from_id(1, db)
-    assert usr is not None
-
-    token = user.new_token(usr, db)
+    new_token = user.new_token(usr, db)
 
     cursor = db.execute("SELECT token_hash FROM system__users WHERE id = 1")
     new_hash = cursor.fetchone()["token_hash"]
 
-    assert not check_password_hash(old_hash, token)
-    assert check_password_hash(new_hash, token)
+    assert not check_password_hash(old_hash, new_token)
+    assert not check_password_hash(new_hash, old_token)
+    assert check_password_hash(new_hash, new_token)
 
 
-def test_check_token_success(db: Connection):
-    usr = user.from_id(1, db)
-    assert usr is not None
-
-    token = bytes.fromhex(
-        "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc8"
-    )
+def test_check_token_success(factory: Factory, db: Connection):
+    usr, token = factory.user(conn=db)
     assert user.check_token(usr, token, db)
 
 
-def test_check_token_failure(db: Connection):
-    usr = user.from_id(1, db)
-    assert usr is not None
-
+def test_check_token_failure(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
     assert not user.check_token(usr, b"0" * 32, db)
 
 
-def test_check_token_bad_user(db: Connection):
+def test_check_token_bad_user(factory: Factory, db: Connection):
     token = bytes.fromhex(
         "62ec24e7d70d3a55dfd823b8006ad8c6dda26aec9193efc0c83e35ce8a968bc8"
     )
