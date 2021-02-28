@@ -12,15 +12,15 @@ snapshots['test_create_playlist_entry 1'] = (
     {
         'data': {
             'createPlaylistEntry': {
-                'id': 9,
+                'id': 14,
                 'playlist': {
                     'id': 1,
                     'name': 'Favorites'
                 },
-                'position': 3,
+                'position': 1,
                 'track': {
                     'id': 10,
-                    'title': 'Going to Georgia'
+                    'title': 'Track9'
                 }
             }
         }
@@ -83,92 +83,74 @@ snapshots['test_delete_entries 1'] = (
                 'playlist': {
                     'entries': [
                         {
+                            'id': 1,
+                            'track': {
+                                'id': 1,
+                                'title': 'Track0'
+                            }
+                        },
+                        {
+                            'id': 2,
+                            'track': {
+                                'id': 2,
+                                'title': 'Track1'
+                            }
+                        },
+                        {
                             'id': 3,
                             'track': {
                                 'id': 3,
-                                'title': 'St. Joe Keeps Us Safe'
+                                'title': 'Track2'
                             }
                         },
                         {
                             'id': 4,
                             'track': {
                                 'id': 4,
-                                'title': 'Runnin’ Scared'
+                                'title': 'Track3'
                             }
                         },
                         {
                             'id': 5,
                             'track': {
-                                'id': 13,
-                                'title': 'Hope'
-                            }
-                        },
-                        {
-                            'id': 8,
-                            'track': {
-                                'id': 15,
-                                'title': 'Stay with Me'
+                                'id': 5,
+                                'title': 'Track4'
                             }
                         }
                     ],
                     'id': 2,
                     'lastUpdatedOn': 1577840461,
-                    'name': 'AAAAAA',
-                    'numTracks': 4,
+                    'name': 'Playlist1',
+                    'numTracks': 5,
                     'starred': False,
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 3
+                                'id': 9
                             },
-                            'numMatches': 2
+                            'numMatches': 5
                         },
                         {
                             'genre': {
-                                'id': 4
+                                'id': 10
                             },
-                            'numMatches': 2
-                        },
-                        {
-                            'genre': {
-                                'id': 5
-                            },
-                            'numMatches': 2
-                        },
-                        {
-                            'genre': {
-                                'id': 6
-                            },
-                            'numMatches': 2
-                        },
-                        {
-                            'genre': {
-                                'id': 7
-                            },
-                            'numMatches': 2
+                            'numMatches': 5
                         }
                     ],
                     'type': 'PLAYLIST'
                 },
                 'track': {
                     'artists': [
-                        {
-                            'artist': {
-                                'id': 4,
-                                'name': 'Abakus'
-                            },
-                            'role': 'MAIN'
-                        }
                     ],
-                    'discNumber': '0',
-                    'duration': 412,
+                    'discNumber': '13',
+                    'duration': 13,
                     'id': 14,
                     'release': {
-                        'id': 3,
-                        'title': 'Departure'
+                        'id': 6,
+                        'title': 'Release5'
                     },
-                    'title': 'Dreamer',
-                    'trackNumber': '6'
+                    'title': 'Track13',
+                    'trackNumber': '13'
                 }
             }
         }
@@ -186,62 +168,78 @@ snapshots['test_delete_entry 1'] = (
                             'id': 2,
                             'track': {
                                 'id': 2,
-                                'title': 'Grapefruit'
+                                'title': 'Track1'
+                            }
+                        },
+                        {
+                            'id': 3,
+                            'track': {
+                                'id': 3,
+                                'title': 'Track2'
+                            }
+                        },
+                        {
+                            'id': 4,
+                            'track': {
+                                'id': 4,
+                                'title': 'Track3'
+                            }
+                        },
+                        {
+                            'id': 5,
+                            'track': {
+                                'id': 5,
+                                'title': 'Track4'
                             }
                         }
                     ],
-                    'id': 1,
+                    'id': 2,
                     'lastUpdatedOn': 1577840461,
-                    'name': 'Favorites',
-                    'numTracks': 1,
-                    'starred': True,
+                    'name': 'Playlist1',
+                    'numTracks': 4,
+                    'starred': False,
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 3
+                                'id': 9
                             },
-                            'numMatches': 1
+                            'numMatches': 4
                         },
                         {
                             'genre': {
-                                'id': 4
+                                'id': 10
                             },
-                            'numMatches': 1
-                        },
-                        {
-                            'genre': {
-                                'id': 5
-                            },
-                            'numMatches': 1
-                        },
-                        {
-                            'genre': {
-                                'id': 6
-                            },
-                            'numMatches': 1
+                            'numMatches': 4
                         }
                     ],
-                    'type': 'SYSTEM'
+                    'type': 'PLAYLIST'
                 },
                 'track': {
                     'artists': [
                         {
                             'artist': {
                                 'id': 2,
-                                'name': 'Aaron West and the Roaring Twenties'
+                                'name': 'Artist1'
                             },
                             'role': 'MAIN'
+                        },
+                        {
+                            'artist': {
+                                'id': 3,
+                                'name': 'Artist2'
+                            },
+                            'role': 'PRODUCER'
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 213,
+                    'duration': 0,
                     'id': 1,
                     'release': {
                         'id': 2,
-                        'title': 'We Don’t Have Each Other'
+                        'title': 'Release1'
                     },
-                    'title': 'Our Apartment',
-                    'trackNumber': '1'
+                    'title': 'Track0',
+                    'trackNumber': '0'
                 }
             }
         }
@@ -278,30 +276,6 @@ snapshots['test_resolve_playlist_entries 1'] = (
         'data': {
             'playlist': {
                 'entries': [
-                    {
-                        'id': 1,
-                        'playlist': {
-                            'id': 1,
-                            'name': 'Favorites'
-                        },
-                        'position': 1,
-                        'track': {
-                            'id': 1,
-                            'title': 'Our Apartment'
-                        }
-                    },
-                    {
-                        'id': 2,
-                        'playlist': {
-                            'id': 1,
-                            'name': 'Favorites'
-                        },
-                        'position': 2,
-                        'track': {
-                            'id': 2,
-                            'title': 'Grapefruit'
-                        }
-                    }
                 ]
             }
         }
@@ -316,12 +290,12 @@ snapshots['test_update_playlist_entry 1'] = (
                 'id': 5,
                 'playlist': {
                     'id': 2,
-                    'name': 'AAAAAA'
+                    'name': 'Playlist1'
                 },
                 'position': 1,
                 'track': {
-                    'id': 13,
-                    'title': 'Hope'
+                    'id': 5,
+                    'title': 'Track4'
                 }
             }
         }

@@ -5,19 +5,19 @@ The GraphQL tests are simple snapshot tests over the API responses containing sa
 data.
 """
 
-from datetime import date
 import shutil
 import sqlite3
+from datetime import date
 from pathlib import Path
 from sqlite3 import Connection
-from src.util import freeze_database_time
-from src.enums import ArtistRole, CollectionType, PlaylistType, ReleaseType
-from src.library import collection, playlist
-from src.library import playlist_entry as pentry
 
 import pytest
 
 from src.constants import Constants
+from src.enums import ArtistRole, CollectionType, PlaylistType, ReleaseType
+from src.library import collection
+from src.library import playlist_entry as pentry
+from src.util import freeze_database_time
 from tests.conftest import SEED_DATA
 from tests.factory import Factory
 

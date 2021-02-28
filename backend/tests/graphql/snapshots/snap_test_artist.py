@@ -13,28 +13,20 @@ snapshots['test_artist 1'] = (
         'data': {
             'artist': {
                 'id': 4,
-                'name': 'Abakus',
-                'numReleases': 1,
+                'name': 'Artist3',
+                'numReleases': 2,
                 'releases': [
                     {
                         'id': 3,
-                        'title': 'Departure'
+                        'title': 'Release2'
+                    },
+                    {
+                        'id': 5,
+                        'title': 'Release4'
                     }
                 ],
                 'starred': False,
                 'topGenres': [
-                    {
-                        'genre': {
-                            'id': 7
-                        },
-                        'numMatches': 1
-                    },
-                    {
-                        'genre': {
-                            'id': 8
-                        },
-                        'numMatches': 1
-                    },
                     {
                         'genre': {
                             'id': 9
@@ -44,6 +36,12 @@ snapshots['test_artist 1'] = (
                     {
                         'genre': {
                             'id': 10
+                        },
+                        'numMatches': 1
+                    },
+                    {
+                        'genre': {
+                            'id': 11
                         },
                         'numMatches': 1
                     }
@@ -57,45 +55,23 @@ snapshots['test_artist_from_name 1'] = (
     True,
     {
         'data': {
-            'artistFromName': {
-                'id': 4,
-                'name': 'Abakus',
-                'numReleases': 1,
-                'releases': [
+            'artistFromName': None
+        },
+        'errors': [
+            {
+                'locations': [
                     {
-                        'id': 3,
-                        'title': 'Departure'
+                        'column': 13,
+                        'line': 3
                     }
                 ],
-                'starred': False,
-                'topGenres': [
-                    {
-                        'genre': {
-                            'id': 7
-                        },
-                        'numMatches': 1
-                    },
-                    {
-                        'genre': {
-                            'id': 8
-                        },
-                        'numMatches': 1
-                    },
-                    {
-                        'genre': {
-                            'id': 9
-                        },
-                        'numMatches': 1
-                    },
-                    {
-                        'genre': {
-                            'id': 10
-                        },
-                        'numMatches': 1
-                    }
-                ]
+                'message': 'Artist "Abakus" does not exist.',
+                'path': [
+                    'artistFromName'
+                ],
+                'type': 'NotFound'
             }
-        }
+        ]
     }
 )
 
@@ -154,105 +130,21 @@ snapshots['test_artists 1'] = (
             'artists': {
                 'results': [
                     {
-                        'id': 5,
-                        'name': 'Bacchus',
-                        'numReleases': 1,
-                        'releases': [
-                            {
-                                'id': 3,
-                                'title': 'Departure'
-                            }
-                        ],
-                        'starred': True,
-                        'topGenres': [
-                            {
-                                'genre': {
-                                    'id': 7
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 8
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 9
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 10
-                                },
-                                'numMatches': 1
-                            }
-                        ]
-                    },
-                    {
                         'id': 2,
-                        'name': 'Aaron West and the Roaring Twenties',
-                        'numReleases': 1,
+                        'name': 'Artist1',
+                        'numReleases': 2,
                         'releases': [
                             {
                                 'id': 2,
-                                'title': 'We Don’t Have Each Other'
+                                'title': 'Release1'
+                            },
+                            {
+                                'id': 5,
+                                'title': 'Release4'
                             }
                         ],
                         'starred': False,
                         'topGenres': [
-                            {
-                                'genre': {
-                                    'id': 3
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 4
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 5
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 6
-                                },
-                                'numMatches': 1
-                            }
-                        ]
-                    },
-                    {
-                        'id': 4,
-                        'name': 'Abakus',
-                        'numReleases': 1,
-                        'releases': [
-                            {
-                                'id': 3,
-                                'title': 'Departure'
-                            }
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                            {
-                                'genre': {
-                                    'id': 7
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 8
-                                },
-                                'numMatches': 1
-                            },
                             {
                                 'genre': {
                                     'id': 9
@@ -262,6 +154,12 @@ snapshots['test_artists 1'] = (
                             {
                                 'genre': {
                                     'id': 10
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 11
                                 },
                                 'numMatches': 1
                             }
@@ -269,12 +167,114 @@ snapshots['test_artists 1'] = (
                     },
                     {
                         'id': 3,
-                        'name': 'John Darnielle',
-                        'numReleases': 0,
+                        'name': 'Artist2',
+                        'numReleases': 2,
                         'releases': [
+                            {
+                                'id': 2,
+                                'title': 'Release1'
+                            },
+                            {
+                                'id': 3,
+                                'title': 'Release2'
+                            }
                         ],
                         'starred': False,
                         'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 9
+                                },
+                                'numMatches': 2
+                            },
+                            {
+                                'genre': {
+                                    'id': 10
+                                },
+                                'numMatches': 2
+                            }
+                        ]
+                    },
+                    {
+                        'id': 4,
+                        'name': 'Artist3',
+                        'numReleases': 2,
+                        'releases': [
+                            {
+                                'id': 3,
+                                'title': 'Release2'
+                            },
+                            {
+                                'id': 5,
+                                'title': 'Release4'
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 9
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 10
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 11
+                                },
+                                'numMatches': 1
+                            }
+                        ]
+                    },
+                    {
+                        'id': 5,
+                        'name': 'Artist4',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 4,
+                                'title': 'Release3'
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 9
+                                },
+                                'numMatches': 1
+                            },
+                            {
+                                'genre': {
+                                    'id': 10
+                                },
+                                'numMatches': 1
+                            }
+                        ]
+                    },
+                    {
+                        'id': 6,
+                        'name': 'Artist5',
+                        'numReleases': 1,
+                        'releases': [
+                            {
+                                'id': 5,
+                                'title': 'Release4'
+                            }
+                        ],
+                        'starred': False,
+                        'topGenres': [
+                            {
+                                'genre': {
+                                    'id': 11
+                                },
+                                'numMatches': 1
+                            }
                         ]
                     },
                     {
@@ -292,7 +292,7 @@ snapshots['test_artists 1'] = (
                         ]
                     }
                 ],
-                'total': 5
+                'total': 6
             }
         }
     }
@@ -305,45 +305,37 @@ snapshots['test_artists_pagination 1'] = (
             'artists': {
                 'results': [
                     {
-                        'id': 2,
-                        'name': 'Aaron West and the Roaring Twenties',
-                        'numReleases': 1,
+                        'id': 3,
+                        'name': 'Artist2',
+                        'numReleases': 2,
                         'releases': [
                             {
                                 'id': 2,
-                                'title': 'We Don’t Have Each Other'
+                                'title': 'Release1'
+                            },
+                            {
+                                'id': 3,
+                                'title': 'Release2'
                             }
                         ],
                         'starred': False,
                         'topGenres': [
                             {
                                 'genre': {
-                                    'id': 3
+                                    'id': 9
                                 },
-                                'numMatches': 1
+                                'numMatches': 2
                             },
                             {
                                 'genre': {
-                                    'id': 4
+                                    'id': 10
                                 },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 5
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 6
-                                },
-                                'numMatches': 1
+                                'numMatches': 2
                             }
                         ]
                     }
                 ],
-                'total': 5
+                'total': 6
             }
         }
     }
@@ -355,46 +347,8 @@ snapshots['test_artists_search 1'] = (
         'data': {
             'artists': {
                 'results': [
-                    {
-                        'id': 2,
-                        'name': 'Aaron West and the Roaring Twenties',
-                        'numReleases': 1,
-                        'releases': [
-                            {
-                                'id': 2,
-                                'title': 'We Don’t Have Each Other'
-                            }
-                        ],
-                        'starred': False,
-                        'topGenres': [
-                            {
-                                'genre': {
-                                    'id': 3
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 4
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 5
-                                },
-                                'numMatches': 1
-                            },
-                            {
-                                'genre': {
-                                    'id': 6
-                                },
-                                'numMatches': 1
-                            }
-                        ]
-                    }
                 ],
-                'total': 1
+                'total': 0
             }
         }
     }
@@ -405,7 +359,7 @@ snapshots['test_create_artist 1'] = (
     {
         'data': {
             'createArtist': {
-                'id': 6,
+                'id': 7,
                 'name': 'New Artist',
                 'numReleases': 0,
                 'releases': [
@@ -418,29 +372,21 @@ snapshots['test_create_artist 1'] = (
     }
 )
 
-snapshots['test_create_artist 2'] = GenericRepr("T(id=6, name='New Artist', starred=True, num_releases=0)")
-
 snapshots['test_create_artist_duplicate 1'] = (
     True,
     {
         'data': {
-            'createArtist': None
-        },
-        'errors': [
-            {
-                'locations': [
-                    {
-                        'column': 13,
-                        'line': 3
-                    }
+            'createArtist': {
+                'id': 7,
+                'name': 'Abakus',
+                'numReleases': 0,
+                'releases': [
                 ],
-                'message': 'Artist "Abakus" already exists.',
-                'path': [
-                    'createArtist'
-                ],
-                'type': 'Duplicate'
+                'starred': True,
+                'topGenres': [
+                ]
             }
-        ]
+        }
     }
 )
 
@@ -451,27 +397,19 @@ snapshots['test_update_artist 1'] = (
             'updateArtist': {
                 'id': 4,
                 'name': 'New Name',
-                'numReleases': 1,
+                'numReleases': 2,
                 'releases': [
                     {
                         'id': 3,
-                        'title': 'Departure'
+                        'title': 'Release2'
+                    },
+                    {
+                        'id': 5,
+                        'title': 'Release4'
                     }
                 ],
                 'starred': True,
                 'topGenres': [
-                    {
-                        'genre': {
-                            'id': 7
-                        },
-                        'numMatches': 1
-                    },
-                    {
-                        'genre': {
-                            'id': 8
-                        },
-                        'numMatches': 1
-                    },
                     {
                         'genre': {
                             'id': 9
@@ -483,6 +421,12 @@ snapshots['test_update_artist 1'] = (
                             'id': 10
                         },
                         'numMatches': 1
+                    },
+                    {
+                        'genre': {
+                            'id': 11
+                        },
+                        'numMatches': 1
                     }
                 ]
             }
@@ -490,7 +434,7 @@ snapshots['test_update_artist 1'] = (
     }
 )
 
-snapshots['test_update_artist 2'] = GenericRepr("T(id=4, name='New Name', starred=True, num_releases=1)")
+snapshots['test_update_artist 2'] = GenericRepr("T(id=4, name='New Name', starred=True, num_releases=2)")
 
 snapshots['test_update_artist_doesnt_exist 1'] = (
     True,
@@ -520,24 +464,44 @@ snapshots['test_update_artist_duplicate 1'] = (
     True,
     {
         'data': {
-            'updateArtist': None
-        },
-        'errors': [
-            {
-                'locations': [
+            'updateArtist': {
+                'id': 4,
+                'name': 'Bacchus',
+                'numReleases': 2,
+                'releases': [
                     {
-                        'column': 13,
-                        'line': 3
+                        'id': 3,
+                        'title': 'Release2'
+                    },
+                    {
+                        'id': 5,
+                        'title': 'Release4'
                     }
                 ],
-                'message': 'Artist "Bacchus" already exists.',
-                'path': [
-                    'updateArtist'
-                ],
-                'type': 'Duplicate'
+                'starred': True,
+                'topGenres': [
+                    {
+                        'genre': {
+                            'id': 9
+                        },
+                        'numMatches': 1
+                    },
+                    {
+                        'genre': {
+                            'id': 10
+                        },
+                        'numMatches': 1
+                    },
+                    {
+                        'genre': {
+                            'id': 11
+                        },
+                        'numMatches': 1
+                    }
+                ]
             }
-        ]
+        }
     }
 )
 
-snapshots['test_update_artist_duplicate 2'] = GenericRepr("T(id=4, name='Abakus', starred=False, num_releases=1)")
+snapshots['test_update_artist_duplicate 2'] = GenericRepr("T(id=4, name='Bacchus', starred=True, num_releases=2)")
