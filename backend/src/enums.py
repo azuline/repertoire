@@ -41,11 +41,13 @@ class CollectionType(Enum):
     #:
     SYSTEM = 1
     #:
-    COLLAGE = 2
+    PERSONAL = 2
     #:
-    LABEL = 3
+    COLLAGE = 3
     #:
-    GENRE = 4
+    LABEL = 4
+    #:
+    GENRE = 5
 
 
 class PlaylistType(Enum):
@@ -54,7 +56,9 @@ class PlaylistType(Enum):
     #:
     SYSTEM = 1
     #:
-    PLAYLIST = 2
+    PERSONAL = 2
+    #:
+    PLAYLIST = 3
 
 
 class ReleaseSort(Enum):

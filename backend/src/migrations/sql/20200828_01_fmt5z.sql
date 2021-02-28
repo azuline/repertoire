@@ -112,10 +112,14 @@ CREATE TABLE music__collections (
     name VARCHAR COLLATE 'NOCASE' NOT NULL,
     starred BOOLEAN NOT NULL DEFAULT 0 CHECK (starred IN (0, 1)),
     type INTEGER NOT NULL,
+    user_id INTEGER,
     last_updated_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (type) REFERENCES music__collection_types__enum(id),
-    UNIQUE (name, type)
+    FOREIGN KEY (user_id) REFERENCES system__users(id) ON DELETE CASCADE,
+    UNIQUE (name, type, user_id),
+    -- Assert that all System & Personal collections have a user ID attached.
+    CHECK (type NOT IN (1, 2) OR user_id IS NOT NULL)
 );
 
 CREATE INDEX music__collections__sorting__idx
@@ -130,9 +134,10 @@ CREATE TABLE music__collection_types__enum (
 
 INSERT INTO music__collection_types__enum (id, type)
     VALUES (1, 'System'),
-           (2, 'Collage'),
-           (3, 'Label'),
-           (4, 'Genre');
+           (2, 'Personal'),
+           (3, 'Collage'),
+           (4, 'Label'),
+           (5, 'Genre');
 
 CREATE TABLE music__collections_releases (
     collection_id INTEGER NOT NULL,
@@ -148,10 +153,14 @@ CREATE TABLE music__playlists (
     name VARCHAR COLLATE 'NOCASE' NOT NULL,
     starred BOOLEAN NOT NULL DEFAULT 0 CHECK (starred IN (0, 1)),
     type INTEGER NOT NULL,
+    user_id INTEGER,
     last_updated_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (type) REFERENCES music__playlist_types__enum(id),
-    UNIQUE (name, type)
+    FOREIGN KEY (user_id) REFERENCES system__users(id) ON DELETE CASCADE,
+    UNIQUE (name, type, user_id),
+    -- Assert that all System & Personal playlists have a user ID attached.
+    CHECK (type NOT IN (1, 2) OR user_id IS NOT NULL)
 );
 
 CREATE INDEX music__playlists__sorting__idx
@@ -166,7 +175,8 @@ CREATE TABLE music__playlist_types__enum (
 
 INSERT INTO music__playlist_types__enum (id, type)
     VALUES (1, 'System'),
-           (2, 'Playlist');
+           (2, 'Personal'),
+           (3, 'Playlist');
 
 CREATE TABLE music__playlists_tracks (
     id INTEGER NOT NULL,
@@ -535,12 +545,3 @@ INSERT INTO music__artists (id, name) VALUES (1, 'Unknown Artist');
 
 -- Assign the unknown artist to the unknown release.
 INSERT INTO music__releases_artists (release_id, artist_id) VALUES (1, 1);
-
--- Insert a system inbox collection.
-INSERT INTO music__collections (id, name, type, starred)
-    VALUES (1, 'Inbox', 1, 1),
-           (2, 'Favorites', 1, 1);
-
--- Insert a system inbox playlist.
-INSERT INTO music__playlists (id, name, type, starred)
-    VALUES (1, 'Favorites', 1, 1);

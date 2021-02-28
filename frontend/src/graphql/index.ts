@@ -555,6 +555,7 @@ export enum IReleaseType {
 
 export enum ICollectionType {
   System = 'SYSTEM',
+  Personal = 'PERSONAL',
   Collage = 'COLLAGE',
   Label = 'LABEL',
   Genre = 'GENRE'
@@ -579,6 +580,7 @@ export enum ITrackSort {
 
 export enum IPlaylistType {
   System = 'SYSTEM',
+  Personal = 'PERSONAL',
   Playlist = 'PLAYLIST'
 }
 
