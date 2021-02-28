@@ -12,7 +12,9 @@ async def test_playlist(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -24,7 +26,9 @@ async def test_playlist_not_found(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -37,7 +41,9 @@ async def test_playlist_from_name_and_type(graphql_query, snapshot):
         }
     """
 
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -49,7 +55,9 @@ async def test_playlist_from_name_and_type_not_found(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -64,7 +72,9 @@ async def test_playlists(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -79,7 +89,9 @@ async def test_playlists_filter(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -94,7 +106,9 @@ async def test_playlists_pagination(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -135,7 +149,9 @@ async def test_playlists_type_param(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -147,7 +163,9 @@ async def test_create_playlist(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
     snapshot.assert_match(playlist.from_id(NEXT_PLAYLIST_ID, db))
 
@@ -161,7 +179,9 @@ async def test_create_playlist_duplicate(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
     assert playlist.from_id(NEXT_PLAYLIST_ID, db) is None
 
 
@@ -174,7 +194,9 @@ async def test_update_playlist(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
     snapshot.assert_match(playlist.from_id(3, db))
 
 
@@ -187,7 +209,9 @@ async def test_update_playlist_duplicate(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
     snapshot.assert_match(playlist.from_id(2, db))
 
 
@@ -200,7 +224,9 @@ async def test_update_playlist_not_found(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -212,5 +238,7 @@ async def test_update_playlist_immutable(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
     snapshot.assert_match(playlist.from_id(1, db))

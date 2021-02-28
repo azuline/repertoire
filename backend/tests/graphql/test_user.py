@@ -35,7 +35,9 @@ async def test_update_user(db, graphql_query, snapshot):
         }
     """
 
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
     assert user.from_id(1, db).nickname == "not admin"
 
 

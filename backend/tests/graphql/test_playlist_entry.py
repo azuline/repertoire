@@ -14,7 +14,9 @@ async def test_resolve_playlist_entries(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -26,7 +28,9 @@ async def test_create_playlist_entry(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
     assert pentry.from_id(NEXT_PLAYLIST_ENTRY_ID, db).track_id == 10
 
 
@@ -39,7 +43,9 @@ async def test_create_playlist_entry_bad_playlist(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -51,7 +57,9 @@ async def test_create_playlist_entry_bad_track(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -68,7 +76,9 @@ async def test_delete_entry(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
     assert pentry.from_id(1, db) is None
 
 
@@ -86,7 +96,9 @@ async def test_delete_entry_invalid(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -103,7 +115,9 @@ async def test_delete_entries(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
     assert pentry.from_playlist_and_track(2, 14, db) == []
 
 
@@ -116,7 +130,9 @@ async def test_update_playlist_entry(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
     cursor = db.execute(
         """
@@ -140,7 +156,9 @@ async def test_update_playlist_entry_bad_entry(graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
 
 
 @pytest.mark.asyncio
@@ -152,5 +170,7 @@ async def test_update_playlist_entry_bad_position(db, graphql_query, snapshot):
             }
         }
     """
-    snapshot.assert_match(await graphql_query(query))
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
     assert pentry.from_id(5, db).position == 3
