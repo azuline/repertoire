@@ -169,7 +169,7 @@ def create(playlist_id: int, track_id: int, conn: Connection) -> T:
 
     logger.info(
         f"Created entry {cursor.lastrowid} with "
-        "track {track_id} and playlist {playlist_id}."
+        f"track {track_id} and playlist {playlist_id}."
     )
     pety = from_id(cursor.lastrowid, conn)
     assert pety is not None
