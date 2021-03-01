@@ -3,9 +3,8 @@
 GraphQL
 =======
 
-The GraphQL API is implemented with Ariadne.  See the `Ariadne docs
-<https://ariadnegraphql.org/docs/intro>`_ for documentation on developing the
-GraphQL API.
+The GraphQL API is implemented with Ariadne. See
+https://ariadnegraphql.org/docs/intro for documentation.
 
 The ``backend.graphql`` package is laid out as follows:
 
@@ -20,6 +19,13 @@ The ``backend.graphql`` package is laid out as follows:
    ├── schema.graphql       # The complete and raw GraphQL schema.
    ├── util.py              # Utility functions for GraphQL resolvers.
    └── types/               # The resolvers for each GraphQL type.
+
+.. note::
+
+   GraphQL is notorious for having the N+1 problem baked in. However, this
+   doesn't impact SQLite the same way it impacts other RDBMSes.
+
+   For more information, see https://sqlite.org/np1queryprob.html.
 
 .. _graphql_schema:
 

@@ -33,9 +33,11 @@ The backend is laid out as follows:
    └── webserver/    # The webserver (duh!).
    tests/            # The tests for the backend.
 
-The next several pages document major sections of the backend codebase. Refer
-to :ref:`backend_architecture` to view the major components and their
-connections.
+The architecture of the backend is as follows:
+
+.. image:: /_static/backend-architecture.png
+
+The next several pages document the major ideas of the backend.
 
 .. note::
 
@@ -47,7 +49,6 @@ connections.
    :hidden:
    :caption: Backend
 
-   architecture
    top_level
    command_line
    database

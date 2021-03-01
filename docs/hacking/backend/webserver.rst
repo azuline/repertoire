@@ -6,6 +6,11 @@ Webserver
 Our webserver is implemented with ``Quart``, an ASGI Flask-like web framework.
 We use ``voluptuous`` for data validation.
 
+See:
+
+- https://pgjones.gitlab.io/quart/index.html
+- https://github.com/alecthomas/voluptuous
+
 The package is laid out as follows:
 
 .. code-block::

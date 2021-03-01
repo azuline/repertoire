@@ -4,7 +4,9 @@ Command Line
 ============
 
 The ``cli`` package contains the implementation for the command line interface.
-We use ``click`` to build the command line.
+
+We use click to build the command line. See
+https://click.palletsprojects.com/en/7.x/ for documentation.
 
 The ``commands`` module contains the root click group as well as functions
 shared by commands.

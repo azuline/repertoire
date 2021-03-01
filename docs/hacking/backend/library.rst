@@ -15,17 +15,20 @@ utility functions at :ref:`backend_util`.
 
 .. note::
 
-   The mutation functions in this library do not commit their mutations to the
-   database. The caller function is responsible for committing after invoking
-   these functions.
+   The library delegates transaction handling to the consumers. The calling
+   function is responsible for committing any mutations.
 
-   We leave committing to the caller as it is expensive, and in cases where
-   many mutations need to be made consecutively and can be considered one
-   single transaction, letting the caller commit once at the end is far more
-   efficient.
+   We do this to give more fine-grained control over transaction management to
+   the handler for consistency and efficiency.
 
-   In the past, mutation functions did commit their changes, but indexing one
-   test track then required 14 commits, taking almost a tenth of a second.
+   - **Consistency:** If two mutations are coupled, they ought to be committed
+     together.
+   - **Efficiency:** Database commits are expensive, so allowing calling code
+     to batch commit related groups of mutations is a big efficiency win. In
+     the past, mutation functions did commit their changes, but indexing one
+     test track then required 14 commits, taking almost a tenth of a second.
+     After leaving it to the caller, which made one commit per track, the time
+     per track dropped to a hundredth of a second.
 
 Artist
 ------

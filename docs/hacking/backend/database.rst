@@ -3,13 +3,29 @@
 Database
 ========
 
-We use SQLite for our database.
+We use SQLite for our database. See https://www.sqlite.org/index.html for
+documentation.
 
 .. note::
 
    Developer tooling expects that the data directory is in ``repertoire/data``.
    The yoyo database migration tool (for developers) is configured to also look
    in that directory for the database.
+
+Why SQLite
+----------
+
+We chose SQLite as our database over a more full-featured offering (e.g.
+PostgreSQL, MySQL) primarily to keep the application as simple as possible.
+
+The more full-featured databases run as separate services, whereas SQLite is
+embedded within the application. The SQLite database is also a single file, and
+thus easy to back up and move.
+
+Since this application is intended for individual and small-group use, the
+performance of SQLite is more than sufficient. And while a few features would
+be nice to have (e.g. materialized views, stored procedures), we can still live
+comfortably on what SQLite offers.
 
 Search Index
 ------------
