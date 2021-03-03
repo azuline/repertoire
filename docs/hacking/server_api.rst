@@ -42,7 +42,7 @@ queries. It can be accessed by visiting the ``/graphql`` endpoint in your
 browser. By default (and in production), it is disabled.
 
 To run the "GraphQL Playground," repertoire's backend webserver must be run in
-debug mode. See :ref:`environment` to set up a development environment and run
+debug mode. See :ref:`development` to set up a development environment and run
 the backend webserver in debug mode.
 
 Authentication

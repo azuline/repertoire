@@ -28,21 +28,6 @@ for developers.
 
    Lines beginning with a `#` are comments and should not be executed.
 
-.. warning::
-
-   This only applies to Poetry and Pip+Virtualenv installations.
-
-   The backend requires SQLite version 3.34.0 or newer (for its trigram
-   tokenizer extension), which many systems do not have. If your system does
-   not have SQLite 3.34.0 or newer, you will need to upgrade or switch to
-   Docker.
-
-   See https://charlesleifer.com/blog/compiling-sqlite-for-use-with-python-applications/
-   for upgrade / installation instructions for SQLite. In addition to these
-   instructions, if your system already has a version of SQLite installed, you
-   may need to run ``export LD_LIBRARY_PATH=/usr/local/lib`` to get Python to
-   use the newly installed version of SQLite.
-
 .. _installation_docker:
 
 Docker
@@ -96,8 +81,13 @@ Poetry
 .. note::
 
    repertoire is only tested on specific versions of Python and JavaScript. See
-   :ref:`installing_python_and_javascript` for instructions on installing the
-   required versions of Python and JavaScript.
+   :ref:`installation_py_js` for instructions on installing the required
+   versions of Python and JavaScript.
+
+.. warning::
+
+   The backend requires SQLite version 3.34.0 or newer. See
+   :ref:`installation_sqlite` for installation instructions.
 
 This option uses Poetry to handle the virtual environment and install the
 backend. See https://python-poetry.org/docs/#installation for instructions on
@@ -110,9 +100,11 @@ Installation with Poetry has the following steps:
 
 #. Clone the repository with ``$ git clone https://github.com/azuline/repertoire``.
 #. Change directory to ``repertoire/backend``.
-#. Install backend with ``$ poetry install --no-dev``. (If you want to develop,
-   exclude the ``--no-dev`` flag.)
+#. Install backend with ``$ poetry install --no-dev``.
 #. Activate the Poetry virtual environment with ``$ poetry shell``.
+#. Configure the backend by first copying ``.env.sample`` to ``.env``
+   (``$ cp .env.sample .env``) and then editing it (``$ nano .env``). See
+   :ref:`configuration` for information regarding the configuration options.
 #. Configure the backend with ``$ repertoire config``.
 #. Compile the frontend in ``frontend/`` with ``$ yarn build``.
 #. Generate an authentication token with ``$ repertoire token``.
@@ -149,8 +141,13 @@ Pip & Virtualenv
 .. note::
 
    repertoire is only tested on specific versions of Python and JavaScript. See
-   :ref:`installing_python_and_javascript` for instructions on installing the
-   required versions of Python and JavaScript.
+   :ref:`installation_py_js` for instructions on installing the required
+   versions of Python and JavaScript.
+
+.. warning::
+
+   The backend requires SQLite version 3.34.0 or newer. See
+   :ref:`installation_sqlite` for installation instructions.
 
 This option directly works with the Python virtual environment and uses ``pip``
 to install the backend. You must have ``pip`` installed on your computer.
@@ -165,6 +162,9 @@ Installation with Pip & Virtualenv has the following steps:
 #. Change directory to ``repertoire/backend/``.
 #. Create virtualenv with ``$ python3 -m venv .venv``.
 #. Activate virtualenv with ``$ source .venv/bin/activate``.
+#. Configure the backend by first copying ``.env.sample`` to ``.env``
+   (``$ cp .env.sample .env``) and then editing it (``$ nano .env``). See
+   :ref:`configuration` for information regarding the configuration options.
 #. Install backend with ``$ pip install -e .``.
 #. Configure the backend with ``$ repertoire config``.
 #. Compile the frontend in ``frontend/`` with ``$ yarn build``.
@@ -195,7 +195,7 @@ Or, as a set of shell commands:
    $ repertoire token          # Remember this token! It is used for authentication.
    $ repertoire start          # Start the server!
 
-.. _installing_python_and_javascript:
+.. _installation_py_js:
 
 Installing Python & JavaScript
 ------------------------------
@@ -220,3 +220,19 @@ JavaScript
    to install nvm.
 #. Run ``$ nvm install 15.8.0`` to install the required JavaScript version.
 #. **In the frontend directory** (``repertoire/frontend/``) run ``$ nvm use``.
+
+.. _installation_sqlite:
+
+Installing a Newer SQLite
+--------------------------
+
+The backend requires SQLite version 3.34.0 or newer for its trigram tokenizer
+extension, which many systems do not have. If your system does not have SQLite
+3.34.0 or newer, you will need to upgrade or switch to Docker. The Docker
+container comes with a working version of SQLite.
+
+See https://charlesleifer.com/blog/compiling-sqlite-for-use-with-python-applications/
+for upgrade / installation instructions. In addition to these instructions, if
+your system already has a version of SQLite installed, you may need to run
+``export LD_LIBRARY_PATH=/usr/local/lib`` to get Python to use the newly
+installed version of SQLite.

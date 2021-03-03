@@ -1,6 +1,7 @@
 __pycache__
 /docs/
 /data/
+/testlib/
 /backend/.env
 /backend/htmlcov
 /backend/*.egg-info

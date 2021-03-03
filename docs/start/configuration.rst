@@ -5,23 +5,29 @@ Configuration
 
 .. note::
 
-   If you installed repertoire with Docker, most of this is taken care of
-   provided that your music libraries are mounted (volumes) as subdirectories
-   of ``/music``.
+   If you installed repertoire with Docker, most configuration is taken care
+   of, provided that your music libraries are mounted (volumes) as
+   subdirectories of ``/music``.
 
-   The configuration can then be edited by invoking ``repertoire config`` in the
-   container.
+   The configuration can still be edited by invoking ``repertoire config`` in
+   the container.
 
-All backend configuration and data is stored in a data directory. This
-directory is configured by the ``DATA_PATH`` environment variable.
+The Environment
+---------------
 
-Environment variables can be specified in an ``.env`` file. The ``.env`` file
-should be placed at ``repertoire/backend/.env``. An example ``.env`` file is
-located at ``repertoire/backend/.env.sample``.
+The first variable that must be configured is the ``DATA_PATH`` environment
+variable. This defines where the configuration and application data data should
+be stored.
 
-Once ``DATA_PATH`` is set, the backend can be configured with the command
-``repertoire config``. This will open the configuration file in your
-``$EDITOR``.
+We define environment variables in ``repertoire/backend/.env``. A sample
+``.env`` file is located at ``repertoire/backend/.env.sample``.
+
+The Configuration File
+----------------------
+
+Once the ``DATA_PATH`` environment variable is configured, the backend can be
+configured with the command ``$ repertoire config``. This will open the
+configuration file to be edited in your ``$EDITOR``.
 
 A sample configuration file is as follows:
 

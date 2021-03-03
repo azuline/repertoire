@@ -7,13 +7,14 @@ exploration of large music libraries. To see repertoire in action, visit
 
 For documentation on installing repertoire, please refer to :ref:`installation`.
 
-For documentation on repertoire's advanced features, please refer to the Manual section.
+For documentation on repertoire's advanced features, please refer to the Manual
+section.
 
 For documentation on developing against repertoire, please refer to the Hacking
 section. :ref:`server_api` documents the API that repertoire exposes over HTTP.
-:ref:`environment` documents the development environment.
-:ref:`backend` documents the backend source code and
-:ref:`frontend` documents the frontend source code.
+:ref:`development` documents the process of setting up a development
+environment for repertoire. :ref:`backend` documents the backend source code
+and :ref:`frontend` documents the frontend source code.
 
 License
 -------
@@ -63,6 +64,6 @@ repertoire is licensed under the AGPL-3.0.
    :caption: Hacking
 
    hacking/server_api
-   hacking/environment
+   hacking/development
    hacking/backend/index
    hacking/frontend/index

@@ -1,9 +1,9 @@
 # This Dockerfile is for backend development.
-# The backend source code should be mounted as /app.
+# The backend source code should be mounted as /app/backend.
 
 FROM python:3.9.1-alpine
 
-WORKDIR /app
+WORKDIR /app/backend
 
 RUN mkdir /data /music
 
