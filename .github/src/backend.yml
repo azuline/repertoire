@@ -23,7 +23,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/sqlite
-          key: {{ "${{ runner.os }}-sqlite-2021-02-21" }}
+          key: {{ "${{ runner.os }}-sqlite-2021-03-02" }}
       - name: Build SQLite
         if: steps.cache-sqlite.outputs.cache-hit != 'true'
         uses: ./.github/actions/build-sqlite
