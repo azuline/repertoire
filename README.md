@@ -12,7 +12,23 @@ Visit [the documentation](https://repertoire.readthedocs.io) to get started!
 
 **Unreleased WIP Edition**
 
----
+## Background
+
+This project is a sandbox project, in the sense that we are using it to
+experiment with cool new ideas and technologies. Feature work is a second
+priority to extracting educational value out of this codebase.
+
+This does not mean that feature work will not occur--progress will still occur.
+But expect it to be slow.
+
+On the flip side, we treat codebase health as a top priority. We take care to
+keep complexity low, to document the project thoroughly, and to have a high
+quality developer workflow.
+
+Unrequested external PRs will likely not be accepted. If you wish to make a PR,
+please open an issue ticket first to coordinate with maintainers.
+
+## License
 
 ```
 repertoire :: a music server for cataloguing and exploring large music libraries
