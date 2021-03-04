@@ -165,3 +165,24 @@ On the frontend, developer commands are defined under the ``package.json``
   $ yarn lint        # Lint the frontend.
   $ yarn codegen     # Regenerate the GraphQL code from the backend schema.
   $ yarn tsc         # Run the TypeScript type checker.
+
+Demo Music
+----------
+
+A small music library from https://freemusicarchive.org has been compiled
+together to provide developers with a convenient library to use in their
+development environments.
+
+The library is available at https://u.sunsetglow.net/f/EzUAq5TsupQ.tgz.
+Unarchive this tarball into the ``repertoire/testlib`` directory and run the
+``$ repertoire index`` command on the backend (or, if you are on Docker, in the
+backend container).
+
+For a simple set of shell commands to set up the test library, see:
+
+.. code-block:: sh
+
+   $ cd repertoire/
+   $ wget -O - https://u.sunsetglow.net/f/EzUAq5TsupQ.tgz | tar -xzvf -
+   $ cd backend/
+   $ poetry run repertoire index
