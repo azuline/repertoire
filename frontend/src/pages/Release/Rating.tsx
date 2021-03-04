@@ -23,7 +23,7 @@ export const Rating: IRating = ({ release }) => {
         return (
           <Icon
             key={i}
-            className={clsx('star', active !== null ? 'active' : 'inactive')}
+            className={clsx('star', active ? 'active' : 'inactive')}
             icon="star-medium"
             tw="cursor-pointer w-7 pr-0.5"
             onClick={(): void => setRating(i + 1)}
