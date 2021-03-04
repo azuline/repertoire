@@ -15,13 +15,11 @@ export const User: IUserComponent = ({ className }) => {
   const { data } = useHeaderFetchUserQuery();
   const request = useRequest();
 
-  const logout = (): void => {
-    (async (): Promise<void> => {
-      await request('/api/session', { method: 'DELETE' });
+  const logout = async (): Promise<void> => {
+    await request('/api/session', { method: 'DELETE' });
 
-      addToast('Logged out!', { appearance: 'success' });
-      setLoggedIn(false);
-    })();
+    addToast('Logged out!', { appearance: 'success' });
+    setLoggedIn(false);
   };
 
   return (

@@ -34,7 +34,7 @@ export const VolumeControl: React.FC = () => {
 const Wrapper = styled.div`
   ${tw`relative hidden mr-1 sm:block`}
 
-  &:not(:hover) > :nth-child(2) {
+  &:not(:hover) > :nth-of-type(2) {
     display: none;
   }
 `;

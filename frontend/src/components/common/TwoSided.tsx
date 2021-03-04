@@ -5,11 +5,11 @@ import tw, { styled } from 'twin.macro';
 export const TwoSided = styled.div`
   transition: all 0.4s;
 
-  &:hover > :first-child {
+  &:hover > :first-of-type {
     ${tw`hidden w-0 h-0`}
   }
 
-  &:not(:hover) > :nth-child(2) {
+  &:not(:hover) > :nth-of-type(2) {
     ${tw`hidden w-0 h-0`}
   }
 `;
