@@ -67,6 +67,8 @@ def scan_directory(directory: str) -> None:
         _fix_album_artists(conn)
         _fix_release_types(conn)
 
+        conn.commit()
+
 
 def _in_database(filepath: str, conn: Connection) -> bool:
     """

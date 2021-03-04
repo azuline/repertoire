@@ -646,7 +646,7 @@ def add_artist(rls: T, artist_id: int, conn: Connection) -> T:
         (rls.id, artist_id),
     )
 
-    logger.debug(f"Added artist {artist_id} to release {rls.id}.")
+    logger.info(f"Added artist {artist_id} to release {rls.id}.")
     return rls
 
 
@@ -678,7 +678,7 @@ def del_artist(rls: T, artist_id: int, conn: Connection) -> T:
         (rls.id, artist_id),
     )
 
-    logger.debug(f"Deleted artist {artist_id} from release {rls.id}.")
+    logger.info(f"Deleted artist {artist_id} from release {rls.id}.")
     return rls
 
 
