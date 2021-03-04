@@ -10,9 +10,9 @@ logger = logging.getLogger(__name__)
 
 def schedule_tasks(huey: Huey) -> None:
     """
-    Schedule tasks and start the huey task queue.
+    Schedule the recurring tasks.
 
-    :param huey: The MiniHuey instance to schedule and start.
+    :param huey: The Huey instance to schedule the tasks on.
     """
     logger.debug("Scheduling periodic tasks.")
 

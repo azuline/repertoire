@@ -10,7 +10,7 @@ A music server for cataloguing and exploring large music libraries.
 
 Visit [the documentation](https://repertoire.readthedocs.io) to get started!
 
-**Unreleased WIP Edition - Broken Upgrade Path**
+**Unreleased WIP Edition - No Stable Upgrade Path**
 
 **Beta Soon^TM**
 
@@ -25,16 +25,16 @@ On the flip side, we treat codebase health as a top priority. We take care to
 keep complexity low, to squash the systematic causes of bugs, to document the
 project thoroughly, and to have a quality developer workflow.
 
-Given the nature of this project, unrequested external PRs will likely not be
-accepted. If you wish to make a PR, please open an issue ticket first to
-coordinate with maintainers.
+Given the nature of this project, unexpected PRs will likely not be accepted.
+If you wish to make a PR, please open an issue ticket first or comment on an
+existing ticket to coordinate with maintainers.
 
 ## Security
 
 Only the latest version is supported with security updates. No security updates
 will be backported.
 
-Report vulnerabilities at blissful@sunsetglow.net.
+Report vulnerabilities to `blissful at sunsetglow.net`.
 
 ## License
 

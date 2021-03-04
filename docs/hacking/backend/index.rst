@@ -49,11 +49,14 @@ The next several pages document the major ideas of the backend.
    :hidden:
    :caption: Backend
 
-   top_level
    command_line
+   config_and_constants
    database
+   enums_and_errors
    graphql
    indexer
    library
-   webserver
+   task_queue
    testing
+   utilities
+   webserver

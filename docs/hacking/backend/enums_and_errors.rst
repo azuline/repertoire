@@ -1,16 +1,10 @@
-.. _backend_top_level:
+.. _backend_enums_and_errors:
 
-Top-Level
-=========
+Enums & Errors
+==============
 
-This page contains documentation for the top-level backend boilerplate and
-utility code.
-
-Config
-------
-
-.. automodule:: src.config
-   :members:
+This page documents the enums and errors of the backend. These values are
+consistent across all program instances.
 
 Enums
 -----
@@ -54,18 +48,3 @@ Errors
    :members:
    :show-inheritance:
    :member-order: bysource
-
-Tasks
------
-
-.. automodule:: src.tasks
-   :members:
-
-.. _backend_util:
-
-Util
-----
-
-.. automodule:: src.util
-   :members:
-   :autosummary:
