@@ -9,6 +9,7 @@ from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.indexer.scanner import (
     _fetch_or_create_artist,
     _fetch_or_create_release,
+    _fix_album_artists,
     _fix_release_types,
     _get_release_type,
     _insert_into_genre_collections,
@@ -305,6 +306,30 @@ def test_insert_into_genre_collections_nothing(factory: Factory, db: Connection)
 )
 def test_split_genres(string, genres):
     assert genres == _split_genres(string)
+
+
+def test_fix_album_artists_track_artists(factory: Factory, db: Connection):
+    rls = factory.release(artist_ids=[], conn=db)
+
+    art1 = factory.artist(conn=db)
+    art2 = factory.artist(conn=db)
+
+    factory.track(
+        release_id=rls.id,
+        artists=[
+            {"artist_id": art1.id, "role": ArtistRole.MAIN},
+            {"artist_id": art2.id, "role": ArtistRole.FEATURE},
+        ],
+        conn=db,
+    )
+
+    _fix_album_artists(db)
+
+    rls = release.from_id(rls.id, db)  # type: ignore
+    assert rls is not None
+    album_artists = release.artists(rls, db)
+    assert len(album_artists) == 1
+    assert album_artists[0].id == art1.id
 
 
 @pytest.mark.parametrize(

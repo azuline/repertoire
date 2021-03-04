@@ -10,7 +10,7 @@ from typing import Optional
 from tagfiles import TagFile
 
 from src.config import Config
-from src.enums import CollectionType, ReleaseType
+from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.errors import Duplicate
 from src.library import artist, collection, release, track
 from src.util import calculate_sha_256, database, uniq_list
@@ -25,6 +25,14 @@ EXTS = [
 ]
 
 GENRE_DELIMITER_REGEX = re.compile(r"\\\\|\/|,|;")
+
+MAIN_ROLES = [
+    ArtistRole.MAIN,
+    ArtistRole.PRODUCER,
+    ArtistRole.COMPOSER,
+    ArtistRole.CONDUCTOR,
+    ArtistRole.DJMIXER,
+]
 
 
 def scan_directories() -> None:
@@ -56,6 +64,7 @@ def scan_directory(directory: str) -> None:
                 else:
                     logger.debug(f"File `{filepath}` already in database, skipping...")
 
+        _fix_album_artists(conn)
         _fix_release_types(conn)
 
 
@@ -286,6 +295,42 @@ def _split_genres(genres: str) -> list[str]:
     return [g.strip() for g in GENRE_DELIMITER_REGEX.split(genres)]
 
 
+def _fix_album_artists(conn: Connection) -> None:
+    """
+    Because not all albums contain the album artist tag, we look at all releases with no
+    album artists and either assign them their track artists or assign them to the
+    Unknown Artist.
+
+    If the album's tracks have artists, then we conditionally assign the album artist
+    based off the track's artists. See the code for the specific logic.
+
+    :param conn: A connection to the database.
+    """
+    logger.info("Fixing album artists...")
+
+    cursor = conn.execute(
+        """
+        SELECT rls.id
+        FROM music__releases AS rls
+        WHERE NOT EXISTS(
+            SELECT 1 FROM music__releases_artists WHERE release_id = rls.id
+        )
+        """
+    )
+    release_ids = [row[0] for row in cursor]
+
+    for rid in release_ids:
+        rls = release.from_id(rid, conn)
+        assert rls is not None
+
+        tracks = release.tracks(rls, conn)
+        amaps = chain.from_iterable(track.artists(trk, conn) for trk in tracks)
+        artists = {amap["artist"] for amap in amaps if amap["role"] in MAIN_ROLES}
+
+        for art in artists:
+            release.add_artist(rls, art.id, conn)
+
+
 def _fix_release_types(conn: Connection) -> None:
     """
     Because release type is a fairly non-existent tag, for the UNKNOWN release types in
@@ -298,6 +343,8 @@ def _fix_release_types(conn: Connection) -> None:
     We run function this after scanning a full directory, since we don't have
     information on the number of tracks in a release when creating the release (track
     total tag is sometimes inaccurate or missing).
+
+    :param conn: A connection to the database.
     """
     logger.info("Fixing release types...")
 
