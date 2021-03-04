@@ -16,6 +16,7 @@ export const Labels: React.FC = () => {
       {active === null && <Header />}
       <div tw="flex flex-1">
         <CollectionChooser
+          filterEmpty
           active={active}
           collectionTypes={types}
           tw="flex-none"

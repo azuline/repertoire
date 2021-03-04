@@ -14,6 +14,7 @@ type ICollectionChooser = React.FC<{
   urlPrefix: string;
   active: number | null;
   className?: string;
+  filterEmpty?: boolean;
 }>;
 
 export const CollectionChooser: ICollectionChooser = ({
@@ -21,6 +22,7 @@ export const CollectionChooser: ICollectionChooser = ({
   urlPrefix,
   active,
   className,
+  filterEmpty = false,
 }) => {
   const { data, error, loading } = useCollectionChooserFetchCollectionsQuery({
     variables: { types: collectionTypes },
@@ -43,11 +45,16 @@ export const CollectionChooser: ICollectionChooser = ({
     return null;
   }
 
+  const results = data.collections.results as ICollection[];
+  const collections = filterEmpty
+    ? results.filter((col) => col.numReleases !== 0)
+    : results;
+
   return (
     <Chooser
       active={active}
       className={className}
-      results={data.collections.results as ICollection[]}
+      results={collections}
       toggleStarFactory={toggleStarFactory}
       urlFactory={urlFactory}
     />
