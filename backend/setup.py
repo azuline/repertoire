@@ -25,6 +25,6 @@ setup(
     packages=['backend', 'backend.cli', 'backend.graphql', 'backend.graphql.types', 'backend.indexer', 'backend.library', 'backend.webserver', 'backend.webserver.routes'],
     package_dir={"backend": "src"},
     package_data={"backend": ["migrations/*.sql"], "backend.graphql": ["*.gql"]},
-    install_requires=['ariadne==0.*,>=0.12.0', 'click==7.*,>=7.1.2', 'huey==2.*,>=2.3.0', 'pillow==8.*,>=8.1.0', 'python-dotenv==0.*,>=0.15.0', 'quart==0.*,>=0.14.1', 'requests==2.*,>=2.25.1', 'tagfiles==0.*,>=0.3.2', 'voluptuous==0.*,>=0.12.1', 'yoyo-migrations==7.*,>=7.3.1'],
+    install_requires=['ariadne==0.*,>=0.12.0', 'click==7.*,>=7.1.2', 'huey==2.*,>=2.3.0', 'pillow==8.*,>=8.1.0', 'python-dotenv==0.*,>=0.15.0', 'quart==0.*,>=0.14.1', 'requests==2.*,>=2.25.1', 'tagfiles==0.*,>=0.3.3', 'voluptuous==0.*,>=0.12.1', 'yoyo-migrations==7.*,>=7.3.1'],
     extras_require={"dev": ["autodocsumm==0.*,>=0.2.2", "black==20.*,>=20.8.0.b1", "dephell==0.*,>=0.8.3", "flake8==3.*,>=3.8.4", "freezegun==1.*,>=1.1.0", "isort==5.*,>=5.7.0", "mypy==0.*,>=0.812.0", "pytest==6.*,>=6.2.2", "pytest-asyncio==0.*,>=0.14.0", "pytest-cov==2.*,>=2.11.1", "snapshottest==0.*,>=0.6.0", "sphinx==3.*,>=3.5.1", "sphinx-autodoc-typehints==1.*,>=1.11.1", "sphinx-rtd-theme==0.*,>=0.5.1", "sphinxcontrib-httpdomain==1.*,>=1.7.0"]},
 )

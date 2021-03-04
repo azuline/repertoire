@@ -20,7 +20,7 @@ Pillow = "^8.1.0"
 python-dotenv = "^0.15.0"
 Quart = "^0.14.1"
 requests = "^2.25.1"
-tagfiles = "^0.3.2"
+tagfiles = "^0.3.3"
 voluptuous = "^0.12.1"
 yoyo-migrations = "^7.3.1"
 
