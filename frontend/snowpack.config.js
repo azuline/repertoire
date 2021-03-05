@@ -8,7 +8,7 @@ module.exports = {
   extends: '@snowpack/app-scripts-react',
   alias: {
     '~': './src',
-    '~t': './test',
+    '~t': './tests',
   },
   routes: [
     /* Proxy API calls. */

@@ -18,8 +18,8 @@
     "baseUrl": "./",
     "paths": {
       "~/*": ["./src/*"],
-      "~t/*": ["./test/*"]
+      "~t/*": ["./tests/*"]
     }
   },
-  "include": ["src", "test", "types"]
+  "include": ["src", "tests", "types"]
 }
