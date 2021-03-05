@@ -49,17 +49,23 @@ backend_data = {
 }
 
 frontend_data = {
+    "Test": """
+      - name: Run tests
+        run: yarn jest --coverage
+      - name: Upload coverage
+        run: bash <(curl -s https://codecov.io/bash) -cF typescript
+        """,
     "Type check": """
       - name: Run type check
-        run: CI=true yarn tsc
+        run: yarn tsc
         """,
     "Lint check": """
       - name: Run lint check
-        run: CI=true yarn eslint src/ --ext .ts,.tsx --max-warnings=0
+        run: yarn eslint src/ --ext .ts,.tsx --max-warnings=0
         """,
     "GraphQL Codegen": """
       - name: Run codegen
-        run: CI=true yarn codegen
+        run: yarn codegen
       - name: Diff
         run: git diff
       - name: Compare

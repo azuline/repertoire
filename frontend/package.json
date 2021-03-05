@@ -5,7 +5,8 @@
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
-    "test": "web-test-runner \"src/**/*.test.tsx\"",
+    "test": "jest",
+    "testcov": "jest --coverage --coverageDirectory='coverage'",
     "lint": "eslint src/ --ext .ts,.tsx --fix",
     "codegen": "graphql-codegen --config codegen.yml"
   },
@@ -50,6 +51,7 @@
     "@snowpack/web-test-runner-plugin": "^0.2.0",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.20",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
@@ -71,6 +73,7 @@
     "eslint-plugin-simple-import-sort": "^6.0.1",
     "eslint-plugin-sort-keys-fix": "^1.1.1",
     "http-proxy": "^1.18.1",
+    "jest": "^26.6.3",
     "postcss": "^8.2.6",
     "prettier": "^2.2.1",
     "react-is": "^17.0.1",

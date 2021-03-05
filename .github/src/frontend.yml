@@ -11,6 +11,8 @@ jobs:
   {{ job.id }}:
     name: {{ job.name }}
     runs-on: ubuntu-latest
+    env:
+      CI: true
     defaults:
       run:
         working-directory: 'frontend/'
@@ -24,6 +26,6 @@ jobs:
           key: {{ "${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}" }}
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
-        run: CI=true yarn install
+        run: yarn install
       {{ job.steps }}
   {% endfor %}
