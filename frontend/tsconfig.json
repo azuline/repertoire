@@ -18,8 +18,9 @@
     "baseUrl": "./",
     "paths": {
       "~/*": ["./src/*"],
-      "~t/*": ["./tests/*"]
+      "~stories/*": ["./src/*"],
+      "~tests/*": ["./tests/*"]
     }
   },
-  "include": ["src", "tests", "types"]
+  "include": ["src", "stories", "tests", "types"]
 }

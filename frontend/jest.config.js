@@ -4,10 +4,8 @@ module.exports = {
   testMatch: ['<rootDir>/tests/**/*.{js,jsx,ts,tsx}'],
   moduleNameMapper: {
     '^~/(.*)$': '<rootDir>/src/$1',
-    '^~t/(.*)$': '<rootDir>/tests/$1',
+    '^~stories/(.*)$': '<rootDir>/stories/$1',
+    '^~tests/(.*)$': '<rootDir>/tests/$1',
   },
-  collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
-    'tests/**/*.{ts,tsx}',
-  ],
+  collectCoverageFrom: ['src/**/*.{ts,tsx}', 'tests/**/*.{ts,tsx}'],
 };

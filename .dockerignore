@@ -7,4 +7,4 @@ __pycache__
 /backend/*.egg-info
 /frontend/node_modules
 /frontend/build
-/frontend/src/index.css
+/frontend/coverage

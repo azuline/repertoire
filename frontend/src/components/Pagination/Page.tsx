@@ -1,7 +1,7 @@
 import * as React from 'react';
 import tw from 'twin.macro';
 
-import { TextButton } from '../common/Button';
+import { Button } from '../common/Button';
 
 type IPage = React.FC<{
   page: number;
@@ -11,7 +11,8 @@ type IPage = React.FC<{
 }>;
 
 export const Page: IPage = ({ page, curPage, setCurPage, className }) => (
-  <TextButton
+  <Button
+    text
     className={className}
     css={[
       page === curPage
@@ -23,5 +24,5 @@ export const Page: IPage = ({ page, curPage, setCurPage, className }) => (
     onClick={(): void => setCurPage(page)}
   >
     {page}
-  </TextButton>
+  </Button>
 );

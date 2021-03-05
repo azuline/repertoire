@@ -2,6 +2,7 @@
 # docker-compose file, refer to the documentation's Installation page.
 
 version: '3'
+
 services:
   backend:
     build: ./backend
@@ -18,5 +19,17 @@ services:
     volumes:
       - ./backend:/app/backend
       - ./frontend:/app/frontend
+      - /app/frontend/node_modules/
+      - ./data:/data
+      - ./testlib:/music
+  storybook:
+    build: ./frontend
+    command: yarn storybook
+    ports:
+      - "127.0.0.1:6006:6006"
+    volumes:
+      - ./backend:/app/backend
+      - ./frontend:/app/frontend
+      - /app/frontend/node_modules/
       - ./data:/data
       - ./testlib:/music
