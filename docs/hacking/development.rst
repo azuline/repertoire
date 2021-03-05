@@ -39,7 +39,11 @@ This will build and start the backend and frontend in containers. The
 containers are set up such that code changes in the source code directories are
 reflected in the containers.
 
-The developer frontend is accessible at ``127.0.0.1:3000``.
+The available services are:
+
+- Backend at ``127.0.0.1:5000``.
+- Frontend at ``127.0.0.1:3000``.
+- Storybook at ``127.0.0.1:6006``.
 
 Running Commands
 ^^^^^^^^^^^^^^^^
@@ -162,7 +166,7 @@ On the frontend, developer commands are defined under the ``package.json``
 .. code-block:: sh
 
    $ yarn test        # Run the test suite (currently doesn't exist).
-   $ yarn storybook   # Open the component storybook (currently doesn't exist).
+   $ yarn storybook   # Open the component storybook.
    $ yarn lint        # Lint the frontend.
    $ yarn codegen     # Regenerate the GraphQL code from the backend schema.
    $ yarn tsc         # Run the TypeScript type checker.
