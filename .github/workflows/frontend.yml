@@ -7,9 +7,34 @@ on:
     branches: [ master ]
 
 jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+    defaults:
+      run:
+        working-directory: 'frontend/'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache dependencies
+        id: cache-deps
+        uses: actions/cache@v2
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: yarn install
+      - name: Run tests
+        run: yarn test
+      - name: Upload coverage
+        run: bash <(curl -s https://codecov.io/bash) -cF typescript
   type_check:
     name: Type check
     runs-on: ubuntu-latest
+    env:
+      CI: true
     defaults:
       run:
         working-directory: 'frontend/'
@@ -23,12 +48,14 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
-        run: CI=true yarn install
+        run: yarn install
       - name: Run type check
-        run: CI=true yarn tsc
+        run: yarn tsc
   lint_check:
     name: Lint check
     runs-on: ubuntu-latest
+    env:
+      CI: true
     defaults:
       run:
         working-directory: 'frontend/'
@@ -42,12 +69,14 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
-        run: CI=true yarn install
+        run: yarn install
       - name: Run lint check
-        run: CI=true yarn eslint src/ --ext .ts,.tsx --max-warnings=0
+        run: yarn eslint src/ --ext .ts,.tsx --max-warnings=0
   graphql_codegen:
     name: GraphQL Codegen
     runs-on: ubuntu-latest
+    env:
+      CI: true
     defaults:
       run:
         working-directory: 'frontend/'
@@ -61,9 +90,9 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
-        run: CI=true yarn install
+        run: yarn install
       - name: Run codegen
-        run: CI=true yarn codegen
+        run: yarn codegen
       - name: Diff
         run: git diff
       - name: Compare
