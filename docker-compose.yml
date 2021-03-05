@@ -18,5 +18,17 @@ services:
     volumes:
       - ./backend:/app/backend
       - ./frontend:/app/frontend
+      - /app/frontend/node_modules/
+      - ./data:/data
+      - ./testlib:/music
+  storybook:
+    build: ./frontend
+    command: yarn storybook
+    ports:
+      - "127.0.0.1:6006:6006"
+    volumes:
+      - ./backend:/app/backend
+      - ./frontend:/app/frontend
+      - /app/frontend/node_modules/
       - ./data:/data
       - ./testlib:/music
