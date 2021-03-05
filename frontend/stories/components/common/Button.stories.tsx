@@ -12,10 +12,10 @@ export default {
       },
     },
   },
-  title: 'Components/Button',
+  title: 'Dumb Components/Button',
 } as Meta;
 
-type IButtonProps = React.ComponentProps<typeof Button>;
+type IButtonProps = React.ComponentProps<typeof Button> & { as?: string };
 
 const Template: Story<IButtonProps> = (props) => <Button {...props} />;
 
@@ -38,7 +38,7 @@ Text.args = {
 };
 
 export const SmallText = Template.bind({});
-Text.args = {
+SmallText.args = {
   ...Default.args,
   small: true,
   text: true,
