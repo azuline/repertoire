@@ -11,7 +11,7 @@ WORKFLOWS = SRC.parent / "workflows"
 backend_data = {
     "Test": """
       - name: Run tests
-        run: poetry run pytest --cov-report=xml --cov=. --cov-branch tests/
+        run: poetry run pytest -n auto --cov-report=xml --cov=. --cov-branch tests/
       - name: Upload coverage
         run: bash <(curl -s https://codecov.io/bash) -cF python
         """,

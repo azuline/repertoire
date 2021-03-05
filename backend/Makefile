@@ -1,4 +1,10 @@
+# A parallel test execution.
 test:
+	poetry run pytest -n auto --cov=. --cov-branch tests/
+	poetry run coverage html
+
+# A sequential test execution.
+testseq:
 	poetry run pytest --cov=. --cov-branch tests/
 	poetry run coverage html
 
@@ -30,4 +36,4 @@ setupfiles:
 	poetry export -f requirements.txt -o requirements.txt
 	poetry run dephell deps convert --from pyproject.toml --to setup.py
 
-.PHONY: test typecheck lintcheck lint schema docs setupfiles setupcheck
+.PHONY: test testseq typecheck lintcheck lint schema docs setupfiles setupcheck

@@ -1,7 +1,6 @@
 import logging
 import os
 import sys
-import threading
 from functools import cached_property
 from pathlib import Path
 
@@ -108,7 +107,7 @@ class Constants:
     the global constants object when needed.
     """
 
-    _local: threading.local = threading.local()
+    _constants: _Constants
 
     #: Data storage location.
     data_path: Path
@@ -129,7 +128,7 @@ class Constants:
 
     def __new__(cls) -> _Constants:  # type: ignore
         try:
-            return cls._local.constants
+            return cls._constants
         except AttributeError:
-            cls._local.constants = _Constants()
-            return cls._local.constants
+            cls._constants = _Constants()
+            return cls._constants

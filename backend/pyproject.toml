@@ -40,6 +40,8 @@ sphinx-autodoc-typehints = "^1.11.1"
 sphinx-rtd-theme = "^0.5.1"
 sphinxcontrib-httpdomain = "^1.7.0"
 flake8 = "^3.8.4"
+pytest-xdist = "^2.2.1"
+filelock = "^3.0.12"
 
 [tool.black]
 line-length = 88
