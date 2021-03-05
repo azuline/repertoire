@@ -6,6 +6,7 @@
     "start": "snowpack dev",
     "build": "snowpack build",
     "test": "jest",
+    "testcov": "jest --coverage --collectCoverageFrom='{src,tests}/**/*.{ts,tsx}' --coverageDirectory='htmlcov'",
     "lint": "eslint src/ --ext .ts,.tsx --fix",
     "codegen": "graphql-codegen --config codegen.yml"
   },

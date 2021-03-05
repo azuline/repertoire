@@ -51,7 +51,7 @@ backend_data = {
 frontend_data = {
     "Test": """
       - name: Run tests
-        run: yarn test
+        run: yarn jest --coverage --collectCoverageFrom='{src,tests}/**/*.{ts,tsx}' 
       - name: Upload coverage
         run: bash <(curl -s https://codecov.io/bash) -cF typescript
         """,

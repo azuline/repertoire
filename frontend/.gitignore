@@ -5,6 +5,7 @@
 .pnp.js
 /coverage
 /build
+/htmlcov
 
 npm-debug.log*
 yarn-debug.log*
