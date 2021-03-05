@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 from click.testing import CliRunner
+from filelock import FileLock
 from freezegun import freeze_time
 from yoyo import get_backend, read_migrations
 
@@ -16,7 +17,21 @@ SEED_DATA = Path(__file__).parent / "seed_data"
 
 
 @pytest.fixture(scope="session")
-def seed_db():
+def seed_db(tmp_path_factory, worker_id):
+    # Parallelism-safe DB creation; per python-xdist README.
+    if worker_id == "master":
+        return _create_seed_db()
+
+    root_tmp_dir = tmp_path_factory.getbasetemp().parent
+    created_flag = root_tmp_dir / "seed_db.flag"
+
+    with FileLock(root_tmp_dir / "seed_db.lock"):
+        if not created_flag.is_file():
+            created_flag.touch()
+            _create_seed_db()
+
+
+def _create_seed_db():
     db_path = SEED_DATA / "db.sqlite3"
     db_path.unlink(missing_ok=True)
 
@@ -50,7 +65,7 @@ def seed_data(seed_db, isolated_dir):
     cons = Constants()
     shutil.copytree(SEED_DATA, cons.data_path, dirs_exist_ok=True)
     # Update config cache with a new config.
-    Config._local.config = _Config()
+    Config._config = _Config()
 
 
 @pytest.fixture

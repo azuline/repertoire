@@ -1,6 +1,5 @@
 import json
 import logging
-import threading
 from configparser import ConfigParser
 from pathlib import Path
 from typing import Callable
@@ -114,7 +113,7 @@ class Config:
     the global configuration object when needed.
     """
 
-    _local: threading.local = threading.local()
+    _config: _Config
 
     #: Music directories to index.
     music_directories: list[str]
@@ -123,7 +122,7 @@ class Config:
 
     def __new__(cls) -> _Config:  # type: ignore
         try:
-            return cls._local.config
+            return cls._config
         except AttributeError:
-            cls._local.config = _Config()
-            return cls._local.config
+            cls._config = _Config()
+            return cls._config

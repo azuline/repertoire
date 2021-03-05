@@ -14,6 +14,7 @@ from sqlite3 import Connection
 import pytest
 import quart
 from ariadne import graphql
+from filelock import FileLock
 
 from src.constants import Constants
 from src.enums import ArtistRole, CollectionType, PlaylistType, ReleaseType
@@ -54,19 +55,30 @@ def graphql_query(seed_data, quart_app):
 
 
 @pytest.fixture(scope="session")
-def seed_gql_db(seed_db):
+def seed_gql_db(tmp_path_factory, worker_id, seed_db):
     """
     This fixture augments the existing migrated seed database with test data.
     """
+    if worker_id == "master":
+        _create_seed_gql_db()
+
+    root_tmp_dir = tmp_path_factory.getbasetemp().parent
+    created_flag = root_tmp_dir / "seed_gql_db.flag"
+
+    with FileLock(root_tmp_dir / "seed_gql_db.lock"):
+        if not created_flag.is_file():
+            created_flag.touch()
+            _create_seed_gql_db()
+
+
+def _create_seed_gql_db():
+    # Parallelism-safe DB creation; per python-xdist README.
     GQL_DB_PATH.unlink(missing_ok=True)
 
     seed_db_path = SEED_DATA / "db.sqlite3"
     shutil.copyfile(seed_db_path, GQL_DB_PATH)
 
-    with sqlite3.connect(
-        GQL_DB_PATH,
-        detect_types=sqlite3.PARSE_DECLTYPES,
-    ) as conn:
+    with sqlite3.connect(GQL_DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES) as conn:
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys = ON")
         freeze_database_time(conn)

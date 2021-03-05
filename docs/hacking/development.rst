@@ -148,23 +148,24 @@ On the backend, we use a Makefile to provide some basic developer commands.
 
 .. code-block:: sh
 
-   $ make test       # Run tests & lint check. Generate HTML coverage report.
-   $ make typecheck  # Run mypy type checker.
-   $ make lint       # Lint the backend.
-   $ make docs       # (Re)generate the documentation into `docs/_build`.
-   $ make schema     # (Re)generate `schema.sql`.
-   $ make setupfiles # (Re)generate `setup.py` & `requirements.txt`.
+   $ make test        # Run the tests. Generate HTML coverage report.
+   $ make testseq     # Same as test, but with sequential execution. Per-test dots.
+   $ make typecheck   # Run mypy type checker.
+   $ make lint        # Lint the backend.
+   $ make docs        # (Re)generate the documentation into `docs/_build`.
+   $ make schema      # (Re)generate `schema.sql`.
+   $ make setupfiles  # (Re)generate `setup.py` & `requirements.txt`.
 
 On the frontend, developer commands are defined under the ``package.json``
 ``scripts`` key.
 
 .. code-block:: sh
 
-  $ yarn test        # Run the test suite (currently doesn't exist).
-  $ yarn storybook   # Open the component storybook (currently doesn't exist).
-  $ yarn lint        # Lint the frontend.
-  $ yarn codegen     # Regenerate the GraphQL code from the backend schema.
-  $ yarn tsc         # Run the TypeScript type checker.
+   $ yarn test        # Run the test suite (currently doesn't exist).
+   $ yarn storybook   # Open the component storybook (currently doesn't exist).
+   $ yarn lint        # Lint the frontend.
+   $ yarn codegen     # Regenerate the GraphQL code from the backend schema.
+   $ yarn tsc         # Run the TypeScript type checker.
 
 Demo Music
 ----------

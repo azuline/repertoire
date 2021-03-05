@@ -52,7 +52,7 @@ jobs:
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
       - name: Run tests
-        run: poetry run pytest --cov-report=xml --cov=. --cov-branch tests/
+        run: poetry run pytest -n auto --cov-report=xml --cov=. --cov-branch tests/
       - name: Upload coverage
         run: bash <(curl -s https://codecov.io/bash) -cF python
   type_check:
