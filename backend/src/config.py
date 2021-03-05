@@ -13,7 +13,10 @@ from src.util import parse_crontab
 logger = logging.getLogger(__name__)
 
 DEFAULT_CONFIG = {
-    "repertoire": {"music_directories": "[]", "index_crontab": "0 0 * * *"}
+    "repertoire": {
+        "music_directories": '["/music"]',
+        "index_crontab": "0 0 * * *",
+    }
 }
 
 

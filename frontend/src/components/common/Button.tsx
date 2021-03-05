@@ -1,28 +1,27 @@
-import tw from 'twin.macro';
+import tw, { styled, TwStyle } from 'twin.macro';
 
-const BaseButton = tw.button`
-  rounded 
-  font-normal
-  text-foreground
-  bg-primary-700 
-  hover:bg-primary-600 
-`;
+type IProps = {
+  small?: boolean;
+  text?: boolean;
+};
 
-export const Button = tw(BaseButton)`
-  px-4 
-  py-2
-`;
+export const Button = styled.button<IProps>`
+  ${tw`
+    rounded 
+    font-normal
+    text-foreground
+    bg-primary-700 
+    hover:bg-primary-600 
+  `}
 
-export const SmallButton = tw(BaseButton)`
-  px-2
-  py-1
-`;
+  ${({ small }): TwStyle => (small === true ? tw`px-2 py-1` : tw`px-4 py-2`)}
 
-export const TextButton = tw(BaseButton)`
-  bg-transparent
-  hover:bg-black
-  hover:bg-opacity-5
-  text-primary-400
-  dark:hover:bg-white
-  dark:hover:bg-opacity-5
+  ${({ text }): TwStyle | boolean =>
+    text === true &&
+    tw`
+      bg-transparent
+      text-primary-400
+      hover:(bg-black bg-opacity-5)
+      dark:hover:(bg-white bg-opacity-5)
+    `}
 `;

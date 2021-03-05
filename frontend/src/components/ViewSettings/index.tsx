@@ -1,7 +1,7 @@
 import * as React from 'react';
 import tw from 'twin.macro';
 
-import { Icon, Popover, TextButton } from '~/components/common';
+import { Button, Icon, Popover } from '~/components/common';
 import { Pagination } from '~/components/Pagination';
 import { IPagination, IViewOptions } from '~/hooks';
 
@@ -37,10 +37,10 @@ export const ViewSettings: IViewSettings = ({
       </div>
       <div css={[tw`ml-auto -mr-2`, responsiveHide]}>
         <Popover>
-          <TextButton tw="flex items-center px-2 py-1" type="button">
+          <Button text tw="flex items-center px-2 py-1" type="button">
             <div>Options</div>
             <Icon icon="chevron-down-small" tw="w-4 ml-1 -mr-0.5" />
-          </TextButton>
+          </Button>
           <div>
             <View tw="mb-1" viewOptions={viewOptions} />
             <Sort tw="mb-1" viewOptions={viewOptions} />

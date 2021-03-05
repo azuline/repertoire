@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 
-import { Icon, Input, TextButton } from '~/components/common';
+import { Button, Icon, Input } from '~/components/common';
 
 type IGoto = React.FC<{
   setCurPage: (arg0: number) => void;
@@ -33,9 +33,9 @@ export const Goto: IGoto = ({ setCurPage, numPages }) => {
     <form tw="flex" onSubmit={onSubmit}>
       <div tw="relative ml-1">
         <Input ref={input} placeholder="Go" tw="w-16 p-0 py-1 text-center pr-6" />
-        <TextButton tw="absolute right-0 h-full px-1 py-0" type="submit">
+        <Button text tw="absolute right-0 h-full px-1 py-0" type="submit">
           <Icon icon="right-arrow-small" tw="w-4 text-primary-500" />
-        </TextButton>
+        </Button>
       </div>
     </form>
   );

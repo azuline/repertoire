@@ -2,6 +2,7 @@
 # docker-compose file, refer to the documentation's Installation page.
 
 version: '3'
+
 services:
   backend:
     build: ./backend
