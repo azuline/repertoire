@@ -12,7 +12,7 @@ export default {
       },
     },
   },
-  title: 'Dumb Components/Button',
+  title: 'Common/Button',
 } as Meta;
 
 type IButtonProps = React.ComponentProps<typeof Button> & { as?: string };
