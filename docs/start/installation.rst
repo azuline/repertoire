@@ -58,8 +58,9 @@ Example ``docker-compose.yml``:
    version: '3'
    services:
      server:
+       # This uses the latest repertoire image off the master branch.
        image: blissful/repertoire:latest
-       command: start
+       # This binds repertoire to port 45731, listening only on 127.0.0.1.
        ports:
          - "127.0.0.1:45731:45731"
        volumes:
