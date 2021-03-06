@@ -13,7 +13,6 @@ jobs:
     env:
       CI: true
       DATA_PATH: ../_data
-      HEADLESS: true
       LD_LIBRARY_PATH: /usr/local/lib
     steps:
       - uses: actions/checkout@v2
@@ -90,17 +89,22 @@ jobs:
         working-directory: tests/
       - name: Spin up backend server
         run: |
-          mkdir _data/
+          mkdir -p _data/ tests/output/logs/
           printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > _data/config.ini
           cd backend/
-          make debug &
+          make debug > ../tests/output/logs/backend.log 2>&1 &
       - name: Spin up frontend server
         run: |
           cd frontend/
           yarn wait-port -t 30000 5000
-          yarn start &
+          yarn start > ../tests/output/logs/frontend.log 2>&1 &
       - name: Run CodeceptJS tests
         run: |
           cd tests/
           yarn wait-port -t 30000 3000
           yarn codeceptjs run --steps
+      - name: Upload test artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: codeceptjs-output
+          path: tests/output/
