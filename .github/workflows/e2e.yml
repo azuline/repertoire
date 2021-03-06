@@ -78,7 +78,7 @@ jobs:
           cd backend/
           QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" poetry run quart run &
           cd ../frontend/
-          yarn wait-port -t 10 5000
+          yarn wait-port -t 30 5000
           yarn start &
           cd ../tests/
           yarn wait-port -t 30 3000
