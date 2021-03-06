@@ -1,5 +1,5 @@
 Feature('login');
 
-Scenario('test login step', ({ I }) => {
+Scenario('login step', ({ I }) => {
   I.login();
 });
