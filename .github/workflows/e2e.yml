@@ -86,7 +86,7 @@ jobs:
           cd frontend/
           yarn wait-port -t 30000 5000
           # Get the backend indexer going... saves us time later.
-          curl -X POST http://localhost:5000/dev/indexlib &
+          curl -X POST http://localhost:5000/api/dev/indexlib &
           yarn start > ../tests/output/logs/frontend.log 2>&1 &
       - name: Cache testing dependencies
         id: cache-test-deps
