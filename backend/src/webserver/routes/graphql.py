@@ -9,7 +9,7 @@ from ariadne.constants import PLAYGROUND_HTML
 from quart import Blueprint, Request, Response
 
 from src.graphql import error_formatter, schema
-from src.library import user
+from src.library import user as libuser
 from src.webserver.util import check_auth
 
 bp = Blueprint("graphql", __name__, url_prefix="/graphql")
@@ -17,7 +17,7 @@ bp = Blueprint("graphql", __name__, url_prefix="/graphql")
 
 @dataclass
 class GraphQLContext:
-    user: user.T
+    user: libuser.T
     db: Connection
     request: Request
 

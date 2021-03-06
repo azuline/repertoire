@@ -32,9 +32,11 @@ backend_data = {
         """,
     "Schema": """
       - name: Generate schema
-        run: DATA_PATH=../data make schema
+        run: make schema
       - name: Diff
         run: git diff
+      - name: Status
+        run: git status
       - name: Compare
         run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'
         """,
@@ -43,6 +45,8 @@ backend_data = {
         run: make setupfiles
       - name: Diff
         run: git diff
+      - name: Status
+        run: git status
       - name: Compare
         run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'
          """,
@@ -68,6 +72,8 @@ frontend_data = {
         run: yarn codegen
       - name: Diff
         run: git diff
+      - name: Status
+        run: git status
       - name: Compare
         run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'
         """,

@@ -23,6 +23,7 @@ jobs:
         with:
           path: frontend/node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-key: ${{ runner.os }}-yarn-
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: yarn install
@@ -46,6 +47,7 @@ jobs:
         with:
           path: frontend/node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-key: ${{ runner.os }}-yarn-
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: yarn install
@@ -67,6 +69,7 @@ jobs:
         with:
           path: frontend/node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-key: ${{ runner.os }}-yarn-
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: yarn install
@@ -88,6 +91,7 @@ jobs:
         with:
           path: frontend/node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-key: ${{ runner.os }}-yarn-
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: yarn install
@@ -95,5 +99,7 @@ jobs:
         run: yarn codegen
       - name: Diff
         run: git diff
+      - name: Status
+        run: git status
       - name: Compare
         run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'

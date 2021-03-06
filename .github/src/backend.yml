@@ -16,6 +16,7 @@ jobs:
         working-directory: 'backend/'
     env:
       LD_LIBRARY_PATH: /usr/local/lib
+      DATA_PATH: ../data 
     steps:
       - uses: actions/checkout@v2
       - name: Cache SQLite
@@ -37,7 +38,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.poetry
-          key: {{ "${{ runner.os }}-poetry-1.1.4" }}
+          key: {{ "${{ runner.os }}-therealpoetry-1.1.4" }}
       - name: Install poetry
         if: steps.cache-poetry.outputs.cache-hit != 'true'
         run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
@@ -49,6 +50,7 @@ jobs:
         with:
           path: ~/.cache/pypoetry/virtualenvs
           key: {{ "${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}" }}
+          restore-key: {{ "${{ runner.os }}-poetry-" }}
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install

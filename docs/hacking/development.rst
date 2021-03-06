@@ -18,6 +18,11 @@ process, and the environment differences may cause problems.
 
 Pick whichever is option more suitable for you.
 
+.. note::
+
+   Personally, I run the development servers in Docker, but have a local
+   installation to edit code and run tests in.
+
 Initial Steps
 -------------
 
@@ -98,9 +103,9 @@ After installing Poetry:
 #. Install the backend with ``$ poetry install``.
 #. Activate the Poetry virtual environment with ``$ poetry shell``.
 #. Copy ``.env.sample`` to ``.env`` (``$ cp .env.sample .env``), and edit
-   ``.env`` such that ``DATA_PATH=../data``.
+   ``.env`` such that ``DATA_PATH=../_data``.
 #. Configure the backend with ``$ repertoire config``. Set the value of the
-   ``music_directories`` key to ``["../testlib"]``.
+   ``music_directories`` key to ``["../_testlib"]``.
 #. Generate an authentication token with ``$ repertoire token``. Remember this
    token; you will use it to log in while developing.
 #. Index the test library with ``$ repertoire index``.
@@ -115,8 +120,8 @@ Or, as a set of shell commands:
    $ poetry install
    $ poetry shell
    $ cp .env.sample .env
-   $ nano .env             # Set `DATA_PATH=../data` on the first line.
-   $ repertoire config     # Set `music_directories = ["../testlib"]`.
+   $ nano .env             # Set `DATA_PATH=../_data` on the first line.
+   $ repertoire config     # Set `music_directories = ["../_testlib"]`.
    $ repertoire token      # Remember this token!
    $ repertoire index      # Index the test library.
    $ QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" quart run
@@ -179,7 +184,7 @@ together to provide developers with a convenient library to use in their
 development environments.
 
 The library is available at https://u.sunsetglow.net/f/EzUAq5TsupQ.tgz.
-Unarchive this tarball into the ``repertoire/testlib`` directory and run the
+Unarchive this tarball into the ``repertoire/_testlib`` directory and run the
 ``$ repertoire index`` command on the backend (or, if you are on Docker, in the
 backend container).
 
@@ -188,6 +193,6 @@ For a simple set of shell commands to set up the test library, see:
 .. code-block:: sh
 
    $ cd repertoire/
-   $ wget -O - https://u.sunsetglow.net/f/EzUAq5TsupQ.tgz | tar -xzvf -
+   $ wget -O - https://u.sunsetglow.net/f/5moSen8BU_c.tgz | tar -xzvf -
    $ cd backend/
    $ poetry run repertoire index
