@@ -19,7 +19,6 @@ services:
     volumes:
       - ./backend:/app/backend
       - ./frontend:/app/frontend
-      - /app/frontend/node_modules/
       - ./data:/data
       - ./testlib:/music
   storybook:
@@ -30,13 +29,5 @@ services:
     volumes:
       - ./backend:/app/backend
       - ./frontend:/app/frontend
-      - /app/frontend/node_modules/
       - ./data:/data
       - ./testlib:/music
-  codecept:
-    build: ./tests
-    ports:
-      - "127.0.0.1:3333:3333"
-    volumes:
-      - ./tests:/app/tests
-      - /app/tests/node_modules/

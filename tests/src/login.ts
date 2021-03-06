@@ -1,6 +1,5 @@
 Feature('login');
 
-Scenario('test something', ({ I }) => {
+Scenario('test login step', ({ I }) => {
   I.login();
-  I.seeElement('.header--username');
 });
