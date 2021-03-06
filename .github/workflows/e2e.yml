@@ -89,7 +89,7 @@ jobs:
       - name: Run e2e tests
         run: |
           mkdir _data/
-          printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > /data/config.ini
+          printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > _data/config.ini
           cd backend/
           QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" poetry run quart run &
           cd ../frontend/
