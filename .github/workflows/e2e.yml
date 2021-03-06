@@ -11,8 +11,9 @@ jobs:
     name: Codecept
     runs-on: ubuntu-latest
     env:
-      LD_LIBRARY_PATH: /usr/local/lib
       CI: true
+      DATA_PATH: ../data
+      LD_LIBRARY_PATH: /usr/local/lib
     steps:
       - uses: actions/checkout@v2
       - name: Cache SQLite
@@ -62,7 +63,7 @@ jobs:
         if: steps.cache-frontend-deps.outputs.cache-hit != 'true'
         run: yarn install
         working-directory: frontend/
-      - name: Cache test dependencies
+      - name: Cache codecept dependencies
         id: cache-test-deps
         uses: actions/cache@v2
         with:
@@ -77,8 +78,8 @@ jobs:
           cd backend/
           QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" poetry run quart run &
           cd ../frontend/
-          yarn wait-port 5000
+          yarn wait-port -t 10 5000
           yarn start &
           cd ../tests/
-          yarn wait-port 3000
+          yarn wait-port -t 30 3000
           yarn codeceptjs run --steps

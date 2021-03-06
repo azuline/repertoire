@@ -32,7 +32,7 @@ backend_data = {
         """,
     "Schema": """
       - name: Generate schema
-        run: DATA_PATH=../data make schema
+        run: make schema
       - name: Diff
         run: git diff
       - name: Compare

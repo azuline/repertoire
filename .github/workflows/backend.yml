@@ -15,6 +15,7 @@ jobs:
         working-directory: 'backend/'
     env:
       LD_LIBRARY_PATH: /usr/local/lib
+      DATA_PATH: ../data 
     steps:
       - uses: actions/checkout@v2
       - name: Cache SQLite
@@ -63,6 +64,7 @@ jobs:
         working-directory: 'backend/'
     env:
       LD_LIBRARY_PATH: /usr/local/lib
+      DATA_PATH: ../data 
     steps:
       - uses: actions/checkout@v2
       - name: Cache SQLite
@@ -116,6 +118,7 @@ jobs:
         working-directory: 'backend/'
     env:
       LD_LIBRARY_PATH: /usr/local/lib
+      DATA_PATH: ../data 
     steps:
       - uses: actions/checkout@v2
       - name: Cache SQLite
@@ -162,6 +165,7 @@ jobs:
         working-directory: 'backend/'
     env:
       LD_LIBRARY_PATH: /usr/local/lib
+      DATA_PATH: ../data 
     steps:
       - uses: actions/checkout@v2
       - name: Cache SQLite
@@ -199,7 +203,7 @@ jobs:
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
       - name: Generate schema
-        run: DATA_PATH=../data make schema
+        run: make schema
       - name: Diff
         run: git diff
       - name: Compare
@@ -212,6 +216,7 @@ jobs:
         working-directory: 'backend/'
     env:
       LD_LIBRARY_PATH: /usr/local/lib
+      DATA_PATH: ../data 
     steps:
       - uses: actions/checkout@v2
       - name: Cache SQLite

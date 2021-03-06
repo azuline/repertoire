@@ -16,6 +16,7 @@ jobs:
         working-directory: 'backend/'
     env:
       LD_LIBRARY_PATH: /usr/local/lib
+      DATA_PATH: ../data 
     steps:
       - uses: actions/checkout@v2
       - name: Cache SQLite
