@@ -24,7 +24,7 @@ jobs:
         with:
           path: frontend/node_modules
           key: {{ "${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}" }}
-          restore-key: {{ "${{ runner.os }}-yarn-" }}
+          restore-keys: {{ "${{ runner.os }}-yarn-" }}
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: yarn install

@@ -59,7 +59,7 @@ jobs:
         with:
           path: ~/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/backend/poetry.lock') }}
-          restore-key: "${{ runner.os }}-poetry-"
+          restore-keys: "${{ runner.os }}-poetry-"
       - name: Install backend dependencies
         if: steps.cache-backend-deps.outputs.cache-hit != 'true'
         run: poetry install
@@ -70,7 +70,7 @@ jobs:
         with:
           path: frontend/node_modules/
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/frontend/yarn.lock') }}
-          restore-key: "${{ runner.os }}-yarn-"
+          restore-keys: "${{ runner.os }}-yarn-"
       - name: Install frontend dependencies
         if: steps.cache-frontend-deps.outputs.cache-hit != 'true'
         run: yarn install
@@ -81,7 +81,7 @@ jobs:
         with:
           path: tests/node_modules/
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/tests/yarn.lock') }}
-          restore-key: "${{ runner.os }}-yarn-"
+          restore-keys: "${{ runner.os }}-yarn-"
       - name: Install codecept dependencies
         run: yarn install
         working-directory: tests/

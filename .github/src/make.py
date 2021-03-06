@@ -22,7 +22,7 @@ backend_data = {
         with:
           path: backend/.mypy_cache
           key: "${{ runner.os }}-mypy-${{ github.sha }}"
-          restore-key: "${{ runner.os }}-mypy-"
+          restore-keys: "${{ runner.os }}-mypy-"
       - name: Run type check
         run: make typecheck
         """,
