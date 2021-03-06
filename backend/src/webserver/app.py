@@ -13,7 +13,7 @@ from werkzeug.exceptions import HTTPException
 
 from src.constants import Constants
 from src.util import database, raw_database
-from src.webserver.routes import files, graphql, session
+from src.webserver.routes import files, graphql, session, dev
 
 SECRET_LENGTH = 32
 
@@ -91,9 +91,11 @@ def _register_blueprints(app: Quart):
     :param app: The application to register the blueprints with.
     """
     logger.debug("Registering blueprints on Quart app.")
+
     app.register_blueprint(files.bp)
     app.register_blueprint(graphql.bp)
     app.register_blueprint(session.bp)
+    app.register_blueprint(dev.bp)
 
 
 def _register_error_handler(app: Quart):

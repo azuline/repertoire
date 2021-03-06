@@ -28,6 +28,14 @@ for developers.
 
    Lines beginning with a `#` are comments and should not be executed.
 
+.. warning::
+
+   repertoire comes built in with a debugging server. This server **should
+   never be run in production or exposed to the internet**.
+
+   The debug server enables functionality to arbitrarily create accounts for
+   testing purposes. This compromises the security of the application.
+
 .. _installation_docker:
 
 Docker

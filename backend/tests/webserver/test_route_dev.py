@@ -1,0 +1,31 @@
+from sqlite3 import Connection
+import os
+
+import pytest
+
+from tests.factory import Factory
+from src.library import user
+
+
+@pytest.mark.asyncio
+async def test_create_dev_user(db: Connection, quart_app, quart_client):
+    quart_app.debug = True
+
+    response = await quart_client.post("/dev/testuser")
+    assert response.status_code == 200
+
+    usr = user.from_nickname("tester", db)
+    assert usr is not None
+    assert user.check_token(usr, b"\x00" * 32, db)
+
+
+@pytest.mark.asyncio
+async def test_create_dev_user_404(
+    factory: Factory,
+    db: Connection,
+    quart_app,
+    quart_client,
+):
+    quart_app.debug = False
+    response = await quart_client.post("/dev/testuser")
+    assert response.status_code == 404
