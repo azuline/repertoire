@@ -5,8 +5,8 @@
   "license": "AGPL-3.0",
   "scripts": {
     "ui": "codecept-ui",
-    "cc": "codeceptjs run --steps",
-    "headless": "HEADLESS=true cc",
+    "test": "codeceptjs run --steps",
+    "headless": "HEADLESS=true codeceptjs run --steps",
     "def": "codeceptjs def"
   },
   "devDependencies": {

@@ -47,13 +47,10 @@ export const Login: React.FC = () => {
             <Input
               ref={input}
               autoFocus
-              className="login--input"
               placeholder="Authorization token"
               tw="mr-6 max-width[600px] min-width[300px] width[50vw]"
             />
-            <Button className="login--submit" type="submit">
-              Login
-            </Button>
+            <Button type="submit">Login</Button>
           </div>
           <div tw="flex items-center mt-2">
             <Input
