@@ -9,7 +9,7 @@ export const SERVER_URL = 'http://localhost:3000';
 export const prepareBackend = async () => {
   try {
     console.log('Creating test user.');
-    const res1 = await fetch(`${SERVER_URL}/dev/testuser`, {
+    const res1 = await fetch(`${SERVER_URL}/api/dev/testuser`, {
       method: 'POST',
     });
     if (res1.status !== 200) {
@@ -18,7 +18,7 @@ export const prepareBackend = async () => {
     }
 
     console.log('Indexing test library.');
-    const res2 = await fetch(`${SERVER_URL}/dev/indexlib`, {
+    const res2 = await fetch(`${SERVER_URL}/api/dev/indexlib`, {
       method: 'POST',
     });
     if (res2.status !== 200) {
@@ -29,6 +29,8 @@ export const prepareBackend = async () => {
     console.log(e);
     throw e;
   }
+
+  console.log('Done preparing backend.');
 };
 
 const successfulToastClassName = '.react-toast-notifications__toast--success';
