@@ -67,10 +67,10 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
     )
 
     if row := cursor.fetchone():
-        logger.debug("Fetched user {id}.")
+        logger.debug(f"Fetched user {id}.")
         return from_row(row)
 
-    logger.debug("Failed to fetch user {id}.")
+    logger.debug(f"Failed to fetch user {id}.")
     return None
 
 

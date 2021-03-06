@@ -8,7 +8,7 @@ from src.constants import IS_PYTEST, IS_SPHINX, Constants
 
 # Configure logging.
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 # Add a logging handler for stdout unless we are testing. Pytest
 # captures logging output on its own.
