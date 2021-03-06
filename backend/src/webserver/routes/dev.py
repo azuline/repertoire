@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 bp = Blueprint("dev", __name__, url_prefix="/api/dev")
 
-ZERO_TOKEN_HASH = "pbkdf2:sha256:150000$b26LpXBc$ab7f9cf988532362beed5db5c974a3759aef479042364994df568c0284a5fee2"  # flake8: noqa
+ZERO_TOKEN_HASH = "pbkdf2:sha256:150000$b26LpXBc$ab7f9cf988532362beed5db5c974a3759aef479042364994df568c0284a5fee2"  # noqa
 
 
 @bp.route("/testuser", methods=["POST"])
