@@ -69,7 +69,7 @@ jobs:
           mkdir -p _data/ tests/output/logs/
           printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > _data/config.ini
           cd backend/
-          make debug > ../tests/output/logs/backend.log 2>&1 &
+          make debug > ../output/backend.log 2>&1 &
       - name: Cache frontend dependencies
         id: cache-frontend-deps
         uses: actions/cache@v2
@@ -87,7 +87,7 @@ jobs:
           yarn wait-port -t 30000 5000
           # Get the backend indexer going... saves us time later.
           curl -X POST http://localhost:5000/api/dev/indexlib &
-          yarn start > ../tests/output/logs/frontend.log 2>&1 &
+          yarn start > ../output/frontend.log 2>&1 &
       - name: Cache testing dependencies
         id: cache-test-deps
         uses: actions/cache@v2
@@ -104,3 +104,9 @@ jobs:
           cd tests/
           yarn wait-port -t 30000 3000
           yarn test
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: e2e-output
+          path: output/
