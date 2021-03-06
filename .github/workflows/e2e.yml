@@ -58,7 +58,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: frontend/node_modules/
-          key: ${{ runner.os }}-poetry-${{ hashFiles('**/frontend/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-frontend-${{ hashFiles('**/frontend/yarn.lock') }}
       - name: Install frontend dependencies
         if: steps.cache-frontend-deps.outputs.cache-hit != 'true'
         run: yarn install
@@ -68,7 +68,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: tests/node_modules/
-          key: ${{ runner.os }}-poetry-${{ hashFiles('**/tests/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-tests-${{ hashFiles('**/tests/yarn.lock') }}
       - name: Install codecept dependencies
         if: steps.cache-test-deps.outputs.cache-hit != 'true'
         run: yarn install
@@ -78,8 +78,8 @@ jobs:
           cd backend/
           QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" poetry run quart run &
           cd ../frontend/
-          yarn wait-port -t 30 5000
+          yarn wait-port -t 30000 5000
           yarn start &
           cd ../tests/
-          yarn wait-port -t 30 3000
+          yarn wait-port -t 30000 3000
           yarn codeceptjs run --steps
