@@ -13,8 +13,8 @@ module.exports = {
   },
   routes: [
     /* Proxy API calls. */
-    { src: '/api/.*', dest: (req, res) => proxy.web(req, res) },
-    { src: '/graphql', dest: (req, res) => proxy.web(req, res) },
+    { src: '/api/.*', dest: (req, res) => proxyRequest(req, res) },
+    { src: '/graphql', dest: (req, res) => proxyRequest(req, res) },
     /* Enable an SPA Fallback in development: */
     { match: 'routes', src: '.*', dest: '/index.html' },
   ],
@@ -31,4 +31,12 @@ module.exports = {
     output: 'stream',
   },
   buildOptions: {},
+};
+
+const proxyRequest = (req, res) => {
+  try {
+    proxy.web(req, res);
+  } catch (e) {
+    console.log(`Error: ${e}`);
+  }
 };
