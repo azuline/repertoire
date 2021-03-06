@@ -24,7 +24,7 @@ export const Login: React.FC = () => {
       const { csrfToken } = await requestJson('/api/session', {
         body: JSON.stringify({ permanent: permanent.current.value === 'on' }),
         method: 'POST',
-        token: input.current.value,
+        token: input.current.value ?? '',
       });
 
       if (csrfToken) {
