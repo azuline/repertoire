@@ -37,7 +37,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.poetry
-          key: ${{ runner.os }}-poetry-1.1.4
+          key: ${{ runner.os }}-therealpoetry-1.1.4
       - name: Install poetry
         if: steps.cache-poetry.outputs.cache-hit != 'true'
         run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
@@ -49,6 +49,7 @@ jobs:
         with:
           path: ~/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/backend/poetry.lock') }}
+          restore-key: "${{ runner.os }}-poetry-"
       - name: Install backend dependencies
         if: steps.cache-backend-deps.outputs.cache-hit != 'true'
         run: poetry install
@@ -58,7 +59,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: frontend/node_modules/
-          key: ${{ runner.os }}-yarn-frontend-${{ hashFiles('**/frontend/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/frontend/yarn.lock') }}
+          restore-key: "${{ runner.os }}-yarn-"
       - name: Install frontend dependencies
         if: steps.cache-frontend-deps.outputs.cache-hit != 'true'
         run: yarn install
@@ -68,7 +70,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: tests/node_modules/
-          key: ${{ runner.os }}-yarn-tests-${{ hashFiles('**/tests/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/tests/yarn.lock') }}
+          restore-key: "${{ runner.os }}-yarn-"
       - name: Install codecept dependencies
         if: steps.cache-test-deps.outputs.cache-hit != 'true'
         run: yarn install
