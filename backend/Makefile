@@ -1,3 +1,6 @@
+debug:
+	QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" poetry run quart run
+
 # A parallel test execution.
 test:
 	poetry run pytest -n auto --cov=. --cov-branch tests/
@@ -36,4 +39,4 @@ setupfiles:
 	poetry export -f requirements.txt -o requirements.txt
 	poetry run dephell deps convert --from pyproject.toml --to setup.py
 
-.PHONY: test testseq typecheck lintcheck lint schema docs setupfiles setupcheck
+.PHONY: debug test testseq typecheck lintcheck lint schema docs setupfiles setupcheck
