@@ -71,7 +71,7 @@ def _check_session_auth(csrf: bool) -> bool:
             quart.g.db,
         )
     except KeyError:
-        pass
+        return False
 
     if quart.g.user and csrf and not _check_csrf():
         quart.abort(400)
@@ -117,7 +117,7 @@ def _check_token_auth() -> bool:
         return False
 
     quart.g.user = user.from_token(token, quart.g.db)  # type: ignore
-    return True
+    return bool(quart.g.user)
 
 
 def _get_token(headers: Headers) -> Optional[str]:

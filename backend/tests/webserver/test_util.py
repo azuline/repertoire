@@ -75,7 +75,7 @@ async def test_check_auth_session_success(
 @pytest.mark.asyncio
 async def test_check_auth_token_failure(check_auth_app: Quart, quart_client):
     response = await quart_client.get(
-        "/testing", headers={"Authorization": "Token lol"}
+        "/testing", headers={"Authorization": "Token 01010101"}
     )
 
     assert response.status_code == 401
