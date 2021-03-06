@@ -109,8 +109,7 @@ After installing Poetry:
 #. Generate an authentication token with ``$ repertoire token``. Remember this
    token; you will use it to log in while developing.
 #. Index the test library with ``$ repertoire index``.
-#. Run the debug backend webserver with
-   ``$ QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" quart run``
+#. Run the debug backend webserver with ``$ make debug``.
 
 Or, as a set of shell commands:
 
@@ -157,6 +156,7 @@ On the backend, we use a Makefile to provide some basic developer commands.
 
 .. code-block:: sh
 
+   $ make debug       # Run the debug backend server.
    $ make test        # Run the tests. Generate HTML coverage report.
    $ make testseq     # Same as test, but with sequential execution. Per-test dots.
    $ make typecheck   # Run mypy type checker.

@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CI: true
-      DATA_PATH: ../data
+      DATA_PATH: ../_data
       HEADLESS: true
       LD_LIBRARY_PATH: /usr/local/lib
     steps:
@@ -91,7 +91,7 @@ jobs:
           mkdir _data/
           printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > _data/config.ini
           cd backend/
-          QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" poetry run quart run &
+          make debug &
           cd ../frontend/
           yarn wait-port -t 30000 5000
           yarn start &
