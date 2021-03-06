@@ -1,7 +1,8 @@
+import logging
+
 import quart
 from quart import Blueprint
 
-import logging
 from src.indexer import run_indexer
 
 logger = logging.getLogger(__name__)

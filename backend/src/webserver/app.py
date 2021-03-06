@@ -13,7 +13,7 @@ from werkzeug.exceptions import HTTPException
 
 from src.constants import Constants
 from src.util import database, raw_database
-from src.webserver.routes import files, graphql, session, dev
+from src.webserver.routes import dev, files, graphql, session
 
 SECRET_LENGTH = 32
 
