@@ -79,10 +79,13 @@ jobs:
         id: cache-test-deps
         uses: actions/cache@v2
         with:
-          path: tests/node_modules/
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/tests/yarn.lock') }}
-          restore-keys: "${{ runner.os }}-yarn-"
+          path: |
+            tests/node_modules/
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-yarn-playwright-${{ hashFiles('**/tests/yarn.lock') }}
+          restore-keys: "${{ runner.os }}-yarn-playwright-"
       - name: Install codecept dependencies
+        if: steps.cache-test-deps.outputs.cache-hit != 'true'
         run: yarn install
         working-directory: tests/
       - name: Run e2e tests
