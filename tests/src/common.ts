@@ -8,6 +8,7 @@ export const SERVER_URL = 'http://localhost:3000';
 // debug mode.
 export const prepareBackend = async () => {
   try {
+    console.log('Creating test user.');
     const res1 = await fetch(`${SERVER_URL}/dev/testuser`, {
       method: 'POST',
     });
@@ -16,6 +17,7 @@ export const prepareBackend = async () => {
       throw new Error('Failed to create test user.');
     }
 
+    console.log('Indexing test library.');
     const res2 = await fetch(`${SERVER_URL}/dev/indexlib`, {
       method: 'POST',
     });
