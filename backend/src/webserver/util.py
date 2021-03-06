@@ -39,11 +39,17 @@ def check_auth(csrf=False):
             logger.debug("Attempting to authenticate request.")
 
             if _check_session_auth(csrf):
-                logger.debug("Successfully authenticated with session.")
+                logger.debug(
+                    "Successfully authenticated with session as "
+                    f"user {quart.g.user.id}."  # type: ignore
+                )
                 return await func(*args, **kwargs)
 
             if _check_token_auth():
-                logger.debug("Successfully authenticated with token.")
+                logger.debug(
+                    "Successfully authenticated with token as "
+                    f"user {quart.g.user.id}."  # type: ignore
+                )
                 return await func(*args, **kwargs)
 
             # Failed to authenticate, abort!
@@ -109,15 +115,18 @@ def _check_token_auth() -> bool:
     """
     token_str = _get_token(quart.request.headers)
     if token_str is None:
+        logger.debug("Failed to parse token.")
         return False
 
     try:
+        print(f"{token_str=}")
         token = bytes.fromhex(token_str)
     except ValueError:
+        logger.debug("Failed to deserialize token from bytes.")
         return False
 
     quart.g.user = user.from_token(token, quart.g.db)  # type: ignore
-    return bool(quart.g.user)
+    return quart.g.user is not None
 
 
 def _get_token(headers: Headers) -> Optional[str]:
