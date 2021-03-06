@@ -88,15 +88,19 @@ jobs:
         if: steps.cache-test-deps.outputs.cache-hit != 'true'
         run: yarn install
         working-directory: tests/
-      - name: Run e2e tests
+      - name: Spin up backend server
         run: |
           mkdir _data/
           printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > _data/config.ini
           cd backend/
           make debug &
-          cd ../frontend/
+      - name: Spin up frontend server
+        run: |
+          cd frontend/
           yarn wait-port -t 30000 5000
           yarn start &
-          cd ../tests/
+      - name: Run CodeceptJS tests
+        run: |
+          cd tests/
           yarn wait-port -t 30000 3000
           yarn codeceptjs run --steps
