@@ -49,13 +49,18 @@ jobs:
           path: |
             ~/.cache/pypoetry/virtualenvs
             tests/node_modules
-          key: ${{ runner.os }}-poetry-${{ hashFiles('**/backend/poetry.lock') }}-${{ hashFiles('**/tests/yarn.lock') }}
-      - name: Install Backend dependencies
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/backend/poetry.lock') }}-${{ hashFiles('**/yarn.lock') }}
+      - name: Install backend dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: |
           cd backend/
           poetry install
-      - name: Install Codecept dependencies
+      - name: Install frontend dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: |
+          cd frontend/
+          yarn install
+      - name: Install codecept dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: |
           cd tests/
@@ -64,5 +69,7 @@ jobs:
         run: |
           cd backend/
           QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" poetry run quart run &
+          cd ../frontend/
+          yarn start &
           cd ../tests/
           yarn codeceptjs run --steps
