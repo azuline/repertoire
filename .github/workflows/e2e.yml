@@ -1,0 +1,68 @@
+name: E2E
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  codecept:
+    name: Codecept
+    runs-on: ubuntu-latest
+    env:
+      LD_LIBRARY_PATH: /usr/local/lib
+      CI: true
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache SQLite
+        id: cache-sqlite
+        uses: actions/cache@v2
+        with:
+          path: /tmp/sqlite
+          key: ${{ runner.os }}-sqlite-2021-03-02
+      - name: Build SQLite
+        if: steps.cache-sqlite.outputs.cache-hit != 'true'
+        uses: ./.github/actions/build-sqlite
+      - name: Install SQLite
+        uses: ./.github/actions/install-sqlite
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9.1'
+      - name: Install Playwright
+        uses: microsoft/playwright-github-action@v1
+      - name: Cache poetry
+        id: cache-poetry
+        uses: actions/cache@v2
+        with:
+          path: ~/.poetry
+          key: ${{ runner.os }}-poetry-1.1.4
+      - name: Install poetry
+        if: steps.cache-poetry.outputs.cache-hit != 'true'
+        run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
+      - name: Configure environment
+        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - name: Cache dependencies
+        id: cache-deps
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/pypoetry/virtualenvs
+            tests/node_modules
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/backend/poetry.lock') }}-${{ hashFiles('**/tests/yarn.lock') }}
+      - name: Install Backend dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: |
+          cd backend/
+          poetry install
+      - name: Install Codecept dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: |
+          cd tests/
+          yarn install
+      - name: Run e2e tests
+        run: |
+          cd backend/
+          QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" poetry run quart run &
+          cd ../tests/
+          yarn codeceptjs run --steps
