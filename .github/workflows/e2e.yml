@@ -102,7 +102,7 @@ jobs:
         run: |
           cd tests/
           yarn wait-port -t 30000 3000
-          yarn codeceptjs run --steps
+          yarn headless
       - name: Upload test artifacts
         uses: actions/upload-artifact@v2
         with:
