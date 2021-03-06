@@ -6,9 +6,9 @@ Scenario('login step', ({ I }) => {
 
 Scenario('login failed', ({ I }) => {
   I.amOnPage('/');
-  I.waitForElement('input');
+  I.waitForElement('input', 3);
   I.fillField('Authorization token', '0101010101');
   I.click('Login');
-  I.waitForElement('.react-toast-notifications__toast');
+  I.waitForElement('.react-toast-notifications__toast', 3);
   I.see('Login failed.', { css: '.react-toast-notifications__toast' });
 });
