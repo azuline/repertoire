@@ -33,6 +33,15 @@ jobs:
           python-version: '3.9.1'
       - name: Install Playwright
         uses: microsoft/playwright-github-action@v1
+      - name: Cache test library
+        id: cache-library
+        uses: actions/cache@v2
+        with:
+          path: _testlib/
+          key: ${{ runner.os }}-test-library-2021-03-05
+      - name: Download test library
+        if: steps.cache-library.outputs.cache-hit != 'true'
+        run: wget -O - https://u.sunsetglow.net/f/5moSen8BU_c.tgz | tar -xzvf -
       - name: Cache poetry
         id: cache-poetry
         uses: actions/cache@v2
