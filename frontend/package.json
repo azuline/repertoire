@@ -2,6 +2,7 @@
   "name": "repertoire",
   "version": "0.2.0",
   "private": true,
+  "license": "AGPL-3.0",
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
