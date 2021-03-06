@@ -7,13 +7,14 @@ on:
     branches: [ master ]
 
 jobs:
-  codecept:
-    name: Codecept
+  test:
+    name: Test
     runs-on: ubuntu-latest
     env:
       CI: true
       DATA_PATH: ../_data
       LD_LIBRARY_PATH: /usr/local/lib
+      PLAYWRIGHT_BROWSERS_PATH: 0
     steps:
       - uses: actions/checkout@v2
       - name: Cache SQLite
@@ -63,6 +64,12 @@ jobs:
         if: steps.cache-backend-deps.outputs.cache-hit != 'true'
         run: poetry install
         working-directory: backend/
+      - name: Spin up backend server
+        run: |
+          mkdir _data/ output/
+          printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > _data/config.ini
+          cd backend/
+          make debug > ../output/backend.log 2>&1 &
       - name: Cache frontend dependencies
         id: cache-frontend-deps
         uses: actions/cache@v2
@@ -74,38 +81,32 @@ jobs:
         if: steps.cache-frontend-deps.outputs.cache-hit != 'true'
         run: yarn install
         working-directory: frontend/
-      - name: Cache codecept dependencies
-        id: cache-test-deps
-        uses: actions/cache@v2
-        with:
-          path: |
-            tests/node_modules/
-            ~/.cache/ms-playwright
-          key: ${{ runner.os }}-yarn-playwright-${{ hashFiles('**/tests/yarn.lock') }}
-          restore-keys: "${{ runner.os }}-yarn-playwright-"
-      - name: Install codecept dependencies
-        if: steps.cache-test-deps.outputs.cache-hit != 'true'
-        run: yarn install
-        working-directory: tests/
-      - name: Spin up backend server
-        run: |
-          mkdir -p _data/ tests/output/logs/
-          printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > _data/config.ini
-          cd backend/
-          make debug > ../tests/output/logs/backend.log 2>&1 &
       - name: Spin up frontend server
         run: |
           cd frontend/
           yarn wait-port -t 30000 5000
-          yarn start > ../tests/output/logs/frontend.log 2>&1 &
-      - name: Run CodeceptJS tests
+          # Get the backend indexer going... saves us time later.
+          curl -X POST http://localhost:5000/api/dev/indexlib &
+          yarn start > ../output/frontend.log 2>&1 &
+      - name: Cache testing dependencies
+        id: cache-test-deps
+        uses: actions/cache@v2
+        with:
+          path: tests/node_modules/
+          key: ${{ runner.os }}-yarn-playwright-${{ hashFiles('**/tests/yarn.lock') }}
+          restore-keys: "${{ runner.os }}-yarn-playwright-"
+      - name: Install testing dependencies
+        if: steps.cache-test-deps.outputs.cache-hit != 'true'
+        run: yarn install
+        working-directory: tests/
+      - name: Run e2e tests
         run: |
           cd tests/
           yarn wait-port -t 30000 3000
-          yarn headless
+          yarn test
       - name: Upload test artifacts
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: codeceptjs-output
-          path: tests/output/
+          name: e2e-output
+          path: output/

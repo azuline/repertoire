@@ -4,6 +4,16 @@ const httpProxy = require('http-proxy');
 const backendHost = process.env.BACKEND_HOST ?? 'localhost';
 const proxy = httpProxy.createServer({ target: `http://${backendHost}:5000` });
 
+proxy.on('err', (err, req, res) => {
+  res.writeHead(500, {
+    'Content-Type': 'text/plain',
+  });
+
+  res.end('An error occurred with the request.');
+
+  console.log(`Error ${err} on request ${req}.`);
+});
+
 module.exports = {
   extends: '@snowpack/app-scripts-react',
   alias: {

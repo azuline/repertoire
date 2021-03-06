@@ -24,7 +24,7 @@ export const Login: React.FC = () => {
       const { csrfToken } = await requestJson('/api/session', {
         body: JSON.stringify({ permanent: permanent.current.value === 'on' }),
         method: 'POST',
-        token: input.current.value,
+        token: input.current.value ?? '',
       });
 
       if (csrfToken) {
@@ -47,6 +47,7 @@ export const Login: React.FC = () => {
             <Input
               ref={input}
               autoFocus
+              id="auth-token"
               placeholder="Authorization token"
               tw="mr-6 max-width[600px] min-width[300px] width[50vw]"
             />
