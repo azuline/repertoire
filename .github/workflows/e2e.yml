@@ -7,8 +7,8 @@ on:
     branches: [ master ]
 
 jobs:
-  codecept:
-    name: Codecept
+  test:
+    name: Test
     runs-on: ubuntu-latest
     env:
       CI: true
