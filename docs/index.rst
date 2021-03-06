@@ -67,3 +67,4 @@ repertoire is licensed under the AGPL-3.0.
    hacking/development
    hacking/backend/index
    hacking/frontend/index
+   hacking/end_to_end

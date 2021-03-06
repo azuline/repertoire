@@ -46,9 +46,16 @@ reflected in the containers.
 
 The available services are:
 
-- Backend at ``127.0.0.1:5000``.
-- Frontend at ``127.0.0.1:3000``.
-- Storybook at ``127.0.0.1:6006``.
+- ``backend`` at ``127.0.0.1:5000``.
+- ``frontend`` at ``127.0.0.1:3000``.
+- ``storybook`` at ``127.0.0.1:6006``.
+
+If you only wish to run a subset of the services, you can pass the service
+names to the ``docker-compose up`` command, like so: ``$ docker-compose up
+backend frontend``.
+
+When the Dockerfile changes, containers will need to be rebuilt. This can be
+accomplished with the ``docker-compose build`` command.
 
 Running Commands
 ^^^^^^^^^^^^^^^^
