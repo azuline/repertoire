@@ -35,8 +35,8 @@ it('failed login', async () => {
   // Verify that we are on the correct site...
   expect(await page.title()).toBe('repertoire');
 
-  await page.fill('text=Authorization token', '44'.repeat(23));
+  await page.fill('#auth-token', '44'.repeat(23));
   await page.click('text=Login');
-  await page.isVisible(errorToastClassName);
+  await page.waitForSelector(errorToastClassName);
   await expect(page).toHaveText(errorToastClassName, 'failed');
 });

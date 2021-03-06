@@ -8,7 +8,7 @@ export const SERVER_URL = 'http://localhost:3000';
 // debug mode.
 export const prepareBackend = async () => {
   try {
-    const res1 = await fetch('http://localhost:3000/api/dev/testuser', {
+    const res1 = await fetch(`${SERVER_URL}/dev/testuser`, {
       method: 'POST',
     });
     if (res1.status !== 200) {
@@ -16,7 +16,7 @@ export const prepareBackend = async () => {
       throw new Error('Failed to create test user.');
     }
 
-    const res2 = await fetch('http://localhost:3000/api/dev/indexlib', {
+    const res2 = await fetch(`${SERVER_URL}/dev/indexlib`, {
       method: 'POST',
     });
     if (res2.status !== 200) {
@@ -36,8 +36,8 @@ export const login = async (page: Page) => {
   // Verify that we are on the correct site...
   expect(await page.title()).toBe('repertoire');
 
-  await page.fill('text=Authorization token', '00'.repeat(32));
+  await page.fill('#auth-token', '00'.repeat(32));
   await page.click('text=Login');
-  await page.isVisible(successfulToastClassName);
+  await page.waitForSelector(successfulToastClassName);
   await expect(page).toHaveText(successfulToastClassName, 'Success');
 };
