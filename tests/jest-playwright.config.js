@@ -8,6 +8,6 @@ module.exports = {
       height: 1080,
     },
   },
-  browsers: ['firefox', 'chromium', 'webkit'],
+  browsers: ['firefox', 'chromium'],
   devices: [],
 };
