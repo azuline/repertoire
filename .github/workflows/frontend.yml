@@ -95,5 +95,7 @@ jobs:
         run: yarn codegen
       - name: Diff
         run: git diff
+      - name: Status
+        run: git status
       - name: Compare
         run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'

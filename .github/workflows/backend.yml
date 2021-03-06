@@ -206,6 +206,8 @@ jobs:
         run: make schema
       - name: Diff
         run: git diff
+      - name: Status
+        run: git status
       - name: Compare
         run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'
   setup_files:
@@ -257,5 +259,7 @@ jobs:
         run: make setupfiles
       - name: Diff
         run: git diff
+      - name: Status
+        run: git status
       - name: Compare
         run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'
