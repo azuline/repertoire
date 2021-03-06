@@ -42,34 +42,43 @@ jobs:
         run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
       - name: Configure environment
         run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-      - name: Cache dependencies
-        id: cache-deps
+      - name: Cache backend dependencies
+        id: cache-backend-deps
         uses: actions/cache@v2
         with:
-          path: |
-            ~/.cache/pypoetry/virtualenvs
-            tests/node_modules
-          key: ${{ runner.os }}-poetry-${{ hashFiles('**/backend/poetry.lock') }}-${{ hashFiles('**/yarn.lock') }}
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/backend/poetry.lock') }}
       - name: Install backend dependencies
-        if: steps.cache-deps.outputs.cache-hit != 'true'
-        run: |
-          cd backend/
-          poetry install
+        if: steps.cache-backend-deps.outputs.cache-hit != 'true'
+        run: poetry install
+        working-directory: backend/
+      - name: Cache frontend dependencies
+        id: cache-frontend-deps
+        uses: actions/cache@v2
+        with:
+          path: frontend/node_modules/
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/frontend/yarn.lock') }}
       - name: Install frontend dependencies
-        if: steps.cache-deps.outputs.cache-hit != 'true'
-        run: |
-          cd frontend/
-          yarn install
+        if: steps.cache-frontend-deps.outputs.cache-hit != 'true'
+        run: yarn install
+        working-directory: frontend/
+      - name: Cache test dependencies
+        id: cache-test-deps
+        uses: actions/cache@v2
+        with:
+          path: tests/node_modules/
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/tests/yarn.lock') }}
       - name: Install codecept dependencies
-        if: steps.cache-deps.outputs.cache-hit != 'true'
-        run: |
-          cd tests/
-          yarn install
+        if: steps.cache-test-deps.outputs.cache-hit != 'true'
+        run: yarn install
+        working-directory: tests/
       - name: Run e2e tests
         run: |
           cd backend/
           QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" poetry run quart run &
           cd ../frontend/
+          yarn wait-port 5000
           yarn start &
           cd ../tests/
+          yarn wait-port 3000
           yarn codeceptjs run --steps
