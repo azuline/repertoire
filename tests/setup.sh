@@ -5,17 +5,16 @@
 # ASSUMPTIONS:
 # - A working frontend is available at localhost:3000.
 # - A working backend is available at localhost:5000.
-# - The data path is `../data`.
-# - The standard test library is in `../testlib`.
+# - The standard test library is in `../_testlib`.
 #
 # STEPS:
-# 1. Set the system's secret key to all 0s.
 # 1. Create a new admin user with tokens of all 0s.
-# 2. Index the testlib by invoking the backend indexer API endpoint (TODO).
+# 2. Index the testlib. (TODO).
+#
+# TODO: Do all these with backend API calls in the codecept setup... this
+# script is fucked by permissions.
 
 printf 'Inserting a tester user...'
-
-# TODO: try combining into one call?
 
 # Wipe the old tester user.
 sqlite3 ../data/db.sqlite3 <<EOF
