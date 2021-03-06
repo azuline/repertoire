@@ -83,7 +83,6 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/tests/yarn.lock') }}
           restore-key: "${{ runner.os }}-yarn-"
       - name: Install codecept dependencies
-        if: steps.cache-test-deps.outputs.cache-hit != 'true'
         run: yarn install
         working-directory: tests/
       - name: Run e2e tests
