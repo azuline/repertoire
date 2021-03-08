@@ -8,7 +8,9 @@ module.exports = {
     },
     project: './tsconfig.json',
   },
+  ignorePatterns: ['src/graphql/index.ts'],
   extends: [
+    'airbnb-typescript',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
@@ -29,6 +31,12 @@ module.exports = {
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',
     indent: ['error', 2, { SwitchCase: 1 }],
+    // Not dealing with a11y at the moment.
+    'jsx-a11y/alt-text': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
+    'jsx-a11y/no-autofocus': 'off',
     'linebreak-style': ['error', 'unix'],
     'max-len': ['warn', { code: 88, tabWidth: 2 }],
     'no-console': 'warn',

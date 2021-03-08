@@ -1,4 +1,5 @@
 /.eslintcache
+/src/index.css
 /node_modules
 /.pnp
 .pnp.js
