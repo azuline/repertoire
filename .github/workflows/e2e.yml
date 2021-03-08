@@ -59,16 +59,16 @@ jobs:
           path: ~/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/backend/poetry.lock') }}
           restore-keys: "${{ runner.os }}-poetry-"
+      - name: Install backend dependencies
+        if: steps.cache-backend-deps.outputs.cache-hit != 'true'
+        run: poetry install
+        working-directory: backend/
       - name: Spin up backend server
         run: |
           mkdir -p _data/ e2e_tests/output/logs/
           printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > _data/config.ini
           cd backend/
           make debug > ../e2e_tests/output/logs/backend.log 2>&1 &
-      - name: Install backend dependencies
-        if: steps.cache-backend-deps.outputs.cache-hit != 'true'
-        run: poetry install
-        working-directory: backend/
       - name: Cache frontend dependencies
         id: cache-frontend-deps
         uses: actions/cache@v2
