@@ -19,6 +19,7 @@ services:
     volumes:
       - ./backend:/app/backend
       - ./frontend:/app/frontend
+      - /app/frontend/node_modules/
       - ./_data:/data
       - ./_testlib:/music
   storybook:
@@ -29,5 +30,6 @@ services:
     volumes:
       - ./backend:/app/backend
       - ./frontend:/app/frontend
+      - /app/frontend/node_modules/
       - ./_data:/data
       - ./_testlib:/music
