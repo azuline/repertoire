@@ -119,6 +119,7 @@ def _check_token_auth() -> bool:
         return False
 
     try:
+        print(f"{token_str=}")
         token = bytes.fromhex(token_str)
     except ValueError:
         logger.debug("Failed to deserialize token from bytes.")
