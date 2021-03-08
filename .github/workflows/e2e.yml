@@ -7,8 +7,8 @@ on:
     branches: [ master ]
 
 jobs:
-  codecept:
-    name: Codecept
+  test:
+    name: Test
     runs-on: ubuntu-latest
     env:
       CI: true
@@ -59,6 +59,12 @@ jobs:
           path: ~/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/backend/poetry.lock') }}
           restore-keys: "${{ runner.os }}-poetry-"
+      - name: Spin up backend server
+        run: |
+          mkdir -p _data/ tests/output/logs/
+          printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > _data/config.ini
+          cd backend/
+          make debug > ../tests/output/logs/backend.log 2>&1 &
       - name: Install backend dependencies
         if: steps.cache-backend-deps.outputs.cache-hit != 'true'
         run: poetry install
@@ -74,7 +80,14 @@ jobs:
         if: steps.cache-frontend-deps.outputs.cache-hit != 'true'
         run: yarn install
         working-directory: frontend/
-      - name: Cache codecept dependencies
+      - name: Spin up frontend server
+        run: |
+          cd frontend/
+          yarn wait-port -t 30000 5000
+          # Get the backend indexer going... saves us time later.
+          curl -X POST http://localhost:5000/api/dev/indexlib &
+          yarn start > ../tests/output/logs/frontend.log 2>&1 &
+      - name: Cache e2e tests dependencies
         id: cache-test-deps
         uses: actions/cache@v2
         with:
@@ -83,22 +96,11 @@ jobs:
             ~/.cache/ms-playwright
           key: ${{ runner.os }}-yarn-playwright-${{ hashFiles('**/tests/yarn.lock') }}
           restore-keys: "${{ runner.os }}-yarn-playwright-"
-      - name: Install codecept dependencies
+      - name: Install e2e tests dependencies
         if: steps.cache-test-deps.outputs.cache-hit != 'true'
         run: yarn install
         working-directory: tests/
-      - name: Spin up backend server
-        run: |
-          mkdir -p _data/ tests/output/logs/
-          printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > _data/config.ini
-          cd backend/
-          make debug > ../tests/output/logs/backend.log 2>&1 &
-      - name: Spin up frontend server
-        run: |
-          cd frontend/
-          yarn wait-port -t 30000 5000
-          yarn start > ../tests/output/logs/frontend.log 2>&1 &
-      - name: Run CodeceptJS tests
+      - name: Run e2e tests
         run: |
           cd tests/
           yarn wait-port -t 30000 3000
