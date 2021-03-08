@@ -61,10 +61,10 @@ jobs:
           restore-keys: "${{ runner.os }}-poetry-"
       - name: Spin up backend server
         run: |
-          mkdir -p _data/ tests/output/logs/
+          mkdir -p _data/ e2e_tests/output/logs/
           printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > _data/config.ini
           cd backend/
-          make debug > ../tests/output/logs/backend.log 2>&1 &
+          make debug > ../e2e_tests/output/logs/backend.log 2>&1 &
       - name: Install backend dependencies
         if: steps.cache-backend-deps.outputs.cache-hit != 'true'
         run: poetry install
@@ -86,28 +86,28 @@ jobs:
           yarn wait-port -t 30000 5000
           # Get the backend indexer going... saves us time later.
           curl -X POST http://localhost:5000/api/dev/indexlib &
-          yarn start > ../tests/output/logs/frontend.log 2>&1 &
+          yarn start > ../e2e_tests/output/logs/frontend.log 2>&1 &
       - name: Cache e2e tests dependencies
         id: cache-test-deps
         uses: actions/cache@v2
         with:
           path: |
-            tests/node_modules/
+            e2e_tests/node_modules/
             ~/.cache/ms-playwright
-          key: ${{ runner.os }}-yarn-playwright-${{ hashFiles('**/tests/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-playwright-${{ hashFiles('**/e2e_tests/yarn.lock') }}
           restore-keys: "${{ runner.os }}-yarn-playwright-"
       - name: Install e2e tests dependencies
         if: steps.cache-test-deps.outputs.cache-hit != 'true'
         run: yarn install
-        working-directory: tests/
+        working-directory: e2e_tests/
       - name: Run e2e tests
         run: |
-          cd tests/
           yarn wait-port -t 30000 3000
           yarn headless
+        working-directory: e2e_tests/
       - name: Upload test artifacts
         if: always()
         uses: actions/upload-artifact@v2
         with:
           name: codeceptjs-output
-          path: tests/output/
+          path: e2e_tests/output/
