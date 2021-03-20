@@ -11,6 +11,7 @@ import { Metadata } from './Metadata';
 import { Mobile } from './Mobile';
 import { NowPlaying } from './NowPlaying';
 import { Playlists } from './Playlists';
+import { Register } from './Register';
 import { Release } from './Release';
 import { Releases } from './Releases';
 import { Settings } from './Settings';
@@ -40,6 +41,7 @@ export const Routes: React.FC = () => (
     <Route component={Playlists} path="/playlists" />
     <Route component={Metadata} path="/metadata" />
     <Route component={Settings} path="/settings" />
+    <Route component={Register} path="/register" />
     <Route component={NotFound} path="/" />
   </Switch>
 );

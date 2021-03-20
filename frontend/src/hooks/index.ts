@@ -1,4 +1,5 @@
 export * from './audio';
+export * from './hasFirstUser';
 export * from './id';
 export * from './pagination';
 export * from './persistentState';

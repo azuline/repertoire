@@ -1,18 +1,29 @@
 import * as React from 'react';
+import { useHistory } from 'react-router';
 import { useToasts } from 'react-toast-notifications';
 
 import { Button, Input } from '~/components';
 import { AuthorizationContext, ThemeContext } from '~/contexts';
-import { useRequestJson } from '~/hooks';
+import { useHasFirstUser, useRequestJson } from '~/hooks';
 
 export const Login: React.FC = () => {
+  const hasFirstUser = useHasFirstUser();
+  const history = useHistory();
+
+  if (!hasFirstUser) {
+    history.push('/register');
+  }
+
+  return <LoginPage />;
+};
+
+const LoginPage: React.FC = () => {
   const input = React.useRef<HTMLInputElement>(null);
   const permanent = React.useRef<HTMLInputElement>(null);
   const { setLoggedIn, setCsrf } = React.useContext(AuthorizationContext);
   const requestJson = useRequestJson<{ csrfToken: string }>();
   const { addToast } = useToasts();
   const { theme } = React.useContext(ThemeContext);
-
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
