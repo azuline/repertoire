@@ -261,7 +261,7 @@ def create(
     :param conn: A connection to the database.
     :param starred: Whether the playlist is starred or not.
     :param user_id: The ID of the user that this playlist belongs to. Should be set for
-                    Personal playlists; unset otherwise.
+                    Personal and System playlists; unset otherwise.
     :param override_immutable: Whether to allow creation of immutable playlists. For
                                internal use.
     :return: The newly created playlist.
@@ -273,12 +273,14 @@ def create(
     if type == PlaylistType.SYSTEM and not override_immutable:
         raise InvalidPlaylistType("Cannot create system playlists.")
 
-    if type == PlaylistType.PERSONAL and user_id is None:
-        raise InvalidArgument("Missing user_id argument for personal collections.")
-
-    if type != PlaylistType.PERSONAL and user_id is not None:
+    if type in [PlaylistType.PERSONAL, PlaylistType.SYSTEM] and user_id is None:
         raise InvalidArgument(
-            "The user_id argument can only be set for personal collections."
+            "Missing user_id argument for personal/system collection."
+        )
+
+    if type not in [PlaylistType.PERSONAL, PlaylistType.SYSTEM] and user_id is not None:
+        raise InvalidArgument(
+            "The user_id argument can only be set for personal/system collections."
         )
 
     if ply := from_name_and_type(name, type, conn):
@@ -305,7 +307,7 @@ def update(ply: T, conn: Connection, **changes) -> T:
     in as a keyword argument. To keep the original value, do not pass in a keyword
     argument.
 
-    **Note: The type of a playlist cannot be changed.**
+    **Note: The type and user_id of a playlist cannot be changed.**
 
     :param ply: The playlist to update.
     :param conn: A connection to the database.
