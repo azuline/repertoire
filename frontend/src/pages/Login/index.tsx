@@ -1,23 +1,13 @@
 import * as React from 'react';
-import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
+import tw from 'twin.macro';
 
 import { Button, Input } from '~/components';
 import { AuthorizationContext, ThemeContext } from '~/contexts';
-import { useHasFirstUser, useRequestJson } from '~/hooks';
+import { useRequestJson } from '~/hooks';
 
 export const Login: React.FC = () => {
-  const hasFirstUser = useHasFirstUser();
-  const history = useHistory();
-
-  if (!hasFirstUser) {
-    history.push('/register');
-  }
-
-  return <LoginPage />;
-};
-
-const LoginPage: React.FC = () => {
   const input = React.useRef<HTMLInputElement>(null);
   const permanent = React.useRef<HTMLInputElement>(null);
   const { setLoggedIn, setCsrf } = React.useContext(AuthorizationContext);
@@ -63,7 +53,12 @@ const LoginPage: React.FC = () => {
             />
             <Button type="submit">Login</Button>
           </div>
-          <div tw="flex items-center mt-2">
+          <div
+            css={[
+              tw`flex items-center mt-2`,
+              tw`max-width[600px] min-width[500px] width[50vw]`,
+            ]}
+          >
             <Input
               ref={permanent}
               id="permanent"
@@ -73,6 +68,9 @@ const LoginPage: React.FC = () => {
             <label htmlFor="permanent" tw="cursor-pointer">
               Remember me
             </label>
+            <Link to="/register" tw="text-primary-400 ml-auto">
+              Register
+            </Link>
           </div>
         </form>
       </div>
