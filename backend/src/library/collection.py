@@ -263,7 +263,7 @@ def create(
     :param conn: A connection to the database.
     :param starred: Whether the collection is starred or not.
     :param user_id: The ID of the user that this collection belongs to. Should be set
-                    for Personal collections; unset otherwise.
+                    for Personal and System collections; unset otherwise.
     :param override_immutable: Whether to allow creation of immutable collections. For
                                internal use.
     :return: The newly created collection.
@@ -275,12 +275,17 @@ def create(
     if type == CollectionType.SYSTEM and not override_immutable:
         raise InvalidCollectionType("Cannot create system collections.")
 
-    if type == CollectionType.PERSONAL and user_id is None:
-        raise InvalidArgument("Missing user_id argument for personal collections.")
-
-    if type != CollectionType.PERSONAL and user_id is not None:
+    if type in [CollectionType.PERSONAL, CollectionType.SYSTEM] and user_id is None:
         raise InvalidArgument(
-            "The user_id argument can only be set for personal collections."
+            "Missing user_id argument for personal/system collection."
+        )
+
+    if (
+        type not in [CollectionType.PERSONAL, CollectionType.SYSTEM]
+        and user_id is not None
+    ):
+        raise InvalidArgument(
+            "The user_id argument can only be set for personal/system collections."
         )
 
     if col := from_name_and_type(name, type, conn):
