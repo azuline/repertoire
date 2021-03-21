@@ -12,8 +12,8 @@ export const useHasFirstUser = (): boolean => {
 
   React.useEffect(() => {
     (async (): Promise<void> => {
-      const { hasFirstUser: x } = await requestJson('/api/has_first_user');
-      setHas(x);
+      const res = await requestJson('/api/register/has-first-user');
+      setHas(res.hasFirstUser);
     })();
   }, []);
 

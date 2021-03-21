@@ -15,13 +15,13 @@ async def test_has_first_user_successful(
     factory.user(conn=db)
     db.commit()
 
-    response = await quart_client.get("/api/has_first_user")
+    response = await quart_client.get("/api/register/has_first_user")
     data = json.loads(await response.get_data())
     assert data["hasFirstUser"]
 
 
 @pytest.mark.asyncio
 async def test_has_first_user_(quart_client):
-    response = await quart_client.get("/api/has_first_user")
+    response = await quart_client.get("/api/register/has_first_user")
     data = json.loads(await response.get_data())
     assert not data["hasFirstUser"]
