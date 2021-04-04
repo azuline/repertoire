@@ -33,7 +33,7 @@ async def test_register_first_user_failure(
 
 
 @pytest.mark.asyncio
-async def test_has_first_user(
+async def test_has_first_user_true(
     factory: Factory,
     db: Connection,
     quart_client,
@@ -47,7 +47,7 @@ async def test_has_first_user(
 
 
 @pytest.mark.asyncio
-async def test_has_first_user_failure(quart_client):
+async def test_has_first_user_false(quart_client):
     response = await quart_client.get("/api/register/has-first-user")
     data = json.loads(await response.get_data())
     assert not data["hasFirstUser"]
