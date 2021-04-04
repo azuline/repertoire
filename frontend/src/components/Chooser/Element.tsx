@@ -50,7 +50,7 @@ export const Element: IElementComponent = ({
           css={[
             tw`flex items-center h-8 pr-8 cursor-pointer md:pr-10 hover-bg`,
             starrable ? tw`pl-12 md:pl-14` : tw`pl-6 md:pl-8`,
-            isActive ? tw`font-bold text-primary-400` : tw`text-foreground`,
+            isActive ? tw`font-bold text-primary-400` : tw`text-foreground-50`,
           ]}
         >
           <div tw="min-w-0 truncate">{element.name}</div>

@@ -12,7 +12,7 @@ module.exports = {
     },
     extend: {
       colors: {
-        foreground: 'var(--color-foreground)',
+        'foreground-50': 'var(--color-foreground-50)',
         'foreground-100': 'var(--color-foreground-100)',
         'foreground-200': 'var(--color-foreground-200)',
         'foreground-300': 'var(--color-foreground-300)',
@@ -25,14 +25,6 @@ module.exports = {
         'primary-600': 'var(--color-primary-600)',
         'primary-700': 'var(--color-primary-700)',
         'primary-800': 'var(--color-primary-800)',
-        gold: {
-          400: '#daa520',
-          500: '#b78846',
-          600: '#a57a3f',
-          700: '#6e522a',
-          800: '#523d20',
-          900: '#372915',
-        },
       },
       backgroundOpacity: {
         7: '0.07',

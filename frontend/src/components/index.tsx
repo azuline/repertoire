@@ -5,6 +5,7 @@ export * from './common';
 export * from './Header';
 export * from './Image';
 export * from './Lists';
+export * from './loading';
 export * from './NowPlayingBar';
 export * from './Pagination';
 export * from './PlayButtons';

@@ -4,7 +4,7 @@ import tw from 'twin.macro';
 
 import { Background, NowPlayingBar, Sidebar } from '~/components';
 import { AuthorizationContext, GlobalContexts, ThemeContext } from '~/contexts';
-import { Login, Routes } from '~/pages';
+import { AuthedRoutes, UnauthedRoutes } from '~/pages';
 import { AppStyles } from '~/Styles';
 
 const App: React.FC = () => (
@@ -22,34 +22,38 @@ const Body: React.FC = () => {
   const { theme } = React.useContext(ThemeContext);
 
   return (
-    <div tw="w-full min-h-0 bg-background-700 text-foreground">
-      {loggedIn ? (
-        <div className={theme} tw="flex flex-col h-screen">
+    <div tw="w-full min-h-0 bg-background-700 text-foreground-50">
+      <div className={theme} tw="flex flex-col h-screen">
+        {loggedIn ? <AuthedBody /> : <UnauthedRoutes />}
+      </div>
+    </div>
+  );
+};
+
+const AuthedBody: React.FC = () => {
+  return (
+    <>
+      <div
+        css={[
+          tw`w-full height[calc(100% - 4rem)] min-height[calc(100% - 4rem)]`,
+          tw`flex flex-1`,
+        ]}
+      >
+        <Sidebar />
+        <div tw="full relative flex flex-col min-w-0">
+          <Background />
           <div
             css={[
-              tw`w-full height[calc(100% - 4rem)] min-height[calc(100% - 4rem)]`,
-              tw`flex flex-1`,
+              tw`full px-6 md:px-8`,
+              tw`relative flex flex-col min-h-0 overflow-y-auto`,
             ]}
           >
-            <Sidebar />
-            <div tw="full relative flex flex-col min-w-0">
-              <Background />
-              <div
-                css={[
-                  tw`full px-6 md:px-8`,
-                  tw`relative flex flex-col min-h-0 overflow-y-auto`,
-                ]}
-              >
-                <Routes />
-              </div>
-            </div>
+            <AuthedRoutes />
           </div>
-          <NowPlayingBar />
         </div>
-      ) : (
-        <Login />
-      )}
-    </div>
+      </div>
+      <NowPlayingBar />
+    </>
   );
 };
 

@@ -78,7 +78,7 @@ const CustomGenreList = styled(GenreList)`
       mr-1
       rounded
       bg-primary-700
-      text-foreground
+      text-foreground-50
       hover:bg-primary-600
       leading-9
     `}

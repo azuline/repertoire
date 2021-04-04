@@ -5,7 +5,9 @@ const backendHost = process.env.BACKEND_HOST ?? 'localhost';
 const proxy = httpProxy.createServer({ target: `http://${backendHost}:5000` });
 
 proxy.on('error', (_, __, res) => {
-  res.end('An error occurred with the request.');
+  res.writeHead(500);
+  res.write('An error occurred with the request.');
+  res.end();
 });
 
 module.exports = {

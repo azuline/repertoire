@@ -9,7 +9,7 @@ export const Button = styled.button<IProps>`
   ${tw`
     rounded 
     font-normal
-    text-foreground
+    text-foreground-50
     bg-primary-700 
     hover:bg-primary-600 
   `}

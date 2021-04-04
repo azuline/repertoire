@@ -5,7 +5,7 @@ import { Disclist, Header, Image } from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { IRelease, useReleaseFetchReleaseQuery } from '~/graphql';
 import { useId } from '~/hooks';
-import { ErrorPage } from '~/pages';
+import { AuthenticatedError } from '~/pages';
 import { filterNulls } from '~/util';
 
 import { InCollages } from './InCollages';
@@ -40,7 +40,7 @@ const Release: IReleaseComponent = ({ id }) => {
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);
-    return <ErrorPage errors={errors} title="Could not fetch release." />;
+    return <AuthenticatedError errors={errors} title="Could not fetch release." />;
   }
 
   return (
