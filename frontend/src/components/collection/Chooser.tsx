@@ -52,9 +52,9 @@ export const CollectionChooser: ICollectionChooser = ({
     ? results.filter((col) => col.numReleases !== 0)
     : results;
 
-  if (collections.length === 0){
+  if (collections.length === 0) {
     return <div>No {emptyString} :(</div>;
-  } 
+  }
 
   return (
     <Chooser

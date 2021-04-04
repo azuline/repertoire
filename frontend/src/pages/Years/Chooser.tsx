@@ -18,9 +18,9 @@ export const YearChooser: IYearChooser = ({ active, className }) => {
       .map((year) => ({ id: year, name: `${year}` })) || [];
 
   if (elements.length === 0) {
-    return <div>No years :(</div>; 
+    return <div>No years :(</div>;
   }
-  
+
   return (
     <Chooser
       active={active}

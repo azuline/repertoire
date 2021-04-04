@@ -19,9 +19,9 @@ export const Genres: React.FC = () => {
           filterEmpty
           active={active}
           collectionTypes={types}
+          emptyString="genres"
           tw="flex-none"
           urlPrefix="/genres"
-          emptyString="genres"
         />
         {active !== null && <Genre active={active} />}
       </div>
