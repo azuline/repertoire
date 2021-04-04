@@ -20,6 +20,7 @@ export const Collages: React.FC = () => {
           collectionTypes={types}
           tw="flex-none"
           urlPrefix="/collages"
+          emptyString="collages"
         />
         {active !== null && <Collage active={active} />}
       </div>
