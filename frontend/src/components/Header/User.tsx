@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
+import { useHistory } from 'react-router';
 import { useToasts } from 'react-toast-notifications';
 
 import { Icon, Link } from '~/components/common';
@@ -14,12 +15,14 @@ export const User: IUserComponent = ({ className }) => {
   const { addToast } = useToasts();
   const { data } = useHeaderFetchUserQuery();
   const request = useRequest();
+  const history = useHistory();
 
   const logout = async (): Promise<void> => {
     await request('/api/session', { method: 'DELETE' });
 
     addToast('Logged out!', { appearance: 'success' });
     setLoggedIn(false);
+    history.push('/');
   };
 
   return (
