@@ -82,6 +82,14 @@ tests``.
 
 A list of developer commands can be found at :ref:`development_commands`.
 
+Updating
+^^^^^^^^
+
+Whenever the container image or application dependencies are updated, the image
+must be rebuilt.
+
+Rebuild and bring the new containers up with ``docker-compose up --build``.
+
 Non-Docker
 ----------
 

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
+import tw from 'twin.macro';
 
 import { Button, Input } from '~/components';
-import { AuthorizationContext, ThemeContext } from '~/contexts';
+import { AuthorizationContext } from '~/contexts';
 import { useRequestJson } from '~/hooks';
 
 export const Login: React.FC = () => {
@@ -11,7 +12,6 @@ export const Login: React.FC = () => {
   const { setLoggedIn, setCsrf } = React.useContext(AuthorizationContext);
   const requestJson = useRequestJson<{ csrfToken: string }>();
   const { addToast } = useToasts();
-  const { theme } = React.useContext(ThemeContext);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
@@ -40,31 +40,34 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className={theme}>
-      <div tw="flex content-center h-screen w-full items-center">
-        <form tw="self-center mx-auto" onSubmit={onSubmit}>
-          <div>
-            <Input
-              ref={input}
-              autoFocus
-              placeholder="Authorization token"
-              tw="mr-6 max-width[600px] min-width[300px] width[50vw]"
-            />
-            <Button type="submit">Login</Button>
-          </div>
-          <div tw="flex items-center mt-2">
-            <Input
-              ref={permanent}
-              id="permanent"
-              tw="mx-2 cursor-pointer"
-              type="checkbox"
-            />
-            <label htmlFor="permanent" tw="cursor-pointer">
-              Remember me
-            </label>
-          </div>
-        </form>
-      </div>
+    <div tw="flex content-center full items-center">
+      <form tw="self-center mx-auto" onSubmit={onSubmit}>
+        <div>
+          <Input
+            ref={input}
+            autoFocus
+            placeholder="Authorization token"
+            tw="mr-6 max-width[600px] min-width[300px] width[50vw]"
+          />
+          <Button type="submit">Login</Button>
+        </div>
+        <div
+          css={[
+            tw`flex items-center mt-2`,
+            tw`max-width[600px] min-width[500px] width[50vw]`,
+          ]}
+        >
+          <Input
+            ref={permanent}
+            id="permanent"
+            tw="mx-2 cursor-pointer"
+            type="checkbox"
+          />
+          <label htmlFor="permanent" tw="cursor-pointer">
+            Remember me
+          </label>
+        </div>
+      </form>
     </div>
   );
 };

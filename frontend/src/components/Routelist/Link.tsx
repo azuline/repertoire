@@ -17,7 +17,7 @@ export const NavLink: INavLink = ({ url, label, activeRoute }) => {
       <Link href={url} tw="hidden sm:block">
         <div
           css={[
-            tw`text-sm cursor-pointer text-foreground border-l-4 pl-7 pr-8 py-2`,
+            tw`text-sm cursor-pointer text-foreground-50 border-l-4 pl-7 pr-8 py-2`,
             active
               ? tw`border-l-4 border-primary-500 bg-white bg-opacity-7`
               : tw`border-transparent hover-bg`,
@@ -27,7 +27,7 @@ export const NavLink: INavLink = ({ url, label, activeRoute }) => {
         </div>
       </Link>
       <Link href={url} tw="block sm:hidden">
-        <div tw="px-6 py-2 cursor-pointer md:px-8 text-foreground hover-bg">
+        <div tw="px-6 py-2 cursor-pointer md:px-8 text-foreground-50 hover-bg">
           {label}
         </div>
       </Link>

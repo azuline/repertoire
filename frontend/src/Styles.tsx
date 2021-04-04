@@ -1,5 +1,7 @@
 import { styled } from 'twin.macro';
 
+import { colors } from '~/colors';
+
 export const AppStyles = styled.div`
   --lh: 1.4rem;
   line-height: var(--lh);
@@ -11,19 +13,19 @@ export const AppStyles = styled.div`
 
   --color-gray-500: #6b7280; /* coolGray-500 */
 
-  --color-foreground: #f9fafb;
-  --color-foreground-100: #f3f4f6;
-  --color-foreground-200: #e5e7eb;
-  --color-foreground-300: #d1d5db;
-  --color-foreground-400: #9ca3af;
-  --color-background-700: #101013;
-  --color-background-800: #18181d;
-  --color-background-900: #1b1b21;
-  --color-primary-400: #daa520;
-  --color-primary-500: #a47b40;
-  --color-primary-600: #96703a;
-  --color-primary-700: #6e522a;
-  --color-primary-800: #523d20;
+  --color-foreground-50: ${colors.foreground[50]};
+  --color-foreground-100: ${colors.foreground[100]};
+  --color-foreground-200: ${colors.foreground[200]};
+  --color-foreground-300: ${colors.foreground[300]};
+  --color-foreground-400: ${colors.foreground[400]};
+  --color-background-700: ${colors.background[700]};
+  --color-background-800: ${colors.background[800]};
+  --color-background-900: ${colors.background[900]};
+  --color-primary-400: ${colors.primary[400]};
+  --color-primary-500: ${colors.primary[500]};
+  --color-primary-600: ${colors.primary[600]};
+  --color-primary-700: ${colors.primary[700]};
+  --color-primary-800: ${colors.primary[800]};
 
   /* Style scrollbars. */
 
