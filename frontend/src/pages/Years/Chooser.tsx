@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 import * as React from 'react';
 
 import { Chooser } from '~/components';
+import { NoChooserOption } from '~/components/NoChooserOption';
 import { useYearsFetchReleaseYearsQuery } from '~/graphql';
 
 type IYearChooser = React.FC<{
@@ -16,6 +17,10 @@ export const YearChooser: IYearChooser = ({ active, className }) => {
     data?.releaseYears
       ?.filter((year): year is number => year !== null)
       .map((year) => ({ id: year, name: `${year}` })) || [];
+
+  if (elements.length === 0) {
+    return <NoChooserOption>No years :(</NoChooserOption>;
+  }
 
   return (
     <Chooser

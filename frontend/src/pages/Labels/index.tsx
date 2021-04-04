@@ -19,6 +19,7 @@ export const Labels: React.FC = () => {
           filterEmpty
           active={active}
           collectionTypes={types}
+          emptyString="labels"
           tw="flex-none"
           urlPrefix="/labels"
         />

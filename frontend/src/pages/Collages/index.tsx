@@ -18,6 +18,7 @@ export const Collages: React.FC = () => {
         <CollectionChooser
           active={active}
           collectionTypes={types}
+          emptyString="collages"
           tw="flex-none"
           urlPrefix="/collages"
         />

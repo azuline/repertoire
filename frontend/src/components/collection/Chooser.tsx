@@ -9,11 +9,14 @@ import {
   useCollectionChooserUpdateCollectionStarredMutation,
 } from '~/graphql';
 
+import { NoChooserOption } from '../NoChooserOption';
+
 type ICollectionChooser = React.FC<{
   collectionTypes: ICollectionType[];
   urlPrefix: string;
   active: number | null;
   className?: string;
+  emptyString: string;
   filterEmpty?: boolean;
 }>;
 
@@ -22,6 +25,7 @@ export const CollectionChooser: ICollectionChooser = ({
   urlPrefix,
   active,
   className,
+  emptyString,
   filterEmpty = false,
 }) => {
   const { data, error, loading } = useCollectionChooserFetchCollectionsQuery({
@@ -49,6 +53,10 @@ export const CollectionChooser: ICollectionChooser = ({
   const collections = filterEmpty
     ? results.filter((col) => col.numReleases !== 0)
     : results;
+
+  if (collections.length === 0) {
+    return <NoChooserOption>No {emptyString} :(</NoChooserOption>;
+  }
 
   return (
     <Chooser

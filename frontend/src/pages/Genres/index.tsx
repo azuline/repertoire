@@ -19,6 +19,7 @@ export const Genres: React.FC = () => {
           filterEmpty
           active={active}
           collectionTypes={types}
+          emptyString="genres"
           tw="flex-none"
           urlPrefix="/genres"
         />
