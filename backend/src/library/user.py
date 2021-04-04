@@ -55,7 +55,7 @@ def from_row(row: Union[dict, Row]) -> T:
 
 def from_id(id: int, conn: Connection) -> Optional[T]:
     """
-    Get a user tuple from the user's ID.
+    Get a user dataclass from the user's ID.
 
     :param id: The ID of the user to get.
     :param conn: A connection to the database.
@@ -76,7 +76,7 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
 
 def from_nickname(nickname: str, conn: Connection) -> Optional[T]:
     """
-    Get a user tuple from the user's nickname.
+    Get a user dataclass from the user's nickname.
 
     :param nickname: The nickname of the user to get.
     :param conn: A connection to the database.
@@ -97,7 +97,7 @@ def from_nickname(nickname: str, conn: Connection) -> Optional[T]:
 
 def from_token(token: bytes, conn: Connection) -> Optional[T]:
     """
-    Get a user tuple from the user's token. The returned user is necessarily
+    Get a user dataclass from the user's token. The returned user is necessarily
     authenticated.
 
     How it works: We store a unique prefix of each user's token and match on that.

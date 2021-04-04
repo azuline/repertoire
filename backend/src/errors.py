@@ -38,6 +38,10 @@ class TokenGenerationFailure(LibError):
     pass
 
 
+class CodeGenerationFailure(LibError):
+    pass
+
+
 class InvalidCollectionType(LibError):
     pass
 
