@@ -50,6 +50,7 @@ export const Login: React.FC = () => {
           <Input
             ref={input}
             autoFocus
+            className="token"
             placeholder="Authorization token"
             tw="mr-6 max-width[600px] min-width[300px] width[50vw]"
           />
