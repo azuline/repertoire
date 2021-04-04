@@ -10,6 +10,7 @@ from src.enums import ArtistRole, CollectionType, PlaylistType, ReleaseType
 from src.library import artist as libartist
 from src.library import collection as libcollection
 from src.library import image as libimage
+from src.library import invite as libinvite
 from src.library import playlist as libplaylist
 from src.library import playlist_entry as libpentry
 from src.library import release as librelease
@@ -63,6 +64,17 @@ class Factory:
             shutil.copyfile(FAKE_COVER, path)
 
         return libimage.create(path=path, conn=conn)
+
+    def invite(
+        self,
+        *,
+        conn: Connection,
+        by_user: Optional[libuser.T] = None,
+    ) -> libinvite.T:
+        if by_user is None:
+            by_user, _ = self.user(conn=conn)
+
+        return libinvite.create(by_user=by_user, conn=conn)
 
     def mock_image(
         self,

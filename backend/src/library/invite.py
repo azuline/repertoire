@@ -1,14 +1,15 @@
 from __future__ import annotations
-from datetime import datetime
 
 import logging
 import secrets
 from dataclasses import dataclass
+from datetime import datetime
 from sqlite3 import Connection, Row
 from typing import Optional, Union
 
 from src.errors import CodeGenerationFailure
 from src.util import update_dataclass
+
 from . import user
 
 INVITE_LENGTH = 32
