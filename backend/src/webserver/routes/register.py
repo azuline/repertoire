@@ -1,12 +1,11 @@
 import logging
 
-from voluptuous import Required, Schema
-from src.webserver.util import validate_data
-
 import quart
 from quart import Blueprint, Response
+from voluptuous import Required, Schema
 
 from src.library import user
+from src.webserver.util import validate_data
 
 bp = Blueprint("register", __name__, url_prefix="/api/register")
 

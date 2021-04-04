@@ -3,8 +3,8 @@ from sqlite3 import Connection
 
 import pytest
 
-from tests.factory import Factory
 from src.library import user
+from tests.factory import Factory
 
 
 @pytest.mark.asyncio
