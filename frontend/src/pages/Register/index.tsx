@@ -6,7 +6,11 @@ import { useRequestJson } from '~/hooks';
 
 import { Success } from './Success';
 
-export const Register: React.FC = () => {
+type IRegister = React.FC<{
+  onSuccess: () => void;
+}>;
+
+export const Register: IRegister = ({ onSuccess }) => {
   const input = React.useRef<HTMLInputElement>(null);
   const requestJson = useRequestJson<{ token: string }>();
   const { addToast } = useToasts();
@@ -38,7 +42,9 @@ export const Register: React.FC = () => {
   };
 
   if (input.current !== null && newToken !== undefined) {
-    return <Success nickname={input.current.value} token={newToken} />;
+    return (
+      <Success nickname={input.current.value} token={newToken} onSuccess={onSuccess} />
+    );
   }
 
   // At the moment, this only supports the initial admin registration. Soon, we will

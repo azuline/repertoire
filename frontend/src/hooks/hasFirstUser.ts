@@ -10,6 +10,7 @@ type IReturn = {
   hasFirstUser: boolean;
   loading: boolean;
   error: boolean;
+  refetch: () => Promise<void>;
 };
 
 export const useHasFirstUser = (): IReturn => {
@@ -18,18 +19,20 @@ export const useHasFirstUser = (): IReturn => {
   const [error, setError] = React.useState<boolean>(false);
   const requestJson = useRequestJson<IResponse>();
 
+  const fetchHasFirstUser = async (): Promise<void> => {
+    try {
+      const res = await requestJson('/api/register/has-first-user');
+      setHasFirstUser(res.hasFirstUser);
+      setLoading(false);
+    } catch {
+      setLoading(false);
+      setError(true);
+    }
+  };
+
   React.useEffect(() => {
-    (async (): Promise<void> => {
-      try {
-        const res = await requestJson('/api/register/has-first-user');
-        setHasFirstUser(res.hasFirstUser);
-        setLoading(false);
-      } catch {
-        setLoading(false);
-        setError(true);
-      }
-    })();
+    fetchHasFirstUser();
   }, []);
 
-  return { error, hasFirstUser, loading };
+  return { error, hasFirstUser, loading, refetch: fetchHasFirstUser };
 };

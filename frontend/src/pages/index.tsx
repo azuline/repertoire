@@ -51,7 +51,7 @@ export const AuthedRoutes: React.FC = () => {
 };
 
 export const UnauthedRoutes: React.FC = () => {
-  const { hasFirstUser, loading, error } = useHasFirstUser();
+  const { hasFirstUser, loading, error, refetch } = useHasFirstUser();
 
   if (loading) {
     return <FullPageLoading />;
@@ -64,7 +64,7 @@ export const UnauthedRoutes: React.FC = () => {
   }
 
   if (!hasFirstUser) {
-    return <Register />;
+    return <Register onSuccess={refetch} />;
   }
 
   // Don't allow manual routing to the register route right now. But we will soon, so

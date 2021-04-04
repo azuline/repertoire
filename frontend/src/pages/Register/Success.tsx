@@ -6,12 +6,14 @@ import { Button } from '~/components';
 type ISuccess = {
   nickname: string;
   token: string;
+  onSuccess: () => void;
 };
 
-export const Success: React.FC<ISuccess> = ({ nickname, token }) => {
+export const Success: React.FC<ISuccess> = ({ nickname, token, onSuccess }) => {
   const history = useHistory();
 
   const onClick = (): void => {
+    onSuccess();
     history.push('/login');
   };
 

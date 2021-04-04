@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useHistory } from 'react-router';
 import { useToasts } from 'react-toast-notifications';
 import tw from 'twin.macro';
 
@@ -9,6 +10,8 @@ import { useRequestJson } from '~/hooks';
 export const Login: React.FC = () => {
   const input = React.useRef<HTMLInputElement>(null);
   const permanent = React.useRef<HTMLInputElement>(null);
+
+  const history = useHistory();
   const { setLoggedIn, setCsrf } = React.useContext(AuthorizationContext);
   const requestJson = useRequestJson<{ csrfToken: string }>();
   const { addToast } = useToasts();
@@ -31,6 +34,7 @@ export const Login: React.FC = () => {
         addToast('Successfully logged in.', { appearance: 'success' });
         setCsrf(csrfToken);
         setLoggedIn(true);
+        history.push('/');
       } else {
         throw new Error('Invalid authorization token.');
       }
