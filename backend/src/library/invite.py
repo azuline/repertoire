@@ -28,7 +28,7 @@ class T:
     code: bytes
     #: The ID of the user the invite was created by.
     created_by: int
-    #:
+    #: The date the invite was created. Invites are only valid for 24 hours.
     created_at: datetime
     #: The ID of the user that used the invite.
     used_by: Optional[int]
