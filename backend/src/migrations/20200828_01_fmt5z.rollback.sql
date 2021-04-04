@@ -16,6 +16,7 @@ DROP TABLE music__playlist_types__enum;
 DROP TABLE music__playlists_tracks;
 DROP TABLE images;
 DROP TABLE system__users;
+DROP TABLE system__invites;
 DROP TABLE system__secret_key;
 
 DROP VIEW music__releases__fts_content;

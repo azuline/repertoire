@@ -205,6 +205,18 @@ CREATE TABLE system__users (
     UNIQUE (token_prefix)
 );
 
+CREATE TABLE system__invites (
+    id INTEGER NOT NULL,
+    code BLOB NOT NULL,
+    created_by INTEGER,
+    created_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+    used_by INTEGER,
+    PRIMARY KEY (id),
+    FOREIGN KEY (created_by) REFERENCES system__users(id) ON DELETE SET NULL,
+    FOREIGN KEY (used_by) REFERENCES system__users(id) ON DELETE SET NULL,
+    UNIQUE (code)
+);
+
 CREATE TABLE system__secret_key (
     key BLOB NOT NULL,
     PRIMARY KEY (key)
