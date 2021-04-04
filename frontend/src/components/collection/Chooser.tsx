@@ -9,6 +9,8 @@ import {
   useCollectionChooserUpdateCollectionStarredMutation,
 } from '~/graphql';
 
+import { NoChooserOption } from '../NoChooserOption';
+
 type ICollectionChooser = React.FC<{
   collectionTypes: ICollectionType[];
   urlPrefix: string;
@@ -53,7 +55,7 @@ export const CollectionChooser: ICollectionChooser = ({
     : results;
 
   if (collections.length === 0) {
-    return <div>No {emptyString} :(</div>;
+    return <NoChooserOption>No {emptyString} :(</NoChooserOption>;
   }
 
   return (
