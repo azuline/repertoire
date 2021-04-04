@@ -36,12 +36,12 @@ def _get_data_path() -> Path:
         data_path.mkdir(exist_ok=True)
     except (FileNotFoundError, OSError):
         click.echo(
-            "Make sure that `{data_path.parent}` is a directory and is writeable."
+            f"Make sure that `{data_path.parent}` is a directory and is writeable."
         )
         exit(1)
 
     if not os.path.isdir(data_path) or not os.access(data_path, os.W_OK):
-        click.echo("Make sure that `{data_path}` is a directory and is writeable.")
+        click.echo(f"Make sure that `{data_path}` is a directory and is writeable.")
         exit(1)
 
     return data_path
