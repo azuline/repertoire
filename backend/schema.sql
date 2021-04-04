@@ -175,12 +175,11 @@ CREATE TABLE system__users (
 CREATE TABLE system__invites (
     id INTEGER NOT NULL,
     code BLOB NOT NULL,
-    created_by INTEGER,
+    created_by INTEGER NOT NULL,
     created_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
     used_by INTEGER,
     PRIMARY KEY (id),
-    FOREIGN KEY (created_by) REFERENCES system__users(id) ON DELETE SET NULL,
-    FOREIGN KEY (used_by) REFERENCES system__users(id) ON DELETE SET NULL,
+    FOREIGN KEY (used_by) REFERENCES system__users(id),
     UNIQUE (code)
 );
 
