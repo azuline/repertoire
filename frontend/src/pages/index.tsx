@@ -6,7 +6,7 @@ import { useHasFirstUser } from '~/hooks';
 
 import { Artists } from './Artists';
 import { Collages } from './Collages';
-import { NotFound } from './Error';
+import { NotFound, UnauthenticatedError } from './Error';
 import { Explore } from './Explore';
 import { Genres } from './Genres';
 import { Labels } from './Labels';
@@ -51,10 +51,16 @@ export const AuthedRoutes: React.FC = () => {
 };
 
 export const UnauthedRoutes: React.FC = () => {
-  const { hasFirstUser, loading } = useHasFirstUser();
+  const { hasFirstUser, loading, error } = useHasFirstUser();
 
   if (loading) {
     return <FullPageLoading />;
+  }
+
+  if (error) {
+    return (
+      <UnauthenticatedError title="Unable to reach server. Please try again later." />
+    );
   }
 
   if (!hasFirstUser) {

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { CollectionReleases, Header, SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { useLabelFetchLabelQuery } from '~/graphql';
-import { ErrorPage } from '~/pages';
+import { AuthenticatedError } from '~/pages';
 
 type ILabel = React.FC<{ active: number }>;
 
@@ -25,7 +25,7 @@ export const Label: ILabel = ({ active }) => {
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);
-    return <ErrorPage errors={errors} title="Could not fetch label." />;
+    return <AuthenticatedError errors={errors} title="Could not fetch label." />;
   }
 
   if (!collection) {

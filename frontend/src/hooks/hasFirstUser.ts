@@ -9,20 +9,27 @@ type IResponse = {
 type IReturn = {
   hasFirstUser: boolean;
   loading: boolean;
+  error: boolean;
 };
 
 export const useHasFirstUser = (): IReturn => {
   const [hasFirstUser, setHasFirstUser] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(true);
+  const [error, setError] = React.useState<boolean>(false);
   const requestJson = useRequestJson<IResponse>();
 
   React.useEffect(() => {
     (async (): Promise<void> => {
-      const res = await requestJson('/api/register/has-first-user');
-      setHasFirstUser(res.hasFirstUser);
-      setLoading(false);
+      try {
+        const res = await requestJson('/api/register/has-first-user');
+        setHasFirstUser(res.hasFirstUser);
+        setLoading(false);
+      } catch {
+        setLoading(false);
+        setError(true);
+      }
     })();
   }, []);
 
-  return { hasFirstUser, loading };
+  return { error, hasFirstUser, loading };
 };
