@@ -55,9 +55,6 @@ To install and run repertoire, reference the following commands:
    $ nano docker-compose.yml
    # Start the webserver.
    $ docker-compose up -d
-   # Generate an authentication token for the admin user. Remember it!
-   # `repertoire_server_1` should be replaced with your container name.
-   $ docker exec -it repertoire_server_1 repertoire token
 
 Example ``docker-compose.yml``:
 
@@ -116,7 +113,6 @@ Installation with Poetry has the following steps:
    :ref:`configuration` for information regarding the configuration options.
 #. Configure the backend with ``$ repertoire config``.
 #. Compile the frontend in ``frontend/`` with ``$ yarn build``.
-#. Generate an authentication token with ``$ repertoire token``.
 #. Index your music library with ``$ repertoire index``.
 #. Run with ``$ repertoire start``!
 
@@ -139,7 +135,6 @@ Or, as a set of shell commands:
    $ yarn build              # Build the frontend.
    $ cd ..
    $ repertoire index        # Index your music library.
-   $ repertoire token        # Remember this token! It is used for authentication.
    $ repertoire start        # Start the server!
 
 .. _installation_virtualenv:
@@ -177,7 +172,6 @@ Installation with Pip & Virtualenv has the following steps:
 #. Install backend with ``$ pip install -e .``.
 #. Configure the backend with ``$ repertoire config``.
 #. Compile the frontend in ``frontend/`` with ``$ yarn build``.
-#. Generate an authentication token with ``$ repertoire token``.
 #. Index your music library with ``$ repertoire index``.
 #. Run with ``$ repertoire start``!
 
@@ -201,7 +195,6 @@ Or, as a set of shell commands:
    $ yarn build                # Build the frontend.
    $ cd ..
    $ repertoire index          # Index your music library.
-   $ repertoire token          # Remember this token! It is used for authentication.
    $ repertoire start          # Start the server!
 
 .. _installation_py_js:

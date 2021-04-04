@@ -121,8 +121,6 @@ After installing Poetry:
    ``.env`` such that ``DATA_PATH=../_data``.
 #. Configure the backend with ``$ repertoire config``. Set the value of the
    ``music_directories`` key to ``["../_testlib"]``.
-#. Generate an authentication token with ``$ repertoire token``. Remember this
-   token; you will use it to log in while developing.
 #. Index the test library with ``$ repertoire index``.
 #. Run the debug backend webserver with ``$ make debug``.
 
@@ -136,7 +134,6 @@ Or, as a set of shell commands:
    $ cp .env.sample .env
    $ nano .env             # Set `DATA_PATH=../_data` on the first line.
    $ repertoire config     # Set `music_directories = ["../_testlib"]`.
-   $ repertoire token      # Remember this token!
    $ repertoire index      # Index the test library.
    $ QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" quart run
 
