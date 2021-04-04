@@ -36,8 +36,15 @@ https://github.com/azuline/repertoire.git`` is still an option though.
 Docker
 ------
 
+To install docker, see https://docs.docker.com/engine/install/.
+
 The Docker setup uses Docker Compose to manage the containers. See
 https://docs.docker.com/compose/install/ for installation instructions.
+
+.. note::
+
+   We require docker-compose version 1.28 or higher. Check your current version
+   with ``$ docker-compose --version``.
 
 In the project root directory (``repertoire/``), run ``$ docker-compose up``.
 This will build and start the backend and frontend in containers. The

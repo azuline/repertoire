@@ -1,7 +1,7 @@
 # This docker-compose file is for local development. For a production
 # docker-compose file, refer to the documentation's Installation page.
 
-version: '3'
+version: "3"
 
 services:
   backend:
@@ -33,3 +33,5 @@ services:
       - /app/frontend/node_modules/
       - ./_data:/data
       - ./_testlib:/music
+    profiles:
+      - extra

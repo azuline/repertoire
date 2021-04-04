@@ -3,6 +3,9 @@
 Installation
 ============
 
+This document covers installing repertoire for a production environment. To
+install repertoire for development, see :ref:`development`.
+
 This document assumes at least basic familiarity with the shell. At the moment,
 all installation options require the shell.
 
@@ -14,12 +17,10 @@ There are three installation options:
 
 Choose whichever is right for you! If you do not know which option to choose, I
 recommend :ref:`installation_docker`. The other options are primarily intended
-for developers.
+for power users.
 
-.. note::
-
-   Regardless of which installation option is chosen, repertoire will run on
-   port 45731. You should be able to access it via ``http://127.0.0.1:45731``.
+Regardless of which installation option is chosen, repertoire will run on port
+45731. You should be able to access it via ``http://127.0.0.1:45731``.
 
 .. note::
 
@@ -41,7 +42,9 @@ for developers.
 Docker
 ------
 
-You will need Docker and Docker Compose installed.
+You will need Docker and Docker Compose installed. See
+https://docs.docker.com/engine/install/ and
+https://docs.docker.com/compose/install/.
 
 To install and run repertoire, reference the following commands:
 
