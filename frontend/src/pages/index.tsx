@@ -61,9 +61,11 @@ export const UnauthedRoutes: React.FC = () => {
     return <Register />;
   }
 
+  // Don't allow manual routing to the register route right now. But we will soon, so
+  // it's commented.
   return (
     <Switch>
-      <Route component={Register} path="/register" />
+      {/* <Route component={Register} path="/register" /> */}
       <Route component={Login} path="/login" />
       <Route component={Login} path="/" />
     </Switch>
