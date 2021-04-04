@@ -21,6 +21,7 @@ export const Labels: React.FC = () => {
           collectionTypes={types}
           tw="flex-none"
           urlPrefix="/labels"
+          emptyString="labels"
         />
         {active !== null && <Label active={active} />}
       </div>

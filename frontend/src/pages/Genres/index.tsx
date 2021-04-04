@@ -21,6 +21,7 @@ export const Genres: React.FC = () => {
           collectionTypes={types}
           tw="flex-none"
           urlPrefix="/genres"
+          emptyString="genres"
         />
         {active !== null && <Genre active={active} />}
       </div>

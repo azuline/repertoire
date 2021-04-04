@@ -17,6 +17,10 @@ export const YearChooser: IYearChooser = ({ active, className }) => {
       ?.filter((year): year is number => year !== null)
       .map((year) => ({ id: year, name: `${year}` })) || [];
 
+  if (elements.length === 0) {
+    return <div>No years :(</div>; 
+  }
+  
   return (
     <Chooser
       active={active}
