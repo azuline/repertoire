@@ -1,4 +1,11 @@
 __pycache__
 /docs/
-/data/
-/testlib/
+/_data/
+/_testlib/
+/backend/.env
+/backend/htmlcov
+/backend/*.egg-info
+/frontend/node_modules
+/frontend/build
+/frontend/coverage
+/e2e_tests
