@@ -63,7 +63,7 @@ jobs:
         if: steps.cache-frontend-deps.outputs.cache-hit != 'true'
         run: yarn install
         working-directory: frontend/
-      - name: Build frontend server
+      - name: Build static frontend
         run: yarn build
         working-directory: frontend/
       - name: Cache backend dependencies
