@@ -45,8 +45,6 @@ export const AuthedRoutes: React.FC = () => {
       <Route component={Playlists} path="/playlists" />
       <Route component={Metadata} path="/metadata" />
       <Route component={Settings} path="/settings" />
-      {/* We have this manual /login route to make testing easier. */}
-      <Route component={Login} path="/login" />
       <Route component={NotFound} path="/" />
     </Switch>
   );
