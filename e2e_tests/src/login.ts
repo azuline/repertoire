@@ -5,7 +5,7 @@ Scenario('login step', ({ I }) => {
 });
 
 Scenario('login failed', ({ I }) => {
-  I.amOnPage('/');
+  I.amOnPage('/login');
   I.waitForElement('input.token');
   I.fillField('Authorization token', '0101010101');
   I.click('Login');
