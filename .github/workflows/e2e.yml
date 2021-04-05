@@ -52,6 +52,20 @@ jobs:
         run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
       - name: Configure environment
         run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - name: Cache frontend dependencies
+        id: cache-frontend-deps
+        uses: actions/cache@v2
+        with:
+          path: frontend/node_modules/
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/frontend/yarn.lock') }}
+          restore-keys: "${{ runner.os }}-yarn-"
+      - name: Install frontend dependencies
+        if: steps.cache-frontend-deps.outputs.cache-hit != 'true'
+        run: yarn install
+        working-directory: frontend/
+      - name: Build frontend server
+        run: yarn build
+        working-directory: frontend/
       - name: Cache backend dependencies
         id: cache-backend-deps
         uses: actions/cache@v2
@@ -68,25 +82,7 @@ jobs:
           mkdir -p _data/ e2e_tests/output/logs/
           printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > _data/config.ini
           cd backend/
-          make debug > ../e2e_tests/output/logs/backend.log 2>&1 &
-      - name: Cache frontend dependencies
-        id: cache-frontend-deps
-        uses: actions/cache@v2
-        with:
-          path: frontend/node_modules/
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/frontend/yarn.lock') }}
-          restore-keys: "${{ runner.os }}-yarn-"
-      - name: Install frontend dependencies
-        if: steps.cache-frontend-deps.outputs.cache-hit != 'true'
-        run: yarn install
-        working-directory: frontend/
-      - name: Spin up frontend server
-        run: |
-          cd frontend/
-          yarn wait-port -t 30000 5000
-          # Get the backend indexer going... saves us time later.
-          curl -X POST http://localhost:5000/api/dev/indexlib &
-          yarn start > ../e2e_tests/output/logs/frontend.log 2>&1 &
+          poetry run repertoire start > ../e2e_tests/output/logs/backend.log 2>&1 &
       - name: Cache e2e tests dependencies
         id: cache-test-deps
         uses: actions/cache@v2
