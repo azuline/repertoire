@@ -8,7 +8,7 @@
     "build": "snowpack build",
     "test": "jest",
     "testcov": "jest --coverage --coverageDirectory='coverage'",
-    "lint": "eslint src/ --ext .ts,.tsx --fix",
+    "lint": "eslint src/ --ext .ts,.tsx --fix --cache",
     "codegen": "graphql-codegen --config codegen.yml",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"

@@ -64,8 +64,15 @@ frontend_data = {
         run: yarn tsc
         """,
     "Lint check": """
+      - name: Cache eslint cache
+        id: cache-eslint
+        uses: actions/cache@v2
+        with:
+          path: frontend/.eslintcache
+          key: "${{ runner.os }}-eslint-${{ github.sha }}"
+          restore-keys: "${{ runner.os }}-eslint-"
       - name: Run lint check
-        run: yarn eslint src/ --ext .ts,.tsx --max-warnings=0
+        run: yarn eslint src/ --ext .ts,.tsx --cache --max-warnings=0
         """,
     "GraphQL Codegen": """
       - name: Run codegen
