@@ -32,9 +32,13 @@ export type IQuery = {
   collection: Maybe<ICollection>;
   /** Fetch a collection by name and type. */
   collectionFromNameAndType: Maybe<ICollection>;
+  /** Fetch invites. */
+  invites: Maybe<IInvites>;
+  /** Fetch invites by ID. */
+  invite: Maybe<IInvite>;
   /** Search playlists. */
   playlists: Maybe<IPlaylists>;
-  /** Fetch a playlist by id. */
+  /** Fetch a playlist by ID. */
   playlist: Maybe<IPlaylist>;
   /** Fetch a playlist by name and type. */
   playlistFromNameAndType: Maybe<IPlaylist>;
@@ -84,6 +88,18 @@ export type IQueryCollectionArgs = {
 export type IQueryCollectionFromNameAndTypeArgs = {
   name: Scalars['String'];
   type: ICollectionType;
+};
+
+
+export type IQueryInvitesArgs = {
+  createdByUserId: Scalars['Int'];
+  page: Maybe<Scalars['Int']>;
+  perPage: Maybe<Scalars['Int']>;
+};
+
+
+export type IQueryInviteArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -156,6 +172,7 @@ export type IMutation = {
   updateCollection: Maybe<ICollection>;
   addReleaseToCollection: Maybe<ICollectionAndRelease>;
   delReleaseFromCollection: Maybe<ICollectionAndRelease>;
+  createInvite: Maybe<IInvite>;
   createPlaylist: Maybe<IPlaylist>;
   updatePlaylist: Maybe<IPlaylist>;
   createPlaylistEntry: Maybe<IPlaylistEntry>;
@@ -350,6 +367,24 @@ export type ICollections = {
   total: Scalars['Int'];
   /** The collections on the current page. */
   results: Array<Maybe<ICollection>>;
+};
+
+export type IInvite = {
+  __typename?: 'Invite';
+  id: Scalars['Int'];
+  /** Hex encoded invite code. */
+  code: Scalars['String'];
+  createdBy: IUser;
+  createdAt: Scalars['PosixTime'];
+  usedBy: Maybe<IUser>;
+};
+
+export type IInvites = {
+  __typename?: 'Invites';
+  /** The total number of invites matching the query across all pages. */
+  total: Scalars['Int'];
+  /** The invites on the current page. */
+  results: Array<Maybe<IInvite>>;
 };
 
 export type IPlaylist = {
@@ -2228,7 +2263,7 @@ export function useYearsFetchReleaseYearsLazyQuery(baseOptions?: Apollo.LazyQuer
 export type YearsFetchReleaseYearsQueryHookResult = ReturnType<typeof useYearsFetchReleaseYearsQuery>;
 export type YearsFetchReleaseYearsLazyQueryHookResult = ReturnType<typeof useYearsFetchReleaseYearsLazyQuery>;
 export type YearsFetchReleaseYearsQueryResult = Apollo.QueryResult<IYearsFetchReleaseYearsQuery, IYearsFetchReleaseYearsQueryVariables>;
-export type QueryKeySpecifier = ('user' | 'artists' | 'artist' | 'artistFromName' | 'collections' | 'collection' | 'collectionFromNameAndType' | 'playlists' | 'playlist' | 'playlistFromNameAndType' | 'releases' | 'release' | 'tracks' | 'track' | 'releaseYears' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('user' | 'artists' | 'artist' | 'artistFromName' | 'collections' | 'collection' | 'collectionFromNameAndType' | 'invites' | 'invite' | 'playlists' | 'playlist' | 'playlistFromNameAndType' | 'releases' | 'release' | 'tracks' | 'track' | 'releaseYears' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	artists?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2237,6 +2272,8 @@ export type QueryFieldPolicy = {
 	collections?: FieldPolicy<any> | FieldReadFunction<any>,
 	collection?: FieldPolicy<any> | FieldReadFunction<any>,
 	collectionFromNameAndType?: FieldPolicy<any> | FieldReadFunction<any>,
+	invites?: FieldPolicy<any> | FieldReadFunction<any>,
+	invite?: FieldPolicy<any> | FieldReadFunction<any>,
 	playlists?: FieldPolicy<any> | FieldReadFunction<any>,
 	playlist?: FieldPolicy<any> | FieldReadFunction<any>,
 	playlistFromNameAndType?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2246,7 +2283,7 @@ export type QueryFieldPolicy = {
 	track?: FieldPolicy<any> | FieldReadFunction<any>,
 	releaseYears?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('updateUser' | 'newToken' | 'createArtist' | 'updateArtist' | 'createCollection' | 'updateCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createPlaylist' | 'updatePlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'delPlaylistEntries' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('updateUser' | 'newToken' | 'createArtist' | 'updateArtist' | 'createCollection' | 'updateCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createInvite' | 'createPlaylist' | 'updatePlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'delPlaylistEntries' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	updateUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	newToken?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2256,6 +2293,7 @@ export type MutationFieldPolicy = {
 	updateCollection?: FieldPolicy<any> | FieldReadFunction<any>,
 	addReleaseToCollection?: FieldPolicy<any> | FieldReadFunction<any>,
 	delReleaseFromCollection?: FieldPolicy<any> | FieldReadFunction<any>,
+	createInvite?: FieldPolicy<any> | FieldReadFunction<any>,
 	createPlaylist?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatePlaylist?: FieldPolicy<any> | FieldReadFunction<any>,
 	createPlaylistEntry?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2299,6 +2337,19 @@ export type CollectionFieldPolicy = {
 };
 export type CollectionsKeySpecifier = ('total' | 'results' | CollectionsKeySpecifier)[];
 export type CollectionsFieldPolicy = {
+	total?: FieldPolicy<any> | FieldReadFunction<any>,
+	results?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type InviteKeySpecifier = ('id' | 'code' | 'createdBy' | 'createdAt' | 'usedBy' | InviteKeySpecifier)[];
+export type InviteFieldPolicy = {
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	code?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdBy?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	usedBy?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type InvitesKeySpecifier = ('total' | 'results' | InvitesKeySpecifier)[];
+export type InvitesFieldPolicy = {
 	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -2433,6 +2484,14 @@ export type TypedTypePolicies = TypePolicies & {
 	Collections?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CollectionsKeySpecifier | (() => undefined | CollectionsKeySpecifier),
 		fields?: CollectionsFieldPolicy,
+	},
+	Invite?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | InviteKeySpecifier | (() => undefined | InviteKeySpecifier),
+		fields?: InviteFieldPolicy,
+	},
+	Invites?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | InvitesKeySpecifier | (() => undefined | InvitesKeySpecifier),
+		fields?: InvitesFieldPolicy,
 	},
 	Playlist?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | PlaylistKeySpecifier | (() => undefined | PlaylistKeySpecifier),
