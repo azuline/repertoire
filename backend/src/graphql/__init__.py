@@ -23,6 +23,7 @@ from src.graphql.query import query
 from src.graphql.scalars import posix_time_scalar
 from src.graphql.types.artist import gql_artist, gql_artists
 from src.graphql.types.collection import gql_collection, gql_collections
+from src.graphql.types.invite import gql_invite, gql_invites
 from src.graphql.types.playlist import gql_playlist, gql_playlists
 from src.graphql.types.playlist_entry import gql_pentry
 from src.graphql.types.release import gql_release, gql_releases
@@ -42,9 +43,11 @@ resolvers = [
     gql_artists,
     gql_collection,
     gql_collections,
+    gql_invite,
+    gql_invites,
+    gql_pentry,
     gql_playlist,
     gql_playlists,
-    gql_pentry,
     gql_release,
     gql_releases,
     gql_token,
