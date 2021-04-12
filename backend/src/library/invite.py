@@ -82,7 +82,7 @@ def from_code(code: bytes, conn: Connection) -> Optional[T]:
 
 def search(
     conn: Connection,
-    created_by: Optional[int],
+    created_by: Optional[int] = None,
     page: int = 1,
     per_page: Optional[int] = None,
 ) -> list[T]:
@@ -107,8 +107,8 @@ def search(
         SELECT *
         FROM system__invites
         {"WHERE " + " AND ".join(filters) if filters else ""}
-        ORDER BY created_at
         GROUP BY id
+        ORDER BY created_at
         {"LIMIT ? OFFSET ?" if per_page else ""}
         """,
         params,
@@ -120,7 +120,7 @@ def search(
 
 def count(
     conn: Connection,
-    created_by: Optional[int],
+    created_by: Optional[int] = None,
 ) -> int:
     """
     Fetch the number of invites matching the passed-in criteria. Parameters are
