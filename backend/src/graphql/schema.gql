@@ -55,7 +55,7 @@ type Query {
 
   "Fetch invites."
   invites(
-    createdByUserId: Int!
+    createdByUserId: Int
     "Which page of invites to return."
     page: Int
     """
