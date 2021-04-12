@@ -92,7 +92,7 @@ export type IQueryCollectionFromNameAndTypeArgs = {
 
 
 export type IQueryInvitesArgs = {
-  createdByUserId: Scalars['Int'];
+  createdByUserId: Maybe<Scalars['Int']>;
   page: Maybe<Scalars['Int']>;
   perPage: Maybe<Scalars['Int']>;
 };
@@ -721,6 +721,18 @@ export type ICollectionFieldsFragment = (
   & Pick<ICollection, 'id' | 'name' | 'starred' | 'type' | 'numReleases' | 'lastUpdatedOn' | 'imageId'>
 );
 
+export type IInviteFieldsFragment = (
+  { __typename?: 'Invite' }
+  & Pick<IInvite, 'id' | 'code' | 'createdAt'>
+  & { createdBy: (
+    { __typename?: 'User' }
+    & IUserFieldsFragment
+  ), usedBy: Maybe<(
+    { __typename?: 'User' }
+    & IUserFieldsFragment
+  )> }
+);
+
 export type IPlaylistFieldsFragment = (
   { __typename?: 'Playlist' }
   & Pick<IPlaylist, 'id' | 'name' | 'starred' | 'type' | 'numTracks' | 'lastUpdatedOn' | 'imageId'>
@@ -848,6 +860,32 @@ export type IGenresFetchGenreQuery = (
   & { collection: Maybe<(
     { __typename?: 'Collection' }
     & ICollectionFieldsFragment
+  )> }
+);
+
+export type IInvitesFetchInvitesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IInvitesFetchInvitesQuery = (
+  { __typename?: 'Query' }
+  & { invites: Maybe<(
+    { __typename?: 'Invites' }
+    & Pick<IInvites, 'total'>
+    & { results: Array<Maybe<(
+      { __typename?: 'Invite' }
+      & IInviteFieldsFragment
+    )>> }
+  )> }
+);
+
+export type IInvitesCreateInviteMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IInvitesCreateInviteMutation = (
+  { __typename?: 'Mutation' }
+  & { createInvite: Maybe<(
+    { __typename?: 'Invite' }
+    & IInviteFieldsFragment
   )> }
 );
 
@@ -1120,12 +1158,6 @@ export type IYearsFetchReleaseYearsQuery = (
   & Pick<IQuery, 'releaseYears'>
 );
 
-export const UserFieldsFragmentDoc = gql`
-    fragment UserFields on User {
-  id
-  nickname
-}
-    `;
 export const ArtistFieldsFragmentDoc = gql`
     fragment ArtistFields on Artist {
   id
@@ -1146,6 +1178,25 @@ export const CollectionFieldsFragmentDoc = gql`
   imageId
 }
     `;
+export const UserFieldsFragmentDoc = gql`
+    fragment UserFields on User {
+  id
+  nickname
+}
+    `;
+export const InviteFieldsFragmentDoc = gql`
+    fragment InviteFields on Invite {
+  id
+  code
+  createdBy {
+    ...UserFields
+  }
+  createdAt
+  usedBy {
+    ...UserFields
+  }
+}
+    ${UserFieldsFragmentDoc}`;
 export const PlaylistFieldsFragmentDoc = gql`
     fragment PlaylistFields on Playlist {
   id
@@ -1678,6 +1729,72 @@ export function useGenresFetchGenreLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GenresFetchGenreQueryHookResult = ReturnType<typeof useGenresFetchGenreQuery>;
 export type GenresFetchGenreLazyQueryHookResult = ReturnType<typeof useGenresFetchGenreLazyQuery>;
 export type GenresFetchGenreQueryResult = Apollo.QueryResult<IGenresFetchGenreQuery, IGenresFetchGenreQueryVariables>;
+export const InvitesFetchInvitesDocument = gql`
+    query InvitesFetchInvites {
+  invites {
+    total
+    results {
+      ...InviteFields
+    }
+  }
+}
+    ${InviteFieldsFragmentDoc}`;
+
+/**
+ * __useInvitesFetchInvitesQuery__
+ *
+ * To run a query within a React component, call `useInvitesFetchInvitesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useInvitesFetchInvitesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useInvitesFetchInvitesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useInvitesFetchInvitesQuery(baseOptions?: Apollo.QueryHookOptions<IInvitesFetchInvitesQuery, IInvitesFetchInvitesQueryVariables>) {
+        return Apollo.useQuery<IInvitesFetchInvitesQuery, IInvitesFetchInvitesQueryVariables>(InvitesFetchInvitesDocument, baseOptions);
+      }
+export function useInvitesFetchInvitesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IInvitesFetchInvitesQuery, IInvitesFetchInvitesQueryVariables>) {
+          return Apollo.useLazyQuery<IInvitesFetchInvitesQuery, IInvitesFetchInvitesQueryVariables>(InvitesFetchInvitesDocument, baseOptions);
+        }
+export type InvitesFetchInvitesQueryHookResult = ReturnType<typeof useInvitesFetchInvitesQuery>;
+export type InvitesFetchInvitesLazyQueryHookResult = ReturnType<typeof useInvitesFetchInvitesLazyQuery>;
+export type InvitesFetchInvitesQueryResult = Apollo.QueryResult<IInvitesFetchInvitesQuery, IInvitesFetchInvitesQueryVariables>;
+export const InvitesCreateInviteDocument = gql`
+    mutation InvitesCreateInvite {
+  createInvite {
+    ...InviteFields
+  }
+}
+    ${InviteFieldsFragmentDoc}`;
+export type IInvitesCreateInviteMutationFn = Apollo.MutationFunction<IInvitesCreateInviteMutation, IInvitesCreateInviteMutationVariables>;
+
+/**
+ * __useInvitesCreateInviteMutation__
+ *
+ * To run a mutation, you first call `useInvitesCreateInviteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInvitesCreateInviteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [invitesCreateInviteMutation, { data, loading, error }] = useInvitesCreateInviteMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useInvitesCreateInviteMutation(baseOptions?: Apollo.MutationHookOptions<IInvitesCreateInviteMutation, IInvitesCreateInviteMutationVariables>) {
+        return Apollo.useMutation<IInvitesCreateInviteMutation, IInvitesCreateInviteMutationVariables>(InvitesCreateInviteDocument, baseOptions);
+      }
+export type InvitesCreateInviteMutationHookResult = ReturnType<typeof useInvitesCreateInviteMutation>;
+export type InvitesCreateInviteMutationResult = Apollo.MutationResult<IInvitesCreateInviteMutation>;
+export type InvitesCreateInviteMutationOptions = Apollo.BaseMutationOptions<IInvitesCreateInviteMutation, IInvitesCreateInviteMutationVariables>;
 export const LabelFetchLabelDocument = gql`
     query LabelFetchLabel($id: Int!) {
   collection(id: $id) {

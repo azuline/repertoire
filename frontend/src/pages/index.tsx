@@ -9,6 +9,7 @@ import { Collages } from './Collages';
 import { NotFound, UnauthenticatedError } from './Error';
 import { Explore } from './Explore';
 import { Genres } from './Genres';
+import { Invites } from './Invites';
 import { Labels } from './Labels';
 import { Login } from './Login';
 import { Metadata } from './Metadata';
@@ -43,6 +44,7 @@ export const AuthedRoutes: React.FC = () => {
       <Route component={Collages} path="/collages" />
       <Route component={Playlists} path="/playlists/:id" />
       <Route component={Playlists} path="/playlists" />
+      <Route component={Invites} path="/invites" />
       <Route component={Metadata} path="/metadata" />
       <Route component={Settings} path="/settings" />
       <Route component={NotFound} path="/" />

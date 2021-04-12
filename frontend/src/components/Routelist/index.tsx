@@ -31,6 +31,10 @@ const sections = [
       { exact: false, label: 'Playlists', path: '/playlists' },
     ],
   },
+  {
+    name: 'Admin',
+    routes: [{ exact: false, label: 'Invites', path: '/invites' }],
+  },
 ];
 
 export const RouteList: React.FC = () => {
