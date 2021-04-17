@@ -90,3 +90,39 @@ async def has_first_user() -> Response:
     :status 200: Response
     """
     return quart.jsonify({"hasFirstUser": user.exists(1, quart.g.db)})
+
+
+@bp.route("/validate-invite", methods=["GET"])
+@validate_data(
+    Schema(
+        {
+            Required("inviteCode"): str,
+        }
+    )
+)
+async def validate_code(inviteCode: str) -> Response:
+    """
+    Check whether an invite code is valid or not.
+
+    Returns the invite's status as the response body. The response has the following
+    format:
+
+    .. code-block:: json
+
+       {
+         "valid": False
+       }
+
+    :query inviteCode: The hex-encoded invite code to check.
+
+    :status 200: Successfully determined invite code status.
+    """
+    try:
+        invite_code = bytes.fromhex(inviteCode)
+    except ValueError:
+        logger.debug("Failed to deserialize token from bytes.")
+        return quart.jsonify({"valid": False})
+
+    return quart.jsonify(
+        {"valid": invite.from_code(invite_code, quart.g.db) is not None}
+    )

@@ -103,3 +103,26 @@ async def test_has_first_user_false(quart_client):
     response = await quart_client.get("/api/register/has-first-user")
     data = json.loads(await response.get_data())
     assert not data["hasFirstUser"]
+
+
+@pytest.mark.asyncio
+async def test_validate_invite_true(db: Connection, factory: Factory, quart_client):
+    inv = factory.invite(conn=db)
+    db.commit()
+
+    response = await quart_client.get(
+        "/api/register/validate-invite",
+        query_string={"inviteCode": inv.code.hex()},
+    )
+    data = json.loads(await response.get_data())
+    assert data["valid"]
+
+
+@pytest.mark.asyncio
+async def test_validate_invite_false(quart_client):
+    response = await quart_client.get(
+        "/api/register/validate-invite",
+        query_string={"inviteCode": "0000"},
+    )
+    data = json.loads(await response.get_data())
+    assert not data["valid"]
