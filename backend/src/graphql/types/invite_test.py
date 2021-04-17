@@ -16,6 +16,11 @@ async def test_invite(graphql_query, snapshot):
     """
     success, data = await graphql_query(query)
     assert success is True
+
+    # Code is nondeterministic.
+    assert len(data["data"]["invite"]["code"]) == 64
+    del data["data"]["invite"]["code"]
+
     snapshot.assert_match(data)
 
 
@@ -47,6 +52,12 @@ async def test_invites(graphql_query, snapshot):
     """
     success, data = await graphql_query(query)
     assert success is True
+
+    # Code is nondeterministic.
+    for inv in data["data"]["invites"]["results"]:
+        assert len(inv["code"]) == 64
+        del inv["code"]
+
     snapshot.assert_match(data)
 
 
@@ -54,7 +65,7 @@ async def test_invites(graphql_query, snapshot):
 async def test_invites_filter(graphql_query, snapshot):
     query = """
         query {
-            invites(search: "Invite1", createdByUserId: 1) {
+            invites(createdBy: 1) {
                 total
                 results {
                     ...InviteFields
@@ -64,6 +75,12 @@ async def test_invites_filter(graphql_query, snapshot):
     """
     success, data = await graphql_query(query)
     assert success is True
+
+    # Code is nondeterministic.
+    for inv in data["data"]["invites"]["results"]:
+        assert len(inv["code"]) == 64
+        del inv["code"]
+
     snapshot.assert_match(data)
 
 
@@ -81,6 +98,12 @@ async def test_invites_pagination(graphql_query, snapshot):
     """
     success, data = await graphql_query(query)
     assert success is True
+
+    # Code is nondeterministic.
+    for inv in data["data"]["invites"]["results"]:
+        assert len(inv["code"]) == 64
+        del inv["code"]
+
     snapshot.assert_match(data)
 
 
@@ -95,8 +118,14 @@ async def test_create_invite(db: Connection, graphql_query, snapshot):
     """
     success, data = await graphql_query(query)
     assert success is True
+
+    code = bytes.fromhex(data["data"]["createInvite"]["code"])
+    del data["data"]["createInvite"]["code"]
     snapshot.assert_match(data)
 
-    inv = invite.from_id(data["data"]["createInvite"]["id"], db)
+    inv = invite.from_code(code, db)
     assert inv is not None
     assert inv.created_by == 1
+
+    inv_from_id = invite.from_id(data["data"]["createInvite"]["id"], db)
+    assert inv == inv_from_id
