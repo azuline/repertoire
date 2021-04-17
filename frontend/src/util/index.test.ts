@@ -1,4 +1,4 @@
-import { filterNulls, secondsToLength, stringNumberCompare } from '~/util';
+import { filterNulls, secondsToLength, stringNumberCompare } from './index';
 
 it('filter nulls', () => {
   const xs = [1, 2, null, 4, 5, null];

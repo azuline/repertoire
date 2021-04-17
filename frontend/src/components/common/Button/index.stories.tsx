@@ -1,7 +1,7 @@
 import type { Meta, Story } from '@storybook/react';
 import * as React from 'react';
 
-import { Button } from '~/components';
+import { Button } from './index';
 
 export default {
   component: Button,
@@ -12,7 +12,7 @@ export default {
       },
     },
   },
-  title: 'Common/Button',
+  title: 'Porcelain/Button',
 } as Meta;
 
 type IButtonProps = React.ComponentProps<typeof Button> & { as?: string };
