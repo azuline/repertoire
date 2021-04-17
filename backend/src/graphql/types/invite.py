@@ -15,7 +15,7 @@ gql_invites = ObjectType("Invites")
 
 
 @query.field("invite")
-def resolve_invite(obj: Any, info: GraphQLResolveInfo, id: int) -> invite.T:
+def resolve_invite(_: Any, info: GraphQLResolveInfo, id: int) -> invite.T:
     if inv := invite.from_id(id, info.context.db):
         return inv
 
@@ -23,7 +23,7 @@ def resolve_invite(obj: Any, info: GraphQLResolveInfo, id: int) -> invite.T:
 
 
 @query.field("invites")
-def resolve_invites(obj: Any, info: GraphQLResolveInfo, **kwargs) -> dict:
+def resolve_invites(_: Any, info: GraphQLResolveInfo, **kwargs) -> dict:
     kwargs = convert_keys_case(kwargs)
     return {
         "results": invite.search(info.context.db, **kwargs),
@@ -32,7 +32,7 @@ def resolve_invites(obj: Any, info: GraphQLResolveInfo, **kwargs) -> dict:
 
 
 @gql_invite.field("code")
-def resolve_releases(obj: invite.T, info: GraphQLResolveInfo) -> str:
+def resolve_releases(obj: invite.T, _: GraphQLResolveInfo) -> str:
     return obj.code.hex()
 
 
