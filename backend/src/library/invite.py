@@ -84,6 +84,7 @@ def search(
     conn: Connection,
     created_by: Optional[int] = None,
     include_expired: bool = False,
+    include_used: bool = False,
     page: int = 1,
     per_page: Optional[int] = None,
 ) -> list[T]:
@@ -94,12 +95,13 @@ def search(
     :param conn: A connection to the database.
     :param created_by: The user that created the invite.
     :param include_expired: Whether to include expired invites.
+    :param include_used: Whether to include used invites.
     :param page: Which page of invites to return.
     :param per_page: The number of invites per page. Pass ``None`` to return all
                      invites (this will ignore ``page``).
     :return: All matching invites.
     """
-    filters, params = _generate_filters(created_by, include_expired)
+    filters, params = _generate_filters(created_by, include_expired, include_used)
 
     if per_page:
         params.extend([per_page, (page - 1) * per_page])
@@ -124,6 +126,7 @@ def count(
     conn: Connection,
     created_by: Optional[int] = None,
     include_expired: bool = False,
+    include_used: bool = False,
 ) -> int:
     """
     Fetch the number of invites matching the passed-in criteria. Parameters are
@@ -132,9 +135,10 @@ def count(
     :param conn: A connection to the database.
     :param created_by: The user that created the invite.
     :param include_expired: Whether to include expired invites.
+    :param include_used: Whether to include used invites.
     :return: The number of matching invites.
     """
-    filters, params = _generate_filters(created_by, include_expired)
+    filters, params = _generate_filters(created_by, include_expired, include_used)
 
     cursor = conn.execute(
         f"""
@@ -153,6 +157,7 @@ def count(
 def _generate_filters(
     created_by: Optional[int],
     include_expired: bool,
+    include_used: bool,
 ) -> tuple[list[str], list[int]]:
     filters, params = [], []
 
@@ -162,6 +167,9 @@ def _generate_filters(
 
     if not include_expired:
         filters.append("created_at > DATETIME(CURRENT_TIMESTAMP, '-1 DAY')")
+
+    if not include_used:
+        filters.append("used_by IS NULL")
 
     return filters, params
 

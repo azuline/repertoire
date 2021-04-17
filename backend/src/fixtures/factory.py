@@ -71,11 +71,35 @@ class Factory:
         *,
         conn: Connection,
         by_user: Optional[libuser.T] = None,
+        expired: bool = False,
+        used_by: Optional[libuser.T] = None,
     ) -> libinvite.T:
         if by_user is None:
             by_user, _ = self.user(conn=conn)
 
-        return libinvite.create(by_user=by_user, conn=conn)
+        inv = libinvite.create(by_user=by_user, conn=conn)
+
+        if expired:
+            conn.execute(
+                """
+                UPDATE system__invites
+                SET created_at = DATETIME(CURRENT_TIMESTAMP, '-2 DAYS')
+                WHERE id = ?
+                """,
+                (inv.id,),
+            )
+
+        if used_by:
+            conn.execute(
+                """
+                UPDATE system__invites
+                SET used_by = ?
+                WHERE id = ?
+                """,
+                (used_by.id, inv.id),
+            )
+
+        return inv
 
     def mock_image(
         self,

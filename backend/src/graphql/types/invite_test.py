@@ -62,10 +62,10 @@ async def test_invites(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_invites_filter(graphql_query, snapshot):
+async def test_invites_created_by(graphql_query, snapshot):
     query = """
         query {
-            invites(includeExpired: true, createdBy: 1) {
+            invites(createdBy: 1) {
                 total
                 results {
                     ...InviteFields
@@ -82,7 +82,57 @@ async def test_invites_filter(graphql_query, snapshot):
         del inv["code"]
 
     # Include the expired invite.
-    assert len(data["data"]["invites"]["results"]) == 2
+    assert len(data["data"]["invites"]["results"]) == 1
+    snapshot.assert_match(data)
+
+
+@pytest.mark.asyncio
+async def test_invites_filter_expired(graphql_query, snapshot):
+    query = """
+        query {
+            invites(includeExpired: true) {
+                total
+                results {
+                    ...InviteFields
+                }
+            }
+        }
+    """
+    success, data = await graphql_query(query)
+    assert success is True
+
+    # Code is nondeterministic.
+    for inv in data["data"]["invites"]["results"]:
+        assert len(inv["code"]) == 64
+        del inv["code"]
+
+    # Include the expired invite.
+    assert len(data["data"]["invites"]["results"]) == 3
+    snapshot.assert_match(data)
+
+
+@pytest.mark.asyncio
+async def test_invites_filter_used(graphql_query, snapshot):
+    query = """
+        query {
+            invites(includeUsed: true) {
+                total
+                results {
+                    ...InviteFields
+                }
+            }
+        }
+    """
+    success, data = await graphql_query(query)
+    assert success is True
+
+    # Code is nondeterministic.
+    for inv in data["data"]["invites"]["results"]:
+        assert len(inv["code"]) == 64
+        del inv["code"]
+
+    # Include the expired invite.
+    assert len(data["data"]["invites"]["results"]) == 3
     snapshot.assert_match(data)
 
 
