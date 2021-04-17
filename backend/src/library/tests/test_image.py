@@ -6,7 +6,7 @@ from PIL import Image
 
 from src.errors import Duplicate, InvalidImage
 from src.library import image
-from src.fixtures.conftest import SEED_DATA
+from src.conftest import SEED_DATA
 from src.fixtures.factory import Factory
 
 FAKE_COVER = SEED_DATA / "fake_cover.jpg"

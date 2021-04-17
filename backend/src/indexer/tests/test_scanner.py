@@ -21,7 +21,7 @@ from src.indexer.scanner import (
     scan_directory,
 )
 from src.library import artist, collection, release, track
-from src.fixtures.conftest import SEED_DATA
+from src.conftest import SEED_DATA
 from src.fixtures.factory import Factory
 
 FAKE_MUSIC = SEED_DATA / "fake_music"

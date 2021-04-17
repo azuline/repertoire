@@ -13,7 +13,7 @@ from src.util import database, freeze_database_time
 from src.webserver.app import create_app
 from src.fixtures.factory import Factory
 
-SEED_DATA = Path(__file__).parent / "seed_data"
+SEED_DATA = Path(__file__).parent / "fixtures" / "seed_data"
 
 
 @pytest.fixture(scope="session")

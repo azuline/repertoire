@@ -4,7 +4,7 @@ from sqlite3 import Connection
 
 from src.constants import Constants
 from src.indexer.covers import save_pending_covers
-from src.fixtures.conftest import SEED_DATA
+from src.conftest import SEED_DATA
 from src.fixtures.factory import Factory
 
 NEW_ALBUM = SEED_DATA / "fake_music" / "New Album"

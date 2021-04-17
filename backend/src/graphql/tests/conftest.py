@@ -24,7 +24,7 @@ from src.library import playlist_entry as pentry
 from src.library import user
 from src.util import database, freeze_database_time
 from src.webserver.routes.graphql import GraphQLContext
-from src.fixtures.conftest import SEED_DATA
+from src.conftest import SEED_DATA
 from src.fixtures.factory import Factory
 from src.fixtures.fragments import FRAGMENTS
 
