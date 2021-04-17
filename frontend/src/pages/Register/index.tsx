@@ -1,74 +1,59 @@
 import * as React from 'react';
-import { useToasts } from 'react-toast-notifications';
+import { useParams } from 'react-router';
 
-import { Button, Icon, Input } from '~/components';
+import { FullPageLoading } from '~/components';
 import { useRequestJson } from '~/hooks';
+import { UnauthenticatedError } from '~/pages/Error';
 
-import { Success } from './Success';
+import { RegisterForm } from './Form';
 
 type IRegister = React.FC<{
-  onSuccess: () => void;
+  onSuccess?: () => void;
+  isFirstRegistration?: boolean;
 }>;
 
-export const Register: IRegister = ({ onSuccess }) => {
-  const input = React.useRef<HTMLInputElement>(null);
-  const requestJson = useRequestJson<{ token: string }>();
-  const { addToast } = useToasts();
+export const Register: IRegister = ({ onSuccess, isFirstRegistration = false }) => {
+  const requestJson = useRequestJson<{ valid: boolean }>();
 
-  const [newToken, setNewToken] = React.useState<string | undefined>(undefined);
+  const { code: inviteCode } = useParams<{ code: string }>();
+  // Default to assuming the code is valid.
+  const [validCode, setValidCode] = React.useState<boolean>(true);
+  const [loading, setLoading] = React.useState<boolean>(true);
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    event.preventDefault();
-
-    if (!input.current) {
-      return;
-    }
-
+  const verifyToken = async (): Promise<void> => {
     try {
-      const { token } = await requestJson('/api/register', {
-        body: JSON.stringify({ nickname: input.current.value }),
-        method: 'POST',
-        token: input.current.value,
-      });
+      const { valid } = await requestJson(
+        `/api/register/validate-invite?${new URLSearchParams({ inviteCode })}`,
+      );
 
-      if (token) {
-        setNewToken(token);
-      } else {
-        throw new Error('Registration failed.');
+      if (!valid) {
+        setValidCode(false);
       }
-    } catch {
-      addToast('Registration failed.', { appearance: 'error' });
+
+      setLoading(false);
+    } catch (e) {
+      setValidCode(false);
+      setLoading(false);
     }
   };
 
-  if (input.current !== null && newToken !== undefined) {
-    return (
-      <Success nickname={input.current.value} token={newToken} onSuccess={onSuccess} />
-    );
+  React.useEffect((): void => {
+    verifyToken();
+  }, []);
+
+  if (loading) {
+    return <FullPageLoading />;
   }
 
-  // At the moment, this only supports the initial admin registration. Soon, we will
-  // support registration by invite.
+  if (!validCode) {
+    return <UnauthenticatedError title="Invalid invite code." />;
+  }
+
   return (
-    <div tw="relative flex content-center full items-center">
-      <div tw="absolute top-0 left-0 w-full h-1/2 flex items-end">
-        <div tw="h-1/2 pb-28 w-full flex flex-col items-center justify-center">
-          <Icon icon="logo" tw="w-32 text-primary-500 pb-8" />
-          <div>Welcome to your new instance of repertoire!</div>
-          <div>Register your admin account below!</div>
-        </div>
-      </div>
-      <form tw="z-10 self-center mx-auto" onSubmit={onSubmit}>
-        <div>
-          <Input
-            ref={input}
-            autoFocus
-            placeholder="Nickname"
-            tw="mr-6 max-width[400px] min-width[200px] width[50vw]"
-          />
-          <Button type="submit">Register</Button>
-        </div>
-      </form>
-    </div>
+    <RegisterForm
+      inviteCode={inviteCode}
+      isFirstRegistration={isFirstRegistration}
+      onSuccess={onSuccess}
+    />
   );
 };

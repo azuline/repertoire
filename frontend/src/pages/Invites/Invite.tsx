@@ -17,7 +17,8 @@ export const Invite: IInviteComponent = ({ id, createdAt, code, createdBy }) => 
   const expiresAt = new Date((createdAt + SECONDS_IN_DAY) * 1000);
 
   const copyCode = (): void => {
-    navigator.clipboard.writeText(code);
+    const url = `${window.location.protocol}//${window.location.host}/register/${code}`;
+    navigator.clipboard.writeText(url);
     addToast('Copied code to clipboard!', { appearance: 'success' });
   };
 

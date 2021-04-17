@@ -29,9 +29,7 @@ export const Invites: React.FC = () => {
       <Header />
       <div tw="flex flex-col mt-4">
         <SectionHeader tw="pb-4">Active Invites</SectionHeader>
-        <div tw="pb-8 text-foreground-400">
-          Copy to clipboard by clicking an invite.
-        </div>
+        <div tw="pb-8 text-foreground-400">Click an invite to copy its invite URL.</div>
         <div tw="flex">
           <div tw="flex-shrink">
             {invites.map((inv) => (
