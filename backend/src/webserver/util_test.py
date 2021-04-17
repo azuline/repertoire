@@ -7,6 +7,7 @@ from quart import Quart
 from voluptuous import Coerce, Schema
 
 from src.fixtures.factory import Factory
+
 from .util import check_auth, validate_data
 
 

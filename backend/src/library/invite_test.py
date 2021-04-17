@@ -1,6 +1,7 @@
 from sqlite3 import Connection
 
 from src.fixtures.factory import Factory
+
 from . import invite
 
 

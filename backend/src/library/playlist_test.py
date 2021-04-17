@@ -5,6 +5,7 @@ import pytest
 from src.enums import CollectionType, PlaylistType
 from src.errors import Duplicate, Immutable, InvalidPlaylistType
 from src.fixtures.factory import Factory
+
 from . import collection, playlist
 from . import playlist_entry as pentry
 

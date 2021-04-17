@@ -4,6 +4,7 @@ import pytest
 
 from src.errors import NotFound
 from src.fixtures.factory import Factory
+
 from . import playlist
 from . import playlist_entry as pentry
 

@@ -11,6 +11,7 @@ from src.errors import (
     InvalidCollectionType,
 )
 from src.fixtures.factory import Factory
+
 from . import collection
 
 

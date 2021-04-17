@@ -8,6 +8,8 @@ import pytest
 from src.conftest import SEED_DATA
 from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.fixtures.factory import Factory
+from src.library import artist, collection, release, track
+
 from .scanner import (
     _fetch_or_create_artist,
     _fetch_or_create_release,
@@ -22,7 +24,6 @@ from .scanner import (
     scan_directories,
     scan_directory,
 )
-from src.library import artist, collection, release, track
 
 FAKE_MUSIC = SEED_DATA / "fake_music"
 NEW_ALBUM = FAKE_MUSIC / "New Album"

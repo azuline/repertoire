@@ -3,8 +3,9 @@ from sqlite3 import Connection
 from click.testing import CliRunner
 from werkzeug.security import check_password_hash
 
-from .token import token
 from src.fixtures.factory import Factory
+
+from .token import token
 
 
 def test_update_token(factory: Factory, db: Connection):

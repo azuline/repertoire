@@ -5,6 +5,7 @@ import pytest
 from src.enums import CollectionType
 from src.errors import Duplicate
 from src.fixtures.factory import Factory
+
 from . import artist, collection
 
 
