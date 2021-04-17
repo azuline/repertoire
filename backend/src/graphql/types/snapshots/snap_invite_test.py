@@ -14,7 +14,7 @@ snapshots['test_create_invite 1'] = {
             'createdBy': {
                 'id': 1
             },
-            'id': 4,
+            'id': 5,
             'usedBy': None
         }
     }
@@ -80,7 +80,25 @@ snapshots['test_invites 1'] = {
     }
 }
 
-snapshots['test_invites_filter 1'] = {
+snapshots['test_invites_created_by 1'] = {
+    'data': {
+        'invites': {
+            'results': [
+                {
+                    'createdAt': 1577840461,
+                    'createdBy': {
+                        'id': 1
+                    },
+                    'id': 1,
+                    'usedBy': None
+                }
+            ],
+            'total': 1
+        }
+    }
+}
+
+snapshots['test_invites_filter_expired 1'] = {
     'data': {
         'invites': {
             'results': [
@@ -99,9 +117,53 @@ snapshots['test_invites_filter 1'] = {
                     },
                     'id': 1,
                     'usedBy': None
+                },
+                {
+                    'createdAt': 1577840461,
+                    'createdBy': {
+                        'id': 2
+                    },
+                    'id': 2,
+                    'usedBy': None
                 }
             ],
-            'total': 2
+            'total': 3
+        }
+    }
+}
+
+snapshots['test_invites_filter_used 1'] = {
+    'data': {
+        'invites': {
+            'results': [
+                {
+                    'createdAt': 1577840461,
+                    'createdBy': {
+                        'id': 1
+                    },
+                    'id': 1,
+                    'usedBy': None
+                },
+                {
+                    'createdAt': 1577840461,
+                    'createdBy': {
+                        'id': 2
+                    },
+                    'id': 2,
+                    'usedBy': None
+                },
+                {
+                    'createdAt': 1577840461,
+                    'createdBy': {
+                        'id': 1
+                    },
+                    'id': 4,
+                    'usedBy': {
+                        'id': 2
+                    }
+                }
+            ],
+            'total': 3
         }
     }
 }

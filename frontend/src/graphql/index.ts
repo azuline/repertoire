@@ -93,6 +93,7 @@ export type IQueryCollectionFromNameAndTypeArgs = {
 
 export type IQueryInvitesArgs = {
   includeExpired: Maybe<Scalars['Boolean']>;
+  includeUsed: Maybe<Scalars['Boolean']>;
   createdBy: Maybe<Scalars['Int']>;
   page: Maybe<Scalars['Int']>;
   perPage: Maybe<Scalars['Int']>;

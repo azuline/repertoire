@@ -44,22 +44,34 @@ def test_search_created_by(factory: Factory, db: Connection):
 
 
 def test_search_expired(factory: Factory, db: Connection):
-    invs = [factory.invite(conn=db) for _ in range(3)]
-
-    # Expire the third invite.
-    db.execute(
-        """
-        UPDATE system__invites
-        SET created_at = DATETIME(CURRENT_TIMESTAMP, '-2 DAYS')
-        WHERE id = ?
-        """,
-        (invs[2].id,),
-    )
+    invs = [factory.invite(conn=db) for _ in range(2)]
+    invs.append(factory.invite(conn=db, expired=True))
 
     out = invite.search(db, include_expired=True)
     assert set(i.id for i in out) == set(i.id for i in invs)
 
     out = invite.search(db, include_expired=False)
+    assert set(out) == set(invs[:2])
+
+
+def test_search_used(factory: Factory, db: Connection):
+    invs = [factory.invite(conn=db) for _ in range(3)]
+    usr, _ = factory.user(conn=db)
+
+    # Expire the third invite.
+    db.execute(
+        """
+        UPDATE system__invites
+        SET used_by = ?
+        WHERE id = ?
+        """,
+        (usr.id, invs[2].id),
+    )
+
+    out = invite.search(db, include_used=True)
+    assert set(i.id for i in out) == set(i.id for i in invs)
+
+    out = invite.search(db, include_used=False)
     assert set(out) == set(invs[:2])
 
 

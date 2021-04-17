@@ -140,21 +140,12 @@ def _add_test_data(conn: Connection):
     ]
 
     # These start at ID 1.
-    invites = [
+    [
         factory.invite(by_user=usr_admin, conn=conn),
         factory.invite(by_user=usr_blissful, conn=conn),
-        factory.invite(by_user=usr_admin, conn=conn),
+        factory.invite(by_user=usr_admin, conn=conn, expired=True),
+        factory.invite(by_user=usr_admin, conn=conn, used_by=usr_blissful),
     ]
-
-    # Expire the third invite.
-    conn.execute(
-        """
-        UPDATE system__invites
-        SET created_at = DATETIME(CURRENT_TIMESTAMP, '-2 DAYS')
-        WHERE id = ?
-        """,
-        (invites[2].id,),
-    )
 
     # These start at ID 2.
 

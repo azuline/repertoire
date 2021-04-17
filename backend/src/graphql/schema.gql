@@ -57,6 +57,8 @@ type Query {
   invites(
     "Whether to include expired (>24 hours old) invites. False by default"
     includeExpired: Boolean
+    "Whether to include used invites. False by default"
+    includeUsed: Boolean
     "The user ID of the invite creator."
     createdBy: Int
     "Which page of invites to return."
