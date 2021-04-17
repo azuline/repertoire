@@ -1,10 +1,11 @@
 import logging
+from typing import Optional
 
 import quart
 from quart import Blueprint, Response
 from voluptuous import Required, Schema
 
-from src.library import user
+from src.library import invite, user
 from src.webserver.util import validate_data
 
 bp = Blueprint("register", __name__, url_prefix="/api/register")
@@ -17,10 +18,11 @@ logger = logging.getLogger(__name__)
     Schema(
         {
             Required("nickname"): str,
+            "inviteCode": str,
         }
     )
 )
-async def register(nickname: str) -> Response:
+async def register(nickname: str, inviteCode: Optional[str] = None) -> Response:
     """
     Sign up for a new account. At the moment, this only allows for a first user to be
     registered. Soon, another PR will increase the scope of this endpoint to allow
@@ -39,14 +41,44 @@ async def register(nickname: str) -> Response:
 
     :status 200: Successfully registered.
     """
+    if not inviteCode:
+        token = _register_admin(nickname)
+    else:
+        token = _register_user(nickname, inviteCode)
+
+    return quart.jsonify({"token": token.hex()})
+
+
+def _register_admin(nickname: str) -> bytes:
     if user.exists(1, quart.g.db):
         # Already have a user; abort.
+        logger.debug("Already have an admin user.")
         quart.abort(401)
 
     _, token = user.create(nickname, quart.g.db)
     quart.g.db.commit()
 
-    return quart.jsonify({"token": token.hex()})
+    return token
+
+
+def _register_user(nickname: str, hex_invite_code: str) -> bytes:
+    try:
+        invite_code = bytes.fromhex(hex_invite_code)
+    except ValueError:
+        logger.debug("Failed to deserialize token from bytes.")
+        quart.abort(401)
+        return b""
+
+    inv = invite.from_code(invite_code, quart.g.db)
+    if inv is None:
+        quart.abort(401)
+        return b""
+
+    usr, token = user.create(nickname, quart.g.db)
+    invite.update(inv, conn=quart.g.db, used_by=usr)
+    quart.g.db.commit()
+
+    return token
 
 
 @bp.route("/has-first-user", methods=["GET"])
