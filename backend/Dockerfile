@@ -17,7 +17,7 @@ music_directories = ["/music"]\n\
 index_crontab = 0 0 * * *' > /data/config.ini
 
 # Install necessary deps and developer toolings.
-RUN apk add jpeg-dev zlib-dev gcc musl-dev libffi-dev openssl-dev make sqlite
+RUN apk add jpeg-dev zlib-dev gcc musl-dev libffi-dev openssl-dev make sqlite ack entr
 
 # Install Poetry.
 RUN pip install poetry==1.1.4 \
@@ -29,4 +29,10 @@ COPY ./pyproject.toml ./poetry.lock ./
 RUN mkdir src && touch src/__init__.py
 RUN poetry install
 
-CMD ["quart", "run", "--host", "0.0.0.0"]
+
+CMD exec ack -g ".py" \
+    --ignore-dir ".mypy_cache" \
+    --ignore-dir ".pytest_cache" \
+    --ignore-dir "repertoire.egg-info" \
+    --ignore-dir "htmlcov" \
+    | entr quart run --host 0.0.0.0
