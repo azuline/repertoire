@@ -5,7 +5,7 @@ import pytest
 from src.enums import CollectionType
 from src.errors import Duplicate
 from src.library import artist, collection
-from tests.factory import Factory
+from src.testing.factory import Factory
 
 
 def test_exists(factory: Factory, db: Connection):

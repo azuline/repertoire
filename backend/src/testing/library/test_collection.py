@@ -11,7 +11,7 @@ from src.errors import (
     InvalidCollectionType,
 )
 from src.library import collection
-from tests.factory import Factory
+from src.testing.factory import Factory
 
 
 def test_exists(factory: Factory, db: Connection):

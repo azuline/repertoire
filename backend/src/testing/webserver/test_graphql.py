@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from tests.factory import Factory
+from src.testing.factory import Factory
 
 
 @pytest.mark.asyncio

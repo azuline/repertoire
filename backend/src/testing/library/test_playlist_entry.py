@@ -5,7 +5,7 @@ import pytest
 from src.errors import NotFound
 from src.library import playlist
 from src.library import playlist_entry as pentry
-from tests.factory import Factory
+from src.testing.factory import Factory
 
 
 def test_exists(factory: Factory, db: Connection):

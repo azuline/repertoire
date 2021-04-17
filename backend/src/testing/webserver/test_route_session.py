@@ -4,7 +4,7 @@ from sqlite3 import Connection
 import pytest
 import quart
 
-from tests.factory import Factory
+from src.testing.factory import Factory
 
 
 @pytest.mark.asyncio

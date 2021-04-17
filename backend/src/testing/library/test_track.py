@@ -7,7 +7,7 @@ from src.enums import ArtistRole, TrackSort
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
 from src.library import playlist_entry as pentry
 from src.library import track
-from tests.factory import Factory
+from src.testing.factory import Factory
 
 
 def test_exists(factory: Factory, db: Connection):

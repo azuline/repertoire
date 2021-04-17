@@ -24,9 +24,9 @@ from src.library import playlist_entry as pentry
 from src.library import user
 from src.util import database, freeze_database_time
 from src.webserver.routes.graphql import GraphQLContext
-from tests.conftest import SEED_DATA
-from tests.factory import Factory
-from tests.fragments import FRAGMENTS
+from src.testing.conftest import SEED_DATA
+from src.testing.factory import Factory
+from src.testing.fragments import FRAGMENTS
 
 GQL_DB_PATH = SEED_DATA / "gql_db.sqlite3"
 

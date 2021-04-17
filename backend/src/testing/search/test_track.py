@@ -2,7 +2,7 @@ from sqlite3 import Connection
 
 from src.enums import ArtistRole
 from src.library import track
-from tests.factory import Factory
+from src.testing.factory import Factory
 
 
 def test_insert_and_query(factory: Factory, db: Connection):

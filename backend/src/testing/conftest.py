@@ -11,7 +11,7 @@ from src.config import Config, _Config
 from src.constants import Constants
 from src.util import database, freeze_database_time
 from src.webserver.app import create_app
-from tests.factory import Factory
+from src.testing.factory import Factory
 
 SEED_DATA = Path(__file__).parent / "seed_data"
 

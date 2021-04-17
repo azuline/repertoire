@@ -7,7 +7,7 @@ from quart import Quart
 from voluptuous import Coerce, Schema
 
 from src.webserver.util import check_auth, validate_data
-from tests.factory import Factory
+from src.testing.factory import Factory
 
 
 @pytest.fixture

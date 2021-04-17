@@ -4,7 +4,7 @@ from click.testing import CliRunner
 from werkzeug.security import check_password_hash
 
 from src.cli.token import token
-from tests.factory import Factory
+from src.testing.factory import Factory
 
 
 def test_update_token(factory: Factory, db: Connection):

@@ -21,8 +21,8 @@ from src.indexer.scanner import (
     scan_directory,
 )
 from src.library import artist, collection, release, track
-from tests.conftest import SEED_DATA
-from tests.factory import Factory
+from src.testing.conftest import SEED_DATA
+from src.testing.factory import Factory
 
 FAKE_MUSIC = SEED_DATA / "fake_music"
 NEW_ALBUM = FAKE_MUSIC / "New Album"

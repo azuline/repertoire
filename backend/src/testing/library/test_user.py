@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash
 
 from src.errors import InvalidNickname
 from src.library import user
-from tests.factory import Factory
+from src.testing.factory import Factory
 
 
 def test_exists(factory: Factory, db: Connection):

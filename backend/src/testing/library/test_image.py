@@ -6,8 +6,8 @@ from PIL import Image
 
 from src.errors import Duplicate, InvalidImage
 from src.library import image
-from tests.conftest import SEED_DATA
-from tests.factory import Factory
+from src.testing.conftest import SEED_DATA
+from src.testing.factory import Factory
 
 FAKE_COVER = SEED_DATA / "fake_cover.jpg"
 

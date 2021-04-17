@@ -4,8 +4,8 @@ from sqlite3 import Connection
 
 from src.constants import Constants
 from src.indexer.covers import save_pending_covers
-from tests.conftest import SEED_DATA
-from tests.factory import Factory
+from src.testing.conftest import SEED_DATA
+from src.testing.factory import Factory
 
 NEW_ALBUM = SEED_DATA / "fake_music" / "New Album"
 FAKE_COVER = SEED_DATA / "fake_cover.jpg"

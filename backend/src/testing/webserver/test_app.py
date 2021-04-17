@@ -4,7 +4,7 @@ import pytest
 import quart
 
 from src.webserver.app import _get_secret_key
-from tests.factory import Factory
+from src.testing.factory import Factory
 
 
 @pytest.mark.asyncio
