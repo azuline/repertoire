@@ -722,6 +722,18 @@ export type ICollectionFieldsFragment = (
   & Pick<ICollection, 'id' | 'name' | 'starred' | 'type' | 'numReleases' | 'lastUpdatedOn' | 'imageId'>
 );
 
+export type IInviteFieldsFragment = (
+  { __typename?: 'Invite' }
+  & Pick<IInvite, 'id' | 'code' | 'createdAt'>
+  & { createdBy: (
+    { __typename?: 'User' }
+    & IUserFieldsFragment
+  ), usedBy: Maybe<(
+    { __typename?: 'User' }
+    & IUserFieldsFragment
+  )> }
+);
+
 export type IPlaylistFieldsFragment = (
   { __typename?: 'Playlist' }
   & Pick<IPlaylist, 'id' | 'name' | 'starred' | 'type' | 'numTracks' | 'lastUpdatedOn' | 'imageId'>
@@ -849,6 +861,32 @@ export type IGenresFetchGenreQuery = (
   & { collection: Maybe<(
     { __typename?: 'Collection' }
     & ICollectionFieldsFragment
+  )> }
+);
+
+export type IInvitesFetchInvitesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IInvitesFetchInvitesQuery = (
+  { __typename?: 'Query' }
+  & { invites: Maybe<(
+    { __typename?: 'Invites' }
+    & Pick<IInvites, 'total'>
+    & { results: Array<Maybe<(
+      { __typename?: 'Invite' }
+      & IInviteFieldsFragment
+    )>> }
+  )> }
+);
+
+export type IInvitesCreateInviteMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IInvitesCreateInviteMutation = (
+  { __typename?: 'Mutation' }
+  & { createInvite: Maybe<(
+    { __typename?: 'Invite' }
+    & IInviteFieldsFragment
   )> }
 );
 
@@ -1121,12 +1159,6 @@ export type IYearsFetchReleaseYearsQuery = (
   & Pick<IQuery, 'releaseYears'>
 );
 
-export const UserFieldsFragmentDoc = gql`
-    fragment UserFields on User {
-  id
-  nickname
-}
-    `;
 export const ArtistFieldsFragmentDoc = gql`
     fragment ArtistFields on Artist {
   id
@@ -1147,6 +1179,25 @@ export const CollectionFieldsFragmentDoc = gql`
   imageId
 }
     `;
+export const UserFieldsFragmentDoc = gql`
+    fragment UserFields on User {
+  id
+  nickname
+}
+    `;
+export const InviteFieldsFragmentDoc = gql`
+    fragment InviteFields on Invite {
+  id
+  code
+  createdBy {
+    ...UserFields
+  }
+  createdAt
+  usedBy {
+    ...UserFields
+  }
+}
+    ${UserFieldsFragmentDoc}`;
 export const PlaylistFieldsFragmentDoc = gql`
     fragment PlaylistFields on Playlist {
   id
@@ -1252,6 +1303,9 @@ export function useHeaderFetchUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type HeaderFetchUserQueryHookResult = ReturnType<typeof useHeaderFetchUserQuery>;
 export type HeaderFetchUserLazyQueryHookResult = ReturnType<typeof useHeaderFetchUserLazyQuery>;
 export type HeaderFetchUserQueryResult = Apollo.QueryResult<IHeaderFetchUserQuery, IHeaderFetchUserQueryVariables>;
+export function refetchHeaderFetchUserQuery(variables?: IHeaderFetchUserQueryVariables) {
+      return { query: HeaderFetchUserDocument, variables: variables }
+    }
 export const PagedReleasesFetchReleasesDocument = gql`
     query PagedReleasesFetchReleases($search: String, $collectionIds: [Int], $artistIds: [Int], $releaseTypes: [ReleaseType], $years: [Int], $ratings: [Int], $page: Int, $perPage: Int, $sort: ReleaseSort, $asc: Boolean) {
   releases(
@@ -1316,6 +1370,9 @@ export function usePagedReleasesFetchReleasesLazyQuery(baseOptions?: Apollo.Lazy
 export type PagedReleasesFetchReleasesQueryHookResult = ReturnType<typeof usePagedReleasesFetchReleasesQuery>;
 export type PagedReleasesFetchReleasesLazyQueryHookResult = ReturnType<typeof usePagedReleasesFetchReleasesLazyQuery>;
 export type PagedReleasesFetchReleasesQueryResult = Apollo.QueryResult<IPagedReleasesFetchReleasesQuery, IPagedReleasesFetchReleasesQueryVariables>;
+export function refetchPagedReleasesFetchReleasesQuery(variables?: IPagedReleasesFetchReleasesQueryVariables) {
+      return { query: PagedReleasesFetchReleasesDocument, variables: variables }
+    }
 export const PlaylistsFavoriteTrackDocument = gql`
     mutation PlaylistsFavoriteTrack($trackId: Int!) {
   createPlaylistEntry(playlistId: 1, trackId: $trackId) {
@@ -1436,6 +1493,9 @@ export function useCollectionChooserFetchCollectionsLazyQuery(baseOptions?: Apol
 export type CollectionChooserFetchCollectionsQueryHookResult = ReturnType<typeof useCollectionChooserFetchCollectionsQuery>;
 export type CollectionChooserFetchCollectionsLazyQueryHookResult = ReturnType<typeof useCollectionChooserFetchCollectionsLazyQuery>;
 export type CollectionChooserFetchCollectionsQueryResult = Apollo.QueryResult<ICollectionChooserFetchCollectionsQuery, ICollectionChooserFetchCollectionsQueryVariables>;
+export function refetchCollectionChooserFetchCollectionsQuery(variables?: ICollectionChooserFetchCollectionsQueryVariables) {
+      return { query: CollectionChooserFetchCollectionsDocument, variables: variables }
+    }
 export const CollectionChooserUpdateCollectionStarredDocument = gql`
     mutation CollectionChooserUpdateCollectionStarred($id: Int!, $starred: Boolean) {
   updateCollection(id: $id, starred: $starred) {
@@ -1503,6 +1563,9 @@ export function useArtistsFetchArtistLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type ArtistsFetchArtistQueryHookResult = ReturnType<typeof useArtistsFetchArtistQuery>;
 export type ArtistsFetchArtistLazyQueryHookResult = ReturnType<typeof useArtistsFetchArtistLazyQuery>;
 export type ArtistsFetchArtistQueryResult = Apollo.QueryResult<IArtistsFetchArtistQuery, IArtistsFetchArtistQueryVariables>;
+export function refetchArtistsFetchArtistQuery(variables?: IArtistsFetchArtistQueryVariables) {
+      return { query: ArtistsFetchArtistDocument, variables: variables }
+    }
 export const ArtistChooserFetchArtistsDocument = gql`
     query ArtistChooserFetchArtists {
   artists {
@@ -1537,6 +1600,9 @@ export function useArtistChooserFetchArtistsLazyQuery(baseOptions?: Apollo.LazyQ
 export type ArtistChooserFetchArtistsQueryHookResult = ReturnType<typeof useArtistChooserFetchArtistsQuery>;
 export type ArtistChooserFetchArtistsLazyQueryHookResult = ReturnType<typeof useArtistChooserFetchArtistsLazyQuery>;
 export type ArtistChooserFetchArtistsQueryResult = Apollo.QueryResult<IArtistChooserFetchArtistsQuery, IArtistChooserFetchArtistsQueryVariables>;
+export function refetchArtistChooserFetchArtistsQuery(variables?: IArtistChooserFetchArtistsQueryVariables) {
+      return { query: ArtistChooserFetchArtistsDocument, variables: variables }
+    }
 export const ArtistChooserUpdateArtistStarredDocument = gql`
     mutation ArtistChooserUpdateArtistStarred($id: Int!, $starred: Boolean) {
   updateArtist(id: $id, starred: $starred) {
@@ -1604,6 +1670,9 @@ export function useCollageFetchCollageLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type CollageFetchCollageQueryHookResult = ReturnType<typeof useCollageFetchCollageQuery>;
 export type CollageFetchCollageLazyQueryHookResult = ReturnType<typeof useCollageFetchCollageLazyQuery>;
 export type CollageFetchCollageQueryResult = Apollo.QueryResult<ICollageFetchCollageQuery, ICollageFetchCollageQueryVariables>;
+export function refetchCollageFetchCollageQuery(variables?: ICollageFetchCollageQueryVariables) {
+      return { query: CollageFetchCollageDocument, variables: variables }
+    }
 export const RecentlyAddedFetchReleasesDocument = gql`
     query RecentlyAddedFetchReleases {
   releases(sort: RECENTLY_ADDED, asc: false, page: 1, perPage: 10) {
@@ -1646,6 +1715,9 @@ export function useRecentlyAddedFetchReleasesLazyQuery(baseOptions?: Apollo.Lazy
 export type RecentlyAddedFetchReleasesQueryHookResult = ReturnType<typeof useRecentlyAddedFetchReleasesQuery>;
 export type RecentlyAddedFetchReleasesLazyQueryHookResult = ReturnType<typeof useRecentlyAddedFetchReleasesLazyQuery>;
 export type RecentlyAddedFetchReleasesQueryResult = Apollo.QueryResult<IRecentlyAddedFetchReleasesQuery, IRecentlyAddedFetchReleasesQueryVariables>;
+export function refetchRecentlyAddedFetchReleasesQuery(variables?: IRecentlyAddedFetchReleasesQueryVariables) {
+      return { query: RecentlyAddedFetchReleasesDocument, variables: variables }
+    }
 export const GenresFetchGenreDocument = gql`
     query GenresFetchGenre($id: Int!) {
   collection(id: $id) {
@@ -1679,6 +1751,78 @@ export function useGenresFetchGenreLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GenresFetchGenreQueryHookResult = ReturnType<typeof useGenresFetchGenreQuery>;
 export type GenresFetchGenreLazyQueryHookResult = ReturnType<typeof useGenresFetchGenreLazyQuery>;
 export type GenresFetchGenreQueryResult = Apollo.QueryResult<IGenresFetchGenreQuery, IGenresFetchGenreQueryVariables>;
+export function refetchGenresFetchGenreQuery(variables?: IGenresFetchGenreQueryVariables) {
+      return { query: GenresFetchGenreDocument, variables: variables }
+    }
+export const InvitesFetchInvitesDocument = gql`
+    query InvitesFetchInvites {
+  invites {
+    total
+    results {
+      ...InviteFields
+    }
+  }
+}
+    ${InviteFieldsFragmentDoc}`;
+
+/**
+ * __useInvitesFetchInvitesQuery__
+ *
+ * To run a query within a React component, call `useInvitesFetchInvitesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useInvitesFetchInvitesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useInvitesFetchInvitesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useInvitesFetchInvitesQuery(baseOptions?: Apollo.QueryHookOptions<IInvitesFetchInvitesQuery, IInvitesFetchInvitesQueryVariables>) {
+        return Apollo.useQuery<IInvitesFetchInvitesQuery, IInvitesFetchInvitesQueryVariables>(InvitesFetchInvitesDocument, baseOptions);
+      }
+export function useInvitesFetchInvitesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IInvitesFetchInvitesQuery, IInvitesFetchInvitesQueryVariables>) {
+          return Apollo.useLazyQuery<IInvitesFetchInvitesQuery, IInvitesFetchInvitesQueryVariables>(InvitesFetchInvitesDocument, baseOptions);
+        }
+export type InvitesFetchInvitesQueryHookResult = ReturnType<typeof useInvitesFetchInvitesQuery>;
+export type InvitesFetchInvitesLazyQueryHookResult = ReturnType<typeof useInvitesFetchInvitesLazyQuery>;
+export type InvitesFetchInvitesQueryResult = Apollo.QueryResult<IInvitesFetchInvitesQuery, IInvitesFetchInvitesQueryVariables>;
+export function refetchInvitesFetchInvitesQuery(variables?: IInvitesFetchInvitesQueryVariables) {
+      return { query: InvitesFetchInvitesDocument, variables: variables }
+    }
+export const InvitesCreateInviteDocument = gql`
+    mutation InvitesCreateInvite {
+  createInvite {
+    ...InviteFields
+  }
+}
+    ${InviteFieldsFragmentDoc}`;
+export type IInvitesCreateInviteMutationFn = Apollo.MutationFunction<IInvitesCreateInviteMutation, IInvitesCreateInviteMutationVariables>;
+
+/**
+ * __useInvitesCreateInviteMutation__
+ *
+ * To run a mutation, you first call `useInvitesCreateInviteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInvitesCreateInviteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [invitesCreateInviteMutation, { data, loading, error }] = useInvitesCreateInviteMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useInvitesCreateInviteMutation(baseOptions?: Apollo.MutationHookOptions<IInvitesCreateInviteMutation, IInvitesCreateInviteMutationVariables>) {
+        return Apollo.useMutation<IInvitesCreateInviteMutation, IInvitesCreateInviteMutationVariables>(InvitesCreateInviteDocument, baseOptions);
+      }
+export type InvitesCreateInviteMutationHookResult = ReturnType<typeof useInvitesCreateInviteMutation>;
+export type InvitesCreateInviteMutationResult = Apollo.MutationResult<IInvitesCreateInviteMutation>;
+export type InvitesCreateInviteMutationOptions = Apollo.BaseMutationOptions<IInvitesCreateInviteMutation, IInvitesCreateInviteMutationVariables>;
 export const LabelFetchLabelDocument = gql`
     query LabelFetchLabel($id: Int!) {
   collection(id: $id) {
@@ -1712,6 +1856,9 @@ export function useLabelFetchLabelLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type LabelFetchLabelQueryHookResult = ReturnType<typeof useLabelFetchLabelQuery>;
 export type LabelFetchLabelLazyQueryHookResult = ReturnType<typeof useLabelFetchLabelLazyQuery>;
 export type LabelFetchLabelQueryResult = Apollo.QueryResult<ILabelFetchLabelQuery, ILabelFetchLabelQueryVariables>;
+export function refetchLabelFetchLabelQuery(variables?: ILabelFetchLabelQueryVariables) {
+      return { query: LabelFetchLabelDocument, variables: variables }
+    }
 export const NowPlayingInfoFetchReleaseDocument = gql`
     query NowPlayingInfoFetchRelease($id: Int!) {
   release(id: $id) {
@@ -1745,6 +1892,9 @@ export function useNowPlayingInfoFetchReleaseLazyQuery(baseOptions?: Apollo.Lazy
 export type NowPlayingInfoFetchReleaseQueryHookResult = ReturnType<typeof useNowPlayingInfoFetchReleaseQuery>;
 export type NowPlayingInfoFetchReleaseLazyQueryHookResult = ReturnType<typeof useNowPlayingInfoFetchReleaseLazyQuery>;
 export type NowPlayingInfoFetchReleaseQueryResult = Apollo.QueryResult<INowPlayingInfoFetchReleaseQuery, INowPlayingInfoFetchReleaseQueryVariables>;
+export function refetchNowPlayingInfoFetchReleaseQuery(variables?: INowPlayingInfoFetchReleaseQueryVariables) {
+      return { query: NowPlayingInfoFetchReleaseDocument, variables: variables }
+    }
 export const PlaylistChooserFetchPlaylistsDocument = gql`
     query PlaylistChooserFetchPlaylists($types: [PlaylistType]) {
   playlists(types: $types) {
@@ -1780,6 +1930,9 @@ export function usePlaylistChooserFetchPlaylistsLazyQuery(baseOptions?: Apollo.L
 export type PlaylistChooserFetchPlaylistsQueryHookResult = ReturnType<typeof usePlaylistChooserFetchPlaylistsQuery>;
 export type PlaylistChooserFetchPlaylistsLazyQueryHookResult = ReturnType<typeof usePlaylistChooserFetchPlaylistsLazyQuery>;
 export type PlaylistChooserFetchPlaylistsQueryResult = Apollo.QueryResult<IPlaylistChooserFetchPlaylistsQuery, IPlaylistChooserFetchPlaylistsQueryVariables>;
+export function refetchPlaylistChooserFetchPlaylistsQuery(variables?: IPlaylistChooserFetchPlaylistsQueryVariables) {
+      return { query: PlaylistChooserFetchPlaylistsDocument, variables: variables }
+    }
 export const PlaylistChooserUpdatePlaylistStarredDocument = gql`
     mutation PlaylistChooserUpdatePlaylistStarred($id: Int!, $starred: Boolean) {
   updatePlaylist(id: $id, starred: $starred) {
@@ -1847,6 +2000,9 @@ export function usePlaylistsFetchPlaylistLazyQuery(baseOptions?: Apollo.LazyQuer
 export type PlaylistsFetchPlaylistQueryHookResult = ReturnType<typeof usePlaylistsFetchPlaylistQuery>;
 export type PlaylistsFetchPlaylistLazyQueryHookResult = ReturnType<typeof usePlaylistsFetchPlaylistLazyQuery>;
 export type PlaylistsFetchPlaylistQueryResult = Apollo.QueryResult<IPlaylistsFetchPlaylistQuery, IPlaylistsFetchPlaylistQueryVariables>;
+export function refetchPlaylistsFetchPlaylistQuery(variables?: IPlaylistsFetchPlaylistQueryVariables) {
+      return { query: PlaylistsFetchPlaylistDocument, variables: variables }
+    }
 export const PlaylistsFetchTracksDocument = gql`
     query PlaylistsFetchTracks($id: Int!) {
   playlist(id: $id) {
@@ -1886,6 +2042,9 @@ export function usePlaylistsFetchTracksLazyQuery(baseOptions?: Apollo.LazyQueryH
 export type PlaylistsFetchTracksQueryHookResult = ReturnType<typeof usePlaylistsFetchTracksQuery>;
 export type PlaylistsFetchTracksLazyQueryHookResult = ReturnType<typeof usePlaylistsFetchTracksLazyQuery>;
 export type PlaylistsFetchTracksQueryResult = Apollo.QueryResult<IPlaylistsFetchTracksQuery, IPlaylistsFetchTracksQueryVariables>;
+export function refetchPlaylistsFetchTracksQuery(variables?: IPlaylistsFetchTracksQueryVariables) {
+      return { query: PlaylistsFetchTracksDocument, variables: variables }
+    }
 export const InFavoritesAddReleaseToCollectionDocument = gql`
     mutation InFavoritesAddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
   addReleaseToCollection(collectionId: $collectionId, releaseId: $releaseId) {
@@ -2169,6 +2328,9 @@ export function useReleaseFetchReleaseLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type ReleaseFetchReleaseQueryHookResult = ReturnType<typeof useReleaseFetchReleaseQuery>;
 export type ReleaseFetchReleaseLazyQueryHookResult = ReturnType<typeof useReleaseFetchReleaseLazyQuery>;
 export type ReleaseFetchReleaseQueryResult = Apollo.QueryResult<IReleaseFetchReleaseQuery, IReleaseFetchReleaseQueryVariables>;
+export function refetchReleaseFetchReleaseQuery(variables?: IReleaseFetchReleaseQueryVariables) {
+      return { query: ReleaseFetchReleaseDocument, variables: variables }
+    }
 export const SettingsFetchUserDocument = gql`
     query SettingsFetchUser {
   user {
@@ -2201,6 +2363,9 @@ export function useSettingsFetchUserLazyQuery(baseOptions?: Apollo.LazyQueryHook
 export type SettingsFetchUserQueryHookResult = ReturnType<typeof useSettingsFetchUserQuery>;
 export type SettingsFetchUserLazyQueryHookResult = ReturnType<typeof useSettingsFetchUserLazyQuery>;
 export type SettingsFetchUserQueryResult = Apollo.QueryResult<ISettingsFetchUserQuery, ISettingsFetchUserQueryVariables>;
+export function refetchSettingsFetchUserQuery(variables?: ISettingsFetchUserQueryVariables) {
+      return { query: SettingsFetchUserDocument, variables: variables }
+    }
 export const SettingsUpdateUserDocument = gql`
     mutation SettingsUpdateUser($nickname: String) {
   updateUser(nickname: $nickname) {
@@ -2264,6 +2429,9 @@ export function useYearsFetchReleaseYearsLazyQuery(baseOptions?: Apollo.LazyQuer
 export type YearsFetchReleaseYearsQueryHookResult = ReturnType<typeof useYearsFetchReleaseYearsQuery>;
 export type YearsFetchReleaseYearsLazyQueryHookResult = ReturnType<typeof useYearsFetchReleaseYearsLazyQuery>;
 export type YearsFetchReleaseYearsQueryResult = Apollo.QueryResult<IYearsFetchReleaseYearsQuery, IYearsFetchReleaseYearsQueryVariables>;
+export function refetchYearsFetchReleaseYearsQuery(variables?: IYearsFetchReleaseYearsQueryVariables) {
+      return { query: YearsFetchReleaseYearsDocument, variables: variables }
+    }
 export type QueryKeySpecifier = ('user' | 'artists' | 'artist' | 'artistFromName' | 'collections' | 'collection' | 'collectionFromNameAndType' | 'invites' | 'invite' | 'playlists' | 'playlist' | 'playlistFromNameAndType' | 'releases' | 'release' | 'tracks' | 'track' | 'releaseYears' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	user?: FieldPolicy<any> | FieldReadFunction<any>,

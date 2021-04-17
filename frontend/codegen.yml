@@ -16,3 +16,4 @@ generates:
     config:
       typesPrefix: I
       avoidOptionals: true
+      withRefetchFn: true

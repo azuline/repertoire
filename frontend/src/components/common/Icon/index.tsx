@@ -18,11 +18,13 @@ export const Icon: IIconComponent = ({ icon, className, title, onClick }) => (
 );
 
 export type IIcon =
+  | 'arrow-right'
   | 'chevron-double-left-small'
   | 'chevron-double-right-small'
   | 'chevron-down-small'
   | 'chevron-left-small'
   | 'chevron-up-medium'
+  | 'clipboard'
   | 'cog-medium'
   | 'fast-forward-small'
   | 'hamburger'
@@ -43,6 +45,20 @@ export type IIcon =
   | 'volume-up-small';
 
 const ICONS: { [k in IIcon]: React.ReactNode } = {
+  'arrow-right': (
+    <svg
+      className="h-5 w-5"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        clipRule="evenodd"
+        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+        fillRule="evenodd"
+      />
+    </svg>
+  ),
   'chevron-double-left-small': (
     <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -97,6 +113,17 @@ const ICONS: { [k in IIcon]: React.ReactNode } = {
         strokeLinejoin="round"
         strokeWidth={2}
       />
+    </svg>
+  ),
+  clipboard: (
+    <svg
+      className="h-5 w-5"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z" />
+      <path d="M3 8a2 2 0 012-2v10h8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
     </svg>
   ),
   'cog-medium': (

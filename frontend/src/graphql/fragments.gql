@@ -36,6 +36,18 @@ fragment CollectionFields on Collection {
   imageId
 }
 
+fragment InviteFields on Invite {
+  id
+  code
+  createdBy {
+    ...UserFields
+  }
+  createdAt
+  usedBy {
+    ...UserFields
+  }
+}
+
 fragment PlaylistFields on Playlist {
   id
   name 

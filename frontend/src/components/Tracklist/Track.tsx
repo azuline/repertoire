@@ -10,6 +10,8 @@ import {
 } from '~/graphql';
 import { filterNulls, secondsToLength } from '~/util';
 
+import { ListItem } from '../common';
+
 type ITrackComponent = React.FC<{
   track: ITrack;
   trackNumber: number;
@@ -36,13 +38,13 @@ export const Track: ITrackComponent = ({
   };
 
   return (
-    <div
+    <ListItem
       css={[
         tw`flex relative items-center`,
-        tw`py-1.5 pr-3 -mx-3 rounded width[calc(100% + 1.5rem)]`,
+        tw`py-2 pr-3 -mx-3 width[calc(100% + 1.5rem)]`,
         active && tw`font-bold`,
-        onClick && tw`cursor-pointer hover-bg`,
       ]}
+      onClick={(): void => onClick && onClick(index)}
     >
       <div
         css={[
@@ -57,10 +59,7 @@ export const Track: ITrackComponent = ({
       >
         <Icon icon="star-small" tw="w-6 md:w-5" />
       </div>
-      <div
-        tw="ml-12 md:ml-11 w-full flex items-center min-w-0"
-        onClick={(): void => onClick && onClick(index)}
-      >
+      <div tw="ml-12 md:ml-11 w-full flex items-center min-w-0">
         {showCover && (
           <Image imageId={track.release.imageId} tw="rounded w-8 h-8 mr-3" />
         )}
@@ -86,7 +85,7 @@ export const Track: ITrackComponent = ({
           />
         </div>
       </div>
-    </div>
+    </ListItem>
   );
 };
 
