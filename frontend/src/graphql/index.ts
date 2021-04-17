@@ -92,7 +92,7 @@ export type IQueryCollectionFromNameAndTypeArgs = {
 
 
 export type IQueryInvitesArgs = {
-  createdByUserId: Maybe<Scalars['Int']>;
+  createdBy: Maybe<Scalars['Int']>;
   page: Maybe<Scalars['Int']>;
   perPage: Maybe<Scalars['Int']>;
 };

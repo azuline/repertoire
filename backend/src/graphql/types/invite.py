@@ -1,6 +1,5 @@
 from typing import Any, Optional
 
-import quart
 from ariadne import ObjectType
 
 from graphql.type import GraphQLResolveInfo
@@ -52,4 +51,4 @@ def resolve_used_by(obj: invite.T, info: GraphQLResolveInfo) -> Optional[user.T]
 @mutation.field("createInvite")
 @commit
 def resolve_create_invite(_, info: GraphQLResolveInfo) -> invite.T:
-    return invite.create(quart.g.user, info.context.db)
+    return invite.create(info.context.user, info.context.db)

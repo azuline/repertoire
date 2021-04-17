@@ -17,7 +17,7 @@ load_dotenv(dotenv_path=BACKEND_ROOT / ".env")
 # - Don't autoinitialize the database and config file.
 IS_PYTEST = "pytest" in sys.modules
 IS_SPHINX = "sphinx" in sys.modules
-TEST_DATA_PATH = BACKEND_ROOT / "tests" / "seed_data"
+TEST_DATA_PATH = BACKEND_ROOT / "test_data"
 
 
 def _get_data_path() -> Path:

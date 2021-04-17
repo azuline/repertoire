@@ -3,26 +3,26 @@ debug:
 
 # A parallel test execution.
 test:
-	poetry run pytest -n auto --cov=. --cov-branch tests/
+	poetry run pytest -n auto --cov=. --cov-branch src/
 	poetry run coverage html
 
 # A sequential test execution.
 testseq:
-	poetry run pytest --cov=. --cov-branch tests/
+	poetry run pytest --cov=. --cov-branch src/
 	poetry run coverage html
 
 typecheck:
-	poetry run mypy src/ tests/
+	poetry run mypy src/
 
 lintcheck:
-	poetry run black --check src/ tests/
-	poetry run isort -c src/ tests/
-	poetry run flake8 src/ tests/
+	poetry run black --check src/
+	poetry run isort -c src/
+	poetry run flake8 src/
 
 lint:
-	poetry run black src/ tests/
-	poetry run isort src/ tests/
-	poetry run flake8 src/ tests/
+	poetry run black src/
+	poetry run isort src/
+	poetry run flake8 src/
 
 schema:
 	mkdir -p ../_data
