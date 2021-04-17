@@ -65,7 +65,7 @@ async def test_invites(graphql_query, snapshot):
 async def test_invites_filter(graphql_query, snapshot):
     query = """
         query {
-            invites(createdBy: 1) {
+            invites(includeExpired: true, createdBy: 1) {
                 total
                 results {
                     ...InviteFields
@@ -81,6 +81,8 @@ async def test_invites_filter(graphql_query, snapshot):
         assert len(inv["code"]) == 64
         del inv["code"]
 
+    # Include the expired invite.
+    assert len(data["data"]["invites"]["results"]) == 2
     snapshot.assert_match(data)
 
 

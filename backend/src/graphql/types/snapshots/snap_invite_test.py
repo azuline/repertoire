@@ -14,7 +14,7 @@ snapshots['test_create_invite 1'] = {
             'createdBy': {
                 'id': 1
             },
-            'id': 3,
+            'id': 4,
             'usedBy': None
         }
     }
@@ -85,6 +85,14 @@ snapshots['test_invites_filter 1'] = {
         'invites': {
             'results': [
                 {
+                    'createdAt': 1577667661,
+                    'createdBy': {
+                        'id': 1
+                    },
+                    'id': 3,
+                    'usedBy': None
+                },
+                {
                     'createdAt': 1577840461,
                     'createdBy': {
                         'id': 1
@@ -93,7 +101,7 @@ snapshots['test_invites_filter 1'] = {
                     'usedBy': None
                 }
             ],
-            'total': 1
+            'total': 2
         }
     }
 }

@@ -83,6 +83,7 @@ def from_code(code: bytes, conn: Connection) -> Optional[T]:
 def search(
     conn: Connection,
     created_by: Optional[int] = None,
+    include_expired: bool = False,
     page: int = 1,
     per_page: Optional[int] = None,
 ) -> list[T]:
@@ -92,12 +93,13 @@ def search(
 
     :param conn: A connection to the database.
     :param created_by: The user that created the invite.
+    :param include_expired: Whether to include expired invites.
     :param page: Which page of invites to return.
     :param per_page: The number of invites per page. Pass ``None`` to return all
                      invites (this will ignore ``page``).
     :return: All matching invites.
     """
-    filters, params = _generate_filters(created_by)
+    filters, params = _generate_filters(created_by, include_expired)
 
     if per_page:
         params.extend([per_page, (page - 1) * per_page])
@@ -108,7 +110,7 @@ def search(
         FROM system__invites
         {"WHERE " + " AND ".join(filters) if filters else ""}
         GROUP BY id
-        ORDER BY created_at
+        ORDER BY created_at ASC
         {"LIMIT ? OFFSET ?" if per_page else ""}
         """,
         params,
@@ -121,17 +123,18 @@ def search(
 def count(
     conn: Connection,
     created_by: Optional[int] = None,
+    include_expired: bool = False,
 ) -> int:
     """
     Fetch the number of invites matching the passed-in criteria. Parameters are
     optional; omitted ones are excluded from the matching criteria.
 
     :param conn: A connection to the database.
-    :param search: A search string. We split this up into individual punctuation-less
-                   tokens and return invites whose names contain each token.
+    :param created_by: The user that created the invite.
+    :param include_expired: Whether to include expired invites.
     :return: The number of matching invites.
     """
-    filters, params = _generate_filters(created_by)
+    filters, params = _generate_filters(created_by, include_expired)
 
     cursor = conn.execute(
         f"""
@@ -149,11 +152,16 @@ def count(
 
 def _generate_filters(
     created_by: Optional[int],
+    include_expired: bool,
 ) -> tuple[list[str], list[int]]:
     filters, params = [], []
+
     if created_by is not None:
         filters.append("created_by = ?")
         params.append(created_by)
+
+    if not include_expired:
+        filters.append("created_at > DATETIME(CURRENT_TIMESTAMP, '-1 DAY')")
 
     return filters, params
 
