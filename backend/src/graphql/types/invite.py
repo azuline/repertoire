@@ -1,6 +1,5 @@
 from typing import Any, Optional
 
-import quart
 from ariadne import ObjectType
 
 from graphql.type import GraphQLResolveInfo
