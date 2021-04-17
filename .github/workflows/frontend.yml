@@ -2,9 +2,13 @@ name: Frontend
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
   pull_request:
-    branches: [ master ]
+    paths:
+      - ./github/**
+      - frontend/
+      - e2e_tests/
 
 jobs:
   test:
