@@ -39,7 +39,11 @@ export const Track: ITrackComponent = ({
 
   return (
     <ListItem
-      css={[tw`py-2 pr-3 -mx-3 width[calc(100% + 1.5rem)]`, active && tw`font-bold`]}
+      css={[
+        tw`flex relative items-center`,
+        tw`py-2 pr-3 -mx-3 width[calc(100% + 1.5rem)]`,
+        active && tw`font-bold`,
+      ]}
       onClick={(): void => onClick && onClick(index)}
     >
       <div

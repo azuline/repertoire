@@ -1756,7 +1756,7 @@ export function refetchGenresFetchGenreQuery(variables?: IGenresFetchGenreQueryV
     }
 export const InvitesFetchInvitesDocument = gql`
     query InvitesFetchInvites {
-  invites(includeExpired: true) {
+  invites {
     total
     results {
       ...InviteFields

@@ -11,10 +11,7 @@ export const ListItem: IListItem = ({ className, children, onClick }) => {
   return (
     <div
       className={className}
-      css={[
-        tw`flex relative items-center rounded`,
-        onClick && tw`cursor-pointer hover-bg`,
-      ]}
+      css={[tw`rounded`, onClick && tw`cursor-pointer hover-bg`]}
       onClick={onClick}
     >
       {children}

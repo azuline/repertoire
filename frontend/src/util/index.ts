@@ -82,3 +82,42 @@ export const formatDate = (date: Date): string => {
 
   return `${shortMonth} ${day}, ${year}`;
 };
+
+/**
+ * Return the time until the passed-in date in `2 hours and 1 minute`
+ * format.
+ *
+ * @param A date.
+ * @returns A string represention of the duration until the date.
+ */
+export const timeUntil = (date: Date): string => {
+  // The unit of diffs is minutes. `getTime()` returns milliseconds.
+  const diff = (date.getTime() - Date.now()) / (60 * 1000);
+
+  if (diff <= 0) {
+    return 'the past';
+  }
+
+  const hours = Math.floor(diff / 60);
+  const minutes = Math.floor(diff % 60);
+
+  let builder = '';
+
+  if (hours === 1) {
+    builder += '1 hour';
+  } else if (hours > 1) {
+    builder += `${hours} hours`;
+  }
+
+  if (hours !== 0 && minutes !== 0) {
+    builder += ' and ';
+  }
+
+  if (minutes === 1) {
+    builder += '1 minute';
+  } else if (minutes > 1) {
+    builder += `${minutes} minutes`;
+  }
+
+  return builder;
+};
