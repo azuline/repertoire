@@ -5,8 +5,8 @@ import pytest
 
 from src.enums import CollectionType, ReleaseSort, ReleaseType
 from src.errors import AlreadyExists, DoesNotExist, Duplicate
-from src.library import collection, release
 from src.fixtures.factory import Factory
+from src.library import collection, release
 
 
 def test_exists(factory: Factory, db: Connection):

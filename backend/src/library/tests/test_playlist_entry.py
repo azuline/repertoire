@@ -3,9 +3,9 @@ from sqlite3 import Connection
 import pytest
 
 from src.errors import NotFound
+from src.fixtures.factory import Factory
 from src.library import playlist
 from src.library import playlist_entry as pentry
-from src.fixtures.factory import Factory
 
 
 def test_exists(factory: Factory, db: Connection):

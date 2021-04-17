@@ -2,10 +2,10 @@ import shutil
 from pathlib import Path
 from sqlite3 import Connection
 
-from src.constants import Constants
-from src.indexer.covers import save_pending_covers
 from src.conftest import SEED_DATA
+from src.constants import Constants
 from src.fixtures.factory import Factory
+from src.indexer.covers import save_pending_covers
 
 NEW_ALBUM = SEED_DATA / "fake_music" / "New Album"
 FAKE_COVER = SEED_DATA / "fake_cover.jpg"

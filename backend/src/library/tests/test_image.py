@@ -4,10 +4,10 @@ from sqlite3 import Connection
 import pytest
 from PIL import Image
 
-from src.errors import Duplicate, InvalidImage
-from src.library import image
 from src.conftest import SEED_DATA
+from src.errors import Duplicate, InvalidImage
 from src.fixtures.factory import Factory
+from src.library import image
 
 FAKE_COVER = SEED_DATA / "fake_cover.jpg"
 

@@ -1,7 +1,7 @@
 from sqlite3 import Connection
 
-from src.library import playlist
 from src.fixtures.factory import Factory
+from src.library import playlist
 
 
 def test_query(factory: Factory, db: Connection):

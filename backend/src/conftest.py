@@ -9,9 +9,9 @@ from yoyo import get_backend, read_migrations
 
 from src.config import Config, _Config
 from src.constants import Constants
+from src.fixtures.factory import Factory
 from src.util import database, freeze_database_time
 from src.webserver.app import create_app
-from src.fixtures.factory import Factory
 
 SEED_DATA = Path(__file__).parent / "fixtures" / "seed_data"
 

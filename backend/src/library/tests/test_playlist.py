@@ -4,9 +4,9 @@ import pytest
 
 from src.enums import CollectionType, PlaylistType
 from src.errors import Duplicate, Immutable, InvalidPlaylistType
+from src.fixtures.factory import Factory
 from src.library import collection, playlist
 from src.library import playlist_entry as pentry
-from src.fixtures.factory import Factory
 
 
 def test_exists(factory: Factory, db: Connection):

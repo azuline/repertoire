@@ -5,9 +5,9 @@ import pytest
 
 from src.enums import ArtistRole, TrackSort
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
+from src.fixtures.factory import Factory
 from src.library import playlist_entry as pentry
 from src.library import track
-from src.fixtures.factory import Factory
 
 
 def test_exists(factory: Factory, db: Connection):

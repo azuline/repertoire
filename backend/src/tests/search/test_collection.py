@@ -1,7 +1,7 @@
 from sqlite3 import Connection
 
-from src.library import collection
 from src.fixtures.factory import Factory
+from src.library import collection
 
 
 def test_query(factory: Factory, db: Connection):

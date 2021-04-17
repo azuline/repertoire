@@ -1,7 +1,7 @@
 from sqlite3 import Connection
 
-from src.library import invite
 from src.fixtures.factory import Factory
+from src.library import invite
 
 
 def test_from_id_success(factory: Factory, db: Connection):

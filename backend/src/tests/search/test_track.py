@@ -1,8 +1,8 @@
 from sqlite3 import Connection
 
 from src.enums import ArtistRole
-from src.library import track
 from src.fixtures.factory import Factory
+from src.library import track
 
 
 def test_insert_and_query(factory: Factory, db: Connection):

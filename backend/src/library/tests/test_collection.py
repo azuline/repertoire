@@ -10,8 +10,8 @@ from src.errors import (
     Immutable,
     InvalidCollectionType,
 )
-from src.library import collection
 from src.fixtures.factory import Factory
+from src.library import collection
 
 
 def test_exists(factory: Factory, db: Connection):
