@@ -1,12 +1,14 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
 
-import { Button, Header } from '~/components';
+import { Button, Header, ListItem, SectionHeader } from '~/components';
 import {
   IInvite,
+  refetchInvitesFetchInvitesQuery,
   useInvitesCreateInviteMutation,
   useInvitesFetchInvitesQuery,
 } from '~/graphql';
+import { formatDate } from '~/util';
 
 export const Invites: React.FC = () => {
   const { data } = useInvitesFetchInvitesQuery();
@@ -14,7 +16,7 @@ export const Invites: React.FC = () => {
 
   const [createInvite] = useInvitesCreateInviteMutation();
   const createOnClick = (): void => {
-    createInvite();
+    createInvite({ refetchQueries: [refetchInvitesFetchInvitesQuery()] });
   };
 
   if (invites === undefined) {
@@ -24,15 +26,16 @@ export const Invites: React.FC = () => {
   return (
     <div tw="flex flex-col w-full">
       <Header />
-      <div tw="flex w-full">
-        <div>
-          <Button onClick={createOnClick}>Create Invite</Button>
+      <div tw="flex flex-col pt-8 w-full">
+        <div tw="pb-8">
+          <Button onClick={createOnClick}>Create new invite</Button>
         </div>
+        <SectionHeader tw="pb-4">Active Invites</SectionHeader>
         <div tw="flex flex-col w-full">
           {invites.map((inv) => (
-            <div key={inv.id}>
-              {inv.id} {inv.code} {inv.createdBy.nickname}
-            </div>
+            <ListItem key={inv.id} tw="py-2 px-3" onClick={(): void => {}}>
+              {formatDate(new Date(inv.createdAt))} {inv.code} {inv.createdBy.nickname}
+            </ListItem>
           ))}
         </div>
       </div>
@@ -43,7 +46,7 @@ export const Invites: React.FC = () => {
 /* eslint-disable */
 gql`
   query InvitesFetchInvites {
-    invites {
+    invites(includeExpired: true) {
       total
       results {
         ...InviteFields

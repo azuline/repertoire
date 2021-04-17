@@ -53,3 +53,32 @@ export const secondsToLength = (totalSeconds: number): string => {
  */
 export const convertRemToPixels = (rem: number): number =>
   rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+
+const SHORT_MONTHS = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+
+/**
+ * Format a Javascript `Date` into the `Jan 06, 2002` format.
+ *
+ * @param A date.
+ * @returns A date string in the format `Jan 06, 2002`.
+ */
+export const formatDate = (date: Date): string => {
+  const shortMonth = SHORT_MONTHS[date.getMonth()];
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  return `${shortMonth} ${day}, ${year}`;
+};
