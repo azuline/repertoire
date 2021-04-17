@@ -6,9 +6,9 @@ on:
       - master
   pull_request:
     paths:
-      - ./github/**
-      - backend/
-      - e2e_tests/
+      - .github/**
+      - backend/**
+      - e2e_tests/**
 
 jobs:
   {% for job in jobs %}

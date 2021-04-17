@@ -6,9 +6,9 @@ on:
       - master
   pull_request:
     paths:
-      - ./github/**
-      - frontend/
-      - e2e_tests/
+      - .github/**
+      - frontend/**
+      - e2e_tests/**
 
 jobs:
   test:
