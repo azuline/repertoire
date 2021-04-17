@@ -16,8 +16,7 @@ import quart
 from ariadne import graphql
 from filelock import FileLock
 
-from src.conftest import SEED_DATA
-from src.constants import Constants
+from src.constants import TEST_DATA_PATH, Constants
 from src.enums import ArtistRole, CollectionType, PlaylistType, ReleaseType
 from src.fixtures.factory import Factory
 from src.fixtures.fragments import FRAGMENTS
@@ -28,7 +27,7 @@ from src.library import user
 from src.util import database, freeze_database_time
 from src.webserver.routes.graphql import GraphQLContext
 
-GQL_DB_PATH = SEED_DATA / "gql_db.sqlite3"
+GQL_DB_PATH = TEST_DATA_PATH / "gql_db.sqlite3"
 
 
 @pytest.fixture
@@ -75,7 +74,7 @@ def _create_seed_gql_db():
     # Parallelism-safe DB creation; per python-xdist README.
     GQL_DB_PATH.unlink(missing_ok=True)
 
-    seed_db_path = SEED_DATA / "db.sqlite3"
+    seed_db_path = TEST_DATA_PATH / "db.sqlite3"
     shutil.copyfile(seed_db_path, GQL_DB_PATH)
 
     with sqlite3.connect(GQL_DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES) as conn:

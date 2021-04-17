@@ -8,12 +8,10 @@ from freezegun import freeze_time
 from yoyo import get_backend, read_migrations
 
 from src.config import Config, _Config
-from src.constants import Constants
+from src.constants import TEST_DATA_PATH, Constants
 from src.fixtures.factory import Factory
 from src.util import database, freeze_database_time
 from src.webserver.app import create_app
-
-SEED_DATA = Path(__file__).parent / "fixtures" / "seed_data"
 
 
 @pytest.fixture(scope="session")
@@ -32,7 +30,7 @@ def seed_db(tmp_path_factory, worker_id):
 
 
 def _create_seed_db():
-    db_path = SEED_DATA / "db.sqlite3"
+    db_path = TEST_DATA_PATH / "db.sqlite3"
     db_path.unlink(missing_ok=True)
 
     cons = Constants()
@@ -63,7 +61,7 @@ def stop_the_clock():
 @pytest.fixture
 def seed_data(seed_db, isolated_dir):
     cons = Constants()
-    shutil.copytree(SEED_DATA, cons.data_path, dirs_exist_ok=True)
+    shutil.copytree(TEST_DATA_PATH, cons.data_path, dirs_exist_ok=True)
     # Update config cache with a new config.
     Config._config = _Config()
 

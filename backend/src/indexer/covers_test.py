@@ -2,17 +2,16 @@ import shutil
 from pathlib import Path
 from sqlite3 import Connection
 
-from src.conftest import SEED_DATA
-from src.constants import Constants
+from src.constants import TEST_DATA_PATH, Constants
 from src.fixtures.factory import Factory
 
 from .covers import save_pending_covers
 
-NEW_ALBUM = SEED_DATA / "fake_music" / "New Album"
-FAKE_COVER = SEED_DATA / "fake_cover.jpg"
+NEW_ALBUM = TEST_DATA_PATH / "fake_music" / "New Album"
+FAKE_COVER = TEST_DATA_PATH / "fake_cover.jpg"
 
 
-def test_save_pending_covers(factory: Factory, db: Connection, snapshot):
+def test_save_pending_covers(factory: Factory, db: Connection):
     cwd = Path.cwd()
 
     # Create two releases, each with one track. Release 1 has no embedded art but

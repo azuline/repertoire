@@ -5,7 +5,7 @@ from unittest.mock import Mock, call, patch
 
 import pytest
 
-from src.conftest import SEED_DATA
+from src.conftest import TEST_DATA_PATH
 from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.fixtures.factory import Factory
 from src.library import artist, collection, release, track
@@ -25,7 +25,7 @@ from .scanner import (
     scan_directory,
 )
 
-FAKE_MUSIC = SEED_DATA / "fake_music"
+FAKE_MUSIC = TEST_DATA_PATH / "fake_music"
 NEW_ALBUM = FAKE_MUSIC / "New Album"
 
 
