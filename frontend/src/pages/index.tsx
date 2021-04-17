@@ -55,27 +55,23 @@ export const AuthedRoutes: React.FC = () => {
 export const UnauthedRoutes: React.FC = () => {
   const { hasFirstUser, loading, error, refetch } = useHasFirstUser();
 
-  if (loading) {
-    return <FullPageLoading />;
+  switch (true) {
+    case loading:
+      return <FullPageLoading />;
+    case error:
+      return (
+        <UnauthenticatedError title="Unable to reach server. Please try again later." />
+      );
+    case !hasFirstUser:
+      return <Register isFirstRegistration onSuccess={refetch} />;
+    default:
+      return (
+        <Switch>
+          <Route component={Register} path="/register/:code" />
+          <Route component={Register} path="/register" />
+          <Route component={Login} path="/login" />
+          <Route component={Login} path="/" />
+        </Switch>
+      );
   }
-
-  if (error) {
-    return (
-      <UnauthenticatedError title="Unable to reach server. Please try again later." />
-    );
-  }
-
-  if (!hasFirstUser) {
-    return <Register onSuccess={refetch} />;
-  }
-
-  // Don't allow manual routing to the register route right now. But we will soon, so
-  // it's commented.
-  return (
-    <Switch>
-      {/* <Route component={Register} path="/register" /> */}
-      <Route component={Login} path="/login" />
-      <Route component={Login} path="/" />
-    </Switch>
-  );
 };
