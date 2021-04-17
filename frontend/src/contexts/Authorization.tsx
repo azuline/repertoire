@@ -1,9 +1,10 @@
 import * as React from 'react';
 
-import { usePersistentState, useRequestJson } from '~/hooks';
+import { useRequestJson } from '~/hooks';
 
 type IContext = {
   loggedIn: boolean;
+  loading: boolean;
   setLoggedIn: (arg0: boolean) => void;
   csrf: string | null;
   setCsrf: (arg0: string | null) => void;
@@ -11,6 +12,7 @@ type IContext = {
 
 export const AuthorizationContext = React.createContext<IContext>({
   csrf: null,
+  loading: false,
   loggedIn: false,
   setCsrf: () => {},
   setLoggedIn: () => {},
@@ -19,8 +21,9 @@ export const AuthorizationContext = React.createContext<IContext>({
 type IProvider = React.FC<{ children: React.ReactNode }>;
 
 export const AuthorizationProvider: IProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = usePersistentState<boolean>('auth--loggedIn', false);
-  const [csrf, setCsrf] = usePersistentState<string | null>('auth--csrfToken', null);
+  const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
+  const [csrf, setCsrf] = React.useState<string | null>(null);
+  const [loading, setLoading] = React.useState<boolean>(true);
   const requestJson = useRequestJson<{ csrfToken: string }>();
 
   React.useEffect(() => {
@@ -36,10 +39,12 @@ export const AuthorizationProvider: IProvider = ({ children }) => {
       } catch (e) {
         setLoggedIn(false);
       }
+
+      setLoading(false);
     })();
   }, []);
 
-  const value = { csrf, loggedIn, setCsrf, setLoggedIn };
+  const value = { csrf, loading, loggedIn, setCsrf, setLoggedIn };
 
   return (
     <AuthorizationContext.Provider value={value}>

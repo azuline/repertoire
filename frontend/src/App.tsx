@@ -2,7 +2,7 @@ import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import tw from 'twin.macro';
 
-import { Background, NowPlayingBar, Sidebar } from '~/components';
+import { Background, FullPageLoading, NowPlayingBar, Sidebar } from '~/components';
 import { AuthorizationContext, GlobalContexts, ThemeContext } from '~/contexts';
 import { AuthedRoutes, UnauthedRoutes } from '~/pages';
 import { AppStyles } from '~/Styles';
@@ -18,13 +18,22 @@ const App: React.FC = () => (
 );
 
 const Body: React.FC = () => {
-  const { loggedIn } = React.useContext(AuthorizationContext);
+  const { loggedIn, loading } = React.useContext(AuthorizationContext);
   const { theme } = React.useContext(ThemeContext);
 
   return (
     <div tw="w-full min-h-0 bg-background-700 text-foreground-50">
       <div className={theme} tw="flex flex-col h-screen">
-        {loggedIn ? <AuthedBody /> : <UnauthedRoutes />}
+        {((): React.ReactNode => {
+          switch (true) {
+            case loading:
+              return <FullPageLoading />;
+            case loggedIn:
+              return <AuthedBody />;
+            default:
+              return <UnauthedRoutes />;
+          }
+        })()}
       </div>
     </div>
   );
