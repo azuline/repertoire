@@ -139,6 +139,12 @@ def _add_test_data(conn: Connection):
         factory.mock_image(path=Path.cwd() / "image3.png", conn=conn),
     ]
 
+    # These start at ID 1.
+    [
+        factory.invite(by_user=usr_admin, conn=conn),
+        factory.invite(by_user=usr_blissful, conn=conn),
+    ]
+
     # These start at ID 2.
 
     playlists = [

@@ -53,6 +53,21 @@ type Query {
     type: CollectionType!
   ): Collection
 
+  "Fetch invites."
+  invites(
+    "The user ID of the invite creator."
+    createdBy: Int
+    "Which page of invites to return."
+    page: Int
+    """
+    The number of invites per-page. Leave null to return all invites.
+    """
+    perPage: Int
+  ): Invites
+
+  "Fetch invites by ID."
+  invite(id: Int!): Invite
+
   "Search playlists."
   playlists(
     """
@@ -71,7 +86,7 @@ type Query {
     perPage: Int
   ): Playlists
 
-  "Fetch a playlist by id."
+  "Fetch a playlist by ID."
   playlist(id: Int!): Playlist
 
   "Fetch a playlist by name and type."
@@ -216,6 +231,8 @@ type Mutation {
     releaseId: Int!
   ): CollectionAndRelease
 
+  createInvite: Invite
+
   createPlaylist(
     name: String!
     type: PlaylistType!
@@ -342,6 +359,22 @@ type Collections {
   total: Int!
   "The collections on the current page."
   results: [Collection]!
+}
+
+type Invite {
+  id: Int!
+  "Hex encoded invite code."
+  code: String!
+  createdBy: User!
+  createdAt: PosixTime!
+  usedBy: User
+}
+
+type Invites {
+  "The total number of invites matching the query across all pages."
+  total: Int!
+  "The invites on the current page."
+  results: [Invite]!
 }
 
 type Playlist {

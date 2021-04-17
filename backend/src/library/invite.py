@@ -80,6 +80,84 @@ def from_code(code: bytes, conn: Connection) -> Optional[T]:
     return None
 
 
+def search(
+    conn: Connection,
+    created_by: Optional[int] = None,
+    page: int = 1,
+    per_page: Optional[int] = None,
+) -> list[T]:
+    """
+    Search for invites. Parameters are optional; omitted ones are excluded from the
+    matching criteria.
+
+    :param conn: A connection to the database.
+    :param created_by: The user that created the invite.
+    :param page: Which page of invites to return.
+    :param per_page: The number of invites per page. Pass ``None`` to return all
+                     invites (this will ignore ``page``).
+    :return: All matching invites.
+    """
+    filters, params = _generate_filters(created_by)
+
+    if per_page:
+        params.extend([per_page, (page - 1) * per_page])
+
+    cursor = conn.execute(
+        f"""
+        SELECT *
+        FROM system__invites
+        {"WHERE " + " AND ".join(filters) if filters else ""}
+        GROUP BY id
+        ORDER BY created_at
+        {"LIMIT ? OFFSET ?" if per_page else ""}
+        """,
+        params,
+    )
+
+    logger.debug(f"Searched invites with {cursor.rowcount} results.")
+    return [from_row(row) for row in cursor]
+
+
+def count(
+    conn: Connection,
+    created_by: Optional[int] = None,
+) -> int:
+    """
+    Fetch the number of invites matching the passed-in criteria. Parameters are
+    optional; omitted ones are excluded from the matching criteria.
+
+    :param conn: A connection to the database.
+    :param search: A search string. We split this up into individual punctuation-less
+                   tokens and return invites whose names contain each token.
+    :return: The number of matching invites.
+    """
+    filters, params = _generate_filters(created_by)
+
+    cursor = conn.execute(
+        f"""
+        SELECT COUNT(1)
+        FROM system__invites
+        {"WHERE " + " AND ".join(filters) if filters else ""}
+        """,
+        params,
+    )
+
+    count = cursor.fetchone()[0]
+    logger.debug(f"Counted {count} invites that matched the filters.")
+    return count
+
+
+def _generate_filters(
+    created_by: Optional[int],
+) -> tuple[list[str], list[int]]:
+    filters, params = [], []
+    if created_by is not None:
+        filters.append("created_by = ?")
+        params.append(created_by)
+
+    return filters, params
+
+
 def create(by_user: user.T, conn: Connection) -> T:
     """
     Create an invite.

@@ -1,163 +1,162 @@
-USER_FIELDS = """
-    fragment UserFields on User {
-        id
-        nickname
-    }
-"""
-
-RELEASE_FIELDS = """
-    fragment ReleaseFields on Release {
-        id
-        title
-        releaseType
-        addedOn
-        inInbox
-        inFavorites
-        releaseYear
-        releaseDate
-        numTracks
-        runtime
-        imageId
-
-        artists {
+FRAGMENTS = {
+    "...ArtistFields": """
+        fragment ArtistFields on Artist {
             id
             name
+            starred
+            numReleases
+
+            releases {
+                id
+                title
+            }
+
+            topGenres {
+                genre {
+                    id
+                }
+                numMatches
+            }
         }
-        collages {
+    """,
+    "...CollectionFields": """
+        fragment CollectionFields on Collection {
             id
             name
-        }
-        labels {
-            id
-            name
-        }
-        genres {
-            id
-            name
-        }
-        tracks {
-            id
-            title
-        }
-    }
-"""
+            starred
+            type
+            numReleases
+            lastUpdatedOn
 
-ARTIST_FIELDS = """
-    fragment ArtistFields on Artist {
-        id
-        name
-        starred
-        numReleases
+            releases {
+                id
+                title
+            }
 
-        releases {
-            id
-            title
+            topGenres {
+                genre {
+                    id
+                }
+                numMatches
+            }
         }
-
-        topGenres {
-            genre {
+    """,
+    "...InviteFields": """
+        fragment InviteFields on Invite {
+            id
+            code
+            createdBy {
                 id
             }
-            numMatches
-        }
-    }
-"""
-
-COLLECTION_FIELDS = """
-    fragment CollectionFields on Collection {
-        id
-        name
-        starred
-        type
-        numReleases
-        lastUpdatedOn
-
-        releases {
-            id
-            title
-        }
-
-        topGenres {
-            genre {
+            createdAt
+            usedBy {
                 id
             }
-            numMatches
         }
-    }
-"""
-
-PLAYLIST_FIELDS = """
-    fragment PlaylistFields on Playlist {
-        id
-        name
-        starred
-        type
-        numTracks
-        lastUpdatedOn
-
-        entries {
+    """,
+    "...PlaylistEntryFields": """
+        fragment PlaylistEntryFields on PlaylistEntry {
             id
+            position
+
             track {
                 id
                 title
             }
-        }
 
-        topGenres {
-            genre {
-                id
-            }
-            numMatches
-        }
-    }
-"""
-
-PLAYLIST_ENTRY_FIELDS = """
-    fragment PlaylistEntryFields on PlaylistEntry {
-        id
-        position
-
-        track {
-            id
-            title
-        }
-
-        playlist {
-            id
-            name
-        }
-    }
-"""
-
-TRACK_FIELDS = """
-    fragment TrackFields on Track {
-        id
-        title
-        duration
-        trackNumber
-        discNumber
-
-        release {
-            id
-            title
-        }
-
-        artists {
-            role
-            artist {
+            playlist {
                 id
                 name
             }
         }
-    }
-"""
+    """,
+    "...PlaylistFields": """
+        fragment PlaylistFields on Playlist {
+            id
+            name
+            starred
+            type
+            numTracks
+            lastUpdatedOn
 
-FRAGMENTS = {
-    "...UserFields": USER_FIELDS,
-    "...ReleaseFields": RELEASE_FIELDS,
-    "...ArtistFields": ARTIST_FIELDS,
-    "...CollectionFields": COLLECTION_FIELDS,
-    "...PlaylistFields": PLAYLIST_FIELDS,
-    "...PlaylistEntryFields": PLAYLIST_ENTRY_FIELDS,
-    "...TrackFields": TRACK_FIELDS,
+            entries {
+                id
+                track {
+                    id
+                    title
+                }
+            }
+
+            topGenres {
+                genre {
+                    id
+                }
+                numMatches
+            }
+        }
+    """,
+    "...ReleaseFields": """
+        fragment ReleaseFields on Release {
+            id
+            title
+            releaseType
+            addedOn
+            inInbox
+            inFavorites
+            releaseYear
+            releaseDate
+            numTracks
+            runtime
+            imageId
+
+            artists {
+                id
+                name
+            }
+            collages {
+                id
+                name
+            }
+            labels {
+                id
+                name
+            }
+            genres {
+                id
+                name
+            }
+            tracks {
+                id
+                title
+            }
+        }
+    """,
+    "...TrackFields": """
+        fragment TrackFields on Track {
+            id
+            title
+            duration
+            trackNumber
+            discNumber
+
+            release {
+                id
+                title
+            }
+
+            artists {
+                role
+                artist {
+                    id
+                    name
+                }
+            }
+        }
+    """,
+    "...UserFields": """
+        fragment UserFields on User {
+            id
+            nickname
+        }
+    """,
 }
