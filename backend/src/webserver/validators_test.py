@@ -1,7 +1,7 @@
 import pytest
 from voluptuous import Invalid
 
-from src.webserver.validators import StringBool
+from .validators import StringBool
 
 
 def test_string_bool_true():

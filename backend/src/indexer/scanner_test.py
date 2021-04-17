@@ -8,7 +8,7 @@ import pytest
 from src.conftest import SEED_DATA
 from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.fixtures.factory import Factory
-from src.indexer.scanner import (
+from .scanner import (
     _fetch_or_create_artist,
     _fetch_or_create_release,
     _fix_album_artists,
@@ -76,8 +76,8 @@ def test_catalog_file(
     trk = track.from_filepath(filepath, db)
     assert trk is not None
 
-    # Because filepath is not a reproducible value (depends on environment), we exclude
-    # it from our snapshot and test it separately.
+    # Because filepath is not a reproducible value (depends on environment),
+    # we exclude it from our snapshot and test it separately.
     track_dict = asdict(trk)
     del track_dict["filepath"]
 
@@ -95,7 +95,6 @@ def test_catalog_file_null_title(
     mock_fetch_or_create_release,
     factory: Factory,
     db: Connection,
-    snapshot,
 ):
     filepath = "/tmp/music.m4a"
     rls = factory.release(conn=db)
@@ -127,7 +126,6 @@ def test_catalog_file_duplicate_artist(
     mock_fetch_or_create_release,
     factory: Factory,
     db: Connection,
-    snapshot,
 ):
     filepath = "/tmp/music.m4a"
     rls = factory.release(conn=db)
