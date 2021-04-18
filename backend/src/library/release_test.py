@@ -383,8 +383,12 @@ def test_release_collections(factory: Factory, db: Connection):
 
 def test_release_collections_filter_type(factory: Factory, db: Connection):
     rls = factory.release(conn=db)
+    usr, _ = factory.user(conn=db)
 
-    cols = [factory.collection(type=CollectionType.SYSTEM, conn=db) for _ in range(2)]
+    cols = [
+        factory.collection(type=CollectionType.SYSTEM, user=usr, conn=db)
+        for _ in range(2)
+    ]
     for _ in range(3):
         cols.append(factory.collection(type=CollectionType.COLLAGE, conn=db))
 

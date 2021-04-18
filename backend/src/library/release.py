@@ -70,8 +70,8 @@ def from_row(row: Union[dict, Row]) -> T:
             row,
             runtime=row["runtime"] or 0,
             release_type=ReleaseType(row["release_type"]),
-            in_inbox=bool(row["in_inbox"]),
-            in_favorites=bool(row["in_favorites"]),
+            in_inbox=False,  # bool(row["in_inbox"]),
+            in_favorites=False,  # bool(row["in_favorites"]),
         )
     )
 
