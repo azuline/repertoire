@@ -35,7 +35,7 @@ async def test_collection_not_found(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_collection_from_name_and_type(graphql_query, snapshot):
+async def test_collection_from_name_type_user(graphql_query, snapshot):
     query = """
         query {
             collectionFromNameAndType(name: "Genre1", type: GENRE) {
@@ -49,7 +49,7 @@ async def test_collection_from_name_and_type(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_collection_from_name_and_type_not_found(graphql_query, snapshot):
+async def test_collection_from_name_type_user_not_found(graphql_query, snapshot):
     query = """
         query {
             collectionFromNameAndType(name: "AAFEFOPAIEFPAJF", type: COLLAGE) {

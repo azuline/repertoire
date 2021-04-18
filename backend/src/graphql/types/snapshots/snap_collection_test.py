@@ -263,6 +263,48 @@ snapshots['test_collection_from_name_and_type_not_found 1'] = {
     ]
 }
 
+snapshots['test_collection_from_name_type_user 1'] = {
+    'data': {
+        'collectionFromNameAndType': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'Collection "Genre1" of type GENRE not found.',
+            'path': [
+                'collectionFromNameAndType'
+            ],
+            'type': 'NotFound'
+        }
+    ]
+}
+
+snapshots['test_collection_from_name_type_user_not_found 1'] = {
+    'data': {
+        'collectionFromNameAndType': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'Collection "AAFEFOPAIEFPAJF" of type COLLAGE not found.',
+            'path': [
+                'collectionFromNameAndType'
+            ],
+            'type': 'NotFound'
+        }
+    ]
+}
+
 snapshots['test_collection_not_found 1'] = {
     'data': None,
     'errors': [

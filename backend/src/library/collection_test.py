@@ -36,18 +36,18 @@ def test_from_id_failure(db: Connection):
     assert collection.from_id(90000, db) is None
 
 
-def test_from_name_and_type_success(factory: Factory, db: Connection):
+def test_from_name_type_user_success(factory: Factory, db: Connection):
     col = factory.collection(conn=db)
-    new_col = collection.from_name_and_type(col.name, col.type, db)
+    new_col = collection.from_name_type_user(col.name, col.type, db)
     assert new_col is not None
 
     assert col.name == new_col.name
     assert col.type == new_col.type
 
 
-def test_from_name_and_type_failure(db: Connection):
-    col1 = collection.from_name_and_type("Electronic", CollectionType.COLLAGE, db)
-    col2 = collection.from_name_and_type("Inb0x", CollectionType.SYSTEM, db)
+def test_from_name_type_user_failure(db: Connection):
+    col1 = collection.from_name_type_user("Electronic", CollectionType.COLLAGE, db)
+    col2 = collection.from_name_type_user("Inb0x", CollectionType.SYSTEM, db)
 
     assert col1 is None
     assert col2 is None
