@@ -7,6 +7,9 @@ FROM mhart/alpine-node:15.8.0 AS builder
 
 WORKDIR /app
 
+# Dockerhub's build environment is slow as fuck and keeps timing out.
+RUN yarn config set network-timeout 300000
+
 # To cache dependencies even if the code changes, we install deps
 # before copying the rest of the code.
 COPY frontend/package.json frontend/yarn.lock ./
