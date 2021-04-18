@@ -34,7 +34,7 @@
     "react-toast-notifications": "^2.4.0",
     "react-virtualized": "^9.22.2",
     "tailwindcss": "^2.0.1",
-    "twin.macro": "^2.2.3",
+    "twin.macro": "^2.3.3",
     "web-vitals": "^0.2.4"
   },
   "devDependencies": {
