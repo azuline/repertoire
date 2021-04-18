@@ -38,7 +38,11 @@ export const Register: IRegister = ({ onSuccess, isFirstRegistration = false }) 
   };
 
   React.useEffect((): void => {
-    verifyToken();
+    if (!isFirstRegistration) {
+      verifyToken();
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   if (loading) {
