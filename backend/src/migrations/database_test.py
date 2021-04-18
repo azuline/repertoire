@@ -1,7 +1,8 @@
 import sqlite3
 
-from src import initialize_config, run_database_migrations
 from src.util import freeze_database_time
+
+from .database import run_database_migrations
 
 
 def test_run_database_migrations(isolated_dir):
@@ -14,13 +15,3 @@ def test_run_database_migrations(isolated_dir):
         freeze_database_time(conn)
         cursor = conn.execute("SELECT 1 FROM _yoyo_version")
         assert len(cursor.fetchall()) > 0
-
-
-def test_initialize_config(isolated_dir):
-    cfg_path = isolated_dir / "_data" / "config.ini"
-    assert not cfg_path.exists()
-    initialize_config()
-    assert cfg_path.exists()
-
-    with cfg_path.open("r") as fp:
-        assert "[repertoire]" in fp.read()

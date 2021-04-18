@@ -89,7 +89,7 @@ class _Constants:
 
     @cached_property
     def migrations_path(_):
-        return BACKEND_ROOT / "src" / "migrations"
+        return BACKEND_ROOT / "src" / "migrations" / "sql"
 
     @cached_property
     def built_frontend_dir(_):

@@ -20,28 +20,12 @@ DEFAULT_CONFIG = {
 }
 
 
-def _save_config(parser: ConfigParser, config_path: Path) -> None:
+def initialize_config():
     """
-    This function saves a ConfigParser instance to the provided ``config_path``.
-
-    :param parser: The ConfigParser instance to save.
-    :param config_path: The filepath of the file to save to.
+    Write the default config to the constant `config_path` location.
     """
-    with config_path.open("w") as f:
-        parser.write(f)
-
-
-def _load_config(config_path: Path) -> ConfigParser:
-    """
-    This function loads a ConfigParser instance from the provided ``config_path``.
-
-    :param config_path: The filepath of the config file to load.
-    :return: The loaded ConfigParser instance.
-    """
-    logger.debug(f"Reading config from {config_path}.")
-    parser = ConfigParser()
-    parser.read(config_path)
-    return parser
+    cons = Constants()
+    write_default_config(cons.config_path)
 
 
 def write_default_config(config_path: Path) -> None:
@@ -129,3 +113,27 @@ class Config:
         except AttributeError:
             cls._config = _Config()
             return cls._config
+
+
+def _save_config(parser: ConfigParser, config_path: Path) -> None:
+    """
+    This function saves a ConfigParser instance to the provided ``config_path``.
+
+    :param parser: The ConfigParser instance to save.
+    :param config_path: The filepath of the file to save to.
+    """
+    with config_path.open("w") as f:
+        parser.write(f)
+
+
+def _load_config(config_path: Path) -> ConfigParser:
+    """
+    This function loads a ConfigParser instance from the provided ``config_path``.
+
+    :param config_path: The filepath of the config file to load.
+    :return: The loaded ConfigParser instance.
+    """
+    logger.debug(f"Reading config from {config_path}.")
+    parser = ConfigParser()
+    parser.read(config_path)
+    return parser

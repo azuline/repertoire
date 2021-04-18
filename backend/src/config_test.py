@@ -6,8 +6,18 @@ import pytest
 from src.config import DEFAULT_CONFIG
 from src.config import Config as SingletonConfig
 from src.config import _Config as Config  # We don't want a singleton when we test.
-from src.config import write_default_config
+from src.config import initialize_config, write_default_config
 from src.errors import InvalidConfig
+
+
+def test_initialize_config(isolated_dir):
+    cfg_path = isolated_dir / "_data" / "config.ini"
+    assert not cfg_path.exists()
+    initialize_config()
+    assert cfg_path.exists()
+
+    with cfg_path.open("r") as fp:
+        assert "[repertoire]" in fp.read()
 
 
 def test_valid_index_crontab():
