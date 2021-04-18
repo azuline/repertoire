@@ -1,109 +1,111 @@
-name: E2E
+# name: E2E
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+# on:
+#   push:
+#     branches:
+#       - master
+#   pull_request:
+#     branches:
+#       - master
 
-jobs:
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    env:
-      CI: true
-      DATA_PATH: ../_data
-      LD_LIBRARY_PATH: /usr/local/lib
-    steps:
-      - uses: actions/checkout@v2
-      - name: Cache SQLite
-        id: cache-sqlite
-        uses: actions/cache@v2
-        with:
-          path: /tmp/sqlite
-          key: ${{ runner.os }}-sqlite-2021-03-02
-      - name: Build SQLite
-        if: steps.cache-sqlite.outputs.cache-hit != 'true'
-        uses: ./.github/actions/build-sqlite
-      - name: Install SQLite
-        uses: ./.github/actions/install-sqlite
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.9.1'
-      - name: Install Playwright
-        uses: microsoft/playwright-github-action@v1
-      - name: Cache test library
-        id: cache-library
-        uses: actions/cache@v2
-        with:
-          path: _testlib/
-          key: ${{ runner.os }}-test-library-2021-03-05
-      - name: Download test library
-        if: steps.cache-library.outputs.cache-hit != 'true'
-        run: wget -O - https://u.sunsetglow.net/f/5moSen8BU_c.tgz | tar -xzvf -
-      - name: Cache poetry
-        id: cache-poetry
-        uses: actions/cache@v2
-        with:
-          path: ~/.poetry
-          key: ${{ runner.os }}-therealpoetry-1.1.4
-      - name: Install poetry
-        if: steps.cache-poetry.outputs.cache-hit != 'true'
-        run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
-      - name: Configure environment
-        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-      - name: Cache frontend dependencies
-        id: cache-frontend-deps
-        uses: actions/cache@v2
-        with:
-          path: frontend/node_modules/
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/frontend/yarn.lock') }}
-          restore-keys: "${{ runner.os }}-yarn-"
-      - name: Install frontend dependencies
-        if: steps.cache-frontend-deps.outputs.cache-hit != 'true'
-        run: yarn install
-        working-directory: frontend/
-      - name: Build static frontend
-        run: yarn build
-        working-directory: frontend/
-      - name: Cache backend dependencies
-        id: cache-backend-deps
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: ${{ runner.os }}-poetry-${{ hashFiles('**/backend/poetry.lock') }}
-          restore-keys: "${{ runner.os }}-poetry-"
-      - name: Install backend dependencies
-        if: steps.cache-backend-deps.outputs.cache-hit != 'true'
-        run: poetry install
-        working-directory: backend/
-      - name: Spin up backend server
-        run: |
-          mkdir -p _data/ e2e_tests/output/logs/
-          printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > _data/config.ini
-          cd backend/
-          make debug > ../e2e_tests/output/logs/backend.log 2>&1 &
-      - name: Cache e2e tests dependencies
-        id: cache-test-deps
-        uses: actions/cache@v2
-        with:
-          path: |
-            e2e_tests/node_modules/
-            ~/.cache/ms-playwright
-          key: ${{ runner.os }}-yarn-playwright-${{ hashFiles('**/e2e_tests/yarn.lock') }}
-          restore-keys: "${{ runner.os }}-yarn-playwright-"
-      - name: Install e2e tests dependencies
-        if: steps.cache-test-deps.outputs.cache-hit != 'true'
-        run: yarn install
-        working-directory: e2e_tests/
-      - name: Run e2e tests
-        run: |
-          yarn wait-port -t 30000 5000
-          yarn headless
-        working-directory: e2e_tests/
-      - name: Upload test artifacts
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: codeceptjs-output
-          path: e2e_tests/output/
+# jobs:
+#   test:
+#     name: Test
+#     runs-on: ubuntu-latest
+#     env:
+#       CI: true
+#       DATA_PATH: ../_data
+#       LD_LIBRARY_PATH: /usr/local/lib
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Cache SQLite
+#         id: cache-sqlite
+#         uses: actions/cache@v2
+#         with:
+#           path: /tmp/sqlite
+#           key: ${{ runner.os }}-sqlite-2021-03-02
+#       - name: Build SQLite
+#         if: steps.cache-sqlite.outputs.cache-hit != 'true'
+#         uses: ./.github/actions/build-sqlite
+#       - name: Install SQLite
+#         uses: ./.github/actions/install-sqlite
+#       - uses: actions/setup-python@v2
+#         with:
+#           python-version: '3.9.1'
+#       - name: Install Playwright
+#         uses: microsoft/playwright-github-action@v1
+#       - name: Cache test library
+#         id: cache-library
+#         uses: actions/cache@v2
+#         with:
+#           path: _testlib/
+#           key: ${{ runner.os }}-test-library-2021-03-05
+#       - name: Download test library
+#         if: steps.cache-library.outputs.cache-hit != 'true'
+#         run: wget -O - https://u.sunsetglow.net/f/5moSen8BU_c.tgz | tar -xzvf -
+#       - name: Cache poetry
+#         id: cache-poetry
+#         uses: actions/cache@v2
+#         with:
+#           path: ~/.poetry
+#           key: ${{ runner.os }}-therealpoetry-1.1.4
+#       - name: Install poetry
+#         if: steps.cache-poetry.outputs.cache-hit != 'true'
+#         run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
+#       - name: Configure environment
+#         run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+#       - name: Cache frontend dependencies
+#         id: cache-frontend-deps
+#         uses: actions/cache@v2
+#         with:
+#           path: frontend/node_modules/
+#           key: ${{ runner.os }}-yarn-${{ hashFiles('**/frontend/yarn.lock') }}
+#           restore-keys: "${{ runner.os }}-yarn-"
+#       - name: Install frontend dependencies
+#         if: steps.cache-frontend-deps.outputs.cache-hit != 'true'
+#         run: yarn install
+#         working-directory: frontend/
+#       - name: Build static frontend
+#         run: yarn build
+#         working-directory: frontend/
+#       - name: Cache backend dependencies
+#         id: cache-backend-deps
+#         uses: actions/cache@v2
+#         with:
+#           path: ~/.cache/pypoetry/virtualenvs
+#           key: ${{ runner.os }}-poetry-${{ hashFiles('**/backend/poetry.lock') }}
+#           restore-keys: "${{ runner.os }}-poetry-"
+#       - name: Install backend dependencies
+#         if: steps.cache-backend-deps.outputs.cache-hit != 'true'
+#         run: poetry install
+#         working-directory: backend/
+#       - name: Spin up backend server
+#         run: |
+#           mkdir -p _data/ e2e_tests/output/logs/
+#           printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > _data/config.ini
+#           cd backend/
+#           make debug > ../e2e_tests/output/logs/backend.log 2>&1 &
+#       - name: Cache e2e tests dependencies
+#         id: cache-test-deps
+#         uses: actions/cache@v2
+#         with:
+#           path: |
+#             e2e_tests/node_modules/
+#             ~/.cache/ms-playwright
+#           key: ${{ runner.os }}-yarn-playwright-${{ hashFiles('**/e2e_tests/yarn.lock') }}
+#           restore-keys: "${{ runner.os }}-yarn-playwright-"
+#       - name: Install e2e tests dependencies
+#         if: steps.cache-test-deps.outputs.cache-hit != 'true'
+#         run: yarn install
+#         working-directory: e2e_tests/
+#       - name: Run e2e tests
+#         run: |
+#           yarn wait-port -t 30000 5000
+#           yarn headless
+#         working-directory: e2e_tests/
+#       - name: Upload test artifacts
+#         if: always()
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: codeceptjs-output
+#           path: e2e_tests/output/
