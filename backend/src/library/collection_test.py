@@ -8,6 +8,7 @@ from src.errors import (
     DoesNotExist,
     Duplicate,
     Immutable,
+    InvalidArgument,
     InvalidCollectionType,
 )
 from src.fixtures.factory import Factory
@@ -54,9 +55,7 @@ def test_from_name_and_type_failure(db: Connection):
 
 def test_search_all(factory: Factory, db: Connection):
     cols = {factory.collection(conn=db) for _ in range(5)}
-    # Remove inbox & favorites collections for a better comparison.
-    out = {col for col in collection.search(db) if col.id not in [1, 2]}
-    assert cols == out
+    assert cols == set(collection.search(db))
 
 
 def test_search_filters(factory: Factory, db: Connection):
@@ -87,9 +86,7 @@ def test_search_per_page(factory: Factory, db: Connection):
 
 def test_count_all(factory: Factory, db: Connection):
     cols = [factory.collection(conn=db) for _ in range(5)]
-    count = collection.count(db)
-    # Two extras are inbox & favorites.
-    assert len(cols) == count - 2
+    assert len(cols) == collection.count(db)
 
 
 def test_count_one(factory: Factory, db: Connection):
@@ -111,6 +108,40 @@ def test_create(db: Connection, type):
     assert col == collection.from_id(col.id, db)
 
 
+def test_create_collage_with_user(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    with pytest.raises(InvalidArgument):
+        collection.create(
+            "new collage",
+            CollectionType.COLLAGE,
+            user_id=usr.id,
+            starred=True,
+            conn=db,
+        )
+
+
+def test_create_personal(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    col = collection.create(
+        "new collection",
+        CollectionType.PERSONAL,
+        user_id=usr.id,
+        starred=True,
+        conn=db,
+    )
+    assert col == collection.from_id(col.id, db)
+
+
+def test_create_personal_without_user(db: Connection):
+    with pytest.raises(InvalidArgument):
+        collection.create(
+            "new collection",
+            CollectionType.PERSONAL,
+            starred=True,
+            conn=db,
+        )
+
+
 def test_create_duplicate(factory: Factory, db: Connection):
     col = factory.collection(conn=db)
     with pytest.raises(Duplicate):
@@ -122,10 +153,12 @@ def test_create_invalid_type(db: Connection):
         collection.create("new collage", CollectionType.SYSTEM, conn=db)
 
 
-def test_create_invalid_type_override(db: Connection):
+def test_create_invalid_type_override(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
     col = collection.create(
         "new collage",
         CollectionType.SYSTEM,
+        user_id=usr.id,
         conn=db,
         override_immutable=True,
     )
@@ -141,7 +174,9 @@ def test_update_fields(factory: Factory, db: Connection):
 
 
 def test_update_immutable(factory: Factory, db: Connection):
-    col = factory.collection(type=CollectionType.SYSTEM, conn=db)
+    usr, _ = factory.user(conn=db)
+    col = factory.collection(type=CollectionType.SYSTEM, user=usr, conn=db)
+
     with pytest.raises(Immutable):
         collection.update(col, conn=db, name="New Name")
 

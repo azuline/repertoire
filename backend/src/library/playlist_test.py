@@ -3,7 +3,7 @@ from sqlite3 import Connection
 import pytest
 
 from src.enums import CollectionType, PlaylistType
-from src.errors import Duplicate, Immutable, InvalidPlaylistType
+from src.errors import Duplicate, Immutable, InvalidArgument, InvalidPlaylistType
 from src.fixtures.factory import Factory
 
 from . import collection, playlist
@@ -42,9 +42,7 @@ def test_from_name_and_type_failure(db: Connection):
 
 def test_search_all(factory: Factory, db: Connection):
     plys = {factory.playlist(conn=db) for _ in range(5)}
-    # Remove the favorites playlist for an easy comparison.
-    out = {ply for ply in playlist.search(db) if ply.id != 1}
-    assert plys == out
+    assert plys == set(playlist.search(db))
 
 
 def test_search_name(factory: Factory, db: Connection):
@@ -78,8 +76,7 @@ def test_search_per_page(factory: Factory, db: Connection):
 def test_count_all(factory: Factory, db: Connection):
     plys = [factory.playlist(conn=db) for _ in range(5)]
     count = playlist.count(db)
-    # Extra one for favorites.
-    assert count == len(plys) + 1
+    assert count == len(plys)
 
 
 def test_count_one(factory: Factory, db: Connection):
@@ -88,10 +85,43 @@ def test_count_one(factory: Factory, db: Connection):
     assert count == 1
 
 
-@pytest.mark.parametrize("type", [PlaylistType.PLAYLIST])
-def test_create(db: Connection, type):
-    ply = playlist.create("new plylist", type, starred=True, conn=db)
+def test_create(db: Connection):
+    ply = playlist.create("new plylist", PlaylistType.PLAYLIST, starred=True, conn=db)
     assert ply == playlist.from_id(ply.id, db)
+
+
+def test_create_general_with_user(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    with pytest.raises(InvalidArgument):
+        playlist.create(
+            "new plylist",
+            PlaylistType.PLAYLIST,
+            user_id=usr.id,
+            starred=True,
+            conn=db,
+        )
+
+
+def test_create_personal(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    ply = playlist.create(
+        "new plylist",
+        PlaylistType.PERSONAL,
+        user_id=usr.id,
+        starred=True,
+        conn=db,
+    )
+    assert ply == playlist.from_id(ply.id, db)
+
+
+def test_create_personal_without_user(db: Connection):
+    with pytest.raises(InvalidArgument):
+        playlist.create(
+            "new plylist",
+            PlaylistType.PERSONAL,
+            starred=True,
+            conn=db,
+        )
 
 
 def test_create_duplicate(factory: Factory, db: Connection):
@@ -106,9 +136,11 @@ def test_create_invalid_type(factory: Factory, db: Connection):
 
 
 def test_create_invalid_type_override(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
     ply = playlist.create(
         "new playlist",
         PlaylistType.SYSTEM,
+        user_id=usr.id,
         conn=db,
         override_immutable=True,
     )
@@ -124,7 +156,8 @@ def test_update_fields(factory: Factory, db: Connection):
 
 
 def test_update_immutable(factory: Factory, db: Connection):
-    ply = factory.playlist(type=PlaylistType.SYSTEM, conn=db)
+    usr, _ = factory.user(conn=db)
+    ply = factory.playlist(type=PlaylistType.SYSTEM, user=usr, conn=db)
 
     with pytest.raises(Immutable):
         playlist.update(ply, conn=db, name="New Name")
