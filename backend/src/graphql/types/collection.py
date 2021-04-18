@@ -30,7 +30,7 @@ def resolve_collection_from_name_and_type(
     name: str,
     type: CollectionType,
 ) -> collection.T:
-    if col := collection.from_name_and_type(name, type, info.context.db):
+    if col := collection.from_name_type_user(name, type, info.context.db):
         return col
 
     raise NotFound(f'Collection "{name}" of type {type.name} not found.')
