@@ -50,6 +50,10 @@ class InvalidPlaylistType(LibError):
     pass
 
 
+class InvalidArgument(LibError):
+    pass
+
+
 class Immutable(LibError):
     pass
 

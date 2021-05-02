@@ -536,6 +536,7 @@ enum ReleaseType {
 
 enum CollectionType {
   SYSTEM
+  PERSONAL
   COLLAGE
   LABEL
   GENRE
@@ -560,5 +561,6 @@ enum TrackSort {
 
 enum PlaylistType {
   SYSTEM
+  PERSONAL
   PLAYLIST
 }

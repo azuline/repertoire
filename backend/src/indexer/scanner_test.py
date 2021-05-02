@@ -256,7 +256,7 @@ def test_insert_into_label_collection_existing(factory: Factory, db: Connection)
 def test_insert_into_label_collection_new(factory: Factory, db: Connection):
     rls = factory.release(conn=db)
     _insert_into_label_collection(rls, "asdf", db)
-    col = collection.from_name_and_type("asdf", CollectionType.LABEL, db)
+    col = collection.from_name_type_user("asdf", CollectionType.LABEL, db)
     assert col in release.collections(rls, db)
 
 
@@ -266,7 +266,7 @@ def test_insert_into_genre_collections(factory: Factory, db: Connection):
     _insert_into_genre_collections(rls, ["1, 2, 3", "4; 5"], db)
     collections = release.collections(rls, db)
     for genre in ["1", "2", "3", "4", "5"]:
-        col = collection.from_name_and_type(genre, CollectionType.GENRE, db)
+        col = collection.from_name_type_user(genre, CollectionType.GENRE, db)
         assert col in collections
 
 
@@ -276,7 +276,7 @@ def test_duplicate_genre(factory: Factory, db: Connection):
     _insert_into_genre_collections(rls, ["1, 2, 3", "2/3"], db)
     collections = release.collections(rls, db)
     for genre in ["1", "2", "3"]:
-        col = collection.from_name_and_type(genre, CollectionType.GENRE, db)
+        col = collection.from_name_type_user(genre, CollectionType.GENRE, db)
         assert col in collections
 
 

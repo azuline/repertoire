@@ -12,6 +12,7 @@ from src.errors import (
     DoesNotExist,
     Duplicate,
     Immutable,
+    InvalidArgument,
     InvalidCollectionType,
     NotFound,
 )
@@ -19,6 +20,7 @@ from src.util import make_fts_match_query, update_dataclass, without_key
 
 from . import image as libimage
 from . import release
+from . import user as libuser
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +38,9 @@ class T:
     starred: bool
     #:
     type: CollectionType
+    #: The ID of the user that the playlist belongs to. Only set for System and Personal
+    #  playlists.
+    user_id: Optional[int]
     #:
     num_releases: Optional[int] = None
     #:
@@ -99,14 +104,18 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
     return None
 
 
-def from_name_and_type(
-    name: str, type: CollectionType, conn: Connection
+def from_name_type_user(
+    name: str,
+    type: CollectionType,
+    conn: Connection,
+    user_id: Optional[int] = None,
 ) -> Optional[T]:
     """
     Return the collection with the given name and type, if it exists.
 
     :param name: The name of the collection.
     :param type: The type of the collection.
+    :param user_id: Who the collection belongs to.
     :param conn: A connection to the database.
     :return: The collection, if it exists.
     """
@@ -118,19 +127,60 @@ def from_name_and_type(
         FROM music__collections AS cols
         LEFT JOIN music__collections_releases AS colsrls
             ON colsrls.collection_id = cols.id
-        WHERE cols.name = ? AND cols.type = ?
+        WHERE cols.name = ? AND cols.type = ? AND user_id = ?
         GROUP BY cols.id
         """,
-        (name, type.value),
+        (name, type.value, user_id),
     )
 
     if row := cursor.fetchone():
         logger.debug(
-            f'Fetched collection {row["id"]} with name "{name}" and type {type}.'
+            f'Fetched collection {row["id"]} with '
+            f'name "{name}", type {type}, and user {user_id}.'
         )
         return from_row(row)
 
-    logger.debug(f'Failed to fetch collection with name "{name}" and type {type}.')
+    logger.debug(
+        "Failed to fetch collection with "
+        f'name "{name}", type {type}, and user {user_id}.'
+    )
+    return None
+
+
+def from_type_and_user(
+    type: CollectionType,
+    user_id: int,
+    conn: Connection,
+) -> Optional[T]:
+    """
+    Return the collection with the type and user, if it exists.
+
+    :param type: The type of the collection.
+    :param user_id: Who the collection belongs to.
+    :param conn: A connection to the database.
+    :return: The collection, if it exists.
+    """
+    cursor = conn.execute(
+        """
+        SELECT
+            cols.*,
+            COUNT(colsrls.release_id) AS num_releases
+        FROM music__collections AS cols
+        LEFT JOIN music__collections_releases AS colsrls
+            ON colsrls.collection_id = cols.id
+        WHERE cols.type = ? AND cols.user_id = ?
+        GROUP BY cols.id
+        """,
+        (type.value, user_id),
+    )
+
+    if row := cursor.fetchone():
+        logger.debug(
+            f'Fetched collection {row["id"]} with type {type} and user ID {user_id}.'
+        )
+        return from_row(row)
+
+    logger.debug(f"Failed to fetch collection with type {type} and user ID {user_id}.")
     return None
 
 
@@ -247,6 +297,7 @@ def create(
     type: CollectionType,
     conn: Connection,
     starred: bool = False,
+    user_id: Optional[int] = None,
     override_immutable: bool = False,
 ) -> T:
     """
@@ -256,21 +307,41 @@ def create(
     :param type: The type of the collection.
     :param conn: A connection to the database.
     :param starred: Whether the collection is starred or not.
+    :param user_id: The ID of the user that this collection belongs to. Should be set
+                    for Personal and System collections; unset otherwise.
     :param override_immutable: Whether to allow creation of immutable collections. For
                                internal use.
     :return: The newly created collection.
     :raises Duplicate: If an collection with the same name and type already exists. The
                        duplicate collection is passed as the ``entity`` argument.
+    :raises InvalidArgument: If the user_id argument is passed with an non-personal
+                             collection type.
     """
     if type == CollectionType.SYSTEM and not override_immutable:
         raise InvalidCollectionType("Cannot create system collections.")
 
-    if col := from_name_and_type(name, type, conn):
+    if type in [CollectionType.PERSONAL, CollectionType.SYSTEM] and user_id is None:
+        raise InvalidArgument(
+            "Missing user_id argument for personal/system collection."
+        )
+
+    if (
+        type not in [CollectionType.PERSONAL, CollectionType.SYSTEM]
+        and user_id is not None
+    ):
+        raise InvalidArgument(
+            "The user_id argument can only be set for personal/system collections."
+        )
+
+    if col := from_name_type_user(name, type, conn):
         raise Duplicate(f'Collection "{name}" already exists.', col)
 
     cursor = conn.execute(
-        "INSERT INTO music__collections (name, type, starred) VALUES (?, ?, ?)",
-        (name, type.value, starred),
+        """
+        INSERT INTO music__collections (name, type, starred, user_id)
+        VALUES (?, ?, ?, ?)
+        """,
+        (name, type.value, starred, user_id),
     )
 
     logger.info(
@@ -305,7 +376,7 @@ def update(col: T, conn: Connection, **changes) -> T:
 
     if (
         "name" in changes
-        and (dupl := from_name_and_type(changes["name"], col.type, conn))
+        and (dupl := from_name_type_user(changes["name"], col.type, conn))
         and dupl != col
     ):
         raise Duplicate(f'Collection "{changes["name"]}" already exists.', dupl)
@@ -546,3 +617,74 @@ def image(col: T, conn: Connection) -> Optional[libimage.T]:
 
     logger.debug(f"Failed to fetch image for collection {col.id}.")
     return None
+
+
+def user(col: T, conn: Connection) -> Optional[libuser.T]:
+    """
+    Returns the user the collection belongs to, if it belongs to a user.
+
+    :param col: The collection whose user to fetch.
+    :param conn: A connection to the database.
+    :return: The user, if one exists.
+    """
+    return libuser.from_id(col.user_id, conn) if col.user_id else None
+
+
+def inbox_of(user_id: int, conn: Connection) -> T:
+    """
+    Return the inbox collection of the passed-in user.
+
+    :param user_id: The ID of the user whose inbox to fetch.
+    :param conn: A connection to the database.
+    :return: The user's inbox collection.
+    :raises DoesNotExist: If the inbox does not exist.
+    """
+    col = from_name_type_user(
+        "Inbox",
+        CollectionType.SYSTEM,
+        user_id=user_id,
+        conn=conn,
+    )
+    if col is None:
+        raise DoesNotExist(f"No inbox exists for user {user_id}.")
+    return col
+
+
+def favorites_of(user_id: int, conn: Connection) -> T:
+    """
+    Return the favorites collection of the passed-in user.
+
+    :param user_id: The ID of the user whose favorites to fetch.
+    :param conn: A connection to the database.
+    :return: The user's favorites collection.
+    :raises DoesNotExist: If the inbox does not exist.
+    """
+    col = from_name_type_user(
+        "Favorites",
+        CollectionType.SYSTEM,
+        user_id=user_id,
+        conn=conn,
+    )
+    if col is None:
+        raise DoesNotExist(f"No favorites collection exists for user {user_id}.")
+    return col
+
+
+def has_release(col: T, release_id: int, conn: Connection) -> bool:
+    """
+    Return whether the collection has a given release.
+
+    :param col: The collection to check membership in.
+    :param release_id: The release to check membership for.
+    :param conn: A connection to the database.
+    :return: Whether the release exists in the collection.
+    """
+    cursor = conn.execute(
+        """
+        SELECT 1
+        FROM music__collections_releases
+        WHERE collection_id = ? AND release_id = ?
+        """,
+        (col.id, release_id),
+    )
+    return bool(cursor.fetchone())
