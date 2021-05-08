@@ -12,6 +12,7 @@ proxy.on('error', (_, __, res) => {
 
 module.exports = {
   extends: '@snowpack/app-scripts-react',
+  plugins: [['@snowpack/plugin-babel']],
   alias: {
     '~': './src',
   },
@@ -25,10 +26,10 @@ module.exports = {
   optimize: {
     bundle: true,
     minify: true,
-    target: 'es2018',
+    target: 'es2020',
   },
   packageOptions: {
-    knownEntrypoints: ['@emotion/react', '@emotion/styled'],
+    knownEntrypoints: ['@emotion/react', '@emotion/styled', 'symbol-observable'],
   },
   devOptions: {
     port: 3000,
