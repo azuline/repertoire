@@ -10,99 +10,16 @@ process. You do not need to go through the production installation process
 before starting the development setup process. Many parts of the installation
 process are actually not relevant to development.
 
-Similar to the production installation process, we provide a docker setup and a
-non-docker setup. The docker option is a bit less ergonomic, but has the
-benefit of a consistent environment and being easier to initially get running.
-The non-docker option is more ergonomic, but has a lengthier initial setup
-process, and the environment differences may cause problems.
+This page assumes you have a Linux system and shell. It uses the Poetry and
+Yarn package managers to install everything directly onto your computer.
 
-Pick whichever is option more suitable for you.
-
-.. note::
-
-   Personally, I run the development servers in Docker, but have a local
-   installation to edit code and run tests in.
-
-Initial Steps
--------------
-
-This step is common to both the docker and non-docker setups.
+Setup
+-----
 
 First, clone the repository from GitHub. If you intend to develop, it is more
 convenient to set up SSH authentication and clone via SSH, with ``$ git clone
 git@github.com:azuline/repertoire.git``. Cloning via HTTP with ``$ git clone
 https://github.com/azuline/repertoire.git`` is still an option though.
-
-Docker
-------
-
-To install docker, see https://docs.docker.com/engine/install/.
-
-The Docker setup uses Docker Compose to manage the containers. See
-https://docs.docker.com/compose/install/ for installation instructions.
-
-.. note::
-
-   We require docker-compose version 1.28 or higher. Check your current version
-   with ``$ docker-compose --version``.
-
-In the project root directory (``repertoire/``), run ``$ docker-compose up``.
-This will build and start the backend and frontend in containers. The
-containers are set up such that code changes in the source code directories are
-reflected in the containers.
-
-The available services are:
-
-- ``backend`` at ``127.0.0.1:5000``.
-- ``frontend`` at ``127.0.0.1:3000``.
-- ``storybook`` at ``127.0.0.1:6006``.
-
-If you only wish to run a subset of the services, you can pass the service
-names to the ``docker-compose up`` command, like so: ``$ docker-compose up
-backend frontend``.
-
-When the Dockerfile changes, containers will need to be rebuilt. This can be
-accomplished with the ``docker-compose build`` command.
-
-Running Commands
-^^^^^^^^^^^^^^^^
-
-Developer commands, such as linting code or running tests, can be executed
-inside the containers.
-
-To execute a command, we first need to figure out the container name. Run ``$
-docker ps`` to list the active containers. You should see an output like so:
-
-.. code-block::
-
-   CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS              PORTS                      NAMES
-   40430397e5f1        repertoire_backend    "quart run --host 0.…"   16 minutes ago      Up 16 minutes       127.0.0.1:5000->5000/tcp   repertoire_backend_1
-   9c7655b98dc4        repertoire_frontend   "yarn start"             36 minutes ago      Up 23 minutes       127.0.0.1:3000->3000/tcp   repertoire_frontend_1
-
-This tells us that our container names are ``repertoire_backend_1`` and
-``repertoire_frontend_1``. For the rest of this document, we will assume that
-our containers have these names, but your container names may differ.
-
-A shell command can be ran in a container using ``$ docker exec``. For example,
-to run the backend tests, execute ``$ docker exec -it repertoire_backend_1 make
-tests``.
-
-A list of developer commands can be found at :ref:`development_commands`.
-
-Updating
-^^^^^^^^
-
-Whenever the container image or application dependencies are updated, the image
-must be rebuilt.
-
-Rebuild and bring the new containers up with ``docker-compose up --build``.
-
-Non-Docker
-----------
-
-The non-docker installation method assumes you have a Linux system and a shell.
-It directly uses the Poetry and Yarn package managers to install everything
-directly onto your computer.
 
 Before starting, please make sure you:
 
@@ -164,7 +81,6 @@ Or, as a set of shell commands:
    $ cd repertoire/frontend
    $ yarn install
    $ yarn start
-
 
 .. _development_commands:
 
