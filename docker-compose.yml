@@ -8,30 +8,63 @@ services:
     build: ./backend
     ports:
       - "127.0.0.1:5000:5000"
+    depends-on:
+      - backend-deps
     volumes:
+      # App
       - ./backend:/app/backend
+      # Dependencies
+      - poetry_deps:/usr/local/lib/python3.9/
+      # Data
       - ./_data:/data
       - ./_testlib:/music
   frontend:
     build: ./frontend
     ports:
       - "127.0.0.1:3000:3000"
+    depends-on:
+      - frontend-deps
     volumes:
+      # App
       - ./backend:/app/backend
       - ./frontend:/app/frontend
-      - /app/frontend/node_modules/
+      # Dependencies
+      - yarn-deps:/app/frontend/node_modules/
+      # Data
       - ./_data:/data
       - ./_testlib:/music
   storybook:
     build: ./frontend
     command: yarn storybook
+    depends-on:
+      - frontend-deps
     ports:
       - "127.0.0.1:6006:6006"
     volumes:
-      - ./backend:/app/backend
+      # App
       - ./frontend:/app/frontend
-      - /app/frontend/node_modules/
-      - ./_data:/data
-      - ./_testlib:/music
+      # Dependencies
+      - yarn-deps:/app/frontend/node_modules/
     profiles:
       - extra
+  backend-deps:
+    build: ./backend
+    command: poetry install
+    dependencies:
+      # App
+      - ./backend:/app/backend
+      # Dependencies
+      - poetry_deps:/usr/local/lib/python3.9/
+  frontend-deps:
+    build: ./frontend
+    command: yarn install
+    dependencies:
+      # App
+      - ./frontend:/app/frontend
+      # Dependencies
+      - yarn-deps:/app/frontend/node_modules/
+
+
+volumes:
+  yarn-deps:
+  poetry-deps:
