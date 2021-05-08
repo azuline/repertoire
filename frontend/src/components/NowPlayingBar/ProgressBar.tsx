@@ -11,7 +11,7 @@ type IProgressBar = React.FC<{
 }>;
 
 export const ProgressBar: IProgressBar = ({ curTime, curTrack, seek }) => {
-  const onSliderChange = (value: number | number[] | undefined | null): void =>
+  const onSliderChange = (value: number | readonly number[]): void =>
     seek(value as number);
 
   return (
