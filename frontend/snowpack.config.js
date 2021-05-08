@@ -26,7 +26,7 @@ module.exports = {
   optimize: {
     bundle: true,
     minify: true,
-    target: 'esnext',
+    target: 'es2020',
   },
   packageOptions: {
     knownEntrypoints: ['@emotion/react', '@emotion/styled', 'symbol-observable'],
