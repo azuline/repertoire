@@ -12,6 +12,7 @@ proxy.on('error', (_, __, res) => {
 
 module.exports = {
   extends: '@snowpack/app-scripts-react',
+  plugins: [['@snowpack/plugin-babel']],
   alias: {
     '~': './src',
   },
