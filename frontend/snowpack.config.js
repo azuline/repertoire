@@ -28,7 +28,7 @@ module.exports = {
     target: 'esnext',
   },
   packageOptions: {
-    knownEntrypoints: ['@emotion/react', '@emotion/styled'],
+    knownEntrypoints: ['@emotion/react', '@emotion/styled', 'symbol-observable'],
   },
   devOptions: {
     port: 3000,
