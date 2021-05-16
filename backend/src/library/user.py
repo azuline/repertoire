@@ -297,10 +297,9 @@ def _generate_token(conn: Connection) -> tuple[bytes, bytes]:
         if not cursor.fetchone():
             return token, prefix
 
-        logger.debug("Token prefix clashed with existing token.")
+        logger.debug("Token prefix clashed with existing token.")  # pragma: no cover
 
     # If we do not find a suitable token after 64 cycles, raise an exception.
-    logger.info("Failed to generate token after 64 cycles o.O")  # pragma: no cover
-    raise TokenGenerationFailure(  # pragma: no cover
-        "Failed to generate token after 64 cycles o.O"
-    )
+    message = "Failed to generate token after 64 cycles o.O"  # pragma: no cover
+    logger.info(message)  # pragma: no cover
+    raise TokenGenerationFailure(message)  # pragma: no cover

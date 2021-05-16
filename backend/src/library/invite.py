@@ -248,12 +248,9 @@ def _generate_code(conn: Connection) -> bytes:
         if not cursor.fetchone():
             return code
 
-        logger.debug("Invite code clashed with existing invite.")
+        logger.debug("Invite code clashed with existing invite.")  # pragma: no cover
 
     # If we do not find a suitable token after 64 cycles, raise an exception.
-    logger.info(
-        "Failed to generate invite code after 64 cycles o.O"
-    )  # pragma: no cover
-    raise CodeGenerationFailure(  # pragma: no cover
-        "Failed to generate invite code after 64 cycles o.O"
-    )
+    message = "Failed to generate invite code after 64 cycles o.O"  # pragma: no cover
+    logger.info(message)  # pragma: no cover
+    raise CodeGenerationFailure(message)  # pragma: no cover

@@ -651,7 +651,7 @@ def inbox_of(user_id: int, conn: Connection) -> T:
         user_id=user_id,
         conn=conn,
     )
-    if col is None:
+    if col is None:  # pragma: no cover
         raise DoesNotExist(f"No inbox exists for user {user_id}.")
     return col
 
@@ -671,7 +671,7 @@ def favorites_of(user_id: int, conn: Connection) -> T:
         user_id=user_id,
         conn=conn,
     )
-    if col is None:
+    if col is None:  # pragma: no cover
         raise DoesNotExist(f"No favorites collection exists for user {user_id}.")
     return col
 
