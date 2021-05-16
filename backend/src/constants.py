@@ -54,7 +54,7 @@ class __Constants:
 
     def __init__(self):
         if IS_PYTEST:
-            self.data_path = Path.cwd() / "_data"
+            self.data_path = Path.cwd() / "test_data"
         elif IS_SPHINX:  # pragma: no cover
             self.data_path = TEST_DATA_PATH
         else:  # pragma: no cover

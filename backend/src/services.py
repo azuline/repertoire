@@ -12,7 +12,7 @@ from huey.consumer_options import ConsumerConfig
 from hypercorn.asyncio import serve
 from hypercorn.config import Config
 
-from src.tasks import huey
+from src.tasks import huey, schedule_tasks
 from src.webserver.app import create_app
 
 
@@ -27,6 +27,8 @@ def start_webserver(host: int, port: int) -> None:
 
 def start_task_queue(num_workers: int) -> None:
     """Start the Huey task queue."""
+    schedule_tasks()
+
     config = ConsumerConfig(workers=num_workers)
     consumer = huey.create_consumer(**config.values)
     consumer.run()

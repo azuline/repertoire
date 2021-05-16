@@ -2,18 +2,18 @@ import logging
 
 from huey import SqliteHuey
 
-from src.config import config
 from src.constants import constants
-from src.indexer import run_indexer
 
 logger = logging.getLogger(__name__)
 
 
+print(f"{constants.huey_path=}")
 huey = SqliteHuey(filename=constants.huey_path)
 
-logger.debug("Scheduling periodic tasks.")
 
-
-@huey.periodic_task(config.index_crontab)
-def indexer():
-    run_indexer()
+def schedule_tasks():
+    """
+    This function imports the periodic tasks declared across the application.
+    """
+    # IDK if this actually works but it should!
+    import src.indexer  # noqa

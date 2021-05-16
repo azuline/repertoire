@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from src.tasks import huey
 import logging
 import secrets
 import string
@@ -11,9 +12,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from src.enums import CollectionType, PlaylistType
 from src.errors import InvalidNickname, TokenGenerationFailure
-from src.util import update_dataclass
+from src.util import database, update_dataclass
 
-from . import collection as libcollection
+from . import collection
 from . import playlist as libplaylist
 
 TOKEN_LENGTH = 32
@@ -162,7 +163,7 @@ def create(nickname: str, conn: Connection) -> tuple[T, bytes]:
     logger.info(f"Created user {nickname} with ID {cursor.lastrowid}.")
 
     _create_system_collections_and_playlists(cursor.lastrowid, conn)
-    # _populate_inbox.schedule(args=(cursor.lastrowid,))
+    _populate_inbox.schedule(args=(cursor.lastrowid,), delay=0)
 
     usr = from_id(cursor.lastrowid, conn)
     assert usr is not None
@@ -171,7 +172,7 @@ def create(nickname: str, conn: Connection) -> tuple[T, bytes]:
 
 def _create_system_collections_and_playlists(user_id: int, conn: Connection) -> None:
     for name in ["Inbox", "Favorites"]:
-        libcollection.create(
+        collection.create(
             name,
             CollectionType.SYSTEM,
             user_id=user_id,
@@ -190,6 +191,25 @@ def _create_system_collections_and_playlists(user_id: int, conn: Connection) -> 
     )
 
     logger.info(f"Created system collections and playlists for user {user_id}.")
+
+
+@huey.task()
+def _populate_inbox(user_id: int) -> None:
+    with database() as conn:
+        inbox = collection.inbox_of(user_id, conn)
+
+        conn.execute(
+            """
+            INSERT INTO music__collections_releases
+            (collection_id, release_id)
+            SELECT ?, rls.id
+            FROM music__releases AS rls
+            WHERE rls.id != 1
+            """,
+            (inbox.id,),
+        )
+
+        conn.commit()
 
 
 def update(usr: T, conn: Connection, **changes) -> T:

@@ -9,7 +9,7 @@ from sqlite3 import Connection
 from string import ascii_uppercase
 from typing import Any, Iterable, Union
 
-from src.constants import constants
+from src.constants import IS_PYTEST, constants
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +45,7 @@ def raw_database(check_same_thread: bool = True) -> Connection:
 
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
-    if "pytest" in sys.modules:
+    if IS_PYTEST:
         freeze_database_time(conn)
 
     return conn
