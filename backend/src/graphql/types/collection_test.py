@@ -114,6 +114,22 @@ async def test_collections_pagination(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
+async def test_collection_user(graphql_query):
+    query = """
+        query {
+            collection(id: 1) {
+                user {
+                    id
+                }
+            }
+        }
+    """
+    success, data = await graphql_query(query)
+    assert success is True
+    assert data["data"]["collection"]["user"]["id"] == 1
+
+
+@pytest.mark.asyncio
 async def test_collection_image(graphql_query):
     query = """
         query {

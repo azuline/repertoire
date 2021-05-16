@@ -58,7 +58,7 @@ def seed_gql_db(tmp_path_factory, worker_id, seed_db):
     """
     This fixture augments the existing migrated seed database with test data.
     """
-    if worker_id == "master":
+    if worker_id == "master":  # pragma: no cover
         _create_seed_gql_db()
 
     root_tmp_dir = tmp_path_factory.getbasetemp().parent
