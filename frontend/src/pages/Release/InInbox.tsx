@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
+import { useToasts } from 'react-toast-notifications';
 import tw from 'twin.macro';
 
 import { Icon } from '~/components';
@@ -7,9 +8,8 @@ import {
   IRelease,
   useInInboxAddReleaseToCollectionMutation,
   useInInboxDelReleaseFromCollectionMutation,
+  useInInboxFetchInboxIdQuery,
 } from '~/graphql';
-
-const INBOX_COLLECTION_ID = 1;
 
 type IInInbox = React.FC<{
   className?: string;
@@ -17,19 +17,25 @@ type IInInbox = React.FC<{
 }>;
 
 export const InInbox: IInInbox = ({ className, release }) => {
+  const { addToast } = useToasts();
+
+  const { data } = useInInboxFetchInboxIdQuery();
   const [mutateAdd] = useInInboxAddReleaseToCollectionMutation();
   const [mutateDel] = useInInboxDelReleaseFromCollectionMutation();
 
-  const toggleInbox = (): void => {
-    if (release.inInbox) {
-      mutateDel({
-        variables: { collectionId: INBOX_COLLECTION_ID, releaseId: release.id },
-      });
-    } else {
-      mutateAdd({
-        variables: { collectionId: INBOX_COLLECTION_ID, releaseId: release.id },
-      });
+  const toggleInbox = async (): Promise<void> => {
+    if (data === undefined) {
+      addToast('Failed to fetch inbox.', { appearance: 'error' });
+      return;
     }
+
+    const toggleFunc = release.inInbox ? mutateDel : mutateAdd;
+    await toggleFunc({
+      variables: {
+        collectionId: data.user.inboxCollectionId,
+        releaseId: release.id,
+      },
+    });
   };
 
   return (
@@ -50,6 +56,12 @@ export const InInbox: IInInbox = ({ className, release }) => {
 
 /* eslint-disable */
 gql`
+  query InInboxFetchInboxId {
+    user {
+      inboxCollectionId
+    }
+  }
+
   mutation InInboxAddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
     addReleaseToCollection(collectionId: $collectionId, releaseId: $releaseId) {
       collection {

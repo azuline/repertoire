@@ -6,15 +6,30 @@ from graphql.type import GraphQLResolveInfo
 from src.graphql.mutation import mutation
 from src.graphql.query import query
 from src.graphql.util import commit
-from src.library import user
+from src.library import user, collection, playlist
 
 gql_user = ObjectType("User")
 gql_token = ObjectType("Token")
 
 
 @query.field("user")
-def resolve_user(obj: Any, info: GraphQLResolveInfo) -> user.T:
+def resolve_user(_: Any, info: GraphQLResolveInfo) -> user.T:
     return info.context.user
+
+
+@gql_user.field("inboxCollectionId")
+def resolve_inbox_col_id(_: Any, info: GraphQLResolveInfo) -> int:
+    return collection.inbox_of(info.context.user.id, info.context.db).id
+
+
+@gql_user.field("favoritesCollectionId")
+def resolve_favorites_col_id(_: Any, info: GraphQLResolveInfo) -> int:
+    return collection.favorites_of(info.context.user.id, info.context.db).id
+
+
+@gql_user.field("favoritesPlaylistId")
+def resolve_favorites_ply_id(_: Any, info: GraphQLResolveInfo) -> int:
+    return playlist.favorites_of(info.context.user.id, info.context.db).id
 
 
 @mutation.field("updateUser")
@@ -38,5 +53,5 @@ def resolve_new_token(_, info: GraphQLResolveInfo) -> bytes:
 
 
 @gql_token.field("hex")
-def resolve_hex(obj: bytes, info: GraphQLResolveInfo) -> str:
+def resolve_hex(obj: bytes, _: GraphQLResolveInfo) -> str:
     return obj.hex()

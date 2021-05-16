@@ -497,6 +497,9 @@ type TopGenre {
 type User {
   id: Int!
   nickname: String!
+  inboxCollectionId: Int!
+  favoritesCollectionId: Int!
+  favoritesPlaylistId: Int!
 }
 
 type Token {

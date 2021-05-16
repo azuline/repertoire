@@ -1,10 +1,12 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
+import { useToasts } from 'react-toast-notifications';
 import tw from 'twin.macro';
 
 import { Icon, Image, TrackArtistList } from '~/components';
 import {
   ITrackFieldsFragment,
+  useFavoritePlaylistsIdQuery,
   usePlaylistsFavoriteTrackMutation,
   usePlaylistsUnfavoriteTrackMutation,
 } from '~/graphql';
@@ -29,12 +31,25 @@ export const Track: ITrackComponent = ({
   active = false,
   showCover = false,
 }) => {
+  const { addToast } = useToasts();
+
+  const { data } = useFavoritePlaylistsIdQuery();
   const [favoriteTrack] = usePlaylistsFavoriteTrackMutation();
   const [unfavoriteTrack] = usePlaylistsUnfavoriteTrackMutation();
 
   const toggleFavorite = async (): Promise<void> => {
+    if (data === undefined) {
+      addToast('Failed to fetch favorites.', { appearance: 'error' });
+      return;
+    }
+
     const toggleFunc = track.inFavorites ? unfavoriteTrack : favoriteTrack;
-    await toggleFunc({ variables: { trackId: track.id } });
+    await toggleFunc({
+      variables: {
+        playlistId: data.user.favoritesPlaylistId,
+        trackId: track.id,
+      },
+    });
   };
 
   return (
@@ -91,8 +106,14 @@ export const Track: ITrackComponent = ({
 
 /* eslint-disable */
 gql`
-  mutation PlaylistsFavoriteTrack($trackId: Int!) {
-    createPlaylistEntry(playlistId: 1, trackId: $trackId) {
+  query FavoritePlaylistsId {
+    user {
+      favoritesPlaylistId
+    }
+  }
+
+  mutation PlaylistsFavoriteTrack($playlistId: Int!, $trackId: Int!) {
+    createPlaylistEntry(playlistId: $playlistId, trackId: $trackId) {
       id
       playlist {
         id

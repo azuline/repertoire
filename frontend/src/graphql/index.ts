@@ -591,6 +591,9 @@ export type IUser = {
   __typename?: 'User';
   id: Scalars['Int'];
   nickname: Scalars['String'];
+  inboxCollectionId: Scalars['Int'];
+  favoritesCollectionId: Scalars['Int'];
+  favoritesPlaylistId: Scalars['Int'];
 };
 
 export type IHeaderFetchUserQueryVariables = Exact<{ [key: string]: never; }>;
@@ -630,7 +633,19 @@ export type IPagedReleasesFetchReleasesQuery = (
   ) }
 );
 
+export type IFavoritePlaylistsIdQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IFavoritePlaylistsIdQuery = (
+  { __typename?: 'Query' }
+  & { user: (
+    { __typename?: 'User' }
+    & Pick<IUser, 'favoritesPlaylistId'>
+  ) }
+);
+
 export type IPlaylistsFavoriteTrackMutationVariables = Exact<{
+  playlistId: Scalars['Int'];
   trackId: Scalars['Int'];
 }>;
 
@@ -979,6 +994,17 @@ export type IPlaylistsFetchTracksQuery = (
   ) }
 );
 
+export type IInFavoritesFetchFavoritesIdQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IInFavoritesFetchFavoritesIdQuery = (
+  { __typename?: 'Query' }
+  & { user: (
+    { __typename?: 'User' }
+    & Pick<IUser, 'favoritesCollectionId'>
+  ) }
+);
+
 export type IInFavoritesAddReleaseToCollectionMutationVariables = Exact<{
   collectionId: Scalars['Int'];
   releaseId: Scalars['Int'];
@@ -1036,6 +1062,17 @@ export type IInFavoritesDelReleaseFromCollectionMutation = (
         & Pick<ICollection, 'id' | 'name'>
       )> }
     ) }
+  ) }
+);
+
+export type IInInboxFetchInboxIdQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IInInboxFetchInboxIdQuery = (
+  { __typename?: 'Query' }
+  & { user: (
+    { __typename?: 'User' }
+    & Pick<IUser, 'inboxCollectionId'>
   ) }
 );
 
@@ -1368,9 +1405,46 @@ export type PagedReleasesFetchReleasesQueryResult = Apollo.QueryResult<IPagedRel
 export function refetchPagedReleasesFetchReleasesQuery(variables?: IPagedReleasesFetchReleasesQueryVariables) {
       return { query: PagedReleasesFetchReleasesDocument, variables: variables }
     }
+export const FavoritePlaylistsIdDocument = gql`
+    query FavoritePlaylistsId {
+  user {
+    favoritesPlaylistId
+  }
+}
+    `;
+
+/**
+ * __useFavoritePlaylistsIdQuery__
+ *
+ * To run a query within a React component, call `useFavoritePlaylistsIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFavoritePlaylistsIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFavoritePlaylistsIdQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFavoritePlaylistsIdQuery(baseOptions?: Apollo.QueryHookOptions<IFavoritePlaylistsIdQuery, IFavoritePlaylistsIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IFavoritePlaylistsIdQuery, IFavoritePlaylistsIdQueryVariables>(FavoritePlaylistsIdDocument, options);
+      }
+export function useFavoritePlaylistsIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFavoritePlaylistsIdQuery, IFavoritePlaylistsIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IFavoritePlaylistsIdQuery, IFavoritePlaylistsIdQueryVariables>(FavoritePlaylistsIdDocument, options);
+        }
+export type FavoritePlaylistsIdQueryHookResult = ReturnType<typeof useFavoritePlaylistsIdQuery>;
+export type FavoritePlaylistsIdLazyQueryHookResult = ReturnType<typeof useFavoritePlaylistsIdLazyQuery>;
+export type FavoritePlaylistsIdQueryResult = Apollo.QueryResult<IFavoritePlaylistsIdQuery, IFavoritePlaylistsIdQueryVariables>;
+export function refetchFavoritePlaylistsIdQuery(variables?: IFavoritePlaylistsIdQueryVariables) {
+      return { query: FavoritePlaylistsIdDocument, variables: variables }
+    }
 export const PlaylistsFavoriteTrackDocument = gql`
-    mutation PlaylistsFavoriteTrack($trackId: Int!) {
-  createPlaylistEntry(playlistId: 1, trackId: $trackId) {
+    mutation PlaylistsFavoriteTrack($playlistId: Int!, $trackId: Int!) {
+  createPlaylistEntry(playlistId: $playlistId, trackId: $trackId) {
     id
     playlist {
       id
@@ -1401,6 +1475,7 @@ export type IPlaylistsFavoriteTrackMutationFn = Apollo.MutationFunction<IPlaylis
  * @example
  * const [playlistsFavoriteTrackMutation, { data, loading, error }] = usePlaylistsFavoriteTrackMutation({
  *   variables: {
+ *      playlistId: // value for 'playlistId'
  *      trackId: // value for 'trackId'
  *   },
  * });
@@ -2062,6 +2137,43 @@ export type PlaylistsFetchTracksQueryResult = Apollo.QueryResult<IPlaylistsFetch
 export function refetchPlaylistsFetchTracksQuery(variables?: IPlaylistsFetchTracksQueryVariables) {
       return { query: PlaylistsFetchTracksDocument, variables: variables }
     }
+export const InFavoritesFetchFavoritesIdDocument = gql`
+    query InFavoritesFetchFavoritesId {
+  user {
+    favoritesCollectionId
+  }
+}
+    `;
+
+/**
+ * __useInFavoritesFetchFavoritesIdQuery__
+ *
+ * To run a query within a React component, call `useInFavoritesFetchFavoritesIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useInFavoritesFetchFavoritesIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useInFavoritesFetchFavoritesIdQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useInFavoritesFetchFavoritesIdQuery(baseOptions?: Apollo.QueryHookOptions<IInFavoritesFetchFavoritesIdQuery, IInFavoritesFetchFavoritesIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IInFavoritesFetchFavoritesIdQuery, IInFavoritesFetchFavoritesIdQueryVariables>(InFavoritesFetchFavoritesIdDocument, options);
+      }
+export function useInFavoritesFetchFavoritesIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IInFavoritesFetchFavoritesIdQuery, IInFavoritesFetchFavoritesIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IInFavoritesFetchFavoritesIdQuery, IInFavoritesFetchFavoritesIdQueryVariables>(InFavoritesFetchFavoritesIdDocument, options);
+        }
+export type InFavoritesFetchFavoritesIdQueryHookResult = ReturnType<typeof useInFavoritesFetchFavoritesIdQuery>;
+export type InFavoritesFetchFavoritesIdLazyQueryHookResult = ReturnType<typeof useInFavoritesFetchFavoritesIdLazyQuery>;
+export type InFavoritesFetchFavoritesIdQueryResult = Apollo.QueryResult<IInFavoritesFetchFavoritesIdQuery, IInFavoritesFetchFavoritesIdQueryVariables>;
+export function refetchInFavoritesFetchFavoritesIdQuery(variables?: IInFavoritesFetchFavoritesIdQueryVariables) {
+      return { query: InFavoritesFetchFavoritesIdDocument, variables: variables }
+    }
 export const InFavoritesAddReleaseToCollectionDocument = gql`
     mutation InFavoritesAddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
   addReleaseToCollection(collectionId: $collectionId, releaseId: $releaseId) {
@@ -2172,6 +2284,43 @@ export function useInFavoritesDelReleaseFromCollectionMutation(baseOptions?: Apo
 export type InFavoritesDelReleaseFromCollectionMutationHookResult = ReturnType<typeof useInFavoritesDelReleaseFromCollectionMutation>;
 export type InFavoritesDelReleaseFromCollectionMutationResult = Apollo.MutationResult<IInFavoritesDelReleaseFromCollectionMutation>;
 export type InFavoritesDelReleaseFromCollectionMutationOptions = Apollo.BaseMutationOptions<IInFavoritesDelReleaseFromCollectionMutation, IInFavoritesDelReleaseFromCollectionMutationVariables>;
+export const InInboxFetchInboxIdDocument = gql`
+    query InInboxFetchInboxId {
+  user {
+    inboxCollectionId
+  }
+}
+    `;
+
+/**
+ * __useInInboxFetchInboxIdQuery__
+ *
+ * To run a query within a React component, call `useInInboxFetchInboxIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useInInboxFetchInboxIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useInInboxFetchInboxIdQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useInInboxFetchInboxIdQuery(baseOptions?: Apollo.QueryHookOptions<IInInboxFetchInboxIdQuery, IInInboxFetchInboxIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IInInboxFetchInboxIdQuery, IInInboxFetchInboxIdQueryVariables>(InInboxFetchInboxIdDocument, options);
+      }
+export function useInInboxFetchInboxIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IInInboxFetchInboxIdQuery, IInInboxFetchInboxIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IInInboxFetchInboxIdQuery, IInInboxFetchInboxIdQueryVariables>(InInboxFetchInboxIdDocument, options);
+        }
+export type InInboxFetchInboxIdQueryHookResult = ReturnType<typeof useInInboxFetchInboxIdQuery>;
+export type InInboxFetchInboxIdLazyQueryHookResult = ReturnType<typeof useInInboxFetchInboxIdLazyQuery>;
+export type InInboxFetchInboxIdQueryResult = Apollo.QueryResult<IInInboxFetchInboxIdQuery, IInInboxFetchInboxIdQueryVariables>;
+export function refetchInInboxFetchInboxIdQuery(variables?: IInInboxFetchInboxIdQueryVariables) {
+      return { query: InInboxFetchInboxIdDocument, variables: variables }
+    }
 export const InInboxAddReleaseToCollectionDocument = gql`
     mutation InInboxAddReleaseToCollection($collectionId: Int!, $releaseId: Int!) {
   addReleaseToCollection(collectionId: $collectionId, releaseId: $releaseId) {
@@ -2655,10 +2804,13 @@ export type TracksFieldPolicy = {
 	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('id' | 'nickname' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('id' | 'nickname' | 'inboxCollectionId' | 'favoritesCollectionId' | 'favoritesPlaylistId' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	nickname?: FieldPolicy<any> | FieldReadFunction<any>
+	nickname?: FieldPolicy<any> | FieldReadFunction<any>,
+	inboxCollectionId?: FieldPolicy<any> | FieldReadFunction<any>,
+	favoritesCollectionId?: FieldPolicy<any> | FieldReadFunction<any>,
+	favoritesPlaylistId?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type TypedTypePolicies = TypePolicies & {
 	Artist?: Omit<TypePolicy, "fields" | "keyFields"> & {
