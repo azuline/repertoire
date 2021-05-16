@@ -5,7 +5,4 @@ coverage:
     patch: off
     project: off
 
-comment:
-  layout: "files"
-  behavior: default
-  require_changes: yes
+comment: false
