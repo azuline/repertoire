@@ -45,7 +45,7 @@ export const CollectionChooser: ICollectionChooser = ({
     };
   };
 
-  if (!data || !data.collections || loading || error) {
+  if (!data || loading || error) {
     return null;
   }
 
@@ -71,7 +71,7 @@ export const CollectionChooser: ICollectionChooser = ({
 
 /* eslint-disable */
 gql`
-  query CollectionChooserFetchCollections($types: [CollectionType]) {
+  query CollectionChooserFetchCollections($types: [CollectionType!]) {
     collections(types: $types) {
       results {
         ...CollectionFields

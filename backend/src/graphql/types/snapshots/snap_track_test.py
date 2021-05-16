@@ -78,9 +78,7 @@ snapshots['test_add_artist_to_track 1'] = {
 }
 
 snapshots['test_add_artist_to_track_already_exists 1'] = {
-    'data': {
-        'addArtistToTrack': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -99,9 +97,7 @@ snapshots['test_add_artist_to_track_already_exists 1'] = {
 }
 
 snapshots['test_add_artist_to_track_bad_artist 1'] = {
-    'data': {
-        'addArtistToTrack': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -120,9 +116,7 @@ snapshots['test_add_artist_to_track_bad_artist 1'] = {
 }
 
 snapshots['test_add_artist_to_track_bad_track 1'] = {
-    'data': {
-        'addArtistToTrack': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -207,9 +201,7 @@ snapshots['test_del_artist_from_track 1'] = {
 }
 
 snapshots['test_del_artist_from_track_bad_artist 1'] = {
-    'data': {
-        'delArtistFromTrack': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -228,9 +220,7 @@ snapshots['test_del_artist_from_track_bad_artist 1'] = {
 }
 
 snapshots['test_del_artist_from_track_bad_track 1'] = {
-    'data': {
-        'delArtistFromTrack': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -249,9 +239,7 @@ snapshots['test_del_artist_from_track_bad_track 1'] = {
 }
 
 snapshots['test_del_artist_from_track_doesnt_exist 1'] = {
-    'data': {
-        'delArtistFromTrack': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -302,9 +290,7 @@ snapshots['test_track 1'] = {
 }
 
 snapshots['test_track_not_found 1'] = {
-    'data': {
-        'track': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -2193,9 +2179,7 @@ snapshots['test_update_track 1'] = {
 }
 
 snapshots['test_update_track_bad_release_id 1'] = {
-    'data': {
-        'updateTrack': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -2214,9 +2198,7 @@ snapshots['test_update_track_bad_release_id 1'] = {
 }
 
 snapshots['test_update_track_not_found 1'] = {
-    'data': {
-        'updateTrack': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [

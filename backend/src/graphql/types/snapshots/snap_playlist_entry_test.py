@@ -25,9 +25,7 @@ snapshots['test_create_playlist_entry 1'] = {
 }
 
 snapshots['test_create_playlist_entry_bad_playlist 1'] = {
-    'data': {
-        'createPlaylistEntry': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -46,9 +44,7 @@ snapshots['test_create_playlist_entry_bad_playlist 1'] = {
 }
 
 snapshots['test_create_playlist_entry_bad_track 1'] = {
-    'data': {
-        'createPlaylistEntry': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -239,9 +235,7 @@ snapshots['test_delete_entry 1'] = {
 }
 
 snapshots['test_delete_entry_invalid 1'] = {
-    'data': {
-        'delPlaylistEntry': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -346,9 +340,7 @@ snapshots['test_update_playlist_entry 1'] = {
 }
 
 snapshots['test_update_playlist_entry_bad_entry 1'] = {
-    'data': {
-        'updatePlaylistEntry': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -367,9 +359,7 @@ snapshots['test_update_playlist_entry_bad_entry 1'] = {
 }
 
 snapshots['test_update_playlist_entry_bad_position 1'] = {
-    'data': {
-        'updatePlaylistEntry': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [

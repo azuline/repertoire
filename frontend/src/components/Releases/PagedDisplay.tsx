@@ -96,11 +96,11 @@ export const PagedReleases: IPagedReleases = ({
 gql`
   query PagedReleasesFetchReleases(
     $search: String
-    $collectionIds: [Int]
-    $artistIds: [Int]
-    $releaseTypes: [ReleaseType]
-    $years: [Int]
-    $ratings: [Int]
+    $collectionIds: [Int!]
+    $artistIds: [Int!]
+    $releaseTypes: [ReleaseType!]
+    $years: [Int!]
+    $ratings: [Int!]
     $page: Int
     $perPage: Int
     $sort: ReleaseSort

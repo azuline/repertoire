@@ -112,9 +112,7 @@ snapshots['test_add_artist_to_release 1'] = {
 }
 
 snapshots['test_add_artist_to_release_already_exists 1'] = {
-    'data': {
-        'addArtistToRelease': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -133,9 +131,7 @@ snapshots['test_add_artist_to_release_already_exists 1'] = {
 }
 
 snapshots['test_add_artist_to_release_bad_artist 1'] = {
-    'data': {
-        'addArtistToRelease': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -154,9 +150,7 @@ snapshots['test_add_artist_to_release_bad_artist 1'] = {
 }
 
 snapshots['test_add_artist_to_release_bad_release 1'] = {
-    'data': {
-        'addArtistToRelease': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -211,9 +205,7 @@ snapshots['test_create_release 1'] = {
 }
 
 snapshots['test_create_release_bad_artists 1'] = {
-    'data': {
-        'createRelease': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -232,9 +224,7 @@ snapshots['test_create_release_bad_artists 1'] = {
 }
 
 snapshots['test_create_release_bad_date 1'] = {
-    'data': {
-        'createRelease': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -339,9 +329,7 @@ snapshots['test_del_artist_from_release 1'] = {
 }
 
 snapshots['test_del_artist_from_release_bad_artist 1'] = {
-    'data': {
-        'delArtistFromRelease': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -360,9 +348,7 @@ snapshots['test_del_artist_from_release_bad_artist 1'] = {
 }
 
 snapshots['test_del_artist_from_release_bad_release 1'] = {
-    'data': {
-        'delArtistFromRelease': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -381,9 +367,7 @@ snapshots['test_del_artist_from_release_bad_release 1'] = {
 }
 
 snapshots['test_del_artist_from_release_doesnt_exist 1'] = {
-    'data': {
-        'delArtistFromRelease': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -470,9 +454,7 @@ snapshots['test_release 1'] = {
 }
 
 snapshots['test_release_not_found 1'] = {
-    'data': {
-        'release': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -2135,9 +2117,7 @@ snapshots['test_update_release 1'] = {
 }
 
 snapshots['test_update_release_bad_date 1'] = {
-    'data': {
-        'updateRelease': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -2156,9 +2136,7 @@ snapshots['test_update_release_bad_date 1'] = {
 }
 
 snapshots['test_update_release_not_found 1'] = {
-    'data': {
-        'updateRelease': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
