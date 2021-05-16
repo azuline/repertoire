@@ -330,5 +330,5 @@ def test_image_nonexistent(factory: Factory, db: Connection):
 
 def test_user(factory: Factory, db: Connection):
     usr, _ = factory.user(conn=db)
-    col = factory.collection(user=usr, conn=db)
-    assert usr.id == collection.user(col, conn=db)
+    col = factory.collection(user=usr, type=CollectionType.SYSTEM, conn=db)
+    assert usr.id == collection.user(col, conn=db).id

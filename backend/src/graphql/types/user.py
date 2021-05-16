@@ -6,7 +6,7 @@ from graphql.type import GraphQLResolveInfo
 from src.graphql.mutation import mutation
 from src.graphql.query import query
 from src.graphql.util import commit
-from src.library import user, collection, playlist
+from src.library import collection, playlist, user
 
 gql_user = ObjectType("User")
 gql_token = ObjectType("Token")
