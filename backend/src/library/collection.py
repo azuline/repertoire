@@ -154,6 +154,7 @@ def search(
     *,
     search: str = "",
     types: list[CollectionType] = [],
+    user_ids: list[int] = [],
     page: int = 1,
     per_page: Optional[int] = None,
 ) -> list[T]:
@@ -167,12 +168,13 @@ def search(
                    specified, the returned collections will be sorted by match
                    proximity.
     :param types: Filter by collection types.
+    :param user_ids: Filter by collection owners.
     :param page: Which page of collections to return.
     :param per_page: The number of collections per page. Pass ``None`` to return all
                      collections (this will ignore ``page``).
     :return: All matching collections.
     """
-    filters, params = _generate_filters(search, types)
+    filters, params = _generate_filters(search, types, user_ids)
 
     if per_page:
         params.extend([per_page, (page - 1) * per_page])
@@ -204,6 +206,7 @@ def count(
     *,
     search: str = "",
     types: list[CollectionType] = [],
+    user_ids: list[int] = [],
 ) -> int:
     """
     Fetch the number of collections matching the passed-in criteria. Parameters are
@@ -213,9 +216,10 @@ def count(
     :param search: A search string. We split this up into individual punctuation-less
                    tokens and return collections whose titles contain each token.
     :param types: Filter by collection types.
+    :param user_ids: Filter by collection owners.
     :return: The number of matching collections.
     """
-    filters, params = _generate_filters(search, types)
+    filters, params = _generate_filters(search, types, user_ids)
 
     cursor = conn.execute(
         f"""
@@ -235,6 +239,7 @@ def count(
 def _generate_filters(
     search: str = "",
     types: list[CollectionType] = [],
+    user_ids: list[int] = [],
 ) -> tuple[list[str], list[Union[str, int]]]:
     """
     Dynamically generate the SQL filters and parameters from the criteria. See the
@@ -253,6 +258,10 @@ def _generate_filters(
     if types:
         filters.append(f"cols.type IN ({','.join('?' * len(types))})")
         params.extend([t.value for t in types])
+
+    if user_ids:
+        filters.append(f"cols.user_id IN ({','.join('?' * len(user_ids))})")
+        params.extend(user_ids)
 
     return filters, params
 

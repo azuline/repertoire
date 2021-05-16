@@ -45,6 +45,13 @@ def test_from_name_type_user_success(factory: Factory, db: Connection):
     assert col.type == new_col.type
 
 
+def test_from_name_type_user_with_user_id(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    col = factory.collection(conn=db, type=CollectionType.PERSONAL, user=usr)
+    new_col = collection.from_name_type_user(col.name, col.type, db, usr.id)
+    assert col == new_col
+
+
 def test_from_name_type_user_failure(db: Connection):
     col1 = collection.from_name_type_user("Electronic", CollectionType.COLLAGE, db)
     col2 = collection.from_name_type_user("Inb0x", CollectionType.SYSTEM, db)
@@ -58,7 +65,7 @@ def test_search_all(factory: Factory, db: Connection):
     assert cols == set(collection.search(db))
 
 
-def test_search_filters(factory: Factory, db: Connection):
+def test_search_types(factory: Factory, db: Connection):
     col = factory.collection(type=CollectionType.GENRE, conn=db)
     collections = collection.search(
         db,
@@ -67,6 +74,20 @@ def test_search_filters(factory: Factory, db: Connection):
     )
     assert len(collections) == 1
     assert collections[0].id == col.id
+
+
+def test_search_user(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    unused_usr, _ = factory.user(conn=db)
+
+    col1 = factory.collection(type=CollectionType.PERSONAL, user=usr, conn=db)
+    col2 = factory.collection(type=CollectionType.PERSONAL, user=usr, conn=db)
+
+    factory.collection(type=CollectionType.PERSONAL, user=unused_usr, conn=db)
+    factory.collection(conn=db)
+
+    cols = collection.search(db, user_ids=[usr.id])
+    assert {p.id for p in cols} == {col1.id, col2.id}
 
 
 def test_search_page(factory: Factory, db: Connection):

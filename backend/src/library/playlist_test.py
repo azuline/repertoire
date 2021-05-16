@@ -35,6 +35,13 @@ def test_from_name_type_user_success(factory: Factory, db: Connection):
     assert ply == new_ply
 
 
+def test_from_name_type_user_with_user_id(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    ply = factory.playlist(conn=db, type=PlaylistType.PERSONAL, user=usr)
+    new_ply = playlist.from_name_type_user(ply.name, ply.type, db, usr.id)
+    assert ply == new_ply
+
+
 def test_from_name_type_user_failure(db: Connection):
     ply = playlist.from_name_type_user("CCCCCC", PlaylistType.PLAYLIST, db)
     assert ply is None
@@ -50,6 +57,20 @@ def test_search_name(factory: Factory, db: Connection):
     plys = playlist.search(db, search="AaA")
     assert len(plys) == 1
     assert plys[0].name == "AAAAAA"
+
+
+def test_search_user(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    unused_usr, _ = factory.user(conn=db)
+
+    ply1 = factory.playlist(type=PlaylistType.PERSONAL, user=usr, conn=db)
+    ply2 = factory.playlist(type=PlaylistType.PERSONAL, user=usr, conn=db)
+
+    factory.playlist(type=PlaylistType.PERSONAL, user=unused_usr, conn=db)
+    factory.playlist(conn=db)
+
+    plys = playlist.search(db, user_ids=[usr.id])
+    assert {p.id for p in plys} == {ply1.id, ply2.id}
 
 
 def test_search_one(factory: Factory, db: Connection):
