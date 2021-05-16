@@ -4,7 +4,7 @@ import { ITrack } from '~/graphql';
 import { secondsToLength } from '~/util';
 
 type IProgress = React.FC<{
-  curTrack: ITrack | null;
+  curTrack: Pick<ITrack, 'duration'> | null;
   curTime: number;
 }>;
 

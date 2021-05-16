@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { Disclist, Header, Image } from '~/components';
 import { BackgroundContext } from '~/contexts';
-import { IRelease, useReleaseFetchReleaseQuery } from '~/graphql';
+import { useReleaseFetchReleaseQuery } from '~/graphql';
 import { useId } from '~/hooks';
 import { AuthenticatedError } from '~/pages';
 import { filterNulls } from '~/util';
@@ -14,20 +14,18 @@ import { Info } from './Info';
 import { InInbox } from './InInbox';
 import { Rating } from './Rating';
 
-export { ReleaseWrapper as Release };
-
-const ReleaseWrapper: React.FC = () => {
+export const Release: React.FC = () => {
   const id = useId();
-  return id !== null ? <Release id={id} /> : null;
+  return id !== null ? <Body id={id} /> : null;
 };
 
-type IReleaseComponent = React.FC<{ id: number }>;
+type IBody = React.FC<{ id: number }>;
 
-const Release: IReleaseComponent = ({ id }) => {
+const Body: IBody = ({ id }) => {
   const { data, error } = useReleaseFetchReleaseQuery({ variables: { id } });
   const { setBackgroundImageId } = React.useContext(BackgroundContext);
 
-  const release = data?.release as IRelease | undefined;
+  const release = data?.release;
 
   React.useEffect(() => {
     if (!release) {

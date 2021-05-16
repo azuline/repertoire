@@ -6,7 +6,7 @@ import { ITrack } from '~/graphql';
 
 type IProgressBar = React.FC<{
   curTime: number;
-  curTrack: ITrack | null;
+  curTrack: Pick<ITrack, 'duration'> | null;
   seek: (arg0: number) => void;
 }>;
 

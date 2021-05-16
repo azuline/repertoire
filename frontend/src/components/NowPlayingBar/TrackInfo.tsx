@@ -1,12 +1,14 @@
 import * as React from 'react';
 
 import { Image, Link, TrackArtistList } from '~/components';
-import { ITrack } from '~/graphql';
+import { ITrackFieldsFragment } from '~/graphql';
 import { filterNulls } from '~/util';
 
 import { RedirectToNowPlaying } from './RedirectToNowPlaying';
 
-type ITrackInfo = React.FC<{ curTrack: ITrack }>;
+type ITrackInfo = React.FC<{
+  curTrack: Pick<ITrackFieldsFragment, 'title' | 'artists' | 'release'>;
+}>;
 
 export const TrackInfo: ITrackInfo = ({ curTrack }) => {
   return (

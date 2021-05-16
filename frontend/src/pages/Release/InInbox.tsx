@@ -11,7 +11,10 @@ import {
 
 const INBOX_COLLECTION_ID = 1;
 
-type IInInbox = React.FC<{ className?: string; release: IRelease }>;
+type IInInbox = React.FC<{
+  className?: string;
+  release: Pick<IRelease, 'id' | 'inInbox'>;
+}>;
 
 export const InInbox: IInInbox = ({ className, release }) => {
   const [mutateAdd] = useInInboxAddReleaseToCollectionMutation();

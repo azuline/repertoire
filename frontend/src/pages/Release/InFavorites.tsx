@@ -11,7 +11,10 @@ import {
 
 const FAVORITES_COLLECTION_ID = 2;
 
-type IInFavorites = React.FC<{ className?: string; release: IRelease }>;
+type IInFavorites = React.FC<{
+  className?: string;
+  release: Pick<IRelease, 'id' | 'inFavorites'>;
+}>;
 
 export const InFavorites: IInFavorites = ({ className, release }) => {
   const [mutateAdd] = useInFavoritesAddReleaseToCollectionMutation();
