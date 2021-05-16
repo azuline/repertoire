@@ -2,7 +2,7 @@ import json
 import logging
 from configparser import ConfigParser
 from pathlib import Path
-from typing import Any, Callable
+from typing import Callable
 
 from huey import crontab
 
@@ -66,10 +66,6 @@ def write_default_config(config_path: Path) -> None:
 
 
 class _Config:
-    """
-    The "real" config object that gets loaded as a singleton in ``Config``.
-    """
-
     def __init__(self):
         self.parser = _load_config(constants.config_path)
 
@@ -82,36 +78,12 @@ class _Config:
                 "repertoire.music_directories is not a valid JSON-encoded list."
             )
 
-    # TODO: Type
     @property
-    def index_crontab(self) -> Any:
+    def index_crontab(self) -> Callable:
         try:
             return crontab(**parse_crontab(self.parser["repertoire"]["index_crontab"]))
         except ValueError:
             raise InvalidConfig("repertoire.index_crontab is not a valid crontab.")
-
-
-class Config:
-    """
-    A "proxy singleton" that returns the same config instance when instantiated.
-
-    Other modules should only work with this singleton. This allows for code to fetch
-    the global configuration object when needed.
-    """
-
-    _config: _Config
-
-    #: Music directories to index.
-    music_directories: list[str]
-    #: Crontab to schedule library indexing. Its type is a Huey ``crontab``.
-    index_crontab: Callable
-
-    def __new__(cls) -> _Config:  # type: ignore
-        try:
-            return cls._config
-        except AttributeError:
-            cls._config = _Config()
-            return cls._config
 
 
 def _save_config(parser: ConfigParser, config_path: Path) -> None:
@@ -136,3 +108,6 @@ def _load_config(config_path: Path) -> ConfigParser:
     parser = ConfigParser()
     parser.read(config_path)
     return parser
+
+
+config = _Config()

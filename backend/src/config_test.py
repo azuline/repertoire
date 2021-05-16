@@ -4,7 +4,6 @@ from pathlib import Path
 import pytest
 
 from src.config import DEFAULT_CONFIG
-from src.config import Config as SingletonConfig
 from src.config import _Config as Config  # We don't want a singleton when we test.
 from src.config import initialize_config, write_default_config
 from src.errors import InvalidConfig
@@ -90,9 +89,3 @@ def test_update_default_config_add_section():
     parser = ConfigParser()
     parser.read(path)
     assert "repertoire" in parser
-
-
-def test_singleton():
-    c1 = SingletonConfig()
-    c2 = SingletonConfig()
-    assert c1 is c2

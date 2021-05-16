@@ -7,7 +7,7 @@ from filelock import FileLock
 from freezegun import freeze_time
 from yoyo import get_backend, read_migrations
 
-from src.config import Config, _Config
+from src.config import _load_config, config
 from src.constants import TEST_DATA_PATH, constants
 from src.fixtures.factory import Factory
 from src.util import database, freeze_database_time
@@ -60,7 +60,7 @@ def stop_the_clock():
 def seed_data(seed_db, isolated_dir):
     shutil.copytree(TEST_DATA_PATH, constants.data_path, dirs_exist_ok=True)
     # Update config cache with a new config.
-    Config._config = _Config()
+    config.parser = _load_config(constants.config_path)
 
 
 @pytest.fixture
@@ -82,7 +82,6 @@ def quart_app(seed_data):
 @pytest.fixture
 async def quart_client(quart_app):
     def update_kwargs(token: bytes, **kwargs):
-        print(f"{token=}")
         kwargs["headers"] = {
             **kwargs.get("headers", {}),
             "Authorization": f"Token {token.hex()}",
