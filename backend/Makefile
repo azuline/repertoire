@@ -1,4 +1,4 @@
-debug:
+start:
 	QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" poetry run quart run
 
 # A parallel test execution.
@@ -39,4 +39,4 @@ setupfiles:
 	poetry export -f requirements.txt -o requirements.txt
 	poetry run dephell deps convert --from pyproject.toml --to setup.py
 
-.PHONY: debug test testseq typecheck lintcheck lint schema docs setupfiles setupcheck
+.PHONY: start test testseq typecheck lintcheck lint schema docs setupfiles setupcheck

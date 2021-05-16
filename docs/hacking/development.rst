@@ -46,7 +46,7 @@ After installing Poetry:
 #. Configure the backend with ``$ repertoire config``. Set the value of the
    ``music_directories`` key to ``["../_testlib"]``.
 #. Index the test library with ``$ repertoire index``.
-#. Run the debug backend webserver with ``$ make debug``.
+#. Run the debug backend webserver with ``$ make start``.
 
 Or, as a set of shell commands:
 
@@ -59,7 +59,7 @@ Or, as a set of shell commands:
    $ nano .env             # Set `DATA_PATH=../_data` on the first line.
    $ repertoire config     # Set `music_directories = ["../_testlib"]`.
    $ repertoire index      # Index the test library.
-   $ QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" quart run
+   $ make start
 
 Frontend
 ^^^^^^^^
@@ -91,7 +91,7 @@ On the backend, we use a Makefile to provide some basic developer commands.
 
 .. code-block:: sh
 
-   $ make debug       # Run the debug backend server.
+   $ make start       # Run the debug backend server.
    $ make test        # Run the tests. Generate HTML coverage report.
    $ make testseq     # Same as test, but with sequential execution. Per-test dots.
    $ make typecheck   # Run mypy type checker.
