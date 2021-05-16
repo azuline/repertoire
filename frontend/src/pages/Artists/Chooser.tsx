@@ -3,7 +3,6 @@ import * as React from 'react';
 
 import { Chooser, IToggleStarFactory } from '~/components';
 import {
-  IArtist,
   useArtistChooserFetchArtistsQuery,
   useArtistChooserUpdateArtistStarredMutation,
 } from '~/graphql';
@@ -27,8 +26,7 @@ export const ArtistChooser: IArtistChooser = ({ active, className }) => {
     return null;
   }
 
-  const results = data.artists.results as IArtist[];
-  const artists = results.filter((art) => art.numReleases !== 0);
+  const artists = data.artists.results.filter((art) => art.numReleases !== 0);
 
   return (
     <Chooser

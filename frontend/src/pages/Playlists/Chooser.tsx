@@ -3,7 +3,6 @@ import * as React from 'react';
 
 import { Chooser, IToggleStarFactory } from '~/components';
 import {
-  IPlaylist,
   usePlaylistChooserFetchPlaylistsQuery,
   usePlaylistChooserUpdatePlaylistStarredMutation,
 } from '~/graphql';
@@ -35,7 +34,7 @@ export const PlaylistChooser: IPlaylistChooser = ({ active, className }) => {
     <Chooser
       active={active}
       className={className}
-      results={data.playlists.results as IPlaylist[]}
+      results={data.playlists.results}
       toggleStarFactory={toggleStarFactory}
       urlFactory={urlFactory}
     />

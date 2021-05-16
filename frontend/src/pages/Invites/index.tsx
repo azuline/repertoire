@@ -3,7 +3,6 @@ import * as React from 'react';
 
 import { Button, Header, SectionHeader } from '~/components';
 import {
-  IInvite,
   refetchInvitesFetchInvitesQuery,
   useInvitesCreateInviteMutation,
   useInvitesFetchInvitesQuery,
@@ -13,7 +12,7 @@ import { Invite } from './Invite';
 
 export const Invites: React.FC = () => {
   const { data } = useInvitesFetchInvitesQuery();
-  const invites = data?.invites?.results as IInvite[] | undefined;
+  const invites = data?.invites.results;
 
   const [createInvite] = useInvitesCreateInviteMutation();
   const createOnClick = (): void => {

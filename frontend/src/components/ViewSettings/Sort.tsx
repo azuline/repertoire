@@ -27,11 +27,11 @@ export const Sort: ISort = ({ viewOptions, className }) => {
       value={viewOptions.sort}
       onChange={updateSort}
     >
-      {Object.values(IReleaseSort)
-        .filter((value) => value !== IReleaseSort.SearchRank)
-        .map((value) => (
-          <option key={value} value={value}>
-            {displays[value]}
+      {Object.keys(displays)
+        .filter(([k]) => k !== IReleaseSort.SearchRank)
+        .map(([k, display]) => (
+          <option key={k} value={k}>
+            {display}
           </option>
         ))}
     </Select>

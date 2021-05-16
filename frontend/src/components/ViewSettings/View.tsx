@@ -23,9 +23,9 @@ export const View: IView = ({ viewOptions, className }) => {
       value={viewOptions.releaseView}
       onChange={onChange}
     >
-      {Object.values(IReleaseView).map((value) => (
-        <option key={value} value={value}>
-          {displays[value]}
+      {Object.entries(displays).map(([k, display]) => (
+        <option key={k} value={k}>
+          {display}
         </option>
       ))}
     </Select>
