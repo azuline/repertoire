@@ -60,6 +60,23 @@ def test_from_name_type_user_failure(db: Connection):
     assert col2 is None
 
 
+def test_from_name_and_type(factory: Factory, db: Connection):
+    usr1, _ = factory.user(conn=db)
+    col1 = factory.collection(
+        name="test", type=CollectionType.SYSTEM, user=usr1, conn=db
+    )
+
+    usr2, _ = factory.user(conn=db)
+    col2 = factory.collection(
+        name="test", type=CollectionType.SYSTEM, user=usr2, conn=db
+    )
+
+    factory.collection(name="other", type=CollectionType.COLLAGE, conn=db)
+
+    cols = collection.from_name_and_type("test", CollectionType.SYSTEM, conn=db)
+    assert {c.id for c in cols} == {col1.id, col2.id}
+
+
 def test_search_all(factory: Factory, db: Connection):
     cols = {factory.collection(conn=db) for _ in range(5)}
     assert cols == set(collection.search(db))

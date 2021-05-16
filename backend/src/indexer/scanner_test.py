@@ -17,7 +17,7 @@ from .scanner import (
     _fix_release_types,
     _get_release_type,
     _insert_into_genre_collections,
-    _insert_into_inbox_collection,
+    _insert_into_inbox_collections,
     _insert_into_label_collection,
     _split_genres,
     catalog_file,
@@ -230,14 +230,18 @@ def test_fetch_or_create_artist_duplicate(factory: Factory, db: Connection):
 
 
 def test_insert_into_inbox_collection(factory: Factory, db: Connection):
-    inbox = collection.from_id(1, db)
-    assert inbox is not None
+    # Create two new inboxes.
+    usr1, _ = factory.user(conn=db)
+    usr2, _ = factory.user(conn=db)
 
     rls = factory.release(conn=db)
-    assert rls not in collection.releases(inbox, db)
+    _insert_into_inbox_collections(rls, db)
 
-    _insert_into_inbox_collection(rls, db)
-    assert release.from_id(rls.id, db) in collection.releases(inbox, db)
+    inbox1 = collection.inbox_of(usr1.id, db)
+    inbox2 = collection.inbox_of(usr2.id, db)
+
+    assert rls in collection.releases(inbox1, db)
+    assert rls in collection.releases(inbox2, db)
 
 
 def test_insert_into_label_collection_nonexistent(factory: Factory, db: Connection):

@@ -47,6 +47,19 @@ def test_from_name_type_user_failure(db: Connection):
     assert ply is None
 
 
+def test_from_name_and_type(factory: Factory, db: Connection):
+    usr1, _ = factory.user(conn=db)
+    ply1 = factory.playlist(name="test", type=PlaylistType.SYSTEM, user=usr1, conn=db)
+
+    usr2, _ = factory.user(conn=db)
+    ply2 = factory.playlist(name="test", type=PlaylistType.SYSTEM, user=usr2, conn=db)
+
+    factory.playlist(name="other", type=PlaylistType.PLAYLIST, conn=db)
+
+    plys = playlist.from_name_and_type("test", PlaylistType.SYSTEM, conn=db)
+    assert {p.id for p in plys} == {ply1.id, ply2.id}
+
+
 def test_search_all(factory: Factory, db: Connection):
     plys = {factory.playlist(conn=db) for _ in range(5)}
     assert plys == set(playlist.search(db))

@@ -131,6 +131,7 @@ def from_name_type_user(
             AND cols.type = ?
             AND (cols.user_id = ? OR (cols.user_id IS NULL AND ? IS NULL))
         GROUP BY cols.id
+        LIMIT 1
         """,
         (name, type.value, user_id, user_id),
     )
@@ -147,6 +148,37 @@ def from_name_type_user(
         f'name "{name}", type {type}, and user {user_id}.'
     )
     return None
+
+
+def from_name_and_type(
+    name: str,
+    type: CollectionType,
+    conn: Connection,
+) -> list[T]:
+    """
+    Return all collections with the given name and type.
+
+    :param name: The name of the collection.
+    :param type: The type of the collection.
+    :param conn: A connection to the database.
+    :return: The collection, if it exists.
+    """
+    cursor = conn.execute(
+        """
+        SELECT
+            cols.*,
+            COUNT(colsrls.release_id) AS num_releases
+        FROM music__collections AS cols
+        LEFT JOIN music__collections_releases AS colsrls
+            ON colsrls.collection_id = cols.id
+        WHERE cols.name = ? AND cols.type = ?
+        GROUP BY cols.id
+        """,
+        (name, type.value),
+    )
+
+    logger.debug(f"Fetched all collections with name {name} and type {type}.")
+    return [from_row(row) for row in cursor]
 
 
 def search(
