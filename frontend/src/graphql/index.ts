@@ -553,7 +553,7 @@ export type ITrack = {
   trackNumber: Scalars['String'];
   discNumber: Scalars['String'];
   /** Whether the track is in the user's favorites playlist. */
-  favorited: Scalars['Boolean'];
+  inFavorites: Scalars['Boolean'];
   release: IRelease;
   artists: Array<ITrackArtist>;
 };
@@ -649,7 +649,7 @@ export type IPlaylistsFavoriteTrackMutation = (
       )> }
     ), track: (
       { __typename?: 'Track' }
-      & Pick<ITrack, 'id' | 'favorited'>
+      & Pick<ITrack, 'id' | 'inFavorites'>
     ) }
   ) }
 );
@@ -672,7 +672,7 @@ export type IPlaylistsUnfavoriteTrackMutation = (
       )> }
     ), track: (
       { __typename?: 'Track' }
-      & Pick<ITrack, 'id' | 'favorited'>
+      & Pick<ITrack, 'id' | 'inFavorites'>
     ) }
   ) }
 );
@@ -753,7 +753,7 @@ export type IPlaylistFieldsFragment = (
 
 export type ITrackFieldsFragment = (
   { __typename?: 'Track' }
-  & Pick<ITrack, 'id' | 'title' | 'duration' | 'trackNumber' | 'discNumber' | 'favorited'>
+  & Pick<ITrack, 'id' | 'title' | 'duration' | 'trackNumber' | 'discNumber' | 'inFavorites'>
   & { release: (
     { __typename?: 'Release' }
     & Pick<IRelease, 'id' | 'imageId'>
@@ -1239,7 +1239,7 @@ export const TrackFieldsFragmentDoc = gql`
   duration
   trackNumber
   discNumber
-  favorited
+  inFavorites
   release {
     id
     imageId
@@ -1381,7 +1381,7 @@ export const PlaylistsFavoriteTrackDocument = gql`
     }
     track {
       id
-      favorited
+      inFavorites
     }
   }
 }
@@ -1424,7 +1424,7 @@ export const PlaylistsUnfavoriteTrackDocument = gql`
     }
     track {
       id
-      favorited
+      inFavorites
     }
   }
 }
@@ -2629,14 +2629,14 @@ export type TopGenreFieldPolicy = {
 	genre?: FieldPolicy<any> | FieldReadFunction<any>,
 	numMatches?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type TrackKeySpecifier = ('id' | 'title' | 'duration' | 'trackNumber' | 'discNumber' | 'favorited' | 'release' | 'artists' | TrackKeySpecifier)[];
+export type TrackKeySpecifier = ('id' | 'title' | 'duration' | 'trackNumber' | 'discNumber' | 'inFavorites' | 'release' | 'artists' | TrackKeySpecifier)[];
 export type TrackFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>,
 	duration?: FieldPolicy<any> | FieldReadFunction<any>,
 	trackNumber?: FieldPolicy<any> | FieldReadFunction<any>,
 	discNumber?: FieldPolicy<any> | FieldReadFunction<any>,
-	favorited?: FieldPolicy<any> | FieldReadFunction<any>,
+	inFavorites?: FieldPolicy<any> | FieldReadFunction<any>,
 	release?: FieldPolicy<any> | FieldReadFunction<any>,
 	artists?: FieldPolicy<any> | FieldReadFunction<any>
 };

@@ -9,8 +9,12 @@ from typing import Optional, Union
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from src.enums import CollectionType, PlaylistType
 from src.errors import InvalidNickname, TokenGenerationFailure
 from src.util import update_dataclass
+
+from . import collection as libcollection
+from . import playlist as libplaylist
 
 TOKEN_LENGTH = 32
 PREFIX_LENGTH = 12
@@ -157,7 +161,32 @@ def create(nickname: str, conn: Connection) -> tuple[T, bytes]:
 
     logger.info(f"Created user {nickname} with ID {cursor.lastrowid}.")
 
-    return T(id=cursor.lastrowid, nickname=nickname, csrf_token=csrf_token), token
+    _create_system_collections_and_playlists(cursor.lastrowid, conn)
+
+    usr = from_id(cursor.lastrowid, conn)
+    assert usr is not None
+    return usr, token
+
+
+def _create_system_collections_and_playlists(user_id: int, conn: Connection) -> None:
+    for name in ["Inbox", "Favorites"]:
+        libcollection.create(
+            name,
+            CollectionType.SYSTEM,
+            user_id=user_id,
+            conn=conn,
+            override_immutable=True,
+        )
+
+    libplaylist.create(
+        "Favorites",
+        PlaylistType.SYSTEM,
+        user_id=user_id,
+        conn=conn,
+        override_immutable=True,
+    )
+
+    logger.info(f"Created system collections and playlists for user {user_id}.")
 
 
 def update(usr: T, conn: Connection, **changes) -> T:

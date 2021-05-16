@@ -8,14 +8,10 @@ from src.errors import NotFound
 from src.graphql.mutation import mutation
 from src.graphql.query import query
 from src.graphql.util import commit
-from src.library import artist
-from src.library import playlist_entry as pentry
-from src.library import release, track
+from src.library import artist, release, track
 from src.util import convert_keys_case, del_pagination_keys
 
 gql_track = ObjectType("Track")
-
-FAVORITES_PLAYLIST_ID = 1
 
 
 @query.field("track")
@@ -35,13 +31,9 @@ def resolve_tracks(obj: Any, info: GraphQLResolveInfo, **kwargs) -> dict:
     }
 
 
-@gql_track.field("favorited")
-def resolve_favorited(obj: track.T, info: GraphQLResolveInfo) -> bool:
-    return pentry.exists_playlist_and_track(
-        FAVORITES_PLAYLIST_ID,
-        obj.id,
-        info.context.db,
-    )
+@gql_track.field("inFavorites")
+def resolve_in_favorites(obj: track.T, info: GraphQLResolveInfo) -> bool:
+    return track.in_favorites(obj, info.context.user.id, info.context.db)
 
 
 @gql_track.field("release")

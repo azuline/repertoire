@@ -16,7 +16,13 @@ from sqlite3 import Connection, Row
 from typing import Optional, Union
 
 from src.enums import CollectionType, PlaylistType
-from src.errors import Duplicate, Immutable, InvalidArgument, InvalidPlaylistType
+from src.errors import (
+    DoesNotExist,
+    Duplicate,
+    Immutable,
+    InvalidArgument,
+    InvalidPlaylistType,
+)
 from src.util import make_fts_match_query, update_dataclass, without_key
 
 from . import collection
@@ -494,3 +500,23 @@ def user(ply: T, conn: Connection) -> Optional[libuser.T]:
     :return: The user, if one exists.
     """
     return libuser.from_id(ply.user_id, conn) if ply.user_id else None
+
+
+def favorites_of(user_id: int, conn: Connection) -> T:
+    """
+    Return the favorites playlist of the passed-in user.
+
+    :param user_id: The ID of the user whose favorites to fetch.
+    :param conn: A connection to the database.
+    :return: The user's favorites playlist.
+    :raises DoesNotExist: If the inbox does not exist.
+    """
+    ply = from_name_type_user(
+        "Favorites",
+        PlaylistType.SYSTEM,
+        user_id=user_id,
+        conn=conn,
+    )
+    if ply is None:
+        raise DoesNotExist(f"No favorites playlist exists for user {user_id}.")
+    return ply

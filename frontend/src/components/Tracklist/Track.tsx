@@ -33,7 +33,7 @@ export const Track: ITrackComponent = ({
   const [unfavoriteTrack] = usePlaylistsUnfavoriteTrackMutation();
 
   const toggleFavorite = async (): Promise<void> => {
-    const toggleFunc = track.favorited ? unfavoriteTrack : favoriteTrack;
+    const toggleFunc = track.inFavorites ? unfavoriteTrack : favoriteTrack;
     await toggleFunc({ variables: { trackId: track.id } });
   };
 
@@ -50,11 +50,11 @@ export const Track: ITrackComponent = ({
         css={[
           tw`flex-none flex items-center absolute top-0 left-0`,
           tw`px-3 cursor-pointer h-full`,
-          track.favorited
+          track.inFavorites
             ? tw`text-primary-500 fill-current hover:(text-gray-500 stroke-current)`
             : tw`text-gray-500 stroke-current hover:(text-primary-400 fill-current)`,
         ]}
-        title={`${track.favorited ? 'Unfavorite' : 'Favorite'} this track!`}
+        title={`${track.inFavorites ? 'Unfavorite' : 'Favorite'} this track!`}
         onClick={toggleFavorite}
       >
         <Icon icon="star-small" tw="w-6 md:w-5" />
@@ -103,7 +103,7 @@ gql`
       }
       track {
         id
-        favorited
+        inFavorites
       }
     }
   }
@@ -119,7 +119,7 @@ gql`
       }
       track {
         id
-        favorited
+        inFavorites
       }
     }
   }

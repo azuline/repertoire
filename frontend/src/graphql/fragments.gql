@@ -74,7 +74,7 @@ fragment TrackFields on Track {
   duration
   trackNumber
   discNumber
-  favorited
+  inFavorites
 
   release {
     id
