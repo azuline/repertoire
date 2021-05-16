@@ -615,13 +615,6 @@ export type IPagedReleasesFetchReleasesQuery = (
     & Pick<IReleases, 'total'>
     & { results: Array<(
       { __typename?: 'Release' }
-      & { artists: Array<(
-        { __typename?: 'Artist' }
-        & Pick<IArtist, 'id' | 'name'>
-      )>, genres: Array<(
-        { __typename?: 'Collection' }
-        & Pick<ICollection, 'id' | 'name'>
-      )> }
       & IReleaseFieldsFragment
     )> }
   ) }
@@ -712,6 +705,13 @@ export type IUserFieldsFragment = (
 export type IReleaseFieldsFragment = (
   { __typename?: 'Release' }
   & Pick<IRelease, 'id' | 'title' | 'releaseType' | 'addedOn' | 'inInbox' | 'inFavorites' | 'releaseYear' | 'releaseDate' | 'rating' | 'numTracks' | 'runtime' | 'imageId'>
+  & { artists: Array<(
+    { __typename?: 'Artist' }
+    & Pick<IArtist, 'id' | 'name'>
+  )>, genres: Array<(
+    { __typename?: 'Collection' }
+    & Pick<ICollection, 'id' | 'name'>
+  )> }
 );
 
 export type IArtistFieldsFragment = (
@@ -759,16 +759,10 @@ export type ITrackFieldsFragment = (
 
 export type IFullReleaseFieldsFragment = (
   { __typename?: 'Release' }
-  & { artists: Array<(
-    { __typename?: 'Artist' }
-    & Pick<IArtist, 'id' | 'name'>
-  )>, collages: Array<(
+  & { collages: Array<(
     { __typename?: 'Collection' }
     & Pick<ICollection, 'id' | 'name'>
   )>, labels: Array<(
-    { __typename?: 'Collection' }
-    & Pick<ICollection, 'id' | 'name'>
-  )>, genres: Array<(
     { __typename?: 'Collection' }
     & Pick<ICollection, 'id' | 'name'>
   )>, tracks: Array<(
@@ -841,13 +835,6 @@ export type IRecentlyAddedFetchReleasesQuery = (
     { __typename?: 'Releases' }
     & { results: Array<(
       { __typename?: 'Release' }
-      & { artists: Array<(
-        { __typename?: 'Artist' }
-        & Pick<IArtist, 'id' | 'name'>
-      )>, genres: Array<(
-        { __typename?: 'Collection' }
-        & Pick<ICollection, 'id' | 'name'>
-      )> }
       & IReleaseFieldsFragment
     )> }
   ) }
@@ -1225,6 +1212,14 @@ export const ReleaseFieldsFragmentDoc = gql`
   numTracks
   runtime
   imageId
+  artists {
+    id
+    name
+  }
+  genres {
+    id
+    name
+  }
 }
     `;
 export const TrackFieldsFragmentDoc = gql`
@@ -1251,19 +1246,11 @@ export const TrackFieldsFragmentDoc = gql`
 export const FullReleaseFieldsFragmentDoc = gql`
     fragment FullReleaseFields on Release {
   ...ReleaseFields
-  artists {
-    id
-    name
-  }
   collages {
     id
     name
   }
   labels {
-    id
-    name
-  }
-  genres {
     id
     name
   }
@@ -1327,14 +1314,6 @@ export const PagedReleasesFetchReleasesDocument = gql`
     total
     results {
       ...ReleaseFields
-      artists {
-        id
-        name
-      }
-      genres {
-        id
-        name
-      }
     }
   }
 }
@@ -1696,14 +1675,6 @@ export const RecentlyAddedFetchReleasesDocument = gql`
   releases(sort: RECENTLY_ADDED, asc: false, page: 1, perPage: 10) {
     results {
       ...ReleaseFields
-      artists {
-        id
-        name
-      }
-      genres {
-        id
-        name
-      }
     }
   }
 }

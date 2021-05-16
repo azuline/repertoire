@@ -4,13 +4,26 @@ import tw from 'twin.macro';
 import { Link } from '~/components/common';
 import { Image } from '~/components/Image';
 import { ArtistList, GenreList } from '~/components/Lists';
-import { IRelease } from '~/graphql';
+import { IReleaseFieldsFragment } from '~/graphql';
 import { filterNulls } from '~/util';
 
 import { InInboxIndicator } from './InInboxIndicator';
 import { Rating } from './Rating';
 
-type IRowRelease = React.FC<{ release: IRelease; className?: string }>;
+type IRowRelease = React.FC<{
+  release: Pick<
+    IReleaseFieldsFragment,
+    | 'id'
+    | 'title'
+    | 'inInbox'
+    | 'imageId'
+    | 'releaseYear'
+    | 'rating'
+    | 'artists'
+    | 'genres'
+  >;
+  className?: string;
+}>;
 
 export const RowRelease: IRowRelease = ({ release, className }) => {
   return (

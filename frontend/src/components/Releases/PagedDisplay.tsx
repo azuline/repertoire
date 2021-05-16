@@ -6,7 +6,7 @@ import tw from 'twin.macro';
 import { Pagination } from '~/components/Pagination';
 import { ArtRelease, RowRelease } from '~/components/Release';
 import { ViewSettings } from '~/components/ViewSettings';
-import { IRelease, usePagedReleasesFetchReleasesQuery } from '~/graphql';
+import { usePagedReleasesFetchReleasesQuery } from '~/graphql';
 import { IPagination, IViewOptions } from '~/hooks';
 import { IReleaseView } from '~/types';
 
@@ -28,8 +28,7 @@ export const PagedReleases: IPagedReleases = ({
     variables: { ...viewOptions, ...pagination },
   });
 
-  const { total, results: rawResults } = data?.releases || { results: [], total: 0 };
-  const results = rawResults as IRelease[];
+  const { total, results } = data?.releases || { results: [], total: 0 };
 
   React.useEffect(() => {
     pagination.setTotal(total);
@@ -121,14 +120,6 @@ gql`
       total
       results {
         ...ReleaseFields
-        artists {
-          id
-          name
-        }
-        genres {
-          id
-          name
-        }
       }
     }
   }

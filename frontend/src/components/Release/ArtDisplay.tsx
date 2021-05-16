@@ -4,12 +4,26 @@ import tw, { styled } from 'twin.macro';
 import { Link, TwoSided } from '~/components/common';
 import { Image } from '~/components/Image';
 import { ArtistList, GenreList } from '~/components/Lists';
-import { IRelease } from '~/graphql';
+import { IReleaseFieldsFragment } from '~/graphql';
 import { filterNulls, secondsToLength } from '~/util';
 
 import { InInboxIndicator } from './InInboxIndicator';
 
-type IArtRelease = React.FC<{ release: IRelease; className?: string }>;
+type IArtRelease = React.FC<{
+  release: Pick<
+    IReleaseFieldsFragment,
+    | 'id'
+    | 'runtime'
+    | 'inInbox'
+    | 'artists'
+    | 'releaseYear'
+    | 'numTracks'
+    | 'genres'
+    | 'imageId'
+    | 'title'
+  >;
+  className?: string;
+}>;
 
 export const ArtRelease: IArtRelease = ({ release, className }) => {
   const runtime = secondsToLength(release.runtime);

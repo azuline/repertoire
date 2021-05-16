@@ -3,13 +3,13 @@ import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { Link, ScrolledReleases, SectionHeader } from '~/components';
-import { IRelease, useRecentlyAddedFetchReleasesQuery } from '~/graphql';
+import { useRecentlyAddedFetchReleasesQuery } from '~/graphql';
 
 export const RecentlyAdded: React.FC = () => {
   const { data } = useRecentlyAddedFetchReleasesQuery();
   const history = useHistory();
 
-  const releases = (data?.releases?.results || []) as IRelease[];
+  const releases = data?.releases.results ?? [];
 
   const toRecentlyAdded = (): void => {
     // TODO: change these string keys to an enum.
@@ -43,14 +43,6 @@ gql`
     releases(sort: RECENTLY_ADDED, asc: false, page: 1, perPage: 10) {
       results {
         ...ReleaseFields
-        artists {
-          id
-          name
-        }
-        genres {
-          id
-          name
-        }
       }
     }
   }

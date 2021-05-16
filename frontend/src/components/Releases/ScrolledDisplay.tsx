@@ -2,9 +2,9 @@ import * as React from 'react';
 import { styled } from 'twin.macro';
 
 import { ArtRelease } from '~/components/Release';
-import { IRelease } from '~/graphql';
+import { IReleaseFieldsFragment } from '~/graphql';
 
-type IScrolledReleases = React.FC<{ releases: IRelease[] }>;
+type IScrolledReleases = React.FC<{ releases: IReleaseFieldsFragment[] }>;
 
 export const ScrolledReleases: IScrolledReleases = ({ releases }) => (
   <Wrapper tw="w-fullpad px-6 md:px-8 -mx-6 md:-mx-8 py-10 flex overflow-x-auto">

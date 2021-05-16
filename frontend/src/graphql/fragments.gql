@@ -16,6 +16,16 @@ fragment ReleaseFields on Release {
   numTracks
   runtime
   imageId
+
+  artists {
+    id
+    name
+  }
+
+  genres {
+    id
+    name
+  }
 }
 
 fragment ArtistFields on Artist {
@@ -83,22 +93,12 @@ fragment TrackFields on Track {
 fragment FullReleaseFields on Release {
   ...ReleaseFields
 
-  artists {
-    id
-    name
-  }
-
   collages {
     id
     name
   }
 
   labels {
-    id
-    name
-  }
-
-  genres {
     id
     name
   }
