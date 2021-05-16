@@ -7,7 +7,7 @@ from typing import Generator, Optional
 
 from tagfiles import TagFile
 
-from src.constants import Constants
+from src.constants import constants
 from src.errors import Duplicate
 from src.library import image
 from src.util import database
@@ -200,10 +200,8 @@ def _save_image_file(data: bytes, extension: str) -> Path:
     :param extension: The file extension of the image.
     :return: The filepath that the image was saved to.
     """
-    cons = Constants()
-
     sha256sum = sha256(data).hexdigest()
-    filepath = cons.cover_art_dir / f"{sha256sum}.{extension}"
+    filepath = constants.cover_art_dir / f"{sha256sum}.{extension}"
 
     if filepath.exists():
         logger.debug("Embedded image already saved!")

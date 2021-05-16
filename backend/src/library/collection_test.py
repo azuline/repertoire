@@ -8,6 +8,7 @@ from src.errors import (
     DoesNotExist,
     Duplicate,
     Immutable,
+    InvalidArgument,
     InvalidCollectionType,
 )
 from src.fixtures.factory import Factory
@@ -35,31 +36,53 @@ def test_from_id_failure(db: Connection):
     assert collection.from_id(90000, db) is None
 
 
-def test_from_name_and_type_success(factory: Factory, db: Connection):
+def test_from_name_type_user_success(factory: Factory, db: Connection):
     col = factory.collection(conn=db)
-    new_col = collection.from_name_and_type(col.name, col.type, db)
+    new_col = collection.from_name_type_user(col.name, col.type, db)
     assert new_col is not None
 
     assert col.name == new_col.name
     assert col.type == new_col.type
 
 
-def test_from_name_and_type_failure(db: Connection):
-    col1 = collection.from_name_and_type("Electronic", CollectionType.COLLAGE, db)
-    col2 = collection.from_name_and_type("Inb0x", CollectionType.SYSTEM, db)
+def test_from_name_type_user_with_user_id(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    col = factory.collection(conn=db, type=CollectionType.PERSONAL, user=usr)
+    new_col = collection.from_name_type_user(col.name, col.type, db, usr.id)
+    assert col == new_col
+
+
+def test_from_name_type_user_failure(db: Connection):
+    col1 = collection.from_name_type_user("Electronic", CollectionType.COLLAGE, db)
+    col2 = collection.from_name_type_user("Inb0x", CollectionType.SYSTEM, db)
 
     assert col1 is None
     assert col2 is None
 
 
+def test_from_name_and_type(factory: Factory, db: Connection):
+    usr1, _ = factory.user(conn=db)
+    col1 = factory.collection(
+        name="test", type=CollectionType.SYSTEM, user=usr1, conn=db
+    )
+
+    usr2, _ = factory.user(conn=db)
+    col2 = factory.collection(
+        name="test", type=CollectionType.SYSTEM, user=usr2, conn=db
+    )
+
+    factory.collection(name="other", type=CollectionType.COLLAGE, conn=db)
+
+    cols = collection.from_name_and_type("test", CollectionType.SYSTEM, conn=db)
+    assert {c.id for c in cols} == {col1.id, col2.id}
+
+
 def test_search_all(factory: Factory, db: Connection):
     cols = {factory.collection(conn=db) for _ in range(5)}
-    # Remove inbox & favorites collections for a better comparison.
-    out = {col for col in collection.search(db) if col.id not in [1, 2]}
-    assert cols == out
+    assert cols == set(collection.search(db))
 
 
-def test_search_filters(factory: Factory, db: Connection):
+def test_search_types(factory: Factory, db: Connection):
     col = factory.collection(type=CollectionType.GENRE, conn=db)
     collections = collection.search(
         db,
@@ -68,6 +91,22 @@ def test_search_filters(factory: Factory, db: Connection):
     )
     assert len(collections) == 1
     assert collections[0].id == col.id
+
+
+def test_search_user(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    unused_usr, _ = factory.user(conn=db)
+
+    col1 = factory.collection(type=CollectionType.PERSONAL, user=usr, conn=db)
+    col2 = factory.collection(type=CollectionType.PERSONAL, user=usr, conn=db)
+
+    col3 = factory.collection(type=CollectionType.PERSONAL, user=unused_usr, conn=db)
+    col4 = factory.collection(conn=db)
+
+    cols = collection.search(db, user_ids=[usr.id])
+    ids = [c.id for c in cols]
+    assert all(c.id in ids for c in [col1, col2])
+    assert not any(c.id in ids for c in [col3, col4])
 
 
 def test_search_page(factory: Factory, db: Connection):
@@ -87,9 +126,7 @@ def test_search_per_page(factory: Factory, db: Connection):
 
 def test_count_all(factory: Factory, db: Connection):
     cols = [factory.collection(conn=db) for _ in range(5)]
-    count = collection.count(db)
-    # Two extras are inbox & favorites.
-    assert len(cols) == count - 2
+    assert len(cols) == collection.count(db)
 
 
 def test_count_one(factory: Factory, db: Connection):
@@ -111,6 +148,40 @@ def test_create(db: Connection, type):
     assert col == collection.from_id(col.id, db)
 
 
+def test_create_collage_with_user(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    with pytest.raises(InvalidArgument):
+        collection.create(
+            "new collage",
+            CollectionType.COLLAGE,
+            user_id=usr.id,
+            starred=True,
+            conn=db,
+        )
+
+
+def test_create_personal(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    col = collection.create(
+        "new collection",
+        CollectionType.PERSONAL,
+        user_id=usr.id,
+        starred=True,
+        conn=db,
+    )
+    assert col == collection.from_id(col.id, db)
+
+
+def test_create_personal_without_user(db: Connection):
+    with pytest.raises(InvalidArgument):
+        collection.create(
+            "new collection",
+            CollectionType.PERSONAL,
+            starred=True,
+            conn=db,
+        )
+
+
 def test_create_duplicate(factory: Factory, db: Connection):
     col = factory.collection(conn=db)
     with pytest.raises(Duplicate):
@@ -122,10 +193,12 @@ def test_create_invalid_type(db: Connection):
         collection.create("new collage", CollectionType.SYSTEM, conn=db)
 
 
-def test_create_invalid_type_override(db: Connection):
+def test_create_invalid_type_override(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
     col = collection.create(
         "new collage",
         CollectionType.SYSTEM,
+        user_id=usr.id,
         conn=db,
         override_immutable=True,
     )
@@ -141,7 +214,9 @@ def test_update_fields(factory: Factory, db: Connection):
 
 
 def test_update_immutable(factory: Factory, db: Connection):
-    col = factory.collection(type=CollectionType.SYSTEM, conn=db)
+    usr, _ = factory.user(conn=db)
+    col = factory.collection(type=CollectionType.SYSTEM, user=usr, conn=db)
+
     with pytest.raises(Immutable):
         collection.update(col, conn=db, name="New Name")
 
@@ -251,3 +326,11 @@ def test_image(factory: Factory, db: Connection):
 def test_image_nonexistent(factory: Factory, db: Connection):
     col = factory.collection(conn=db)
     assert collection.image(col, db) is None
+
+
+def test_user(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    col = factory.collection(user=usr, type=CollectionType.SYSTEM, conn=db)
+    col_user = collection.user(col, conn=db)
+    assert col_user is not None
+    assert usr.id == col_user.id

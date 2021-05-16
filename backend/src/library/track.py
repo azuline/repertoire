@@ -11,7 +11,7 @@ from src.enums import ArtistRole, TrackSort
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
 from src.util import make_fts_match_query, update_dataclass, without_key
 
-from . import artist
+from . import artist, playlist, playlist_entry
 from . import release as librelease
 
 logger = logging.getLogger(__name__)
@@ -455,6 +455,20 @@ def update(trk: T, conn: Connection, **changes) -> T:
     logger.info(f"Updated track {trk.id} with {changes}.")
 
     return update_dataclass(trk, **changes)
+
+
+def in_favorites(trk: T, user_id: int, conn: Connection) -> bool:
+    """
+    Return whether this track is in the favorites of the passed-in user.
+
+    :param trk: The provided track.
+    :param user_id: The ID of the user whose favorites to check.
+    :param conn: A connection to the database.
+    :return: Whether the track is in the user's favorites.
+    :raises DoesNotExist: If the user's favorites does not exist.
+    """
+    favorites = playlist.favorites_of(user_id, conn)
+    return playlist_entry.exists_playlist_and_track(favorites.id, trk.id, conn)
 
 
 def release(trk: T, conn: Connection) -> librelease.T:

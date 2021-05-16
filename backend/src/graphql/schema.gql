@@ -35,6 +35,8 @@ type Query {
     search: String
     "If provided, only collections of these type will be returned."
     types: [CollectionType!]
+    "If provided, only collections owned by these users will be returned."
+    userIds: [Int!]
     "Which page of collections to return."
     page: Int
     """
@@ -47,10 +49,12 @@ type Query {
   "Fetch a collection by ID."
   collection(id: Int!): Collection!
 
-  "Fetch a collection by name and type."
-  collectionFromNameAndType(
+  "Fetch a collection by name, type, and user."
+  collectionFromNameTypeUser(
     name: String!
     type: CollectionType!
+    "The user the collection belongs to."
+    user: Int
   ): Collection!
 
   "Fetch invites."
@@ -81,6 +85,8 @@ type Query {
     search: String
     "If provided, only playlists of these type will be returned."
     types: [PlaylistType!]
+    "If provided, only playlists owned by these users will be returned."
+    userIds: [Int!]
     "Which page of playlists to return."
     page: Int
     """
@@ -93,10 +99,12 @@ type Query {
   "Fetch a playlist by ID."
   playlist(id: Int!): Playlist!
 
-  "Fetch a playlist by name and type."
-  playlistFromNameAndType(
+  "Fetch a playlist by name, type, and user."
+  playlistFromNameTypeUser(
     name: String!
     type: PlaylistType!
+    "The user the collection belongs to."
+    user: Int
   ): Playlist!
 
   "Search releases."
@@ -356,6 +364,9 @@ type Collection {
   releases: [Release!]!
   "The top genres of the collection, compiled from its releases."
   topGenres: [TopGenre!]!
+
+  "The user the collection belongs to."
+  user: User
 }
 
 type Collections {
@@ -395,6 +406,9 @@ type Playlist {
   entries: [PlaylistEntry!]!
   "The top genres of the playlist, compiled from its tracks."
   topGenres: [TopGenre!]!
+
+  "The user the playlist belongs to."
+  user: User
 }
 
 type Playlists {
@@ -454,7 +468,7 @@ type Track {
   trackNumber: String!
   discNumber: String!
   "Whether the track is in the user's favorites playlist."
-  favorited: Boolean!
+  inFavorites: Boolean!
 
   release: Release!
   artists: [TrackArtist!]!
@@ -483,6 +497,9 @@ type TopGenre {
 type User {
   id: Int!
   nickname: String!
+  inboxCollectionId: Int!
+  favoritesCollectionId: Int!
+  favoritesPlaylistId: Int!
 }
 
 type Token {
@@ -536,6 +553,7 @@ enum ReleaseType {
 
 enum CollectionType {
   SYSTEM
+  PERSONAL
   COLLAGE
   LABEL
   GENRE
@@ -560,5 +578,6 @@ enum TrackSort {
 
 enum PlaylistType {
   SYSTEM
+  PERSONAL
   PLAYLIST
 }

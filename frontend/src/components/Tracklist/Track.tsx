@@ -1,10 +1,12 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
+import { useToasts } from 'react-toast-notifications';
 import tw from 'twin.macro';
 
 import { Icon, Image, TrackArtistList } from '~/components';
 import {
   ITrackFieldsFragment,
+  useFavoritePlaylistsIdQuery,
   usePlaylistsFavoriteTrackMutation,
   usePlaylistsUnfavoriteTrackMutation,
 } from '~/graphql';
@@ -29,12 +31,25 @@ export const Track: ITrackComponent = ({
   active = false,
   showCover = false,
 }) => {
+  const { addToast } = useToasts();
+
+  const { data } = useFavoritePlaylistsIdQuery();
   const [favoriteTrack] = usePlaylistsFavoriteTrackMutation();
   const [unfavoriteTrack] = usePlaylistsUnfavoriteTrackMutation();
 
   const toggleFavorite = async (): Promise<void> => {
-    const toggleFunc = track.favorited ? unfavoriteTrack : favoriteTrack;
-    await toggleFunc({ variables: { trackId: track.id } });
+    if (data === undefined) {
+      addToast('Failed to fetch favorites.', { appearance: 'error' });
+      return;
+    }
+
+    const toggleFunc = track.inFavorites ? unfavoriteTrack : favoriteTrack;
+    await toggleFunc({
+      variables: {
+        playlistId: data.user.favoritesPlaylistId,
+        trackId: track.id,
+      },
+    });
   };
 
   return (
@@ -50,11 +65,11 @@ export const Track: ITrackComponent = ({
         css={[
           tw`flex-none flex items-center absolute top-0 left-0`,
           tw`px-3 cursor-pointer h-full`,
-          track.favorited
+          track.inFavorites
             ? tw`text-primary-500 fill-current hover:(text-gray-500 stroke-current)`
             : tw`text-gray-500 stroke-current hover:(text-primary-400 fill-current)`,
         ]}
-        title={`${track.favorited ? 'Unfavorite' : 'Favorite'} this track!`}
+        title={`${track.inFavorites ? 'Unfavorite' : 'Favorite'} this track!`}
         onClick={toggleFavorite}
       >
         <Icon icon="star-small" tw="w-6 md:w-5" />
@@ -91,8 +106,14 @@ export const Track: ITrackComponent = ({
 
 /* eslint-disable */
 gql`
-  mutation PlaylistsFavoriteTrack($trackId: Int!) {
-    createPlaylistEntry(playlistId: 1, trackId: $trackId) {
+  query FavoritePlaylistsId {
+    user {
+      favoritesPlaylistId
+    }
+  }
+
+  mutation PlaylistsFavoriteTrack($playlistId: Int!, $trackId: Int!) {
+    createPlaylistEntry(playlistId: $playlistId, trackId: $trackId) {
       id
       playlist {
         id
@@ -103,7 +124,7 @@ gql`
       }
       track {
         id
-        favorited
+        inFavorites
       }
     }
   }
@@ -119,7 +140,7 @@ gql`
       }
       track {
         id
-        favorited
+        inFavorites
       }
     }
   }

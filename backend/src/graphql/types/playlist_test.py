@@ -10,7 +10,7 @@ from src.library import playlist
 async def test_playlist(graphql_query, snapshot):
     query = """
         query {
-            playlist(id: 2) {
+            playlist(id: 3) {
                 ...PlaylistFields
             }
         }
@@ -35,10 +35,10 @@ async def test_playlist_not_found(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_playlist_from_name_and_type(graphql_query, snapshot):
+async def test_playlist_from_name_type_user(graphql_query, snapshot):
     query = """
         query {
-            playlistFromNameAndType(name: "playlist1", type: PLAYLIST) {
+            playlistFromNameTypeUser(name: "playlist1", type: PLAYLIST) {
                 ...PlaylistFields
             }
         }
@@ -50,10 +50,10 @@ async def test_playlist_from_name_and_type(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_playlist_from_name_and_type_not_found(graphql_query, snapshot):
+async def test_playlist_from_name_type_user_not_found(graphql_query, snapshot):
     query = """
         query {
-            playlistFromNameAndType(name: "AAFEFOPAIEFPAJF", type: SYSTEM) {
+            playlistFromNameTypeUser(name: "AAFEFOPAIEFPAJF", type: SYSTEM) {
                 ...PlaylistFields
             }
         }
@@ -115,10 +115,26 @@ async def test_playlists_pagination(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
+async def test_playlist_user(graphql_query):
+    query = """
+        query {
+            playlist(id: 1) {
+                user {
+                    id
+                }
+            }
+        }
+    """
+    success, data = await graphql_query(query)
+    assert success is True
+    assert data["data"]["playlist"]["user"]["id"] == 1
+
+
+@pytest.mark.asyncio
 async def test_playlist_image(graphql_query):
     query = """
         query {
-            playlist(id: 2) {
+            playlist(id: 3) {
                 imageId
             }
         }
@@ -195,7 +211,7 @@ async def test_create_playlist_duplicate(graphql_query, snapshot):
 async def test_update_playlist(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            updatePlaylist(id: 3, name: "NewPlaylist", starred: true) {
+            updatePlaylist(id: 4, name: "NewPlaylist", starred: true) {
                 ...PlaylistFields
             }
         }
@@ -204,7 +220,7 @@ async def test_update_playlist(db: Connection, graphql_query, snapshot):
     assert success is True
     snapshot.assert_match(data)
 
-    ply = playlist.from_id(3, db)
+    ply = playlist.from_id(4, db)
     assert ply is not None
     assert ply.name == "NewPlaylist"
     assert ply.starred is True
@@ -214,7 +230,7 @@ async def test_update_playlist(db: Connection, graphql_query, snapshot):
 async def test_update_playlist_duplicate(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            updatePlaylist(id: 2, name: "Playlist3") {
+            updatePlaylist(id: 3, name: "Playlist3") {
                 ...PlaylistFields
             }
         }
@@ -223,7 +239,7 @@ async def test_update_playlist_duplicate(db: Connection, graphql_query, snapshot
     assert success is True
     snapshot.assert_match(data)
 
-    ply = playlist.from_id(2, db)
+    ply = playlist.from_id(3, db)
     assert ply is not None
     assert ply.name != "Playlist3"
 

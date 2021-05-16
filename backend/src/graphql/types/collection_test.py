@@ -10,7 +10,7 @@ from src.library import collection
 async def test_collection(graphql_query, snapshot):
     query = """
         query {
-            collection(id: 3) {
+            collection(id: 5) {
                 ...CollectionFields
             }
         }
@@ -35,10 +35,10 @@ async def test_collection_not_found(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_collection_from_name_and_type(graphql_query, snapshot):
+async def test_collection_from_name_type_user(graphql_query, snapshot):
     query = """
         query {
-            collectionFromNameAndType(name: "Genre1", type: GENRE) {
+            collectionFromNameTypeUser(name: "Genre1", type: GENRE) {
                 ...CollectionFields
             }
         }
@@ -49,10 +49,10 @@ async def test_collection_from_name_and_type(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_collection_from_name_and_type_not_found(graphql_query, snapshot):
+async def test_collection_from_name_type_user_not_found(graphql_query, snapshot):
     query = """
         query {
-            collectionFromNameAndType(name: "AAFEFOPAIEFPAJF", type: COLLAGE) {
+            collectionFromNameTypeUser(name: "AAFEFOPAIEFPAJF", type: COLLAGE) {
                 ...CollectionFields
             }
         }
@@ -114,10 +114,26 @@ async def test_collections_pagination(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
+async def test_collection_user(graphql_query):
+    query = """
+        query {
+            collection(id: 1) {
+                user {
+                    id
+                }
+            }
+        }
+    """
+    success, data = await graphql_query(query)
+    assert success is True
+    assert data["data"]["collection"]["user"]["id"] == 1
+
+
+@pytest.mark.asyncio
 async def test_collection_image(graphql_query):
     query = """
         query {
-            collection(id: 3) {
+            collection(id: 5) {
                 imageId
             }
         }
@@ -178,7 +194,7 @@ async def test_create_collection(db: Connection, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_create_collection_duplicate(db: Connection, graphql_query, snapshot):
+async def test_create_collection_duplicate(graphql_query, snapshot):
     query = """
         mutation {
             createCollection(name: "Collage1", type: COLLAGE, starred: true) {
@@ -195,7 +211,7 @@ async def test_create_collection_duplicate(db: Connection, graphql_query, snapsh
 async def test_update_collection(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            updateCollection(id: 3, name: "NewCollection", starred: true) {
+            updateCollection(id: 5, name: "NewCollection", starred: true) {
                 ...CollectionFields
             }
         }
@@ -204,7 +220,7 @@ async def test_update_collection(db: Connection, graphql_query, snapshot):
     assert success is True
     snapshot.assert_match(data)
 
-    col = collection.from_id(3, db)
+    col = collection.from_id(5, db)
     assert col is not None
     assert col.name == "NewCollection"
     assert col.starred is True
@@ -214,7 +230,7 @@ async def test_update_collection(db: Connection, graphql_query, snapshot):
 async def test_update_collection_duplicate(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            updateCollection(id: 3, name: "Collage3") {
+            updateCollection(id: 5, name: "Collage3") {
                 ...CollectionFields
             }
         }
@@ -223,7 +239,7 @@ async def test_update_collection_duplicate(db: Connection, graphql_query, snapsh
     assert success is True
     snapshot.assert_match(data)
 
-    col = collection.from_id(3, db)
+    col = collection.from_id(5, db)
     assert col is not None
     assert col.name != "Collage3"
 
@@ -311,7 +327,7 @@ async def test_add_release_to_collection_bad_release(
 ):
     query = """
         mutation {
-            addReleaseToCollection(collectionId: 2, releaseId: 9999) {
+            addReleaseToCollection(collectionId: 3, releaseId: 9999) {
                 collection {
                     ...CollectionFields
                 }
@@ -321,7 +337,7 @@ async def test_add_release_to_collection_bad_release(
             }
         }
     """
-    col = collection.from_id(2, db)
+    col = collection.from_id(3, db)
     assert col is not None
 
     releases_before = collection.releases(col, db)
@@ -343,7 +359,7 @@ async def test_add_release_to_collection_already_exists(
 ):
     query = """
         mutation {
-            addReleaseToCollection(collectionId: 3, releaseId: 2) {
+            addReleaseToCollection(collectionId: 5, releaseId: 2) {
                 collection {
                     ...CollectionFields
                 }
@@ -353,7 +369,7 @@ async def test_add_release_to_collection_already_exists(
             }
         }
     """
-    col = collection.from_id(3, db)
+    col = collection.from_id(5, db)
     assert col is not None
 
     releases_before = collection.releases(col, db)
@@ -371,7 +387,7 @@ async def test_add_release_to_collection_already_exists(
 async def test_del_release_from_collection(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            delReleaseFromCollection(collectionId: 3, releaseId: 2) {
+            delReleaseFromCollection(collectionId: 5, releaseId: 2) {
                 collection {
                     ...CollectionFields
                 }
@@ -385,7 +401,7 @@ async def test_del_release_from_collection(db: Connection, graphql_query, snapsh
     assert success is True
     snapshot.assert_match(data)
 
-    col = collection.from_id(3, db)
+    col = collection.from_id(5, db)
     assert col is not None
     assert 2 not in [r.id for r in collection.releases(col, db)]
 
@@ -417,7 +433,7 @@ async def test_del_release_from_collection_bad_release(
 ):
     query = """
         mutation {
-            delReleaseFromCollection(collectionId: 2, releaseId: 9999) {
+            delReleaseFromCollection(collectionId: 3, releaseId: 9999) {
                 collection {
                     ...CollectionFields
                 }
@@ -427,7 +443,7 @@ async def test_del_release_from_collection_bad_release(
             }
         }
     """
-    col = collection.from_id(2, db)
+    col = collection.from_id(3, db)
     assert col is not None
 
     releases_before = collection.releases(col, db)

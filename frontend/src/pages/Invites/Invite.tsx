@@ -2,13 +2,13 @@ import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 
 import { Icon, ListItem } from '~/components';
-import { IInvite } from '~/graphql';
+import { IInviteFieldsFragment } from '~/graphql';
 import { timeUntil } from '~/util';
 
 const SECONDS_IN_DAY = 24 * 60 * 60;
 
 type IInviteComponent = React.FC<
-  Pick<IInvite, 'id' | 'createdAt' | 'code' | 'createdBy'>
+  Pick<IInviteFieldsFragment, 'id' | 'createdAt' | 'code' | 'createdBy'>
 >;
 
 export const Invite: IInviteComponent = ({ id, createdAt, code, createdBy }) => {

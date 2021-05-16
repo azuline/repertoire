@@ -33,10 +33,6 @@ class T:
     release_year: Optional[int]
     #: The number of tracks that this release has.
     num_tracks: int
-    #: Whether this release is in the inbox collection.
-    in_inbox: bool
-    #: Whether this release is in the favorites collection.
-    in_favorites: bool
     #: The track rating (if exists, in the interval [1, 10]).
     rating: Optional[int]
     # The total runtime of the release (sum of track durations).
@@ -70,8 +66,6 @@ def from_row(row: Union[dict, Row]) -> T:
             row,
             runtime=row["runtime"] or 0,
             release_type=ReleaseType(row["release_type"]),
-            in_inbox=bool(row["in_inbox"]),
-            in_favorites=bool(row["in_favorites"]),
         )
     )
 
@@ -89,17 +83,7 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
         SELECT
             rls.*,
             COUNT(trks.id) AS num_tracks,
-            SUM(trks.duration) as runtime,
-            (
-                SELECT 1
-                FROM music__collections_releases
-                WHERE release_id = rls.id AND collection_id = 1
-            ) AS in_inbox,
-            (
-                SELECT 1
-                FROM music__collections_releases
-                WHERE release_id = rls.id AND collection_id = 2
-            ) AS in_favorites
+            SUM(trks.duration) as runtime
         FROM music__releases AS rls
             LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
         WHERE rls.id = ?
@@ -180,17 +164,7 @@ def search(
         SELECT
             rls.*,
             COUNT(trks.id) AS num_tracks,
-            SUM(trks.duration) AS runtime,
-            (
-                SELECT 1
-                FROM music__collections_releases
-                WHERE release_id = rls.id AND collection_id = 1
-            ) AS in_inbox,
-            (
-                SELECT 1
-                FROM music__collections_releases
-                WHERE release_id = rls.id AND collection_id = 2
-            ) AS in_favorites
+            SUM(trks.duration) AS runtime
         FROM music__releases AS rls
             JOIN music__releases__fts AS fts ON fts.rowid = rls.id
             LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
@@ -479,17 +453,7 @@ def _find_duplicate_release(
         SELECT
             rls.*,
             COUNT(trks.id) AS num_tracks,
-            SUM (trks.duration) AS runtime,
-            (
-                SELECT 1
-                FROM music__collections_releases
-                WHERE release_id = rls.id AND collection_id = 1
-            ) AS in_inbox,
-            (
-                SELECT 1
-                FROM music__collections_releases
-                WHERE release_id = rls.id AND collection_id = 2
-            ) AS in_favorites
+            SUM (trks.duration) AS runtime
         FROM music__releases AS rls
         LEFT JOIN music__tracks AS trks ON trks.release_id = rls.id
         WHERE rls.title = ?
@@ -574,6 +538,34 @@ def update(rls: T, conn: Connection, **changes) -> T:
     logger.info(f"Updated release {rls.id} with {changes}.")
 
     return update_dataclass(rls, **changes)
+
+
+def in_inbox(rls: T, user_id: int, conn: Connection) -> bool:
+    """
+    Return whether this release is in the inbox of the passed-in user.
+
+    :param rls: The provided release.
+    :param user_id: The ID of the user whose inbox to check.
+    :param conn: A connection to the database.
+    :return: Whether the release is in the user's inbox.
+    :raises DoesNotExist: If the user's inbox does not exist.
+    """
+    inbox = collection.inbox_of(user_id, conn)
+    return collection.has_release(inbox, rls.id, conn)
+
+
+def in_favorites(rls: T, user_id: int, conn: Connection) -> bool:
+    """
+    Return whether this release is in the favorites of the passed-in user.
+
+    :param rls: The provided release.
+    :param user_id: The ID of the user whose favorites to check.
+    :param conn: A connection to the database.
+    :return: Whether the release is in the user's favorites.
+    :raises DoesNotExist: If the user's favorites does not exist.
+    """
+    inbox = collection.favorites_of(user_id, conn)
+    return collection.has_release(inbox, rls.id, conn)
 
 
 def tracks(rls: T, conn: Connection) -> list[track.T]:

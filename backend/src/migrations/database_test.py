@@ -2,7 +2,7 @@ import sqlite3
 
 from yoyo import get_backend, read_migrations
 
-from src.constants import Constants
+from src.constants import constants
 from src.util import freeze_database_time
 
 from .database import run_database_migrations
@@ -26,9 +26,8 @@ def test_migrations(isolated_dir):
     cause an error. Basically, ladder our way up through the migration
     chain.
     """
-    cons = Constants()
     backend = get_backend(f"sqlite:///{isolated_dir / 'db.sqlite3'}")
-    migrations = read_migrations(str(cons.migrations_path))
+    migrations = read_migrations(str(constants.migrations_path))
 
     for mig in migrations:
         backend.apply_one(mig)

@@ -9,7 +9,7 @@ from typing import Optional
 
 from tagfiles import TagFile
 
-from src.config import Config
+from src.config import config
 from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.errors import Duplicate
 from src.library import artist, collection, release, track
@@ -40,7 +40,7 @@ def scan_directories() -> None:
     Read the music directories to be indexed from the configuration and scan them for
     new files.
     """
-    music_directories = Config().music_directories
+    music_directories = config.music_directories
     logger.info(f"Found {len(music_directories)} directories to scan.")
 
     for dir_ in music_directories:
@@ -175,7 +175,7 @@ def _fetch_or_create_release(tf: TagFile, conn: Connection) -> release.T:
     logger.debug(f"Created new release {rls.id} for track `{tf.path}`.")
 
     # Add release to the inbox and its label/genres.
-    _insert_into_inbox_collection(rls, conn)
+    _insert_into_inbox_collections(rls, conn)
     _insert_into_label_collection(rls, tf.label, conn)
     _insert_into_genre_collections(rls, tf.genre, conn)
 
@@ -226,18 +226,21 @@ def _fetch_or_create_artist(name: str, conn: Connection) -> artist.T:
         return e.entity
 
 
-def _insert_into_inbox_collection(rls: release.T, conn: Connection) -> None:
+def _insert_into_inbox_collections(rls: release.T, conn: Connection) -> None:
     """
-    Insert a release into the inbox collection.
+    Insert a release into all inbox collections.
 
     :param rls: The release to add to the inbox collection.
     :param conn: A connection to the database.
     """
-    logger.debug(f"Adding release {rls.id} to the inbox collection.")
-    # Inbox has ID 1--this is specified in the database schema.
-    inbox = collection.from_id(1, conn)
-    assert inbox is not None
-    collection.add_release(inbox, rls.id, conn)
+    logger.debug(f"Adding release {rls.id} to inbox collections.")
+    inboxes = collection.from_name_and_type(
+        name="Inbox",
+        type=CollectionType.SYSTEM,
+        conn=conn,
+    )
+    for inbox in inboxes:
+        collection.add_release(inbox, rls.id, conn)
 
 
 def _insert_into_label_collection(

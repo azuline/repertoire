@@ -96,7 +96,7 @@ snapshots['test_delete_entries 1'] = {
                         }
                     }
                 ],
-                'id': 2,
+                'id': 3,
                 'lastUpdatedOn': 1577840461,
                 'name': 'Playlist1',
                 'numTracks': 4,
@@ -104,13 +104,13 @@ snapshots['test_delete_entries 1'] = {
                 'topGenres': [
                     {
                         'genre': {
-                            'id': 9
+                            'id': 11
                         },
                         'numMatches': 4
                     },
                     {
                         'genre': {
-                            'id': 10
+                            'id': 12
                         },
                         'numMatches': 4
                     }
@@ -182,7 +182,7 @@ snapshots['test_delete_entry 1'] = {
                         }
                     }
                 ],
-                'id': 2,
+                'id': 3,
                 'lastUpdatedOn': 1577840461,
                 'name': 'Playlist1',
                 'numTracks': 4,
@@ -190,13 +190,13 @@ snapshots['test_delete_entry 1'] = {
                 'topGenres': [
                     {
                         'genre': {
-                            'id': 9
+                            'id': 11
                         },
                         'numMatches': 4
                     },
                     {
                         'genre': {
-                            'id': 10
+                            'id': 12
                         },
                         'numMatches': 4
                     }
@@ -260,7 +260,7 @@ snapshots['test_resolve_playlist_entries 1'] = {
                 {
                     'id': 1,
                     'playlist': {
-                        'id': 2,
+                        'id': 3,
                         'name': 'Playlist1'
                     },
                     'position': 1,
@@ -272,7 +272,7 @@ snapshots['test_resolve_playlist_entries 1'] = {
                 {
                     'id': 2,
                     'playlist': {
-                        'id': 2,
+                        'id': 3,
                         'name': 'Playlist1'
                     },
                     'position': 2,
@@ -284,7 +284,7 @@ snapshots['test_resolve_playlist_entries 1'] = {
                 {
                     'id': 3,
                     'playlist': {
-                        'id': 2,
+                        'id': 3,
                         'name': 'Playlist1'
                     },
                     'position': 3,
@@ -296,7 +296,7 @@ snapshots['test_resolve_playlist_entries 1'] = {
                 {
                     'id': 4,
                     'playlist': {
-                        'id': 2,
+                        'id': 3,
                         'name': 'Playlist1'
                     },
                     'position': 4,
@@ -308,7 +308,7 @@ snapshots['test_resolve_playlist_entries 1'] = {
                 {
                     'id': 5,
                     'playlist': {
-                        'id': 2,
+                        'id': 3,
                         'name': 'Playlist1'
                     },
                     'position': 5,
@@ -327,7 +327,7 @@ snapshots['test_update_playlist_entry 1'] = {
         'updatePlaylistEntry': {
             'id': 3,
             'playlist': {
-                'id': 2,
+                'id': 3,
                 'name': 'Playlist1'
             },
             'position': 1,

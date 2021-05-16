@@ -16,12 +16,19 @@ from sqlite3 import Connection, Row
 from typing import Optional, Union
 
 from src.enums import CollectionType, PlaylistType
-from src.errors import Duplicate, Immutable, InvalidPlaylistType
+from src.errors import (
+    DoesNotExist,
+    Duplicate,
+    Immutable,
+    InvalidArgument,
+    InvalidPlaylistType,
+)
 from src.util import make_fts_match_query, update_dataclass, without_key
 
 from . import collection
 from . import image as libimage
 from . import playlist_entry as pentry
+from . import user as libuser
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +46,9 @@ class T:
     starred: bool
     #:
     type: PlaylistType
+    #: The ID of the user that the playlist belongs to. Only set for System and Personal
+    #  playlists.
+    user_id: Optional[int]
     #:
     num_tracks: Optional[int] = None
     #:
@@ -103,9 +113,59 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
     return None
 
 
-def from_name_and_type(name: str, type: PlaylistType, conn: Connection) -> Optional[T]:
+def from_name_type_user(
+    name: str,
+    type: PlaylistType,
+    conn: Connection,
+    user_id: int = None,
+) -> Optional[T]:
     """
-    Return the playlist with the given name and type, if it exists.
+    Return the playlist with the given name, type, and user, if it exists.
+
+    :param name: The name of the playlist.
+    :param type: The type of the playlist.
+    :param user_id: Who the playlist belongs to.
+    :param conn: A connection to the database.
+    :return: The playlist, if it exists.
+    """
+    cursor = conn.execute(
+        """
+        SELECT
+            plys.*,
+            COUNT(plystrks.track_id) AS num_tracks
+        FROM music__playlists AS plys
+        LEFT JOIN music__playlists_tracks AS plystrks
+            ON plystrks.playlist_id = plys.id
+        WHERE plys.name = ?
+            AND plys.type = ?
+            AND (plys.user_id = ? OR (plys.user_id IS NULL AND ? IS NULL))
+        GROUP BY plys.id
+        LIMIT 1
+        """,
+        (name, type.value, user_id, user_id),
+    )
+
+    if row := cursor.fetchone():
+        logger.debug(
+            f'Fetch playlist {row["id"]} with '
+            f'name "{name}", type {type}, and user {user_id}.'
+        )
+        return from_row(row)
+
+    logger.debug(
+        f"Failed to fetch playlist with "
+        f'name "{name}", type {type}, and user {user_id}.'
+    )
+    return None
+
+
+def from_name_and_type(
+    name: str,
+    type: PlaylistType,
+    conn: Connection,
+) -> list[T]:
+    """
+    Return all playlist with the given name and type.
 
     :param name: The name of the playlist.
     :param type: The type of the playlist.
@@ -126,12 +186,8 @@ def from_name_and_type(name: str, type: PlaylistType, conn: Connection) -> Optio
         (name, type.value),
     )
 
-    if row := cursor.fetchone():
-        logger.debug(f'Fetch playlist {row["id"]} with name "{name}" and type {type}.')
-        return from_row(row)
-
-    logger.debug(f'Failed to fetch playlist with name "{name}" and type {type}.')
-    return None
+    logger.debug(f"Fetched all playlists with name {name} and type {type}.")
+    return [from_row(row) for row in cursor]
 
 
 def search(
@@ -139,6 +195,7 @@ def search(
     *,
     search: str = "",
     types: list[PlaylistType] = [],
+    user_ids: list[int] = [],
     page: int = 1,
     per_page: Optional[int] = None,
 ) -> list[T]:
@@ -151,12 +208,13 @@ def search(
                    tokens and return playlists whose titles contain each token. If
                    specified, the returned playlists will be sorted by match proximity.
     :param types: Filter by playlist types.
+    :param user_ids: Filter by collection owners.
     :param page: Which page of playlists to return.
     :param per_page: The number of playlists per page. Pass ``None`` to return all
                      playlists (this will ignore ``page``).
     :return: All matching playlists.
     """
-    filters, params = _generate_filters(search, types)
+    filters, params = _generate_filters(search, types, user_ids)
 
     if per_page:
         params.extend([per_page, (page - 1) * per_page])
@@ -188,6 +246,7 @@ def count(
     *,
     search: str = "",
     types: list[PlaylistType] = [],
+    user_ids: list[int] = [],
 ) -> int:
     """
     Fetch the number of playlists matching the passed-in criteria. Parameters are
@@ -197,9 +256,10 @@ def count(
     :param search: A search string. We split this up into individual punctuation-less
                    tokens and return playlists whose titles contain each token.
     :param types: Filter by playlist types.
+    :param user_ids: Filter by collection owners.
     :return: The number of matching playlists.
     """
-    filters, params = _generate_filters(search, types)
+    filters, params = _generate_filters(search, types, user_ids)
 
     cursor = conn.execute(
         f"""
@@ -219,6 +279,7 @@ def count(
 def _generate_filters(
     search: str = "",
     types: list[PlaylistType] = [],
+    user_ids: list[int] = [],
 ) -> tuple[list[str], list[Union[str, int]]]:
     """
     Dynamically generate the SQL filters and parameters from the criteria. See the
@@ -238,6 +299,10 @@ def _generate_filters(
         filters.append(f"plys.type IN ({','.join('?' * len(types))})")
         params.extend([t.value for t in types])
 
+    if user_ids:
+        filters.append(f"plys.user_id IN ({','.join('?' * len(user_ids))})")
+        params.extend(user_ids)
+
     return filters, params
 
 
@@ -246,6 +311,7 @@ def create(
     type: PlaylistType,
     conn: Connection,
     starred: bool = False,
+    user_id: Optional[int] = None,
     override_immutable: bool = False,
 ) -> T:
     """
@@ -255,21 +321,38 @@ def create(
     :param type: The type of the playlist.
     :param conn: A connection to the database.
     :param starred: Whether the playlist is starred or not.
+    :param user_id: The ID of the user that this playlist belongs to. Should be set for
+                    Personal and System playlists; unset otherwise.
     :param override_immutable: Whether to allow creation of immutable playlists. For
                                internal use.
     :return: The newly created playlist.
     :raises Duplicate: If an playlist with the same name and type already exists. The
                        duplicate playlist is passed as the ``entity`` argument.
+    :raises InvalidArgument: If the user_id argument is passed with a non-personal
+                             playlist type.
     """
     if type == PlaylistType.SYSTEM and not override_immutable:
         raise InvalidPlaylistType("Cannot create system playlists.")
 
-    if ply := from_name_and_type(name, type, conn):
+    if type in [PlaylistType.PERSONAL, PlaylistType.SYSTEM] and user_id is None:
+        raise InvalidArgument(
+            "Missing user_id argument for personal/system collection."
+        )
+
+    if type not in [PlaylistType.PERSONAL, PlaylistType.SYSTEM] and user_id is not None:
+        raise InvalidArgument(
+            "The user_id argument can only be set for personal/system collections."
+        )
+
+    if ply := from_name_type_user(name, type, conn, user_id):
         raise Duplicate(f'Playlist "{name}" already exists.', ply)
 
     cursor = conn.execute(
-        "INSERT INTO music__playlists (name, type, starred) VALUES (?, ?, ?)",
-        (name, type.value, starred),
+        """
+        INSERT INTO music__playlists (name, type, starred, user_id)
+        VALUES (?, ?, ?, ?)
+        """,
+        (name, type.value, starred, user_id),
     )
 
     logger.info(f'Created playlist "{name}" of type {type} with ID {cursor.lastrowid}.')
@@ -285,7 +368,7 @@ def update(ply: T, conn: Connection, **changes) -> T:
     in as a keyword argument. To keep the original value, do not pass in a keyword
     argument.
 
-    **Note: The type of a playlist cannot be changed.**
+    **Note: The type and user_id of a playlist cannot be changed.**
 
     :param ply: The playlist to update.
     :param conn: A connection to the database.
@@ -302,7 +385,7 @@ def update(ply: T, conn: Connection, **changes) -> T:
 
     if (
         "name" in changes
-        and (dupl := from_name_and_type(changes["name"], ply.type, conn))
+        and (dupl := from_name_type_user(changes["name"], ply.type, conn, ply.user_id))
         and dupl != ply
     ):
         raise Duplicate(f'Playlist "{changes["name"]}" already exists.', dupl)
@@ -438,3 +521,34 @@ def image(ply: T, conn: Connection) -> Optional[libimage.T]:
 
     logger.debug(f"Failed to fetch image for playlist {ply.id}.")
     return None
+
+
+def user(ply: T, conn: Connection) -> Optional[libuser.T]:
+    """
+    Returns the user the playlist belongs to, if it belongs to a user.
+
+    :param ply: The playlist whose user to fetch.
+    :param conn: A connection to the database.
+    :return: The user, if one exists.
+    """
+    return libuser.from_id(ply.user_id, conn) if ply.user_id else None
+
+
+def favorites_of(user_id: int, conn: Connection) -> T:
+    """
+    Return the favorites playlist of the passed-in user.
+
+    :param user_id: The ID of the user whose favorites to fetch.
+    :param conn: A connection to the database.
+    :return: The user's favorites playlist.
+    :raises DoesNotExist: If the inbox does not exist.
+    """
+    ply = from_name_type_user(
+        "Favorites",
+        PlaylistType.SYSTEM,
+        user_id=user_id,
+        conn=conn,
+    )
+    if ply is None:
+        raise DoesNotExist(f"No favorites playlist exists for user {user_id}.")
+    return ply

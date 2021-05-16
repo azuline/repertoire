@@ -46,10 +46,12 @@ class Factory:
         conn: Connection,
         name: Optional[str] = None,
         type: Optional[CollectionType] = None,
+        user: Optional[libuser.T] = None,
     ) -> libcollection.T:
         return libcollection.create(
             name=name if name is not None else self.rand_string(12),
             type=type if type is not None else CollectionType.COLLAGE,
+            user_id=user.id if user else None,
             conn=conn,
             override_immutable=True,
         )
@@ -121,11 +123,13 @@ class Factory:
         *,
         conn: Connection,
         name: Optional[str] = None,
+        user: Optional[libuser.T] = None,
         type: Optional[PlaylistType] = None,
     ) -> libplaylist.T:
         return libplaylist.create(
             name=name if name is not None else self.rand_string(12),
             type=type if type is not None else PlaylistType.PLAYLIST,
+            user_id=user.id if user else None,
             conn=conn,
             override_immutable=True,
         )

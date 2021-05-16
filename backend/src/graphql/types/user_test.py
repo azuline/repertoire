@@ -28,6 +28,25 @@ async def test_user(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
+async def test_user_collection_ids(graphql_query, snapshot):
+    success, data = await graphql_query(
+        """
+        query {
+            user {
+               inboxCollectionId
+               favoritesCollectionId
+               favoritesPlaylistId
+           }
+       }
+       """
+    )
+    assert success is True
+    assert data["data"]["user"]["inboxCollectionId"] == 1
+    assert data["data"]["user"]["favoritesCollectionId"] == 2
+    assert data["data"]["user"]["favoritesPlaylistId"] == 1
+
+
+@pytest.mark.asyncio
 async def test_update_user(db, graphql_query, snapshot):
     query = """
         mutation {

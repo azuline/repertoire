@@ -9,8 +9,13 @@ from typing import Optional, Union
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from src.enums import CollectionType, PlaylistType
 from src.errors import InvalidNickname, TokenGenerationFailure
-from src.util import update_dataclass
+from src.tasks import huey
+from src.util import database, update_dataclass
+
+from . import collection
+from . import playlist as libplaylist
 
 TOKEN_LENGTH = 32
 PREFIX_LENGTH = 12
@@ -157,7 +162,54 @@ def create(nickname: str, conn: Connection) -> tuple[T, bytes]:
 
     logger.info(f"Created user {nickname} with ID {cursor.lastrowid}.")
 
-    return T(id=cursor.lastrowid, nickname=nickname, csrf_token=csrf_token), token
+    _create_system_collections_and_playlists(cursor.lastrowid, conn)
+    _populate_inbox.schedule(args=(cursor.lastrowid,), delay=0)
+
+    usr = from_id(cursor.lastrowid, conn)
+    assert usr is not None
+    return usr, token
+
+
+def _create_system_collections_and_playlists(user_id: int, conn: Connection) -> None:
+    for name in ["Inbox", "Favorites"]:
+        collection.create(
+            name,
+            CollectionType.SYSTEM,
+            user_id=user_id,
+            starred=True,
+            conn=conn,
+            override_immutable=True,
+        )
+
+    libplaylist.create(
+        "Favorites",
+        PlaylistType.SYSTEM,
+        user_id=user_id,
+        starred=True,
+        conn=conn,
+        override_immutable=True,
+    )
+
+    logger.info(f"Created system collections and playlists for user {user_id}.")
+
+
+@huey.task()
+def _populate_inbox(user_id: int) -> None:
+    with database() as conn:
+        inbox = collection.inbox_of(user_id, conn)
+
+        conn.execute(
+            """
+            INSERT INTO music__collections_releases
+            (collection_id, release_id)
+            SELECT ?, rls.id
+            FROM music__releases AS rls
+            WHERE rls.id != 1
+            """,
+            (inbox.id,),
+        )
+
+        conn.commit()
 
 
 def update(usr: T, conn: Connection, **changes) -> T:
@@ -266,10 +318,9 @@ def _generate_token(conn: Connection) -> tuple[bytes, bytes]:
         if not cursor.fetchone():
             return token, prefix
 
-        logger.debug("Token prefix clashed with existing token.")
+        logger.debug("Token prefix clashed with existing token.")  # pragma: no cover
 
     # If we do not find a suitable token after 64 cycles, raise an exception.
-    logger.info("Failed to generate token after 64 cycles o.O")  # pragma: no cover
-    raise TokenGenerationFailure(  # pragma: no cover
-        "Failed to generate token after 64 cycles o.O"
-    )
+    message = "Failed to generate token after 64 cycles o.O"  # pragma: no cover
+    logger.info(message)  # pragma: no cover
+    raise TokenGenerationFailure(message)  # pragma: no cover

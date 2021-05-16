@@ -6,7 +6,7 @@ from werkzeug.security import check_password_hash
 from src.errors import InvalidNickname
 from src.fixtures.factory import Factory
 
-from . import user
+from . import collection, user
 
 
 def test_exists(factory: Factory, db: Connection):
@@ -45,7 +45,7 @@ def test_from_token_success(factory: Factory, db: Connection):
 
 
 def test_from_token_failure_but_correct_prefix(factory: Factory, db: Connection):
-    usr, token = factory.user(conn=db)
+    _, token = factory.user(conn=db)
     new_token = token[: user.PREFIX_LENGTH] + b"0" * (
         user.TOKEN_LENGTH - user.PREFIX_LENGTH
     )
@@ -58,6 +58,19 @@ def test_from_token_failure(db: Connection):
 
 def test_from_token_bad_length(db: Connection):
     assert user.from_token(b"0" * 100, db) is None
+
+
+def test_populate_inbox(factory: Factory, db: Connection):
+    usr, _ = user.create("neW1", db)
+    for _ in range(12):
+        factory.release(conn=db)
+
+    db.commit()
+
+    user._populate_inbox.call_local(usr.id)
+
+    inbox = collection.inbox_of(usr.id, conn=db)
+    assert len(collection.releases(inbox, conn=db)) == 12
 
 
 def test_create_user_success(db: Connection):

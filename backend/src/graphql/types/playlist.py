@@ -10,6 +10,7 @@ from src.graphql.query import query
 from src.graphql.util import commit
 from src.library import playlist
 from src.library import playlist_entry as pentry
+from src.library import user as libuser
 from src.util import convert_keys_case, del_pagination_keys
 
 gql_playlist = ObjectType("Playlist")
@@ -24,17 +25,18 @@ def resolve_playlist(obj: Any, info: GraphQLResolveInfo, id: int) -> playlist.T:
     raise NotFound(f"Playlist {id} not found.")
 
 
-@query.field("playlistFromNameAndType")
-def resolve_playlist_from_name_and_type(
+@query.field("playlistFromNameTypeUser")
+def resolve_playlist_from_name_type_user(
     obj: Any,
     info: GraphQLResolveInfo,
     name: str,
     type: PlaylistType,
+    user: Optional[int] = None,
 ) -> playlist.T:
-    if ply := playlist.from_name_and_type(name, type, info.context.db):
+    if ply := playlist.from_name_type_user(name, type, info.context.db, user_id=user):
         return ply
 
-    raise NotFound(f'Playlist "{name}" of type {type.name} not found.')
+    raise NotFound(f'Playlist "{name}" of type {type.name} and user {user} not found.')
 
 
 @query.field("playlists")
@@ -62,6 +64,14 @@ def resolve_image_id(obj: playlist.T, info: GraphQLResolveInfo) -> Optional[int]
         return img.id
 
     return None
+
+
+@gql_playlist.field("user")
+def resolve_user(obj: playlist.T, info: GraphQLResolveInfo) -> Optional[libuser.T]:
+    if obj.user_id is None:
+        return None
+
+    return libuser.from_id(obj.user_id, info.context.db)
 
 
 @mutation.field("createPlaylist")

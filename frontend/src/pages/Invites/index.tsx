@@ -31,6 +31,7 @@ export const Invites: React.FC = () => {
         <div tw="pb-8 text-foreground-400">Click an invite to copy its invite URL.</div>
         <div tw="flex">
           <div tw="flex-shrink">
+            {/* TODO: Loading animation */}
             {invites.map((inv) => (
               <Invite key={inv.id} {...inv} />
             ))}

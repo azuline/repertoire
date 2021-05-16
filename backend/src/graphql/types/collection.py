@@ -9,6 +9,7 @@ from src.graphql.mutation import mutation
 from src.graphql.query import query
 from src.graphql.util import commit
 from src.library import collection, release
+from src.library import user as libuser
 from src.util import convert_keys_case, del_pagination_keys
 
 gql_collection = ObjectType("Collection")
@@ -23,17 +24,20 @@ def resolve_collection(obj: Any, info: GraphQLResolveInfo, id: int) -> collectio
     raise NotFound(f"Collection {id} not found.")
 
 
-@query.field("collectionFromNameAndType")
-def resolve_collection_from_name_and_type(
+@query.field("collectionFromNameTypeUser")
+def resolve_collection_from_name_type_user(
     obj: Any,
     info: GraphQLResolveInfo,
     name: str,
     type: CollectionType,
+    user: Optional[int] = None,
 ) -> collection.T:
-    if col := collection.from_name_and_type(name, type, info.context.db):
+    if col := collection.from_name_type_user(name, type, info.context.db, user_id=user):
         return col
 
-    raise NotFound(f'Collection "{name}" of type {type.name} not found.')
+    raise NotFound(
+        f'Collection "{name}" of type {type.name} and user {user} not found.'
+    )
 
 
 @query.field("collections")
@@ -61,6 +65,14 @@ def resolve_image_id(obj: collection.T, info: GraphQLResolveInfo) -> Optional[in
         return img.id
 
     return None
+
+
+@gql_collection.field("user")
+def resolve_user(obj: collection.T, info: GraphQLResolveInfo) -> Optional[libuser.T]:
+    if obj.user_id is None:
+        return None
+
+    return libuser.from_id(obj.user_id, info.context.db)
 
 
 @mutation.field("createCollection")

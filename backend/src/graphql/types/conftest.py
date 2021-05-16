@@ -16,7 +16,7 @@ import quart
 from ariadne import graphql
 from filelock import FileLock
 
-from src.constants import TEST_DATA_PATH, Constants
+from src.constants import TEST_DATA_PATH, constants
 from src.enums import ArtistRole, CollectionType, PlaylistType, ReleaseType
 from src.fixtures.factory import Factory
 from src.fixtures.fragments import FRAGMENTS
@@ -58,7 +58,7 @@ def seed_gql_db(tmp_path_factory, worker_id, seed_db):
     """
     This fixture augments the existing migrated seed database with test data.
     """
-    if worker_id == "master":
+    if worker_id == "master":  # pragma: no cover
         _create_seed_gql_db()
 
     root_tmp_dir = tmp_path_factory.getbasetemp().parent
@@ -90,9 +90,8 @@ def seed_gql_data(seed_data, seed_gql_db):
     This fixture replaces the seeded database in the isolated test directory with the
     database containing test data.
     """
-    cons = Constants()
-    cons.database_path.unlink(missing_ok=True)
-    shutil.copyfile(GQL_DB_PATH, cons.database_path)
+    constants.database_path.unlink(missing_ok=True)
+    shutil.copyfile(GQL_DB_PATH, constants.database_path)
 
 
 def _add_test_data(conn: Connection):
@@ -111,7 +110,7 @@ def _add_test_data(conn: Connection):
         factory.artist(name="Artist5", conn=conn),
     ]
 
-    # These start at ID 3.
+    # These start at ID 5.
 
     collages = [
         factory.collection(name="Collage1", type=CollectionType.COLLAGE, conn=conn),
@@ -147,7 +146,7 @@ def _add_test_data(conn: Connection):
         factory.invite(by_user=usr_admin, conn=conn, used_by=usr_blissful),
     ]
 
-    # These start at ID 2.
+    # These start at ID 3.
 
     playlists = [
         factory.playlist(name="Playlist1", type=PlaylistType.PLAYLIST, conn=conn),

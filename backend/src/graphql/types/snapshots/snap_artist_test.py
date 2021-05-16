@@ -27,19 +27,19 @@ snapshots['test_artist 1'] = {
             'topGenres': [
                 {
                     'genre': {
-                        'id': 9
-                    },
-                    'numMatches': 1
-                },
-                {
-                    'genre': {
-                        'id': 10
-                    },
-                    'numMatches': 1
-                },
-                {
-                    'genre': {
                         'id': 11
+                    },
+                    'numMatches': 1
+                },
+                {
+                    'genre': {
+                        'id': 12
+                    },
+                    'numMatches': 1
+                },
+                {
+                    'genre': {
+                        'id': 13
                     },
                     'numMatches': 1
                 }
@@ -68,19 +68,19 @@ snapshots['test_artist_from_name 1'] = {
             'topGenres': [
                 {
                     'genre': {
-                        'id': 9
-                    },
-                    'numMatches': 1
-                },
-                {
-                    'genre': {
-                        'id': 10
-                    },
-                    'numMatches': 1
-                },
-                {
-                    'genre': {
                         'id': 11
+                    },
+                    'numMatches': 1
+                },
+                {
+                    'genre': {
+                        'id': 12
+                    },
+                    'numMatches': 1
+                },
+                {
+                    'genre': {
+                        'id': 13
                     },
                     'numMatches': 1
                 }
@@ -149,19 +149,19 @@ snapshots['test_artists 1'] = {
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 9
-                            },
-                            'numMatches': 1
-                        },
-                        {
-                            'genre': {
-                                'id': 10
-                            },
-                            'numMatches': 1
-                        },
-                        {
-                            'genre': {
                                 'id': 11
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 12
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 13
                             },
                             'numMatches': 1
                         }
@@ -185,13 +185,13 @@ snapshots['test_artists 1'] = {
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 9
+                                'id': 11
                             },
                             'numMatches': 2
                         },
                         {
                             'genre': {
-                                'id': 10
+                                'id': 12
                             },
                             'numMatches': 2
                         }
@@ -215,19 +215,19 @@ snapshots['test_artists 1'] = {
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 9
-                            },
-                            'numMatches': 1
-                        },
-                        {
-                            'genre': {
-                                'id': 10
-                            },
-                            'numMatches': 1
-                        },
-                        {
-                            'genre': {
                                 'id': 11
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 12
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 13
                             },
                             'numMatches': 1
                         }
@@ -247,13 +247,13 @@ snapshots['test_artists 1'] = {
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 9
+                                'id': 11
                             },
                             'numMatches': 1
                         },
                         {
                             'genre': {
-                                'id': 10
+                                'id': 12
                             },
                             'numMatches': 1
                         }
@@ -273,7 +273,7 @@ snapshots['test_artists 1'] = {
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 11
+                                'id': 13
                             },
                             'numMatches': 1
                         }
@@ -321,13 +321,13 @@ snapshots['test_artists_pagination 1'] = {
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 9
+                                'id': 11
                             },
                             'numMatches': 2
                         },
                         {
                             'genre': {
-                                'id': 10
+                                'id': 12
                             },
                             'numMatches': 2
                         }
@@ -361,19 +361,19 @@ snapshots['test_artists_search 1'] = {
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 9
-                            },
-                            'numMatches': 1
-                        },
-                        {
-                            'genre': {
-                                'id': 10
-                            },
-                            'numMatches': 1
-                        },
-                        {
-                            'genre': {
                                 'id': 11
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 12
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 13
                             },
                             'numMatches': 1
                         }
@@ -439,19 +439,19 @@ snapshots['test_update_artist 1'] = {
             'topGenres': [
                 {
                     'genre': {
-                        'id': 9
-                    },
-                    'numMatches': 1
-                },
-                {
-                    'genre': {
-                        'id': 10
-                    },
-                    'numMatches': 1
-                },
-                {
-                    'genre': {
                         'id': 11
+                    },
+                    'numMatches': 1
+                },
+                {
+                    'genre': {
+                        'id': 12
+                    },
+                    'numMatches': 1
+                },
+                {
+                    'genre': {
+                        'id': 13
                     },
                     'numMatches': 1
                 }

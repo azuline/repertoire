@@ -34,6 +34,16 @@ def resolve_releases(_: Any, info: GraphQLResolveInfo, **kwargs) -> dict:
     }
 
 
+@gql_release.field("inInbox")
+def resolve_in_inbox(obj: release.T, info: GraphQLResolveInfo) -> bool:
+    return release.in_inbox(obj, info.context.user.id, info.context.db)
+
+
+@gql_release.field("inFavorites")
+def resolve_in_favorites(obj: release.T, info: GraphQLResolveInfo) -> bool:
+    return release.in_favorites(obj, info.context.user.id, info.context.db)
+
+
 @gql_release.field("artists")
 def resolve_artists(obj: release.T, info: GraphQLResolveInfo) -> list[artist.T]:
     return release.artists(obj, info.context.db)
