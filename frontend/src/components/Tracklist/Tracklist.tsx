@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { PlayQueueContext } from '~/contexts';
 import { ITrack } from '~/graphql';

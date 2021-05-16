@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { IReleaseSort, IReleaseType } from '~/graphql';
 import { IReleaseView, ISetValue } from '~/types';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import tw from 'twin.macro';
 
 import { Button, Icon, Popover } from '~/components/common';

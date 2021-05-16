@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import * as React from 'react';
+import React from 'react';
 
 import { Disclist, Header, Image } from '~/components';
 import { BackgroundContext } from '~/contexts';

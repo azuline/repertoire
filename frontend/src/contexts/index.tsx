@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { AuthorizationProvider } from './Authorization';
 import { BackgroundProvider } from './Background';

@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import * as React from 'react';
+import React from 'react';
 
 import { Chooser } from '~/components';
 import { NoChooserOption } from '~/components/NoChooserOption';

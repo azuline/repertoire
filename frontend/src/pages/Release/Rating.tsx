@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import clsx from 'clsx';
-import * as React from 'react';
+import React from 'react';
 import tw, { styled } from 'twin.macro';
 
 import { Icon } from '~/components';

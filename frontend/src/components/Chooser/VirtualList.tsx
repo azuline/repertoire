@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { AutoSizer, List, ListRowRenderer } from 'react-virtualized';
 import tw from 'twin.macro';
 

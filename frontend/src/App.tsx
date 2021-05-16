@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import tw from 'twin.macro';
 

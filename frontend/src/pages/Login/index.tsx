@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
 import { useToasts } from 'react-toast-notifications';
 import tw from 'twin.macro';

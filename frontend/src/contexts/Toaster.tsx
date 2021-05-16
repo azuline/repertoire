@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { ToastProvider as RawProvider } from 'react-toast-notifications';
 import tw, { styled } from 'twin.macro';
 

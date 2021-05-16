@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useToasts } from 'react-toast-notifications';
 
 import { Button, Icon, Input } from '~/components';

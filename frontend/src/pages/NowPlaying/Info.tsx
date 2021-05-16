@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import * as React from 'react';
+import React from 'react';
 import tw, { styled } from 'twin.macro';
 
 import { GenreList, Image, Link, SectionHeader, TrackArtistList } from '~/components';

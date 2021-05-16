@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { CollectionChooser, Header } from '~/components';
 import { ICollectionType } from '~/graphql';

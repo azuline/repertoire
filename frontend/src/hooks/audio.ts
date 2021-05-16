@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { PlayQueueContext, VolumeContext } from '~/contexts';
 import { ISetValue } from '~/types';

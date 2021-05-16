@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import tw, { styled } from 'twin.macro';
 
 import { ArtistList, GenreList, LabelList, Link, SectionHeader } from '~/components';

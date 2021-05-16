@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import * as React from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { Link, ScrolledReleases, SectionHeader } from '~/components';

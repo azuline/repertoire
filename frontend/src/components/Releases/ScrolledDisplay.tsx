@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { styled } from 'twin.macro';
 
 import { ArtRelease } from '~/components/Release';

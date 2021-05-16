@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import tw, { styled } from 'twin.macro';
 
 import { Image } from '~/components/Image';

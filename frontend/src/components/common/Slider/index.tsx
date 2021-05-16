@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import ReactSlider from 'react-slider';
 import tw, { styled } from 'twin.macro';
 

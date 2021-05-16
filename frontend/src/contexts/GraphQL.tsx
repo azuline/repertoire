@@ -1,5 +1,5 @@
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
-import * as React from 'react';
+import React from 'react';
 
 import { AuthorizationContext } from './Authorization';
 
