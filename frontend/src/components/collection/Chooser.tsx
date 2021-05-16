@@ -3,7 +3,6 @@ import * as React from 'react';
 
 import { Chooser, IToggleStarFactory } from '~/components/Chooser';
 import {
-  ICollection,
   ICollectionType,
   useCollectionChooserFetchCollectionsQuery,
   useCollectionChooserUpdateCollectionStarredMutation,
@@ -49,7 +48,8 @@ export const CollectionChooser: ICollectionChooser = ({
     return null;
   }
 
-  const results = data.collections.results as ICollection[];
+  const { results } = data.collections;
+
   const collections = filterEmpty
     ? results.filter((col) => col.numReleases !== 0)
     : results;
