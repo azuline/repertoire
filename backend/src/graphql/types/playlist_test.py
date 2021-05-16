@@ -35,10 +35,10 @@ async def test_playlist_not_found(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_playlist_from_name_and_type(graphql_query, snapshot):
+async def test_playlist_from_name_type_user(graphql_query, snapshot):
     query = """
         query {
-            playlistFromNameAndType(name: "playlist1", type: PLAYLIST) {
+            playlistFromNameTypeUser(name: "playlist1", type: PLAYLIST) {
                 ...PlaylistFields
             }
         }
@@ -50,10 +50,10 @@ async def test_playlist_from_name_and_type(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_playlist_from_name_and_type_not_found(graphql_query, snapshot):
+async def test_playlist_from_name_type_user_not_found(graphql_query, snapshot):
     query = """
         query {
-            playlistFromNameAndType(name: "AAFEFOPAIEFPAJF", type: SYSTEM) {
+            playlistFromNameTypeUser(name: "AAFEFOPAIEFPAJF", type: SYSTEM) {
                 ...PlaylistFields
             }
         }
@@ -204,7 +204,7 @@ async def test_update_playlist(db: Connection, graphql_query, snapshot):
     assert success is True
     snapshot.assert_match(data)
 
-    ply = playlist.from_id(3, db)
+    ply = playlist.from_id(4, db)
     assert ply is not None
     assert ply.name == "NewPlaylist"
     assert ply.starred is True
@@ -223,7 +223,7 @@ async def test_update_playlist_duplicate(db: Connection, graphql_query, snapshot
     assert success is True
     snapshot.assert_match(data)
 
-    ply = playlist.from_id(2, db)
+    ply = playlist.from_id(3, db)
     assert ply is not None
     assert ply.name != "Playlist3"
 
