@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import * as React from 'react';
 
 import { Tracklist } from '~/components';
-import { ITrack, usePlaylistsFetchTracksQuery } from '~/graphql';
+import { usePlaylistsFetchTracksQuery } from '~/graphql';
 import { filterNulls } from '~/util';
 
 import { AuthenticatedError } from '../Error';
@@ -17,9 +17,7 @@ export const PlaylistTracks: IPlaylistTracks = ({ active }) => {
     return <AuthenticatedError errors={errors} title="Could not fetch release." />;
   }
 
-  const tracks = filterNulls(
-    data?.playlist?.entries.map((e) => e?.track) ?? [],
-  ) as ITrack[];
+  const tracks = filterNulls(data?.playlist.entries.map((e) => e.track) ?? []);
 
   return <Tracklist showCovers tracks={tracks} />;
 };

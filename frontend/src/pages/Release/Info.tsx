@@ -2,14 +2,19 @@ import * as React from 'react';
 import tw, { styled } from 'twin.macro';
 
 import { ArtistList, GenreList, LabelList, Link, SectionHeader } from '~/components';
-import { IRelease } from '~/graphql';
+import { IFullReleaseFieldsFragment } from '~/graphql';
 import { filterNulls } from '~/util';
 
 import { InFavorites } from './InFavorites';
 import { InInbox } from './InInbox';
 import { WhenReleased } from './WhenReleased';
 
-type IInfo = React.FC<{ release: IRelease }>;
+type IInfo = React.FC<{
+  release: Pick<IFullReleaseFieldsFragment, 'artists' | 'labels' | 'title' | 'genres'> &
+    React.ComponentProps<typeof InFavorites>['release'] &
+    React.ComponentProps<typeof InInbox>['release'] &
+    React.ComponentProps<typeof WhenReleased>['release'];
+}>;
 
 export const Info: IInfo = ({ release }) => {
   return (

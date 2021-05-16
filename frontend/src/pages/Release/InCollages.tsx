@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Link } from '~/components';
 import { ICollection } from '~/graphql';
 
-type IInCollages = React.FC<{ collages: ICollection[] }>;
+type IInCollages = React.FC<{ collages: Pick<ICollection, 'id' | 'name'>[] }>;
 
 export const InCollages: IInCollages = ({ collages }) => {
   if (collages.length === 0) {

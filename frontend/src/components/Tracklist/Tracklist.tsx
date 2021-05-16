@@ -1,14 +1,14 @@
 import * as React from 'react';
 
 import { PlayQueueContext } from '~/contexts';
-import { ITrack } from '~/graphql';
+import { ITrackFieldsFragment } from '~/graphql';
 
 import { Track } from './Track';
 import { checkMatchingTracklists } from './util';
 
 type ITracklist = React.FC<{
   className?: string;
-  tracks: ITrack[];
+  tracks: ITrackFieldsFragment[];
   showCovers?: boolean;
 }>;
 

@@ -4,10 +4,10 @@ import tw, { styled } from 'twin.macro';
 
 import { GenreList, Image, Link, SectionHeader, TrackArtistList } from '~/components';
 import { BackgroundContext } from '~/contexts';
-import { ITrack, useNowPlayingInfoFetchReleaseQuery } from '~/graphql';
+import { ITrackFieldsFragment, useNowPlayingInfoFetchReleaseQuery } from '~/graphql';
 import { filterNulls } from '~/util';
 
-type IInfo = React.FC<{ track: ITrack }>;
+type IInfo = React.FC<{ track: ITrackFieldsFragment }>;
 
 export const Info: IInfo = ({ track }) => {
   const { setBackgroundImageId } = React.useContext(BackgroundContext);

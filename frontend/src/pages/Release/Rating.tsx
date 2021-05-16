@@ -6,7 +6,7 @@ import tw, { styled } from 'twin.macro';
 import { Icon } from '~/components';
 import { IRelease, useReleaseUpdateReleaseRatingMutation } from '~/graphql';
 
-type IRating = React.FC<{ release: IRelease }>;
+type IRating = React.FC<{ release: Pick<IRelease, 'id' | 'rating'> }>;
 
 export const Rating: IRating = ({ release }) => {
   const [mutateRelease] = useReleaseUpdateReleaseRatingMutation();

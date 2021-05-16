@@ -4,7 +4,9 @@ import { Link } from '~/components';
 import { IRelease } from '~/graphql';
 import { formatDate } from '~/util';
 
-type IWhenReleased = React.FC<{ release: IRelease }>;
+type IWhenReleased = React.FC<{
+  release: Pick<IRelease, 'releaseDate' | 'releaseYear'>;
+}>;
 
 export const WhenReleased: IWhenReleased = ({ release }) => {
   if (release.releaseDate !== null) {

@@ -3,15 +3,16 @@ import tw from 'twin.macro';
 
 import { SectionHeader } from '~/components/common';
 import { PlayQueueContext } from '~/contexts';
-import { ITrack } from '~/graphql';
+import { ITrack, ITrackFieldsFragment } from '~/graphql';
 import { stringNumberCompare } from '~/util';
 
 import { Track } from './Track';
 import { checkMatchingTracklists } from './util';
 
-type IDiscs = { [dn in string]: ITrack[] };
-
-type IDisclist = React.FC<{ className?: string; tracks: ITrack[] }>;
+type IDisclist = React.FC<{
+  className?: string;
+  tracks: ITrackFieldsFragment[];
+}>;
 
 export const Disclist: IDisclist = ({ className, tracks }) => {
   const { playQueue, setPlayQueue, curIndex, setCurIndex } =
@@ -67,8 +68,12 @@ export const Disclist: IDisclist = ({ className, tracks }) => {
   );
 };
 
-const sortTracksIntoDiscs = (tracks: ITrack[]): IDiscs => {
-  const discs = tracks.reduce<IDiscs>((acc, track) => {
+type ITrackWithNumbers = Pick<ITrack, 'trackNumber' | 'discNumber'>;
+
+const sortTracksIntoDiscs = <T extends ITrackWithNumbers>(
+  tracks: T[],
+): Record<string, T[]> => {
+  const discs = tracks.reduce<Record<string, T[]>>((acc, track) => {
     const discNumber = track.discNumber || '1';
 
     acc[discNumber] = acc[discNumber] ?? []; // eslint-disable-line no-param-reassign
@@ -84,11 +89,13 @@ const sortTracksIntoDiscs = (tracks: ITrack[]): IDiscs => {
   return discs;
 };
 
-const sortDiscsIntoTracklist = (discs: IDiscs): ITrack[] => {
+const sortDiscsIntoTracklist = <T extends ITrackWithNumbers>(
+  discs: Record<string, T[]>,
+): T[] => {
   const discKeys = Object.keys(discs);
   discKeys.sort(stringNumberCompare);
 
-  return discKeys.reduce<ITrack[]>((acc, disc) => {
+  return discKeys.reduce<T[]>((acc, disc) => {
     acc.push(...discs[disc]);
     return acc;
   }, []);

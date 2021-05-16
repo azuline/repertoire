@@ -1,17 +1,20 @@
 import * as React from 'react';
 
 import { Link } from '~/components/common';
-import { IArtist, ITrackArtist } from '~/graphql';
+import { ITrackFieldsFragment } from '~/graphql';
+
+type ITrackArtistLocal = Pick<ITrackFieldsFragment, 'artists'>['artists'][number];
+type IArtistLocal = ITrackArtistLocal['artist'];
 
 type IList = React.FC<{
-  artists?: ITrackArtist[];
+  artists?: ITrackArtistLocal[];
   className?: string;
   delimiter?: string;
   link?: boolean;
 }>;
 
-type IRolesArtistsMap = { [k in string]: IArtist[] };
-type IRolesArtistsMapEntries = [string, IArtist[]][];
+type IRolesArtistsMap = { [k in string]: IArtistLocal[] };
+type IRolesArtistsMapEntries = [string, IArtistLocal[]][];
 type IDividerWords = { [k in string]: string };
 
 // Role rankings for sorting their order of apperance.
@@ -72,7 +75,7 @@ export const TrackArtistList: IList = ({
 };
 
 export const mapRolesToArtists = (
-  artists?: ITrackArtist[],
+  artists?: ITrackArtistLocal[],
 ): IRolesArtistsMapEntries => {
   if (!artists) return [];
 
@@ -94,8 +97,10 @@ export const mapRolesToArtists = (
   return rolesToArtists;
 };
 
-const sortRoles = ([a]: [string, IArtist[]], [b]: [string, IArtist[]]): number =>
-  ROLE_RANKINGS.indexOf(a) - ROLE_RANKINGS.indexOf(b);
+const sortRoles = (
+  [a]: [string, IArtistLocal[]],
+  [b]: [string, IArtistLocal[]],
+): number => ROLE_RANKINGS.indexOf(a) - ROLE_RANKINGS.indexOf(b);
 
 // Determine the final list of divider words.
 // If we have a composer or a conductor, switch to "classical mode" and turn
