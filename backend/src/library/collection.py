@@ -111,7 +111,7 @@ def from_name_type_user(
     user_id: Optional[int] = None,
 ) -> Optional[T]:
     """
-    Return the collection with the given name and type, if it exists.
+    Return the collection with the given name, type, and user, if it exists.
 
     :param name: The name of the collection.
     :param type: The type of the collection.
@@ -127,10 +127,12 @@ def from_name_type_user(
         FROM music__collections AS cols
         LEFT JOIN music__collections_releases AS colsrls
             ON colsrls.collection_id = cols.id
-        WHERE cols.name = ? AND cols.type = ? AND user_id = ?
+        WHERE cols.name = ?
+            AND cols.type = ?
+            AND (cols.user_id = ? OR (cols.user_id IS NULL AND ? IS NULL))
         GROUP BY cols.id
         """,
-        (name, type.value, user_id),
+        (name, type.value, user_id, user_id),
     )
 
     if row := cursor.fetchone():
@@ -144,43 +146,6 @@ def from_name_type_user(
         "Failed to fetch collection with "
         f'name "{name}", type {type}, and user {user_id}.'
     )
-    return None
-
-
-def from_type_and_user(
-    type: CollectionType,
-    user_id: int,
-    conn: Connection,
-) -> Optional[T]:
-    """
-    Return the collection with the type and user, if it exists.
-
-    :param type: The type of the collection.
-    :param user_id: Who the collection belongs to.
-    :param conn: A connection to the database.
-    :return: The collection, if it exists.
-    """
-    cursor = conn.execute(
-        """
-        SELECT
-            cols.*,
-            COUNT(colsrls.release_id) AS num_releases
-        FROM music__collections AS cols
-        LEFT JOIN music__collections_releases AS colsrls
-            ON colsrls.collection_id = cols.id
-        WHERE cols.type = ? AND cols.user_id = ?
-        GROUP BY cols.id
-        """,
-        (type.value, user_id),
-    )
-
-    if row := cursor.fetchone():
-        logger.debug(
-            f'Fetched collection {row["id"]} with type {type} and user ID {user_id}.'
-        )
-        return from_row(row)
-
-    logger.debug(f"Failed to fetch collection with type {type} and user ID {user_id}.")
     return None
 
 
@@ -333,7 +298,7 @@ def create(
             "The user_id argument can only be set for personal/system collections."
         )
 
-    if col := from_name_type_user(name, type, conn):
+    if col := from_name_type_user(name, type, conn, user_id):
         raise Duplicate(f'Collection "{name}" already exists.', col)
 
     cursor = conn.execute(
@@ -376,7 +341,7 @@ def update(col: T, conn: Connection, **changes) -> T:
 
     if (
         "name" in changes
-        and (dupl := from_name_type_user(changes["name"], col.type, conn))
+        and (dupl := from_name_type_user(changes["name"], col.type, conn, col.user_id))
         and dupl != col
     ):
         raise Duplicate(f'Collection "{changes["name"]}" already exists.', dupl)

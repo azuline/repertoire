@@ -107,12 +107,18 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
     return None
 
 
-def from_name_and_type(name: str, type: PlaylistType, conn: Connection) -> Optional[T]:
+def from_name_type_user(
+    name: str,
+    type: PlaylistType,
+    conn: Connection,
+    user_id: int = None,
+) -> Optional[T]:
     """
-    Return the playlist with the given name and type, if it exists.
+    Return the playlist with the given name, type, and user, if it exists.
 
     :param name: The name of the playlist.
     :param type: The type of the playlist.
+    :param user_id: Who the playlist belongs to.
     :param conn: A connection to the database.
     :return: The playlist, if it exists.
     """
@@ -124,17 +130,25 @@ def from_name_and_type(name: str, type: PlaylistType, conn: Connection) -> Optio
         FROM music__playlists AS plys
         LEFT JOIN music__playlists_tracks AS plystrks
             ON plystrks.playlist_id = plys.id
-        WHERE plys.name = ? AND plys.type = ?
+        WHERE plys.name = ?
+            AND plys.type = ?
+            AND (plys.user_id = ? OR (plys.user_id IS NULL AND ? IS NULL))
         GROUP BY plys.id
         """,
-        (name, type.value),
+        (name, type.value, user_id, user_id),
     )
 
     if row := cursor.fetchone():
-        logger.debug(f'Fetch playlist {row["id"]} with name "{name}" and type {type}.')
+        logger.debug(
+            f'Fetch playlist {row["id"]} with '
+            f'name "{name}", type {type}, and user {user_id}.'
+        )
         return from_row(row)
 
-    logger.debug(f'Failed to fetch playlist with name "{name}" and type {type}.')
+    logger.debug(
+        f"Failed to fetch playlist with "
+        f'name "{name}", type {type}, and user {user_id}.'
+    )
     return None
 
 
@@ -283,7 +297,7 @@ def create(
             "The user_id argument can only be set for personal/system collections."
         )
 
-    if ply := from_name_and_type(name, type, conn):
+    if ply := from_name_type_user(name, type, conn, user_id):
         raise Duplicate(f'Playlist "{name}" already exists.', ply)
 
     cursor = conn.execute(
@@ -324,7 +338,7 @@ def update(ply: T, conn: Connection, **changes) -> T:
 
     if (
         "name" in changes
-        and (dupl := from_name_and_type(changes["name"], ply.type, conn))
+        and (dupl := from_name_type_user(changes["name"], ply.type, conn, ply.user_id))
         and dupl != ply
     ):
         raise Duplicate(f'Playlist "{changes["name"]}" already exists.', dupl)

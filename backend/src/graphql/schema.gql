@@ -47,10 +47,12 @@ type Query {
   "Fetch a collection by ID."
   collection(id: Int!): Collection!
 
-  "Fetch a collection by name and type."
-  collectionFromNameAndType(
+  "Fetch a collection by name, type, and user."
+  collectionFromNameTypeUser(
     name: String!
     type: CollectionType!
+    "The user the collection belongs to."
+    user: Int
   ): Collection!
 
   "Fetch invites."
@@ -93,10 +95,12 @@ type Query {
   "Fetch a playlist by ID."
   playlist(id: Int!): Playlist!
 
-  "Fetch a playlist by name and type."
-  playlistFromNameAndType(
+  "Fetch a playlist by name, type, and user."
+  playlistFromNameTypeUser(
     name: String!
     type: PlaylistType!
+    "The user the collection belongs to."
+    user: Int
   ): Playlist!
 
   "Search releases."
@@ -356,6 +360,9 @@ type Collection {
   releases: [Release!]!
   "The top genres of the collection, compiled from its releases."
   topGenres: [TopGenre!]!
+
+  "The user the collection belongs to."
+  user: User
 }
 
 type Collections {
@@ -395,6 +402,9 @@ type Playlist {
   entries: [PlaylistEntry!]!
   "The top genres of the playlist, compiled from its tracks."
   topGenres: [TopGenre!]!
+
+  "The user the playlist belongs to."
+  user: User
 }
 
 type Playlists {

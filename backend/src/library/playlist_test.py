@@ -29,14 +29,14 @@ def test_from_id_failure(db: Connection):
     assert playlist.from_id(90000, db) is None
 
 
-def test_from_name_and_type_success(factory: Factory, db: Connection):
+def test_from_name_type_user_success(factory: Factory, db: Connection):
     ply = factory.playlist(conn=db)
-    new_ply = playlist.from_name_and_type(ply.name, ply.type, db)
+    new_ply = playlist.from_name_type_user(ply.name, ply.type, db)
     assert ply == new_ply
 
 
-def test_from_name_and_type_failure(db: Connection):
-    ply = playlist.from_name_and_type("CCCCCC", PlaylistType.PLAYLIST, db)
+def test_from_name_type_user_failure(db: Connection):
+    ply = playlist.from_name_type_user("CCCCCC", PlaylistType.PLAYLIST, db)
     assert ply is None
 
 

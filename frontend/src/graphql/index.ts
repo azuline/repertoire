@@ -61,6 +61,8 @@ export type ICollection = {
   releases: Array<IRelease>;
   /** The top genres of the collection, compiled from its releases. */
   topGenres: Array<ITopGenre>;
+  /** The user the collection belongs to. */
+  user: Maybe<IUser>;
 };
 
 export type ICollectionAndRelease = {
@@ -284,6 +286,8 @@ export type IPlaylist = {
   entries: Array<IPlaylistEntry>;
   /** The top genres of the playlist, compiled from its tracks. */
   topGenres: Array<ITopGenre>;
+  /** The user the playlist belongs to. */
+  user: Maybe<IUser>;
 };
 
 export type IPlaylistAndTrack = {
@@ -332,8 +336,8 @@ export type IQuery = {
   collections: ICollections;
   /** Fetch a collection by ID. */
   collection: ICollection;
-  /** Fetch a collection by name and type. */
-  collectionFromNameAndType: ICollection;
+  /** Fetch a collection by name, type, and user. */
+  collectionFromNameTypeUser: ICollection;
   /** Fetch invites. */
   invites: IInvites;
   /** Fetch invites by ID. */
@@ -342,8 +346,8 @@ export type IQuery = {
   playlists: IPlaylists;
   /** Fetch a playlist by ID. */
   playlist: IPlaylist;
-  /** Fetch a playlist by name and type. */
-  playlistFromNameAndType: IPlaylist;
+  /** Fetch a playlist by name, type, and user. */
+  playlistFromNameTypeUser: IPlaylist;
   /** Search releases. */
   releases: IReleases;
   /** Fetch a release by ID. */
@@ -387,9 +391,10 @@ export type IQueryCollectionArgs = {
 };
 
 
-export type IQueryCollectionFromNameAndTypeArgs = {
+export type IQueryCollectionFromNameTypeUserArgs = {
   name: Scalars['String'];
   type: ICollectionType;
+  user: Maybe<Scalars['Int']>;
 };
 
 
@@ -420,9 +425,10 @@ export type IQueryPlaylistArgs = {
 };
 
 
-export type IQueryPlaylistFromNameAndTypeArgs = {
+export type IQueryPlaylistFromNameTypeUserArgs = {
   name: Scalars['String'];
   type: IPlaylistType;
+  user: Maybe<Scalars['Int']>;
 };
 
 
@@ -2468,7 +2474,7 @@ export type ArtistsFieldPolicy = {
 	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CollectionKeySpecifier = ('id' | 'name' | 'starred' | 'type' | 'numReleases' | 'lastUpdatedOn' | 'imageId' | 'releases' | 'topGenres' | CollectionKeySpecifier)[];
+export type CollectionKeySpecifier = ('id' | 'name' | 'starred' | 'type' | 'numReleases' | 'lastUpdatedOn' | 'imageId' | 'releases' | 'topGenres' | 'user' | CollectionKeySpecifier)[];
 export type CollectionFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2478,7 +2484,8 @@ export type CollectionFieldPolicy = {
 	lastUpdatedOn?: FieldPolicy<any> | FieldReadFunction<any>,
 	imageId?: FieldPolicy<any> | FieldReadFunction<any>,
 	releases?: FieldPolicy<any> | FieldReadFunction<any>,
-	topGenres?: FieldPolicy<any> | FieldReadFunction<any>
+	topGenres?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type CollectionAndReleaseKeySpecifier = ('collection' | 'release' | CollectionAndReleaseKeySpecifier)[];
 export type CollectionAndReleaseFieldPolicy = {
@@ -2528,7 +2535,7 @@ export type MutationFieldPolicy = {
 	addArtistToTrack?: FieldPolicy<any> | FieldReadFunction<any>,
 	delArtistFromTrack?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type PlaylistKeySpecifier = ('id' | 'name' | 'starred' | 'type' | 'numTracks' | 'lastUpdatedOn' | 'imageId' | 'entries' | 'topGenres' | PlaylistKeySpecifier)[];
+export type PlaylistKeySpecifier = ('id' | 'name' | 'starred' | 'type' | 'numTracks' | 'lastUpdatedOn' | 'imageId' | 'entries' | 'topGenres' | 'user' | PlaylistKeySpecifier)[];
 export type PlaylistFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2538,7 +2545,8 @@ export type PlaylistFieldPolicy = {
 	lastUpdatedOn?: FieldPolicy<any> | FieldReadFunction<any>,
 	imageId?: FieldPolicy<any> | FieldReadFunction<any>,
 	entries?: FieldPolicy<any> | FieldReadFunction<any>,
-	topGenres?: FieldPolicy<any> | FieldReadFunction<any>
+	topGenres?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type PlaylistAndTrackKeySpecifier = ('playlist' | 'track' | PlaylistAndTrackKeySpecifier)[];
 export type PlaylistAndTrackFieldPolicy = {
@@ -2560,7 +2568,7 @@ export type PlaylistsFieldPolicy = {
 	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('user' | 'artists' | 'artist' | 'artistFromName' | 'collections' | 'collection' | 'collectionFromNameAndType' | 'invites' | 'invite' | 'playlists' | 'playlist' | 'playlistFromNameAndType' | 'releases' | 'release' | 'tracks' | 'track' | 'releaseYears' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('user' | 'artists' | 'artist' | 'artistFromName' | 'collections' | 'collection' | 'collectionFromNameTypeUser' | 'invites' | 'invite' | 'playlists' | 'playlist' | 'playlistFromNameTypeUser' | 'releases' | 'release' | 'tracks' | 'track' | 'releaseYears' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	artists?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2568,12 +2576,12 @@ export type QueryFieldPolicy = {
 	artistFromName?: FieldPolicy<any> | FieldReadFunction<any>,
 	collections?: FieldPolicy<any> | FieldReadFunction<any>,
 	collection?: FieldPolicy<any> | FieldReadFunction<any>,
-	collectionFromNameAndType?: FieldPolicy<any> | FieldReadFunction<any>,
+	collectionFromNameTypeUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	invites?: FieldPolicy<any> | FieldReadFunction<any>,
 	invite?: FieldPolicy<any> | FieldReadFunction<any>,
 	playlists?: FieldPolicy<any> | FieldReadFunction<any>,
 	playlist?: FieldPolicy<any> | FieldReadFunction<any>,
-	playlistFromNameAndType?: FieldPolicy<any> | FieldReadFunction<any>,
+	playlistFromNameTypeUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	releases?: FieldPolicy<any> | FieldReadFunction<any>,
 	release?: FieldPolicy<any> | FieldReadFunction<any>,
 	tracks?: FieldPolicy<any> | FieldReadFunction<any>,
