@@ -35,6 +35,8 @@ type Query {
     search: String
     "If provided, only collections of these type will be returned."
     types: [CollectionType!]
+    "If provided, only collections owned by these users will be returned."
+    userIds: [Int!]
     "Which page of collections to return."
     page: Int
     """
@@ -83,6 +85,8 @@ type Query {
     search: String
     "If provided, only playlists of these type will be returned."
     types: [PlaylistType!]
+    "If provided, only playlists owned by these users will be returned."
+    userIds: [Int!]
     "Which page of playlists to return."
     page: Int
     """

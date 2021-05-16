@@ -381,6 +381,7 @@ export type IQueryArtistFromNameArgs = {
 export type IQueryCollectionsArgs = {
   search: Maybe<Scalars['String']>;
   types: Maybe<Array<ICollectionType>>;
+  userIds: Maybe<Array<Scalars['Int']>>;
   page: Maybe<Scalars['Int']>;
   perPage: Maybe<Scalars['Int']>;
 };
@@ -415,6 +416,7 @@ export type IQueryInviteArgs = {
 export type IQueryPlaylistsArgs = {
   search: Maybe<Scalars['String']>;
   types: Maybe<Array<IPlaylistType>>;
+  userIds: Maybe<Array<Scalars['Int']>>;
   page: Maybe<Scalars['Int']>;
   perPage: Maybe<Scalars['Int']>;
 };
