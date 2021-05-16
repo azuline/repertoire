@@ -35,11 +35,11 @@ async def test_track_not_found(graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_track_favorited(db: Connection, graphql_query, snapshot):
+async def test_track_in_favorites(db: Connection, graphql_query):
     query = """
         query {
             track(id: 1) {
-                favorited
+                inFavorites
             }
         }
     """
@@ -50,21 +50,21 @@ async def test_track_favorited(db: Connection, graphql_query, snapshot):
 
     success, data = await graphql_query(query)
     assert success is True
-    assert data["data"]["track"]["favorited"]
+    assert data["data"]["track"]["inFavorites"]
 
 
 @pytest.mark.asyncio
-async def test_track_favorited_false(graphql_query, snapshot):
+async def test_track_in_favorites_false(graphql_query):
     query = """
         query {
             track(id: 1) {
-                favorited
+                inFavorites
             }
         }
     """
     success, data = await graphql_query(query)
     assert success is True
-    assert not data["data"]["track"]["favorited"]
+    assert not data["data"]["track"]["inFavorites"]
 
 
 @pytest.mark.asyncio

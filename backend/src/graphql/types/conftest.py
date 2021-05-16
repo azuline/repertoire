@@ -111,7 +111,7 @@ def _add_test_data(conn: Connection):
         factory.artist(name="Artist5", conn=conn),
     ]
 
-    # These start at ID 3.
+    # These start at ID 5.
 
     collages = [
         factory.collection(name="Collage1", type=CollectionType.COLLAGE, conn=conn),
@@ -147,7 +147,7 @@ def _add_test_data(conn: Connection):
         factory.invite(by_user=usr_admin, conn=conn, used_by=usr_blissful),
     ]
 
-    # These start at ID 2.
+    # These start at ID 3.
 
     playlists = [
         factory.playlist(name="Playlist1", type=PlaylistType.PLAYLIST, conn=conn),

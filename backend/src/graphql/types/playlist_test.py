@@ -10,7 +10,7 @@ from src.library import playlist
 async def test_playlist(graphql_query, snapshot):
     query = """
         query {
-            playlist(id: 2) {
+            playlist(id: 3) {
                 ...PlaylistFields
             }
         }
@@ -118,7 +118,7 @@ async def test_playlists_pagination(graphql_query, snapshot):
 async def test_playlist_image(graphql_query):
     query = """
         query {
-            playlist(id: 2) {
+            playlist(id: 3) {
                 imageId
             }
         }
@@ -195,7 +195,7 @@ async def test_create_playlist_duplicate(graphql_query, snapshot):
 async def test_update_playlist(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            updatePlaylist(id: 3, name: "NewPlaylist", starred: true) {
+            updatePlaylist(id: 4, name: "NewPlaylist", starred: true) {
                 ...PlaylistFields
             }
         }
@@ -214,7 +214,7 @@ async def test_update_playlist(db: Connection, graphql_query, snapshot):
 async def test_update_playlist_duplicate(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            updatePlaylist(id: 2, name: "Playlist3") {
+            updatePlaylist(id: 3, name: "Playlist3") {
                 ...PlaylistFields
             }
         }

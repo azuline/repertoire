@@ -10,7 +10,7 @@ from src.library import collection
 async def test_collection(graphql_query, snapshot):
     query = """
         query {
-            collection(id: 3) {
+            collection(id: 5) {
                 ...CollectionFields
             }
         }
@@ -117,7 +117,7 @@ async def test_collections_pagination(graphql_query, snapshot):
 async def test_collection_image(graphql_query):
     query = """
         query {
-            collection(id: 3) {
+            collection(id: 5) {
                 imageId
             }
         }
@@ -195,7 +195,7 @@ async def test_create_collection_duplicate(db: Connection, graphql_query, snapsh
 async def test_update_collection(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            updateCollection(id: 3, name: "NewCollection", starred: true) {
+            updateCollection(id: 5, name: "NewCollection", starred: true) {
                 ...CollectionFields
             }
         }
@@ -214,7 +214,7 @@ async def test_update_collection(db: Connection, graphql_query, snapshot):
 async def test_update_collection_duplicate(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            updateCollection(id: 3, name: "Collage3") {
+            updateCollection(id: 5, name: "Collage3") {
                 ...CollectionFields
             }
         }
@@ -311,7 +311,7 @@ async def test_add_release_to_collection_bad_release(
 ):
     query = """
         mutation {
-            addReleaseToCollection(collectionId: 2, releaseId: 9999) {
+            addReleaseToCollection(collectionId: 3, releaseId: 9999) {
                 collection {
                     ...CollectionFields
                 }
@@ -343,7 +343,7 @@ async def test_add_release_to_collection_already_exists(
 ):
     query = """
         mutation {
-            addReleaseToCollection(collectionId: 3, releaseId: 2) {
+            addReleaseToCollection(collectionId: 5, releaseId: 2) {
                 collection {
                     ...CollectionFields
                 }
@@ -371,7 +371,7 @@ async def test_add_release_to_collection_already_exists(
 async def test_del_release_from_collection(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            delReleaseFromCollection(collectionId: 3, releaseId: 2) {
+            delReleaseFromCollection(collectionId: 5, releaseId: 2) {
                 collection {
                     ...CollectionFields
                 }
@@ -417,7 +417,7 @@ async def test_del_release_from_collection_bad_release(
 ):
     query = """
         mutation {
-            delReleaseFromCollection(collectionId: 2, releaseId: 9999) {
+            delReleaseFromCollection(collectionId: 3, releaseId: 9999) {
                 collection {
                     ...CollectionFields
                 }
