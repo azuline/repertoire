@@ -162,6 +162,7 @@ def create(nickname: str, conn: Connection) -> tuple[T, bytes]:
     logger.info(f"Created user {nickname} with ID {cursor.lastrowid}.")
 
     _create_system_collections_and_playlists(cursor.lastrowid, conn)
+    # _populate_inbox.schedule(args=(cursor.lastrowid,))
 
     usr = from_id(cursor.lastrowid, conn)
     assert usr is not None

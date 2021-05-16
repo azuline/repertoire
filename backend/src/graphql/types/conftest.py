@@ -16,7 +16,7 @@ import quart
 from ariadne import graphql
 from filelock import FileLock
 
-from src.constants import TEST_DATA_PATH, Constants
+from src.constants import TEST_DATA_PATH, constants
 from src.enums import ArtistRole, CollectionType, PlaylistType, ReleaseType
 from src.fixtures.factory import Factory
 from src.fixtures.fragments import FRAGMENTS
@@ -90,9 +90,8 @@ def seed_gql_data(seed_data, seed_gql_db):
     This fixture replaces the seeded database in the isolated test directory with the
     database containing test data.
     """
-    cons = Constants()
-    cons.database_path.unlink(missing_ok=True)
-    shutil.copyfile(GQL_DB_PATH, cons.database_path)
+    constants.database_path.unlink(missing_ok=True)
+    shutil.copyfile(GQL_DB_PATH, constants.database_path)
 
 
 def _add_test_data(conn: Connection):

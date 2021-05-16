@@ -9,7 +9,7 @@ from sqlite3 import Connection
 from string import ascii_uppercase
 from typing import Any, Iterable, Union
 
-from src.constants import Constants
+from src.constants import constants
 
 logger = logging.getLogger(__name__)
 
@@ -36,10 +36,9 @@ def raw_database(check_same_thread: bool = True) -> Connection:
                               connection.
     :return: A connection to the database.
     """
-    cons = Constants()
-    logger.debug(f"Opening a connection to database {cons.database_path}.")
+    logger.debug(f"Opening a connection to database {constants.database_path}.")
     conn = sqlite3.connect(
-        cons.database_path,
+        constants.database_path,
         detect_types=sqlite3.PARSE_DECLTYPES,
         check_same_thread=check_same_thread,
     )

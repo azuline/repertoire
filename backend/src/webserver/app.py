@@ -11,7 +11,7 @@ import quart
 from quart import Quart, Response
 from werkzeug.exceptions import HTTPException
 
-from src.constants import Constants
+from src.constants import constants
 from src.util import database, raw_database
 from src.webserver.routes import dev, files, graphql, register, session
 
@@ -32,11 +32,9 @@ def create_app() -> Quart:
     """
     logger.debug("Creating Quart app.")
 
-    cons = Constants()
-
     app = Quart(
         __name__,
-        static_folder=str(cons.built_frontend_dir),
+        static_folder=str(constants.built_frontend_dir),
         static_url_path="/",
     )
 

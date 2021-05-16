@@ -47,7 +47,7 @@ def _get_data_path() -> Path:
     return data_path
 
 
-class _Constants:
+class __Constants:
     """
     The "real" constants object that gets loaded as a singleton in ``Constants``.
     """
@@ -63,7 +63,7 @@ class _Constants:
         self._cover_art_mkdir = False
 
     @property
-    def cover_art_dir(self):
+    def cover_art_dir(self) -> Path:
         dir_ = self.data_path / "cover_art"
         if not self._cover_art_mkdir:
             logger.debug("Ensuring that cover art path exists.")
@@ -72,63 +72,31 @@ class _Constants:
         return dir_
 
     @property
-    def database_path(self):
+    def database_path(self) -> Path:
         return self.data_path / "db.sqlite3"
 
     @property
-    def huey_path(self):
+    def huey_path(self) -> Path:
         return self.data_path / "huey.sqlite3"
 
     @property
-    def config_path(self):
+    def config_path(self) -> Path:
         return self.data_path / "config.ini"
 
     @property
-    def pid_path(self):
+    def pid_path(self) -> Path:
         return self.data_path / "src.pid"
 
     @cached_property
-    def migrations_path(_):
+    def migrations_path(_) -> Path:
         return BACKEND_ROOT / "src" / "migrations" / "sql"
 
     @cached_property
-    def built_frontend_dir(_):
+    def built_frontend_dir(_) -> Path:
         try:
             return Path(os.getenv("BUILT_FRONTEND_DIR"))  # type: ignore
         except TypeError:
             return BACKEND_ROOT.parent / "frontend" / "build"
 
 
-class Constants:
-    """
-    A "proxy singleton" that returns the same constants instance when instantiated.
-
-    Other modules should only work with this singleton. This allows for code to fetch
-    the global constants object when needed.
-    """
-
-    _constants: _Constants
-
-    #: Data storage location.
-    data_path: Path
-    #: Storage location of cover art.
-    cover_art_dir: Path
-    #: Path to SQLite3 database.
-    database_path: Path
-    #: Path to Huey database.
-    huey_path: Path
-    #: Path to config ini file.
-    config_path: Path
-    #: Path to backend PID file.
-    pid_path: Path
-    #: Path to the database migrations.
-    migrations_path: Path
-    #: Path to the built Typescript frontend.
-    built_frontend_dir: Path
-
-    def __new__(cls) -> _Constants:  # type: ignore
-        try:
-            return cls._constants
-        except AttributeError:
-            cls._constants = _Constants()
-            return cls._constants
+constants = __Constants()

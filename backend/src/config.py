@@ -2,11 +2,11 @@ import json
 import logging
 from configparser import ConfigParser
 from pathlib import Path
-from typing import Callable
+from typing import Any, Callable
 
 from huey import crontab
 
-from src.constants import Constants
+from src.constants import constants
 from src.errors import InvalidConfig
 from src.util import parse_crontab
 
@@ -24,8 +24,7 @@ def initialize_config():
     """
     Write the default config to the constant `config_path` location.
     """
-    cons = Constants()
-    write_default_config(cons.config_path)
+    write_default_config(constants.config_path)
 
 
 def write_default_config(config_path: Path) -> None:
@@ -72,8 +71,7 @@ class _Config:
     """
 
     def __init__(self):
-        cons = Constants()
-        self.parser = _load_config(cons.config_path)
+        self.parser = _load_config(constants.config_path)
 
     @property
     def music_directories(self) -> list[str]:
@@ -84,8 +82,9 @@ class _Config:
                 "repertoire.music_directories is not a valid JSON-encoded list."
             )
 
+    # TODO: Type
     @property
-    def index_crontab(self) -> int:
+    def index_crontab(self) -> Any:
         try:
             return crontab(**parse_crontab(self.parser["repertoire"]["index_crontab"]))
         except ValueError:

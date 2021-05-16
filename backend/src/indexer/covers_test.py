@@ -2,7 +2,7 @@ import shutil
 from pathlib import Path
 from sqlite3 import Connection
 
-from src.constants import TEST_DATA_PATH, Constants
+from src.constants import TEST_DATA_PATH, constants
 from src.fixtures.factory import Factory
 
 from .covers import save_pending_covers
@@ -46,6 +46,5 @@ def test_save_pending_covers(factory: Factory, db: Connection):
 
     save_pending_covers()
 
-    cons = Constants()
-    saved_covers = sorted([path.name for path in cons.cover_art_dir.iterdir()])
+    saved_covers = sorted([path.name for path in constants.cover_art_dir.iterdir()])
     assert len(saved_covers) == 4

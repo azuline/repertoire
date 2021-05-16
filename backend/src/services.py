@@ -13,7 +13,7 @@ from huey.consumer_options import ConsumerConfig
 from hypercorn.asyncio import serve
 from hypercorn.config import Config
 
-from src.constants import Constants
+from src.constants import constants
 from src.tasks import schedule_tasks
 from src.webserver.app import create_app
 
@@ -29,9 +29,7 @@ def start_webserver(host: int, port: int) -> None:
 
 def start_task_queue(num_workers: int) -> None:
     """Start the Huey task queue."""
-    cons = Constants()
-
-    task_queue = SqliteHuey(filename=cons.huey_path)
+    task_queue = SqliteHuey(filename=constants.huey_path)
     schedule_tasks(task_queue)
 
     config = ConsumerConfig(workers=num_workers)

@@ -8,7 +8,7 @@ from freezegun import freeze_time
 from yoyo import get_backend, read_migrations
 
 from src.config import Config, _Config
-from src.constants import TEST_DATA_PATH, Constants
+from src.constants import TEST_DATA_PATH, constants
 from src.fixtures.factory import Factory
 from src.util import database, freeze_database_time
 from src.webserver.app import create_app
@@ -33,9 +33,8 @@ def _create_seed_db():
     db_path = TEST_DATA_PATH / "db.sqlite3"
     db_path.unlink(missing_ok=True)
 
-    cons = Constants()
     db_backend = get_backend(f"sqlite:///{db_path}")
-    db_migrations = read_migrations(str(cons.migrations_path))
+    db_migrations = read_migrations(str(constants.migrations_path))
 
     freeze_database_time(db_backend._connection)
 
@@ -46,9 +45,8 @@ def _create_seed_db():
 @pytest.fixture(autouse=True)
 def isolated_dir():
     with CliRunner().isolated_filesystem():
-        cons = Constants()
-        cons.data_path = Path.cwd() / "_data"
-        cons.data_path.mkdir()
+        constants.data_path = Path.cwd() / "_data"
+        constants.data_path.mkdir()
         yield Path.cwd()
 
 
@@ -60,8 +58,7 @@ def stop_the_clock():
 
 @pytest.fixture
 def seed_data(seed_db, isolated_dir):
-    cons = Constants()
-    shutil.copytree(TEST_DATA_PATH, cons.data_path, dirs_exist_ok=True)
+    shutil.copytree(TEST_DATA_PATH, constants.data_path, dirs_exist_ok=True)
     # Update config cache with a new config.
     Config._config = _Config()
 
