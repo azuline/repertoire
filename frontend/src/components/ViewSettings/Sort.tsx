@@ -27,7 +27,7 @@ export const Sort: ISort = ({ viewOptions, className }) => {
       value={viewOptions.sort}
       onChange={updateSort}
     >
-      {Object.keys(displays)
+      {Object.entries(displays)
         .filter(([k]) => k !== IReleaseSort.SearchRank)
         .map(([k, display]) => (
           <option key={k} value={k}>
