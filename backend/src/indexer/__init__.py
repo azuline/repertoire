@@ -1,9 +1,10 @@
 # flake8: noqa
 
+from src.config import config
+from src.tasks import huey
+
 from .covers import save_pending_covers
 from .scanner import scan_directories
-from src.tasks import huey
-from src.config import config
 
 
 def run_indexer() -> None:

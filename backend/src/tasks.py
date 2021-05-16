@@ -7,7 +7,6 @@ from src.constants import constants
 logger = logging.getLogger(__name__)
 
 
-print(f"{constants.huey_path=}")
 huey = SqliteHuey(filename=constants.huey_path)
 
 

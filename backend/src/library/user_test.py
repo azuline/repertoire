@@ -6,7 +6,7 @@ from werkzeug.security import check_password_hash
 from src.errors import InvalidNickname
 from src.fixtures.factory import Factory
 
-from . import user, collection
+from . import collection, user
 
 
 def test_exists(factory: Factory, db: Connection):

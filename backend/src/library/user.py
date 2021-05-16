@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from src.tasks import huey
 import logging
 import secrets
 import string
@@ -12,6 +11,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from src.enums import CollectionType, PlaylistType
 from src.errors import InvalidNickname, TokenGenerationFailure
+from src.tasks import huey
 from src.util import database, update_dataclass
 
 from . import collection
