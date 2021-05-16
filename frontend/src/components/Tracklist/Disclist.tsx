@@ -14,9 +14,8 @@ type IDiscs = { [dn in string]: ITrack[] };
 type IDisclist = React.FC<{ className?: string; tracks: ITrack[] }>;
 
 export const Disclist: IDisclist = ({ className, tracks }) => {
-  const { playQueue, setPlayQueue, curIndex, setCurIndex } = React.useContext(
-    PlayQueueContext,
-  );
+  const { playQueue, setPlayQueue, curIndex, setCurIndex } =
+    React.useContext(PlayQueueContext);
 
   const discs = React.useMemo(() => sortTracksIntoDiscs(tracks), [tracks]);
   const multiDisc = Object.keys(discs).length !== 1;

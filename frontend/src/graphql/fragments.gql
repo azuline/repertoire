@@ -50,10 +50,10 @@ fragment InviteFields on Invite {
 
 fragment PlaylistFields on Playlist {
   id
-  name 
-  starred 
-  type 
-  numTracks 
+  name
+  starred
+  type
+  numTracks
   lastUpdatedOn
   imageId
 }

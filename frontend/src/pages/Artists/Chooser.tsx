@@ -27,7 +27,6 @@ export const ArtistChooser: IArtistChooser = ({ active, className }) => {
     return null;
   }
 
-  // prettier-ignore
   const results = data.artists.results as IArtist[];
   const artists = results.filter((art) => art.numReleases !== 0);
 

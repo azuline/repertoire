@@ -13,13 +13,11 @@ type ITracklist = React.FC<{
 }>;
 
 export const Tracklist: ITracklist = ({ className, tracks, showCovers = false }) => {
-  const { playQueue, setPlayQueue, curIndex, setCurIndex } = React.useContext(
-    PlayQueueContext,
-  );
+  const { playQueue, setPlayQueue, curIndex, setCurIndex } =
+    React.useContext(PlayQueueContext);
 
   // Check to see if the current track list matches up with the play queue--if
   // it does, we are currently playing this Tracklist.
-  // prettier-ignore
   const areTrackListsMatching = React.useMemo(
     () => checkMatchingTracklists(playQueue, tracks),
     [playQueue, tracks],

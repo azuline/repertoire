@@ -28,7 +28,6 @@ export const PagedReleases: IPagedReleases = ({
     variables: { ...viewOptions, ...pagination },
   });
 
-  // prettier-ignore
   const { total, results: rawResults } = data?.releases || { results: [], total: 0 };
   const results = rawResults as IRelease[];
 

@@ -8,7 +8,6 @@ import { Info } from './Info';
 export const NowPlaying: React.FC = () => {
   const { playQueue, curIndex } = React.useContext(PlayQueueContext);
 
-  // prettier-ignore
   const curTrack = curIndex !== null ? playQueue[curIndex] : null;
 
   // Only show covers if the play queue isn't a single homogenous release.

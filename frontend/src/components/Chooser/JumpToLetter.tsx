@@ -45,7 +45,6 @@ type IJumpToLetter = React.FC<{
 }>;
 
 export const JumpToLetter: IJumpToLetter = ({ active, results, setJumpTo }) => {
-  // prettier-ignore
   const letterToIndexMap = React.useMemo(
     () => mapLettersToIndex(results, setJumpTo),
     [results, setJumpTo],
