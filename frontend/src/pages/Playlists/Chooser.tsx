@@ -27,7 +27,7 @@ export const PlaylistChooser: IPlaylistChooser = ({ active, className }) => {
     };
   };
 
-  if (!data || !data.playlists || error || loading) {
+  if (!data || error || loading) {
     return null;
   }
 
@@ -46,7 +46,7 @@ const urlFactory = (id: number): string => `/playlists/${id}`;
 
 /* eslint-disable */
 gql`
-  query PlaylistChooserFetchPlaylists($types: [PlaylistType]) {
+  query PlaylistChooserFetchPlaylists($types: [PlaylistType!]) {
     playlists(types: $types) {
       results {
         ...PlaylistFields

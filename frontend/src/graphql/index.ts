@@ -22,11 +22,11 @@ export type IArtist = {
   name: Scalars['String'];
   starred: Scalars['Boolean'];
   numReleases: Scalars['Int'];
-  /** The image ID of one of the artist's releases. Potentially null. */
+  /** The image ID of one of the artist's releases. */
   imageId: Maybe<Scalars['Int']>;
-  releases: Array<Maybe<IRelease>>;
+  releases: Array<IRelease>;
   /** The top genres of the artist, compiled from their releases. */
-  topGenres: Array<Maybe<ITopGenre>>;
+  topGenres: Array<ITopGenre>;
 };
 
 export enum IArtistRole {
@@ -44,7 +44,7 @@ export type IArtists = {
   /** The total number of artists matching the query across all pages. */
   total: Scalars['Int'];
   /** The artists on the current page. */
-  results: Array<Maybe<IArtist>>;
+  results: Array<IArtist>;
 };
 
 export type ICollection = {
@@ -55,12 +55,12 @@ export type ICollection = {
   type: ICollectionType;
   numReleases: Scalars['Int'];
   /** The last datetime a release was added to the collection. */
-  lastUpdatedOn: Maybe<Scalars['PosixTime']>;
-  /** The image ID of a release in the collection. Potentially null. */
+  lastUpdatedOn: Scalars['PosixTime'];
+  /** The image ID of a release in the collection. */
   imageId: Maybe<Scalars['Int']>;
-  releases: Array<Maybe<IRelease>>;
+  releases: Array<IRelease>;
   /** The top genres of the collection, compiled from its releases. */
-  topGenres: Array<Maybe<ITopGenre>>;
+  topGenres: Array<ITopGenre>;
 };
 
 export type ICollectionAndRelease = {
@@ -81,7 +81,7 @@ export type ICollections = {
   /** The total number of collections matching the query across all pages. */
   total: Scalars['Int'];
   /** The collections on the current page. */
-  results: Array<Maybe<ICollection>>;
+  results: Array<ICollection>;
 };
 
 export type IInvite = {
@@ -99,38 +99,38 @@ export type IInvites = {
   /** The total number of invites matching the query across all pages. */
   total: Scalars['Int'];
   /** The invites on the current page. */
-  results: Array<Maybe<IInvite>>;
+  results: Array<IInvite>;
 };
 
 export type IMutation = {
   __typename?: 'Mutation';
   /** Update the authenticated user. */
-  updateUser: Maybe<IUser>;
+  updateUser: IUser;
   /**
    * Generate a new authentication token for the current user. Invalidate the
    * old one.
    */
-  newToken: Maybe<IToken>;
-  createArtist: Maybe<IArtist>;
-  updateArtist: Maybe<IArtist>;
-  createCollection: Maybe<ICollection>;
-  updateCollection: Maybe<ICollection>;
-  addReleaseToCollection: Maybe<ICollectionAndRelease>;
-  delReleaseFromCollection: Maybe<ICollectionAndRelease>;
-  createInvite: Maybe<IInvite>;
-  createPlaylist: Maybe<IPlaylist>;
-  updatePlaylist: Maybe<IPlaylist>;
-  createPlaylistEntry: Maybe<IPlaylistEntry>;
-  delPlaylistEntry: Maybe<IPlaylistAndTrack>;
-  delPlaylistEntries: Maybe<IPlaylistAndTrack>;
-  updatePlaylistEntry: Maybe<IPlaylistEntry>;
-  createRelease: Maybe<IRelease>;
-  updateRelease: Maybe<IRelease>;
-  addArtistToRelease: Maybe<IReleaseAndArtist>;
-  delArtistFromRelease: Maybe<IReleaseAndArtist>;
-  updateTrack: Maybe<ITrack>;
-  addArtistToTrack: Maybe<ITrackAndArtist>;
-  delArtistFromTrack: Maybe<ITrackAndArtist>;
+  newToken: IToken;
+  createArtist: IArtist;
+  updateArtist: IArtist;
+  createCollection: ICollection;
+  updateCollection: ICollection;
+  addReleaseToCollection: ICollectionAndRelease;
+  delReleaseFromCollection: ICollectionAndRelease;
+  createInvite: IInvite;
+  createPlaylist: IPlaylist;
+  updatePlaylist: IPlaylist;
+  createPlaylistEntry: IPlaylistEntry;
+  delPlaylistEntry: IPlaylistAndTrack;
+  delPlaylistEntries: IPlaylistAndTrack;
+  updatePlaylistEntry: IPlaylistEntry;
+  createRelease: IRelease;
+  updateRelease: IRelease;
+  addArtistToRelease: IReleaseAndArtist;
+  delArtistFromRelease: IReleaseAndArtist;
+  updateTrack: ITrack;
+  addArtistToTrack: ITrackAndArtist;
+  delArtistFromTrack: ITrackAndArtist;
 };
 
 
@@ -217,7 +217,7 @@ export type IMutationUpdatePlaylistEntryArgs = {
 
 export type IMutationCreateReleaseArgs = {
   title: Scalars['String'];
-  artistIds: Array<Maybe<Scalars['Int']>>;
+  artistIds: Array<Scalars['Int']>;
   releaseType: IReleaseType;
   releaseYear: Scalars['Int'];
   releaseDate: Maybe<Scalars['String']>;
@@ -277,12 +277,12 @@ export type IPlaylist = {
   type: IPlaylistType;
   numTracks: Scalars['Int'];
   /** The last datetime a release was added to the playlist. */
-  lastUpdatedOn: Maybe<Scalars['PosixTime']>;
+  lastUpdatedOn: Scalars['PosixTime'];
   /** The image ID of a track in the playlst. Potentially null. */
   imageId: Maybe<Scalars['Int']>;
-  entries: Array<Maybe<IPlaylistEntry>>;
+  entries: Array<IPlaylistEntry>;
   /** The top genres of the playlist, compiled from its tracks. */
-  topGenres: Array<Maybe<ITopGenre>>;
+  topGenres: Array<ITopGenre>;
 };
 
 export type IPlaylistAndTrack = {
@@ -312,46 +312,46 @@ export type IPlaylists = {
   /** The total number of playlists matching the query across all pages. */
   total: Scalars['Int'];
   /** The playlists on the current page. */
-  results: Array<Maybe<IPlaylist>>;
+  results: Array<IPlaylist>;
 };
 
 
 export type IQuery = {
   __typename?: 'Query';
   /** Fetch the currently authenticated user. */
-  user: Maybe<IUser>;
+  user: IUser;
   /** Search artists. */
-  artists: Maybe<IArtists>;
+  artists: IArtists;
   /** Fetch an artist by ID. */
-  artist: Maybe<IArtist>;
+  artist: IArtist;
   /** Fetch an artist by name. */
-  artistFromName: Maybe<IArtist>;
+  artistFromName: IArtist;
   /** Search collections. */
-  collections: Maybe<ICollections>;
+  collections: ICollections;
   /** Fetch a collection by ID. */
-  collection: Maybe<ICollection>;
+  collection: ICollection;
   /** Fetch a collection by name and type. */
-  collectionFromNameAndType: Maybe<ICollection>;
+  collectionFromNameAndType: ICollection;
   /** Fetch invites. */
-  invites: Maybe<IInvites>;
+  invites: IInvites;
   /** Fetch invites by ID. */
-  invite: Maybe<IInvite>;
+  invite: IInvite;
   /** Search playlists. */
-  playlists: Maybe<IPlaylists>;
+  playlists: IPlaylists;
   /** Fetch a playlist by ID. */
-  playlist: Maybe<IPlaylist>;
+  playlist: IPlaylist;
   /** Fetch a playlist by name and type. */
-  playlistFromNameAndType: Maybe<IPlaylist>;
+  playlistFromNameAndType: IPlaylist;
   /** Search releases. */
-  releases: Maybe<IReleases>;
+  releases: IReleases;
   /** Fetch a release by ID. */
-  release: Maybe<IRelease>;
+  release: IRelease;
   /** Search tracks. */
   tracks: Maybe<ITracks>;
   /** Fetch a track by ID. */
-  track: Maybe<ITrack>;
+  track: ITrack;
   /** Fetch all existing release years sorted in descending order. */
-  releaseYears: Maybe<Array<Maybe<Scalars['Int']>>>;
+  releaseYears: Array<Scalars['Int']>;
 };
 
 
@@ -374,7 +374,7 @@ export type IQueryArtistFromNameArgs = {
 
 export type IQueryCollectionsArgs = {
   search: Maybe<Scalars['String']>;
-  types: Maybe<Array<Maybe<ICollectionType>>>;
+  types: Maybe<Array<ICollectionType>>;
   page: Maybe<Scalars['Int']>;
   perPage: Maybe<Scalars['Int']>;
 };
@@ -407,7 +407,7 @@ export type IQueryInviteArgs = {
 
 export type IQueryPlaylistsArgs = {
   search: Maybe<Scalars['String']>;
-  types: Maybe<Array<Maybe<IPlaylistType>>>;
+  types: Maybe<Array<IPlaylistType>>;
   page: Maybe<Scalars['Int']>;
   perPage: Maybe<Scalars['Int']>;
 };
@@ -426,11 +426,11 @@ export type IQueryPlaylistFromNameAndTypeArgs = {
 
 export type IQueryReleasesArgs = {
   search: Maybe<Scalars['String']>;
-  collectionIds: Maybe<Array<Maybe<Scalars['Int']>>>;
-  artistIds: Maybe<Array<Maybe<Scalars['Int']>>>;
-  releaseTypes: Maybe<Array<Maybe<IReleaseType>>>;
-  years: Maybe<Array<Maybe<Scalars['Int']>>>;
-  ratings: Maybe<Array<Maybe<Scalars['Int']>>>;
+  collectionIds: Maybe<Array<Scalars['Int']>>;
+  artistIds: Maybe<Array<Scalars['Int']>>;
+  releaseTypes: Maybe<Array<IReleaseType>>;
+  years: Maybe<Array<Scalars['Int']>>;
+  ratings: Maybe<Array<Scalars['Int']>>;
   page: Maybe<Scalars['Int']>;
   perPage: Maybe<Scalars['Int']>;
   sort: Maybe<IReleaseSort>;
@@ -445,9 +445,9 @@ export type IQueryReleaseArgs = {
 
 export type IQueryTracksArgs = {
   search: Maybe<Scalars['String']>;
-  playlistIds: Maybe<Array<Maybe<Scalars['Int']>>>;
-  artistIds: Maybe<Array<Maybe<Scalars['Int']>>>;
-  years: Maybe<Array<Maybe<Scalars['Int']>>>;
+  playlistIds: Maybe<Array<Scalars['Int']>>;
+  artistIds: Maybe<Array<Scalars['Int']>>;
+  years: Maybe<Array<Scalars['Int']>>;
   page: Maybe<Scalars['Int']>;
   perPage: Maybe<Scalars['Int']>;
   sort: Maybe<ITrackSort>;
@@ -468,20 +468,20 @@ export type IRelease = {
   inInbox: Scalars['Boolean'];
   inFavorites: Scalars['Boolean'];
   releaseYear: Maybe<Scalars['Int']>;
-  /** The date that the release was released in YYYY-MM-DD format (Optional). */
+  /** The date that the release was released in YYYY-MM-DD format. */
   releaseDate: Maybe<Scalars['String']>;
   /** The release rating, either null or an int on the interval [1, 10]. */
   rating: Maybe<Scalars['Int']>;
   numTracks: Scalars['Int'];
   /** The total runtime (sum of track durations). */
   runtime: Scalars['Int'];
-  /** The image ID of the release's cover image. Potentially null. */
+  /** The image ID of the release's cover image. */
   imageId: Maybe<Scalars['Int']>;
-  artists: Array<Maybe<IArtist>>;
-  tracks: Array<Maybe<ITrack>>;
-  genres: Array<Maybe<ICollection>>;
-  labels: Array<Maybe<ICollection>>;
-  collages: Array<Maybe<ICollection>>;
+  artists: Array<IArtist>;
+  tracks: Array<ITrack>;
+  genres: Array<ICollection>;
+  labels: Array<ICollection>;
+  collages: Array<ICollection>;
 };
 
 export type IReleaseAndArtist = {
@@ -519,7 +519,7 @@ export type IReleases = {
   /** The total number of releases matching the query across all pages. */
   total: Scalars['Int'];
   /** The releases on the current page. */
-  results: Array<Maybe<IRelease>>;
+  results: Array<IRelease>;
 };
 
 export type IToken = {
@@ -545,7 +545,7 @@ export type ITrack = {
   /** Whether the track is in the user's favorites playlist. */
   favorited: Scalars['Boolean'];
   release: IRelease;
-  artists: Array<Maybe<ITrackArtist>>;
+  artists: Array<ITrackArtist>;
 };
 
 export type ITrackAndArtist = {
@@ -574,7 +574,7 @@ export type ITracks = {
   /** The total number of tracks matching the query across all pages. */
   total: Scalars['Int'];
   /** The tracks on the current page. */
-  results: Array<Maybe<ITrack>>;
+  results: Array<ITrack>;
 };
 
 export type IUser = {
@@ -588,19 +588,19 @@ export type IHeaderFetchUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type IHeaderFetchUserQuery = (
   { __typename?: 'Query' }
-  & { user: Maybe<(
+  & { user: (
     { __typename?: 'User' }
     & IUserFieldsFragment
-  )> }
+  ) }
 );
 
 export type IPagedReleasesFetchReleasesQueryVariables = Exact<{
   search: Maybe<Scalars['String']>;
-  collectionIds: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
-  artistIds: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
-  releaseTypes: Maybe<Array<Maybe<IReleaseType>> | Maybe<IReleaseType>>;
-  years: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
-  ratings: Maybe<Array<Maybe<Scalars['Int']>> | Maybe<Scalars['Int']>>;
+  collectionIds: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
+  artistIds: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
+  releaseTypes: Maybe<Array<IReleaseType> | IReleaseType>;
+  years: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
+  ratings: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
   page: Maybe<Scalars['Int']>;
   perPage: Maybe<Scalars['Int']>;
   sort: Maybe<IReleaseSort>;
@@ -610,21 +610,21 @@ export type IPagedReleasesFetchReleasesQueryVariables = Exact<{
 
 export type IPagedReleasesFetchReleasesQuery = (
   { __typename?: 'Query' }
-  & { releases: Maybe<(
+  & { releases: (
     { __typename?: 'Releases' }
     & Pick<IReleases, 'total'>
-    & { results: Array<Maybe<(
+    & { results: Array<(
       { __typename?: 'Release' }
-      & { artists: Array<Maybe<(
+      & { artists: Array<(
         { __typename?: 'Artist' }
         & Pick<IArtist, 'id' | 'name'>
-      )>>, genres: Array<Maybe<(
+      )>, genres: Array<(
         { __typename?: 'Collection' }
         & Pick<ICollection, 'id' | 'name'>
-      )>> }
+      )> }
       & IReleaseFieldsFragment
-    )>> }
-  )> }
+    )> }
+  ) }
 );
 
 export type IPlaylistsFavoriteTrackMutationVariables = Exact<{
@@ -634,21 +634,21 @@ export type IPlaylistsFavoriteTrackMutationVariables = Exact<{
 
 export type IPlaylistsFavoriteTrackMutation = (
   { __typename?: 'Mutation' }
-  & { createPlaylistEntry: Maybe<(
+  & { createPlaylistEntry: (
     { __typename?: 'PlaylistEntry' }
     & Pick<IPlaylistEntry, 'id'>
     & { playlist: (
       { __typename?: 'Playlist' }
       & Pick<IPlaylist, 'id' | 'numTracks'>
-      & { entries: Array<Maybe<(
+      & { entries: Array<(
         { __typename?: 'PlaylistEntry' }
         & Pick<IPlaylistEntry, 'id'>
-      )>> }
+      )> }
     ), track: (
       { __typename?: 'Track' }
       & Pick<ITrack, 'id' | 'favorited'>
     ) }
-  )> }
+  ) }
 );
 
 export type IPlaylistsUnfavoriteTrackMutationVariables = Exact<{
@@ -658,36 +658,36 @@ export type IPlaylistsUnfavoriteTrackMutationVariables = Exact<{
 
 export type IPlaylistsUnfavoriteTrackMutation = (
   { __typename?: 'Mutation' }
-  & { delPlaylistEntries: Maybe<(
+  & { delPlaylistEntries: (
     { __typename?: 'PlaylistAndTrack' }
     & { playlist: (
       { __typename?: 'Playlist' }
       & Pick<IPlaylist, 'id' | 'numTracks'>
-      & { entries: Array<Maybe<(
+      & { entries: Array<(
         { __typename?: 'PlaylistEntry' }
         & Pick<IPlaylistEntry, 'id'>
-      )>> }
+      )> }
     ), track: (
       { __typename?: 'Track' }
       & Pick<ITrack, 'id' | 'favorited'>
     ) }
-  )> }
+  ) }
 );
 
 export type ICollectionChooserFetchCollectionsQueryVariables = Exact<{
-  types: Maybe<Array<Maybe<ICollectionType>> | Maybe<ICollectionType>>;
+  types: Maybe<Array<ICollectionType> | ICollectionType>;
 }>;
 
 
 export type ICollectionChooserFetchCollectionsQuery = (
   { __typename?: 'Query' }
-  & { collections: Maybe<(
+  & { collections: (
     { __typename?: 'Collections' }
-    & { results: Array<Maybe<(
+    & { results: Array<(
       { __typename?: 'Collection' }
       & ICollectionFieldsFragment
-    )>> }
-  )> }
+    )> }
+  ) }
 );
 
 export type ICollectionChooserUpdateCollectionStarredMutationVariables = Exact<{
@@ -698,10 +698,10 @@ export type ICollectionChooserUpdateCollectionStarredMutationVariables = Exact<{
 
 export type ICollectionChooserUpdateCollectionStarredMutation = (
   { __typename?: 'Mutation' }
-  & { updateCollection: Maybe<(
+  & { updateCollection: (
     { __typename?: 'Collection' }
     & Pick<ICollection, 'id' | 'starred'>
-  )> }
+  ) }
 );
 
 export type IUserFieldsFragment = (
@@ -747,34 +747,34 @@ export type ITrackFieldsFragment = (
   & { release: (
     { __typename?: 'Release' }
     & Pick<IRelease, 'id' | 'imageId'>
-  ), artists: Array<Maybe<(
+  ), artists: Array<(
     { __typename?: 'TrackArtist' }
     & Pick<ITrackArtist, 'role'>
     & { artist: (
       { __typename?: 'Artist' }
       & Pick<IArtist, 'id' | 'name'>
     ) }
-  )>> }
+  )> }
 );
 
 export type IFullReleaseFieldsFragment = (
   { __typename?: 'Release' }
-  & { artists: Array<Maybe<(
+  & { artists: Array<(
     { __typename?: 'Artist' }
     & Pick<IArtist, 'id' | 'name'>
-  )>>, collages: Array<Maybe<(
+  )>, collages: Array<(
     { __typename?: 'Collection' }
     & Pick<ICollection, 'id' | 'name'>
-  )>>, labels: Array<Maybe<(
+  )>, labels: Array<(
     { __typename?: 'Collection' }
     & Pick<ICollection, 'id' | 'name'>
-  )>>, genres: Array<Maybe<(
+  )>, genres: Array<(
     { __typename?: 'Collection' }
     & Pick<ICollection, 'id' | 'name'>
-  )>>, tracks: Array<Maybe<(
+  )>, tracks: Array<(
     { __typename?: 'Track' }
     & ITrackFieldsFragment
-  )>> }
+  )> }
   & IReleaseFieldsFragment
 );
 
@@ -785,10 +785,10 @@ export type IArtistsFetchArtistQueryVariables = Exact<{
 
 export type IArtistsFetchArtistQuery = (
   { __typename?: 'Query' }
-  & { artist: Maybe<(
+  & { artist: (
     { __typename?: 'Artist' }
     & IArtistFieldsFragment
-  )> }
+  ) }
 );
 
 export type IArtistChooserFetchArtistsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -796,13 +796,13 @@ export type IArtistChooserFetchArtistsQueryVariables = Exact<{ [key: string]: ne
 
 export type IArtistChooserFetchArtistsQuery = (
   { __typename?: 'Query' }
-  & { artists: Maybe<(
+  & { artists: (
     { __typename?: 'Artists' }
-    & { results: Array<Maybe<(
+    & { results: Array<(
       { __typename?: 'Artist' }
       & IArtistFieldsFragment
-    )>> }
-  )> }
+    )> }
+  ) }
 );
 
 export type IArtistChooserUpdateArtistStarredMutationVariables = Exact<{
@@ -813,10 +813,10 @@ export type IArtistChooserUpdateArtistStarredMutationVariables = Exact<{
 
 export type IArtistChooserUpdateArtistStarredMutation = (
   { __typename?: 'Mutation' }
-  & { updateArtist: Maybe<(
+  & { updateArtist: (
     { __typename?: 'Artist' }
     & Pick<IArtist, 'id' | 'starred'>
-  )> }
+  ) }
 );
 
 export type ICollageFetchCollageQueryVariables = Exact<{
@@ -826,10 +826,10 @@ export type ICollageFetchCollageQueryVariables = Exact<{
 
 export type ICollageFetchCollageQuery = (
   { __typename?: 'Query' }
-  & { collection: Maybe<(
+  & { collection: (
     { __typename?: 'Collection' }
     & ICollectionFieldsFragment
-  )> }
+  ) }
 );
 
 export type IRecentlyAddedFetchReleasesQueryVariables = Exact<{ [key: string]: never; }>;
@@ -837,20 +837,20 @@ export type IRecentlyAddedFetchReleasesQueryVariables = Exact<{ [key: string]: n
 
 export type IRecentlyAddedFetchReleasesQuery = (
   { __typename?: 'Query' }
-  & { releases: Maybe<(
+  & { releases: (
     { __typename?: 'Releases' }
-    & { results: Array<Maybe<(
+    & { results: Array<(
       { __typename?: 'Release' }
-      & { artists: Array<Maybe<(
+      & { artists: Array<(
         { __typename?: 'Artist' }
         & Pick<IArtist, 'id' | 'name'>
-      )>>, genres: Array<Maybe<(
+      )>, genres: Array<(
         { __typename?: 'Collection' }
         & Pick<ICollection, 'id' | 'name'>
-      )>> }
+      )> }
       & IReleaseFieldsFragment
-    )>> }
-  )> }
+    )> }
+  ) }
 );
 
 export type IGenresFetchGenreQueryVariables = Exact<{
@@ -860,10 +860,10 @@ export type IGenresFetchGenreQueryVariables = Exact<{
 
 export type IGenresFetchGenreQuery = (
   { __typename?: 'Query' }
-  & { collection: Maybe<(
+  & { collection: (
     { __typename?: 'Collection' }
     & ICollectionFieldsFragment
-  )> }
+  ) }
 );
 
 export type IInvitesFetchInvitesQueryVariables = Exact<{ [key: string]: never; }>;
@@ -871,14 +871,14 @@ export type IInvitesFetchInvitesQueryVariables = Exact<{ [key: string]: never; }
 
 export type IInvitesFetchInvitesQuery = (
   { __typename?: 'Query' }
-  & { invites: Maybe<(
+  & { invites: (
     { __typename?: 'Invites' }
     & Pick<IInvites, 'total'>
-    & { results: Array<Maybe<(
+    & { results: Array<(
       { __typename?: 'Invite' }
       & IInviteFieldsFragment
-    )>> }
-  )> }
+    )> }
+  ) }
 );
 
 export type IInvitesCreateInviteMutationVariables = Exact<{ [key: string]: never; }>;
@@ -886,10 +886,10 @@ export type IInvitesCreateInviteMutationVariables = Exact<{ [key: string]: never
 
 export type IInvitesCreateInviteMutation = (
   { __typename?: 'Mutation' }
-  & { createInvite: Maybe<(
+  & { createInvite: (
     { __typename?: 'Invite' }
     & IInviteFieldsFragment
-  )> }
+  ) }
 );
 
 export type ILabelFetchLabelQueryVariables = Exact<{
@@ -899,10 +899,10 @@ export type ILabelFetchLabelQueryVariables = Exact<{
 
 export type ILabelFetchLabelQuery = (
   { __typename?: 'Query' }
-  & { collection: Maybe<(
+  & { collection: (
     { __typename?: 'Collection' }
     & ICollectionFieldsFragment
-  )> }
+  ) }
 );
 
 export type INowPlayingInfoFetchReleaseQueryVariables = Exact<{
@@ -912,26 +912,26 @@ export type INowPlayingInfoFetchReleaseQueryVariables = Exact<{
 
 export type INowPlayingInfoFetchReleaseQuery = (
   { __typename?: 'Query' }
-  & { release: Maybe<(
+  & { release: (
     { __typename?: 'Release' }
     & IFullReleaseFieldsFragment
-  )> }
+  ) }
 );
 
 export type IPlaylistChooserFetchPlaylistsQueryVariables = Exact<{
-  types: Maybe<Array<Maybe<IPlaylistType>> | Maybe<IPlaylistType>>;
+  types: Maybe<Array<IPlaylistType> | IPlaylistType>;
 }>;
 
 
 export type IPlaylistChooserFetchPlaylistsQuery = (
   { __typename?: 'Query' }
-  & { playlists: Maybe<(
+  & { playlists: (
     { __typename?: 'Playlists' }
-    & { results: Array<Maybe<(
+    & { results: Array<(
       { __typename?: 'Playlist' }
       & IPlaylistFieldsFragment
-    )>> }
-  )> }
+    )> }
+  ) }
 );
 
 export type IPlaylistChooserUpdatePlaylistStarredMutationVariables = Exact<{
@@ -942,10 +942,10 @@ export type IPlaylistChooserUpdatePlaylistStarredMutationVariables = Exact<{
 
 export type IPlaylistChooserUpdatePlaylistStarredMutation = (
   { __typename?: 'Mutation' }
-  & { updatePlaylist: Maybe<(
+  & { updatePlaylist: (
     { __typename?: 'Playlist' }
     & Pick<IPlaylist, 'id' | 'starred'>
-  )> }
+  ) }
 );
 
 export type IPlaylistsFetchPlaylistQueryVariables = Exact<{
@@ -955,10 +955,10 @@ export type IPlaylistsFetchPlaylistQueryVariables = Exact<{
 
 export type IPlaylistsFetchPlaylistQuery = (
   { __typename?: 'Query' }
-  & { playlist: Maybe<(
+  & { playlist: (
     { __typename?: 'Playlist' }
     & IPlaylistFieldsFragment
-  )> }
+  ) }
 );
 
 export type IPlaylistsFetchTracksQueryVariables = Exact<{
@@ -968,18 +968,18 @@ export type IPlaylistsFetchTracksQueryVariables = Exact<{
 
 export type IPlaylistsFetchTracksQuery = (
   { __typename?: 'Query' }
-  & { playlist: Maybe<(
+  & { playlist: (
     { __typename?: 'Playlist' }
     & Pick<IPlaylist, 'id'>
-    & { entries: Array<Maybe<(
+    & { entries: Array<(
       { __typename?: 'PlaylistEntry' }
       & Pick<IPlaylistEntry, 'id'>
       & { track: (
         { __typename?: 'Track' }
         & ITrackFieldsFragment
       ) }
-    )>> }
-  )> }
+    )> }
+  ) }
 );
 
 export type IInFavoritesAddReleaseToCollectionMutationVariables = Exact<{
@@ -990,7 +990,7 @@ export type IInFavoritesAddReleaseToCollectionMutationVariables = Exact<{
 
 export type IInFavoritesAddReleaseToCollectionMutation = (
   { __typename?: 'Mutation' }
-  & { addReleaseToCollection: Maybe<(
+  & { addReleaseToCollection: (
     { __typename?: 'CollectionAndRelease' }
     & { collection: (
       { __typename?: 'Collection' }
@@ -998,18 +998,18 @@ export type IInFavoritesAddReleaseToCollectionMutation = (
     ), release: (
       { __typename?: 'Release' }
       & Pick<IRelease, 'id' | 'inInbox' | 'inFavorites'>
-      & { genres: Array<Maybe<(
+      & { genres: Array<(
         { __typename?: 'Collection' }
         & Pick<ICollection, 'id' | 'name'>
-      )>>, labels: Array<Maybe<(
+      )>, labels: Array<(
         { __typename?: 'Collection' }
         & Pick<ICollection, 'id' | 'name'>
-      )>>, collages: Array<Maybe<(
+      )>, collages: Array<(
         { __typename?: 'Collection' }
         & Pick<ICollection, 'id' | 'name'>
-      )>> }
+      )> }
     ) }
-  )> }
+  ) }
 );
 
 export type IInFavoritesDelReleaseFromCollectionMutationVariables = Exact<{
@@ -1020,7 +1020,7 @@ export type IInFavoritesDelReleaseFromCollectionMutationVariables = Exact<{
 
 export type IInFavoritesDelReleaseFromCollectionMutation = (
   { __typename?: 'Mutation' }
-  & { delReleaseFromCollection: Maybe<(
+  & { delReleaseFromCollection: (
     { __typename?: 'CollectionAndRelease' }
     & { collection: (
       { __typename?: 'Collection' }
@@ -1028,18 +1028,18 @@ export type IInFavoritesDelReleaseFromCollectionMutation = (
     ), release: (
       { __typename?: 'Release' }
       & Pick<IRelease, 'id' | 'inInbox' | 'inFavorites'>
-      & { genres: Array<Maybe<(
+      & { genres: Array<(
         { __typename?: 'Collection' }
         & Pick<ICollection, 'id' | 'name'>
-      )>>, labels: Array<Maybe<(
+      )>, labels: Array<(
         { __typename?: 'Collection' }
         & Pick<ICollection, 'id' | 'name'>
-      )>>, collages: Array<Maybe<(
+      )>, collages: Array<(
         { __typename?: 'Collection' }
         & Pick<ICollection, 'id' | 'name'>
-      )>> }
+      )> }
     ) }
-  )> }
+  ) }
 );
 
 export type IInInboxAddReleaseToCollectionMutationVariables = Exact<{
@@ -1050,7 +1050,7 @@ export type IInInboxAddReleaseToCollectionMutationVariables = Exact<{
 
 export type IInInboxAddReleaseToCollectionMutation = (
   { __typename?: 'Mutation' }
-  & { addReleaseToCollection: Maybe<(
+  & { addReleaseToCollection: (
     { __typename?: 'CollectionAndRelease' }
     & { collection: (
       { __typename?: 'Collection' }
@@ -1058,18 +1058,18 @@ export type IInInboxAddReleaseToCollectionMutation = (
     ), release: (
       { __typename?: 'Release' }
       & Pick<IRelease, 'id' | 'inInbox' | 'inFavorites'>
-      & { genres: Array<Maybe<(
+      & { genres: Array<(
         { __typename?: 'Collection' }
         & Pick<ICollection, 'id' | 'name'>
-      )>>, labels: Array<Maybe<(
+      )>, labels: Array<(
         { __typename?: 'Collection' }
         & Pick<ICollection, 'id' | 'name'>
-      )>>, collages: Array<Maybe<(
+      )>, collages: Array<(
         { __typename?: 'Collection' }
         & Pick<ICollection, 'id' | 'name'>
-      )>> }
+      )> }
     ) }
-  )> }
+  ) }
 );
 
 export type IInInboxDelReleaseFromCollectionMutationVariables = Exact<{
@@ -1080,7 +1080,7 @@ export type IInInboxDelReleaseFromCollectionMutationVariables = Exact<{
 
 export type IInInboxDelReleaseFromCollectionMutation = (
   { __typename?: 'Mutation' }
-  & { delReleaseFromCollection: Maybe<(
+  & { delReleaseFromCollection: (
     { __typename?: 'CollectionAndRelease' }
     & { collection: (
       { __typename?: 'Collection' }
@@ -1088,18 +1088,18 @@ export type IInInboxDelReleaseFromCollectionMutation = (
     ), release: (
       { __typename?: 'Release' }
       & Pick<IRelease, 'id' | 'inInbox' | 'inFavorites'>
-      & { genres: Array<Maybe<(
+      & { genres: Array<(
         { __typename?: 'Collection' }
         & Pick<ICollection, 'id' | 'name'>
-      )>>, labels: Array<Maybe<(
+      )>, labels: Array<(
         { __typename?: 'Collection' }
         & Pick<ICollection, 'id' | 'name'>
-      )>>, collages: Array<Maybe<(
+      )>, collages: Array<(
         { __typename?: 'Collection' }
         & Pick<ICollection, 'id' | 'name'>
-      )>> }
+      )> }
     ) }
-  )> }
+  ) }
 );
 
 export type IReleaseUpdateReleaseRatingMutationVariables = Exact<{
@@ -1110,10 +1110,10 @@ export type IReleaseUpdateReleaseRatingMutationVariables = Exact<{
 
 export type IReleaseUpdateReleaseRatingMutation = (
   { __typename?: 'Mutation' }
-  & { updateRelease: Maybe<(
+  & { updateRelease: (
     { __typename?: 'Release' }
     & Pick<IRelease, 'id' | 'rating'>
-  )> }
+  ) }
 );
 
 export type IReleaseFetchReleaseQueryVariables = Exact<{
@@ -1123,10 +1123,10 @@ export type IReleaseFetchReleaseQueryVariables = Exact<{
 
 export type IReleaseFetchReleaseQuery = (
   { __typename?: 'Query' }
-  & { release: Maybe<(
+  & { release: (
     { __typename?: 'Release' }
     & IFullReleaseFieldsFragment
-  )> }
+  ) }
 );
 
 export type ISettingsFetchUserQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1134,10 +1134,10 @@ export type ISettingsFetchUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ISettingsFetchUserQuery = (
   { __typename?: 'Query' }
-  & { user: Maybe<(
+  & { user: (
     { __typename?: 'User' }
     & IUserFieldsFragment
-  )> }
+  ) }
 );
 
 export type ISettingsUpdateUserMutationVariables = Exact<{
@@ -1147,10 +1147,10 @@ export type ISettingsUpdateUserMutationVariables = Exact<{
 
 export type ISettingsUpdateUserMutation = (
   { __typename?: 'Mutation' }
-  & { updateUser: Maybe<(
+  & { updateUser: (
     { __typename?: 'User' }
     & Pick<IUser, 'id' | 'nickname'>
-  )> }
+  ) }
 );
 
 export type IYearsFetchReleaseYearsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1311,7 +1311,7 @@ export function refetchHeaderFetchUserQuery(variables?: IHeaderFetchUserQueryVar
       return { query: HeaderFetchUserDocument, variables: variables }
     }
 export const PagedReleasesFetchReleasesDocument = gql`
-    query PagedReleasesFetchReleases($search: String, $collectionIds: [Int], $artistIds: [Int], $releaseTypes: [ReleaseType], $years: [Int], $ratings: [Int], $page: Int, $perPage: Int, $sort: ReleaseSort, $asc: Boolean) {
+    query PagedReleasesFetchReleases($search: String, $collectionIds: [Int!], $artistIds: [Int!], $releaseTypes: [ReleaseType!], $years: [Int!], $ratings: [Int!], $page: Int, $perPage: Int, $sort: ReleaseSort, $asc: Boolean) {
   releases(
     search: $search
     collectionIds: $collectionIds
@@ -1467,7 +1467,7 @@ export type PlaylistsUnfavoriteTrackMutationHookResult = ReturnType<typeof usePl
 export type PlaylistsUnfavoriteTrackMutationResult = Apollo.MutationResult<IPlaylistsUnfavoriteTrackMutation>;
 export type PlaylistsUnfavoriteTrackMutationOptions = Apollo.BaseMutationOptions<IPlaylistsUnfavoriteTrackMutation, IPlaylistsUnfavoriteTrackMutationVariables>;
 export const CollectionChooserFetchCollectionsDocument = gql`
-    query CollectionChooserFetchCollections($types: [CollectionType]) {
+    query CollectionChooserFetchCollections($types: [CollectionType!]) {
   collections(types: $types) {
     results {
       ...CollectionFields
@@ -1925,7 +1925,7 @@ export function refetchNowPlayingInfoFetchReleaseQuery(variables?: INowPlayingIn
       return { query: NowPlayingInfoFetchReleaseDocument, variables: variables }
     }
 export const PlaylistChooserFetchPlaylistsDocument = gql`
-    query PlaylistChooserFetchPlaylists($types: [PlaylistType]) {
+    query PlaylistChooserFetchPlaylists($types: [PlaylistType!]) {
   playlists(types: $types) {
     results {
       ...PlaylistFields

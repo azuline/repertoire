@@ -2,7 +2,7 @@ scalar PosixTime
 
 type Query {
   "Fetch the currently authenticated user."
-  user: User
+  user: User!
 
   "Search artists."
   artists(
@@ -18,13 +18,13 @@ type Query {
     ignore `page`).
     """
     perPage: Int
-  ): Artists
+  ): Artists!
 
   "Fetch an artist by ID."
-  artist(id: Int!): Artist
+  artist(id: Int!): Artist!
 
   "Fetch an artist by name."
-  artistFromName(name: String!): Artist
+  artistFromName(name: String!): Artist!
 
   "Search collections."
   collections(
@@ -34,7 +34,7 @@ type Query {
     """
     search: String
     "If provided, only collections of these type will be returned."
-    types: [CollectionType]
+    types: [CollectionType!]
     "Which page of collections to return."
     page: Int
     """
@@ -42,16 +42,16 @@ type Query {
     (and ignore `page`).
     """
     perPage: Int
-  ): Collections
+  ): Collections!
 
   "Fetch a collection by ID."
-  collection(id: Int!): Collection
+  collection(id: Int!): Collection!
 
   "Fetch a collection by name and type."
   collectionFromNameAndType(
     name: String!
     type: CollectionType!
-  ): Collection
+  ): Collection!
 
   "Fetch invites."
   invites(
@@ -67,10 +67,10 @@ type Query {
     The number of invites per-page. Leave null to return all invites.
     """
     perPage: Int
-  ): Invites
+  ): Invites!
 
   "Fetch invites by ID."
-  invite(id: Int!): Invite
+  invite(id: Int!): Invite!
 
   "Search playlists."
   playlists(
@@ -80,7 +80,7 @@ type Query {
     """
     search: String
     "If provided, only playlists of these type will be returned."
-    types: [PlaylistType]
+    types: [PlaylistType!]
     "Which page of playlists to return."
     page: Int
     """
@@ -88,16 +88,16 @@ type Query {
     ignore `page`).
     """
     perPage: Int
-  ): Playlists
+  ): Playlists!
 
   "Fetch a playlist by ID."
-  playlist(id: Int!): Playlist
+  playlist(id: Int!): Playlist!
 
   "Fetch a playlist by name and type."
   playlistFromNameAndType(
     name: String!
     type: PlaylistType!
-  ): Playlist
+  ): Playlist!
 
   "Search releases."
   releases(
@@ -111,27 +111,27 @@ type Query {
     list. For a release to match, it must be in all collections in this
     list.
     """
-    collectionIds: [Int]
+    collectionIds: [Int!]
     """
     A list of artist IDs. We match releases by the artists in this list.
     For a release to match, all artists in this list must have participated.
     """
-    artistIds: [Int]
+    artistIds: [Int!]
     """
     A list of release types. Filter out releases that do not match one of
     these release types.
     """
-    releaseTypes: [ReleaseType]
+    releaseTypes: [ReleaseType!]
     """
     A list of years. Filter out releases that were not released on one of these
     years.
     """
-    years: [Int]
+    years: [Int!]
     """
     A list of release types. Filter out releases that do not match one
     of these ratings.
     """
-    ratings: [Int]
+    ratings: [Int!]
     "Which page of releases to return."
     page: Int
     """
@@ -143,10 +143,10 @@ type Query {
     sort: ReleaseSort
     "If true, sort in ascending order. If false, descending."
     asc: Boolean
-  ): Releases
+  ): Releases!
 
   "Fetch a release by ID."
-  release(id: Int!): Release
+  release(id: Int!): Release!
 
   "Search tracks."
   tracks(
@@ -160,17 +160,17 @@ type Query {
     list. For a track to match, it must be in all playlists in this
     list.
     """
-    playlistIds: [Int]
+    playlistIds: [Int!]
     """
     A list of artist IDs. We match track by the artists in this list. For a
     track to match, all artists in this list must have participated.
     """
-    artistIds: [Int]
+    artistIds: [Int!]
     """
     A list of years. Filter out tracks that were not released on one of these
     years.
     """
-    years: [Int]
+    years: [Int!]
     "Which page of tracks to return."
     page: Int
     """
@@ -184,101 +184,101 @@ type Query {
     asc: Boolean
   ): Tracks
   "Fetch a track by ID."
-  track(id: Int!): Track
+  track(id: Int!): Track!
 
   "Fetch all existing release years sorted in descending order."
-  releaseYears: [Int]
+  releaseYears: [Int!]!
 }
 
 type Mutation {
   "Update the authenticated user."
   updateUser(
     nickname: String
-  ): User
+  ): User!
 
   """
   Generate a new authentication token for the current user. Invalidate the
   old one.
   """
-  newToken: Token
+  newToken: Token!
 
   createArtist(
     name: String!
     starred: Boolean
-  ): Artist
+  ): Artist!
 
   updateArtist(
     id: Int!
     name: String
     starred: Boolean
-  ): Artist
+  ): Artist!
 
   createCollection(
     name: String!
     type: CollectionType!
     starred: Boolean
-  ): Collection
+  ): Collection!
 
   updateCollection(
     id: Int!
     name: String
     starred: Boolean
-  ): Collection
+  ): Collection!
 
   addReleaseToCollection(
     collectionId: Int!
     releaseId: Int!
-  ): CollectionAndRelease
+  ): CollectionAndRelease!
 
   delReleaseFromCollection(
     collectionId: Int!
     releaseId: Int!
-  ): CollectionAndRelease
+  ): CollectionAndRelease!
 
-  createInvite: Invite
+  createInvite: Invite!
 
   createPlaylist(
     name: String!
     type: PlaylistType!
     starred: Boolean
-  ): Playlist
+  ): Playlist!
 
   updatePlaylist(
     id: Int!
     name: String
     starred: Boolean
-  ): Playlist
+  ): Playlist!
 
   createPlaylistEntry(
     playlistId: Int!
     trackId: Int!
-  ): PlaylistEntry
+  ): PlaylistEntry!
 
   delPlaylistEntry(
     id: Int!
-  ): PlaylistAndTrack
+  ): PlaylistAndTrack!
 
   delPlaylistEntries(
     playlistId: Int!
     trackId: Int!
-  ): PlaylistAndTrack
+  ): PlaylistAndTrack!
 
   updatePlaylistEntry(
     id: Int!
     position: Int!
-  ): PlaylistEntry
+  ): PlaylistEntry!
 
   createRelease(
     title: String!
     "A list of artist IDs--the album artists on the release."
-    artistIds: [Int]!
+    artistIds: [Int!]!
     releaseType: ReleaseType!
     releaseYear: Int!
     "A date in YYYY-MM-DD format."
     releaseDate: String
     "A rating on the interval [1, 10]."
     rating: Int
-  ): Release
+  ): Release!
 
   updateRelease(
     id: Int!
@@ -289,17 +289,17 @@ type Mutation {
     releaseDate: String
     "A rating--pass 0 to delete the existing rating."
     rating: Int
-  ): Release
+  ): Release!
 
   addArtistToRelease(
     releaseId: Int!
     artistId: Int!
-  ): ReleaseAndArtist
+  ): ReleaseAndArtist!
 
   delArtistFromRelease(
     releaseId: Int!
     artistId: Int!
-  ): ReleaseAndArtist
+  ): ReleaseAndArtist!
 
   updateTrack(
     id: Int!
@@ -307,19 +307,19 @@ type Mutation {
     releaseId: Int
     trackNumber: String
     discNumber: String
-  ): Track
+  ): Track!
 
   addArtistToTrack(
     trackId: Int!
     artistId: Int!
     role: ArtistRole!
-  ): TrackAndArtist
+  ): TrackAndArtist!
 
   delArtistFromTrack(
     trackId: Int!
     artistId: Int!
     role: ArtistRole!
-  ): TrackAndArtist
+  ): TrackAndArtist!
 }
 
 type Artist {
@@ -327,19 +327,19 @@ type Artist {
   name: String!
   starred: Boolean!
   numReleases: Int!
-  "The image ID of one of the artist's releases. Potentially null."
+  "The image ID of one of the artist's releases."
   imageId: Int
 
-  releases: [Release]!
+  releases: [Release!]!
   "The top genres of the artist, compiled from their releases."
-  topGenres: [TopGenre]!
+  topGenres: [TopGenre!]!
 }
 
 type Artists {
   "The total number of artists matching the query across all pages."
   total: Int!
   "The artists on the current page."
-  results: [Artist]!
+  results: [Artist!]!
 }
 
 type Collection {
@@ -349,20 +349,20 @@ type Collection {
   type: CollectionType!
   numReleases: Int!
   "The last datetime a release was added to the collection."
-  lastUpdatedOn: PosixTime
-  "The image ID of a release in the collection. Potentially null."
+  lastUpdatedOn: PosixTime!
+  "The image ID of a release in the collection."
   imageId: Int
 
-  releases: [Release]!
+  releases: [Release!]!
   "The top genres of the collection, compiled from its releases."
-  topGenres: [TopGenre]!
+  topGenres: [TopGenre!]!
 }
 
 type Collections {
   "The total number of collections matching the query across all pages."
   total: Int!
   "The collections on the current page."
-  results: [Collection]!
+  results: [Collection!]!
 }
 
 type Invite {
@@ -378,7 +378,7 @@ type Invites {
   "The total number of invites matching the query across all pages."
   total: Int!
   "The invites on the current page."
-  results: [Invite]!
+  results: [Invite!]!
 }
 
 type Playlist {
@@ -388,20 +388,20 @@ type Playlist {
   type: PlaylistType!
   numTracks: Int!
   "The last datetime a release was added to the playlist."
-  lastUpdatedOn: PosixTime
+  lastUpdatedOn: PosixTime!
   "The image ID of a track in the playlst. Potentially null."
   imageId: Int
 
-  entries: [PlaylistEntry]!
+  entries: [PlaylistEntry!]!
   "The top genres of the playlist, compiled from its tracks."
-  topGenres: [TopGenre]!
+  topGenres: [TopGenre!]!
 }
 
 type Playlists {
   "The total number of playlists matching the query across all pages."
   total: Int!
   "The playlists on the current page."
-  results: [Playlist]!
+  results: [Playlist!]!
 }
 
 type PlaylistEntry {
@@ -423,28 +423,28 @@ type Release {
   inInbox: Boolean!
   inFavorites: Boolean!
   releaseYear: Int
-  "The date that the release was released in YYYY-MM-DD format (Optional)."
+  "The date that the release was released in YYYY-MM-DD format."
   releaseDate: String
   "The release rating, either null or an int on the interval [1, 10]."
   rating: Int
   numTracks: Int!
   "The total runtime (sum of track durations)."
   runtime: Int!
-  "The image ID of the release's cover image. Potentially null."
+  "The image ID of the release's cover image."
   imageId: Int
 
-  artists: [Artist]!
-  tracks: [Track]!
-  genres: [Collection]!
-  labels: [Collection]!
-  collages: [Collection]!
+  artists: [Artist!]!
+  tracks: [Track!]!
+  genres: [Collection!]!
+  labels: [Collection!]!
+  collages: [Collection!]!
 }
 
 type Releases {
   "The total number of releases matching the query across all pages."
   total: Int!
   "The releases on the current page."
-  results: [Release]!
+  results: [Release!]!
 }
 
 type Track {
@@ -457,14 +457,14 @@ type Track {
   favorited: Boolean!
 
   release: Release!
-  artists: [TrackArtist]!
+  artists: [TrackArtist!]!
 }
 
 type Tracks {
   "The total number of tracks matching the query across all pages."
   total: Int!
   "The tracks on the current page."
-  results: [Track]!
+  results: [Track!]!
 }
 
 type TrackArtist {

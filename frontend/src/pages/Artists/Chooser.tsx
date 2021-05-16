@@ -23,7 +23,7 @@ export const ArtistChooser: IArtistChooser = ({ active, className }) => {
     };
   };
 
-  if (!data || !data.artists || error || loading) {
+  if (!data || error || loading) {
     return null;
   }
 
