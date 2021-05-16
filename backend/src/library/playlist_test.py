@@ -66,11 +66,13 @@ def test_search_user(factory: Factory, db: Connection):
     ply1 = factory.playlist(type=PlaylistType.PERSONAL, user=usr, conn=db)
     ply2 = factory.playlist(type=PlaylistType.PERSONAL, user=usr, conn=db)
 
-    factory.playlist(type=PlaylistType.PERSONAL, user=unused_usr, conn=db)
-    factory.playlist(conn=db)
+    ply3 = factory.playlist(type=PlaylistType.PERSONAL, user=unused_usr, conn=db)
+    ply3 = factory.playlist(conn=db)
 
     plys = playlist.search(db, user_ids=[usr.id])
-    assert {p.id for p in plys} == {ply1.id, ply2.id}
+    ids = [p.id for p in plys]
+    assert all(p.id in ids for p in [ply1, ply2])
+    assert not any(p.id in ids for p in [ply3, ply3])
 
 
 def test_search_one(factory: Factory, db: Connection):

@@ -83,11 +83,13 @@ def test_search_user(factory: Factory, db: Connection):
     col1 = factory.collection(type=CollectionType.PERSONAL, user=usr, conn=db)
     col2 = factory.collection(type=CollectionType.PERSONAL, user=usr, conn=db)
 
-    factory.collection(type=CollectionType.PERSONAL, user=unused_usr, conn=db)
-    factory.collection(conn=db)
+    col3 = factory.collection(type=CollectionType.PERSONAL, user=unused_usr, conn=db)
+    col4 = factory.collection(conn=db)
 
     cols = collection.search(db, user_ids=[usr.id])
-    assert {p.id for p in cols} == {col1.id, col2.id}
+    ids = [c.id for c in cols]
+    assert all(c.id in ids for c in [col1, col2])
+    assert not any(c.id in ids for c in [col3, col4])
 
 
 def test_search_page(factory: Factory, db: Connection):
