@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import macrosPlugin from 'vite-plugin-babel-macros';
+import path from 'path';
 
 const backendHost = process.env.BACKEND_HOST ?? 'localhost';
 const proxyHost = `http://${backendHost}:5000`;
@@ -15,7 +16,7 @@ export default defineConfig({
   plugins: [reactRefresh(), macrosPlugin()],
   resolve: {
     alias: {
-      '~': './src',
+      '~': path.resolve(__dirname, './src'),
     },
   },
   server: {

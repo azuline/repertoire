@@ -96,7 +96,7 @@ class _Constants:
         try:
             return Path(os.getenv("BUILT_FRONTEND_DIR"))  # type: ignore
         except TypeError:
-            return BACKEND_ROOT.parent / "frontend" / "build"
+            return BACKEND_ROOT.parent / "frontend" / "dist"
 
 
 class Constants:
