@@ -25,13 +25,13 @@ snapshots['test_add_release_to_collection 1'] = {
                 'topGenres': [
                     {
                         'genre': {
-                            'id': 9
+                            'id': 11
                         },
                         'numMatches': 1
                     },
                     {
                         'genre': {
-                            'id': 10
+                            'id': 12
                         },
                         'numMatches': 1
                     }
@@ -52,21 +52,21 @@ snapshots['test_add_release_to_collection 1'] = {
                 ],
                 'collages': [
                     {
-                        'id': 3,
+                        'id': 5,
                         'name': 'Collage1'
                     },
                     {
-                        'id': 4,
+                        'id': 6,
                         'name': 'Collage2'
                     }
                 ],
                 'genres': [
                     {
-                        'id': 9,
+                        'id': 11,
                         'name': 'Genre1'
                     },
                     {
-                        'id': 10,
+                        'id': 12,
                         'name': 'Genre2'
                     }
                 ],
@@ -76,7 +76,7 @@ snapshots['test_add_release_to_collection 1'] = {
                 'inInbox': True,
                 'labels': [
                     {
-                        'id': 6,
+                        'id': 8,
                         'name': 'Label1'
                     }
                 ],
@@ -165,7 +165,7 @@ snapshots['test_add_release_to_collection_bad_release 1'] = {
 snapshots['test_collection 1'] = {
     'data': {
         'collection': {
-            'id': 3,
+            'id': 5,
             'lastUpdatedOn': 1577840461,
             'name': 'Collage1',
             'numReleases': 3,
@@ -187,13 +187,13 @@ snapshots['test_collection 1'] = {
             'topGenres': [
                 {
                     'genre': {
-                        'id': 9
+                        'id': 11
                     },
                     'numMatches': 3
                 },
                 {
                     'genre': {
-                        'id': 10
+                        'id': 12
                     },
                     'numMatches': 3
                 }
@@ -203,10 +203,10 @@ snapshots['test_collection 1'] = {
     }
 }
 
-snapshots['test_collection_from_name_and_type 1'] = {
+snapshots['test_collection_from_name_type_user 1'] = {
     'data': {
-        'collectionFromNameAndType': {
-            'id': 9,
+        'collectionFromNameTypeUser': {
+            'id': 11,
             'lastUpdatedOn': 1577840461,
             'name': 'Genre1',
             'numReleases': 3,
@@ -228,13 +228,13 @@ snapshots['test_collection_from_name_and_type 1'] = {
             'topGenres': [
                 {
                     'genre': {
-                        'id': 9
+                        'id': 11
                     },
                     'numMatches': 3
                 },
                 {
                     'genre': {
-                        'id': 10
+                        'id': 12
                     },
                     'numMatches': 3
                 }
@@ -244,7 +244,7 @@ snapshots['test_collection_from_name_and_type 1'] = {
     }
 }
 
-snapshots['test_collection_from_name_and_type_not_found 1'] = {
+snapshots['test_collection_from_name_type_user_not_found 1'] = {
     'data': None,
     'errors': [
         {
@@ -254,51 +254,9 @@ snapshots['test_collection_from_name_and_type_not_found 1'] = {
                     'line': 3
                 }
             ],
-            'message': 'Collection "AAFEFOPAIEFPAJF" of type COLLAGE not found.',
+            'message': 'Collection "AAFEFOPAIEFPAJF" of type COLLAGE and user None not found.',
             'path': [
-                'collectionFromNameAndType'
-            ],
-            'type': 'NotFound'
-        }
-    ]
-}
-
-snapshots['test_collection_from_name_type_user 1'] = {
-    'data': {
-        'collectionFromNameAndType': None
-    },
-    'errors': [
-        {
-            'locations': [
-                {
-                    'column': 13,
-                    'line': 3
-                }
-            ],
-            'message': 'Collection "Genre1" of type GENRE not found.',
-            'path': [
-                'collectionFromNameAndType'
-            ],
-            'type': 'NotFound'
-        }
-    ]
-}
-
-snapshots['test_collection_from_name_type_user_not_found 1'] = {
-    'data': {
-        'collectionFromNameAndType': None
-    },
-    'errors': [
-        {
-            'locations': [
-                {
-                    'column': 13,
-                    'line': 3
-                }
-            ],
-            'message': 'Collection "AAFEFOPAIEFPAJF" of type COLLAGE not found.',
-            'path': [
-                'collectionFromNameAndType'
+                'collectionFromNameTypeUser'
             ],
             'type': 'NotFound'
         }
@@ -341,385 +299,7 @@ snapshots['test_collections 1'] = {
                     'type': 'SYSTEM'
                 },
                 {
-                    'id': 1,
-                    'lastUpdatedOn': 1577840461,
-                    'name': 'Inbox',
-                    'numReleases': 0,
-                    'releases': [
-                    ],
-                    'starred': True,
-                    'topGenres': [
-                    ],
-                    'type': 'SYSTEM'
-                },
-                {
-                    'id': 3,
-                    'lastUpdatedOn': 1577840461,
-                    'name': 'Collage1',
-                    'numReleases': 3,
-                    'releases': [
-                        {
-                            'id': 2,
-                            'title': 'Release1'
-                        },
-                        {
-                            'id': 3,
-                            'title': 'Release2'
-                        },
-                        {
-                            'id': 4,
-                            'title': 'Release3'
-                        }
-                    ],
-                    'starred': False,
-                    'topGenres': [
-                        {
-                            'genre': {
-                                'id': 9
-                            },
-                            'numMatches': 3
-                        },
-                        {
-                            'genre': {
-                                'id': 10
-                            },
-                            'numMatches': 3
-                        }
-                    ],
-                    'type': 'COLLAGE'
-                },
-                {
                     'id': 4,
-                    'lastUpdatedOn': 1577840461,
-                    'name': 'Collage2',
-                    'numReleases': 1,
-                    'releases': [
-                        {
-                            'id': 2,
-                            'title': 'Release1'
-                        }
-                    ],
-                    'starred': False,
-                    'topGenres': [
-                        {
-                            'genre': {
-                                'id': 9
-                            },
-                            'numMatches': 1
-                        },
-                        {
-                            'genre': {
-                                'id': 10
-                            },
-                            'numMatches': 1
-                        }
-                    ],
-                    'type': 'COLLAGE'
-                },
-                {
-                    'id': 5,
-                    'lastUpdatedOn': 1577840461,
-                    'name': 'Collage3',
-                    'numReleases': 0,
-                    'releases': [
-                    ],
-                    'starred': False,
-                    'topGenres': [
-                    ],
-                    'type': 'COLLAGE'
-                },
-                {
-                    'id': 6,
-                    'lastUpdatedOn': 1577840461,
-                    'name': 'Label1',
-                    'numReleases': 2,
-                    'releases': [
-                        {
-                            'id': 2,
-                            'title': 'Release1'
-                        },
-                        {
-                            'id': 3,
-                            'title': 'Release2'
-                        }
-                    ],
-                    'starred': False,
-                    'topGenres': [
-                        {
-                            'genre': {
-                                'id': 9
-                            },
-                            'numMatches': 2
-                        },
-                        {
-                            'genre': {
-                                'id': 10
-                            },
-                            'numMatches': 2
-                        }
-                    ],
-                    'type': 'LABEL'
-                },
-                {
-                    'id': 7,
-                    'lastUpdatedOn': 1577840461,
-                    'name': 'Label2',
-                    'numReleases': 2,
-                    'releases': [
-                        {
-                            'id': 4,
-                            'title': 'Release3'
-                        },
-                        {
-                            'id': 5,
-                            'title': 'Release4'
-                        }
-                    ],
-                    'starred': False,
-                    'topGenres': [
-                        {
-                            'genre': {
-                                'id': 9
-                            },
-                            'numMatches': 1
-                        },
-                        {
-                            'genre': {
-                                'id': 10
-                            },
-                            'numMatches': 1
-                        },
-                        {
-                            'genre': {
-                                'id': 11
-                            },
-                            'numMatches': 1
-                        }
-                    ],
-                    'type': 'LABEL'
-                },
-                {
-                    'id': 8,
-                    'lastUpdatedOn': 1577840461,
-                    'name': 'Label3',
-                    'numReleases': 0,
-                    'releases': [
-                    ],
-                    'starred': False,
-                    'topGenres': [
-                    ],
-                    'type': 'LABEL'
-                },
-                {
-                    'id': 9,
-                    'lastUpdatedOn': 1577840461,
-                    'name': 'Genre1',
-                    'numReleases': 3,
-                    'releases': [
-                        {
-                            'id': 2,
-                            'title': 'Release1'
-                        },
-                        {
-                            'id': 3,
-                            'title': 'Release2'
-                        },
-                        {
-                            'id': 4,
-                            'title': 'Release3'
-                        }
-                    ],
-                    'starred': False,
-                    'topGenres': [
-                        {
-                            'genre': {
-                                'id': 9
-                            },
-                            'numMatches': 3
-                        },
-                        {
-                            'genre': {
-                                'id': 10
-                            },
-                            'numMatches': 3
-                        }
-                    ],
-                    'type': 'GENRE'
-                },
-                {
-                    'id': 10,
-                    'lastUpdatedOn': 1577840461,
-                    'name': 'Genre2',
-                    'numReleases': 3,
-                    'releases': [
-                        {
-                            'id': 2,
-                            'title': 'Release1'
-                        },
-                        {
-                            'id': 3,
-                            'title': 'Release2'
-                        },
-                        {
-                            'id': 4,
-                            'title': 'Release3'
-                        }
-                    ],
-                    'starred': False,
-                    'topGenres': [
-                        {
-                            'genre': {
-                                'id': 9
-                            },
-                            'numMatches': 3
-                        },
-                        {
-                            'genre': {
-                                'id': 10
-                            },
-                            'numMatches': 3
-                        }
-                    ],
-                    'type': 'GENRE'
-                },
-                {
-                    'id': 11,
-                    'lastUpdatedOn': 1577840461,
-                    'name': 'Genre3',
-                    'numReleases': 2,
-                    'releases': [
-                        {
-                            'id': 5,
-                            'title': 'Release4'
-                        },
-                        {
-                            'id': 6,
-                            'title': 'Release5'
-                        }
-                    ],
-                    'starred': False,
-                    'topGenres': [
-                        {
-                            'genre': {
-                                'id': 11
-                            },
-                            'numMatches': 2
-                        }
-                    ],
-                    'type': 'GENRE'
-                }
-            ],
-            'total': 11
-        }
-    }
-}
-
-snapshots['test_collections_filter 1'] = {
-    'data': {
-        'collections': {
-            'results': [
-                {
-                    'id': 9,
-                    'lastUpdatedOn': 1577840461,
-                    'name': 'Genre1',
-                    'numReleases': 3,
-                    'releases': [
-                        {
-                            'id': 2,
-                            'title': 'Release1'
-                        },
-                        {
-                            'id': 3,
-                            'title': 'Release2'
-                        },
-                        {
-                            'id': 4,
-                            'title': 'Release3'
-                        }
-                    ],
-                    'starred': False,
-                    'topGenres': [
-                        {
-                            'genre': {
-                                'id': 9
-                            },
-                            'numMatches': 3
-                        },
-                        {
-                            'genre': {
-                                'id': 10
-                            },
-                            'numMatches': 3
-                        }
-                    ],
-                    'type': 'GENRE'
-                }
-            ],
-            'total': 1
-        }
-    }
-}
-
-snapshots['test_collections_pagination 1'] = {
-    'data': {
-        'collections': {
-            'results': [
-                {
-                    'id': 5,
-                    'lastUpdatedOn': 1577840461,
-                    'name': 'Collage3',
-                    'numReleases': 0,
-                    'releases': [
-                    ],
-                    'starred': False,
-                    'topGenres': [
-                    ],
-                    'type': 'COLLAGE'
-                },
-                {
-                    'id': 6,
-                    'lastUpdatedOn': 1577840461,
-                    'name': 'Label1',
-                    'numReleases': 2,
-                    'releases': [
-                        {
-                            'id': 2,
-                            'title': 'Release1'
-                        },
-                        {
-                            'id': 3,
-                            'title': 'Release2'
-                        }
-                    ],
-                    'starred': False,
-                    'topGenres': [
-                        {
-                            'genre': {
-                                'id': 9
-                            },
-                            'numMatches': 2
-                        },
-                        {
-                            'genre': {
-                                'id': 10
-                            },
-                            'numMatches': 2
-                        }
-                    ],
-                    'type': 'LABEL'
-                }
-            ],
-            'total': 11
-        }
-    }
-}
-
-snapshots['test_collections_type_param 1'] = {
-    'data': {
-        'collections': {
-            'results': [
-                {
-                    'id': 2,
                     'lastUpdatedOn': 1577840461,
                     'name': 'Favorites',
                     'numReleases': 0,
@@ -743,7 +323,177 @@ snapshots['test_collections_type_param 1'] = {
                     'type': 'SYSTEM'
                 },
                 {
+                    'id': 3,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Inbox',
+                    'numReleases': 0,
+                    'releases': [
+                    ],
+                    'starred': True,
+                    'topGenres': [
+                    ],
+                    'type': 'SYSTEM'
+                },
+                {
+                    'id': 5,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Collage1',
+                    'numReleases': 3,
+                    'releases': [
+                        {
+                            'id': 2,
+                            'title': 'Release1'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'Release2'
+                        },
+                        {
+                            'id': 4,
+                            'title': 'Release3'
+                        }
+                    ],
+                    'starred': False,
+                    'topGenres': [
+                        {
+                            'genre': {
+                                'id': 11
+                            },
+                            'numMatches': 3
+                        },
+                        {
+                            'genre': {
+                                'id': 12
+                            },
+                            'numMatches': 3
+                        }
+                    ],
+                    'type': 'COLLAGE'
+                },
+                {
+                    'id': 6,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Collage2',
+                    'numReleases': 1,
+                    'releases': [
+                        {
+                            'id': 2,
+                            'title': 'Release1'
+                        }
+                    ],
+                    'starred': False,
+                    'topGenres': [
+                        {
+                            'genre': {
+                                'id': 11
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 12
+                            },
+                            'numMatches': 1
+                        }
+                    ],
+                    'type': 'COLLAGE'
+                },
+                {
+                    'id': 7,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Collage3',
+                    'numReleases': 0,
+                    'releases': [
+                    ],
+                    'starred': False,
+                    'topGenres': [
+                    ],
+                    'type': 'COLLAGE'
+                },
+                {
+                    'id': 8,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Label1',
+                    'numReleases': 2,
+                    'releases': [
+                        {
+                            'id': 2,
+                            'title': 'Release1'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'Release2'
+                        }
+                    ],
+                    'starred': False,
+                    'topGenres': [
+                        {
+                            'genre': {
+                                'id': 11
+                            },
+                            'numMatches': 2
+                        },
+                        {
+                            'genre': {
+                                'id': 12
+                            },
+                            'numMatches': 2
+                        }
+                    ],
+                    'type': 'LABEL'
+                },
+                {
                     'id': 9,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Label2',
+                    'numReleases': 2,
+                    'releases': [
+                        {
+                            'id': 4,
+                            'title': 'Release3'
+                        },
+                        {
+                            'id': 5,
+                            'title': 'Release4'
+                        }
+                    ],
+                    'starred': False,
+                    'topGenres': [
+                        {
+                            'genre': {
+                                'id': 11
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 12
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 13
+                            },
+                            'numMatches': 1
+                        }
+                    ],
+                    'type': 'LABEL'
+                },
+                {
+                    'id': 10,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Label3',
+                    'numReleases': 0,
+                    'releases': [
+                    ],
+                    'starred': False,
+                    'topGenres': [
+                    ],
+                    'type': 'LABEL'
+                },
+                {
+                    'id': 11,
                     'lastUpdatedOn': 1577840461,
                     'name': 'Genre1',
                     'numReleases': 3,
@@ -765,13 +515,13 @@ snapshots['test_collections_type_param 1'] = {
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 9
+                                'id': 11
                             },
                             'numMatches': 3
                         },
                         {
                             'genre': {
-                                'id': 10
+                                'id': 12
                             },
                             'numMatches': 3
                         }
@@ -779,7 +529,7 @@ snapshots['test_collections_type_param 1'] = {
                     'type': 'GENRE'
                 },
                 {
-                    'id': 10,
+                    'id': 12,
                     'lastUpdatedOn': 1577840461,
                     'name': 'Genre2',
                     'numReleases': 3,
@@ -801,13 +551,13 @@ snapshots['test_collections_type_param 1'] = {
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 9
+                                'id': 11
                             },
                             'numMatches': 3
                         },
                         {
                             'genre': {
-                                'id': 10
+                                'id': 12
                             },
                             'numMatches': 3
                         }
@@ -815,7 +565,7 @@ snapshots['test_collections_type_param 1'] = {
                     'type': 'GENRE'
                 },
                 {
-                    'id': 11,
+                    'id': 13,
                     'lastUpdatedOn': 1577840461,
                     'name': 'Genre3',
                     'numReleases': 2,
@@ -833,7 +583,283 @@ snapshots['test_collections_type_param 1'] = {
                     'topGenres': [
                         {
                             'genre': {
+                                'id': 13
+                            },
+                            'numMatches': 2
+                        }
+                    ],
+                    'type': 'GENRE'
+                }
+            ],
+            'total': 13
+        }
+    }
+}
+
+snapshots['test_collections_filter 1'] = {
+    'data': {
+        'collections': {
+            'results': [
+                {
+                    'id': 11,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Genre1',
+                    'numReleases': 3,
+                    'releases': [
+                        {
+                            'id': 2,
+                            'title': 'Release1'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'Release2'
+                        },
+                        {
+                            'id': 4,
+                            'title': 'Release3'
+                        }
+                    ],
+                    'starred': False,
+                    'topGenres': [
+                        {
+                            'genre': {
                                 'id': 11
+                            },
+                            'numMatches': 3
+                        },
+                        {
+                            'genre': {
+                                'id': 12
+                            },
+                            'numMatches': 3
+                        }
+                    ],
+                    'type': 'GENRE'
+                }
+            ],
+            'total': 1
+        }
+    }
+}
+
+snapshots['test_collections_pagination 1'] = {
+    'data': {
+        'collections': {
+            'results': [
+                {
+                    'id': 5,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Collage1',
+                    'numReleases': 3,
+                    'releases': [
+                        {
+                            'id': 2,
+                            'title': 'Release1'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'Release2'
+                        },
+                        {
+                            'id': 4,
+                            'title': 'Release3'
+                        }
+                    ],
+                    'starred': False,
+                    'topGenres': [
+                        {
+                            'genre': {
+                                'id': 11
+                            },
+                            'numMatches': 3
+                        },
+                        {
+                            'genre': {
+                                'id': 12
+                            },
+                            'numMatches': 3
+                        }
+                    ],
+                    'type': 'COLLAGE'
+                },
+                {
+                    'id': 6,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Collage2',
+                    'numReleases': 1,
+                    'releases': [
+                        {
+                            'id': 2,
+                            'title': 'Release1'
+                        }
+                    ],
+                    'starred': False,
+                    'topGenres': [
+                        {
+                            'genre': {
+                                'id': 11
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 12
+                            },
+                            'numMatches': 1
+                        }
+                    ],
+                    'type': 'COLLAGE'
+                }
+            ],
+            'total': 13
+        }
+    }
+}
+
+snapshots['test_collections_type_param 1'] = {
+    'data': {
+        'collections': {
+            'results': [
+                {
+                    'id': 2,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Favorites',
+                    'numReleases': 0,
+                    'releases': [
+                    ],
+                    'starred': True,
+                    'topGenres': [
+                    ],
+                    'type': 'SYSTEM'
+                },
+                {
+                    'id': 4,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Favorites',
+                    'numReleases': 0,
+                    'releases': [
+                    ],
+                    'starred': True,
+                    'topGenres': [
+                    ],
+                    'type': 'SYSTEM'
+                },
+                {
+                    'id': 1,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Inbox',
+                    'numReleases': 0,
+                    'releases': [
+                    ],
+                    'starred': True,
+                    'topGenres': [
+                    ],
+                    'type': 'SYSTEM'
+                },
+                {
+                    'id': 3,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Inbox',
+                    'numReleases': 0,
+                    'releases': [
+                    ],
+                    'starred': True,
+                    'topGenres': [
+                    ],
+                    'type': 'SYSTEM'
+                },
+                {
+                    'id': 11,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Genre1',
+                    'numReleases': 3,
+                    'releases': [
+                        {
+                            'id': 2,
+                            'title': 'Release1'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'Release2'
+                        },
+                        {
+                            'id': 4,
+                            'title': 'Release3'
+                        }
+                    ],
+                    'starred': False,
+                    'topGenres': [
+                        {
+                            'genre': {
+                                'id': 11
+                            },
+                            'numMatches': 3
+                        },
+                        {
+                            'genre': {
+                                'id': 12
+                            },
+                            'numMatches': 3
+                        }
+                    ],
+                    'type': 'GENRE'
+                },
+                {
+                    'id': 12,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Genre2',
+                    'numReleases': 3,
+                    'releases': [
+                        {
+                            'id': 2,
+                            'title': 'Release1'
+                        },
+                        {
+                            'id': 3,
+                            'title': 'Release2'
+                        },
+                        {
+                            'id': 4,
+                            'title': 'Release3'
+                        }
+                    ],
+                    'starred': False,
+                    'topGenres': [
+                        {
+                            'genre': {
+                                'id': 11
+                            },
+                            'numMatches': 3
+                        },
+                        {
+                            'genre': {
+                                'id': 12
+                            },
+                            'numMatches': 3
+                        }
+                    ],
+                    'type': 'GENRE'
+                },
+                {
+                    'id': 13,
+                    'lastUpdatedOn': 1577840461,
+                    'name': 'Genre3',
+                    'numReleases': 2,
+                    'releases': [
+                        {
+                            'id': 5,
+                            'title': 'Release4'
+                        },
+                        {
+                            'id': 6,
+                            'title': 'Release5'
+                        }
+                    ],
+                    'starred': False,
+                    'topGenres': [
+                        {
+                            'genre': {
+                                'id': 13
                             },
                             'numMatches': 2
                         }
@@ -848,7 +874,7 @@ snapshots['test_collections_type_param 1'] = {
 snapshots['test_create_collection 1'] = {
     'data': {
         'createCollection': {
-            'id': 12,
+            'id': 14,
             'lastUpdatedOn': 1577840461,
             'name': 'NewCollection',
             'numReleases': 0,
@@ -885,7 +911,7 @@ snapshots['test_del_release_from_collection 1'] = {
     'data': {
         'delReleaseFromCollection': {
             'collection': {
-                'id': 3,
+                'id': 5,
                 'lastUpdatedOn': 1577840461,
                 'name': 'Collage1',
                 'numReleases': 2,
@@ -903,13 +929,13 @@ snapshots['test_del_release_from_collection 1'] = {
                 'topGenres': [
                     {
                         'genre': {
-                            'id': 9
+                            'id': 11
                         },
                         'numMatches': 2
                     },
                     {
                         'genre': {
-                            'id': 10
+                            'id': 12
                         },
                         'numMatches': 2
                     }
@@ -930,17 +956,17 @@ snapshots['test_del_release_from_collection 1'] = {
                 ],
                 'collages': [
                     {
-                        'id': 4,
+                        'id': 6,
                         'name': 'Collage2'
                     }
                 ],
                 'genres': [
                     {
-                        'id': 9,
+                        'id': 11,
                         'name': 'Genre1'
                     },
                     {
-                        'id': 10,
+                        'id': 12,
                         'name': 'Genre2'
                     }
                 ],
@@ -950,7 +976,7 @@ snapshots['test_del_release_from_collection 1'] = {
                 'inInbox': False,
                 'labels': [
                     {
-                        'id': 6,
+                        'id': 8,
                         'name': 'Label1'
                     }
                 ],
@@ -1039,7 +1065,7 @@ snapshots['test_del_release_from_collection_doesnt_exist 1'] = {
 snapshots['test_update_collection 1'] = {
     'data': {
         'updateCollection': {
-            'id': 3,
+            'id': 5,
             'lastUpdatedOn': 1577840461,
             'name': 'NewCollection',
             'numReleases': 3,
@@ -1061,13 +1087,13 @@ snapshots['test_update_collection 1'] = {
             'topGenres': [
                 {
                     'genre': {
-                        'id': 9
+                        'id': 11
                     },
                     'numMatches': 3
                 },
                 {
                     'genre': {
-                        'id': 10
+                        'id': 12
                     },
                     'numMatches': 3
                 }

@@ -72,7 +72,7 @@ async def test_releases_search(graphql_query, snapshot):
 async def test_releases_filter_collections(graphql_query, snapshot):
     query = """
         query {
-            releases(collectionIds: [3]) {
+            releases(collectionIds: [5]) {
                 total
                 results {
                     ...ReleaseFields

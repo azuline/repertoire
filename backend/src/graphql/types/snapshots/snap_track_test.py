@@ -59,13 +59,13 @@ snapshots['test_add_artist_to_track 1'] = {
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 9
+                                'id': 11
                             },
                             'numMatches': 1
                         },
                         {
                             'genre': {
-                                'id': 10
+                                'id': 12
                             },
                             'numMatches': 1
                         }
@@ -176,19 +176,19 @@ snapshots['test_del_artist_from_track 1'] = {
                     'topGenres': [
                         {
                             'genre': {
-                                'id': 9
-                            },
-                            'numMatches': 1
-                        },
-                        {
-                            'genre': {
-                                'id': 10
-                            },
-                            'numMatches': 1
-                        },
-                        {
-                            'genre': {
                                 'id': 11
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 12
+                            },
+                            'numMatches': 1
+                        },
+                        {
+                            'genre': {
+                                'id': 13
                             },
                             'numMatches': 1
                         }

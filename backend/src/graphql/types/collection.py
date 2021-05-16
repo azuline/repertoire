@@ -30,7 +30,7 @@ def resolve_collection_from_name_type_user(
     info: GraphQLResolveInfo,
     name: str,
     type: CollectionType,
-    user: int,
+    user: Optional[int] = None,
 ) -> collection.T:
     if col := collection.from_name_type_user(name, type, info.context.db, user_id=user):
         return col

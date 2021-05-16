@@ -28,13 +28,13 @@ snapshots['test_add_artist_to_release 1'] = {
                 'topGenres': [
                     {
                         'genre': {
-                            'id': 9
+                            'id': 11
                         },
                         'numMatches': 2
                     },
                     {
                         'genre': {
-                            'id': 10
+                            'id': 12
                         },
                         'numMatches': 2
                     }
@@ -58,21 +58,21 @@ snapshots['test_add_artist_to_release 1'] = {
                 ],
                 'collages': [
                     {
-                        'id': 3,
+                        'id': 5,
                         'name': 'Collage1'
                     },
                     {
-                        'id': 4,
+                        'id': 6,
                         'name': 'Collage2'
                     }
                 ],
                 'genres': [
                     {
-                        'id': 9,
+                        'id': 11,
                         'name': 'Genre1'
                     },
                     {
-                        'id': 10,
+                        'id': 12,
                         'name': 'Genre2'
                     }
                 ],
@@ -82,7 +82,7 @@ snapshots['test_add_artist_to_release 1'] = {
                 'inInbox': False,
                 'labels': [
                     {
-                        'id': 6,
+                        'id': 8,
                         'name': 'Label1'
                     }
                 ],
@@ -259,7 +259,7 @@ snapshots['test_del_artist_from_release 1'] = {
                 'topGenres': [
                     {
                         'genre': {
-                            'id': 11
+                            'id': 13
                         },
                         'numMatches': 1
                     }
@@ -275,21 +275,21 @@ snapshots['test_del_artist_from_release 1'] = {
                 ],
                 'collages': [
                     {
-                        'id': 3,
+                        'id': 5,
                         'name': 'Collage1'
                     },
                     {
-                        'id': 4,
+                        'id': 6,
                         'name': 'Collage2'
                     }
                 ],
                 'genres': [
                     {
-                        'id': 9,
+                        'id': 11,
                         'name': 'Genre1'
                     },
                     {
-                        'id': 10,
+                        'id': 12,
                         'name': 'Genre2'
                     }
                 ],
@@ -299,7 +299,7 @@ snapshots['test_del_artist_from_release 1'] = {
                 'inInbox': False,
                 'labels': [
                     {
-                        'id': 6,
+                        'id': 8,
                         'name': 'Label1'
                     }
                 ],
@@ -401,21 +401,21 @@ snapshots['test_release 1'] = {
             ],
             'collages': [
                 {
-                    'id': 3,
+                    'id': 5,
                     'name': 'Collage1'
                 },
                 {
-                    'id': 4,
+                    'id': 6,
                     'name': 'Collage2'
                 }
             ],
             'genres': [
                 {
-                    'id': 9,
+                    'id': 11,
                     'name': 'Genre1'
                 },
                 {
-                    'id': 10,
+                    'id': 12,
                     'name': 'Genre2'
                 }
             ],
@@ -425,7 +425,7 @@ snapshots['test_release 1'] = {
             'inInbox': False,
             'labels': [
                 {
-                    'id': 6,
+                    'id': 8,
                     'name': 'Label1'
                 }
             ],
@@ -529,21 +529,21 @@ snapshots['test_releases 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         },
                         {
-                            'id': 4,
+                            'id': 6,
                             'name': 'Collage2'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -553,7 +553,7 @@ snapshots['test_releases 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 6,
+                            'id': 8,
                             'name': 'Label1'
                         }
                     ],
@@ -592,17 +592,17 @@ snapshots['test_releases 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -612,7 +612,7 @@ snapshots['test_releases 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 6,
+                            'id': 8,
                             'name': 'Label1'
                         }
                     ],
@@ -643,17 +643,17 @@ snapshots['test_releases 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -663,7 +663,7 @@ snapshots['test_releases 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 7,
+                            'id': 9,
                             'name': 'Label2'
                         }
                     ],
@@ -708,7 +708,7 @@ snapshots['test_releases 1'] = {
                     ],
                     'genres': [
                         {
-                            'id': 11,
+                            'id': 13,
                             'name': 'Genre3'
                         }
                     ],
@@ -718,7 +718,7 @@ snapshots['test_releases 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 7,
+                            'id': 9,
                             'name': 'Label2'
                         }
                     ],
@@ -759,7 +759,7 @@ snapshots['test_releases 1'] = {
                     ],
                     'genres': [
                         {
-                            'id': 11,
+                            'id': 13,
                             'name': 'Genre3'
                         }
                     ],
@@ -810,21 +810,21 @@ snapshots['test_releases_filter_artists 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         },
                         {
-                            'id': 4,
+                            'id': 6,
                             'name': 'Collage2'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -834,7 +834,7 @@ snapshots['test_releases_filter_artists 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 6,
+                            'id': 8,
                             'name': 'Label1'
                         }
                     ],
@@ -879,7 +879,7 @@ snapshots['test_releases_filter_artists 1'] = {
                     ],
                     'genres': [
                         {
-                            'id': 11,
+                            'id': 13,
                             'name': 'Genre3'
                         }
                     ],
@@ -889,7 +889,7 @@ snapshots['test_releases_filter_artists 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 7,
+                            'id': 9,
                             'name': 'Label2'
                         }
                     ],
@@ -946,21 +946,21 @@ snapshots['test_releases_filter_collections 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         },
                         {
-                            'id': 4,
+                            'id': 6,
                             'name': 'Collage2'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -970,7 +970,7 @@ snapshots['test_releases_filter_collections 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 6,
+                            'id': 8,
                             'name': 'Label1'
                         }
                     ],
@@ -1009,17 +1009,17 @@ snapshots['test_releases_filter_collections 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -1029,7 +1029,7 @@ snapshots['test_releases_filter_collections 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 6,
+                            'id': 8,
                             'name': 'Label1'
                         }
                     ],
@@ -1060,17 +1060,17 @@ snapshots['test_releases_filter_collections 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -1080,7 +1080,7 @@ snapshots['test_releases_filter_collections 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 7,
+                            'id': 9,
                             'name': 'Label2'
                         }
                     ],
@@ -1129,21 +1129,21 @@ snapshots['test_releases_filter_types 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         },
                         {
-                            'id': 4,
+                            'id': 6,
                             'name': 'Collage2'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -1153,7 +1153,7 @@ snapshots['test_releases_filter_types 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 6,
+                            'id': 8,
                             'name': 'Label1'
                         }
                     ],
@@ -1192,17 +1192,17 @@ snapshots['test_releases_filter_types 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -1212,7 +1212,7 @@ snapshots['test_releases_filter_types 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 6,
+                            'id': 8,
                             'name': 'Label1'
                         }
                     ],
@@ -1257,17 +1257,17 @@ snapshots['test_releases_pagination 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -1277,7 +1277,7 @@ snapshots['test_releases_pagination 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 6,
+                            'id': 8,
                             'name': 'Label1'
                         }
                     ],
@@ -1308,17 +1308,17 @@ snapshots['test_releases_pagination 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -1328,7 +1328,7 @@ snapshots['test_releases_pagination 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 7,
+                            'id': 9,
                             'name': 'Label2'
                         }
                     ],
@@ -1377,21 +1377,21 @@ snapshots['test_releases_search 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         },
                         {
-                            'id': 4,
+                            'id': 6,
                             'name': 'Collage2'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -1401,7 +1401,7 @@ snapshots['test_releases_search 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 6,
+                            'id': 8,
                             'name': 'Label1'
                         }
                     ],
@@ -1450,21 +1450,21 @@ snapshots['test_releases_sort 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         },
                         {
-                            'id': 4,
+                            'id': 6,
                             'name': 'Collage2'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -1474,7 +1474,7 @@ snapshots['test_releases_sort 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 6,
+                            'id': 8,
                             'name': 'Label1'
                         }
                     ],
@@ -1513,17 +1513,17 @@ snapshots['test_releases_sort 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -1533,7 +1533,7 @@ snapshots['test_releases_sort 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 6,
+                            'id': 8,
                             'name': 'Label1'
                         }
                     ],
@@ -1564,17 +1564,17 @@ snapshots['test_releases_sort 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -1584,7 +1584,7 @@ snapshots['test_releases_sort 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 7,
+                            'id': 9,
                             'name': 'Label2'
                         }
                     ],
@@ -1629,7 +1629,7 @@ snapshots['test_releases_sort 1'] = {
                     ],
                     'genres': [
                         {
-                            'id': 11,
+                            'id': 13,
                             'name': 'Genre3'
                         }
                     ],
@@ -1639,7 +1639,7 @@ snapshots['test_releases_sort 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 7,
+                            'id': 9,
                             'name': 'Label2'
                         }
                     ],
@@ -1680,7 +1680,7 @@ snapshots['test_releases_sort 1'] = {
                     ],
                     'genres': [
                         {
-                            'id': 11,
+                            'id': 13,
                             'name': 'Genre3'
                         }
                     ],
@@ -1779,7 +1779,7 @@ snapshots['test_releases_sort_desc 1'] = {
                     ],
                     'genres': [
                         {
-                            'id': 11,
+                            'id': 13,
                             'name': 'Genre3'
                         }
                     ],
@@ -1826,7 +1826,7 @@ snapshots['test_releases_sort_desc 1'] = {
                     ],
                     'genres': [
                         {
-                            'id': 11,
+                            'id': 13,
                             'name': 'Genre3'
                         }
                     ],
@@ -1836,7 +1836,7 @@ snapshots['test_releases_sort_desc 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 7,
+                            'id': 9,
                             'name': 'Label2'
                         }
                     ],
@@ -1879,17 +1879,17 @@ snapshots['test_releases_sort_desc 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -1899,7 +1899,7 @@ snapshots['test_releases_sort_desc 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 7,
+                            'id': 9,
                             'name': 'Label2'
                         }
                     ],
@@ -1938,17 +1938,17 @@ snapshots['test_releases_sort_desc 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -1958,7 +1958,7 @@ snapshots['test_releases_sort_desc 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 6,
+                            'id': 8,
                             'name': 'Label1'
                         }
                     ],
@@ -1993,21 +1993,21 @@ snapshots['test_releases_sort_desc 1'] = {
                     ],
                     'collages': [
                         {
-                            'id': 3,
+                            'id': 5,
                             'name': 'Collage1'
                         },
                         {
-                            'id': 4,
+                            'id': 6,
                             'name': 'Collage2'
                         }
                     ],
                     'genres': [
                         {
-                            'id': 9,
+                            'id': 11,
                             'name': 'Genre1'
                         },
                         {
-                            'id': 10,
+                            'id': 12,
                             'name': 'Genre2'
                         }
                     ],
@@ -2017,7 +2017,7 @@ snapshots['test_releases_sort_desc 1'] = {
                     'inInbox': False,
                     'labels': [
                         {
-                            'id': 6,
+                            'id': 8,
                             'name': 'Label1'
                         }
                     ],
@@ -2064,21 +2064,21 @@ snapshots['test_update_release 1'] = {
             ],
             'collages': [
                 {
-                    'id': 3,
+                    'id': 5,
                     'name': 'Collage1'
                 },
                 {
-                    'id': 4,
+                    'id': 6,
                     'name': 'Collage2'
                 }
             ],
             'genres': [
                 {
-                    'id': 9,
+                    'id': 11,
                     'name': 'Genre1'
                 },
                 {
-                    'id': 10,
+                    'id': 12,
                     'name': 'Genre2'
                 }
             ],
@@ -2088,7 +2088,7 @@ snapshots['test_update_release 1'] = {
             'inInbox': False,
             'labels': [
                 {
-                    'id': 6,
+                    'id': 8,
                     'name': 'Label1'
                 }
             ],

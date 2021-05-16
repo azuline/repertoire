@@ -105,7 +105,7 @@ async def test_tracks_search(graphql_query, snapshot):
 async def test_tracks_filter_playlists(graphql_query, snapshot):
     query = """
         query {
-            tracks(playlistIds: [2]) {
+            tracks(playlistIds: [3]) {
                 total
                 results {
                     ...TrackFields

@@ -10,7 +10,7 @@ from src.library import playlist_entry as pentry
 async def test_resolve_playlist_entries(graphql_query, snapshot):
     query = """
         query {
-            playlist(id: 2) {
+            playlist(id: 3) {
                 entries {
                     ...PlaylistEntryFields
                 }
