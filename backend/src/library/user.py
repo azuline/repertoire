@@ -174,6 +174,7 @@ def _create_system_collections_and_playlists(user_id: int, conn: Connection) -> 
             name,
             CollectionType.SYSTEM,
             user_id=user_id,
+            starred=True,
             conn=conn,
             override_immutable=True,
         )
@@ -182,6 +183,7 @@ def _create_system_collections_and_playlists(user_id: int, conn: Connection) -> 
         "Favorites",
         PlaylistType.SYSTEM,
         user_id=user_id,
+        starred=True,
         conn=conn,
         override_immutable=True,
     )
