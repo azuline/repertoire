@@ -90,9 +90,7 @@ snapshots['test_artist_from_name 1'] = {
 }
 
 snapshots['test_artist_from_name_not_found 1'] = {
-    'data': {
-        'artistFromName': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -111,9 +109,7 @@ snapshots['test_artist_from_name_not_found 1'] = {
 }
 
 snapshots['test_artist_not_found 1'] = {
-    'data': {
-        'artist': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -405,9 +401,7 @@ snapshots['test_create_artist 1'] = {
 }
 
 snapshots['test_create_artist_duplicate 1'] = {
-    'data': {
-        'createArtist': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -467,9 +461,7 @@ snapshots['test_update_artist 1'] = {
 }
 
 snapshots['test_update_artist_doesnt_exist 1'] = {
-    'data': {
-        'updateArtist': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -488,9 +480,7 @@ snapshots['test_update_artist_doesnt_exist 1'] = {
 }
 
 snapshots['test_update_artist_duplicate 1'] = {
-    'data': {
-        'updateArtist': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [

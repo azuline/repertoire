@@ -25,9 +25,7 @@ snapshots['test_create_playlist 1'] = {
 }
 
 snapshots['test_create_playlist_duplicate 1'] = {
-    'data': {
-        'createPlaylist': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -174,9 +172,7 @@ snapshots['test_playlist_from_name_and_type 1'] = {
 }
 
 snapshots['test_playlist_from_name_and_type_not_found 1'] = {
-    'data': {
-        'playlistFromNameAndType': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -195,9 +191,7 @@ snapshots['test_playlist_from_name_and_type_not_found 1'] = {
 }
 
 snapshots['test_playlist_not_found 1'] = {
-    'data': {
-        'playlist': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -667,9 +661,7 @@ snapshots['test_update_playlist 1'] = {
 }
 
 snapshots['test_update_playlist_duplicate 1'] = {
-    'data': {
-        'updatePlaylist': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -688,9 +680,7 @@ snapshots['test_update_playlist_duplicate 1'] = {
 }
 
 snapshots['test_update_playlist_immutable 1'] = {
-    'data': {
-        'updatePlaylist': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -709,9 +699,7 @@ snapshots['test_update_playlist_immutable 1'] = {
 }
 
 snapshots['test_update_playlist_not_found 1'] = {
-    'data': {
-        'updatePlaylist': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [

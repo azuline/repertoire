@@ -34,9 +34,7 @@ snapshots['test_invite 1'] = {
 }
 
 snapshots['test_invite_not_found 1'] = {
-    'data': {
-        'invite': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [

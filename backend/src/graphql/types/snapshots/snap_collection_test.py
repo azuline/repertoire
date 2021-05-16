@@ -106,9 +106,7 @@ snapshots['test_add_release_to_collection 1'] = {
 }
 
 snapshots['test_add_release_to_collection_already_exists 1'] = {
-    'data': {
-        'addReleaseToCollection': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -127,9 +125,7 @@ snapshots['test_add_release_to_collection_already_exists 1'] = {
 }
 
 snapshots['test_add_release_to_collection_bad_collection 1'] = {
-    'data': {
-        'addReleaseToCollection': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -148,9 +144,7 @@ snapshots['test_add_release_to_collection_bad_collection 1'] = {
 }
 
 snapshots['test_add_release_to_collection_bad_release 1'] = {
-    'data': {
-        'addReleaseToCollection': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -251,9 +245,7 @@ snapshots['test_collection_from_name_and_type 1'] = {
 }
 
 snapshots['test_collection_from_name_and_type_not_found 1'] = {
-    'data': {
-        'collectionFromNameAndType': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -272,9 +264,7 @@ snapshots['test_collection_from_name_and_type_not_found 1'] = {
 }
 
 snapshots['test_collection_not_found 1'] = {
-    'data': {
-        'collection': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -831,9 +821,7 @@ snapshots['test_create_collection 1'] = {
 }
 
 snapshots['test_create_collection_duplicate 1'] = {
-    'data': {
-        'createCollection': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -950,9 +938,7 @@ snapshots['test_del_release_from_collection 1'] = {
 }
 
 snapshots['test_del_release_from_collection_bad_collection 1'] = {
-    'data': {
-        'delReleaseFromCollection': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -971,9 +957,7 @@ snapshots['test_del_release_from_collection_bad_collection 1'] = {
 }
 
 snapshots['test_del_release_from_collection_bad_release 1'] = {
-    'data': {
-        'delReleaseFromCollection': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -992,9 +976,7 @@ snapshots['test_del_release_from_collection_bad_release 1'] = {
 }
 
 snapshots['test_del_release_from_collection_doesnt_exist 1'] = {
-    'data': {
-        'delReleaseFromCollection': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -1054,9 +1036,7 @@ snapshots['test_update_collection 1'] = {
 }
 
 snapshots['test_update_collection_duplicate 1'] = {
-    'data': {
-        'updateCollection': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -1075,9 +1055,7 @@ snapshots['test_update_collection_duplicate 1'] = {
 }
 
 snapshots['test_update_collection_immutable 1'] = {
-    'data': {
-        'updateCollection': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
@@ -1096,9 +1074,7 @@ snapshots['test_update_collection_immutable 1'] = {
 }
 
 snapshots['test_update_collection_not_found 1'] = {
-    'data': {
-        'updateCollection': None
-    },
+    'data': None,
     'errors': [
         {
             'locations': [
