@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Link } from '~/components/common';
 import { ITrackFieldsFragment } from '~/graphql';
 
-type ITrackArtistLocal = Pick<ITrackFieldsFragment, 'artists'>['artists'][number];
+type ITrackArtistLocal = ITrackFieldsFragment['artists'][number];
 type IArtistLocal = ITrackArtistLocal['artist'];
 
 type IList = React.FC<{
