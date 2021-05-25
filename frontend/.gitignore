@@ -5,6 +5,7 @@
 .pnp.js
 /coverage
 /build
+/storybook-static
 
 npm-debug.log*
 yarn-debug.log*
