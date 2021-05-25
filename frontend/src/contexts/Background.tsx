@@ -1,10 +1,8 @@
 import * as React from 'react';
 
-import { ISetValue } from '~/types';
-
 type IContext = {
   backgroundImageId: number | null;
-  setBackgroundImageId: ISetValue<number | null>;
+  setBackgroundImageId: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
 export const BackgroundContext = React.createContext<IContext>({

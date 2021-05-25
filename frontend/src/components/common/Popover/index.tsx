@@ -1,8 +1,6 @@
 import * as React from 'react';
 import tw from 'twin.macro';
 
-import { ISetValue } from '~/types';
-
 type IPopover = React.FC<{
   children: [React.ReactElement, React.ReactElement];
 }>;
@@ -25,7 +23,9 @@ export const Popover: IPopover = ({ children }) => {
   );
 };
 
-type ISetBackground = React.FC<{ setOpen: ISetValue<boolean> }>;
+type ISetBackground = React.FC<{
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}>;
 
 const SetBackground: ISetBackground = ({ setOpen }) => (
   <div tw="fixed top-0 left-0 w-screen h-screen" onClick={(): void => setOpen(false)} />

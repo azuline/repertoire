@@ -6,7 +6,7 @@ import { Button } from '../common/Button';
 type IPage = React.FC<{
   page: number;
   curPage: number;
-  setCurPage: (arg0: number) => void;
+  setCurPage: React.Dispatch<React.SetStateAction<number>>;
   className?: string;
 }>;
 

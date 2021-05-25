@@ -1,6 +1,9 @@
 import * as React from 'react';
 
-import { IStateValue } from '~/types';
+export type ISetPersistentValue<T> = (
+  arg0: React.SetStateAction<T>,
+  arg1?: boolean,
+) => void;
 
 /**
  * A hook that persists the value of the state in localStorage.
@@ -13,13 +16,16 @@ import { IStateValue } from '~/types';
 export const usePersistentState = <T>(
   localStorageKey: string,
   defaultValue: T,
-): [T, (arg0: IStateValue<T>) => void] => {
+): [T, React.Dispatch<React.SetStateAction<T>>] => {
   const [value, setValue] = React.useState<T>(() => {
     const storedValue = localStorage.getItem(localStorageKey);
     return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
   });
 
-  const setPersistentValue = (newValue: IStateValue<T>, persist = true): void => {
+  const setPersistentValue = (
+    newValue: React.SetStateAction<T>,
+    persist = true,
+  ): void => {
     setValue((innerValue: T) => {
       const toStore = newValue instanceof Function ? newValue(innerValue) : newValue;
       if (persist) {

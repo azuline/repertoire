@@ -5,9 +5,9 @@ import { useRequestJson } from '~/hooks';
 type IContext = {
   loggedIn: boolean;
   loading: boolean;
-  setLoggedIn: (arg0: boolean) => void;
+  setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   csrf: string | null;
-  setCsrf: (arg0: string | null) => void;
+  setCsrf: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 export const AuthorizationContext = React.createContext<IContext>({

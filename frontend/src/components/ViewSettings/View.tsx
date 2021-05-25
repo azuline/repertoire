@@ -2,7 +2,11 @@ import * as React from 'react';
 
 import { Select } from '~/components/common';
 import { IViewOptions } from '~/hooks';
-import { IReleaseView } from '~/types';
+
+export enum IReleaseView {
+  Artwork = 'ARTWORK',
+  Row = 'ROW',
+}
 
 const displays: { [k in IReleaseView]: string } = {
   [IReleaseView.Artwork]: 'Artwork',

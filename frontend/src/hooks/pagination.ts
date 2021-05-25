@@ -1,18 +1,16 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { ISetValue, IStateValue } from '~/types';
-
 import { usePersistentState } from './persistentState';
 import { useQuery } from './query';
 
 export type IPagination = {
   page: number;
-  setPage: ISetValue<number>;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   perPage: number;
-  setPerPage: ISetValue<number>;
+  setPerPage: React.Dispatch<React.SetStateAction<number>>;
   numPages: number;
-  setTotal: ISetValue<number>;
+  setTotal: React.Dispatch<React.SetStateAction<number>>;
 };
 
 /**
@@ -45,7 +43,7 @@ export const usePagination = ({
   // We wrap the setCurPage function to sync the URL with the state. If ``useUrl`` is
   // true, then sync!
   const setPage = React.useCallback(
-    (value: IStateValue<number>) => {
+    (value: React.SetStateAction<number>) => {
       const calculatedValue = value instanceof Function ? value(page) : value;
 
       if (useUrl) {

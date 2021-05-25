@@ -2,12 +2,11 @@ import * as React from 'react';
 
 import { Icon } from '~/components';
 import { PlayQueueContext } from '~/contexts';
-import { ISetValue } from '~/types';
 
 type IPlayPause = React.FC<{
   className?: string;
   isPlaying: boolean;
-  setIsPlaying: ISetValue<boolean>;
+  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
 }>;
 
 export const PlayPause: IPlayPause = ({ className, isPlaying, setIsPlaying }) => {

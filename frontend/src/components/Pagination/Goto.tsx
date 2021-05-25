@@ -4,7 +4,7 @@ import { useToasts } from 'react-toast-notifications';
 import { Button, Icon, Input } from '~/components/common';
 
 type IGoto = React.FC<{
-  setCurPage: (arg0: number) => void;
+  setCurPage: React.Dispatch<React.SetStateAction<number>>;
   numPages: number;
 }>;
 

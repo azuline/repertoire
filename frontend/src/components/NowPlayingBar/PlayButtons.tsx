@@ -2,11 +2,10 @@ import * as React from 'react';
 import tw from 'twin.macro';
 
 import { FastForward, PlayPause, Rewind } from '~/components/PlayButtons';
-import { ISetValue } from '~/types';
 
 type IPlayButtons = React.FC<{
   isPlaying: boolean;
-  setIsPlaying: ISetValue<boolean>;
+  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   curTime: number;
   seek: (arg0: number) => void;
 }>;

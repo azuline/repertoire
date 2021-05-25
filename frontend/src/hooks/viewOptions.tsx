@@ -1,29 +1,29 @@
 import * as React from 'react';
 
+import { IReleaseView } from '~/components/ViewSettings/View';
 import { IReleaseSort, IReleaseType } from '~/graphql';
-import { IReleaseView, ISetValue } from '~/types';
 
 import { usePersistentState } from './persistentState';
 
 export type IViewOptions = {
   search: string;
-  setSearch: ISetValue<string>;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
   collectionIds: number[];
-  setCollectionIds: ISetValue<number[]>;
+  setCollectionIds: React.Dispatch<React.SetStateAction<number[]>>;
   artistIds: number[];
-  setArtistIds: ISetValue<number[]>;
+  setArtistIds: React.Dispatch<React.SetStateAction<number[]>>;
   releaseTypes: IReleaseType[];
-  setReleaseTypes: ISetValue<IReleaseType[]>;
+  setReleaseTypes: React.Dispatch<React.SetStateAction<IReleaseType[]>>;
   years: number[];
-  setYears: ISetValue<number[]>;
+  setYears: React.Dispatch<React.SetStateAction<number[]>>;
   ratings: number[];
-  setRatings: ISetValue<number[]>;
+  setRatings: React.Dispatch<React.SetStateAction<number[]>>;
   sort: IReleaseSort;
-  setSort: ISetValue<IReleaseSort>;
+  setSort: React.Dispatch<React.SetStateAction<IReleaseSort>>;
   asc: boolean;
-  setAsc: ISetValue<boolean>;
+  setAsc: React.Dispatch<React.SetStateAction<boolean>>;
   releaseView: IReleaseView;
-  setReleaseView: ISetValue<IReleaseView>;
+  setReleaseView: React.Dispatch<React.SetStateAction<IReleaseView>>;
 };
 
 type IParams = {

@@ -1,8 +1,6 @@
 import * as React from 'react';
 import tw from 'twin.macro';
 
-import { ISetValue } from '~/types';
-
 import { IElement } from './Element';
 
 type IIndexMap = { [k in string]?: () => void };
@@ -41,7 +39,7 @@ const jumpLetters = [
 type IJumpToLetter = React.FC<{
   active: number | null;
   results: IElement[];
-  setJumpTo: ISetValue<number | null>;
+  setJumpTo: React.Dispatch<React.SetStateAction<number | null>>;
 }>;
 
 export const JumpToLetter: IJumpToLetter = ({ active, results, setJumpTo }) => {
@@ -78,7 +76,7 @@ export const JumpToLetter: IJumpToLetter = ({ active, results, setJumpTo }) => {
 
 const mapLettersToIndex = (
   results: IElement[],
-  setJumpTo: ISetValue<number | null>,
+  setJumpTo: React.Dispatch<React.SetStateAction<number | null>>,
 ): IIndexMap => {
   const initialMap = jumpLetters.reduce<IIndexMap>((map, jumpLetter) => {
     map[jumpLetter] = undefined; // eslint-disable-line no-param-reassign

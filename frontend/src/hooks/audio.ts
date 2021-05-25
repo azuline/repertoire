@@ -1,13 +1,12 @@
 import * as React from 'react';
 
 import { PlayQueueContext, VolumeContext } from '~/contexts';
-import { ISetValue } from '~/types';
 
 export type IAudio = {
   isPlaying: boolean;
-  setIsPlaying: ISetValue<boolean>;
+  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   curTime: number;
-  seek: (arg0: number) => void;
+  seek: (seconds: number) => void;
 };
 
 type IAudioTracks = { curr?: IAudioTrack; next?: IAudioTrack };

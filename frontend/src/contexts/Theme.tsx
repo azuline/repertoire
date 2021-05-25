@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import { usePersistentState } from '~/hooks';
+import { ISetPersistentValue, usePersistentState } from '~/hooks';
 
 export type ITheme = 'dark' | 'light';
 
 type IContext = {
   theme: ITheme;
-  setTheme: (arg0: ITheme | ((arg0: ITheme) => ITheme), arg1?: boolean) => void;
+  setTheme: ISetPersistentValue<ITheme>;
 };
 
 export const ThemeContext = React.createContext<IContext>({

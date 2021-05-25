@@ -1,7 +1,7 @@
 import * as React from 'react';
 
+import { IElement } from '~/components/Chooser';
 import { Link } from '~/components/common';
-import { IElement } from '~/types';
 
 type IList = React.FC<{
   className?: string;

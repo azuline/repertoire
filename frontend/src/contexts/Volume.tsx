@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import { usePersistentState } from '~/hooks';
-import { ISetPersistentValue } from '~/types';
+import { ISetPersistentValue, usePersistentState } from '~/hooks';
 
 type IContext = {
   volume: number;

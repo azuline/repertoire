@@ -8,7 +8,8 @@ import { ArtRelease, RowRelease } from '~/components/Release';
 import { ViewSettings } from '~/components/ViewSettings';
 import { usePagedReleasesFetchReleasesQuery } from '~/graphql';
 import { IPagination, IViewOptions } from '~/hooks';
-import { IReleaseView } from '~/types';
+
+import { IReleaseView } from '../ViewSettings/View';
 
 // Partial here means that we have an artist/collection selector open.
 
