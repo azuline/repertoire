@@ -24,7 +24,7 @@ export const Info: IInfo = ({ track }) => {
 
     setBackgroundImageId(parentRelease.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [parentRelease]);
+  }, [parentRelease, setBackgroundImageId]);
 
   return (
     <div tw="flex">

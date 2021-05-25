@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import * as React from 'react';
 
 import { Chooser } from '~/components';
-import { NoChooserOption } from '~/components/NoChooserOption';
+import { NoChooserOption } from '~/components/Chooser';
 import { useYearsFetchReleaseYearsQuery } from '~/graphql';
 
 type IYearChooser = React.FC<{

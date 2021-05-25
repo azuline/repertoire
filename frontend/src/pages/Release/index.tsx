@@ -34,7 +34,7 @@ const Body: IBody = ({ id }) => {
 
     setBackgroundImageId(release.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [release]);
+  }, [release, setBackgroundImageId]);
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);

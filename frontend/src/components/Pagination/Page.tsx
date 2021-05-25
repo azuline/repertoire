@@ -1,7 +1,7 @@
 import * as React from 'react';
 import tw from 'twin.macro';
 
-import { Button } from '../common/Button';
+import { Button } from '~/components/common';
 
 type IPage = React.FC<{
   page: number;

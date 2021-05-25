@@ -21,7 +21,7 @@ export const Genre: IGenre = ({ active }) => {
 
     setBackgroundImageId(collection.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [collection]);
+  }, [collection, setBackgroundImageId]);
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);

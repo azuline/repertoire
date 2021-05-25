@@ -4,7 +4,7 @@ import tw from 'twin.macro';
 
 import { Background, FullPageLoading, NowPlayingBar, Sidebar } from '~/components';
 import { AuthorizationContext, GlobalContexts, ThemeContext } from '~/contexts';
-import { AuthedRoutes, UnauthedRoutes } from '~/pages';
+import { AuthedRoutes, UnauthedRoutes } from '~/routes';
 import { AppStyles } from '~/Styles';
 
 const App: React.FC = () => (

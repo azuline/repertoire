@@ -18,6 +18,8 @@ module.exports = {
     'prettier/react',
     'plugin:react/recommended',
     'plugin:prettier/recommended',
+    'plugin:import/recommended',
+    'plugin:react-hooks/recommended',
   ],
   plugins: ['@typescript-eslint', 'simple-import-sort', 'sort-keys-fix'],
   env: {
@@ -29,7 +31,9 @@ module.exports = {
     'consistent-return': 'off',
     'import/order': 'off',
     'import/extensions': 'off',
+    'import/no-unresolved': 'off',
     'import/prefer-default-export': 'off',
+    'import/no-relative-parent-imports': 'error',
     indent: ['error', 2, { SwitchCase: 1 }],
     // Not dealing with a11y at the moment.
     'jsx-a11y/alt-text': 'off',

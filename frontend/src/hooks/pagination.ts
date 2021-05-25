@@ -61,7 +61,10 @@ export const usePagination = ({
 
   const numPages = perPage === 0 ? 0 : Math.ceil(total / perPage);
 
-  return { numPages, page, perPage, setPage, setPerPage, setTotal };
+  return React.useMemo(
+    () => ({ numPages, page, perPage, setPage, setPerPage, setTotal }),
+    [numPages, page, perPage, setPage, setPerPage, setTotal],
+  );
 };
 
 /**

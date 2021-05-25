@@ -42,7 +42,7 @@ export const AuthorizationProvider: IProvider = ({ children }) => {
 
       setLoading(false);
     })();
-  }, []);
+  }, [requestJson]);
 
   const value = { csrf, loading, loggedIn, setCsrf, setLoggedIn };
 

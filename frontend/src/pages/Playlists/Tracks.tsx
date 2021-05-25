@@ -3,9 +3,8 @@ import * as React from 'react';
 
 import { Tracklist } from '~/components';
 import { usePlaylistsFetchTracksQuery } from '~/graphql';
+import { AuthenticatedError } from '~/pages/Error';
 import { filterNulls } from '~/util';
-
-import { AuthenticatedError } from '../Error';
 
 type IPlaylistTracks = React.FC<{ active: number }>;
 

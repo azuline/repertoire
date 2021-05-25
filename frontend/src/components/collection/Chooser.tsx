@@ -1,14 +1,12 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
 
-import { Chooser, IToggleStarFactory } from '~/components/Chooser';
+import { Chooser, IToggleStarFactory, NoChooserOption } from '~/components/Chooser';
 import {
   ICollectionType,
   useCollectionChooserFetchCollectionsQuery,
   useCollectionChooserUpdateCollectionStarredMutation,
 } from '~/graphql';
-
-import { NoChooserOption } from '../NoChooserOption';
 
 type ICollectionChooser = React.FC<{
   collectionTypes: ICollectionType[];

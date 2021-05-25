@@ -5,6 +5,8 @@ import { IElement, IToggleStarFactory } from './Element';
 import { JumpToLetter } from './JumpToLetter';
 import { VirtualList } from './VirtualList';
 
+export { NoChooserOption } from './NoChooserOption';
+
 /**
  * TODO: At the moment, the pages on which this is used essentially have a fixed header.
  * Whereas, on other pages, the header scrolls with the rest of the page.

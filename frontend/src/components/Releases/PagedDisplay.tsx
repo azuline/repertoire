@@ -5,11 +5,9 @@ import tw from 'twin.macro';
 
 import { Pagination } from '~/components/Pagination';
 import { ArtRelease, RowRelease } from '~/components/Release';
-import { ViewSettings } from '~/components/ViewSettings';
+import { IReleaseView, ViewSettings } from '~/components/ViewSettings';
 import { usePagedReleasesFetchReleasesQuery } from '~/graphql';
 import { IPagination, IViewOptions } from '~/hooks';
-
-import { IReleaseView } from '../ViewSettings/View';
 
 // Partial here means that we have an artist/collection selector open.
 
@@ -33,7 +31,7 @@ export const PagedReleases: IPagedReleases = ({
 
   React.useEffect(() => {
     pagination.setTotal(total);
-  }, [total]);
+  }, [total, pagination]);
 
   React.useEffect(() => {
     if (!error) {
@@ -43,7 +41,7 @@ export const PagedReleases: IPagedReleases = ({
     error.graphQLErrors.forEach(({ message }) => {
       addToast(message, { appearance: 'error' });
     });
-  }, [error]);
+  }, [error, addToast]);
 
   let releasesDiv = null;
 

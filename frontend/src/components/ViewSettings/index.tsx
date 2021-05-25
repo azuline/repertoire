@@ -10,6 +10,8 @@ import { PerPage } from './PerPage';
 import { Sort } from './Sort';
 import { View } from './View';
 
+export { IReleaseView } from './View';
+
 type IViewSettings = React.FC<{
   viewOptions: IViewOptions;
   pagination: IPagination;

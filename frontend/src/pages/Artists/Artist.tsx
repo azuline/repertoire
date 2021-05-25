@@ -23,7 +23,7 @@ export const Artist: IArtist = ({ active }) => {
 
     setBackgroundImageId(artist.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [artist]);
+  }, [artist, setBackgroundImageId]);
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);

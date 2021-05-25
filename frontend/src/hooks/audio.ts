@@ -83,7 +83,7 @@ export const useAudio = (): IAudio => {
     const onCanPlay = (): Promise<void> | undefined => atc.curr?.audio.play();
     atc.curr.audio.addEventListener('canplay', onCanPlay);
     return (): void => atc.curr?.audio.removeEventListener('canplay', onCanPlay);
-  }, [playQueue, curIndex]);
+  }, [playQueue, curIndex, atc]);
 
   // Set up an event on the current playing audio that handles when a track finishes
   // playing.
@@ -102,7 +102,7 @@ export const useAudio = (): IAudio => {
     const { audio } = atc.curr;
     audio.addEventListener('ended', onTrackEnd);
     return (): void => audio.removeEventListener('ended', onTrackEnd);
-  }, [playQueue, curIndex]);
+  }, [playQueue, curIndex, atc.curr, setCurIndex]);
 
   // Sync the isPlaying variable with the audio. Return a timer to sync curTime with the
   // track progress.
@@ -136,14 +136,14 @@ export const useAudio = (): IAudio => {
     if (!atc.curr.audio.ended) {
       atc.curr.audio.pause();
     }
-  }, [isPlaying]);
+  }, [isPlaying, atc.curr]);
 
   // Sync the currently playing track with the volume.
   React.useEffect(() => {
     if (atc.curr !== undefined) {
       atc.curr.audio.volume = isMuted ? 0 : volume / 100;
     }
-  }, [isMuted, volume]);
+  }, [isMuted, volume, atc.curr]);
 
   // A seek function to set the curTime on the track.
   const seek = (seconds: number): void => {
