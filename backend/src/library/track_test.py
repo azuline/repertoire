@@ -42,11 +42,11 @@ def test_from_filepath_failure(db: Connection):
 
 def test_from_sha256_success(factory: Factory, db: Connection):
     trk = factory.track(conn=db)
-    new_trk = track.from_sha256(trk.sha256, db)
+    new_trk = track.from_sha256(trk.sha256_full, db)
     assert new_trk == trk
 
 
-def test_from_sha256_failure(factory: Factory, db: Connection):
+def test_from_sha256_failure(db: Connection):
     assert track.from_sha256(b"0" * 32, db) is None
 
 
@@ -249,7 +249,7 @@ def test_create_same_sha256(factory: Factory, db: Connection):
     new_trk = track.create(
         title="new track",
         filepath=filepath,
-        sha256=trk.sha256,
+        sha256=trk.sha256_full,
         release_id=trk.release_id,
         artists=[],
         duration=9001,

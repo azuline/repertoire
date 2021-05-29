@@ -13,7 +13,10 @@ from src.config import config
 from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.errors import Duplicate
 from src.library import artist, collection, release, track
-from src.util import calculate_sha_256, database, uniq_list
+from src.tasks import huey
+from src.util import calculate_initial_sha_256, database, uniq_list
+
+# TODO: TagFile type is incorrect--fix the entire library...
 
 logger = logging.getLogger()
 
@@ -56,16 +59,60 @@ def scan_directory(directory: str) -> None:
     logger.info(f"Scanning `{directory}`.")
 
     with database() as conn:
+        track_batch: list[track.T] = []
+
         for ext in EXTS:
             for filepath in glob.iglob(f"{directory}/**/*{ext}", recursive=True):
+                # Every 50 tracks, run some specialized logic.
+                if len(track_batch) == 50:
+                    handle_track_batch(track_batch, conn)
+                    track_batch = []
+
                 if not _in_database(filepath, conn):
                     logger.debug(f"Discovered new file `{filepath}`.")
-                    catalog_file(filepath, conn)
+                    trk = catalog_file(filepath, conn)
+                    track_batch.append(trk)
                 else:
                     logger.debug(f"File `{filepath}` already in database, skipping...")
 
-        _fix_album_artists(conn)
-        _fix_release_types(conn)
+        # Handle the last batch of tracks.
+        handle_track_batch(track_batch, conn)
+
+        conn.commit()
+
+
+def handle_track_batch(track_batch: list[track.T], conn: Connection) -> None:
+    """
+    Every time we have a batch of tracks, run some logic. This is logic that has a
+    cost--we don't want to run it once every track, but not to the point where we want
+    to only run it once.
+    """
+    logger.debug("Running the 50 track batch handler.")
+
+    # Autofix potential deficiencies in the track tags.
+    _fix_album_artists(conn)
+    _fix_release_types(conn)
+
+    # Commit our new tracks and changes to the DB.
+    conn.commit()
+
+    # Schedule a task to calculate the full sha256s.
+    track_ids = [t.id for t in track_batch]
+    calculate_track_sha256s.schedule(args=(track_ids,), delay=0)
+
+
+@huey.task()
+def calculate_track_sha256s(track_ids: list[int]) -> None:
+    """
+    Calculate a list of track's full SHA256s.
+    """
+    with database() as conn:
+        for id_ in track_ids:
+            trk = track.from_id(id_, conn)
+            if not trk or trk.sha256_full:
+                continue
+
+            track.calculate_track_full_sha256(trk, conn)
 
         conn.commit()
 
@@ -84,7 +131,7 @@ def _in_database(filepath: str, conn: Connection) -> bool:
     return bool(cursor.fetchone())
 
 
-def catalog_file(filepath: str, conn: Connection) -> None:
+def catalog_file(filepath: str, conn: Connection) -> track.T:
     """
     Given a file, enter its information into the database. If associated database
     objects, e.g. artists and albums, don't exist, they are created with information
@@ -110,10 +157,10 @@ def catalog_file(filepath: str, conn: Connection) -> None:
         for art in uniq_list(artists)
     ]
 
-    track.create(
+    trk = track.create(
         title=title,
         filepath=tf.path,
-        sha256=calculate_sha_256(tf.path),
+        sha256_initial=calculate_initial_sha_256(tf.path),
         release_id=rls.id,
         artists=artists,
         duration=int(tf.mut.info.length),
@@ -122,8 +169,7 @@ def catalog_file(filepath: str, conn: Connection) -> None:
         conn=conn,
     )
 
-    # TODO: Don't commit on every track. Commit in batches.
-    conn.commit()
+    return trk
 
 
 def _fetch_or_create_release(tf: TagFile, conn: Connection) -> release.T:

@@ -16,3 +16,4 @@ def schedule_tasks():
     """
     # IDK if this actually works but it should!
     import src.indexer  # noqa
+    import src.indexer.scanner  # noqa
