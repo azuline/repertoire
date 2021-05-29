@@ -1,8 +1,7 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
 
-import { Chooser } from '~/components';
-import { NoChooserOption } from '~/components/Chooser';
+import { BasicElement, Chooser, Link, NoChooserOption } from '~/components';
 import { useYearsFetchReleaseYearsQuery } from '~/graphql';
 
 type IYearChooser = React.FC<{
@@ -13,12 +12,22 @@ type IYearChooser = React.FC<{
 export const YearChooser: IYearChooser = ({ active, className }) => {
   const { data } = useYearsFetchReleaseYearsQuery();
 
-  const elements =
+  const years =
     data?.releaseYears
       ?.filter((year): year is number => year !== null)
       .map((year) => ({ id: year, name: `${year}` })) || [];
 
-  if (elements.length === 0) {
+  const renderElement = (index: number): React.ReactNode => {
+    const element = years[index];
+
+    return (
+      <Link href={`years${element.id}`}>
+        <BasicElement isActive={element.id === active}>{element.name}</BasicElement>
+      </Link>
+    );
+  };
+
+  if (years.length === 0) {
     return <NoChooserOption>No years :(</NoChooserOption>;
   }
 
@@ -26,15 +35,11 @@ export const YearChooser: IYearChooser = ({ active, className }) => {
     <Chooser
       active={active}
       className={className}
-      results={elements}
-      starrable={false}
-      toggleStarFactory={(): undefined => undefined}
-      urlFactory={urlFactory}
+      renderElement={renderElement}
+      results={years}
     />
   );
 };
-
-const urlFactory = (id: number): string => `/years/${id}`;
 
 /* eslint-disable */
 gql`

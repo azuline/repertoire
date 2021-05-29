@@ -2,26 +2,21 @@ import * as React from 'react';
 import { AutoSizer, List, ListRowRenderer } from 'react-virtualized';
 import tw from 'twin.macro';
 
+import { IElement } from '~/components/ChooserElement';
 import { convertRemToPixels } from '~/util';
-
-import { Element, IElement, IToggleStarFactory } from './Element';
 
 type IVirtualList = React.FC<{
   active: number | null;
   jumpTo: number | null;
   results: IElement[];
-  starrable?: boolean;
-  toggleStarFactory: IToggleStarFactory;
-  urlFactory: (arg0: number) => string;
+  renderElement: (index: number) => React.ReactNode;
 }>;
 
 export const VirtualList: IVirtualList = ({
   results,
   active,
   jumpTo,
-  urlFactory,
-  starrable,
-  toggleStarFactory,
+  renderElement,
 }) => {
   const renderRow: ListRowRenderer = ({ index, key, style }) => {
     // Because React-Virtualized has bungled scrollToIndex behavior when the
@@ -33,13 +28,7 @@ export const VirtualList: IVirtualList = ({
 
     return (
       <div key={key} style={style}>
-        <Element
-          active={active}
-          element={results[index]}
-          starrable={starrable}
-          toggleStarFactory={toggleStarFactory}
-          urlFactory={urlFactory}
-        />
+        {renderElement(index)}
       </div>
     );
   };

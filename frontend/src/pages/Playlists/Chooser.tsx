@@ -1,8 +1,9 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
 
-import { Chooser, IToggleStarFactory } from '~/components';
+import { Chooser } from '~/components';
 import {
+  IPlaylistFieldsFragment,
   usePlaylistChooserFetchPlaylistsQuery,
   usePlaylistChooserUpdatePlaylistStarredMutation,
 } from '~/graphql';
@@ -16,14 +17,14 @@ export const PlaylistChooser: IPlaylistChooser = ({ active, className }) => {
   const { data, error, loading } = usePlaylistChooserFetchPlaylistsQuery();
   const [mutatePlaylist] = usePlaylistChooserUpdatePlaylistStarredMutation();
 
-  const toggleStarFactory: IToggleStarFactory = ({ id, starred, type }) => {
-    if (type === 'SYSTEM') {
+  const toggleStar = async (playlist: IPlaylistFieldsFragment): Promise<void> => {
+    if (playlist.type === 'SYSTEM') {
       return;
     }
 
-    return async (): Promise<void> => {
-      await mutatePlaylist({ variables: { id, starred: starred !== true } });
-    };
+    await mutatePlaylist({
+      variables: { id: playlist.id, starred: playlist.starred !== true },
+    });
   };
 
   if (!data || error || loading) {
