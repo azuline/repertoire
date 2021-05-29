@@ -30,7 +30,7 @@ export const Invites: React.FC = () => {
         <SectionHeader tw="pb-4">Active Invites</SectionHeader>
         <div tw="pb-8 text-foreground-400">Click an invite to copy its invite URL.</div>
         <div tw="flex">
-          <div tw="flex-shrink">
+          <div tw="flex-shrink min-w-0">
             {/* TODO: Loading animation */}
             {invites.map((inv) => (
               <Invite key={inv.id} {...inv} />
