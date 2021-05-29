@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
+
+from jinja2 import Environment, FileSystemLoader
 
 SRC = Path(__file__).absolute().parent
 WORKFLOWS = SRC.parent / "workflows"
@@ -77,6 +78,13 @@ frontend_data = {
       - name: Compare
         run: bash -c '[[ -z $(git status -s) ]] || (exit 1)'
         """,
+    "Chromatic": """
+      - name: Upload storybook
+        uses: chromaui/action@v1
+        with:
+          workingDir: 'frontend/'
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+    """,
 }
 
 
@@ -87,6 +95,8 @@ def convert_data(data):
                 "id": key.lower().replace(" ", "_"),
                 "name": key,
                 "steps": value.strip(),
+                # A little hack.
+                "fetch_all": key == "Chromatic",
             }
             for key, value in data.items()
         ]

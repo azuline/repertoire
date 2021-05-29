@@ -22,6 +22,10 @@ jobs:
         working-directory: 'frontend/'
     steps:
       - uses: actions/checkout@v2
+        {% if job.fetch_all %}
+        with:
+          fetch-depth: 0
+        {% endif %}
       - name: Cache dependencies
         id: cache-deps
         uses: actions/cache@v2
