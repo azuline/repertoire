@@ -747,6 +747,10 @@ export type IArtistFieldsFragment = (
 export type ICollectionFieldsFragment = (
   { __typename?: 'Collection' }
   & Pick<ICollection, 'id' | 'name' | 'starred' | 'type' | 'numReleases' | 'lastUpdatedOn' | 'imageId'>
+  & { user: Maybe<(
+    { __typename?: 'User' }
+    & IUserFieldsFragment
+  )> }
 );
 
 export type IInviteFieldsFragment = (
@@ -764,6 +768,10 @@ export type IInviteFieldsFragment = (
 export type IPlaylistFieldsFragment = (
   { __typename?: 'Playlist' }
   & Pick<IPlaylist, 'id' | 'name' | 'starred' | 'type' | 'numTracks' | 'lastUpdatedOn' | 'imageId'>
+  & { user: Maybe<(
+    { __typename?: 'User' }
+    & IUserFieldsFragment
+  )> }
 );
 
 export type ITrackFieldsFragment = (
@@ -1204,6 +1212,12 @@ export const ArtistFieldsFragmentDoc = gql`
   imageId
 }
     `;
+export const UserFieldsFragmentDoc = gql`
+    fragment UserFields on User {
+  id
+  nickname
+}
+    `;
 export const CollectionFieldsFragmentDoc = gql`
     fragment CollectionFields on Collection {
   id
@@ -1213,14 +1227,11 @@ export const CollectionFieldsFragmentDoc = gql`
   numReleases
   lastUpdatedOn
   imageId
+  user {
+    ...UserFields
+  }
 }
-    `;
-export const UserFieldsFragmentDoc = gql`
-    fragment UserFields on User {
-  id
-  nickname
-}
-    `;
+    ${UserFieldsFragmentDoc}`;
 export const InviteFieldsFragmentDoc = gql`
     fragment InviteFields on Invite {
   id
@@ -1243,8 +1254,11 @@ export const PlaylistFieldsFragmentDoc = gql`
   numTracks
   lastUpdatedOn
   imageId
+  user {
+    ...UserFields
+  }
 }
-    `;
+    ${UserFieldsFragmentDoc}`;
 export const ReleaseFieldsFragmentDoc = gql`
     fragment ReleaseFields on Release {
   id

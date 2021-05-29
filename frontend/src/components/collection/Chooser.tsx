@@ -46,11 +46,19 @@ export const CollectionChooser: ICollectionChooser = ({
     return null;
   }
 
-  const { results } = data.collections;
+  const tmp = filterEmpty
+    ? data.collections.results.filter((col) => col.numReleases !== 0)
+    : data.collections.results;
 
-  const collections = filterEmpty
-    ? results.filter((col) => col.numReleases !== 0)
-    : results;
+  // TODO: We shouldn't be modifying this--when chooser is refactored, make this a
+  // display-only thing.
+  const collections = tmp.map((c) => {
+    if (c.user === null) {
+      return c;
+    }
+
+    return { ...c, name: `${c.user.nickname}'s ${c.name}` };
+  });
 
   if (collections.length === 0) {
     return <NoChooserOption>No {emptyString} :(</NoChooserOption>;

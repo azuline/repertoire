@@ -30,11 +30,21 @@ export const PlaylistChooser: IPlaylistChooser = ({ active, className }) => {
     return null;
   }
 
+  // TODO: We shouldn't be modifying this--when chooser is refactored, make this a
+  // display-only thing.
+  const playlists = data.playlists.results.map((p) => {
+    if (p.user === null) {
+      return p;
+    }
+
+    return { ...p, name: `${p.user.nickname}'s ${p.name}` };
+  });
+
   return (
     <Chooser
       active={active}
       className={className}
-      results={data.playlists.results}
+      results={playlists}
       toggleStarFactory={toggleStarFactory}
       urlFactory={urlFactory}
     />

@@ -44,6 +44,10 @@ fragment CollectionFields on Collection {
   numReleases
   lastUpdatedOn
   imageId
+
+  user {
+    ...UserFields
+  }
 }
 
 fragment InviteFields on Invite {
@@ -66,6 +70,10 @@ fragment PlaylistFields on Playlist {
   numTracks
   lastUpdatedOn
   imageId
+
+  user {
+    ...UserFields
+  }
 }
 
 fragment TrackFields on Track {
