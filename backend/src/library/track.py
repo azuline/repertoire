@@ -365,6 +365,7 @@ def create(
     track_number: str,
     disc_number: str,
     conn: Connection,
+    sha256: Optional[bytes] = None,
 ) -> T:
     """
     Create a track with the provided parameters.
@@ -374,13 +375,17 @@ def create(
 
     :param title: The title of the track.
     :param filepath: The filepath of the track.
-    :param sha256: The sha256 of the track file.
+    :param sha256_initial: The SHA256 of the first 16KB of the track file.
     :param release_id: The ID of the release that this track belongs to.
     :param artists: The artists that contributed to this track. A list of
                     ``{"artist_id": int, "role": ArtistRole}`` mappings.
     :param duration: The duration of this track, in seconds.
     :param track_number: The track number.
     :param disc_number: The disc number.
+    :param sha256: The full SHA256 of the track file. This should generally not be
+                   passed in--calculating a SHA256 requires a filesystem read of several
+                   MB, and we want to do that lazily. But we allow it to be passed in
+                   for testing and cases where efficiency doesn't matter.
     :return: The newly created track.
     :raises NotFound: If no release has the given release ID or no artist
                       corresponds with any of the given artist IDs.
@@ -416,8 +421,9 @@ def create(
             release_id,
             track_number,
             disc_number,
-            duration
-        ) VALUES (?, ?, ?, ?, ?, ?, ?)
+            duration,
+            sha256
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             title,
@@ -427,6 +433,7 @@ def create(
             track_number,
             disc_number,
             duration,
+            sha256,
         ),
     )
 
@@ -458,7 +465,7 @@ def _check_for_duplicate_sha256(
     """
     cursor = conn.execute(
         "SELECT id, sha256 FROM music__tracks WHERE sha256_initial = ?",
-        (sha256_initial),
+        (sha256_initial,),
     )
 
     row = cursor.fetchone()

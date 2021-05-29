@@ -183,6 +183,7 @@ class Factory:
         conn: Connection,
         title: Optional[str] = None,
         filepath: Optional[Path] = None,
+        sha256_initial: Optional[bytes] = None,
         sha256: Optional[bytes] = None,
         release_id: Optional[int] = None,
         artists: Optional[list[dict]] = None,
@@ -214,9 +215,10 @@ class Factory:
                 ]
 
         return libtrack.create(
-            title=title if title is not None else self.rand_string(12),
-            filepath=filepath if filepath is not None else self.rand_path(".m4a"),
-            sha256=sha256 if sha256 is not None else random.randbytes(12),
+            title=title or self.rand_string(12),
+            filepath=filepath or self.rand_path(".m4a"),
+            sha256_initial=sha256_initial or random.randbytes(32),
+            sha256=sha256 or random.randbytes(32),
             release_id=release_id,
             artists=artists,
             duration=duration if duration is not None else random.randint(100, 400),
