@@ -6,7 +6,7 @@ from typing import Callable
 
 from huey import crontab
 
-from src.constants import constants
+from src.constants import IS_PYTEST, IS_SPHINX, constants
 from src.errors import InvalidConfig
 from src.util import parse_crontab
 
@@ -109,5 +109,9 @@ def _load_config(config_path: Path) -> ConfigParser:
     parser.read(config_path)
     return parser
 
+
+# Don't automatically initialize/update application data when testing.
+if not IS_PYTEST and not IS_SPHINX:  # pragma: no cover
+    initialize_config()
 
 config = _Config()
