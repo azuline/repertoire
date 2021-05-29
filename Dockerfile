@@ -1,9 +1,9 @@
 # This is a Dockerfile for building production images.
 
-# Frontend builder.
-# -----------------
+# Frontend builder
+# ----------------
 
-FROM mhart/alpine-node:15.8.0 AS builder
+FROM mhart/alpine-node:15.8.0 AS frontend-builder
 
 WORKDIR /app
 
@@ -18,10 +18,38 @@ RUN yarn install
 COPY frontend/ ./
 RUN yarn build
 
-# Backend server.
+# SQLite3 builder
 # ---------------
 
-FROM python:3.9.5-slim-buster
+FROM python:3.9.5-buster AS sqlite-builder
+
+WORKDIR /
+
+# RUN apt-get upgrade -y && apt-get install -y curl unzip
+# This is to upgrade SQLite3 in our debian container (to 3.35.0).
+# Commands from https://charlesleifer.com/blog/compiling-sqlite-for-use-with-python-applications/.
+
+RUN curl -O https://sqlite.org/2021/sqlite-autoconf-3350500.tar.gz \
+    && tar -xzf sqlite-autoconf-3350500.tar.gz \
+    && mv sqlite-autoconf-3350500 sqlite \
+    && cd sqlite \
+    && export CFLAGS="-DSQLITE_ENABLE_FTS5 \
+        -DSQLITE_ENABLE_JSON1 \
+        -DSQLITE_ENABLE_LOAD_EXTENSION \
+        -DSQLITE_ENABLE_STAT4 \
+        -DSQLITE_ENABLE_UPDATE_DELETE_LIMIT \
+        -DSQLITE_TEMP_STORE=3 \
+        -DSQLITE_USE_URI \
+        -O2 \
+        -fPIC" \
+    && export PREFIX="/usr/local" \
+    && LIBS="-lm" ./configure --enable-shared --prefix="$PREFIX" \
+    && make
+
+# Backend server
+# --------------
+
+FROM python:3.9.5-buster
 
 WORKDIR /app
 
@@ -37,8 +65,14 @@ ENV BUILT_FRONTEND_DIR=/app/frontend
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
 # Update system
-RUN apt-get -y upgrade \
-    && apt-get -y upgrade
+RUN apt-get upgrade -y \
+    && apt-get upgrade -y \
+    && apt-get install make
+
+# Install upgraded sqlite3
+ENV LD_LIBRARY_PATH=/usr/local/lib
+COPY --from=sqlite-builder /sqlite /sqlite
+RUN cd /sqlite && PREFIX="/usr/local" make install
 
 # To cache dependencies even if the code changes, we install deps
 # before copying the rest of the code.
@@ -49,7 +83,8 @@ RUN pip install --no-cache -r requirements.txt
 COPY backend/ ./
 RUN pip install -e .
 
-COPY --from=builder /app/build ./frontend
+# Copy the built frontend
+COPY --from=frontend-builder /app/build ./frontend
 
 # We don't want to run repertoire as a privileged user.
 # Note: The application files are owned by root.
