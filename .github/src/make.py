@@ -82,7 +82,6 @@ frontend_data = {
       - name: Upload storybook
         run: chromaui/action@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
     """,
 }
