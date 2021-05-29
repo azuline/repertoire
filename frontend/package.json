@@ -75,6 +75,7 @@
     "@typescript-eslint/parser": "^4.5.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-twin": "^1.0.2",
+    "chromatic": "^5.8.3",
     "eslint": "^7.17.0",
     "eslint-config-airbnb-typescript": "^12.0.0",
     "eslint-config-prettier": "^6.14.0",
