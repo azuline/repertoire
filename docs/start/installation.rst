@@ -63,11 +63,13 @@ Example ``docker-compose.yml``:
 
 .. code-block:: yaml
 
-   version: '3'
+   version: '3.7'
    services:
      server:
        # This uses the latest repertoire image off the master branch.
        image: blissful/repertoire:latest
+       # This runs the server with tini.
+       init: true
        # This binds repertoire to port 45731, listening only on 127.0.0.1.
        ports:
          - "127.0.0.1:45731:45731"
@@ -102,7 +104,7 @@ This option uses Poetry to handle the virtual environment and install the
 backend. See https://python-poetry.org/docs/#installation for instructions on
 installing Poetry.
 
-Yarn is used to build the frontend. See https://classic.yarnpkg.com/en/docs/install/ 
+Yarn is used to build the frontend. See https://classic.yarnpkg.com/en/docs/install/
 for instructions on installing Yarn.
 
 Installation with Poetry has the following steps:
@@ -216,7 +218,7 @@ Python
 
 #. Follow the instructions at https://github.com/pyenv/pyenv#installation to
    install pyenv.
-#. Run ``$ pyenv install 3.9.1`` to install the required Python version.
+#. Run ``$ pyenv install 3.9.5`` to install the required Python version.
 
 JavaScript
 ^^^^^^^^^^

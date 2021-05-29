@@ -24,10 +24,10 @@ https://github.com/azuline/repertoire.git`` is still an option though.
 Before starting, please make sure you:
 
 #. Have a recent enough version of SQLite. See :ref:`installation_sqlite`.
-#. Have Python 3.9.1 and NodeJS 15.8.0 installed, either through your system
+#. Have Python 3.9.5 and NodeJS 15.8.0 installed, either through your system
    package manager or through pyenv and nvm. See :ref:`installation_py_js`.
 
-We split the setup into two parts: backend and frontend. 
+We split the setup into two parts: backend and frontend.
 
 Backend
 ^^^^^^^
