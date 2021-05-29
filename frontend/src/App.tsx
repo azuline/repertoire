@@ -22,7 +22,7 @@ const Body: React.FC = () => {
   const { theme } = React.useContext(ThemeContext);
 
   return (
-    <div tw="w-full min-h-0 bg-background-700 text-foreground-50">
+    <div tw="w-full min-h-0 bg-background-700 text-foreground-50 min-width[400px]">
       <div className={theme} tw="flex flex-col h-screen">
         {((): React.ReactNode => {
           switch (true) {

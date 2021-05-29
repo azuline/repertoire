@@ -80,7 +80,7 @@ export const Track: ITrackComponent = ({
         <div tw="flex-1">
           <div tw="flex items-center w-full min-w-0">
             <div tw="flex items-center flex-1 min-w-0">
-              <div title={track.title} tw="flex-none mr-2 truncate w-1/3">
+              <div title={track.title} tw="flex-none mr-2 truncate w-full md:w-1/3">
                 <span>{trackNumber}. </span>
                 {track.title}
               </div>
