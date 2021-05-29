@@ -49,7 +49,11 @@ CREATE TABLE music__releases_artists (
 CREATE TABLE music__tracks (
     id INTEGER PRIMARY KEY,
     filepath VARCHAR UNIQUE NOT NULL,
-    sha256 BLOB UNIQUE NOT NULL,
+    -- The SHA256 of the full track. This is initially NULL for efficiency, but
+    -- eventually becomes NOT NULL.
+    sha256 BLOB UNIQUE,
+    -- The SHA256 of the first 16KB of the track.
+    sha256_initial BLOB NOT NULL,
     title VARCHAR COLLATE 'NOCASE' NOT NULL DEFAULT 'Untitled',
     release_id INTEGER NOT NULL REFERENCES music__releases(id) DEFAULT 1,
     track_number VARCHAR NOT NULL DEFAULT '1',
