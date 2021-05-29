@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
 
-import { Chooser, IElement, StarrableElement } from '~/components';
+import { Chooser, IElement, StarrableChooserRow } from '~/components';
 import {
   useArtistChooserFetchArtistsQuery,
   useArtistChooserUpdateArtistStarredMutation,
@@ -32,14 +32,12 @@ export const ArtistChooser: IArtistChooser = ({ active, className }) => {
     const element = artists[index];
 
     return (
-      <StarrableElement
+      <StarrableChooserRow
+        element={element}
         isActive={element.id === active}
-        starred={element.starred}
         url={`/artists/${element.id}`}
         onToggle={(): Promise<void> => toggleStar(element)}
-      >
-        {element.name}
-      </StarrableElement>
+      />
     );
   };
 

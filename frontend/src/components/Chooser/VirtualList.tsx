@@ -2,8 +2,9 @@ import * as React from 'react';
 import { AutoSizer, List, ListRowRenderer } from 'react-virtualized';
 import tw from 'twin.macro';
 
-import { IElement } from '~/components/ChooserElement';
 import { convertRemToPixels } from '~/util';
+
+import { IElement } from './types';
 
 type IVirtualList = React.FC<{
   active: number | null;

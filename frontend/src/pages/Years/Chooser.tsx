@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
 
-import { BasicElement, Chooser, Link, NoChooserOption } from '~/components';
+import { BasicChooserRow, Chooser, Link, NoChooserOption } from '~/components';
 import { useYearsFetchReleaseYearsQuery } from '~/graphql';
 
 type IYearChooser = React.FC<{
@@ -22,7 +22,7 @@ export const YearChooser: IYearChooser = ({ active, className }) => {
 
     return (
       <Link href={`years${element.id}`}>
-        <BasicElement isActive={element.id === active}>{element.name}</BasicElement>
+        <BasicChooserRow element={element} isActive={element.id === active} />
       </Link>
     );
   };

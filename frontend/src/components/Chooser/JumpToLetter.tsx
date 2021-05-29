@@ -1,7 +1,7 @@
 import * as React from 'react';
 import tw from 'twin.macro';
 
-import { IElement } from '~/components/ChooserElement';
+import { IElement } from './types';
 
 type IIndexMap = { [k in string]?: () => void };
 

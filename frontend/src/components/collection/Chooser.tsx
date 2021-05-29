@@ -1,8 +1,11 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
+import { useToasts } from 'react-toast-notifications';
 
-import { Chooser, IToggleStarFactory, NoChooserOption } from '~/components/Chooser';
+import { Chooser, NoChooserOption } from '~/components/Chooser';
+import { StarrableChooserRow } from '~/components/ChooserRow';
 import {
+  ICollectionFieldsFragment,
   ICollectionType,
   useCollectionChooserFetchCollectionsQuery,
   useCollectionChooserUpdateCollectionStarredMutation,
@@ -29,36 +32,45 @@ export const CollectionChooser: ICollectionChooser = ({
     variables: { types: collectionTypes },
   });
   const [mutateCollection] = useCollectionChooserUpdateCollectionStarredMutation();
+  const { addToast } = useToasts();
 
-  const urlFactory = (id: number): string => `${urlPrefix}/${id}`;
-
-  const toggleStarFactory: IToggleStarFactory = ({ id, starred, type }) => {
-    if (type === 'SYSTEM') {
+  const toggleStar = async (collection: ICollectionFieldsFragment): Promise<void> => {
+    if (collection.type === 'SYSTEM') {
+      addToast('Cannot unstar system collections.', { appearance: 'error' });
       return;
     }
 
-    return async (): Promise<void> => {
-      await mutateCollection({ variables: { id, starred: starred !== true } });
-    };
+    await mutateCollection({
+      variables: { id: collection.id, starred: collection.starred !== true },
+    });
   };
 
   if (!data || loading || error) {
     return null;
   }
 
-  const tmp = filterEmpty
-    ? data.collections.results.filter((col) => col.numReleases !== 0)
-    : data.collections.results;
+  const collections = ((): ICollectionFieldsFragment[] => {
+    const xs = filterEmpty
+      ? data.collections.results.filter((col) => col.numReleases !== 0)
+      : data.collections.results;
 
-  // TODO: We shouldn't be modifying this--when chooser is refactored, make this a
-  // display-only thing.
-  const collections = tmp.map((c) => {
-    if (c.user === null) {
-      return c;
-    }
+    return xs.map((c) =>
+      c.user === null ? c : { ...c, name: `${c.user.nickname}'s ${c.name}` },
+    );
+  })();
 
-    return { ...c, name: `${c.user.nickname}'s ${c.name}` };
-  });
+  const renderElement = (index: number): React.ReactNode => {
+    const element = collections[index];
+
+    return (
+      <StarrableChooserRow
+        element={element}
+        isActive={element.id === active}
+        url={`${urlPrefix}/${element.id}`}
+        onToggle={(): Promise<void> => toggleStar(element)}
+      />
+    );
+  };
 
   if (collections.length === 0) {
     return <NoChooserOption>No {emptyString} :(</NoChooserOption>;
@@ -68,9 +80,8 @@ export const CollectionChooser: ICollectionChooser = ({
     <Chooser
       active={active}
       className={className}
+      renderElement={renderElement}
       results={collections}
-      toggleStarFactory={toggleStarFactory}
-      urlFactory={urlFactory}
     />
   );
 };

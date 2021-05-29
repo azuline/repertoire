@@ -5,6 +5,7 @@ import { JumpToLetter } from './JumpToLetter';
 import { VirtualList } from './VirtualList';
 
 export { NoChooserOption } from './NoChooserOption';
+export * from './types';
 
 /**
  * TODO: At the moment, the pages on which this is used essentially have a fixed header.
