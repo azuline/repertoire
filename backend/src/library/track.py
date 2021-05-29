@@ -32,7 +32,9 @@ class T:
     #:
     filepath: Path
     #: A hash of the audio file.
-    sha256_full: bytes
+    sha256: bytes
+    #: A hash of the first 16KB of the file.
+    sha256_initial: bytes
     #:
     title: str
     #:
@@ -138,7 +140,7 @@ def from_sha256(sha256: bytes, conn: Connection) -> Optional[T]:
     """
     # TODO(now): Calculate the full sha256 if it's not present.
     cursor = conn.execute(
-        "SELECT * FROM music__tracks WHERE sha256_full = ?",
+        "SELECT * FROM music__tracks WHERE sha256 = ?",
         (sha256,),
     )
 
@@ -455,7 +457,7 @@ def _check_for_duplicate_sha256(
     both files. We do this for efficiency reasons--see the scanner for more details.
     """
     cursor = conn.execute(
-        "SELECT id, sha256_full FROM music__tracks WHERE sha256_initial = ?",
+        "SELECT id, sha256 FROM music__tracks WHERE sha256_initial = ?",
         (sha256_initial),
     )
 
@@ -468,7 +470,7 @@ def _check_for_duplicate_sha256(
 
     # This value is calculated lazily or on demand. Since we demand it here,
     # we must calculate it if it doesn't exist.
-    existing_sha256 = row["sha256_full"]
+    existing_sha256 = row["sha256"]
     if not existing_sha256:
         try:
             existing_sha256 = calculate_track_full_sha256(row["id"], conn)

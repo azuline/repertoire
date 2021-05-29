@@ -109,7 +109,7 @@ def calculate_track_sha256s(track_ids: list[int]) -> None:
     with database() as conn:
         for id_ in track_ids:
             trk = track.from_id(id_, conn)
-            if not trk or trk.sha256_full:
+            if not trk or trk.sha256:
                 continue
 
             track.calculate_track_full_sha256(trk, conn)

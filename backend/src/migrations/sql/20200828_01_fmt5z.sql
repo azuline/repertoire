@@ -74,7 +74,7 @@ CREATE TABLE music__tracks (
     filepath VARCHAR UNIQUE NOT NULL,
     -- The SHA256 of the full track. This is initially NULL for efficiency, but
     -- eventually becomes NOT NULL.
-    sha256_full BLOB UNIQUE,
+    sha256 BLOB UNIQUE,
     -- The SHA256 of the first 16KB of the track.
     sha256_initial BLOB NOT NULL,
     title VARCHAR COLLATE 'NOCASE' NOT NULL DEFAULT 'Untitled',
