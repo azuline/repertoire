@@ -6,13 +6,15 @@
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
+    "tsc": "tsc",
     "test": "jest",
     "testcov": "jest --coverage --coverageDirectory='coverage'",
     "lint": "eslint src/ --ext .ts,.tsx --fix --cache",
     "fmt": "prettier --write src",
     "codegen": "graphql-codegen --config codegen.yml",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "chromatic": "chromatic"
   },
   "babelMacros": {
     "twin": {
