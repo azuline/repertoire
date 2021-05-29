@@ -1,5 +1,6 @@
 export * from './Background';
 export * from './Chooser';
+export * from './ChooserRow';
 export * from './collection';
 export * from './common';
 export * from './Header';

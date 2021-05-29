@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
 
-import { Chooser, IToggleStarFactory } from '~/components';
+import { Chooser, IElement, StarrableChooserRow } from '~/components';
 import {
   useArtistChooserFetchArtistsQuery,
   useArtistChooserUpdateArtistStarredMutation,
@@ -16,10 +16,10 @@ export const ArtistChooser: IArtistChooser = ({ active, className }) => {
   const { data, error, loading } = useArtistChooserFetchArtistsQuery();
   const [mutateArtist] = useArtistChooserUpdateArtistStarredMutation();
 
-  const toggleStarFactory: IToggleStarFactory = ({ id, starred }) => {
-    return async (): Promise<void> => {
-      await mutateArtist({ variables: { id, starred: starred !== true } });
-    };
+  const toggleStar = async (element: IElement): Promise<void> => {
+    await mutateArtist({
+      variables: { id: element.id, starred: element.starred !== true },
+    });
   };
 
   if (!data || error || loading) {
@@ -28,18 +28,28 @@ export const ArtistChooser: IArtistChooser = ({ active, className }) => {
 
   const artists = data.artists.results.filter((art) => art.numReleases !== 0);
 
+  const renderElement = (index: number): React.ReactNode => {
+    const element = artists[index];
+
+    return (
+      <StarrableChooserRow
+        element={element}
+        isActive={element.id === active}
+        url={`/artists/${element.id}`}
+        onToggle={(): Promise<void> => toggleStar(element)}
+      />
+    );
+  };
+
   return (
     <Chooser
       active={active}
       className={className}
+      renderElement={renderElement}
       results={artists}
-      toggleStarFactory={toggleStarFactory}
-      urlFactory={urlFactory}
     />
   );
 };
-
-const urlFactory = (id: number): string => `/artists/${id}`;
 
 /* eslint-disable */
 gql`
