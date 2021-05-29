@@ -21,7 +21,7 @@ export const YearChooser: IYearChooser = ({ active, className }) => {
     const element = years[index];
 
     return (
-      <Link href={`years${element.id}`}>
+      <Link href={`/years/${element.id}`}>
         <BasicChooserRow element={element} isActive={element.id === active} />
       </Link>
     );
