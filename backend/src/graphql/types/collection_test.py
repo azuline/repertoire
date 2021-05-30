@@ -177,7 +177,7 @@ async def test_collections_type_param(graphql_query, snapshot):
 async def test_create_collection(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            createCollection(name: "NewCollection", type: COLLAGE, starred: true) {
+            createCollection(name: "NewCollection", type: COLLAGE) {
                 ...CollectionFields
             }
         }
@@ -190,14 +190,13 @@ async def test_create_collection(db: Connection, graphql_query, snapshot):
     assert col is not None
     assert col.name == "NewCollection"
     assert col.type == CollectionType.COLLAGE
-    assert col.starred is True
 
 
 @pytest.mark.asyncio
 async def test_create_collection_duplicate(graphql_query, snapshot):
     query = """
         mutation {
-            createCollection(name: "Collage1", type: COLLAGE, starred: true) {
+            createCollection(name: "Collage1", type: COLLAGE) {
                 ...CollectionFields
             }
         }
@@ -211,7 +210,7 @@ async def test_create_collection_duplicate(graphql_query, snapshot):
 async def test_update_collection(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            updateCollection(id: 5, name: "NewCollection", starred: true) {
+            updateCollection(id: 5, name: "NewCollection") {
                 ...CollectionFields
             }
         }
@@ -223,7 +222,6 @@ async def test_update_collection(db: Connection, graphql_query, snapshot):
     col = collection.from_id(5, db)
     assert col is not None
     assert col.name == "NewCollection"
-    assert col.starred is True
 
 
 @pytest.mark.asyncio
@@ -274,6 +272,47 @@ async def test_update_collection_immutable(db: Connection, graphql_query, snapsh
     col = collection.from_id(1, db)
     assert col is not None
     assert col.name != "NewCollection"
+
+
+@pytest.mark.asyncio
+async def test_star_collection(db: Connection, graphql_query, snapshot):
+    query = """
+        mutation {
+            starCollection(id: 5) {
+                ...CollectionFields
+            }
+        }
+    """
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    col = collection.from_id(5, db)
+    assert col is not None
+    assert collection.starred(col, user_id=1, conn=db)
+
+
+@pytest.mark.asyncio
+async def test_unstar_collection(db: Connection, graphql_query, snapshot):
+    # Collection 4 should be initially starred.
+    col = collection.from_id(7, db)
+    assert col is not None
+    assert collection.starred(col, user_id=1, conn=db)
+
+    query = """
+        mutation {
+            unstarCollection(id: 7) {
+                ...CollectionFields
+            }
+        }
+    """
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    col = collection.from_id(7, db)
+    assert col is not None
+    assert not collection.starred(col, user_id=1, conn=db)
 
 
 @pytest.mark.asyncio

@@ -53,14 +53,20 @@ class Factory:
         name: Optional[str] = None,
         type: Optional[CollectionType] = None,
         user: Optional[libuser.T] = None,
+        starred_for_user: Optional[int] = None,
     ) -> libcollection.T:
-        return libcollection.create(
+        col = libcollection.create(
             name=name or self.rand_string(12),
             type=type or CollectionType.COLLAGE,
             user_id=user.id if user else None,
             conn=conn,
             override_immutable=True,
         )
+
+        if starred_for_user:
+            libcollection.star(col, starred_for_user, conn)
+
+        return col
 
     def image(
         self,

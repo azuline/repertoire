@@ -115,7 +115,8 @@ def resolve_update_release(
     id: int,
     **changes,
 ) -> release.T:
-    if not (rls := release.from_id(id, info.context.db)):
+    rls = release.from_id(id, info.context.db)
+    if not rls:
         raise NotFound(f"Release {id} does not exist.")
 
     # Convert the "releaseDate" update from a string to a `date` object. If it is not in
@@ -139,7 +140,8 @@ def resolve_add_artist_to_release(
     artistId: int,
     role: ArtistRole,
 ) -> dict:
-    if not (rls := release.from_id(releaseId, info.context.db)):
+    rls = release.from_id(releaseId, info.context.db)
+    if not rls:
         raise NotFound(f"Release {releaseId} does not exist.")
 
     rls = release.add_artist(rls, artistId, role, info.context.db)
@@ -157,7 +159,8 @@ def resolve_del_artist_from_release(
     artistId: int,
     role: ArtistRole,
 ) -> dict:
-    if not (rls := release.from_id(releaseId, info.context.db)):
+    rls = release.from_id(releaseId, info.context.db)
+    if not rls:
         raise NotFound(f"Release {releaseId} does not exist.")
 
     rls = release.del_artist(rls, artistId, role, info.context.db)

@@ -172,14 +172,14 @@ def create(nickname: str, conn: Connection) -> tuple[T, bytes]:
 
 def _create_system_collections_and_playlists(user_id: int, conn: Connection) -> None:
     for name in ["Inbox", "Favorites"]:
-        collection.create(
+        col = collection.create(
             name,
             CollectionType.SYSTEM,
             user_id=user_id,
-            starred=True,
             conn=conn,
             override_immutable=True,
         )
+        collection.star(col, user_id, conn)
 
     libplaylist.create(
         "Favorites",
@@ -276,7 +276,9 @@ def check_token(usr: T, token: bytes, conn: Connection) -> bool:
         "SELECT token_hash FROM system__users WHERE id = ?",
         (usr.id,),
     )
-    if not (row := cursor.fetchone()):
+
+    row = cursor.fetchone()
+    if not row:
         logger.debug(f"Did not find token for user {usr.id}.")
         return False
 

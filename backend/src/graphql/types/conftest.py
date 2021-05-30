@@ -107,7 +107,7 @@ def _add_test_data(conn: Connection):
     artists = [
         factory.artist(name="Artist1", conn=conn),
         factory.artist(name="Artist2", conn=conn),
-        factory.artist(name="Artist3", conn=conn, starred_for_user=1),
+        factory.artist(name="Artist3", conn=conn, starred_for_user=usr_admin.id),
         factory.artist(name="Artist4", conn=conn),
         factory.artist(name="Artist5", conn=conn),
     ]
@@ -117,7 +117,12 @@ def _add_test_data(conn: Connection):
     collages = [
         factory.collection(name="Collage1", type=CollectionType.COLLAGE, conn=conn),
         factory.collection(name="Collage2", type=CollectionType.COLLAGE, conn=conn),
-        factory.collection(name="Collage3", type=CollectionType.COLLAGE, conn=conn),
+        factory.collection(
+            name="Collage3",
+            type=CollectionType.COLLAGE,
+            conn=conn,
+            starred_for_user=usr_admin.id,
+        ),
     ]
 
     labels = [

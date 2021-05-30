@@ -94,7 +94,8 @@ def resolve_update_playlist(
     id: int,
     **changes,
 ) -> playlist.T:
-    if not (ply := playlist.from_id(id, info.context.db)):
+    ply = playlist.from_id(id, info.context.db)
+    if not ply:
         raise NotFound(f"Playlist {id} does not exist.")
 
     return playlist.update(ply, info.context.db, **convert_keys_case(changes))

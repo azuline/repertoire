@@ -7,8 +7,9 @@ import { StarrableChooserRow } from '~/components/ChooserRow';
 import {
   ICollectionFieldsFragment,
   ICollectionType,
-  useCollectionChooserFetchCollectionsQuery,
-  useCollectionChooserUpdateCollectionStarredMutation,
+  useFetchCollectionsChooserQuery,
+  useStarCollectionChooserMutation,
+  useUnstarCollectionChooserMutation,
 } from '~/graphql';
 
 type ICollectionChooser = React.FC<{
@@ -28,10 +29,11 @@ export const CollectionChooser: ICollectionChooser = ({
   emptyString,
   filterEmpty = false,
 }) => {
-  const { data, error, loading } = useCollectionChooserFetchCollectionsQuery({
+  const { data, error, loading } = useFetchCollectionsChooserQuery({
     variables: { types: collectionTypes },
   });
-  const [mutateCollection] = useCollectionChooserUpdateCollectionStarredMutation();
+  const [starCollection] = useStarCollectionChooserMutation();
+  const [unstarCollection] = useUnstarCollectionChooserMutation();
   const { addToast } = useToasts();
 
   const toggleStar = async (collection: ICollectionFieldsFragment): Promise<void> => {
@@ -40,9 +42,11 @@ export const CollectionChooser: ICollectionChooser = ({
       return;
     }
 
-    await mutateCollection({
-      variables: { id: collection.id, starred: collection.starred !== true },
-    });
+    if (collection.starred) {
+      await unstarCollection({ variables: { id: collection.id } });
+    } else {
+      await starCollection({ variables: { id: collection.id } });
+    }
   };
 
   if (!data || loading || error) {
@@ -88,7 +92,7 @@ export const CollectionChooser: ICollectionChooser = ({
 
 /* eslint-disable */
 gql`
-  query CollectionChooserFetchCollections($types: [CollectionType!]) {
+  query FetchCollectionsChooser($types: [CollectionType!]) {
     collections(types: $types) {
       results {
         ...CollectionFields
@@ -96,8 +100,15 @@ gql`
     }
   }
 
-  mutation CollectionChooserUpdateCollectionStarred($id: Int!, $starred: Boolean) {
-    updateCollection(id: $id, starred: $starred) {
+  mutation starCollectionChooser($id: Int!) {
+    starCollection(id: $id) {
+      id
+      starred
+    }
+  }
+
+  mutation unstarCollectionChooser($id: Int!) {
+    unstarCollection(id: $id) {
       id
       starred
     }

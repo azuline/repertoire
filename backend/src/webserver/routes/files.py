@@ -27,7 +27,8 @@ async def get_track(track_id: int) -> Optional[Response]:
     :status 200: Audio file exists and is returned.
     :status 404: Track or audio file does not exist.
     """
-    if not (trk := track.from_id(track_id, quart.g.db)):
+    trk = track.from_id(track_id, quart.g.db)
+    if not trk:
         quart.abort(404)
 
     ext = os.path.splitext(trk.filepath)[1]
@@ -59,9 +60,11 @@ async def get_cover(id: int, thumbnail: bool = False) -> Optional[Response]:
     :status 200: Image exists and is returned.
     :status 404: Image does not exist.
     """
-    if not (img := image.from_id(id, quart.g.db)):
+    img = image.from_id(id, quart.g.db)
+    if not img:
         logger.debug(f"Did not find image {id} in database.")
         quart.abort(404)
+        assert img is not None  # For type refinement.
 
     ext = os.path.splitext(img.path)[1]
 

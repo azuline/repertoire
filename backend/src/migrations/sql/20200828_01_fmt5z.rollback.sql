@@ -11,6 +11,7 @@ DROP TABLE music__tracks;
 DROP TABLE music__tracks_artists;
 DROP TABLE music__collections;
 DROP TABLE music__collection_types__enum;
+DROP TABLE music__collections_starred;
 DROP TABLE music__collections_releases;
 DROP TABLE music__playlists;
 DROP TABLE music__playlist_types__enum;

@@ -35,8 +35,6 @@ class T:
     #:
     name: str
     #:
-    starred: bool
-    #:
     type: CollectionType
     #: The ID of the user that the playlist belongs to. Only set for System and Personal
     #  playlists.
@@ -68,7 +66,6 @@ def from_row(row: Union[dict, Row]) -> T:
     return T(
         **dict(
             row,
-            starred=bool(row["starred"]),
             type=CollectionType(row["type"]),
         )
     )
@@ -223,7 +220,7 @@ def search(
         {"WHERE " + " AND ".join(filters) if filters else ""}
         GROUP BY cols.id
         ORDER BY
-            {"fts.rank" if search else "cols.type, cols.starred DESC, cols.name"}
+            {"fts.rank" if search else "cols.type, cols.name"}
         {"LIMIT ? OFFSET ?" if per_page else ""}
         """,
         params,
@@ -302,7 +299,6 @@ def create(
     name: str,
     type: CollectionType,
     conn: Connection,
-    starred: bool = False,
     user_id: Optional[int] = None,
     override_immutable: bool = False,
 ) -> T:
@@ -312,7 +308,6 @@ def create(
     :param name: The name of the collection.
     :param type: The type of the collection.
     :param conn: A connection to the database.
-    :param starred: Whether the collection is starred or not.
     :param user_id: The ID of the user that this collection belongs to. Should be set
                     for Personal and System collections; unset otherwise.
     :param override_immutable: Whether to allow creation of immutable collections. For
@@ -344,10 +339,10 @@ def create(
 
     cursor = conn.execute(
         """
-        INSERT INTO music__collections (name, type, starred, user_id)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO music__collections (name, type, user_id)
+        VALUES (?, ?, ?)
         """,
-        (name, type.value, starred, user_id),
+        (name, type.value, user_id),
     )
 
     logger.info(
@@ -371,8 +366,6 @@ def update(col: T, conn: Connection, **changes) -> T:
     :param conn: A connection to the database.
     :param name: New collection name.
     :type  name: :py:obj:`str`
-    :param starred: Whether ew collection is starred.
-    :type  starred: :py:obj:`bool`
     :return: The updated collection.
     :raises Immutable: If the collection cannot be updated.
     :raises Duplicate: If the new name conflicts with another collection.
@@ -393,13 +386,11 @@ def update(col: T, conn: Connection, **changes) -> T:
         """
         UPDATE music__collections
         SET name = ?,
-            starred = ?,
             last_updated_on = ?
         WHERE id = ?
         """,
         (
             changes.get("name", col.name),
-            changes.get("starred", col.starred),
             changes["last_updated_on"],
             col.id,
         ),
@@ -408,6 +399,62 @@ def update(col: T, conn: Connection, **changes) -> T:
     logger.info(f"Updated collection {col.id} with {changes}.")
 
     return update_dataclass(col, **changes)
+
+
+def starred(col: T, user_id: int, conn: Connection) -> bool:
+    """
+    Return whether this collection is starred by the passed-in user.
+    :param col: The provided collection.
+    :param user_id: The passed-in user's ID.
+    :param conn: A connection to the database.
+    :return: Whether the collection is starred by the user.
+    """
+    cursor = conn.execute(
+        """
+        SELECT 1 FROM music__collections_starred
+        WHERE user_id = ? AND collection_id = ?
+        """,
+        (user_id, col.id),
+    )
+
+    return cursor.fetchone() is not None
+
+
+def star(col: T, user_id: int, conn: Connection) -> None:
+    """
+    Star the collection for the passed-in user.
+    :param col:
+    :param user_id:
+    :param conn:
+    """
+    # If already starred, do nothing.
+    if starred(col, user_id, conn):
+        return
+
+    conn.execute(
+        "INSERT INTO music__collections_starred (user_id, collection_id) VALUES (?, ?)",
+        (user_id, col.id),
+    )
+
+
+def unstar(col: T, user_id: int, conn: Connection) -> None:
+    """
+    Unstar the collection for the passed-in user.
+    :param col:
+    :param user_id:
+    :param conn:
+    """
+    # If not starred, do nothing.
+    if not starred(col, user_id, conn):
+        return
+
+    conn.execute(
+        """
+        DELETE FROM music__collections_starred
+        WHERE user_id = ? AND collection_id = ?
+        """,
+        (user_id, col.id),
+    )
 
 
 def releases(col: T, conn: Connection) -> list[release.T]:

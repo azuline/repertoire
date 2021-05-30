@@ -311,7 +311,7 @@ snapshots['test_collections 1'] = {
                     'numReleases': 0,
                     'releases': [
                     ],
-                    'starred': True,
+                    'starred': False,
                     'topGenres': [
                     ],
                     'type': 'SYSTEM'
@@ -335,7 +335,7 @@ snapshots['test_collections 1'] = {
                     'numReleases': 0,
                     'releases': [
                     ],
-                    'starred': True,
+                    'starred': False,
                     'topGenres': [
                     ],
                     'type': 'SYSTEM'
@@ -411,7 +411,7 @@ snapshots['test_collections 1'] = {
                     'numReleases': 0,
                     'releases': [
                     ],
-                    'starred': False,
+                    'starred': True,
                     'topGenres': [
                     ],
                     'type': 'COLLAGE'
@@ -745,7 +745,7 @@ snapshots['test_collections_type_param 1'] = {
                     'numReleases': 0,
                     'releases': [
                     ],
-                    'starred': True,
+                    'starred': False,
                     'topGenres': [
                     ],
                     'type': 'SYSTEM'
@@ -769,7 +769,7 @@ snapshots['test_collections_type_param 1'] = {
                     'numReleases': 0,
                     'releases': [
                     ],
-                    'starred': True,
+                    'starred': False,
                     'topGenres': [
                     ],
                     'type': 'SYSTEM'
@@ -886,7 +886,7 @@ snapshots['test_create_collection 1'] = {
             'numReleases': 0,
             'releases': [
             ],
-            'starred': True,
+            'starred': False,
             'topGenres': [
             ],
             'type': 'COLLAGE'
@@ -1074,6 +1074,64 @@ snapshots['test_del_release_from_collection_doesnt_exist 1'] = {
     ]
 }
 
+snapshots['test_star_collection 1'] = {
+    'data': {
+        'starCollection': {
+            'id': 5,
+            'lastUpdatedOn': 1577840461,
+            'name': 'Collage1',
+            'numReleases': 3,
+            'releases': [
+                {
+                    'id': 2,
+                    'title': 'Release1'
+                },
+                {
+                    'id': 3,
+                    'title': 'Release2'
+                },
+                {
+                    'id': 4,
+                    'title': 'Release3'
+                }
+            ],
+            'starred': True,
+            'topGenres': [
+                {
+                    'genre': {
+                        'id': 11
+                    },
+                    'numMatches': 3
+                },
+                {
+                    'genre': {
+                        'id': 12
+                    },
+                    'numMatches': 3
+                }
+            ],
+            'type': 'COLLAGE'
+        }
+    }
+}
+
+snapshots['test_unstar_collection 1'] = {
+    'data': {
+        'unstarCollection': {
+            'id': 7,
+            'lastUpdatedOn': 1577840461,
+            'name': 'Collage3',
+            'numReleases': 0,
+            'releases': [
+            ],
+            'starred': False,
+            'topGenres': [
+            ],
+            'type': 'COLLAGE'
+        }
+    }
+}
+
 snapshots['test_update_collection 1'] = {
     'data': {
         'updateCollection': {
@@ -1095,7 +1153,7 @@ snapshots['test_update_collection 1'] = {
                     'title': 'Release3'
                 }
             ],
-            'starred': True,
+            'starred': False,
             'topGenres': [
                 {
                     'genre': {
