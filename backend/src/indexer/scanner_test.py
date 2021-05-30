@@ -124,7 +124,7 @@ def test_catalog_file(
 
 
 @mock.patch("src.indexer.scanner._fetch_or_create_release")
-@mock.patch("src.indexer.scanner.calculate_initial_sha_256")
+@mock.patch("src.indexer.scanner.calculate_initial_sha256")
 @mock.patch("src.indexer.scanner.TagFile")
 def test_catalog_file_null_title(
     tagfile: mock.MagicMock,
@@ -155,7 +155,7 @@ def test_catalog_file_null_title(
 
 
 @mock.patch("src.indexer.scanner._fetch_or_create_release")
-@mock.patch("src.indexer.scanner.calculate_initial_sha_256")
+@mock.patch("src.indexer.scanner.calculate_initial_sha256")
 @mock.patch("src.indexer.scanner.TagFile")
 def test_catalog_file_duplicate_artist(
     tagfile: mock.MagicMock,
