@@ -133,6 +133,8 @@ export type IMutation = {
   unstarArtist: IArtist;
   createCollection: ICollection;
   updateCollection: ICollection;
+  starCollection: ICollection;
+  unstarCollection: ICollection;
   addReleaseToCollection: ICollectionAndRelease;
   delReleaseFromCollection: ICollectionAndRelease;
   createInvite: IInvite;
@@ -181,14 +183,22 @@ export type IMutationUnstarArtistArgs = {
 export type IMutationCreateCollectionArgs = {
   name: Scalars['String'];
   type: ICollectionType;
-  starred: Maybe<Scalars['Boolean']>;
 };
 
 
 export type IMutationUpdateCollectionArgs = {
   id: Scalars['Int'];
   name: Maybe<Scalars['String']>;
-  starred: Maybe<Scalars['Boolean']>;
+};
+
+
+export type IMutationStarCollectionArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type IMutationUnstarCollectionArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -710,12 +720,12 @@ export type IPlaylistsUnfavoriteTrackMutation = (
   ) }
 );
 
-export type ICollectionChooserFetchCollectionsQueryVariables = Exact<{
+export type IFetchCollectionsChooserQueryVariables = Exact<{
   types: Maybe<Array<ICollectionType> | ICollectionType>;
 }>;
 
 
-export type ICollectionChooserFetchCollectionsQuery = (
+export type IFetchCollectionsChooserQuery = (
   { __typename?: 'Query' }
   & { collections: (
     { __typename?: 'Collections' }
@@ -726,15 +736,27 @@ export type ICollectionChooserFetchCollectionsQuery = (
   ) }
 );
 
-export type ICollectionChooserUpdateCollectionStarredMutationVariables = Exact<{
+export type IStarCollectionChooserMutationVariables = Exact<{
   id: Scalars['Int'];
-  starred: Maybe<Scalars['Boolean']>;
 }>;
 
 
-export type ICollectionChooserUpdateCollectionStarredMutation = (
+export type IStarCollectionChooserMutation = (
   { __typename?: 'Mutation' }
-  & { updateCollection: (
+  & { starCollection: (
+    { __typename?: 'Collection' }
+    & Pick<ICollection, 'id' | 'starred'>
+  ) }
+);
+
+export type IUnstarCollectionChooserMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type IUnstarCollectionChooserMutation = (
+  { __typename?: 'Mutation' }
+  & { unstarCollection: (
     { __typename?: 'Collection' }
     & Pick<ICollection, 'id' | 'starred'>
   ) }
@@ -1581,8 +1603,8 @@ export function usePlaylistsUnfavoriteTrackMutation(baseOptions?: Apollo.Mutatio
 export type PlaylistsUnfavoriteTrackMutationHookResult = ReturnType<typeof usePlaylistsUnfavoriteTrackMutation>;
 export type PlaylistsUnfavoriteTrackMutationResult = Apollo.MutationResult<IPlaylistsUnfavoriteTrackMutation>;
 export type PlaylistsUnfavoriteTrackMutationOptions = Apollo.BaseMutationOptions<IPlaylistsUnfavoriteTrackMutation, IPlaylistsUnfavoriteTrackMutationVariables>;
-export const CollectionChooserFetchCollectionsDocument = gql`
-    query CollectionChooserFetchCollections($types: [CollectionType!]) {
+export const FetchCollectionsChooserDocument = gql`
+    query FetchCollectionsChooser($types: [CollectionType!]) {
   collections(types: $types) {
     results {
       ...CollectionFields
@@ -1592,70 +1614,103 @@ export const CollectionChooserFetchCollectionsDocument = gql`
     ${CollectionFieldsFragmentDoc}`;
 
 /**
- * __useCollectionChooserFetchCollectionsQuery__
+ * __useFetchCollectionsChooserQuery__
  *
- * To run a query within a React component, call `useCollectionChooserFetchCollectionsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCollectionChooserFetchCollectionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFetchCollectionsChooserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchCollectionsChooserQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useCollectionChooserFetchCollectionsQuery({
+ * const { data, loading, error } = useFetchCollectionsChooserQuery({
  *   variables: {
  *      types: // value for 'types'
  *   },
  * });
  */
-export function useCollectionChooserFetchCollectionsQuery(baseOptions?: Apollo.QueryHookOptions<ICollectionChooserFetchCollectionsQuery, ICollectionChooserFetchCollectionsQueryVariables>) {
+export function useFetchCollectionsChooserQuery(baseOptions?: Apollo.QueryHookOptions<IFetchCollectionsChooserQuery, IFetchCollectionsChooserQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ICollectionChooserFetchCollectionsQuery, ICollectionChooserFetchCollectionsQueryVariables>(CollectionChooserFetchCollectionsDocument, options);
+        return Apollo.useQuery<IFetchCollectionsChooserQuery, IFetchCollectionsChooserQueryVariables>(FetchCollectionsChooserDocument, options);
       }
-export function useCollectionChooserFetchCollectionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ICollectionChooserFetchCollectionsQuery, ICollectionChooserFetchCollectionsQueryVariables>) {
+export function useFetchCollectionsChooserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchCollectionsChooserQuery, IFetchCollectionsChooserQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ICollectionChooserFetchCollectionsQuery, ICollectionChooserFetchCollectionsQueryVariables>(CollectionChooserFetchCollectionsDocument, options);
+          return Apollo.useLazyQuery<IFetchCollectionsChooserQuery, IFetchCollectionsChooserQueryVariables>(FetchCollectionsChooserDocument, options);
         }
-export type CollectionChooserFetchCollectionsQueryHookResult = ReturnType<typeof useCollectionChooserFetchCollectionsQuery>;
-export type CollectionChooserFetchCollectionsLazyQueryHookResult = ReturnType<typeof useCollectionChooserFetchCollectionsLazyQuery>;
-export type CollectionChooserFetchCollectionsQueryResult = Apollo.QueryResult<ICollectionChooserFetchCollectionsQuery, ICollectionChooserFetchCollectionsQueryVariables>;
-export function refetchCollectionChooserFetchCollectionsQuery(variables?: ICollectionChooserFetchCollectionsQueryVariables) {
-      return { query: CollectionChooserFetchCollectionsDocument, variables: variables }
+export type FetchCollectionsChooserQueryHookResult = ReturnType<typeof useFetchCollectionsChooserQuery>;
+export type FetchCollectionsChooserLazyQueryHookResult = ReturnType<typeof useFetchCollectionsChooserLazyQuery>;
+export type FetchCollectionsChooserQueryResult = Apollo.QueryResult<IFetchCollectionsChooserQuery, IFetchCollectionsChooserQueryVariables>;
+export function refetchFetchCollectionsChooserQuery(variables?: IFetchCollectionsChooserQueryVariables) {
+      return { query: FetchCollectionsChooserDocument, variables: variables }
     }
-export const CollectionChooserUpdateCollectionStarredDocument = gql`
-    mutation CollectionChooserUpdateCollectionStarred($id: Int!, $starred: Boolean) {
-  updateCollection(id: $id, starred: $starred) {
+export const StarCollectionChooserDocument = gql`
+    mutation starCollectionChooser($id: Int!) {
+  starCollection(id: $id) {
     id
     starred
   }
 }
     `;
-export type ICollectionChooserUpdateCollectionStarredMutationFn = Apollo.MutationFunction<ICollectionChooserUpdateCollectionStarredMutation, ICollectionChooserUpdateCollectionStarredMutationVariables>;
+export type IStarCollectionChooserMutationFn = Apollo.MutationFunction<IStarCollectionChooserMutation, IStarCollectionChooserMutationVariables>;
 
 /**
- * __useCollectionChooserUpdateCollectionStarredMutation__
+ * __useStarCollectionChooserMutation__
  *
- * To run a mutation, you first call `useCollectionChooserUpdateCollectionStarredMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCollectionChooserUpdateCollectionStarredMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useStarCollectionChooserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStarCollectionChooserMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [collectionChooserUpdateCollectionStarredMutation, { data, loading, error }] = useCollectionChooserUpdateCollectionStarredMutation({
+ * const [starCollectionChooserMutation, { data, loading, error }] = useStarCollectionChooserMutation({
  *   variables: {
  *      id: // value for 'id'
- *      starred: // value for 'starred'
  *   },
  * });
  */
-export function useCollectionChooserUpdateCollectionStarredMutation(baseOptions?: Apollo.MutationHookOptions<ICollectionChooserUpdateCollectionStarredMutation, ICollectionChooserUpdateCollectionStarredMutationVariables>) {
+export function useStarCollectionChooserMutation(baseOptions?: Apollo.MutationHookOptions<IStarCollectionChooserMutation, IStarCollectionChooserMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ICollectionChooserUpdateCollectionStarredMutation, ICollectionChooserUpdateCollectionStarredMutationVariables>(CollectionChooserUpdateCollectionStarredDocument, options);
+        return Apollo.useMutation<IStarCollectionChooserMutation, IStarCollectionChooserMutationVariables>(StarCollectionChooserDocument, options);
       }
-export type CollectionChooserUpdateCollectionStarredMutationHookResult = ReturnType<typeof useCollectionChooserUpdateCollectionStarredMutation>;
-export type CollectionChooserUpdateCollectionStarredMutationResult = Apollo.MutationResult<ICollectionChooserUpdateCollectionStarredMutation>;
-export type CollectionChooserUpdateCollectionStarredMutationOptions = Apollo.BaseMutationOptions<ICollectionChooserUpdateCollectionStarredMutation, ICollectionChooserUpdateCollectionStarredMutationVariables>;
+export type StarCollectionChooserMutationHookResult = ReturnType<typeof useStarCollectionChooserMutation>;
+export type StarCollectionChooserMutationResult = Apollo.MutationResult<IStarCollectionChooserMutation>;
+export type StarCollectionChooserMutationOptions = Apollo.BaseMutationOptions<IStarCollectionChooserMutation, IStarCollectionChooserMutationVariables>;
+export const UnstarCollectionChooserDocument = gql`
+    mutation unstarCollectionChooser($id: Int!) {
+  unstarCollection(id: $id) {
+    id
+    starred
+  }
+}
+    `;
+export type IUnstarCollectionChooserMutationFn = Apollo.MutationFunction<IUnstarCollectionChooserMutation, IUnstarCollectionChooserMutationVariables>;
+
+/**
+ * __useUnstarCollectionChooserMutation__
+ *
+ * To run a mutation, you first call `useUnstarCollectionChooserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnstarCollectionChooserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [unstarCollectionChooserMutation, { data, loading, error }] = useUnstarCollectionChooserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUnstarCollectionChooserMutation(baseOptions?: Apollo.MutationHookOptions<IUnstarCollectionChooserMutation, IUnstarCollectionChooserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<IUnstarCollectionChooserMutation, IUnstarCollectionChooserMutationVariables>(UnstarCollectionChooserDocument, options);
+      }
+export type UnstarCollectionChooserMutationHookResult = ReturnType<typeof useUnstarCollectionChooserMutation>;
+export type UnstarCollectionChooserMutationResult = Apollo.MutationResult<IUnstarCollectionChooserMutation>;
+export type UnstarCollectionChooserMutationOptions = Apollo.BaseMutationOptions<IUnstarCollectionChooserMutation, IUnstarCollectionChooserMutationVariables>;
 export const ArtistsFetchArtistDocument = gql`
     query ArtistsFetchArtist($id: Int!) {
   artist(id: $id) {
@@ -2750,7 +2805,7 @@ export type InvitesFieldPolicy = {
 	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('updateUser' | 'newToken' | 'createArtist' | 'updateArtist' | 'starArtist' | 'unstarArtist' | 'createCollection' | 'updateCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createInvite' | 'createPlaylist' | 'updatePlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'delPlaylistEntries' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('updateUser' | 'newToken' | 'createArtist' | 'updateArtist' | 'starArtist' | 'unstarArtist' | 'createCollection' | 'updateCollection' | 'starCollection' | 'unstarCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createInvite' | 'createPlaylist' | 'updatePlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'delPlaylistEntries' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	updateUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	newToken?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2760,6 +2815,8 @@ export type MutationFieldPolicy = {
 	unstarArtist?: FieldPolicy<any> | FieldReadFunction<any>,
 	createCollection?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateCollection?: FieldPolicy<any> | FieldReadFunction<any>,
+	starCollection?: FieldPolicy<any> | FieldReadFunction<any>,
+	unstarCollection?: FieldPolicy<any> | FieldReadFunction<any>,
 	addReleaseToCollection?: FieldPolicy<any> | FieldReadFunction<any>,
 	delReleaseFromCollection?: FieldPolicy<any> | FieldReadFunction<any>,
 	createInvite?: FieldPolicy<any> | FieldReadFunction<any>,
