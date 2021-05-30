@@ -16,7 +16,7 @@ snapshots['test_create_playlist 1'] = {
             'lastUpdatedOn': 1577840461,
             'name': 'NewPlaylist',
             'numTracks': 0,
-            'starred': True,
+            'starred': False,
             'topGenres': [
             ],
             'type': 'PLAYLIST'
@@ -232,7 +232,7 @@ snapshots['test_playlists 1'] = {
                     'lastUpdatedOn': 1577840461,
                     'name': 'Favorites',
                     'numTracks': 0,
-                    'starred': True,
+                    'starred': False,
                     'topGenres': [
                     ],
                     'type': 'SYSTEM'
@@ -383,7 +383,7 @@ snapshots['test_playlists 1'] = {
                     'lastUpdatedOn': 1577840461,
                     'name': 'Playlist3',
                     'numTracks': 5,
-                    'starred': False,
+                    'starred': True,
                     'topGenres': [
                         {
                             'genre': {
@@ -618,12 +618,146 @@ snapshots['test_playlists_type_param 1'] = {
                     'lastUpdatedOn': 1577840461,
                     'name': 'Favorites',
                     'numTracks': 0,
-                    'starred': True,
+                    'starred': False,
                     'topGenres': [
                     ],
                     'type': 'SYSTEM'
                 }
             ]
+        }
+    }
+}
+
+snapshots['test_star_playlist 1'] = {
+    'data': {
+        'starPlaylist': {
+            'entries': [
+                {
+                    'id': 1,
+                    'track': {
+                        'id': 1,
+                        'title': 'Track0'
+                    }
+                },
+                {
+                    'id': 2,
+                    'track': {
+                        'id': 2,
+                        'title': 'Track1'
+                    }
+                },
+                {
+                    'id': 3,
+                    'track': {
+                        'id': 3,
+                        'title': 'Track2'
+                    }
+                },
+                {
+                    'id': 4,
+                    'track': {
+                        'id': 4,
+                        'title': 'Track3'
+                    }
+                },
+                {
+                    'id': 5,
+                    'track': {
+                        'id': 5,
+                        'title': 'Track4'
+                    }
+                }
+            ],
+            'id': 3,
+            'lastUpdatedOn': 1577840461,
+            'name': 'Playlist1',
+            'numTracks': 5,
+            'starred': True,
+            'topGenres': [
+                {
+                    'genre': {
+                        'id': 11
+                    },
+                    'numMatches': 5
+                },
+                {
+                    'genre': {
+                        'id': 12
+                    },
+                    'numMatches': 5
+                }
+            ],
+            'type': 'PLAYLIST'
+        }
+    }
+}
+
+snapshots['test_unstar_playlist 1'] = {
+    'data': {
+        'unstarPlaylist': {
+            'entries': [
+                {
+                    'id': 9,
+                    'track': {
+                        'id': 6,
+                        'title': 'Track5'
+                    }
+                },
+                {
+                    'id': 10,
+                    'track': {
+                        'id': 7,
+                        'title': 'Track6'
+                    }
+                },
+                {
+                    'id': 11,
+                    'track': {
+                        'id': 8,
+                        'title': 'Track7'
+                    }
+                },
+                {
+                    'id': 12,
+                    'track': {
+                        'id': 9,
+                        'title': 'Track8'
+                    }
+                },
+                {
+                    'id': 13,
+                    'track': {
+                        'id': 10,
+                        'title': 'Track9'
+                    }
+                }
+            ],
+            'id': 5,
+            'lastUpdatedOn': 1577840461,
+            'name': 'Playlist3',
+            'numTracks': 5,
+            'starred': False,
+            'topGenres': [
+                {
+                    'genre': {
+                        'id': 11
+                    },
+                    'numMatches': 3
+                },
+                {
+                    'genre': {
+                        'id': 12
+                    },
+                    'numMatches': 3
+                },
+                {
+                    'genre': {
+                        'id': 13
+                    },
+                    'numMatches': 2
+                }
+            ],
+            'type': 'PLAYLIST'
         }
     }
 }
@@ -658,7 +792,7 @@ snapshots['test_update_playlist 1'] = {
             'lastUpdatedOn': 1577840461,
             'name': 'NewPlaylist',
             'numTracks': 3,
-            'starred': True,
+            'starred': False,
             'topGenres': [
                 {
                     'genre': {

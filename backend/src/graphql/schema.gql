@@ -260,13 +260,19 @@ type Mutation {
   createPlaylist(
     name: String!
     type: PlaylistType!
-    starred: Boolean
   ): Playlist!
 
   updatePlaylist(
     id: Int!
     name: String
-    starred: Boolean
+  ): Playlist!
+
+  starPlaylist(
+    id: Int!
+  ): Playlist!
+
+  unstarPlaylist(
+    id: Int!
   ): Playlist!
 
   createPlaylistEntry(

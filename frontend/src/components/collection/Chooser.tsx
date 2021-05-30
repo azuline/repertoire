@@ -61,6 +61,7 @@ export const CollectionChooser: ICollectionChooser = ({
     return xs.map((c) =>
       c.user === null ? c : { ...c, name: `${c.user.nickname}'s ${c.name}` },
     );
+    // TODO(now): Sort this properly.
   })();
 
   const renderElement = (index: number): React.ReactNode => {
@@ -100,14 +101,14 @@ gql`
     }
   }
 
-  mutation starCollectionChooser($id: Int!) {
+  mutation StarCollectionChooser($id: Int!) {
     starCollection(id: $id) {
       id
       starred
     }
   }
 
-  mutation unstarCollectionChooser($id: Int!) {
+  mutation UnstarCollectionChooser($id: Int!) {
     unstarCollection(id: $id) {
       id
       starred

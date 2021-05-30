@@ -158,7 +158,12 @@ def _add_test_data(conn: Connection):
     playlists = [
         factory.playlist(name="Playlist1", type=PlaylistType.PLAYLIST, conn=conn),
         factory.playlist(name="Playlist2", type=PlaylistType.PLAYLIST, conn=conn),
-        factory.playlist(name="Playlist3", type=PlaylistType.PLAYLIST, conn=conn),
+        factory.playlist(
+            name="Playlist3",
+            type=PlaylistType.PLAYLIST,
+            conn=conn,
+            starred_for_user=usr_admin.id,
+        ),
     ]
 
     # These start at ID 2.

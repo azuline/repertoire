@@ -5,8 +5,9 @@ import { useToasts } from 'react-toast-notifications';
 import { Chooser, StarrableChooserRow } from '~/components';
 import {
   IPlaylistFieldsFragment,
-  usePlaylistChooserFetchPlaylistsQuery,
-  usePlaylistChooserUpdatePlaylistStarredMutation,
+  useFetchPlaylistsChooserQuery,
+  useStarPlaylistChooserMutation,
+  useUnstarPlaylistChooserMutation,
 } from '~/graphql';
 
 type IPlaylistChooser = React.FC<{
@@ -15,8 +16,9 @@ type IPlaylistChooser = React.FC<{
 }>;
 
 export const PlaylistChooser: IPlaylistChooser = ({ active, className }) => {
-  const { data, error, loading } = usePlaylistChooserFetchPlaylistsQuery();
-  const [mutatePlaylist] = usePlaylistChooserUpdatePlaylistStarredMutation();
+  const { data, error, loading } = useFetchPlaylistsChooserQuery();
+  const [starPlaylist] = useStarPlaylistChooserMutation();
+  const [unstarPlaylist] = useUnstarPlaylistChooserMutation();
   const { addToast } = useToasts();
 
   const toggleStar = async (playlist: IPlaylistFieldsFragment): Promise<void> => {
@@ -25,9 +27,11 @@ export const PlaylistChooser: IPlaylistChooser = ({ active, className }) => {
       return;
     }
 
-    await mutatePlaylist({
-      variables: { id: playlist.id, starred: playlist.starred !== true },
-    });
+    if (playlist.starred) {
+      await unstarPlaylist({ variables: { id: playlist.id } });
+    } else {
+      await starPlaylist({ variables: { id: playlist.id } });
+    }
   };
 
   if (!data || error || loading) {
@@ -35,6 +39,7 @@ export const PlaylistChooser: IPlaylistChooser = ({ active, className }) => {
   }
 
   // If the playlist has a user, prefix the playlist name with the user's nickname.
+  // TODO(now): Sort properly.
   const playlists = data.playlists.results.map((p) =>
     p.user === null ? p : { ...p, name: `${p.user.nickname}'s ${p.name}` },
   );
@@ -64,7 +69,7 @@ export const PlaylistChooser: IPlaylistChooser = ({ active, className }) => {
 
 /* eslint-disable */
 gql`
-  query PlaylistChooserFetchPlaylists($types: [PlaylistType!]) {
+  query FetchPlaylistsChooser($types: [PlaylistType!]) {
     playlists(types: $types) {
       results {
         ...PlaylistFields
@@ -72,8 +77,15 @@ gql`
     }
   }
 
-  mutation PlaylistChooserUpdatePlaylistStarred($id: Int!, $starred: Boolean) {
-    updatePlaylist(id: $id, starred: $starred) {
+  mutation StarPlaylistChooser($id: Int!) {
+    starPlaylist(id: $id) {
+      id
+      starred
+    }
+  }
+
+  mutation UnstarPlaylistChooser($id: Int!) {
+    unstarPlaylist(id: $id) {
       id
       starred
     }

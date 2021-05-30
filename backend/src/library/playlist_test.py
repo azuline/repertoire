@@ -122,7 +122,7 @@ def test_count_one(factory: Factory, db: Connection):
 
 
 def test_create(db: Connection):
-    ply = playlist.create("new plylist", PlaylistType.PLAYLIST, starred=True, conn=db)
+    ply = playlist.create("new plylist", PlaylistType.PLAYLIST, conn=db)
     assert ply == playlist.from_id(ply.id, db)
 
 
@@ -133,7 +133,6 @@ def test_create_general_with_user(factory: Factory, db: Connection):
             "new plylist",
             PlaylistType.PLAYLIST,
             user_id=usr.id,
-            starred=True,
             conn=db,
         )
 
@@ -144,7 +143,6 @@ def test_create_personal(factory: Factory, db: Connection):
         "new plylist",
         PlaylistType.PERSONAL,
         user_id=usr.id,
-        starred=True,
         conn=db,
     )
     assert ply == playlist.from_id(ply.id, db)
@@ -155,7 +153,6 @@ def test_create_personal_without_user(db: Connection):
         playlist.create(
             "new plylist",
             PlaylistType.PERSONAL,
-            starred=True,
             conn=db,
         )
 
@@ -185,10 +182,9 @@ def test_create_invalid_type_override(factory: Factory, db: Connection):
 
 def test_update_fields(factory: Factory, db: Connection):
     ply = factory.playlist(conn=db)
-    new_ply = playlist.update(ply, conn=db, name="New Name", starred=True)
+    new_ply = playlist.update(ply, conn=db, name="New Name")
     assert new_ply == playlist.from_id(ply.id, db)
     assert new_ply.name == "New Name"
-    assert new_ply.starred is True
 
 
 def test_update_immutable(factory: Factory, db: Connection):
@@ -209,11 +205,18 @@ def test_update_duplicate(factory: Factory, db: Connection):
     assert e.value.entity == ply1
 
 
-def test_update_starred(factory: Factory, db: Connection):
+def test_star(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
     ply = factory.playlist(conn=db)
-    new_ply = playlist.update(ply, conn=db, starred=True)
-    assert new_ply.starred is True
-    assert new_ply == playlist.from_id(ply.id, db)
+    playlist.star(ply, usr.id, db)
+    assert playlist.starred(ply, usr.id, db) is True
+
+
+def test_unstar(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    ply = factory.playlist(conn=db, starred_for_user=usr.id)
+    playlist.unstar(ply, usr.id, db)
+    assert not playlist.starred(ply, usr.id, db) is True
 
 
 def test_entries(factory: Factory, db: Connection):

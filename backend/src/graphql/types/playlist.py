@@ -48,6 +48,11 @@ def resolve_playlists(obj: Any, info: GraphQLResolveInfo, **kwargs) -> dict:
     }
 
 
+@gql_playlist.field("starred")
+def resolve_starred(obj: playlist.T, info: GraphQLResolveInfo) -> bool:
+    return playlist.starred(obj, info.context.user.id, info.context.db)
+
+
 @gql_playlist.field("entries")
 def resolve_entries(obj: playlist.T, info: GraphQLResolveInfo) -> list[pentry.T]:
     return playlist.entries(obj, info.context.db)
@@ -81,9 +86,8 @@ def resolve_create_playlist(
     info: GraphQLResolveInfo,
     name: str,
     type: PlaylistType,
-    starred: bool = False,
 ) -> playlist.T:
-    return playlist.create(name, type, info.context.db, starred=starred)
+    return playlist.create(name, type, info.context.db)
 
 
 @mutation.field("updatePlaylist")
@@ -99,3 +103,25 @@ def resolve_update_playlist(
         raise NotFound(f"Playlist {id} does not exist.")
 
     return playlist.update(ply, info.context.db, **convert_keys_case(changes))
+
+
+@mutation.field("starPlaylist")
+@commit
+def resolve_star_playlist(_, info: GraphQLResolveInfo, id: int) -> playlist.T:
+    ply = playlist.from_id(id, info.context.db)
+    if not ply:
+        raise NotFound(f"Playlist {id} does not exist.")
+
+    playlist.star(ply, info.context.user.id, info.context.db)
+    return ply
+
+
+@mutation.field("unstarPlaylist")
+@commit
+def resolve_unstar_playlist(_, info: GraphQLResolveInfo, id: int) -> playlist.T:
+    ply = playlist.from_id(id, info.context.db)
+    if not ply:
+        raise NotFound(f"Playlist {id} does not exist.")
+
+    playlist.unstar(ply, info.context.user.id, info.context.db)
+    return ply
