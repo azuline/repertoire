@@ -3,9 +3,11 @@ import * as React from 'react';
 
 import { Chooser, IElement, StarrableChooserRow } from '~/components';
 import {
-  useArtistChooserFetchArtistsQuery,
-  useArtistChooserUpdateArtistStarredMutation,
+  useFetchArtistsChooserQuery,
+  useStarArtistChooserMutation,
+  useUnstarArtistChooserMutation,
 } from '~/graphql';
+import { compareByStarThenName } from '~/util';
 
 type IArtistChooser = React.FC<{
   active: number | null;
@@ -13,20 +15,29 @@ type IArtistChooser = React.FC<{
 }>;
 
 export const ArtistChooser: IArtistChooser = ({ active, className }) => {
-  const { data, error, loading } = useArtistChooserFetchArtistsQuery();
-  const [mutateArtist] = useArtistChooserUpdateArtistStarredMutation();
+  const { data, error, loading } = useFetchArtistsChooserQuery();
+  const [starArtist] = useStarArtistChooserMutation();
+  const [unstarArtist] = useUnstarArtistChooserMutation();
 
   const toggleStar = async (element: IElement): Promise<void> => {
-    await mutateArtist({
-      variables: { id: element.id, starred: element.starred !== true },
-    });
+    if (element.starred === true) {
+      await unstarArtist({ variables: { id: element.id } });
+    } else {
+      await starArtist({ variables: { id: element.id } });
+    }
   };
 
-  if (!data || error || loading) {
+  const artists = React.useMemo(
+    () =>
+      data?.artists.results
+        .filter((art) => art.numReleases !== 0)
+        .sort(compareByStarThenName),
+    [data],
+  );
+
+  if (!artists || error || loading) {
     return null;
   }
-
-  const artists = data.artists.results.filter((art) => art.numReleases !== 0);
 
   const renderElement = (index: number): React.ReactNode => {
     const element = artists[index];
@@ -53,7 +64,7 @@ export const ArtistChooser: IArtistChooser = ({ active, className }) => {
 
 /* eslint-disable */
 gql`
-  query ArtistChooserFetchArtists {
+  query FetchArtistsChooser {
     artists {
       results {
         ...ArtistFields
@@ -61,8 +72,15 @@ gql`
     }
   }
 
-  mutation ArtistChooserUpdateArtistStarred($id: Int!, $starred: Boolean) {
-    updateArtist(id: $id, starred: $starred) {
+  mutation StarArtistChooser($id: Int!) {
+    starArtist(id: $id) {
+      id
+      starred
+    }
+  }
+
+  mutation unstarArtistChooser($id: Int!) {
+    unstarArtist(id: $id) {
       id
       starred
     }
