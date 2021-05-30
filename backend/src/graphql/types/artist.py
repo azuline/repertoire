@@ -89,11 +89,7 @@ def resolve_update_artist(
 
 @mutation.field("starArtist")
 @commit
-def resolve_star_artist(
-    _,
-    info: GraphQLResolveInfo,
-    id: int,
-) -> artist.T:
+def resolve_star_artist(_, info: GraphQLResolveInfo, id: int) -> artist.T:
     art = artist.from_id(id, info.context.db)
     if not art:
         raise NotFound(f"Artist {id} does not exist.")
@@ -104,11 +100,7 @@ def resolve_star_artist(
 
 @mutation.field("unstarArtist")
 @commit
-def resolve_unstar_artist(
-    _,
-    info: GraphQLResolveInfo,
-    id: int,
-) -> artist.T:
+def resolve_unstar_artist(_, info: GraphQLResolveInfo, id: int) -> artist.T:
     art = artist.from_id(id, info.context.db)
     if not art:
         raise NotFound(f"Artist {id} does not exist.")
