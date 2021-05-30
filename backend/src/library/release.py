@@ -646,7 +646,7 @@ def add_artist(rls: T, artist_id: int, role: ArtistRole, conn: Connection) -> T:
         SELECT 1 FROM music__releases_artists
         WHERE release_id = ? AND artist_id = ? AND role = ?
         """,
-        (rls.id, artist_id, role),
+        (rls.id, artist_id, role.value),
     )
     if cursor.fetchone():
         logger.debug(
@@ -659,7 +659,7 @@ def add_artist(rls: T, artist_id: int, role: ArtistRole, conn: Connection) -> T:
         INSERT INTO music__releases_artists (release_id, artist_id, role)
         VALUES (?, ?, ?)
         """,
-        (rls.id, artist_id, role),
+        (rls.id, artist_id, role.value),
     )
 
     logger.info(f"Added artist {artist_id} to release {rls.id} with role {role}.")
@@ -687,7 +687,7 @@ def del_artist(rls: T, artist_id: int, role: ArtistRole, conn: Connection) -> T:
         SELECT 1 FROM music__releases_artists
         WHERE release_id = ? AND artist_id = ? AND role = ?
         """,
-        (rls.id, artist_id, role),
+        (rls.id, artist_id, role.value),
     )
     if not cursor.fetchone():
         logger.debug(f"Artist {artist_id} is not on release {rls.id} with role {role}.")
@@ -698,7 +698,7 @@ def del_artist(rls: T, artist_id: int, role: ArtistRole, conn: Connection) -> T:
         DELETE FROM music__releases_artists
         WHERE release_id = ? AND artist_id = ? AND role = ?
         """,
-        (rls.id, artist_id, role),
+        (rls.id, artist_id, role.value),
     )
 
     logger.info(f"Deleted artist {artist_id} from release {rls.id} with role {role}.")

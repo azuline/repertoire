@@ -162,7 +162,9 @@ class Factory:
         conn: Connection,
     ) -> librelease.T:
         if artists is None:
-            artists = [{"artist": self.artist(conn=conn).id, "role": ArtistRole.MAIN}]
+            artists = [
+                {"artist_id": self.artist(conn=conn).id, "role": ArtistRole.MAIN}
+            ]
 
         return librelease.create(
             title=title or self.rand_string(12),
