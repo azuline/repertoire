@@ -18,6 +18,7 @@ lintcheck:
 	poetry run black --check src/
 	poetry run isort -c src/
 	poetry run flake8 src/
+	poetry run semgrep src/
 
 lint:
 	poetry run black src/

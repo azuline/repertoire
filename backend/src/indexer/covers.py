@@ -154,7 +154,7 @@ def _save_embedded_image(tf: TagFile) -> Optional[Path]:
     extension = MIME_TO_EXTS.get(tf.image_mime, None)
 
     if not extension:
-        logger.debug("Embedded image with invalid mimetype found for `{tf.path}`.")
+        logger.debug(f"Embedded image with invalid mimetype found for `{tf.path}`.")
         return None
 
     return _save_image_file(tf.image, extension)

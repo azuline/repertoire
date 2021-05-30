@@ -1,0 +1,11 @@
+rules:
+  - id: logger-f-string
+    languages:
+      - python
+    patterns:
+      - pattern: logger.$X("=~/[{}]/")
+      - pattern-not-inside: f"..."
+    message: |
+      Should this string be an f-string? If not, to make this rule shut up, use
+      an f-string with double-braces.
+    severity: WARNING
