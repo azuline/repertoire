@@ -1,6 +1,6 @@
 import { makeList } from './makeList';
 
-export { TrackArtistList } from './TrackArtistList';
+export { ArtistListWithRoles } from './ArtistListWithRoles';
 
 export const ArtistList = makeList('/artists');
 export const GenreList = makeList('/genres');

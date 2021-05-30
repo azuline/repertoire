@@ -3,7 +3,7 @@ import tw, { styled } from 'twin.macro';
 
 import { Link, TwoSided } from '~/components/common';
 import { Image } from '~/components/Image';
-import { ArtistList, GenreList } from '~/components/Lists';
+import { ArtistListWithRoles, GenreList } from '~/components/Lists';
 import { IReleaseFieldsFragment } from '~/graphql';
 import { filterNulls, secondsToLength } from '~/util';
 
@@ -46,8 +46,8 @@ export const ArtRelease: IArtRelease = ({ release, className }) => {
                 <div tw="truncate">{release.title}</div>
                 {release.inInbox && <InInboxIndicator tw="pl-2" />}
               </div>
-              <ArtistList
-                elements={filterNulls(release.artists)}
+              <ArtistListWithRoles
+                artists={filterNulls(release.artists)}
                 tw="text-gray-200 truncate"
               />
             </div>
@@ -89,7 +89,7 @@ const CustomTwoSided = styled(TwoSided)`
     rgba(0, 0, 0, 0),
     rgba(0, 0, 0, 0.1),
     rgba(0, 0, 0, 0.4),
-    rgba(0, 0, 0, 0.7), 
+    rgba(0, 0, 0, 0.7),
     rgba(0, 0, 0, 0.9)
   );
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useToasts } from 'react-toast-notifications';
 import tw from 'twin.macro';
 
-import { Icon, Image, TrackArtistList } from '~/components';
+import { ArtistListWithRoles, Icon, Image } from '~/components';
 import { ListItem } from '~/components/common';
 import {
   ITrackFieldsFragment,
@@ -84,7 +84,7 @@ export const Track: ITrackComponent = ({
                 <span>{trackNumber}. </span>
                 {track.title}
               </div>
-              <TrackArtistList
+              <ArtistListWithRoles
                 artists={filterNulls(track.artists)}
                 tw="flex-1 hidden w-2/3 truncate text-foreground-400 md:block"
               />
@@ -93,7 +93,7 @@ export const Track: ITrackComponent = ({
               {secondsToLength(track.duration)}
             </div>
           </div>
-          <TrackArtistList
+          <ArtistListWithRoles
             artists={filterNulls(track.artists)}
             tw="mt-1 truncate text-foreground-400 md:hidden"
           />

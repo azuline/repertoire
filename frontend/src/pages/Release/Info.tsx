@@ -1,7 +1,13 @@
 import * as React from 'react';
 import tw, { styled } from 'twin.macro';
 
-import { ArtistList, GenreList, LabelList, Link, SectionHeader } from '~/components';
+import {
+  ArtistListWithRoles,
+  GenreList,
+  LabelList,
+  Link,
+  SectionHeader,
+} from '~/components';
 import { IFullReleaseFieldsFragment } from '~/graphql';
 import { filterNulls } from '~/util';
 
@@ -36,7 +42,7 @@ export const Info: IInfo = ({ release }) => {
         {release.artists.length === 0 ? (
           <Link href="/artists/1">Unknown Artist</Link>
         ) : (
-          <CustomArtistList link elements={filterNulls(release.artists)} tw="inline" />
+          <CustomArtistList link artists={filterNulls(release.artists)} tw="inline" />
         )}
       </div>
       <div tw="flex-none mb-4 truncate-2 text-foreground-100">
@@ -63,7 +69,7 @@ export const Info: IInfo = ({ release }) => {
   );
 };
 
-const CustomArtistList = styled(ArtistList)`
+const CustomArtistList = styled(ArtistListWithRoles)`
   .list--element {
     ${tw`text-primary-400`}
   }

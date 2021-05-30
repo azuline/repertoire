@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Image, Link, TrackArtistList } from '~/components';
+import { Image, Link, ArtistListWithRoles } from '~/components';
 import { ITrackFieldsFragment } from '~/graphql';
 import { filterNulls } from '~/util';
 
@@ -27,7 +27,7 @@ export const TrackInfo: ITrackInfo = ({ curTrack }) => {
       </Link>
       <RedirectToNowPlaying tw="flex flex-col flex-1 mx-1 text-center truncate sm:mx-4">
         <div tw="font-bold truncate">{curTrack.title}</div>
-        <TrackArtistList artists={filterNulls(curTrack.artists)} tw="truncate" />
+        <ArtistListWithRoles artists={filterNulls(curTrack.artists)} tw="truncate" />
       </RedirectToNowPlaying>
     </div>
   );
