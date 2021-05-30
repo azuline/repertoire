@@ -212,25 +212,29 @@ type Mutation {
 
   createArtist(
     name: String!
-    starred: Boolean
   ): Artist!
 
   updateArtist(
     id: Int!
     name: String
-    starred: Boolean
+  ): Artist!
+
+  starArtist(
+    id: Int!
+  ): Artist!
+
+  unstarArtist(
+    id: Int!
   ): Artist!
 
   createCollection(
     name: String!
     type: CollectionType!
-    starred: Boolean
   ): Collection!
 
   updateCollection(
     id: Int!
     name: String
-    starred: Boolean
   ): Collection!
 
   addReleaseToCollection(
@@ -248,13 +252,11 @@ type Mutation {
   createPlaylist(
     name: String!
     type: PlaylistType!
-    starred: Boolean
   ): Playlist!
 
   updatePlaylist(
     id: Int!
     name: String
-    starred: Boolean
   ): Playlist!
 
   createPlaylistEntry(

@@ -39,6 +39,11 @@ def resolve_artists(obj: Any, info: GraphQLResolveInfo, **kwargs) -> dict:
     }
 
 
+@gql_artist.field("starred")
+def resolve_starred(obj: artist.T, info: GraphQLResolveInfo) -> bool:
+    return artist.starred(obj, info.context.user.id, info.context.db)
+
+
 @gql_artist.field("releases")
 def resolve_releases(obj: artist.T, info: GraphQLResolveInfo) -> list[release.T]:
     return artist.releases(obj, info.context.db)
@@ -63,9 +68,8 @@ def resolve_create_artist(
     _,
     info: GraphQLResolveInfo,
     name: str,
-    starred: bool = False,
 ) -> artist.T:
-    return artist.create(name, info.context.db, starred=starred)
+    return artist.create(name, info.context.db)
 
 
 @mutation.field("updateArtist")
@@ -76,7 +80,38 @@ def resolve_update_artist(
     id: int,
     **changes,
 ) -> artist.T:
-    if not (art := artist.from_id(id, info.context.db)):
+    art = artist.from_id(id, info.context.db)
+    if not art:
         raise NotFound(f"Artist {id} does not exist.")
 
     return artist.update(art, info.context.db, **convert_keys_case(changes))
+
+
+@mutation.field("starArtist")
+@commit
+def resolve_star_artist(
+    _,
+    info: GraphQLResolveInfo,
+    id: int,
+) -> artist.T:
+    art = artist.from_id(id, info.context.db)
+    if not art:
+        raise NotFound(f"Artist {id} does not exist.")
+
+    artist.star(art, info.context.user.id, info.context.db)
+    return art
+
+
+@mutation.field("unstarArtist")
+@commit
+def resolve_unstar_artist(
+    _,
+    info: GraphQLResolveInfo,
+    id: int,
+) -> artist.T:
+    art = artist.from_id(id, info.context.db)
+    if not art:
+        raise NotFound(f"Artist {id} does not exist.")
+
+    artist.unstar(art, info.context.user.id, info.context.db)
+    return art
