@@ -11,28 +11,23 @@ A music server for cataloguing and exploring large music libraries.
 
 Visit [the documentation](https://repertoire.readthedocs.io) to get started!
 
-**Unreleased WIP Edition - No Stable Upgrade Path**
+**Currently unreleased.**
 
-**Beta Soon^TM**
-
-## About
-
-This project is a sandbox project, in the sense that we are using it to
-experiment with cool new ideas and technologies. Feature work is a second
-priority. This does not mean that feature work will not occur! But expect it to
-be slow.
+Note: This project is a sandbox project, in the sense that I am using it to try
+out cool new ideas and tools. Feature work is a second priority. This does not
+mean that feature work will not occur! But expect it to be slow.
 
 ## Contributing
 
-If you wish to make a PR, please open an issue ticket first or comment on an
-existing ticket to coordinate with maintainers.
+If you wish to contribute, please open or comment on an issue ticket to
+coordinate with maintainers.
 
 ## Security
 
 Only the latest version is supported with security updates. No security updates
 will be backported.
 
-Report vulnerabilities to `blissful at sunsetglow.net`.
+Report vulnerabilities to `blissful@sunsetglow.net`.
 
 ## License
 
@@ -54,8 +49,3 @@ details.
 You should have received a copy of the GNU Affero General Public License along
 with this program.  If not, see <https://www.gnu.org/licenses/>.
 ```
-
-### Scratchpad
-
-Since GQL API can create release, need to have functions to scan its tracks for
-cover art and/or upload art.

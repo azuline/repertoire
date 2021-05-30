@@ -12,7 +12,7 @@ export const RecentlyAdded: React.FC = () => {
   const releases = data?.releases.results ?? [];
 
   const toRecentlyAdded = (): void => {
-    // TODO: change these string keys to an enum.
+    // TODO: change these string keys to constants.
     localStorage.setItem(
       'release-view-options--sort',
       JSON.stringify('RECENTLY_ADDED'),

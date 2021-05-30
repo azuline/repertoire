@@ -3,9 +3,6 @@ import tw, { styled } from 'twin.macro';
 
 import { Icon, Input } from '~/components/common';
 
-// TODO: Implement a dropdown and stuff... get a way to monitor searchbar focus in react
-// and use that for width/whatnot.
-
 type ISearchbar = React.FC<{
   className?: string;
   shrink?: boolean;

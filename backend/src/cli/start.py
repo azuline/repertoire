@@ -1,8 +1,3 @@
-# This is really just a convenience command... for real production use we probably don't
-# want to run this, as it doesn't restart any failed services. That's possibly something
-# TODO, or not, since it is way better to just create systemd units or openrc whatevers
-# for hypercorn and huey.
-
 import time
 from multiprocessing import Process
 

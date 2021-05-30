@@ -30,8 +30,6 @@ export const Background: React.FC = () => {
   );
 };
 
-// TODO: Light theme-ify support this.
-
 const OuterBackground = styled.div`
   ${tw`absolute top-0 left-0 full`}
 
@@ -39,7 +37,7 @@ const OuterBackground = styled.div`
     180deg,
     rgba(16, 16, 19, 0.2),
     rgba(16, 16, 19, 0.7),
-    rgba(16, 16, 19, 0.9), 
+    rgba(16, 16, 19, 0.9),
     rgba(16, 16, 19, 1),
     rgba(16, 16, 19, 1),
     rgba(16, 16, 19, 1)

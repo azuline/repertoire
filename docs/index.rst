@@ -55,7 +55,6 @@ repertoire is licensed under the AGPL-3.0.
    :caption: User Manual
 
    manual/introduction
-   manual/keybinds
    manual/release_notes
 
 .. toctree::

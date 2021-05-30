@@ -19,10 +19,6 @@ export const Invites: React.FC = () => {
     createInvite({ refetchQueries: [refetchInvitesFetchInvitesQuery()] });
   };
 
-  if (invites === undefined) {
-    return null;
-  }
-
   return (
     <div tw="flex flex-col w-full">
       <Header />
@@ -30,12 +26,13 @@ export const Invites: React.FC = () => {
         <SectionHeader tw="pb-4">Active Invites</SectionHeader>
         <div tw="pb-8 text-foreground-400">Click an invite to copy its invite URL.</div>
         <div tw="flex">
-          <div tw="flex-shrink min-w-0">
-            {/* TODO: Loading animation */}
-            {invites.map((inv) => (
-              <Invite key={inv.id} {...inv} />
-            ))}
-          </div>
+          {invites && (
+            <div tw="flex-shrink min-w-0">
+              {invites.map((inv) => (
+                <Invite key={inv.id} {...inv} />
+              ))}
+            </div>
+          )}
           <div tw="flex-1" />
         </div>
         <div tw="py-10">
