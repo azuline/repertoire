@@ -88,8 +88,8 @@ CREATE INDEX music__tracks__disc_track_numbers__idx
     ON music__tracks (disc_number, track_number);
 
 CREATE TABLE music__tracks_artists (
-    track_id INTEGER REFERENCES music__tracks (id),
-    artist_id INTEGER REFERENCES music__artists (id),
+    track_id INTEGER REFERENCES music__tracks (id) ON DELETE CASCADE,
+    artist_id INTEGER REFERENCES music__artists (id) ON DELETE CASCADE,
     role INTEGER REFERENCES music__artist_roles__enum (id),
     PRIMARY KEY (track_id, artist_id, role)
 );

@@ -385,16 +385,6 @@ def test_create_same_initial_sha256_different_full(factory: Factory, db: Connect
     assert new_trk.id != trk.id
 
 
-def _create_dummy_file_with_hash(factory: Factory) -> tuple[Path, bytes]:
-    filepath = factory.rand_path(".m4a")
-    with filepath.open("wb") as fp:
-        fp.write(b"123")
-
-    sha256sum = sha256(b"123").digest()
-
-    return filepath, sha256sum
-
-
 def test_calculate_track_full_sha256(factory: Factory, db: Connection):
     trk = factory.track(conn=db)
     assert trk.sha256 is None
@@ -410,6 +400,22 @@ def test_calculate_track_full_sha256(factory: Factory, db: Connection):
     trk2 = track.from_id(trk.id, db)
     assert trk2 is not None
     assert trk2.sha256 == expected
+
+
+def test_calculate_track_full_sha256_duplicate(factory: Factory, db: Connection):
+    filepath, sha256sum = _create_dummy_file_with_hash(factory)
+    trk1 = factory.track(filepath=filepath, sha256=sha256sum, conn=db)
+
+    new_filepath, _ = _create_dummy_file_with_hash(factory)
+    trk2 = factory.track(filepath=new_filepath, conn=db)
+    assert trk2.sha256 is None
+
+    with pytest.raises(Duplicate) as e:
+        track.calculate_track_full_sha256(trk2, db)
+        assert e.value.entity.id == trk1.id
+
+    # Assert that the new track is deleted.
+    assert track.from_id(trk2.id, db) is None
 
 
 def test_update_fields(factory: Factory, db: Connection):
@@ -436,6 +442,12 @@ def test_update_nothing(factory: Factory, db: Connection):
     trk = factory.track(conn=db)
     new_trk = track.update(trk, conn=db)
     assert trk == new_trk
+
+
+def test_delete(factory: Factory, db: Connection):
+    trk = factory.track(conn=db)
+    track.delete(trk, db)
+    assert track.from_id(trk.id, db) is None
 
 
 def test_release(factory: Factory, db: Connection):
@@ -523,3 +535,13 @@ def test_del_artist_failure(factory: Factory, db: Connection):
     # Wrong role.
     with pytest.raises(DoesNotExist):
         track.del_artist(trk, art.id, ArtistRole.REMIXER, db)
+
+
+def _create_dummy_file_with_hash(factory: Factory) -> tuple[Path, bytes]:
+    filepath = factory.rand_path(".m4a")
+    with filepath.open("wb") as fp:
+        fp.write(b"123")
+
+    sha256sum = sha256(b"123").digest()
+
+    return filepath, sha256sum

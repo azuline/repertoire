@@ -134,6 +134,9 @@ def from_sha256(sha256: bytes, conn: Connection) -> Optional[T]:
     """
     Return the track with the provided sha256 hash.
 
+    WARNING: The sha256 attribute is populated lazily. It may not exist. Only use this
+    function in a scenario where the sha256 value is guaranteed to exist.
+
     :param sha256: The sha256 hash of the track to fetch.
     :param conn: A connection to the database.
     :return: The track with the provided sha256 hash, if it exists.
@@ -503,7 +506,11 @@ def _ensure_track_has_full_sha256(trk: T, conn: Connection) -> T:
 
     logger.debug(f"Calculating sha256 for track {trk.id}.")
     try:
-        calculate_track_full_sha256(trk, conn)
+        try:
+            calculate_track_full_sha256(trk, conn)
+        except Duplicate as e:
+            return e.entity
+
         # Reload track.
         refreshed_trk = from_id(trk.id, conn)
         assert refreshed_trk is not None
@@ -516,21 +523,34 @@ def _ensure_track_has_full_sha256(trk: T, conn: Connection) -> T:
 
 def calculate_track_full_sha256(trk: T, conn: Connection) -> bytes:
     """
-    Given a track, calculate its full sha256.
+    Given a track, calculate its full SHA256. If the newly calculated SHA256 is
+    equivalent to an existing track's SHA256, delete the passed-in track and raise a
+    Duplicate error with the existing track.
 
     :param trk: The track.
     :param conn: A connection to the DB.
     :return: The calculated SHA256.
     :raises FileNotFoundError: If the track no longer exists.
+    :raises Duplicate: If the calculated sha256 is the same as an existing track. The
+                       existing track is attached to the error.
     """
-    # TODO(now): What if we call this with a duplicate?
     logger.debug(f"Calculating SHA256 for {trk.filepath}.")
-    sha256 = calculate_sha_256(trk.filepath)
+    sha256sum = calculate_sha_256(trk.filepath)
+
+    # The newly calculated sha256 is a duplicate of another track...
+    # To deduplicate, delete the new track.
+    if dup := from_sha256(sha256sum, conn):
+        logger.info(
+            f"Track {trk.id} is a hash-duplicate of {dup.id}. Deleting {trk.id}."
+        )
+        delete(trk, conn)
+        raise Duplicate("Duplicate SHA256 detected.", dup)
+
     conn.execute(
         "UPDATE music__tracks SET sha256 = ? WHERE id = ?",
-        (sha256, trk.id),
+        (sha256sum, trk.id),
     )
-    return sha256
+    return sha256sum
 
 
 def update(trk: T, conn: Connection, **changes) -> T:
@@ -577,6 +597,21 @@ def update(trk: T, conn: Connection, **changes) -> T:
     logger.info(f"Updated track {trk.id} with {changes}.")
 
     return update_dataclass(trk, **changes)
+
+
+def delete(trk: T, conn: Connection) -> None:
+    """
+    Delete a track.
+
+    :param trk: The track to delete.
+    :param conn: A connection to the database.
+    """
+    conn.execute(
+        "DELETE FROM music__tracks WHERE id = ?",
+        (trk.id,),
+    )
+
+    logger.info(f"Deleted track {trk.id}.")
 
 
 def in_favorites(trk: T, user_id: int, conn: Connection) -> bool:
