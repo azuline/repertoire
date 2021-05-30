@@ -43,11 +43,14 @@ INSERT INTO music__release_types__enum (id, type)
 
 CREATE TABLE music__artists (
     id INTEGER PRIMARY KEY,
-    name VARCHAR COLLATE 'NOCASE' NOT NULL,
-    starred BOOLEAN NOT NULL DEFAULT 0 CHECK (starred IN (0, 1))
+    name VARCHAR COLLATE 'NOCASE' NOT NULL
 );
 
-CREATE INDEX music__artists__sorting__idx ON music__artists (starred DESC, name);
+CREATE TABLE music__artists_starred (
+    user_id INTEGER REFERENCES system__users(id),
+    artist_id INTEGER REFERENCES music__artists(id),
+    PRIMARY KEY (user_id, artist_id)
+);
 
 CREATE TABLE music__artist_roles__enum (
     id INTEGER PRIMARY KEY,
@@ -98,7 +101,6 @@ CREATE TABLE music__tracks_artists (
 CREATE TABLE music__collections (
     id INTEGER PRIMARY KEY,
     name VARCHAR COLLATE 'NOCASE' NOT NULL,
-    starred BOOLEAN NOT NULL DEFAULT 0 CHECK (starred IN (0, 1)),
     type INTEGER NOT NULL REFERENCES music__collection_types__enum(id),
     user_id INTEGER REFERENCES system__users(id) ON DELETE CASCADE,
     last_updated_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
@@ -108,7 +110,13 @@ CREATE TABLE music__collections (
 );
 
 CREATE INDEX music__collections__sorting__idx
-    ON music__collections (type, starred DESC, name);
+    ON music__collections (type, name);
+
+CREATE TABLE music__collections_starred (
+    user_id INTEGER REFERENCES system__users(id),
+    collection_id INTEGER REFERENCES music__collections(id),
+    PRIMARY KEY (user_id, collection_id)
+);
 
 CREATE TABLE music__collection_types__enum (
     id INTEGER PRIMARY KEY,
@@ -132,7 +140,6 @@ CREATE TABLE music__collections_releases (
 CREATE TABLE music__playlists (
     id INTEGER PRIMARY KEY,
     name VARCHAR COLLATE 'NOCASE' NOT NULL,
-    starred BOOLEAN NOT NULL DEFAULT 0 CHECK (starred IN (0, 1)),
     type INTEGER NOT NULL REFERENCES music__playlist_types__enum(id),
     user_id INTEGER REFERENCES system__users(id) ON DELETE CASCADE,
     last_updated_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
@@ -142,7 +149,13 @@ CREATE TABLE music__playlists (
 );
 
 CREATE INDEX music__playlists__sorting__idx
-    ON music__playlists (type, starred DESC, name);
+    ON music__playlists (type, name);
+
+CREATE TABLE music__playlists_starred (
+    user_id INTEGER REFERENCES system__users(id),
+    playlist_id INTEGER REFERENCES music__playlists(id),
+    PRIMARY KEY (user_id, playlist_id)
+);
 
 CREATE TABLE music__playlist_types__enum (
     id INTEGER PRIMARY KEY,
