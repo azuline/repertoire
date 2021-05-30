@@ -90,7 +90,7 @@ jobs:
           mkdir -p _data/ e2e/output/logs/
           printf '[repertoire]\nmusic_directories = ["../_testlib"]\nindex_crontab = 0 0 * * *' > _data/config.ini
           cd backend/
-          make debug > ../e2e/output/logs/backend.log 2>&1 &
+          make start > ../e2e/output/logs/backend.log 2>&1 &
 
       # Run E2E tests.
       - name: Cache e2e tests dependencies
