@@ -36,11 +36,11 @@ def test_scan_directories(mock_scan_directory, seed_data):
     mock_scan_directory.assert_has_calls([call("/dir1"), call("/dir2")])
 
 
-@patch("src.indexer.scanner._fix_release_types")
+@patch("src.indexer.scanner.handle_track_batch")
 @patch("src.indexer.scanner.catalog_file")
 def test_scan_directory(
     mock_catalog_file,
-    mock_fix_release_types,
+    mock_handle_track_batch,
     factory: Factory,
     db: Connection,
 ):
@@ -72,9 +72,7 @@ def test_catalog_file(
     mock_fetch_or_create_release.return_value = Mock(id=rls.id)
 
     filepath = NEW_ALBUM / "track1.flac"
-    catalog_file(str(filepath), db)
-
-    trk = track.from_filepath(filepath, db)
+    trk = catalog_file(str(filepath), db)
     assert trk is not None
 
     # Because filepath is not a reproducible value (depends on environment),
@@ -88,7 +86,7 @@ def test_catalog_file(
 
 
 @patch("src.indexer.scanner._fetch_or_create_release")
-@patch("src.indexer.scanner.calculate_sha_256")
+@patch("src.indexer.scanner.calculate_initial_sha_256")
 @patch("src.indexer.scanner.TagFile")
 def test_catalog_file_null_title(
     tagfile,
@@ -119,7 +117,7 @@ def test_catalog_file_null_title(
 
 
 @patch("src.indexer.scanner._fetch_or_create_release")
-@patch("src.indexer.scanner.calculate_sha_256")
+@patch("src.indexer.scanner.calculate_initial_sha_256")
 @patch("src.indexer.scanner.TagFile")
 def test_catalog_file_duplicate_artist(
     tagfile,
@@ -353,7 +351,7 @@ def test_fix_release_types(factory: Factory, db: Connection, num_tracks, release
     rls = factory.release(release_type=ReleaseType.UNKNOWN, conn=db)
 
     for i in range(num_tracks):
-        track.create(
+        factory.track(
             title="a",
             filepath=Path(f"/lol{i}.flac"),
             sha256=bytes([i] * 32),

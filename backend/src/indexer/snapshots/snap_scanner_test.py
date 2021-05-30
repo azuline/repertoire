@@ -12,7 +12,8 @@ snapshots['test_catalog_file 1'] = {
     'duration': 2,
     'id': 1,
     'release_id': 2,
-    'sha256': b'\xb9\x91\x8c\xb7\xfd-_\xd1QU\x9d\x15\x98GK\x8bA,\xf3PX\xbc3E\xc1\x15\xa1\x14\x90\xd0\x80\xbc',
+    'sha256': None,
+    'sha256_initial': b"\xed\xa5;\xe3\xb5\x0cR\xf0\x80E\x11&;\xaf\xbc\xab\xba\xc5\x18\xbf\xe4\\'y\xd3>EU\x15h\xd1\x05",
     'title': 'Track 1 (Artist AB Remix)',
     'track_number': '1'
 }

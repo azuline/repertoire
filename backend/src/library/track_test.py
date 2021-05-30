@@ -227,7 +227,7 @@ def test_create(factory: Factory, db: Connection):
     trk = track.create(
         title="new track",
         filepath=Path("/tmp/repertoire-library/09-track.m4a"),
-        sha256=b"0" * 32,
+        sha256_initial=b"0" * 32,
         release_id=rls.id,
         artists=artists,
         duration=9001,
@@ -243,13 +243,14 @@ def test_create(factory: Factory, db: Connection):
 
 
 def test_create_same_sha256(factory: Factory, db: Connection):
+    assert False
     trk = factory.track(conn=db)
 
     filepath = Path("/tmp/repertoire-library/09-track.m4a")
     new_trk = track.create(
         title="new track",
         filepath=filepath,
-        sha256=trk.sha256,
+        sha256_initial=trk.sha256_initial,
         release_id=trk.release_id,
         artists=[],
         duration=9001,
@@ -270,7 +271,7 @@ def test_create_duplicate_filepath(factory: Factory, db: Connection):
         track.create(
             title="Airwaves",
             filepath=trk.filepath,
-            sha256=b"0" * 32,
+            sha256_initial=b"0" * 32,
             release_id=trk.release_id,
             artists=[],
             duration=9001,
@@ -285,7 +286,7 @@ def test_create_bad_release_id(factory: Factory, db: Connection):
         track.create(
             title="new track",
             filepath=Path("/tmp/repertoire-library/09-track.m4a"),
-            sha256=b"0" * 32,
+            sha256_initial=b"0" * 32,
             release_id=999,
             artists=[],
             duration=9001,
@@ -306,7 +307,7 @@ def test_create_bad_artist_ids(factory: Factory, db: Connection):
         track.create(
             title="new track",
             filepath=Path("/tmp/repertoire-library/09-track.m4a"),
-            sha256=b"0" * 32,
+            sha256_initial=b"0" * 32,
             release_id=rls.id,
             artists=[
                 {"artist_id": art.id, "role": ArtistRole.MAIN},
