@@ -340,7 +340,7 @@ def create(
     cursor = conn.execute(
         """
         INSERT INTO music__collections (name, type, user_id)
-        VALUES (?, ?, ?, ?)
+        VALUES (?, ?, ?)
         """,
         (name, type.value, user_id),
     )
