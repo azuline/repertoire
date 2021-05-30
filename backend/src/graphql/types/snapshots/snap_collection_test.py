@@ -84,7 +84,7 @@ snapshots['test_add_release_to_collection 1'] = {
                 'releaseDate': '1970-02-05',
                 'releaseType': 'ALBUM',
                 'releaseYear': 1970,
-                'runtime': 3,
+                'runtime': 6,
                 'title': 'Release1',
                 'tracks': [
                     {
@@ -984,7 +984,7 @@ snapshots['test_del_release_from_collection 1'] = {
                 'releaseDate': '1970-02-05',
                 'releaseType': 'ALBUM',
                 'releaseYear': 1970,
-                'runtime': 3,
+                'runtime': 6,
                 'title': 'Release1',
                 'tracks': [
                     {

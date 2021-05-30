@@ -36,7 +36,7 @@ class Factory:
         name: Optional[str] = None,
     ) -> libartist.T:
         return libartist.create(
-            name=name if name is not None else self.rand_string(12),
+            name=name or self.rand_string(12),
             conn=conn,
         )
 
@@ -49,8 +49,8 @@ class Factory:
         user: Optional[libuser.T] = None,
     ) -> libcollection.T:
         return libcollection.create(
-            name=name if name is not None else self.rand_string(12),
-            type=type if type is not None else CollectionType.COLLAGE,
+            name=name or self.rand_string(12),
+            type=type or CollectionType.COLLAGE,
             user_id=user.id if user else None,
             conn=conn,
             override_immutable=True,
@@ -127,8 +127,8 @@ class Factory:
         type: Optional[PlaylistType] = None,
     ) -> libplaylist.T:
         return libplaylist.create(
-            name=name if name is not None else self.rand_string(12),
-            type=type if type is not None else PlaylistType.PLAYLIST,
+            name=name or self.rand_string(12),
+            type=type or PlaylistType.PLAYLIST,
             user_id=user.id if user else None,
             conn=conn,
             override_immutable=True,
@@ -165,11 +165,9 @@ class Factory:
             artist_ids = [self.artist(conn=conn).id]
 
         return librelease.create(
-            title=title if title is not None else self.rand_string(12),
+            title=title or self.rand_string(12),
             artist_ids=artist_ids,
-            release_type=(
-                release_type if release_type is not None else ReleaseType.ALBUM
-            ),
+            release_type=release_type or ReleaseType.ALBUM,
             release_year=release_year,
             release_date=release_date,
             rating=rating,
@@ -183,6 +181,7 @@ class Factory:
         conn: Connection,
         title: Optional[str] = None,
         filepath: Optional[Path] = None,
+        sha256_initial: Optional[bytes] = None,
         sha256: Optional[bytes] = None,
         release_id: Optional[int] = None,
         artists: Optional[list[dict]] = None,
@@ -214,14 +213,15 @@ class Factory:
                 ]
 
         return libtrack.create(
-            title=title if title is not None else self.rand_string(12),
-            filepath=filepath if filepath is not None else self.rand_path(".m4a"),
-            sha256=sha256 if sha256 is not None else random.randbytes(12),
+            title=title or self.rand_string(12),
+            filepath=filepath or self.rand_path(".m4a"),
+            sha256_initial=sha256_initial or random.randbytes(32),
+            sha256=sha256,
             release_id=release_id,
             artists=artists,
-            duration=duration if duration is not None else random.randint(100, 400),
-            track_number=track_number if track_number is not None else "1",
-            disc_number=disc_number if disc_number is not None else "1",
+            duration=duration or random.randint(100, 400),
+            track_number=track_number or "1",
+            disc_number=disc_number or "1",
             conn=conn,
         )
 
@@ -232,7 +232,7 @@ class Factory:
         nickname: Optional[str] = None,
     ) -> tuple[libuser.T, bytes]:
         return libuser.create(
-            nickname=nickname if nickname is not None else self.rand_string(12),
+            nickname=nickname or self.rand_string(12),
             conn=conn,
         )
 

@@ -9,7 +9,12 @@ from typing import Iterable, Optional, Union
 
 from src.enums import ArtistRole, TrackSort
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
-from src.util import make_fts_match_query, update_dataclass, without_key
+from src.util import (
+    calculate_sha_256,
+    make_fts_match_query,
+    update_dataclass,
+    without_key,
+)
 
 from . import artist, playlist, playlist_entry
 from . import release as librelease
@@ -27,7 +32,9 @@ class T:
     #:
     filepath: Path
     #: A hash of the audio file.
-    sha256: bytes
+    sha256: Optional[bytes]
+    #: A hash of the first 1KB of the file.
+    sha256_initial: bytes
     #:
     title: str
     #:
@@ -61,7 +68,7 @@ def from_row(row: Union[dict, Row]) -> T:
     return T(**dict(row, filepath=Path(row["filepath"])))
 
 
-def from_id(id: int, conn: Connection) -> Optional[T]:
+def from_id(id_: int, conn: Connection) -> Optional[T]:
     """
     Return the track with the provided ID.
 
@@ -69,13 +76,13 @@ def from_id(id: int, conn: Connection) -> Optional[T]:
     :param conn: A connection to the database.
     :return: The track with the provided ID, if it exists.
     """
-    cursor = conn.execute("SELECT * FROM music__tracks WHERE id = ?", (id,))
+    cursor = conn.execute("SELECT * FROM music__tracks WHERE id = ?", (id_,))
 
     if row := cursor.fetchone():
-        logger.debug("Fetched track {id}.")
+        logger.debug(f"Fetched track {id_}.")
         return from_row(row)
 
-    logger.debug("Failed to fetch track {id}.")
+    logger.debug(f"Failed to fetch track {id_}.")
     return None
 
 
@@ -93,10 +100,33 @@ def from_filepath(filepath: Union[Path, str], conn: Connection) -> Optional[T]:
     )
 
     if row := cursor.fetchone():
-        logger.debug("Fetched track {row['id']} from filepath {filepath}.")
+        logger.debug(f"Fetched track {row['id']} from filepath {filepath}.")
         return from_row(row)
 
-    logger.debug("Failed to fetch track from filepath {filepath}.")
+    logger.debug(f"Failed to fetch track from filepath {filepath}.")
+    return None
+
+
+def from_sha256_initial(sha256_initial: bytes, conn: Connection) -> Optional[T]:
+    """
+    Return the track with the provided sha256_initial (hash of the first 1KB) hash.
+
+    :param sha256_initial: The sha256_initial of the track to fetch.
+    :param conn: A connection to the database.
+    :return: The track with the provided ID, if it exists.
+    """
+    cursor = conn.execute(
+        "SELECT * FROM music__tracks WHERE sha256_initial = ?",
+        (sha256_initial,),
+    )
+
+    if row := cursor.fetchone():
+        logger.debug(
+            f"Fetched track {row['id']} from initial SHA256 {sha256_initial.hex()}."
+        )
+        return from_row(row)
+
+    logger.debug(f"Failed to fetch track from initial SHA256 {sha256_initial.hex()}.")
     return None
 
 
@@ -104,17 +134,23 @@ def from_sha256(sha256: bytes, conn: Connection) -> Optional[T]:
     """
     Return the track with the provided sha256 hash.
 
+    WARNING: The sha256 attribute is populated lazily. It may not exist. Only use this
+    function in a scenario where the sha256 value is guaranteed to exist.
+
     :param sha256: The sha256 hash of the track to fetch.
     :param conn: A connection to the database.
     :return: The track with the provided sha256 hash, if it exists.
     """
-    cursor = conn.execute("SELECT * FROM music__tracks WHERE sha256 = ?", (sha256,))
+    cursor = conn.execute(
+        "SELECT * FROM music__tracks WHERE sha256 = ?",
+        (sha256,),
+    )
 
     if row := cursor.fetchone():
-        logger.debug("Fetched track {row['id']} from SHA256 {sha256.hex()}.")
+        logger.debug(f"Fetched track {row['id']} from SHA256 {sha256.hex()}.")
         return from_row(row)
 
-    logger.debug("Failed to fetch track from SHA256 {sha256.hex()}.")
+    logger.debug(f"Failed to fetch track from SHA256 {sha256.hex()}.")
     return None
 
 
@@ -324,13 +360,14 @@ def _generate_year_filter(years: list[int]) -> tuple[Iterable[str], Iterable[int
 def create(
     title: str,
     filepath: Path,
-    sha256: bytes,
+    sha256_initial: bytes,
     release_id: int,
     artists: list[dict],
     duration: int,
     track_number: str,
     disc_number: str,
     conn: Connection,
+    sha256: Optional[bytes] = None,
 ) -> T:
     """
     Create a track with the provided parameters.
@@ -340,13 +377,17 @@ def create(
 
     :param title: The title of the track.
     :param filepath: The filepath of the track.
-    :param sha256: The sha256 of the track file.
+    :param sha256_initial: The SHA256 of the first 1KB of the track file.
     :param release_id: The ID of the release that this track belongs to.
     :param artists: The artists that contributed to this track. A list of
                     ``{"artist_id": int, "role": ArtistRole}`` mappings.
     :param duration: The duration of this track, in seconds.
     :param track_number: The track number.
     :param disc_number: The disc number.
+    :param sha256: The full SHA256 of the track file. This should generally not be
+                   passed in--calculating a SHA256 requires a filesystem read of several
+                   MB, and we want to do that lazily. But we allow it to be passed in
+                   for testing and cases where efficiency doesn't matter.
     :return: The newly created track.
     :raises NotFound: If no release has the given release ID or no artist
                       corresponds with any of the given artist IDs.
@@ -369,38 +410,37 @@ def create(
         raise Duplicate("A track with this filepath already exists.", trk)
 
     # Next, check to see if a track with the same sha256 exists.
-    cursor = conn.execute("SELECT id FROM music__tracks WHERE sha256 = ?", (sha256,))
-    if row := cursor.fetchone():
-        # If a track with the same sha256 exists, update the filepath and return.
-        conn.execute(
-            "UPDATE music__tracks SET filepath = ? WHERE id = ?",
-            (str(filepath), row["id"]),
-        )
-        logger.debug("Found track with the same SHA256; updated filepath.")
-        trk = from_id(row["id"], conn)
-        assert trk is not None
+    if trk := _check_for_duplicate_sha256(sha256_initial, filepath, conn):
         return trk
 
     # Track is not a duplicate, so we can insert and return.
-    cursor.execute(
+    cursor = conn.execute(
         """
         INSERT INTO music__tracks (
-            title, filepath, sha256, release_id, track_number, disc_number, duration
-        ) VALUES (?, ?, ?, ?, ?, ?, ?)
+            title,
+            filepath,
+            sha256_initial,
+            release_id,
+            track_number,
+            disc_number,
+            duration,
+            sha256
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """,
-        (title, str(filepath), sha256, release_id, track_number, disc_number, duration),
+        (
+            title,
+            str(filepath),
+            sha256_initial,
+            release_id,
+            track_number,
+            disc_number,
+            duration,
+            sha256,
+        ),
     )
 
-    trk = T(
-        id=cursor.lastrowid,
-        title=title,
-        filepath=filepath,
-        sha256=sha256,
-        release_id=release_id,
-        duration=duration,
-        track_number=track_number,
-        disc_number=disc_number,
-    )
+    trk = from_id(cursor.lastrowid, conn)
+    assert trk is not None
 
     # Insert artists.
     for mapping in artists:
@@ -409,6 +449,107 @@ def create(
     logger.info(f'Created track "{filepath}" with ID {trk.id}.')
 
     return trk
+
+
+def _check_for_duplicate_sha256(
+    sha256_initial: bytes,
+    filepath: Path,
+    conn: Connection,
+) -> Optional[T]:
+    """
+    Check to see whether the current track shares a SHA256 with another track. If so,
+    update the existing track to point to the new filepath and return the existing
+    track. Otherwise, return None.
+
+    This function takes in the sha256 of the first 1KB of the track. If we find that
+    another track has the same first 1KB hash, we proceed to compare the full hashes of
+    both files. We do this for efficiency reasons--see the scanner for more details.
+    """
+    trk = from_sha256_initial(sha256_initial, conn)
+    if not trk:
+        return None
+
+    # At this point, we know that the sha256 of the first bytes exist.
+
+    new_sha256 = calculate_sha_256(filepath)
+    # This value is calculated lazily. Since we demand it here,
+    # we must calculate it if it doesn't exist.
+    trk = _ensure_track_has_full_sha256(trk, conn)
+
+    if not trk.sha256 or new_sha256 != trk.sha256:
+        return None
+
+    # At this point, we know that the tracks have the same SHA256.
+
+    conn.execute(
+        "UPDATE music__tracks SET filepath = ? WHERE id = ?",
+        (str(filepath), trk.id),
+    )
+    logger.debug(f"Found track {trk.id} with the same SHA256; updated filepath.")
+
+    return from_id(trk.id, conn)
+
+
+def _ensure_track_has_full_sha256(trk: T, conn: Connection) -> T:
+    """
+    Ensure that a track has a sha256 for the full track. If the track's file is no
+    longer on disk, trk's sha256 will remain unmodified.
+
+    :param trk: The track to update.
+    :param conn: A connection to the database.
+    :return: The updated track.
+    """
+    if trk.sha256:
+        logger.debug(f"Track {trk.id} already has a full sha256, not calculating.")
+        return trk
+
+    logger.debug(f"Calculating sha256 for track {trk.id}.")
+    try:
+        try:
+            calculate_track_full_sha256(trk, conn)
+        except Duplicate as e:
+            return e.entity
+
+        # Reload track.
+        refreshed_trk = from_id(trk.id, conn)
+        assert refreshed_trk is not None
+        return refreshed_trk
+    except FileNotFoundError:
+        logger.debug(f"File for track {trk.id} not on disk.")
+        # TODO: Flag the file missing when we add the missing files feature?
+        return trk
+
+
+def calculate_track_full_sha256(trk: T, conn: Connection) -> bytes:
+    """
+    Given a track, calculate its full SHA256. If the newly calculated SHA256 is
+    equivalent to an existing track's SHA256, delete the passed-in track and raise a
+    Duplicate error with the existing track.
+
+    :param trk: The track.
+    :param conn: A connection to the DB.
+    :return: The calculated SHA256.
+    :raises FileNotFoundError: If the track no longer exists.
+    :raises Duplicate: If the calculated sha256 is the same as an existing track. The
+                       existing track is attached to the error.
+    """
+    logger.debug(f"Calculating SHA256 for {trk.filepath}.")
+    sha256sum = calculate_sha_256(trk.filepath)
+
+    # The newly calculated sha256 is a duplicate of another track...
+    # To deduplicate, delete the new track.
+    if dup := from_sha256(sha256sum, conn):
+        logger.info(
+            f"Track {trk.id} is a hash-duplicate of {dup.id}. Deleting {trk.id}."
+        )
+        delete(trk, conn)
+        raise Duplicate("Duplicate SHA256 detected.", dup)
+
+    conn.execute(
+        "UPDATE music__tracks SET sha256 = ? WHERE id = ?",
+        (sha256sum, trk.id),
+    )
+    return sha256sum
 
 
 def update(trk: T, conn: Connection, **changes) -> T:
@@ -455,6 +596,21 @@ def update(trk: T, conn: Connection, **changes) -> T:
     logger.info(f"Updated track {trk.id} with {changes}.")
 
     return update_dataclass(trk, **changes)
+
+
+def delete(trk: T, conn: Connection) -> None:
+    """
+    Delete a track.
+
+    :param trk: The track to delete.
+    :param conn: A connection to the database.
+    """
+    conn.execute(
+        "DELETE FROM music__tracks WHERE id = ?",
+        (trk.id,),
+    )
+
+    logger.info(f"Deleted track {trk.id}.")
 
 
 def in_favorites(trk: T, user_id: int, conn: Connection) -> bool:

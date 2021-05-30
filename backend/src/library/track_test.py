@@ -1,5 +1,7 @@
+from hashlib import sha256
 from pathlib import Path
 from sqlite3 import Connection
+from unittest import mock
 
 import pytest
 
@@ -41,12 +43,13 @@ def test_from_filepath_failure(db: Connection):
 
 
 def test_from_sha256_success(factory: Factory, db: Connection):
-    trk = factory.track(conn=db)
+    trk = factory.track(sha256=b"0" * 32, conn=db)
+    assert trk.sha256 is not None
     new_trk = track.from_sha256(trk.sha256, db)
     assert new_trk == trk
 
 
-def test_from_sha256_failure(factory: Factory, db: Connection):
+def test_from_sha256_failure(db: Connection):
     assert track.from_sha256(b"0" * 32, db) is None
 
 
@@ -227,7 +230,7 @@ def test_create(factory: Factory, db: Connection):
     trk = track.create(
         title="new track",
         filepath=Path("/tmp/repertoire-library/09-track.m4a"),
-        sha256=b"0" * 32,
+        sha256_initial=b"0" * 32,
         release_id=rls.id,
         artists=artists,
         duration=9001,
@@ -242,27 +245,6 @@ def test_create(factory: Factory, db: Connection):
     assert trk_arts[0]["artist"].id == art.id
 
 
-def test_create_same_sha256(factory: Factory, db: Connection):
-    trk = factory.track(conn=db)
-
-    filepath = Path("/tmp/repertoire-library/09-track.m4a")
-    new_trk = track.create(
-        title="new track",
-        filepath=filepath,
-        sha256=trk.sha256,
-        release_id=trk.release_id,
-        artists=[],
-        duration=9001,
-        track_number="1",
-        disc_number="2",
-        conn=db,
-    )
-
-    assert new_trk.id == trk.id
-    assert new_trk.filepath == filepath
-    assert new_trk == track.from_id(trk.id, db)
-
-
 def test_create_duplicate_filepath(factory: Factory, db: Connection):
     trk = factory.track(conn=db)
 
@@ -270,7 +252,7 @@ def test_create_duplicate_filepath(factory: Factory, db: Connection):
         track.create(
             title="Airwaves",
             filepath=trk.filepath,
-            sha256=b"0" * 32,
+            sha256_initial=b"0" * 32,
             release_id=trk.release_id,
             artists=[],
             duration=9001,
@@ -280,12 +262,12 @@ def test_create_duplicate_filepath(factory: Factory, db: Connection):
         )
 
 
-def test_create_bad_release_id(factory: Factory, db: Connection):
+def test_create_bad_release_id(db: Connection):
     with pytest.raises(NotFound) as e:
         track.create(
             title="new track",
             filepath=Path("/tmp/repertoire-library/09-track.m4a"),
-            sha256=b"0" * 32,
+            sha256_initial=b"0" * 32,
             release_id=999,
             artists=[],
             duration=9001,
@@ -306,7 +288,7 @@ def test_create_bad_artist_ids(factory: Factory, db: Connection):
         track.create(
             title="new track",
             filepath=Path("/tmp/repertoire-library/09-track.m4a"),
-            sha256=b"0" * 32,
+            sha256_initial=b"0" * 32,
             release_id=rls.id,
             artists=[
                 {"artist_id": art.id, "role": ArtistRole.MAIN},
@@ -321,6 +303,119 @@ def test_create_bad_artist_ids(factory: Factory, db: Connection):
 
     assert e.value.message is not None
     assert "Artist(s) 1000, 1001" in e.value.message
+
+
+@mock.patch("src.library.track.calculate_track_full_sha256")
+def test_create_same_sha256_precalculated_sha256(
+    mock_calculate_full: mock.MagicMock,
+    factory: Factory,
+    db: Connection,
+):
+    filepath, sha256sum = _create_dummy_file_with_hash(factory)
+    trk = factory.track(
+        filepath=filepath,
+        sha256_initial=sha256sum,
+        sha256=sha256sum,
+        conn=db,
+    )
+
+    new_filepath, _ = _create_dummy_file_with_hash(factory)
+    new_trk = track.create(
+        title="new track",
+        filepath=new_filepath,
+        sha256_initial=sha256sum,
+        release_id=trk.release_id,
+        artists=[],
+        duration=9001,
+        track_number="1",
+        disc_number="2",
+        conn=db,
+    )
+
+    assert new_trk.id == trk.id
+    assert new_trk.filepath == new_filepath
+    assert new_trk == track.from_id(trk.id, db)
+
+    mock_calculate_full.assert_not_called()
+
+
+def test_create_same_sha256_uncalculated_sha256(factory: Factory, db: Connection):
+    filepath, sha256sum = _create_dummy_file_with_hash(factory)
+    trk = factory.track(
+        filepath=filepath,
+        sha256_initial=sha256sum,
+        conn=db,
+    )
+
+    new_filepath, _ = _create_dummy_file_with_hash(factory)
+    new_trk = track.create(
+        title="new track",
+        filepath=new_filepath,
+        sha256_initial=sha256sum,
+        release_id=trk.release_id,
+        artists=[],
+        duration=9001,
+        track_number="1",
+        disc_number="2",
+        conn=db,
+    )
+
+    assert new_trk.id == trk.id
+    assert new_trk.filepath == new_filepath
+    assert new_trk == track.from_id(trk.id, db)
+
+
+def test_create_same_initial_sha256_different_full(factory: Factory, db: Connection):
+    filepath, sha256sum = _create_dummy_file_with_hash(factory)
+    trk = factory.track(sha256_initial=sha256sum, conn=db)
+
+    new_trk = track.create(
+        title="new track",
+        filepath=filepath,
+        sha256_initial=sha256sum,
+        sha256=b"0" * 32,
+        release_id=trk.release_id,
+        artists=[],
+        duration=9001,
+        track_number="1",
+        disc_number="2",
+        conn=db,
+    )
+
+    assert new_trk.id != trk.id
+
+
+def test_calculate_track_full_sha256(factory: Factory, db: Connection):
+    trk = factory.track(conn=db)
+    assert trk.sha256 is None
+
+    with trk.filepath.open("wb") as fp:
+        fp.write(b"123")
+
+    sha256sum = track.calculate_track_full_sha256(trk, db)
+
+    expected = sha256(b"123").digest()
+    assert sha256sum == expected
+
+    trk2 = track.from_id(trk.id, db)
+    assert trk2 is not None
+    assert trk2.sha256 == expected
+
+
+def test_calculate_track_full_sha256_duplicate(factory: Factory, db: Connection):
+    filepath, sha256sum = _create_dummy_file_with_hash(factory)
+    trk1 = factory.track(filepath=filepath, sha256=sha256sum, conn=db)
+
+    new_filepath, _ = _create_dummy_file_with_hash(factory)
+    trk2 = factory.track(filepath=new_filepath, conn=db)
+    assert trk2.sha256 is None
+
+    with pytest.raises(Duplicate) as e:
+        track.calculate_track_full_sha256(trk2, db)
+        assert e.value.entity.id == trk1.id
+
+    # Assert that the new track is deleted.
+    assert track.from_id(trk2.id, db) is None
 
 
 def test_update_fields(factory: Factory, db: Connection):
@@ -347,6 +442,12 @@ def test_update_nothing(factory: Factory, db: Connection):
     trk = factory.track(conn=db)
     new_trk = track.update(trk, conn=db)
     assert trk == new_trk
+
+
+def test_delete(factory: Factory, db: Connection):
+    trk = factory.track(conn=db)
+    track.delete(trk, db)
+    assert track.from_id(trk.id, db) is None
 
 
 def test_release(factory: Factory, db: Connection):
@@ -434,3 +535,13 @@ def test_del_artist_failure(factory: Factory, db: Connection):
     # Wrong role.
     with pytest.raises(DoesNotExist):
         track.del_artist(trk, art.id, ArtistRole.REMIXER, db)
+
+
+def _create_dummy_file_with_hash(factory: Factory) -> tuple[Path, bytes]:
+    filepath = factory.rand_path(".m4a")
+    with filepath.open("wb") as fp:
+        fp.write(b"123")
+
+    sha256sum = sha256(b"123").digest()
+
+    return filepath, sha256sum

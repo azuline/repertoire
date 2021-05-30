@@ -49,7 +49,11 @@ CREATE TABLE music__releases_artists (
 CREATE TABLE music__tracks (
     id INTEGER PRIMARY KEY,
     filepath VARCHAR UNIQUE NOT NULL,
-    sha256 BLOB UNIQUE NOT NULL,
+    -- The SHA256 of the full track. This is initially NULL for efficiency, but
+    -- eventually becomes NOT NULL.
+    sha256 BLOB UNIQUE,
+    -- The SHA256 of the first 1KB of the track.
+    sha256_initial BLOB NOT NULL,
     title VARCHAR COLLATE 'NOCASE' NOT NULL DEFAULT 'Untitled',
     release_id INTEGER NOT NULL REFERENCES music__releases(id) DEFAULT 1,
     track_number VARCHAR NOT NULL DEFAULT '1',
@@ -61,8 +65,8 @@ CREATE INDEX music__tracks__disc_track_numbers__idx
     ON music__tracks (disc_number, track_number);
 
 CREATE TABLE music__tracks_artists (
-    track_id INTEGER REFERENCES music__tracks (id),
-    artist_id INTEGER REFERENCES music__artists (id),
+    track_id INTEGER REFERENCES music__tracks (id) ON DELETE CASCADE,
+    artist_id INTEGER REFERENCES music__artists (id) ON DELETE CASCADE,
     role INTEGER REFERENCES music__artist_roles__enum (id),
     PRIMARY KEY (track_id, artist_id, role)
 );

@@ -35,7 +35,7 @@ snapshots['test_add_artist_to_track 1'] = {
                     }
                 ],
                 'discNumber': '1',
-                'duration': 0,
+                'duration': 1,
                 'id': 1,
                 'release': {
                     'id': 2,
@@ -148,7 +148,7 @@ snapshots['test_del_artist_from_track 1'] = {
                     }
                 ],
                 'discNumber': '1',
-                'duration': 0,
+                'duration': 1,
                 'id': 1,
                 'release': {
                     'id': 2,
@@ -277,7 +277,7 @@ snapshots['test_track 1'] = {
                 }
             ],
             'discNumber': '1',
-            'duration': 0,
+            'duration': 1,
             'id': 1,
             'release': {
                 'id': 2,
@@ -330,7 +330,7 @@ snapshots['test_tracks 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 0,
+                    'duration': 1,
                     'id': 1,
                     'release': {
                         'id': 2,
@@ -357,7 +357,7 @@ snapshots['test_tracks 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 1,
+                    'duration': 2,
                     'id': 2,
                     'release': {
                         'id': 2,
@@ -384,7 +384,7 @@ snapshots['test_tracks 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 2,
+                    'duration': 3,
                     'id': 3,
                     'release': {
                         'id': 2,
@@ -411,7 +411,7 @@ snapshots['test_tracks 1'] = {
                         }
                     ],
                     'discNumber': '3',
-                    'duration': 3,
+                    'duration': 4,
                     'id': 4,
                     'release': {
                         'id': 3,
@@ -438,7 +438,7 @@ snapshots['test_tracks 1'] = {
                         }
                     ],
                     'discNumber': '4',
-                    'duration': 4,
+                    'duration': 5,
                     'id': 5,
                     'release': {
                         'id': 3,
@@ -458,7 +458,7 @@ snapshots['test_tracks 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 5,
+                    'duration': 6,
                     'id': 6,
                     'release': {
                         'id': 4,
@@ -478,7 +478,7 @@ snapshots['test_tracks 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 6,
+                    'duration': 7,
                     'id': 7,
                     'release': {
                         'id': 4,
@@ -498,7 +498,7 @@ snapshots['test_tracks 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 7,
+                    'duration': 8,
                     'id': 8,
                     'release': {
                         'id': 4,
@@ -532,7 +532,7 @@ snapshots['test_tracks 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 10,
+                    'duration': 11,
                     'id': 11,
                     'release': {
                         'id': 5,
@@ -566,7 +566,7 @@ snapshots['test_tracks 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 11,
+                    'duration': 12,
                     'id': 12,
                     'release': {
                         'id': 5,
@@ -600,7 +600,7 @@ snapshots['test_tracks 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 12,
+                    'duration': 13,
                     'id': 13,
                     'release': {
                         'id': 5,
@@ -634,7 +634,7 @@ snapshots['test_tracks 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 8,
+                    'duration': 9,
                     'id': 9,
                     'release': {
                         'id': 5,
@@ -668,7 +668,7 @@ snapshots['test_tracks 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 9,
+                    'duration': 10,
                     'id': 10,
                     'release': {
                         'id': 5,
@@ -681,7 +681,7 @@ snapshots['test_tracks 1'] = {
                     'artists': [
                     ],
                     'discNumber': '13',
-                    'duration': 13,
+                    'duration': 14,
                     'id': 14,
                     'release': {
                         'id': 6,
@@ -694,7 +694,7 @@ snapshots['test_tracks 1'] = {
                     'artists': [
                     ],
                     'discNumber': '14',
-                    'duration': 14,
+                    'duration': 15,
                     'id': 15,
                     'release': {
                         'id': 6,
@@ -731,7 +731,7 @@ snapshots['test_tracks_filter_artists 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 0,
+                    'duration': 1,
                     'id': 1,
                     'release': {
                         'id': 2,
@@ -758,7 +758,7 @@ snapshots['test_tracks_filter_artists 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 1,
+                    'duration': 2,
                     'id': 2,
                     'release': {
                         'id': 2,
@@ -785,7 +785,7 @@ snapshots['test_tracks_filter_artists 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 2,
+                    'duration': 3,
                     'id': 3,
                     'release': {
                         'id': 2,
@@ -819,7 +819,7 @@ snapshots['test_tracks_filter_artists 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 10,
+                    'duration': 11,
                     'id': 11,
                     'release': {
                         'id': 5,
@@ -853,7 +853,7 @@ snapshots['test_tracks_filter_artists 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 11,
+                    'duration': 12,
                     'id': 12,
                     'release': {
                         'id': 5,
@@ -887,7 +887,7 @@ snapshots['test_tracks_filter_artists 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 12,
+                    'duration': 13,
                     'id': 13,
                     'release': {
                         'id': 5,
@@ -921,7 +921,7 @@ snapshots['test_tracks_filter_artists 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 8,
+                    'duration': 9,
                     'id': 9,
                     'release': {
                         'id': 5,
@@ -955,7 +955,7 @@ snapshots['test_tracks_filter_artists 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 9,
+                    'duration': 10,
                     'id': 10,
                     'release': {
                         'id': 5,
@@ -992,7 +992,7 @@ snapshots['test_tracks_filter_playlists 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 0,
+                    'duration': 1,
                     'id': 1,
                     'release': {
                         'id': 2,
@@ -1019,7 +1019,7 @@ snapshots['test_tracks_filter_playlists 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 1,
+                    'duration': 2,
                     'id': 2,
                     'release': {
                         'id': 2,
@@ -1046,7 +1046,7 @@ snapshots['test_tracks_filter_playlists 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 2,
+                    'duration': 3,
                     'id': 3,
                     'release': {
                         'id': 2,
@@ -1073,7 +1073,7 @@ snapshots['test_tracks_filter_playlists 1'] = {
                         }
                     ],
                     'discNumber': '3',
-                    'duration': 3,
+                    'duration': 4,
                     'id': 4,
                     'release': {
                         'id': 3,
@@ -1100,7 +1100,7 @@ snapshots['test_tracks_filter_playlists 1'] = {
                         }
                     ],
                     'discNumber': '4',
-                    'duration': 4,
+                    'duration': 5,
                     'id': 5,
                     'release': {
                         'id': 3,
@@ -1137,7 +1137,7 @@ snapshots['test_tracks_pagination 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 2,
+                    'duration': 3,
                     'id': 3,
                     'release': {
                         'id': 2,
@@ -1164,7 +1164,7 @@ snapshots['test_tracks_pagination 1'] = {
                         }
                     ],
                     'discNumber': '3',
-                    'duration': 3,
+                    'duration': 4,
                     'id': 4,
                     'release': {
                         'id': 3,
@@ -1187,7 +1187,7 @@ snapshots['test_tracks_search 1'] = {
                     'artists': [
                     ],
                     'discNumber': '13',
-                    'duration': 13,
+                    'duration': 14,
                     'id': 14,
                     'release': {
                         'id': 6,
@@ -1200,7 +1200,7 @@ snapshots['test_tracks_search 1'] = {
                     'artists': [
                     ],
                     'discNumber': '14',
-                    'duration': 14,
+                    'duration': 15,
                     'id': 15,
                     'release': {
                         'id': 6,
@@ -1227,7 +1227,7 @@ snapshots['test_tracks_search 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 1,
+                    'duration': 2,
                     'id': 2,
                     'release': {
                         'id': 2,
@@ -1261,7 +1261,7 @@ snapshots['test_tracks_search 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 10,
+                    'duration': 11,
                     'id': 11,
                     'release': {
                         'id': 5,
@@ -1295,7 +1295,7 @@ snapshots['test_tracks_search 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 11,
+                    'duration': 12,
                     'id': 12,
                     'release': {
                         'id': 5,
@@ -1329,7 +1329,7 @@ snapshots['test_tracks_search 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 12,
+                    'duration': 13,
                     'id': 13,
                     'release': {
                         'id': 5,
@@ -1366,7 +1366,7 @@ snapshots['test_tracks_sort 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 0,
+                    'duration': 1,
                     'id': 1,
                     'release': {
                         'id': 2,
@@ -1393,7 +1393,7 @@ snapshots['test_tracks_sort 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 1,
+                    'duration': 2,
                     'id': 2,
                     'release': {
                         'id': 2,
@@ -1427,7 +1427,7 @@ snapshots['test_tracks_sort 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 10,
+                    'duration': 11,
                     'id': 11,
                     'release': {
                         'id': 5,
@@ -1461,7 +1461,7 @@ snapshots['test_tracks_sort 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 11,
+                    'duration': 12,
                     'id': 12,
                     'release': {
                         'id': 5,
@@ -1495,7 +1495,7 @@ snapshots['test_tracks_sort 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 12,
+                    'duration': 13,
                     'id': 13,
                     'release': {
                         'id': 5,
@@ -1508,7 +1508,7 @@ snapshots['test_tracks_sort 1'] = {
                     'artists': [
                     ],
                     'discNumber': '13',
-                    'duration': 13,
+                    'duration': 14,
                     'id': 14,
                     'release': {
                         'id': 6,
@@ -1521,7 +1521,7 @@ snapshots['test_tracks_sort 1'] = {
                     'artists': [
                     ],
                     'discNumber': '14',
-                    'duration': 14,
+                    'duration': 15,
                     'id': 15,
                     'release': {
                         'id': 6,
@@ -1548,7 +1548,7 @@ snapshots['test_tracks_sort 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 2,
+                    'duration': 3,
                     'id': 3,
                     'release': {
                         'id': 2,
@@ -1575,7 +1575,7 @@ snapshots['test_tracks_sort 1'] = {
                         }
                     ],
                     'discNumber': '3',
-                    'duration': 3,
+                    'duration': 4,
                     'id': 4,
                     'release': {
                         'id': 3,
@@ -1602,7 +1602,7 @@ snapshots['test_tracks_sort 1'] = {
                         }
                     ],
                     'discNumber': '4',
-                    'duration': 4,
+                    'duration': 5,
                     'id': 5,
                     'release': {
                         'id': 3,
@@ -1622,7 +1622,7 @@ snapshots['test_tracks_sort 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 5,
+                    'duration': 6,
                     'id': 6,
                     'release': {
                         'id': 4,
@@ -1642,7 +1642,7 @@ snapshots['test_tracks_sort 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 6,
+                    'duration': 7,
                     'id': 7,
                     'release': {
                         'id': 4,
@@ -1662,7 +1662,7 @@ snapshots['test_tracks_sort 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 7,
+                    'duration': 8,
                     'id': 8,
                     'release': {
                         'id': 4,
@@ -1696,7 +1696,7 @@ snapshots['test_tracks_sort 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 8,
+                    'duration': 9,
                     'id': 9,
                     'release': {
                         'id': 5,
@@ -1730,7 +1730,7 @@ snapshots['test_tracks_sort 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 9,
+                    'duration': 10,
                     'id': 10,
                     'release': {
                         'id': 5,
@@ -1774,7 +1774,7 @@ snapshots['test_tracks_sort_desc 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 9,
+                    'duration': 10,
                     'id': 10,
                     'release': {
                         'id': 5,
@@ -1808,7 +1808,7 @@ snapshots['test_tracks_sort_desc 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 8,
+                    'duration': 9,
                     'id': 9,
                     'release': {
                         'id': 5,
@@ -1828,7 +1828,7 @@ snapshots['test_tracks_sort_desc 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 7,
+                    'duration': 8,
                     'id': 8,
                     'release': {
                         'id': 4,
@@ -1848,7 +1848,7 @@ snapshots['test_tracks_sort_desc 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 6,
+                    'duration': 7,
                     'id': 7,
                     'release': {
                         'id': 4,
@@ -1868,7 +1868,7 @@ snapshots['test_tracks_sort_desc 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 5,
+                    'duration': 6,
                     'id': 6,
                     'release': {
                         'id': 4,
@@ -1895,7 +1895,7 @@ snapshots['test_tracks_sort_desc 1'] = {
                         }
                     ],
                     'discNumber': '4',
-                    'duration': 4,
+                    'duration': 5,
                     'id': 5,
                     'release': {
                         'id': 3,
@@ -1922,7 +1922,7 @@ snapshots['test_tracks_sort_desc 1'] = {
                         }
                     ],
                     'discNumber': '3',
-                    'duration': 3,
+                    'duration': 4,
                     'id': 4,
                     'release': {
                         'id': 3,
@@ -1949,7 +1949,7 @@ snapshots['test_tracks_sort_desc 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 2,
+                    'duration': 3,
                     'id': 3,
                     'release': {
                         'id': 2,
@@ -1962,7 +1962,7 @@ snapshots['test_tracks_sort_desc 1'] = {
                     'artists': [
                     ],
                     'discNumber': '14',
-                    'duration': 14,
+                    'duration': 15,
                     'id': 15,
                     'release': {
                         'id': 6,
@@ -1975,7 +1975,7 @@ snapshots['test_tracks_sort_desc 1'] = {
                     'artists': [
                     ],
                     'discNumber': '13',
-                    'duration': 13,
+                    'duration': 14,
                     'id': 14,
                     'release': {
                         'id': 6,
@@ -2009,7 +2009,7 @@ snapshots['test_tracks_sort_desc 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 12,
+                    'duration': 13,
                     'id': 13,
                     'release': {
                         'id': 5,
@@ -2043,7 +2043,7 @@ snapshots['test_tracks_sort_desc 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 11,
+                    'duration': 12,
                     'id': 12,
                     'release': {
                         'id': 5,
@@ -2077,7 +2077,7 @@ snapshots['test_tracks_sort_desc 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 10,
+                    'duration': 11,
                     'id': 11,
                     'release': {
                         'id': 5,
@@ -2104,7 +2104,7 @@ snapshots['test_tracks_sort_desc 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 1,
+                    'duration': 2,
                     'id': 2,
                     'release': {
                         'id': 2,
@@ -2131,7 +2131,7 @@ snapshots['test_tracks_sort_desc 1'] = {
                         }
                     ],
                     'discNumber': '1',
-                    'duration': 0,
+                    'duration': 1,
                     'id': 1,
                     'release': {
                         'id': 2,
@@ -2166,7 +2166,7 @@ snapshots['test_update_track 1'] = {
                 }
             ],
             'discNumber': '899',
-            'duration': 1,
+            'duration': 2,
             'id': 2,
             'release': {
                 'id': 3,

@@ -135,7 +135,7 @@ snapshots['test_delete_entries 1'] = {
                     }
                 ],
                 'discNumber': '1',
-                'duration': 0,
+                'duration': 1,
                 'id': 1,
                 'release': {
                     'id': 2,
@@ -221,7 +221,7 @@ snapshots['test_delete_entry 1'] = {
                     }
                 ],
                 'discNumber': '1',
-                'duration': 0,
+                'duration': 1,
                 'id': 1,
                 'release': {
                     'id': 2,
