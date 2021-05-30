@@ -80,7 +80,6 @@ def resolve_create_release(
     _,
     info: GraphQLResolveInfo,
     title: str,
-    # TODO: Is this correct?
     artists: list[dict],
     releaseType: ReleaseType,
     releaseYear: Optional[int],

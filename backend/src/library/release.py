@@ -610,7 +610,7 @@ def artists(rls: T, conn: Connection) -> list[dict]:
             GROUP BY arts.id
         ) AS artists
         JOIN music__releases_artists AS rlsarts ON rlsarts.artist_id = artists.id
-        GROUP BY artists.id
+        GROUP BY artists.id, rlsarts.role
         """,
         (rls.id,),
     )

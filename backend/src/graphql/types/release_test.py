@@ -176,7 +176,16 @@ async def test_create_release(db, graphql_query, snapshot):
         mutation {
             createRelease(
                 title: "NewRelease"
-                artistIds: [2, 3]
+                artists: [
+                    {
+                        artist_id: 2,
+                        role: MAIN,
+                    },
+                    {
+                        artist_id: 3,
+                        role: MAIN,
+                    },
+                ]
                 releaseType: ALBUM
                 releaseYear: 2020
                 releaseDate: "2020-10-23"
@@ -196,16 +205,25 @@ async def test_create_release(db, graphql_query, snapshot):
     assert rls.release_year == 2020
     assert rls.release_date == date(2020, 10, 23)
 
-    assert {2, 3} == {a.id for a in release.artists(rls, db)}
+    assert {2, 3} == {a["artist"].id for a in release.artists(rls, db)}
 
 
 @pytest.mark.asyncio
-async def test_create_release_bad_date(db, graphql_query, snapshot):
+async def test_create_release_bad_date(graphql_query, snapshot):
     query = """
         mutation {
             createRelease(
                 title: "aa"
-                artistIds: [2, 3]
+                artists: [
+                    {
+                        artist_id: 2,
+                        role: MAIN,
+                    },
+                    {
+                        artist_id: 3,
+                        role: MAIN,
+                    },
+                ]
                 releaseType: ALBUM
                 releaseYear: 2020
                 releaseDate: "bbbbbb"
@@ -220,12 +238,25 @@ async def test_create_release_bad_date(db, graphql_query, snapshot):
 
 
 @pytest.mark.asyncio
-async def test_create_release_bad_artists(db, graphql_query, snapshot):
+async def test_create_release_bad_artists(graphql_query, snapshot):
     query = """
         mutation {
             createRelease(
                 title: "aa"
-                artistIds: [2, 3, 9999]
+                artists: [
+                    {
+                        artist_id: 2,
+                        role: MAIN,
+                    },
+                    {
+                        artist_id: 3,
+                        role: MAIN,
+                    },
+                    {
+                        artist_id: 9999,
+                        role: MAIN,
+                    },
+                ]
                 releaseType: ALBUM
                 releaseYear: 2020
                 releaseDate: "2020-10-23"
@@ -308,7 +339,7 @@ async def test_update_release_not_found(graphql_query, snapshot):
 async def test_add_artist_to_release(db, graphql_query, snapshot):
     query = """
         mutation {
-            addArtistToRelease(releaseId: 2, artistId: 5) {
+            addArtistToRelease(releaseId: 2, artistId: 5, role: MAIN) {
                 release {
                     ...ReleaseFields
                 }
@@ -324,14 +355,14 @@ async def test_add_artist_to_release(db, graphql_query, snapshot):
 
     rls = release.from_id(2, db)
     assert rls is not None
-    assert 5 in [a.id for a in release.artists(rls, db)]
+    assert 5 in [a["artist"].id for a in release.artists(rls, db)]
 
 
 @pytest.mark.asyncio
 async def test_add_artist_to_release_bad_release(graphql_query, snapshot):
     query = """
         mutation {
-            addArtistToRelease(releaseId: 999, artistId: 2) {
+            addArtistToRelease(releaseId: 999, artistId: 2, role: MAIN) {
                 release {
                     ...ReleaseFields
                 }
@@ -350,7 +381,7 @@ async def test_add_artist_to_release_bad_release(graphql_query, snapshot):
 async def test_add_artist_to_release_bad_artist(db, graphql_query, snapshot):
     query = """
         mutation {
-            addArtistToRelease(releaseId: 2, artistId: 9999) {
+            addArtistToRelease(releaseId: 2, artistId: 9999, role: MAIN) {
                 release {
                     ...ReleaseFields
                 }
@@ -378,7 +409,7 @@ async def test_add_artist_to_release_bad_artist(db, graphql_query, snapshot):
 async def test_add_artist_to_release_already_exists(db, graphql_query, snapshot):
     query = """
         mutation {
-            addArtistToRelease(releaseId: 2, artistId: 2) {
+            addArtistToRelease(releaseId: 2, artistId: 2, role: MAIN) {
                 release {
                     ...ReleaseFields
                 }
@@ -406,7 +437,7 @@ async def test_add_artist_to_release_already_exists(db, graphql_query, snapshot)
 async def test_del_artist_from_release(db, graphql_query, snapshot):
     query = """
         mutation {
-            delArtistFromRelease(releaseId: 2, artistId: 2) {
+            delArtistFromRelease(releaseId: 2, artistId: 2, role: MAIN) {
                 release {
                     ...ReleaseFields
                 }
@@ -419,20 +450,20 @@ async def test_del_artist_from_release(db, graphql_query, snapshot):
     rls = release.from_id(2, db)
     assert rls is not None
 
-    assert 2 in [a.id for a in release.artists(rls, db)]
+    assert 2 in [a["artist"].id for a in release.artists(rls, db)]
 
     success, data = await graphql_query(query)
     assert success is True
     snapshot.assert_match(data)
 
-    assert 2 not in [a.id for a in release.artists(rls, db)]
+    assert 2 not in [a["artist"].id for a in release.artists(rls, db)]
 
 
 @pytest.mark.asyncio
 async def test_del_artist_from_release_bad_release(graphql_query, snapshot):
     query = """
         mutation {
-            delArtistFromRelease(releaseId: 999, artistId: 2) {
+            delArtistFromRelease(releaseId: 999, artistId: 2, role: MAIN) {
                 release {
                     ...ReleaseFields
                 }
@@ -451,7 +482,7 @@ async def test_del_artist_from_release_bad_release(graphql_query, snapshot):
 async def test_del_artist_from_release_bad_artist(db, graphql_query, snapshot):
     query = """
         mutation {
-            delArtistFromRelease(releaseId: 2, artistId: 9999) {
+            delArtistFromRelease(releaseId: 2, artistId: 9999, role: MAIN) {
                 release {
                     ...ReleaseFields
                 }
@@ -479,7 +510,7 @@ async def test_del_artist_from_release_bad_artist(db, graphql_query, snapshot):
 async def test_del_artist_from_release_doesnt_exist(graphql_query, snapshot):
     query = """
         mutation {
-            delArtistFromRelease(releaseId: 3, artistId: 1) {
+            delArtistFromRelease(releaseId: 3, artistId: 1, role: MAIN) {
                 release {
                     ...ReleaseFields
                 }

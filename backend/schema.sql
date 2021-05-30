@@ -44,7 +44,7 @@ CREATE TABLE music__releases_artists (
     release_id INTEGER REFERENCES music__releases(id),
     artist_id INTEGER REFERENCES music__artists(id),
     role INTEGER REFERENCES music__artist_roles__enum (id),
-    PRIMARY KEY (release_id, artist_id)
+    PRIMARY KEY (release_id, artist_id, role)
 );
 
 CREATE TABLE music__tracks (
