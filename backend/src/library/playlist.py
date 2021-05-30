@@ -43,8 +43,6 @@ class T:
     #:
     name: str
     #:
-    starred: bool
-    #:
     type: PlaylistType
     #: The ID of the user that the playlist belongs to. Only set for System and Personal
     #  playlists.
@@ -77,7 +75,6 @@ def from_row(row: Union[dict, Row]) -> T:
     return T(
         **dict(
             row,
-            starred=bool(row["starred"]),
             type=PlaylistType(row["type"]),
         )
     )
@@ -231,7 +228,7 @@ def search(
         {"WHERE " + " AND ".join(filters) if filters else ""}
         GROUP BY plys.id
         ORDER BY
-            {"fts.rank" if search else "plys.type, plys.starred DESC, plys.name"}
+            {"fts.rank" if search else "plys.type, plys.name"}
         {"LIMIT ? OFFSET ?" if per_page else ""}
         """,
         params,
@@ -310,7 +307,6 @@ def create(
     name: str,
     type: PlaylistType,
     conn: Connection,
-    starred: bool = False,
     user_id: Optional[int] = None,
     override_immutable: bool = False,
 ) -> T:
@@ -320,7 +316,6 @@ def create(
     :param name: The name of the playlist.
     :param type: The type of the playlist.
     :param conn: A connection to the database.
-    :param starred: Whether the playlist is starred or not.
     :param user_id: The ID of the user that this playlist belongs to. Should be set for
                     Personal and System playlists; unset otherwise.
     :param override_immutable: Whether to allow creation of immutable playlists. For
@@ -349,10 +344,10 @@ def create(
 
     cursor = conn.execute(
         """
-        INSERT INTO music__playlists (name, type, starred, user_id)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO music__playlists (name, type, user_id)
+        VALUES (?, ?, ?)
         """,
-        (name, type.value, starred, user_id),
+        (name, type.value, user_id),
     )
 
     logger.info(f'Created playlist "{name}" of type {type} with ID {cursor.lastrowid}.')
@@ -374,8 +369,6 @@ def update(ply: T, conn: Connection, **changes) -> T:
     :param conn: A connection to the database.
     :param name: New playlist name.
     :type  name: :py:obj:`str`
-    :param starred: Whether ew playlist is starred.
-    :type  starred: :py:obj:`bool`
     :return: The updated playlist.
     :raises Immutable: If the playlist cannot be updated.
     :raises Duplicate: If the new name conflicts with another playlist.
@@ -396,13 +389,11 @@ def update(ply: T, conn: Connection, **changes) -> T:
         """
         UPDATE music__playlists
         SET name = ?,
-            starred = ?,
             last_updated_on = ?
         WHERE id = ?
         """,
         (
             changes.get("name", ply.name),
-            changes.get("starred", ply.starred),
             changes["last_updated_on"],
             ply.id,
         ),
@@ -411,6 +402,62 @@ def update(ply: T, conn: Connection, **changes) -> T:
     logger.info(f"Updated playlist {ply.id} with {changes}.")
 
     return update_dataclass(ply, **changes)
+
+
+def starred(ply: T, user_id: int, conn: Connection) -> bool:
+    """
+    Return whether this playlist is starred by the passed-in user.
+    :param ply: The provided playlist.
+    :param user_id: The passed-in user's ID.
+    :param conn: A connection to the database.
+    :return: Whether the playlist is starred by the user.
+    """
+    cursor = conn.execute(
+        """
+        SELECT 1 FROM music__playlists_starred
+        WHERE user_id = ? AND playlist_id = ?
+        """,
+        (user_id, ply.id),
+    )
+
+    return cursor.fetchone() is not None
+
+
+def star(ply: T, user_id: int, conn: Connection) -> None:
+    """
+    Star the playlist for the passed-in user.
+    :param ply:
+    :param user_id:
+    :param conn:
+    """
+    # If already starred, do nothing.
+    if starred(ply, user_id, conn):
+        return
+
+    conn.execute(
+        "INSERT INTO music__playlists_starred (user_id, playlist_id) VALUES (?, ?)",
+        (user_id, ply.id),
+    )
+
+
+def unstar(ply: T, user_id: int, conn: Connection) -> None:
+    """
+    Unstar the playlist for the passed-in user.
+    :param ply:
+    :param user_id:
+    :param conn:
+    """
+    # If not starred, do nothing.
+    if not starred(ply, user_id, conn):
+        return
+
+    conn.execute(
+        """
+        DELETE FROM music__playlists_starred
+        WHERE user_id = ? AND playlist_id = ?
+        """,
+        (user_id, ply.id),
+    )
 
 
 def entries(ply: T, conn: Connection) -> list[pentry.T]:

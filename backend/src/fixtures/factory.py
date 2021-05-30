@@ -137,14 +137,20 @@ class Factory:
         name: Optional[str] = None,
         user: Optional[libuser.T] = None,
         type: Optional[PlaylistType] = None,
+        starred_for_user: Optional[int] = None,
     ) -> libplaylist.T:
-        return libplaylist.create(
+        ply = libplaylist.create(
             name=name or self.rand_string(12),
             type=type or PlaylistType.PLAYLIST,
             user_id=user.id if user else None,
             conn=conn,
             override_immutable=True,
         )
+
+        if starred_for_user:
+            libplaylist.star(ply, starred_for_user, conn)
+
+        return ply
 
     def playlist_entry(
         self,

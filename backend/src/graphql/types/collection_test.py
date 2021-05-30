@@ -294,7 +294,7 @@ async def test_star_collection(db: Connection, graphql_query, snapshot):
 
 @pytest.mark.asyncio
 async def test_unstar_collection(db: Connection, graphql_query, snapshot):
-    # Collection 4 should be initially starred.
+    # Collection 7 should be initially starred.
     col = collection.from_id(7, db)
     assert col is not None
     assert collection.starred(col, user_id=1, conn=db)

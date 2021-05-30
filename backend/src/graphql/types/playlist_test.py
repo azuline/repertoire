@@ -177,7 +177,7 @@ async def test_playlists_type_param(graphql_query, snapshot):
 async def test_create_playlist(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            createPlaylist(name: "NewPlaylist", type: PLAYLIST, starred: true) {
+            createPlaylist(name: "NewPlaylist", type: PLAYLIST) {
                 ...PlaylistFields
             }
         }
@@ -190,14 +190,13 @@ async def test_create_playlist(db: Connection, graphql_query, snapshot):
     assert ply is not None
     assert ply.name == "NewPlaylist"
     assert ply.type == PlaylistType.PLAYLIST
-    assert ply.starred is True
 
 
 @pytest.mark.asyncio
 async def test_create_playlist_duplicate(graphql_query, snapshot):
     query = """
         mutation {
-            createPlaylist(name: "Playlist1", type: PLAYLIST, starred: true) {
+            createPlaylist(name: "Playlist1", type: PLAYLIST) {
                 ...PlaylistFields
             }
         }
@@ -211,7 +210,7 @@ async def test_create_playlist_duplicate(graphql_query, snapshot):
 async def test_update_playlist(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            updatePlaylist(id: 4, name: "NewPlaylist", starred: true) {
+            updatePlaylist(id: 4, name: "NewPlaylist") {
                 ...PlaylistFields
             }
         }
@@ -223,7 +222,6 @@ async def test_update_playlist(db: Connection, graphql_query, snapshot):
     ply = playlist.from_id(4, db)
     assert ply is not None
     assert ply.name == "NewPlaylist"
-    assert ply.starred is True
 
 
 @pytest.mark.asyncio
@@ -262,7 +260,7 @@ async def test_update_playlist_not_found(graphql_query, snapshot):
 async def test_update_playlist_immutable(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            updatePlaylist(id: 1, name: "NewPlaylist", starred: true) {
+            updatePlaylist(id: 1, name: "NewPlaylist") {
                 ...PlaylistFields
             }
         }
@@ -274,3 +272,44 @@ async def test_update_playlist_immutable(db: Connection, graphql_query, snapshot
     ply = playlist.from_id(1, db)
     assert ply is not None
     assert ply.name != "NewPlaylist"
+
+
+@pytest.mark.asyncio
+async def test_star_playlist(db: Connection, graphql_query, snapshot):
+    query = """
+        mutation {
+            starPlaylist(id: 3) {
+                ...PlaylistFields
+            }
+        }
+    """
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    ply = playlist.from_id(3, db)
+    assert ply is not None
+    assert playlist.starred(ply, user_id=1, conn=db)
+
+
+@pytest.mark.asyncio
+async def test_unstar_playlist(db: Connection, graphql_query, snapshot):
+    # Playlist 5 should be initially starred.
+    ply = playlist.from_id(5, db)
+    assert ply is not None
+    assert playlist.starred(ply, user_id=1, conn=db)
+
+    query = """
+        mutation {
+            unstarPlaylist(id: 5) {
+                ...PlaylistFields
+            }
+        }
+    """
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    ply = playlist.from_id(5, db)
+    assert ply is not None
+    assert not playlist.starred(ply, user_id=1, conn=db)

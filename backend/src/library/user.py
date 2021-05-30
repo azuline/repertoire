@@ -14,8 +14,7 @@ from src.errors import InvalidNickname, TokenGenerationFailure
 from src.tasks import huey
 from src.util import database, update_dataclass
 
-from . import collection
-from . import playlist as libplaylist
+from . import collection, playlist
 
 TOKEN_LENGTH = 32
 PREFIX_LENGTH = 12
@@ -181,14 +180,14 @@ def _create_system_collections_and_playlists(user_id: int, conn: Connection) -> 
         )
         collection.star(col, user_id, conn)
 
-    libplaylist.create(
+    ply = playlist.create(
         "Favorites",
         PlaylistType.SYSTEM,
         user_id=user_id,
-        starred=True,
         conn=conn,
         override_immutable=True,
     )
+    playlist.star(ply, user_id, conn)
 
     logger.info(f"Created system collections and playlists for user {user_id}.")
 

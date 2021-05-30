@@ -61,6 +61,7 @@ export const CollectionChooser: ICollectionChooser = ({
     return xs.map((c) =>
       c.user === null ? c : { ...c, name: `${c.user.nickname}'s ${c.name}` },
     );
+    // TODO(now): Sort this properly.
   })();
 
   const renderElement = (index: number): React.ReactNode => {
