@@ -199,15 +199,18 @@ def _fetch_or_create_release(tf: TagFile, conn: Connection) -> release.T:
     except (TypeError, ValueError):
         pass
 
+    artist_ids = uniq_list(
+        _fetch_or_create_artist(art, conn).id for art in tf.artist_album
+    )
+    artists = [{"artist_id": aid, "role": ArtistRole.MAIN} for aid in artist_ids]
+
     # Try to create a release with the given title and album artists. If it raises a
     # duplicate error, return the duplicate entity.
     try:
         rls = release.create(
             title=tf.album,
             # The tags might contain duplicate artists..
-            artist_ids=uniq_list(
-                _fetch_or_create_artist(art, conn).id for art in tf.artist_album
-            ),
+            artists=artists,
             release_type=_get_release_type(tf),
             release_year=tf.date.year,
             release_date=release_date,

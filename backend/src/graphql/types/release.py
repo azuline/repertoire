@@ -80,13 +80,14 @@ def resolve_create_release(
     _,
     info: GraphQLResolveInfo,
     title: str,
-    artistIds: list[int],
+    # TODO: Is this correct?
+    artists: list[dict],
     releaseType: ReleaseType,
     releaseYear: Optional[int],
     releaseDate: Optional[str] = None,
     rating: Optional[int] = None,
 ) -> release.T:
-    # Convert the "releaseDate" field from a string to a `dat` object. If it is not in
+    # Convert the "releaseDate" field from a string to a `date` object. If it is not in
     # the changes dict, do nothing.
     parsedDate: Optional[date] = None
 
@@ -98,7 +99,7 @@ def resolve_create_release(
 
     return release.create(
         title=title,
-        artist_ids=artistIds,
+        artists=artists,
         release_type=releaseType,
         release_year=releaseYear,
         release_date=parsedDate,

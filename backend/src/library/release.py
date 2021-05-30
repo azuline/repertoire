@@ -367,7 +367,7 @@ def _generate_rating_filter(ratings: list[int]) -> tuple[Iterable[str], Iterable
 
 def create(
     title: str,
-    artist_ids: list[int],
+    artists: list[dict],
     release_type: ReleaseType,
     release_year: Optional[int],
     conn: Connection,
@@ -380,7 +380,8 @@ def create(
     Create a release with the provided parameters.
 
     :param title: The title of the release.
-    :param artist_ids: The IDs of the "album artists" on the release.
+    :param artists: The artists that contributed to this release. A list of
+                    ``{"artist_id": int, "role": ArtistRole}`` mappings.
     :param release_type: The type of the release.
     :param release_year: The year the release came out.
     :param conn: A connection to the database.
@@ -395,13 +396,13 @@ def create(
     :raises Duplicate: If a release with the same name and artists already exists. The
                        duplicate release is passed as the ``entity`` argument.
     """
-    if bad_ids := [str(id) for id in artist_ids if not artist.exists(id, conn)]:
-        logger.debug(f"Artist(s) {', '.join(bad_ids)} do not exist.")
-        raise NotFound(f"Artist(s) {', '.join(bad_ids)} do not exist.")
+    if bad_ids := [
+        d["artist_id"] for d in artists if not artist.exists(d["artist_id"], conn)
+    ]:
+        logger.debug(f"Artist(s) {', '.join(str(i) for i in bad_ids)} do not exist.")
+        raise NotFound(f"Artist(s) {', '.join(str(i) for i in bad_ids)} do not exist.")
 
-    if not allow_duplicate and (
-        rls := _find_duplicate_release(title, artist_ids, conn)
-    ):
+    if not allow_duplicate and (rls := _find_duplicate_release(title, artists, conn)):
         logger.debug(f"Release already exists with ID {rls.id}.")
         raise Duplicate("A release with the same name and artists already exists.", rls)
 
@@ -414,28 +415,29 @@ def create(
         """,
         (title, image_id, release_type.value, release_year, release_date, rating),
     )
-    id = cursor.lastrowid
+    id_ = cursor.lastrowid
 
     # Insert the release artists into the database.
-    for artist_id in artist_ids:
+    for mapping in artists:
         cursor.execute(
             """
-            INSERT INTO music__releases_artists (release_id, artist_id) VALUES (?, ?)
+            INSERT INTO music__releases_artists (release_id, artist_id, role)
+            VALUES (?, ?, ?)
             """,
-            (id, artist_id),
+            (id_, mapping["artist_id"], mapping["role"].value),
         )
 
-    logger.info(f'Created release "{title}" with ID {id}.')
+    logger.info(f'Created release "{title}" with ID {id_}.')
 
     # We fetch it from the database to also get the `added_on` column.
-    rls = from_id(id, conn)
+    rls = from_id(id_, conn)
     assert rls is not None
     return rls
 
 
 def _find_duplicate_release(
     title: str,
-    artist_ids: list[int],
+    artists: list[dict],
     conn: Connection,
 ) -> Optional[T]:
     """
@@ -443,7 +445,8 @@ def _find_duplicate_release(
     duplicate release, return it.
 
     :param title: The title of the release.
-    :param artist_ids: The IDs of the artists that contributed to the release.
+    :param artists: The artists that contributed to the release. A list of
+                    ``{"artist_id": int, "role": ArtistRole}`` mappings.
     :param conn: A connection to the database.
     :return: The duplicate release, if found.
     """
@@ -465,8 +468,11 @@ def _find_duplicate_release(
 
     # Construct a lowercase set of artists for a future case-insensitive comparison.
     provided_artists = set()
-    for id in artist_ids:
-        cursor.execute("SELECT name FROM music__artists WHERE id = ?", (id,))
+    for mapping in artists:
+        cursor.execute(
+            "SELECT name FROM music__artists WHERE id = ?",
+            (mapping["artist_id"],),
+        )
         provided_artists.add(cursor.fetchone()["name"].lower())
 
     for row in release_ids:

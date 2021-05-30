@@ -153,7 +153,7 @@ class Factory:
         self,
         *,
         title: Optional[str] = None,
-        artist_ids: Optional[list[int]] = None,
+        artists: Optional[list[dict]] = None,
         release_type: Optional[ReleaseType] = None,
         release_year: Optional[int] = None,
         release_date: Optional[date] = None,
@@ -161,12 +161,12 @@ class Factory:
         image_id: Optional[int] = None,
         conn: Connection,
     ) -> librelease.T:
-        if artist_ids is None:
-            artist_ids = [self.artist(conn=conn).id]
+        if artists is None:
+            artists = [{"artist": self.artist(conn=conn).id, "role": ArtistRole.MAIN}]
 
         return librelease.create(
             title=title or self.rand_string(12),
-            artist_ids=artist_ids,
+            artists=artists,
             release_type=release_type or ReleaseType.ALBUM,
             release_year=release_year,
             release_date=release_date,
@@ -199,7 +199,7 @@ class Factory:
             if release:
                 artists = [
                     {
-                        "artist_id": artist.id,
+                        "artist_id": artist["artist"].id,
                         "role": ArtistRole.MAIN,
                     }
                     for artist in librelease.artists(release, conn)

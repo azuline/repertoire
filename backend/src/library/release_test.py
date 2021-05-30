@@ -277,12 +277,15 @@ def test_create_duplicate_allow(factory: Factory, db: Connection):
 
 def test_create_duplicate_disallow(factory: Factory, db: Connection):
     art = factory.artist(conn=db)
-    rls = factory.release(artist_ids=[art.id], conn=db)
+    rls = factory.release(
+        artists=[{"artist_id": art.id, "role": ArtistRole.MAIN}],
+        conn=db,
+    )
 
     with pytest.raises(Duplicate) as e:
         release.create(
             title=rls.title,
-            artist_ids=[art.id],
+            artists=[{"artist_id": art.id, "role": ArtistRole.MAIN}],
             release_type=rls.release_type,
             release_year=rls.release_year,
             conn=db,
