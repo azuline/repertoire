@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Image, Link, ArtistListWithRoles } from '~/components';
+import { ArtistListWithRoles, Image, Link } from '~/components';
 import { ITrackFieldsFragment } from '~/graphql';
 import { filterNulls } from '~/util';
 

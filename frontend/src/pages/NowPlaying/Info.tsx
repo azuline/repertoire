@@ -2,7 +2,13 @@ import { gql } from '@apollo/client';
 import * as React from 'react';
 import tw, { styled } from 'twin.macro';
 
-import { GenreList, Image, Link, SectionHeader, ArtistListWithRoles } from '~/components';
+import {
+  ArtistListWithRoles,
+  GenreList,
+  Image,
+  Link,
+  SectionHeader,
+} from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { ITrackFieldsFragment, useNowPlayingInfoFetchReleaseQuery } from '~/graphql';
 import { filterNulls } from '~/util';
