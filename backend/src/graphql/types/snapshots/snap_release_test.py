@@ -90,7 +90,7 @@ snapshots['test_add_artist_to_release 1'] = {
                 'releaseDate': '1970-02-05',
                 'releaseType': 'ALBUM',
                 'releaseYear': 1970,
-                'runtime': 3,
+                'runtime': 6,
                 'title': 'Release1',
                 'tracks': [
                     {
@@ -307,7 +307,7 @@ snapshots['test_del_artist_from_release 1'] = {
                 'releaseDate': '1970-02-05',
                 'releaseType': 'ALBUM',
                 'releaseYear': 1970,
-                'runtime': 3,
+                'runtime': 6,
                 'title': 'Release1',
                 'tracks': [
                     {
@@ -433,7 +433,7 @@ snapshots['test_release 1'] = {
             'releaseDate': '1970-02-05',
             'releaseType': 'ALBUM',
             'releaseYear': 1970,
-            'runtime': 3,
+            'runtime': 6,
             'title': 'Release1',
             'tracks': [
                 {
@@ -561,7 +561,7 @@ snapshots['test_releases 1'] = {
                     'releaseDate': '1970-02-05',
                     'releaseType': 'ALBUM',
                     'releaseYear': 1970,
-                    'runtime': 3,
+                    'runtime': 6,
                     'title': 'Release1',
                     'tracks': [
                         {
@@ -620,7 +620,7 @@ snapshots['test_releases 1'] = {
                     'releaseDate': None,
                     'releaseType': 'ALBUM',
                     'releaseYear': 1980,
-                    'runtime': 7,
+                    'runtime': 9,
                     'title': 'Release2',
                     'tracks': [
                         {
@@ -671,7 +671,7 @@ snapshots['test_releases 1'] = {
                     'releaseDate': '1970-02-05',
                     'releaseType': 'COMPILATION',
                     'releaseYear': 1990,
-                    'runtime': 18,
+                    'runtime': 21,
                     'title': 'Release3',
                     'tracks': [
                         {
@@ -726,7 +726,7 @@ snapshots['test_releases 1'] = {
                     'releaseDate': None,
                     'releaseType': 'UNKNOWN',
                     'releaseYear': 2000,
-                    'runtime': 50,
+                    'runtime': 55,
                     'title': 'Release4',
                     'tracks': [
                         {
@@ -773,7 +773,7 @@ snapshots['test_releases 1'] = {
                     'releaseDate': None,
                     'releaseType': 'EP',
                     'releaseYear': 2010,
-                    'runtime': 27,
+                    'runtime': 29,
                     'title': 'Release5',
                     'tracks': [
                         {
@@ -842,7 +842,7 @@ snapshots['test_releases_filter_artists 1'] = {
                     'releaseDate': '1970-02-05',
                     'releaseType': 'ALBUM',
                     'releaseYear': 1970,
-                    'runtime': 3,
+                    'runtime': 6,
                     'title': 'Release1',
                     'tracks': [
                         {
@@ -897,7 +897,7 @@ snapshots['test_releases_filter_artists 1'] = {
                     'releaseDate': None,
                     'releaseType': 'UNKNOWN',
                     'releaseYear': 2000,
-                    'runtime': 50,
+                    'runtime': 55,
                     'title': 'Release4',
                     'tracks': [
                         {
@@ -978,7 +978,7 @@ snapshots['test_releases_filter_collections 1'] = {
                     'releaseDate': '1970-02-05',
                     'releaseType': 'ALBUM',
                     'releaseYear': 1970,
-                    'runtime': 3,
+                    'runtime': 6,
                     'title': 'Release1',
                     'tracks': [
                         {
@@ -1037,7 +1037,7 @@ snapshots['test_releases_filter_collections 1'] = {
                     'releaseDate': None,
                     'releaseType': 'ALBUM',
                     'releaseYear': 1980,
-                    'runtime': 7,
+                    'runtime': 9,
                     'title': 'Release2',
                     'tracks': [
                         {
@@ -1088,7 +1088,7 @@ snapshots['test_releases_filter_collections 1'] = {
                     'releaseDate': '1970-02-05',
                     'releaseType': 'COMPILATION',
                     'releaseYear': 1990,
-                    'runtime': 18,
+                    'runtime': 21,
                     'title': 'Release3',
                     'tracks': [
                         {
@@ -1161,7 +1161,7 @@ snapshots['test_releases_filter_types 1'] = {
                     'releaseDate': '1970-02-05',
                     'releaseType': 'ALBUM',
                     'releaseYear': 1970,
-                    'runtime': 3,
+                    'runtime': 6,
                     'title': 'Release1',
                     'tracks': [
                         {
@@ -1220,7 +1220,7 @@ snapshots['test_releases_filter_types 1'] = {
                     'releaseDate': None,
                     'releaseType': 'ALBUM',
                     'releaseYear': 1980,
-                    'runtime': 7,
+                    'runtime': 9,
                     'title': 'Release2',
                     'tracks': [
                         {
@@ -1285,7 +1285,7 @@ snapshots['test_releases_pagination 1'] = {
                     'releaseDate': None,
                     'releaseType': 'ALBUM',
                     'releaseYear': 1980,
-                    'runtime': 7,
+                    'runtime': 9,
                     'title': 'Release2',
                     'tracks': [
                         {
@@ -1336,7 +1336,7 @@ snapshots['test_releases_pagination 1'] = {
                     'releaseDate': '1970-02-05',
                     'releaseType': 'COMPILATION',
                     'releaseYear': 1990,
-                    'runtime': 18,
+                    'runtime': 21,
                     'title': 'Release3',
                     'tracks': [
                         {
@@ -1409,7 +1409,7 @@ snapshots['test_releases_search 1'] = {
                     'releaseDate': '1970-02-05',
                     'releaseType': 'ALBUM',
                     'releaseYear': 1970,
-                    'runtime': 3,
+                    'runtime': 6,
                     'title': 'Release1',
                     'tracks': [
                         {
@@ -1482,7 +1482,7 @@ snapshots['test_releases_sort 1'] = {
                     'releaseDate': '1970-02-05',
                     'releaseType': 'ALBUM',
                     'releaseYear': 1970,
-                    'runtime': 3,
+                    'runtime': 6,
                     'title': 'Release1',
                     'tracks': [
                         {
@@ -1541,7 +1541,7 @@ snapshots['test_releases_sort 1'] = {
                     'releaseDate': None,
                     'releaseType': 'ALBUM',
                     'releaseYear': 1980,
-                    'runtime': 7,
+                    'runtime': 9,
                     'title': 'Release2',
                     'tracks': [
                         {
@@ -1592,7 +1592,7 @@ snapshots['test_releases_sort 1'] = {
                     'releaseDate': '1970-02-05',
                     'releaseType': 'COMPILATION',
                     'releaseYear': 1990,
-                    'runtime': 18,
+                    'runtime': 21,
                     'title': 'Release3',
                     'tracks': [
                         {
@@ -1647,7 +1647,7 @@ snapshots['test_releases_sort 1'] = {
                     'releaseDate': None,
                     'releaseType': 'UNKNOWN',
                     'releaseYear': 2000,
-                    'runtime': 50,
+                    'runtime': 55,
                     'title': 'Release4',
                     'tracks': [
                         {
@@ -1694,7 +1694,7 @@ snapshots['test_releases_sort 1'] = {
                     'releaseDate': None,
                     'releaseType': 'EP',
                     'releaseYear': 2010,
-                    'runtime': 27,
+                    'runtime': 29,
                     'title': 'Release5',
                     'tracks': [
                         {
@@ -1793,7 +1793,7 @@ snapshots['test_releases_sort_desc 1'] = {
                     'releaseDate': None,
                     'releaseType': 'EP',
                     'releaseYear': 2010,
-                    'runtime': 27,
+                    'runtime': 29,
                     'title': 'Release5',
                     'tracks': [
                         {
@@ -1844,7 +1844,7 @@ snapshots['test_releases_sort_desc 1'] = {
                     'releaseDate': None,
                     'releaseType': 'UNKNOWN',
                     'releaseYear': 2000,
-                    'runtime': 50,
+                    'runtime': 55,
                     'title': 'Release4',
                     'tracks': [
                         {
@@ -1907,7 +1907,7 @@ snapshots['test_releases_sort_desc 1'] = {
                     'releaseDate': '1970-02-05',
                     'releaseType': 'COMPILATION',
                     'releaseYear': 1990,
-                    'runtime': 18,
+                    'runtime': 21,
                     'title': 'Release3',
                     'tracks': [
                         {
@@ -1966,7 +1966,7 @@ snapshots['test_releases_sort_desc 1'] = {
                     'releaseDate': None,
                     'releaseType': 'ALBUM',
                     'releaseYear': 1980,
-                    'runtime': 7,
+                    'runtime': 9,
                     'title': 'Release2',
                     'tracks': [
                         {
@@ -2025,7 +2025,7 @@ snapshots['test_releases_sort_desc 1'] = {
                     'releaseDate': '1970-02-05',
                     'releaseType': 'ALBUM',
                     'releaseYear': 1970,
-                    'runtime': 3,
+                    'runtime': 6,
                     'title': 'Release1',
                     'tracks': [
                         {
@@ -2096,7 +2096,7 @@ snapshots['test_update_release 1'] = {
             'releaseDate': '2020-10-23',
             'releaseType': 'SINGLE',
             'releaseYear': 2020,
-            'runtime': 3,
+            'runtime': 6,
             'title': 'aa',
             'tracks': [
                 {

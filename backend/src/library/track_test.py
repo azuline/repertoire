@@ -41,7 +41,7 @@ def test_from_filepath_failure(db: Connection):
 
 
 def test_from_sha256_success(factory: Factory, db: Connection):
-    trk = factory.track(conn=db)
+    trk = factory.track(sha256=b"0" * 32, conn=db)
     new_trk = track.from_sha256(trk.sha256, db)
     assert new_trk == trk
 
@@ -242,28 +242,6 @@ def test_create(factory: Factory, db: Connection):
     assert trk_arts[0]["artist"].id == art.id
 
 
-def test_create_same_sha256(factory: Factory, db: Connection):
-    assert False
-    trk = factory.track(conn=db)
-
-    filepath = Path("/tmp/repertoire-library/09-track.m4a")
-    new_trk = track.create(
-        title="new track",
-        filepath=filepath,
-        sha256_initial=trk.sha256_initial,
-        release_id=trk.release_id,
-        artists=[],
-        duration=9001,
-        track_number="1",
-        disc_number="2",
-        conn=db,
-    )
-
-    assert new_trk.id == trk.id
-    assert new_trk.filepath == filepath
-    assert new_trk == track.from_id(trk.id, db)
-
-
 def test_create_duplicate_filepath(factory: Factory, db: Connection):
     trk = factory.track(conn=db)
 
@@ -322,6 +300,31 @@ def test_create_bad_artist_ids(factory: Factory, db: Connection):
 
     assert e.value.message is not None
     assert "Artist(s) 1000, 1001" in e.value.message
+
+
+# def test_create_same_sha256(factory: Factory, db: Connection):
+#     trk = factory.track(conn=db)
+
+#     filepath = Path("/tmp/repertoire-library/09-track.m4a")
+#     new_trk = track.create(
+#         title="new track",
+#         filepath=filepath,
+#         sha256_initial=trk.sha256_initial,
+#         release_id=trk.release_id,
+#         artists=[],
+#         duration=9001,
+#         track_number="1",
+#         disc_number="2",
+#         conn=db,
+#     )
+
+#     assert new_trk.id == trk.id
+#     assert new_trk.filepath == filepath
+#     assert new_trk == track.from_id(trk.id, db)
+
+
+def test_calculate_track_full_sha256(factory: Factory, db: Connection):
+    pass
 
 
 def test_update_fields(factory: Factory, db: Connection):
