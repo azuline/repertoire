@@ -10,6 +10,7 @@ on:
   pull_request:
     paths:
       - .github/**
+      - backend/**/*.gql
       - frontend/**
       - e2e_tests/**
 
