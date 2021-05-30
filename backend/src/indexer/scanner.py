@@ -14,7 +14,7 @@ from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.errors import Duplicate
 from src.library import artist, collection, release, track
 from src.tasks import huey
-from src.util import calculate_initial_sha_256, database, uniq_list
+from src.util import calculate_initial_sha256, database, uniq_list
 
 # TODO: TagFile type is incorrect--fix the entire library...
 
@@ -160,7 +160,7 @@ def catalog_file(filepath: str, conn: Connection) -> track.T:
     trk = track.create(
         title=title,
         filepath=tf.path,
-        sha256_initial=calculate_initial_sha_256(tf.path),
+        sha256_initial=calculate_initial_sha256(tf.path),
         release_id=rls.id,
         artists=artists,
         duration=int(tf.mut.info.length),

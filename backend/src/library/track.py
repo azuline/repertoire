@@ -10,7 +10,7 @@ from typing import Iterable, Optional, Union
 from src.enums import ArtistRole, TrackSort
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
 from src.util import (
-    calculate_sha_256,
+    calculate_sha256,
     make_fts_match_query,
     update_dataclass,
     without_key,
@@ -471,7 +471,7 @@ def _check_for_duplicate_sha256(
 
     # At this point, we know that the sha256 of the first bytes exist.
 
-    new_sha256 = calculate_sha_256(filepath)
+    new_sha256 = calculate_sha256(filepath)
     # This value is calculated lazily. Since we demand it here,
     # we must calculate it if it doesn't exist.
     trk = _ensure_track_has_full_sha256(trk, conn)
@@ -534,7 +534,7 @@ def calculate_track_full_sha256(trk: T, conn: Connection) -> bytes:
                        existing track is attached to the error.
     """
     logger.debug(f"Calculating SHA256 for {trk.filepath}.")
-    sha256sum = calculate_sha_256(trk.filepath)
+    sha256sum = calculate_sha256(trk.filepath)
 
     # The newly calculated sha256 is a duplicate of another track...
     # To deduplicate, delete the new track.
