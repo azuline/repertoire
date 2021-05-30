@@ -211,7 +211,7 @@ snapshots['test_artists 1'] = {
                             'title': 'Release4'
                         }
                     ],
-                    'starred': False,
+                    'starred': True,
                     'topGenres': [
                         {
                             'genre': {
@@ -393,7 +393,7 @@ snapshots['test_create_artist 1'] = {
             'numReleases': 0,
             'releases': [
             ],
-            'starred': True,
+            'starred': False,
             'topGenres': [
             ]
         }
@@ -448,6 +448,47 @@ snapshots['test_star_artist 1'] = {
                         'id': 12
                     },
                     'numMatches': 2
+                }
+            ]
+        }
+    }
+}
+
+snapshots['test_unstar_artist 1'] = {
+    'data': {
+        'unstarArtist': {
+            'id': 4,
+            'name': 'Artist3',
+            'numReleases': 2,
+            'releases': [
+                {
+                    'id': 3,
+                    'title': 'Release2'
+                },
+                {
+                    'id': 5,
+                    'title': 'Release4'
+                }
+            ],
+            'starred': False,
+            'topGenres': [
+                {
+                    'genre': {
+                        'id': 11
+                    },
+                    'numMatches': 1
+                },
+                {
+                    'genre': {
+                        'id': 12
+                    },
+                    'numMatches': 1
+                },
+                {
+                    'genre': {
+                        'id': 13
+                    },
+                    'numMatches': 1
                 }
             ]
         }

@@ -5,6 +5,7 @@ DROP TABLE music__release_types__enum;
 DROP TABLE music__releases_images_to_fetch;
 DROP TABLE music__artists;
 DROP TABLE music__artist_roles__enum;
+DROP TABLE music__artists_starred;
 DROP TABLE music__releases_artists;
 DROP TABLE music__tracks;
 DROP TABLE music__tracks_artists;
