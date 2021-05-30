@@ -39,7 +39,7 @@ jobs:
         uses: ./.github/actions/install-sqlite
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.9.1'
+          python-version: '3.9.5'
       - name: Cache poetry
         id: cache-poetry
         uses: actions/cache@v2
