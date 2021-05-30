@@ -212,13 +212,19 @@ type Mutation {
 
   createArtist(
     name: String!
-    starred: Boolean
   ): Artist!
 
   updateArtist(
     id: Int!
     name: String
-    starred: Boolean
+  ): Artist!
+
+  starArtist(
+    id: Int!
+  ): Artist!
+
+  unstarArtist(
+    id: Int!
   ): Artist!
 
   createCollection(

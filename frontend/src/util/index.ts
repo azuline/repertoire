@@ -1,3 +1,5 @@
+import { IElement } from '~/components';
+
 /**
  * A function that filters the nulls from an array and recasts the type as a
  * non-null list.
@@ -28,6 +30,24 @@ export const stringNumberCompare = (a: string, b: string): number => {
     return 1;
   }
   return 0;
+};
+
+/**
+ * A comparison function for elements. This sorts first by starred status, then
+ * lexographically by name.
+ *
+ * @param a - Comparison element 1.
+ * @param b - Comparison element 2.
+ * @returns -1, 0, or 1 as per convention.
+ */
+export const compareByStarThenName = (a: IElement, b: IElement): number => {
+  if (a.starred === true && b.starred !== true) {
+    return -1;
+  }
+  if (a.starred !== true && b.starred === true) {
+    return 1;
+  }
+  return a.name.localeCompare(b.name);
 };
 
 /**

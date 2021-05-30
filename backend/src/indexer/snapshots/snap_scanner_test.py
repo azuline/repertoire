@@ -20,51 +20,51 @@ snapshots['test_catalog_file 1'] = {
 
 snapshots['test_catalog_file 2'] = [
     {
-        'artist': GenericRepr("T(id=3, name='Artist A', starred=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=3, name='Artist A', num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.MAIN: 1>')
     },
     {
-        'artist': GenericRepr("T(id=4, name='Artist C', starred=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=4, name='Artist C', num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.FEATURE: 2>')
     },
     {
-        'artist': GenericRepr("T(id=5, name='Artist AB', starred=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=5, name='Artist AB', num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.REMIXER: 3>')
     },
     {
-        'artist': GenericRepr("T(id=6, name='Artist BC', starred=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=6, name='Artist BC', num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.REMIXER: 3>')
     },
     {
-        'artist': GenericRepr("T(id=7, name='Artist CD', starred=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=7, name='Artist CD', num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.PRODUCER: 4>')
     },
     {
-        'artist': GenericRepr("T(id=8, name='Artist DE', starred=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=8, name='Artist DE', num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.PRODUCER: 4>')
     },
     {
-        'artist': GenericRepr("T(id=9, name='Artist EF', starred=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=9, name='Artist EF', num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.COMPOSER: 5>')
     },
     {
-        'artist': GenericRepr("T(id=10, name='Artist FG', starred=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=10, name='Artist FG', num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.COMPOSER: 5>')
     },
     {
-        'artist': GenericRepr("T(id=11, name='Artist GH', starred=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=11, name='Artist GH', num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.CONDUCTOR: 6>')
     },
     {
-        'artist': GenericRepr("T(id=12, name='Artist HI', starred=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=12, name='Artist HI', num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.CONDUCTOR: 6>')
     },
     {
-        'artist': GenericRepr("T(id=13, name='Artist IJ', starred=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=13, name='Artist IJ', num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.DJMIXER: 7>')
     },
     {
-        'artist': GenericRepr("T(id=14, name='Artist JK', starred=False, num_releases=0)"),
+        'artist': GenericRepr("T(id=14, name='Artist JK', num_releases=0)"),
         'role': GenericRepr('<ArtistRoles.DJMIXER: 7>')
     }
 ]

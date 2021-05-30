@@ -129,6 +129,8 @@ export type IMutation = {
   newToken: IToken;
   createArtist: IArtist;
   updateArtist: IArtist;
+  starArtist: IArtist;
+  unstarArtist: IArtist;
   createCollection: ICollection;
   updateCollection: ICollection;
   addReleaseToCollection: ICollectionAndRelease;
@@ -157,14 +159,22 @@ export type IMutationUpdateUserArgs = {
 
 export type IMutationCreateArtistArgs = {
   name: Scalars['String'];
-  starred: Maybe<Scalars['Boolean']>;
 };
 
 
 export type IMutationUpdateArtistArgs = {
   id: Scalars['Int'];
   name: Maybe<Scalars['String']>;
-  starred: Maybe<Scalars['Boolean']>;
+};
+
+
+export type IMutationStarArtistArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type IMutationUnstarArtistArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -830,10 +840,10 @@ export type IArtistsFetchArtistQuery = (
   ) }
 );
 
-export type IArtistChooserFetchArtistsQueryVariables = Exact<{ [key: string]: never; }>;
+export type IFetchArtistsChooserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type IArtistChooserFetchArtistsQuery = (
+export type IFetchArtistsChooserQuery = (
   { __typename?: 'Query' }
   & { artists: (
     { __typename?: 'Artists' }
@@ -844,15 +854,27 @@ export type IArtistChooserFetchArtistsQuery = (
   ) }
 );
 
-export type IArtistChooserUpdateArtistStarredMutationVariables = Exact<{
+export type IStarArtistChooserMutationVariables = Exact<{
   id: Scalars['Int'];
-  starred: Maybe<Scalars['Boolean']>;
 }>;
 
 
-export type IArtistChooserUpdateArtistStarredMutation = (
+export type IStarArtistChooserMutation = (
   { __typename?: 'Mutation' }
-  & { updateArtist: (
+  & { starArtist: (
+    { __typename?: 'Artist' }
+    & Pick<IArtist, 'id' | 'starred'>
+  ) }
+);
+
+export type IUnstarArtistChooserMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type IUnstarArtistChooserMutation = (
+  { __typename?: 'Mutation' }
+  & { unstarArtist: (
     { __typename?: 'Artist' }
     & Pick<IArtist, 'id' | 'starred'>
   ) }
@@ -1672,8 +1694,8 @@ export type ArtistsFetchArtistQueryResult = Apollo.QueryResult<IArtistsFetchArti
 export function refetchArtistsFetchArtistQuery(variables?: IArtistsFetchArtistQueryVariables) {
       return { query: ArtistsFetchArtistDocument, variables: variables }
     }
-export const ArtistChooserFetchArtistsDocument = gql`
-    query ArtistChooserFetchArtists {
+export const FetchArtistsChooserDocument = gql`
+    query FetchArtistsChooser {
   artists {
     results {
       ...ArtistFields
@@ -1683,69 +1705,102 @@ export const ArtistChooserFetchArtistsDocument = gql`
     ${ArtistFieldsFragmentDoc}`;
 
 /**
- * __useArtistChooserFetchArtistsQuery__
+ * __useFetchArtistsChooserQuery__
  *
- * To run a query within a React component, call `useArtistChooserFetchArtistsQuery` and pass it any options that fit your needs.
- * When your component renders, `useArtistChooserFetchArtistsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFetchArtistsChooserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchArtistsChooserQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useArtistChooserFetchArtistsQuery({
+ * const { data, loading, error } = useFetchArtistsChooserQuery({
  *   variables: {
  *   },
  * });
  */
-export function useArtistChooserFetchArtistsQuery(baseOptions?: Apollo.QueryHookOptions<IArtistChooserFetchArtistsQuery, IArtistChooserFetchArtistsQueryVariables>) {
+export function useFetchArtistsChooserQuery(baseOptions?: Apollo.QueryHookOptions<IFetchArtistsChooserQuery, IFetchArtistsChooserQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<IArtistChooserFetchArtistsQuery, IArtistChooserFetchArtistsQueryVariables>(ArtistChooserFetchArtistsDocument, options);
+        return Apollo.useQuery<IFetchArtistsChooserQuery, IFetchArtistsChooserQueryVariables>(FetchArtistsChooserDocument, options);
       }
-export function useArtistChooserFetchArtistsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IArtistChooserFetchArtistsQuery, IArtistChooserFetchArtistsQueryVariables>) {
+export function useFetchArtistsChooserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchArtistsChooserQuery, IFetchArtistsChooserQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<IArtistChooserFetchArtistsQuery, IArtistChooserFetchArtistsQueryVariables>(ArtistChooserFetchArtistsDocument, options);
+          return Apollo.useLazyQuery<IFetchArtistsChooserQuery, IFetchArtistsChooserQueryVariables>(FetchArtistsChooserDocument, options);
         }
-export type ArtistChooserFetchArtistsQueryHookResult = ReturnType<typeof useArtistChooserFetchArtistsQuery>;
-export type ArtistChooserFetchArtistsLazyQueryHookResult = ReturnType<typeof useArtistChooserFetchArtistsLazyQuery>;
-export type ArtistChooserFetchArtistsQueryResult = Apollo.QueryResult<IArtistChooserFetchArtistsQuery, IArtistChooserFetchArtistsQueryVariables>;
-export function refetchArtistChooserFetchArtistsQuery(variables?: IArtistChooserFetchArtistsQueryVariables) {
-      return { query: ArtistChooserFetchArtistsDocument, variables: variables }
+export type FetchArtistsChooserQueryHookResult = ReturnType<typeof useFetchArtistsChooserQuery>;
+export type FetchArtistsChooserLazyQueryHookResult = ReturnType<typeof useFetchArtistsChooserLazyQuery>;
+export type FetchArtistsChooserQueryResult = Apollo.QueryResult<IFetchArtistsChooserQuery, IFetchArtistsChooserQueryVariables>;
+export function refetchFetchArtistsChooserQuery(variables?: IFetchArtistsChooserQueryVariables) {
+      return { query: FetchArtistsChooserDocument, variables: variables }
     }
-export const ArtistChooserUpdateArtistStarredDocument = gql`
-    mutation ArtistChooserUpdateArtistStarred($id: Int!, $starred: Boolean) {
-  updateArtist(id: $id, starred: $starred) {
+export const StarArtistChooserDocument = gql`
+    mutation StarArtistChooser($id: Int!) {
+  starArtist(id: $id) {
     id
     starred
   }
 }
     `;
-export type IArtistChooserUpdateArtistStarredMutationFn = Apollo.MutationFunction<IArtistChooserUpdateArtistStarredMutation, IArtistChooserUpdateArtistStarredMutationVariables>;
+export type IStarArtistChooserMutationFn = Apollo.MutationFunction<IStarArtistChooserMutation, IStarArtistChooserMutationVariables>;
 
 /**
- * __useArtistChooserUpdateArtistStarredMutation__
+ * __useStarArtistChooserMutation__
  *
- * To run a mutation, you first call `useArtistChooserUpdateArtistStarredMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useArtistChooserUpdateArtistStarredMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useStarArtistChooserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStarArtistChooserMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [artistChooserUpdateArtistStarredMutation, { data, loading, error }] = useArtistChooserUpdateArtistStarredMutation({
+ * const [starArtistChooserMutation, { data, loading, error }] = useStarArtistChooserMutation({
  *   variables: {
  *      id: // value for 'id'
- *      starred: // value for 'starred'
  *   },
  * });
  */
-export function useArtistChooserUpdateArtistStarredMutation(baseOptions?: Apollo.MutationHookOptions<IArtistChooserUpdateArtistStarredMutation, IArtistChooserUpdateArtistStarredMutationVariables>) {
+export function useStarArtistChooserMutation(baseOptions?: Apollo.MutationHookOptions<IStarArtistChooserMutation, IStarArtistChooserMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<IArtistChooserUpdateArtistStarredMutation, IArtistChooserUpdateArtistStarredMutationVariables>(ArtistChooserUpdateArtistStarredDocument, options);
+        return Apollo.useMutation<IStarArtistChooserMutation, IStarArtistChooserMutationVariables>(StarArtistChooserDocument, options);
       }
-export type ArtistChooserUpdateArtistStarredMutationHookResult = ReturnType<typeof useArtistChooserUpdateArtistStarredMutation>;
-export type ArtistChooserUpdateArtistStarredMutationResult = Apollo.MutationResult<IArtistChooserUpdateArtistStarredMutation>;
-export type ArtistChooserUpdateArtistStarredMutationOptions = Apollo.BaseMutationOptions<IArtistChooserUpdateArtistStarredMutation, IArtistChooserUpdateArtistStarredMutationVariables>;
+export type StarArtistChooserMutationHookResult = ReturnType<typeof useStarArtistChooserMutation>;
+export type StarArtistChooserMutationResult = Apollo.MutationResult<IStarArtistChooserMutation>;
+export type StarArtistChooserMutationOptions = Apollo.BaseMutationOptions<IStarArtistChooserMutation, IStarArtistChooserMutationVariables>;
+export const UnstarArtistChooserDocument = gql`
+    mutation unstarArtistChooser($id: Int!) {
+  unstarArtist(id: $id) {
+    id
+    starred
+  }
+}
+    `;
+export type IUnstarArtistChooserMutationFn = Apollo.MutationFunction<IUnstarArtistChooserMutation, IUnstarArtistChooserMutationVariables>;
+
+/**
+ * __useUnstarArtistChooserMutation__
+ *
+ * To run a mutation, you first call `useUnstarArtistChooserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnstarArtistChooserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [unstarArtistChooserMutation, { data, loading, error }] = useUnstarArtistChooserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUnstarArtistChooserMutation(baseOptions?: Apollo.MutationHookOptions<IUnstarArtistChooserMutation, IUnstarArtistChooserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<IUnstarArtistChooserMutation, IUnstarArtistChooserMutationVariables>(UnstarArtistChooserDocument, options);
+      }
+export type UnstarArtistChooserMutationHookResult = ReturnType<typeof useUnstarArtistChooserMutation>;
+export type UnstarArtistChooserMutationResult = Apollo.MutationResult<IUnstarArtistChooserMutation>;
+export type UnstarArtistChooserMutationOptions = Apollo.BaseMutationOptions<IUnstarArtistChooserMutation, IUnstarArtistChooserMutationVariables>;
 export const CollageFetchCollageDocument = gql`
     query CollageFetchCollage($id: Int!) {
   collection(id: $id) {
@@ -2695,12 +2750,14 @@ export type InvitesFieldPolicy = {
 	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('updateUser' | 'newToken' | 'createArtist' | 'updateArtist' | 'createCollection' | 'updateCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createInvite' | 'createPlaylist' | 'updatePlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'delPlaylistEntries' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('updateUser' | 'newToken' | 'createArtist' | 'updateArtist' | 'starArtist' | 'unstarArtist' | 'createCollection' | 'updateCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createInvite' | 'createPlaylist' | 'updatePlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'delPlaylistEntries' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	updateUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	newToken?: FieldPolicy<any> | FieldReadFunction<any>,
 	createArtist?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateArtist?: FieldPolicy<any> | FieldReadFunction<any>,
+	starArtist?: FieldPolicy<any> | FieldReadFunction<any>,
+	unstarArtist?: FieldPolicy<any> | FieldReadFunction<any>,
 	createCollection?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateCollection?: FieldPolicy<any> | FieldReadFunction<any>,
 	addReleaseToCollection?: FieldPolicy<any> | FieldReadFunction<any>,

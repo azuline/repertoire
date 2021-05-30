@@ -34,11 +34,17 @@ class Factory:
         *,
         conn: Connection,
         name: Optional[str] = None,
+        starred_for_user: Optional[int] = None,
     ) -> libartist.T:
-        return libartist.create(
+        art = libartist.create(
             name=name or self.rand_string(12),
             conn=conn,
         )
+
+        if starred_for_user:
+            libartist.star(art, starred_for_user, conn)
+
+        return art
 
     def collection(
         self,

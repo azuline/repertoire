@@ -25,8 +25,6 @@ class T:
     id: int
     #:
     name: str
-    #:
-    starred: bool
     #: The number of releases attributed to the artist.
     num_releases: int
 
@@ -49,7 +47,7 @@ def from_row(row: Union[dict, Row]) -> T:
     :param row: A row from the database.
     :return: An artist dataclass.
     """
-    return T(**dict(row, starred=bool(row["starred"])))
+    return T(**dict(row))
 
 
 def from_id(id: int, conn: Connection) -> Optional[T]:
@@ -147,8 +145,7 @@ def search(
             ON artsrls.artist_id = arts.id
         {"WHERE " + " AND ".join(filters) if filters else ""}
         GROUP BY arts.id
-        ORDER BY
-            {"fts.rank" if search else "arts.starred DESC, arts.name"}
+        ORDER BY {"fts.rank" if search else "arts.name"}
         {"LIMIT ? OFFSET ?" if per_page else ""}
         """,
         params,
@@ -206,13 +203,12 @@ def _generate_filters(search: str = "") -> tuple[list[str], list[Union[str, int]
     return filters, params
 
 
-def create(name: str, conn: Connection, starred: bool = False) -> T:
+def create(name: str, conn: Connection) -> T:
     """
     Create an artist and persist it to the database.
 
     :param name: The name of the artist.
     :param conn: A connection to the database.
-    :param starred: Whether the artist is starred or not.
     :return: The newly created artist.
     :raises Duplicate: If an artist with the same name already exists. The duplicate
                        artist is passed as the ``entity`` argument.
@@ -221,12 +217,15 @@ def create(name: str, conn: Connection, starred: bool = False) -> T:
         raise Duplicate(f'Artist "{name}" already exists.', art)
 
     cursor = conn.execute(
-        "INSERT INTO music__artists (name, starred) VALUES (?, ?)", (name, starred)
+        "INSERT INTO music__artists (name) VALUES (?)",
+        (name,),
     )
 
     logger.info(f'Created artist "{name}" with ID {cursor.lastrowid}')
 
-    return T(id=cursor.lastrowid, name=name, starred=starred, num_releases=0)
+    art = from_id(cursor.lastrowid, conn)
+    assert art is not None
+    return art
 
 
 def update(art: T, conn: Connection, **changes) -> T:
@@ -239,8 +238,6 @@ def update(art: T, conn: Connection, **changes) -> T:
     :param conn: A connection to the database.
     :param name: New artist name.
     :type  name: :py:obj:`str`
-    :param starred: Whether new artist is starred.
-    :type  starred: :py:obj:`bool`
     :return: The updated artist.
     :raises Duplicate: If an artist already exists with the new name.
     """
@@ -250,16 +247,77 @@ def update(art: T, conn: Connection, **changes) -> T:
     conn.execute(
         """
         UPDATE music__artists
-        SET name = ?,
-            starred = ?
+        SET name = ?
         WHERE id = ?
         """,
-        (changes.get("name", art.name), changes.get("starred", art.starred), art.id),
+        (
+            changes.get("name", art.name),
+            art.id,
+        ),
     )
 
     logger.info(f"Updated artist {art.id} with {changes}.")
 
     return update_dataclass(art, **changes)
+
+
+def starred(art: T, user_id: int, conn: Connection) -> bool:
+    """
+    Return whether this artist is starred by the passed-in user.
+
+    :param art: The provided artist.
+    :param user_id: The passed-in user's ID.
+    :param conn: A connection to the database.
+    :return: Whether the artist is starred by the user.
+    """
+    cursor = conn.execute(
+        """
+        SELECT 1 FROM music__artists_starred
+        WHERE user_id = ? AND artist_id = ?
+        """,
+        (user_id, art.id),
+    )
+
+    return cursor.fetchone() is not None
+
+
+def star(art: T, user_id: int, conn: Connection) -> None:
+    """
+    Star the artist for the passed-in user.
+
+    :param art:
+    :param user_id:
+    :param conn:
+    """
+    # If already starred, do nothing.
+    if starred(art, user_id, conn):
+        return
+
+    conn.execute(
+        "INSERT INTO music__artists_starred (user_id, artist_id) VALUES (?, ?)",
+        (user_id, art.id),
+    )
+
+
+def unstar(art: T, user_id: int, conn: Connection) -> None:
+    """
+    Unstar the artist for the passed-in user.
+
+    :param art:
+    :param user_id:
+    :param conn:
+    """
+    # If not starred, do nothing.
+    if not starred(art, user_id, conn):
+        return
+
+    conn.execute(
+        """
+        DELETE FROM music__artists_starred
+        WHERE user_id = ? AND artist_id = ?
+        """,
+        (user_id, art.id),
+    )
 
 
 def releases(art: T, conn: Connection) -> list[release.T]:
