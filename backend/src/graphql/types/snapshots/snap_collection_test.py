@@ -311,7 +311,7 @@ snapshots['test_collections 1'] = {
                     'numReleases': 0,
                     'releases': [
                     ],
-                    'starred': True,
+                    'starred': False,
                     'topGenres': [
                     ],
                     'type': 'SYSTEM'
@@ -335,7 +335,7 @@ snapshots['test_collections 1'] = {
                     'numReleases': 0,
                     'releases': [
                     ],
-                    'starred': True,
+                    'starred': False,
                     'topGenres': [
                     ],
                     'type': 'SYSTEM'
@@ -411,7 +411,7 @@ snapshots['test_collections 1'] = {
                     'numReleases': 0,
                     'releases': [
                     ],
-                    'starred': False,
+                    'starred': True,
                     'topGenres': [
                     ],
                     'type': 'COLLAGE'
@@ -745,7 +745,7 @@ snapshots['test_collections_type_param 1'] = {
                     'numReleases': 0,
                     'releases': [
                     ],
-                    'starred': True,
+                    'starred': False,
                     'topGenres': [
                     ],
                     'type': 'SYSTEM'
@@ -769,7 +769,7 @@ snapshots['test_collections_type_param 1'] = {
                     'numReleases': 0,
                     'releases': [
                     ],
-                    'starred': True,
+                    'starred': False,
                     'topGenres': [
                     ],
                     'type': 'SYSTEM'
@@ -886,7 +886,7 @@ snapshots['test_create_collection 1'] = {
             'numReleases': 0,
             'releases': [
             ],
-            'starred': True,
+            'starred': False,
             'topGenres': [
             ],
             'type': 'COLLAGE'
@@ -1095,7 +1095,7 @@ snapshots['test_update_collection 1'] = {
                     'title': 'Release3'
                 }
             ],
-            'starred': True,
+            'starred': False,
             'topGenres': [
                 {
                     'genre': {
