@@ -419,6 +419,41 @@ snapshots['test_create_artist_duplicate 1'] = {
     ]
 }
 
+snapshots['test_star_artist 1'] = {
+    'data': {
+        'starArtist': {
+            'id': 3,
+            'name': 'Artist2',
+            'numReleases': 2,
+            'releases': [
+                {
+                    'id': 2,
+                    'title': 'Release1'
+                },
+                {
+                    'id': 3,
+                    'title': 'Release2'
+                }
+            ],
+            'starred': True,
+            'topGenres': [
+                {
+                    'genre': {
+                        'id': 11
+                    },
+                    'numMatches': 2
+                },
+                {
+                    'genre': {
+                        'id': 12
+                    },
+                    'numMatches': 2
+                }
+            ]
+        }
+    }
+}
+
 snapshots['test_update_artist 1'] = {
     'data': {
         'updateArtist': {

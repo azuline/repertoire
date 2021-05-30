@@ -97,6 +97,8 @@ def seed_gql_data(seed_data, seed_gql_db):
 def _add_test_data(conn: Connection):
     factory = Factory()
 
+    # These start at ID 1.
+
     usr_admin, _ = factory.user(nickname="admin", conn=conn)
     usr_blissful, _ = factory.user(nickname="blissful", conn=conn)
 
@@ -104,7 +106,7 @@ def _add_test_data(conn: Connection):
 
     artists = [
         factory.artist(name="Artist1", conn=conn),
-        factory.artist(name="Artist2", conn=conn),
+        factory.artist(name="Artist2", conn=conn, starred_for_user=1),
         factory.artist(name="Artist3", conn=conn),
         factory.artist(name="Artist4", conn=conn),
         factory.artist(name="Artist5", conn=conn),

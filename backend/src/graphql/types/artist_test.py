@@ -144,7 +144,7 @@ async def test_artist_image_nonexistent(graphql_query, snapshot):
 async def test_create_artist(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            createArtist(name: "New Artist", starred: true) {
+            createArtist(name: "New Artist") {
                 ...ArtistFields
             }
         }
@@ -156,7 +156,6 @@ async def test_create_artist(db: Connection, graphql_query, snapshot):
     art = artist.from_id(data["data"]["createArtist"]["id"], db)
     assert art is not None
     assert art.name == "New Artist"
-    assert art.starred is True
 
 
 @pytest.mark.asyncio
@@ -177,7 +176,7 @@ async def test_create_artist_duplicate(graphql_query, snapshot):
 async def test_update_artist(db: Connection, graphql_query, snapshot):
     query = """
         mutation {
-            updateArtist(id: 4, name: "New Name", starred: true) {
+            updateArtist(id: 4, name: "New Name") {
                 ...ArtistFields
             }
         }
@@ -189,14 +188,13 @@ async def test_update_artist(db: Connection, graphql_query, snapshot):
     art = artist.from_id(4, db)
     assert art is not None
     assert art.name == "New Name"
-    assert art.starred is True
 
 
 @pytest.mark.asyncio
 async def test_update_artist_doesnt_exist(graphql_query, snapshot):
     query = """
         mutation {
-            updateArtist(id: 999, name: "New Name", starred: true) {
+            updateArtist(id: 999, name: "New Name") {
                 ...ArtistFields
             }
         }
@@ -222,3 +220,44 @@ async def test_update_artist_duplicate(db: Connection, graphql_query, snapshot):
     art = artist.from_id(4, db)
     assert art is not None
     assert art.name != "Artist1"
+
+
+@pytest.mark.asyncio
+async def test_star_artist(db: Connection, graphql_query, snapshot):
+    query = """
+        mutation {
+            starArtist(id: 3) {
+                ...ArtistFields
+            }
+        }
+    """
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    art = artist.from_id(3, db)
+    assert art is not None
+    assert artist.starred(art, user_id=1, conn=db)
+
+
+@pytest.mark.asyncio
+async def test_unstar_artist(db: Connection, graphql_query, snapshot):
+    # Artist 4 should be initially starred.
+    art = artist.from_id(4, db)
+    assert art is not None
+    assert artist.starred(art, user_id=1, conn=db)
+
+    query = """
+        mutation {
+            unstarArtist(id: 4) {
+                ...ArtistFields
+            }
+        }
+    """
+    success, data = await graphql_query(query)
+    assert success is True
+    snapshot.assert_match(data)
+
+    art = artist.from_id(4, db)
+    assert art is not None
+    assert not artist.starred(art, user_id=1, conn=db)

@@ -103,6 +103,7 @@ CREATE TABLE music__collections (
     name VARCHAR COLLATE 'NOCASE' NOT NULL,
     type INTEGER NOT NULL REFERENCES music__collection_types__enum(id),
     user_id INTEGER REFERENCES system__users(id) ON DELETE CASCADE,
+    starred BOOLEAN NOT NULL DEFAULT 0 CHECK (starred IN (0, 1)),
     last_updated_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
     UNIQUE (name, type, user_id),
     -- Assert that all System & Personal collections have a user ID attached.
@@ -112,11 +113,11 @@ CREATE TABLE music__collections (
 CREATE INDEX music__collections__sorting__idx
     ON music__collections (type, name);
 
-CREATE TABLE music__collections_starred (
-    user_id INTEGER REFERENCES system__users(id),
-    collection_id INTEGER REFERENCES music__collections(id),
-    PRIMARY KEY (user_id, collection_id)
-);
+/* CREATE TABLE music__collections_starred ( */
+/*     user_id INTEGER REFERENCES system__users(id), */
+/*     collection_id INTEGER REFERENCES music__collections(id), */
+/*     PRIMARY KEY (user_id, collection_id) */
+/* ); */
 
 CREATE TABLE music__collection_types__enum (
     id INTEGER PRIMARY KEY,
@@ -142,6 +143,7 @@ CREATE TABLE music__playlists (
     name VARCHAR COLLATE 'NOCASE' NOT NULL,
     type INTEGER NOT NULL REFERENCES music__playlist_types__enum(id),
     user_id INTEGER REFERENCES system__users(id) ON DELETE CASCADE,
+    starred BOOLEAN NOT NULL DEFAULT 0 CHECK (starred IN (0, 1)),
     last_updated_on TIMESTAMP DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
     UNIQUE (name, type, user_id),
     -- Assert that all System & Personal playlists have a user ID attached.
@@ -151,11 +153,11 @@ CREATE TABLE music__playlists (
 CREATE INDEX music__playlists__sorting__idx
     ON music__playlists (type, name);
 
-CREATE TABLE music__playlists_starred (
-    user_id INTEGER REFERENCES system__users(id),
-    playlist_id INTEGER REFERENCES music__playlists(id),
-    PRIMARY KEY (user_id, playlist_id)
-);
+/* CREATE TABLE music__playlists_starred ( */
+/*     user_id INTEGER REFERENCES system__users(id), */
+/*     playlist_id INTEGER REFERENCES music__playlists(id), */
+/*     PRIMARY KEY (user_id, playlist_id) */
+/* ); */
 
 CREATE TABLE music__playlist_types__enum (
     id INTEGER PRIMARY KEY,

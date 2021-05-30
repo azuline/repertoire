@@ -86,7 +86,7 @@ def test_count_search(factory: Factory, db: Connection):
 
 def test_create(factory: Factory, db: Connection):
     prev_id = factory.artist(conn=db).id
-    art = artist.create("new artist", starred=True, conn=db)
+    art = artist.create("new artist", conn=db)
     assert art.id == prev_id + 1
     assert art == artist.from_id(prev_id + 1, db)
 
@@ -99,15 +99,9 @@ def test_create_duplicate(factory: Factory, db: Connection):
 
 def test_update_fields(factory: Factory, db: Connection):
     art = factory.artist(conn=db)
-    new_art = artist.update(
-        art,
-        conn=db,
-        name="New Name",
-        starred=True,
-    )
+    new_art = artist.update(art, conn=db, name="New Name")
 
     assert new_art.name == "New Name"
-    assert new_art.starred is True
     assert new_art == artist.from_id(art.id, db)
 
 
