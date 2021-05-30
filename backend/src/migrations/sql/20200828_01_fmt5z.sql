@@ -47,8 +47,8 @@ CREATE TABLE music__artists (
 );
 
 CREATE TABLE music__artists_starred (
-    user_id INTEGER REFERENCES system__users(id),
-    artist_id INTEGER REFERENCES music__artists(id),
+    user_id INTEGER REFERENCES system__users(id) ON DELETE CASCADE,
+    artist_id INTEGER REFERENCES music__artists(id) ON DELETE CASCADE,
     PRIMARY KEY (user_id, artist_id)
 );
 
@@ -67,8 +67,8 @@ INSERT INTO music__artist_roles__enum (id, role)
            (7, 'DJMIXER');
 
 CREATE TABLE music__releases_artists (
-    release_id INTEGER REFERENCES music__releases(id),
-    artist_id INTEGER REFERENCES music__artists(id),
+    release_id INTEGER REFERENCES music__releases(id) ON DELETE CASCADE,
+    artist_id INTEGER REFERENCES music__artists(id) ON DELETE CASCADE,
     role INTEGER REFERENCES music__artist_roles__enum (id),
     PRIMARY KEY (release_id, artist_id, role)
 );
@@ -113,8 +113,8 @@ CREATE INDEX music__collections__sorting__idx
     ON music__collections (type, name);
 
 CREATE TABLE music__collections_starred (
-    user_id INTEGER REFERENCES system__users(id),
-    collection_id INTEGER REFERENCES music__collections(id),
+    user_id INTEGER REFERENCES system__users(id) ON DELETE CASCADE,
+    collection_id INTEGER REFERENCES music__collections(id) ON DELETE CASCADE,
     PRIMARY KEY (user_id, collection_id)
 );
 
@@ -152,8 +152,8 @@ CREATE INDEX music__playlists__sorting__idx
     ON music__playlists (type, name);
 
 CREATE TABLE music__playlists_starred (
-    user_id INTEGER REFERENCES system__users(id),
-    playlist_id INTEGER REFERENCES music__playlists(id),
+    user_id INTEGER REFERENCES system__users(id) ON DELETE CASCADE,
+    playlist_id INTEGER REFERENCES music__playlists(id) ON DELETE CASCADE,
     PRIMARY KEY (user_id, playlist_id)
 );
 

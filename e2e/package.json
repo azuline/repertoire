@@ -1,0 +1,19 @@
+{
+  "name": "e2e",
+  "version": "0.2.0",
+  "description": "E2E integration tests",
+  "license": "AGPL-3.0",
+  "scripts": {
+    "test": "npx cypress run",
+    "open": "npx cypress open"
+  },
+  "dependencies": {
+    "cypress": "^7.0.1",
+    "node-fetch": "^2.6.1",
+    "typescript": "^4.3.2",
+    "wait-port": "^0.2.9"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^2.5.10"
+  }
+}

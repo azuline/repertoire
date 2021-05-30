@@ -50,11 +50,14 @@ export const Login: React.FC = () => {
           <Input
             ref={input}
             autoFocus
-            className="token"
+            id="login-token"
+            name="password"
             placeholder="Authorization token"
             tw="mr-6 max-width[600px] min-width[300px] width[50vw]"
           />
-          <Button type="submit">Login</Button>
+          <Button id="login-btn" type="submit">
+            Login
+          </Button>
         </div>
         <div
           css={[

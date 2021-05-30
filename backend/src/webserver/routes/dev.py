@@ -4,6 +4,7 @@ import quart
 from quart import Blueprint
 
 from src.indexer import run_indexer
+from src.library import user
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +34,8 @@ async def make_test_user() -> tuple[str, int]:
         (b"\x00" * 12,),
     )
 
-    quart.g.db.execute(
+    # Create a new test user.
+    cursor = quart.g.db.execute(
         """
         INSERT INTO system__users
         (nickname, token_prefix, token_hash, csrf_token)
@@ -45,6 +47,7 @@ async def make_test_user() -> tuple[str, int]:
             b"\x00" * 32,
         ),
     )
+    user.post_create(cursor.lastrowid, quart.g.db)
 
     quart.g.db.commit()
 
