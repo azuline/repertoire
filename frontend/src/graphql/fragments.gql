@@ -18,8 +18,11 @@ fragment ReleaseFields on Release {
   imageId
 
   artists {
-    id
-    name
+    artist {
+      id
+      name
+    }
+    role
   }
 
   genres {

@@ -10,7 +10,7 @@ from typing import Iterable, Optional, Union
 from src.enums import ArtistRole, TrackSort
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
 from src.util import (
-    calculate_sha_256,
+    calculate_sha256,
     make_fts_match_query,
     update_dataclass,
     without_key,
@@ -471,7 +471,7 @@ def _check_for_duplicate_sha256(
 
     # At this point, we know that the sha256 of the first bytes exist.
 
-    new_sha256 = calculate_sha_256(filepath)
+    new_sha256 = calculate_sha256(filepath)
     # This value is calculated lazily. Since we demand it here,
     # we must calculate it if it doesn't exist.
     trk = _ensure_track_has_full_sha256(trk, conn)
@@ -534,7 +534,7 @@ def calculate_track_full_sha256(trk: T, conn: Connection) -> bytes:
                        existing track is attached to the error.
     """
     logger.debug(f"Calculating SHA256 for {trk.filepath}.")
-    sha256sum = calculate_sha_256(trk.filepath)
+    sha256sum = calculate_sha256(trk.filepath)
 
     # The newly calculated sha256 is a duplicate of another track...
     # To deduplicate, delete the new track.
@@ -666,7 +666,6 @@ def artists(trk: T, conn: Connection) -> list[dict]:
     )
 
     logger.debug(f"Fetched artists of track {trk.id}.")
-
     return [
         {
             "artist": artist.from_row(without_key(row, "role")),
@@ -724,6 +723,7 @@ def del_artist(trk: T, artist_id: int, role: ArtistRole, conn: Connection) -> T:
 
     :param trk: The track to delete the artist from.
     :param artist_id: The ID of the artist to delete.
+    :param role: The role of the artist on the track.
     :param conn: A connection to the database.
     :return: The track that was passed in.
     :raises NotFound: If no artist has the given artist ID.

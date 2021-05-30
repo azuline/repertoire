@@ -14,7 +14,7 @@ from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.errors import Duplicate
 from src.library import artist, collection, release, track
 from src.tasks import huey
-from src.util import calculate_initial_sha_256, database, uniq_list
+from src.util import calculate_initial_sha256, database, uniq_list
 
 # TODO: TagFile type is incorrect--fix the entire library...
 
@@ -160,7 +160,7 @@ def catalog_file(filepath: str, conn: Connection) -> track.T:
     trk = track.create(
         title=title,
         filepath=tf.path,
-        sha256_initial=calculate_initial_sha_256(tf.path),
+        sha256_initial=calculate_initial_sha256(tf.path),
         release_id=rls.id,
         artists=artists,
         duration=int(tf.mut.info.length),
@@ -199,15 +199,18 @@ def _fetch_or_create_release(tf: TagFile, conn: Connection) -> release.T:
     except (TypeError, ValueError):
         pass
 
+    artist_ids = uniq_list(
+        _fetch_or_create_artist(art, conn).id for art in tf.artist_album
+    )
+    artists = [{"artist_id": aid, "role": ArtistRole.MAIN} for aid in artist_ids]
+
     # Try to create a release with the given title and album artists. If it raises a
     # duplicate error, return the duplicate entity.
     try:
         rls = release.create(
             title=tf.album,
             # The tags might contain duplicate artists..
-            artist_ids=uniq_list(
-                _fetch_or_create_artist(art, conn).id for art in tf.artist_album
-            ),
+            artists=artists,
             release_type=_get_release_type(tf),
             release_year=tf.date.year,
             release_date=release_date,
@@ -379,7 +382,7 @@ def _fix_album_artists(conn: Connection) -> None:
         artists = {amap["artist"] for amap in amaps if amap["role"] in MAIN_ROLES}
 
         for art in artists:
-            release.add_artist(rls, art.id, conn)
+            release.add_artist(rls, art.id, ArtistRole.MAIN, conn)
 
 
 def _fix_release_types(conn: Connection) -> None:

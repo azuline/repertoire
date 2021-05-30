@@ -3,7 +3,7 @@ import tw from 'twin.macro';
 
 import { Link } from '~/components/common';
 import { Image } from '~/components/Image';
-import { ArtistList, GenreList } from '~/components/Lists';
+import { ArtistListWithRoles, GenreList } from '~/components/Lists';
 import { IReleaseFieldsFragment } from '~/graphql';
 import { filterNulls } from '~/util';
 
@@ -63,8 +63,8 @@ export const RowRelease: IRowRelease = ({ release, className }) => {
           </div>
         </div>
         <div tw="flex text-foreground-300">
-          <ArtistList
-            elements={filterNulls(release.artists)}
+          <ArtistListWithRoles
+            artists={filterNulls(release.artists)}
             tw="mr-8 truncate max-w-3/5"
           />
           <div tw="flex-1 hidden overflow-hidden text-right md:block rtl">

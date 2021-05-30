@@ -279,7 +279,7 @@ type Mutation {
   createRelease(
     title: String!
     "A list of artist IDs--the album artists on the release."
-    artistIds: [Int!]!
+    artists: [ArtistWithRoleInput!]!
     releaseType: ReleaseType!
     releaseYear: Int!
     "A date in YYYY-MM-DD format."
@@ -302,11 +302,13 @@ type Mutation {
   addArtistToRelease(
     releaseId: Int!
     artistId: Int!
+    role: ArtistRole!
   ): ReleaseAndArtist!
 
   delArtistFromRelease(
     releaseId: Int!
     artistId: Int!
+    role: ArtistRole!
   ): ReleaseAndArtist!
 
   updateTrack(
@@ -348,6 +350,18 @@ type Artists {
   total: Int!
   "The artists on the current page."
   results: [Artist!]!
+}
+
+type ArtistWithRole {
+  artist: Artist!
+  "The role that the artist has on the track."
+  role: ArtistRole!
+}
+
+input ArtistWithRoleInput {
+  artist_id: Int!
+  "The role that the artist has on the track."
+  role: ArtistRole!
 }
 
 type Collection {
@@ -447,7 +461,7 @@ type Release {
   "The image ID of the release's cover image."
   imageId: Int
 
-  artists: [Artist!]!
+  artists: [ArtistWithRole!]!
   tracks: [Track!]!
   genres: [Collection!]!
   labels: [Collection!]!
@@ -471,7 +485,7 @@ type Track {
   inFavorites: Boolean!
 
   release: Release!
-  artists: [TrackArtist!]!
+  artists: [ArtistWithRole!]!
 }
 
 type Tracks {
@@ -479,12 +493,6 @@ type Tracks {
   total: Int!
   "The tracks on the current page."
   results: [Track!]!
-}
-
-type TrackArtist {
-  artist: Artist!
-  "The role that the artist has on the track."
-  role: ArtistRole!
 }
 
 "A type that represents the top genres of an artist/collection."
@@ -523,7 +531,7 @@ type ReleaseAndArtist {
 
 type TrackAndArtist {
   track: Track!
-  trackArtist: TrackArtist!
+  trackArtist: ArtistWithRole!
 }
 
 enum ArtistRole {

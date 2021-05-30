@@ -110,8 +110,11 @@ FRAGMENTS = {
             imageId
 
             artists {
-                id
-                name
+                role
+                artist {
+                    id
+                    name
+                }
             }
             collages {
                 id

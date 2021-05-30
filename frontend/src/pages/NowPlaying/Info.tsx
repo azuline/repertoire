@@ -2,7 +2,13 @@ import { gql } from '@apollo/client';
 import * as React from 'react';
 import tw, { styled } from 'twin.macro';
 
-import { GenreList, Image, Link, SectionHeader, TrackArtistList } from '~/components';
+import {
+  ArtistListWithRoles,
+  GenreList,
+  Image,
+  Link,
+  SectionHeader,
+} from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { ITrackFieldsFragment, useNowPlayingInfoFetchReleaseQuery } from '~/graphql';
 import { filterNulls } from '~/util';
@@ -39,7 +45,7 @@ export const Info: IInfo = ({ track }) => {
           {track.artists.length === 0 ? (
             <Link href="/artists/1">Unknown Artist</Link>
           ) : (
-            <CustomTrackArtistList
+            <CustomArtistListWithRoles
               link
               artists={filterNulls(track.artists)}
               tw="inline"
@@ -68,7 +74,7 @@ export const Info: IInfo = ({ track }) => {
   );
 };
 
-const CustomTrackArtistList = styled(TrackArtistList)`
+const CustomArtistListWithRoles = styled(ArtistListWithRoles)`
   .list--element {
     ${tw`text-primary-400`}
   }

@@ -15,6 +15,7 @@ load_dotenv(dotenv_path=BACKEND_ROOT / ".env")
 # If pytest/sphinx is running the program, do a few things differently:
 # - Set DATA_PATH to the tests' data directory rather than the real one.
 # - Don't autoinitialize the database and config file.
+IS_DEBUG = bool(os.environ.get("QUART_DEBUG", False))
 IS_PYTEST = "pytest" in sys.modules
 IS_SPHINX = "sphinx" in sys.modules
 TEST_DATA_PATH = BACKEND_ROOT / "test_data"

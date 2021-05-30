@@ -3,7 +3,7 @@ from sqlite3 import Connection
 
 import pytest
 
-from src.enums import CollectionType, ReleaseSort, ReleaseType
+from src.enums import ArtistRole, CollectionType, ReleaseSort, ReleaseType
 from src.errors import AlreadyExists, DoesNotExist, Duplicate
 from src.fixtures.factory import Factory
 
@@ -45,7 +45,13 @@ def test_search_all(factory: Factory, db: Connection):
 
 def test_search_search(factory: Factory, db: Connection):
     art = factory.artist(name="Aaron West", conn=db)
-    rls = factory.release(title="Music for Sleepy Devs", artist_ids=[art.id], conn=db)
+    rls = factory.release(
+        title="Music for Sleepy Devs",
+        artists=[
+            {"artist_id": art.id, "role": ArtistRole.MAIN},
+        ],
+        conn=db,
+    )
     out = release.search(search="Aaron Sleepy", conn=db)
     assert out == [rls]
 
@@ -144,12 +150,19 @@ def test_search_filter_artists(factory: Factory, db: Connection):
     art2 = factory.artist(conn=db)
 
     # Create some releases only on one artist.
-    factory.release(artist_ids=[art1.id], conn=db)
-    factory.release(artist_ids=[art2.id], conn=db)
+    factory.release(artists=[{"artist_id": art1.id, "role": ArtistRole.MAIN}], conn=db)
+    factory.release(artists=[{"artist_id": art2.id, "role": ArtistRole.MAIN}], conn=db)
 
     # Now create some for both; these are what we want to see in search results.
     releases = [
-        factory.release(artist_ids=[art1.id, art2.id], conn=db) for _ in range(5)
+        factory.release(
+            artists=[
+                {"artist_id": art1.id, "role": ArtistRole.MAIN},
+                {"artist_id": art2.id, "role": ArtistRole.MAIN},
+            ],
+            conn=db,
+        )
+        for _ in range(5)
     ]
 
     out = release.search(db, artist_ids=[art1.id, art2.id])
@@ -210,7 +223,7 @@ def test_create(factory: Factory, db: Connection):
 
     rls = release.create(
         title="New Release",
-        artist_ids=[art.id],
+        artists=[{"artist_id": art.id, "role": ArtistRole.MAIN}],
         release_type=ReleaseType.ALBUM,
         release_year=2020,
         conn=db,
@@ -220,7 +233,7 @@ def test_create(factory: Factory, db: Connection):
 
     artists = release.artists(rls, db)
     assert len(artists) == 1
-    assert artists[0].id == art.id
+    assert artists[0]["artist"].id == art.id
 
 
 def test_create_same_album_name_no_duplicate_trigger(factory: Factory, db: Connection):
@@ -229,7 +242,7 @@ def test_create_same_album_name_no_duplicate_trigger(factory: Factory, db: Conne
 
     new_rls = release.create(
         title=rls1.title,
-        artist_ids=[new_art.id],
+        artists=[{"artist_id": new_art.id, "role": ArtistRole.MAIN}],
         release_type=rls1.release_type,
         release_year=rls1.release_year,
         conn=db,
@@ -245,11 +258,17 @@ def test_create_same_album_name_artist_subset_no_duplicate_trigger(
 ):
     art1 = factory.artist(conn=db)
     art2 = factory.artist(conn=db)
-    rls1 = factory.release(artist_ids=[art1.id, art2.id], conn=db)
+    rls1 = factory.release(
+        artists=[
+            {"artist_id": art1.id, "role": ArtistRole.MAIN},
+            {"artist_id": art2.id, "role": ArtistRole.MAIN},
+        ],
+        conn=db,
+    )
 
     new_rls = release.create(
         title=rls1.title,
-        artist_ids=[art1.id],
+        artists=[{"artist_id": art1.id, "role": ArtistRole.MAIN}],
         release_type=rls1.release_type,
         release_year=rls1.release_year,
         conn=db,
@@ -261,11 +280,14 @@ def test_create_same_album_name_artist_subset_no_duplicate_trigger(
 
 def test_create_duplicate_allow(factory: Factory, db: Connection):
     art = factory.artist(conn=db)
-    rls = factory.release(artist_ids=[art.id], conn=db)
+    rls = factory.release(
+        artists=[{"artist_id": art.id, "role": ArtistRole.MAIN}],
+        conn=db,
+    )
 
     new_rls = release.create(
         title=rls.title,
-        artist_ids=[art.id],
+        artists=[{"artist_id": art.id, "role": ArtistRole.MAIN}],
         release_type=rls.release_type,
         release_year=rls.release_year,
         conn=db,
@@ -277,12 +299,15 @@ def test_create_duplicate_allow(factory: Factory, db: Connection):
 
 def test_create_duplicate_disallow(factory: Factory, db: Connection):
     art = factory.artist(conn=db)
-    rls = factory.release(artist_ids=[art.id], conn=db)
+    rls = factory.release(
+        artists=[{"artist_id": art.id, "role": ArtistRole.MAIN}],
+        conn=db,
+    )
 
     with pytest.raises(Duplicate) as e:
         release.create(
             title=rls.title,
-            artist_ids=[art.id],
+            artists=[{"artist_id": art.id, "role": ArtistRole.MAIN}],
             release_type=rls.release_type,
             release_year=rls.release_year,
             conn=db,
@@ -328,35 +353,51 @@ def test_reset_rating(factory: Factory, db: Connection):
 def test_artists(factory: Factory, db: Connection):
     art1 = factory.artist(conn=db)
     art2 = factory.artist(conn=db)
-    rls = factory.release(artist_ids=[art1.id, art2.id], conn=db)
+    rls = factory.release(
+        artists=[
+            {"artist_id": art1.id, "role": ArtistRole.MAIN},
+            {"artist_id": art2.id, "role": ArtistRole.MAIN},
+        ],
+        conn=db,
+    )
 
     artists = release.artists(rls, db)
-    assert {a.id for a in artists} == {art1.id, art2.id}
+    assert {a["artist"].id for a in artists} == {art1.id, art2.id}
 
 
 def test_add_artist(factory: Factory, db: Connection):
-    rls = factory.release(artist_ids=[], conn=db)
+    rls = factory.release(artists=[], conn=db)
     art = factory.artist(conn=db)
 
-    release.add_artist(rls, art.id, db)
+    release.add_artist(rls, art.id, ArtistRole.MAIN, db)
     artists = release.artists(rls, db)
 
     assert len(artists) == 1
-    assert artists[0].id == art.id
+    assert artists[0]["artist"].id == art.id
 
 
 def test_add_artist_failure(factory: Factory, db: Connection):
     art = factory.artist(conn=db)
-    rls = factory.release(artist_ids=[art.id], conn=db)
+    rls = factory.release(
+        artists=[
+            {"artist_id": art.id, "role": ArtistRole.MAIN},
+        ],
+        conn=db,
+    )
 
     with pytest.raises(AlreadyExists):
-        release.add_artist(rls, art.id, db)
+        release.add_artist(rls, art.id, ArtistRole.MAIN, db)
 
 
 def test_del_artist(factory: Factory, db: Connection):
     art = factory.artist(conn=db)
-    rls = factory.release(artist_ids=[art.id], conn=db)
-    new_rls = release.del_artist(rls, 2, db)
+    rls = factory.release(
+        artists=[
+            {"artist_id": art.id, "role": ArtistRole.MAIN},
+        ],
+        conn=db,
+    )
+    new_rls = release.del_artist(rls, 2, ArtistRole.MAIN, db)
 
     assert rls == new_rls
     assert release.artists(rls, db) == []
@@ -367,7 +408,7 @@ def test_del_artist_failure(factory: Factory, db: Connection):
     art = factory.artist(conn=db)
 
     with pytest.raises(DoesNotExist):
-        release.del_artist(rls, art.id, db)
+        release.del_artist(rls, art.id, ArtistRole.MAIN, db)
 
 
 def test_release_collections(factory: Factory, db: Connection):

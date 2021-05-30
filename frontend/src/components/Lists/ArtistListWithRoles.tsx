@@ -35,7 +35,7 @@ const DIVIDER_WORDS_RAW: { [k in string]: string } = {
   REMIXER: ' remixed by ',
 };
 
-export const TrackArtistList: IList = ({
+export const ArtistListWithRoles: IList = ({
   artists,
   className,
   delimiter = ', ',

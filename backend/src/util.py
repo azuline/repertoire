@@ -82,13 +82,13 @@ def parse_crontab(crontab: str) -> dict:
     )
 
 
-def calculate_initial_sha_256(filepath: Path) -> bytes:
+def calculate_initial_sha256(filepath: Path) -> bytes:
     """Calculate the SHA256 of the first 1KB of a file."""
     with filepath.open("rb") as fp:
         return sha256(fp.read(1024)).digest()
 
 
-def calculate_sha_256(filepath: Path) -> bytes:
+def calculate_sha256(filepath: Path) -> bytes:
     """Calculate the SHA256 of a file."""
     hash_ = sha256()
     with filepath.open("rb") as fp:

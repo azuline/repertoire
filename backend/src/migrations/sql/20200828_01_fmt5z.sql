@@ -66,7 +66,8 @@ INSERT INTO music__artist_roles__enum (id, role)
 CREATE TABLE music__releases_artists (
     release_id INTEGER REFERENCES music__releases(id),
     artist_id INTEGER REFERENCES music__artists(id),
-    PRIMARY KEY (release_id, artist_id)
+    role INTEGER REFERENCES music__artist_roles__enum (id),
+    PRIMARY KEY (release_id, artist_id, role)
 );
 
 CREATE TABLE music__tracks (
@@ -506,4 +507,4 @@ INSERT INTO music__releases (id, title, release_type, added_on)
 INSERT INTO music__artists (id, name) VALUES (1, 'Unknown Artist');
 
 -- Assign the unknown artist to the unknown release.
-INSERT INTO music__releases_artists (release_id, artist_id) VALUES (1, 1);
+INSERT INTO music__releases_artists (release_id, artist_id, role) VALUES (1, 1, 1);
