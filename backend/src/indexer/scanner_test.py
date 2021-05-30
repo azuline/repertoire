@@ -194,7 +194,7 @@ def test_fetch_or_create_release_fetch(factory: Factory, db: Connection):
     assert release.from_id(rls.id, db) == _fetch_or_create_release(
         tf=mock.Mock(
             album=rls.title,
-            artist_album=[art.name for art in release.artists(rls, conn=db)],
+            artist_album=[art["artist"].name for art in release.artists(rls, conn=db)],
         ),
         conn=db,
     )
@@ -348,7 +348,7 @@ def test_split_genres(string, genres):
 
 
 def test_fix_album_artists_track_artists(factory: Factory, db: Connection):
-    rls = factory.release(artist_ids=[], conn=db)
+    rls = factory.release(artists=[], conn=db)
 
     art1 = factory.artist(conn=db)
     art2 = factory.artist(conn=db)
@@ -368,7 +368,7 @@ def test_fix_album_artists_track_artists(factory: Factory, db: Connection):
     assert rls is not None
     album_artists = release.artists(rls, db)
     assert len(album_artists) == 1
-    assert album_artists[0].id == art1.id
+    assert album_artists[0]["artist"].id == art1.id
 
 
 @pytest.mark.parametrize(

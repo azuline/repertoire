@@ -2,7 +2,7 @@ from sqlite3 import Connection
 
 import pytest
 
-from src.enums import CollectionType
+from src.enums import ArtistRole, CollectionType
 from src.errors import Duplicate
 from src.fixtures.factory import Factory
 
@@ -129,13 +129,25 @@ def test_update_nothing(factory: Factory, db: Connection):
 
 def test_releases(factory: Factory, db: Connection):
     art = factory.artist(conn=db)
-    releases = {factory.release(artist_ids=[art.id], conn=db) for _ in range(4)}
+    releases = {
+        factory.release(
+            artists=[{"artist_id": art.id, "role": ArtistRole.MAIN}],
+            conn=db,
+        )
+        for _ in range(4)
+    }
     assert releases == set(artist.releases(art, db))
 
 
 def test_top_genres(factory: Factory, db: Connection):
     art = factory.artist(conn=db)
-    releases = [factory.release(artist_ids=[art.id], conn=db) for _ in range(4)]
+    releases = [
+        factory.release(
+            artists=[{"artist_id": art.id, "role": ArtistRole.MAIN}],
+            conn=db,
+        )
+        for _ in range(4)
+    ]
     genres = [factory.collection(type=CollectionType.GENRE, conn=db) for _ in range(4)]
 
     for i, rls in enumerate(releases):
@@ -152,7 +164,11 @@ def test_top_genres(factory: Factory, db: Connection):
 def test_image(factory: Factory, db: Connection):
     art = factory.artist(conn=db)
     img = factory.mock_image(conn=db)
-    factory.release(artist_ids=[art.id], image_id=img.id, conn=db)
+    factory.release(
+        artists=[{"artist_id": art.id, "role": ArtistRole.MAIN}],
+        image_id=img.id,
+        conn=db,
+    )
 
     new_img = artist.image(art, db)
     assert new_img is not None

@@ -1,5 +1,6 @@
 from sqlite3 import Connection
 
+from src.enums import ArtistRole
 from src.fixtures.factory import Factory
 from src.library import release
 
@@ -8,7 +9,7 @@ def test_query(factory: Factory, db: Connection):
     art = factory.artist(name="Aaron West", conn=db)
     rls = factory.release(
         title="We Will Always Have a Paris",
-        artist_ids=[art.id],
+        artists=[{"artist_id": art.id, "role": ArtistRole.MAIN}],
         conn=db,
     )
 

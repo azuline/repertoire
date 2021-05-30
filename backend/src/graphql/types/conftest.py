@@ -159,7 +159,10 @@ def _add_test_data(conn: Connection):
     releases = [
         factory.release(
             title="Release1",
-            artist_ids=[artists[0].id, artists[1].id],
+            artists=[
+                {"artist_id": artists[0].id, "role": ArtistRole.MAIN},
+                {"artist_id": artists[1].id, "role": ArtistRole.MAIN},
+            ],
             release_type=ReleaseType.ALBUM,
             release_year=1970,
             release_date=date(1970, 2, 5),
@@ -169,7 +172,10 @@ def _add_test_data(conn: Connection):
         ),
         factory.release(
             title="Release2",
-            artist_ids=[artists[1].id, artists[2].id],
+            artists=[
+                {"artist_id": artists[1].id, "role": ArtistRole.MAIN},
+                {"artist_id": artists[2].id, "role": ArtistRole.MAIN},
+            ],
             release_type=ReleaseType.ALBUM,
             release_year=1980,
             release_date=None,
@@ -179,7 +185,9 @@ def _add_test_data(conn: Connection):
         ),
         factory.release(
             title="Release3",
-            artist_ids=[artists[3].id],
+            artists=[
+                {"artist_id": artists[3].id, "role": ArtistRole.MAIN},
+            ],
             release_type=ReleaseType.COMPILATION,
             release_year=1990,
             release_date=date(1970, 2, 5),
@@ -189,7 +197,11 @@ def _add_test_data(conn: Connection):
         ),
         factory.release(
             title="Release4",
-            artist_ids=[artists[0].id, artists[2].id, artists[4].id],
+            artists=[
+                {"artist_id": artists[0].id, "role": ArtistRole.MAIN},
+                {"artist_id": artists[2].id, "role": ArtistRole.MAIN},
+                {"artist_id": artists[4].id, "role": ArtistRole.MAIN},
+            ],
             release_type=ReleaseType.UNKNOWN,
             release_year=2000,
             release_date=None,
@@ -199,7 +211,7 @@ def _add_test_data(conn: Connection):
         ),
         factory.release(
             title="Release5",
-            artist_ids=[],
+            artists=[],
             release_type=ReleaseType.EP,
             release_year=2010,
             release_date=None,
