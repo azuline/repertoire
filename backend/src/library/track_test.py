@@ -365,28 +365,14 @@ def test_create_same_sha256_uncalculated_sha256(factory: Factory, db: Connection
     assert new_trk == track.from_id(trk.id, db)
 
 
-def _create_dummy_file_with_hash(factory: Factory) -> tuple[Path, bytes]:
-    filepath = factory.rand_path(".m4a")
-    with filepath.open("wb") as fp:
-        fp.write(b"123")
-
-    sha256sum = sha256(b"123").digest()
-
-    return filepath, sha256sum
-
-
 def test_create_same_initial_sha256_different_full(factory: Factory, db: Connection):
-    filepath = factory.rand_path(".m4a")
-    with filepath.open("wb") as fp:
-        fp.write(b"123")
-    expected_sum = sha256(b"123").digest()
-
-    trk = factory.track(sha256_initial=expected_sum, conn=db)
+    filepath, sha256sum = _create_dummy_file_with_hash(factory)
+    trk = factory.track(sha256_initial=sha256sum, conn=db)
 
     new_trk = track.create(
         title="new track",
         filepath=filepath,
-        sha256_initial=expected_sum,
+        sha256_initial=sha256sum,
         sha256=b"0" * 32,
         release_id=trk.release_id,
         artists=[],
@@ -397,6 +383,16 @@ def test_create_same_initial_sha256_different_full(factory: Factory, db: Connect
     )
 
     assert new_trk.id != trk.id
+
+
+def _create_dummy_file_with_hash(factory: Factory) -> tuple[Path, bytes]:
+    filepath = factory.rand_path(".m4a")
+    with filepath.open("wb") as fp:
+        fp.write(b"123")
+
+    sha256sum = sha256(b"123").digest()
+
+    return filepath, sha256sum
 
 
 def test_calculate_track_full_sha256(factory: Factory, db: Connection):

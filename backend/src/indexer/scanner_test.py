@@ -1,4 +1,6 @@
+import random
 from dataclasses import asdict
+from hashlib import sha256
 from pathlib import Path
 from sqlite3 import Connection
 from unittest import mock
@@ -21,6 +23,7 @@ from .scanner import (
     _insert_into_label_collection,
     _split_genres,
     catalog_file,
+    handle_track_batch,
     scan_directories,
     scan_directory,
 )
@@ -58,6 +61,41 @@ def test_scan_directory(
     }
 
     assert filepaths == {c[1][0] for c in mock_catalog_file.mock_calls}
+
+
+def test_handle_track_batch(factory: Factory, db: Connection):
+    filepath1, sum1 = _create_dummy_file_with_hash(factory)
+    trk1 = factory.track(filepath=filepath1, sha256_initial=sum1, conn=db)
+
+    filepath2, sum2 = _create_dummy_file_with_hash(factory)
+    trk2 = factory.track(filepath=filepath2, sha256_initial=sum2, conn=db)
+
+    trk3 = factory.track(sha256_initial=b"0" * 32, sha256=b"0" * 32, conn=db)
+
+    handle_track_batch([trk1, trk2], db)
+
+    new1 = track.from_id(trk1.id, db)
+    assert new1 is not None
+    assert new1.sha256 == sum1
+
+    new2 = track.from_id(trk2.id, db)
+    assert new2 is not None
+    assert new2.sha256 == sum2
+
+    new3 = track.from_id(trk3.id, db)
+    assert new3 is not None
+    assert new3.sha256 == trk3.sha256
+
+
+def _create_dummy_file_with_hash(factory: Factory) -> tuple[Path, bytes]:
+    filepath = factory.rand_path(".m4a")
+    content = random.randbytes(12)
+    with filepath.open("wb") as fp:
+        fp.write(content)
+
+    sha256sum = sha256(content).digest()
+
+    return filepath, sha256sum
 
 
 @mock.patch("src.indexer.scanner._fetch_or_create_release")

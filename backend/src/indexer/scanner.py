@@ -64,7 +64,7 @@ def scan_directory(directory: str) -> None:
         for ext in EXTS:
             for filepath in glob.iglob(f"{directory}/**/*{ext}", recursive=True):
                 # Every 50 tracks, run some specialized logic.
-                if len(track_batch) == 50:
+                if len(track_batch) == 50:  # pragma: no cover
                     handle_track_batch(track_batch, conn)
                     track_batch = []
 

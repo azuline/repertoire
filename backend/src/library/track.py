@@ -523,6 +523,7 @@ def calculate_track_full_sha256(trk: T, conn: Connection) -> bytes:
     :return: The calculated SHA256.
     :raises FileNotFoundError: If the track no longer exists.
     """
+    # TODO(now): What if we call this with a duplicate?
     logger.debug(f"Calculating SHA256 for {trk.filepath}.")
     sha256 = calculate_sha_256(trk.filepath)
     conn.execute(
