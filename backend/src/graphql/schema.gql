@@ -230,14 +230,20 @@ type Mutation {
   createCollection(
     name: String!
     type: CollectionType!
-    starred: Boolean
   ): Collection!
 
   updateCollection(
     id: Int!
     name: String
-    starred: Boolean
   ): Collection!
+
+  starCollection(
+    id: Int!
+  ): Artist!
+
+  unstarCollection(
+    id: Int!
+  ): Artist!
 
   addReleaseToCollection(
     collectionId: Int!

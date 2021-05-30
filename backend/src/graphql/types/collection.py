@@ -49,6 +49,11 @@ def resolve_collections(obj: Any, info: GraphQLResolveInfo, **kwargs) -> dict:
     }
 
 
+@gql_collection.field("starred")
+def resolve_starred(obj: collection.T, info: GraphQLResolveInfo) -> bool:
+    return collection.starred(obj, info.context.user.id, info.context.db)
+
+
 @gql_collection.field("releases")
 def resolve_releases(obj: collection.T, info: GraphQLResolveInfo) -> list[release.T]:
     return collection.releases(obj, info.context.db)
@@ -82,9 +87,8 @@ def resolve_create_collection(
     info: GraphQLResolveInfo,
     name: str,
     type: CollectionType,
-    starred: bool = False,
 ) -> collection.T:
-    return collection.create(name, type, info.context.db, starred=starred)
+    return collection.create(name, type, info.context.db)
 
 
 @mutation.field("updateCollection")
@@ -99,6 +103,28 @@ def resolve_update_collection(
         raise NotFound(f"Collection {id} does not exist.")
 
     return collection.update(col, info.context.db, **convert_keys_case(changes))
+
+
+@mutation.field("starCollection")
+@commit
+def resolve_star_collection(_, info: GraphQLResolveInfo, id: int) -> collection.T:
+    col = collection.from_id(id, info.context.db)
+    if not col:
+        raise NotFound(f"Collection {id} does not exist.")
+
+    collection.star(col, info.context.user.id, info.context.db)
+    return col
+
+
+@mutation.field("unstarCollection")
+@commit
+def resolve_unstar_collection(_, info: GraphQLResolveInfo, id: int) -> collection.T:
+    col = collection.from_id(id, info.context.db)
+    if not col:
+        raise NotFound(f"Collection {id} does not exist.")
+
+    collection.unstar(col, info.context.user.id, info.context.db)
+    return col
 
 
 @mutation.field("addReleaseToCollection")
