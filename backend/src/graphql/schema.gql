@@ -239,11 +239,11 @@ type Mutation {
 
   starCollection(
     id: Int!
-  ): Artist!
+  ): Collection!
 
   unstarCollection(
     id: Int!
-  ): Artist!
+  ): Collection!
 
   addReleaseToCollection(
     collectionId: Int!
