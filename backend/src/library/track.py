@@ -33,7 +33,7 @@ class T:
     filepath: Path
     #: A hash of the audio file.
     sha256: Optional[bytes]
-    #: A hash of the first 16KB of the file.
+    #: A hash of the first 1KB of the file.
     sha256_initial: bytes
     #:
     title: str
@@ -109,7 +109,7 @@ def from_filepath(filepath: Union[Path, str], conn: Connection) -> Optional[T]:
 
 def from_sha256_initial(sha256_initial: bytes, conn: Connection) -> Optional[T]:
     """
-    Return the track with the provided sha256_initial (hash of the first 16KB) hash.
+    Return the track with the provided sha256_initial (hash of the first 1KB) hash.
 
     :param sha256_initial: The sha256_initial of the track to fetch.
     :param conn: A connection to the database.
@@ -378,7 +378,7 @@ def create(
 
     :param title: The title of the track.
     :param filepath: The filepath of the track.
-    :param sha256_initial: The SHA256 of the first 16KB of the track file.
+    :param sha256_initial: The SHA256 of the first 1KB of the track file.
     :param release_id: The ID of the release that this track belongs to.
     :param artists: The artists that contributed to this track. A list of
                     ``{"artist_id": int, "role": ArtistRole}`` mappings.
@@ -462,8 +462,8 @@ def _check_for_duplicate_sha256(
     update the existing track to point to the new filepath and return the existing
     track. Otherwise, return None.
 
-    This function takes in the sha256 of the first 16KB of the track. If we find that
-    another track has the same first 16KB hash, we proceed to compare the full hashes of
+    This function takes in the sha256 of the first 1KB of the track. If we find that
+    another track has the same first 1KB hash, we proceed to compare the full hashes of
     both files. We do this for efficiency reasons--see the scanner for more details.
     """
     trk = from_sha256_initial(sha256_initial, conn)
