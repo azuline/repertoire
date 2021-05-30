@@ -42,12 +42,18 @@ snapshots['test_add_release_to_collection 1'] = {
                 'addedOn': 1577840461,
                 'artists': [
                     {
-                        'id': 2,
-                        'name': 'Artist1'
+                        'artist': {
+                            'id': 2,
+                            'name': 'Artist1'
+                        },
+                        'role': 'MAIN'
                     },
                     {
-                        'id': 3,
-                        'name': 'Artist2'
+                        'artist': {
+                            'id': 3,
+                            'name': 'Artist2'
+                        },
+                        'role': 'MAIN'
                     }
                 ],
                 'collages': [
@@ -946,12 +952,18 @@ snapshots['test_del_release_from_collection 1'] = {
                 'addedOn': 1577840461,
                 'artists': [
                     {
-                        'id': 2,
-                        'name': 'Artist1'
+                        'artist': {
+                            'id': 2,
+                            'name': 'Artist1'
+                        },
+                        'role': 'MAIN'
                     },
                     {
-                        'id': 3,
-                        'name': 'Artist2'
+                        'artist': {
+                            'id': 3,
+                            'name': 'Artist2'
+                        },
+                        'role': 'MAIN'
                     }
                 ],
                 'collages': [
