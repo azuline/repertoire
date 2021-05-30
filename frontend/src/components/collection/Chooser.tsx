@@ -101,14 +101,14 @@ gql`
     }
   }
 
-  mutation starCollectionChooser($id: Int!) {
+  mutation StarCollectionChooser($id: Int!) {
     starCollection(id: $id) {
       id
       starred
     }
   }
 
-  mutation unstarCollectionChooser($id: Int!) {
+  mutation UnstarCollectionChooser($id: Int!) {
     unstarCollection(id: $id) {
       id
       starred

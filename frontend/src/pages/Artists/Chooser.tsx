@@ -79,7 +79,7 @@ gql`
     }
   }
 
-  mutation unstarArtistChooser($id: Int!) {
+  mutation UnstarArtistChooser($id: Int!) {
     unstarArtist(id: $id) {
       id
       starred

@@ -140,6 +140,8 @@ export type IMutation = {
   createInvite: IInvite;
   createPlaylist: IPlaylist;
   updatePlaylist: IPlaylist;
+  starPlaylist: IPlaylist;
+  unstarPlaylist: IPlaylist;
   createPlaylistEntry: IPlaylistEntry;
   delPlaylistEntry: IPlaylistAndTrack;
   delPlaylistEntries: IPlaylistAndTrack;
@@ -217,14 +219,22 @@ export type IMutationDelReleaseFromCollectionArgs = {
 export type IMutationCreatePlaylistArgs = {
   name: Scalars['String'];
   type: IPlaylistType;
-  starred: Maybe<Scalars['Boolean']>;
 };
 
 
 export type IMutationUpdatePlaylistArgs = {
   id: Scalars['Int'];
   name: Maybe<Scalars['String']>;
-  starred: Maybe<Scalars['Boolean']>;
+};
+
+
+export type IMutationStarPlaylistArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type IMutationUnstarPlaylistArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -994,12 +1004,12 @@ export type INowPlayingInfoFetchReleaseQuery = (
   ) }
 );
 
-export type IPlaylistChooserFetchPlaylistsQueryVariables = Exact<{
+export type IFetchPlaylistsChooserQueryVariables = Exact<{
   types: Maybe<Array<IPlaylistType> | IPlaylistType>;
 }>;
 
 
-export type IPlaylistChooserFetchPlaylistsQuery = (
+export type IFetchPlaylistsChooserQuery = (
   { __typename?: 'Query' }
   & { playlists: (
     { __typename?: 'Playlists' }
@@ -1010,15 +1020,27 @@ export type IPlaylistChooserFetchPlaylistsQuery = (
   ) }
 );
 
-export type IPlaylistChooserUpdatePlaylistStarredMutationVariables = Exact<{
+export type IStarPlaylistChooserMutationVariables = Exact<{
   id: Scalars['Int'];
-  starred: Maybe<Scalars['Boolean']>;
 }>;
 
 
-export type IPlaylistChooserUpdatePlaylistStarredMutation = (
+export type IStarPlaylistChooserMutation = (
   { __typename?: 'Mutation' }
-  & { updatePlaylist: (
+  & { starPlaylist: (
+    { __typename?: 'Playlist' }
+    & Pick<IPlaylist, 'id' | 'starred'>
+  ) }
+);
+
+export type IUnstarPlaylistChooserMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type IUnstarPlaylistChooserMutation = (
+  { __typename?: 'Mutation' }
+  & { unstarPlaylist: (
     { __typename?: 'Playlist' }
     & Pick<IPlaylist, 'id' | 'starred'>
   ) }
@@ -1644,7 +1666,7 @@ export function refetchFetchCollectionsChooserQuery(variables?: IFetchCollection
       return { query: FetchCollectionsChooserDocument, variables: variables }
     }
 export const StarCollectionChooserDocument = gql`
-    mutation starCollectionChooser($id: Int!) {
+    mutation StarCollectionChooser($id: Int!) {
   starCollection(id: $id) {
     id
     starred
@@ -1678,7 +1700,7 @@ export type StarCollectionChooserMutationHookResult = ReturnType<typeof useStarC
 export type StarCollectionChooserMutationResult = Apollo.MutationResult<IStarCollectionChooserMutation>;
 export type StarCollectionChooserMutationOptions = Apollo.BaseMutationOptions<IStarCollectionChooserMutation, IStarCollectionChooserMutationVariables>;
 export const UnstarCollectionChooserDocument = gql`
-    mutation unstarCollectionChooser($id: Int!) {
+    mutation UnstarCollectionChooser($id: Int!) {
   unstarCollection(id: $id) {
     id
     starred
@@ -1823,7 +1845,7 @@ export type StarArtistChooserMutationHookResult = ReturnType<typeof useStarArtis
 export type StarArtistChooserMutationResult = Apollo.MutationResult<IStarArtistChooserMutation>;
 export type StarArtistChooserMutationOptions = Apollo.BaseMutationOptions<IStarArtistChooserMutation, IStarArtistChooserMutationVariables>;
 export const UnstarArtistChooserDocument = gql`
-    mutation unstarArtistChooser($id: Int!) {
+    mutation UnstarArtistChooser($id: Int!) {
   unstarArtist(id: $id) {
     id
     starred
@@ -2119,8 +2141,8 @@ export type NowPlayingInfoFetchReleaseQueryResult = Apollo.QueryResult<INowPlayi
 export function refetchNowPlayingInfoFetchReleaseQuery(variables?: INowPlayingInfoFetchReleaseQueryVariables) {
       return { query: NowPlayingInfoFetchReleaseDocument, variables: variables }
     }
-export const PlaylistChooserFetchPlaylistsDocument = gql`
-    query PlaylistChooserFetchPlaylists($types: [PlaylistType!]) {
+export const FetchPlaylistsChooserDocument = gql`
+    query FetchPlaylistsChooser($types: [PlaylistType!]) {
   playlists(types: $types) {
     results {
       ...PlaylistFields
@@ -2130,70 +2152,103 @@ export const PlaylistChooserFetchPlaylistsDocument = gql`
     ${PlaylistFieldsFragmentDoc}`;
 
 /**
- * __usePlaylistChooserFetchPlaylistsQuery__
+ * __useFetchPlaylistsChooserQuery__
  *
- * To run a query within a React component, call `usePlaylistChooserFetchPlaylistsQuery` and pass it any options that fit your needs.
- * When your component renders, `usePlaylistChooserFetchPlaylistsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFetchPlaylistsChooserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchPlaylistsChooserQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usePlaylistChooserFetchPlaylistsQuery({
+ * const { data, loading, error } = useFetchPlaylistsChooserQuery({
  *   variables: {
  *      types: // value for 'types'
  *   },
  * });
  */
-export function usePlaylistChooserFetchPlaylistsQuery(baseOptions?: Apollo.QueryHookOptions<IPlaylistChooserFetchPlaylistsQuery, IPlaylistChooserFetchPlaylistsQueryVariables>) {
+export function useFetchPlaylistsChooserQuery(baseOptions?: Apollo.QueryHookOptions<IFetchPlaylistsChooserQuery, IFetchPlaylistsChooserQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<IPlaylistChooserFetchPlaylistsQuery, IPlaylistChooserFetchPlaylistsQueryVariables>(PlaylistChooserFetchPlaylistsDocument, options);
+        return Apollo.useQuery<IFetchPlaylistsChooserQuery, IFetchPlaylistsChooserQueryVariables>(FetchPlaylistsChooserDocument, options);
       }
-export function usePlaylistChooserFetchPlaylistsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IPlaylistChooserFetchPlaylistsQuery, IPlaylistChooserFetchPlaylistsQueryVariables>) {
+export function useFetchPlaylistsChooserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IFetchPlaylistsChooserQuery, IFetchPlaylistsChooserQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<IPlaylistChooserFetchPlaylistsQuery, IPlaylistChooserFetchPlaylistsQueryVariables>(PlaylistChooserFetchPlaylistsDocument, options);
+          return Apollo.useLazyQuery<IFetchPlaylistsChooserQuery, IFetchPlaylistsChooserQueryVariables>(FetchPlaylistsChooserDocument, options);
         }
-export type PlaylistChooserFetchPlaylistsQueryHookResult = ReturnType<typeof usePlaylistChooserFetchPlaylistsQuery>;
-export type PlaylistChooserFetchPlaylistsLazyQueryHookResult = ReturnType<typeof usePlaylistChooserFetchPlaylistsLazyQuery>;
-export type PlaylistChooserFetchPlaylistsQueryResult = Apollo.QueryResult<IPlaylistChooserFetchPlaylistsQuery, IPlaylistChooserFetchPlaylistsQueryVariables>;
-export function refetchPlaylistChooserFetchPlaylistsQuery(variables?: IPlaylistChooserFetchPlaylistsQueryVariables) {
-      return { query: PlaylistChooserFetchPlaylistsDocument, variables: variables }
+export type FetchPlaylistsChooserQueryHookResult = ReturnType<typeof useFetchPlaylistsChooserQuery>;
+export type FetchPlaylistsChooserLazyQueryHookResult = ReturnType<typeof useFetchPlaylistsChooserLazyQuery>;
+export type FetchPlaylistsChooserQueryResult = Apollo.QueryResult<IFetchPlaylistsChooserQuery, IFetchPlaylistsChooserQueryVariables>;
+export function refetchFetchPlaylistsChooserQuery(variables?: IFetchPlaylistsChooserQueryVariables) {
+      return { query: FetchPlaylistsChooserDocument, variables: variables }
     }
-export const PlaylistChooserUpdatePlaylistStarredDocument = gql`
-    mutation PlaylistChooserUpdatePlaylistStarred($id: Int!, $starred: Boolean) {
-  updatePlaylist(id: $id, starred: $starred) {
+export const StarPlaylistChooserDocument = gql`
+    mutation StarPlaylistChooser($id: Int!) {
+  starPlaylist(id: $id) {
     id
     starred
   }
 }
     `;
-export type IPlaylistChooserUpdatePlaylistStarredMutationFn = Apollo.MutationFunction<IPlaylistChooserUpdatePlaylistStarredMutation, IPlaylistChooserUpdatePlaylistStarredMutationVariables>;
+export type IStarPlaylistChooserMutationFn = Apollo.MutationFunction<IStarPlaylistChooserMutation, IStarPlaylistChooserMutationVariables>;
 
 /**
- * __usePlaylistChooserUpdatePlaylistStarredMutation__
+ * __useStarPlaylistChooserMutation__
  *
- * To run a mutation, you first call `usePlaylistChooserUpdatePlaylistStarredMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePlaylistChooserUpdatePlaylistStarredMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useStarPlaylistChooserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStarPlaylistChooserMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [playlistChooserUpdatePlaylistStarredMutation, { data, loading, error }] = usePlaylistChooserUpdatePlaylistStarredMutation({
+ * const [starPlaylistChooserMutation, { data, loading, error }] = useStarPlaylistChooserMutation({
  *   variables: {
  *      id: // value for 'id'
- *      starred: // value for 'starred'
  *   },
  * });
  */
-export function usePlaylistChooserUpdatePlaylistStarredMutation(baseOptions?: Apollo.MutationHookOptions<IPlaylistChooserUpdatePlaylistStarredMutation, IPlaylistChooserUpdatePlaylistStarredMutationVariables>) {
+export function useStarPlaylistChooserMutation(baseOptions?: Apollo.MutationHookOptions<IStarPlaylistChooserMutation, IStarPlaylistChooserMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<IPlaylistChooserUpdatePlaylistStarredMutation, IPlaylistChooserUpdatePlaylistStarredMutationVariables>(PlaylistChooserUpdatePlaylistStarredDocument, options);
+        return Apollo.useMutation<IStarPlaylistChooserMutation, IStarPlaylistChooserMutationVariables>(StarPlaylistChooserDocument, options);
       }
-export type PlaylistChooserUpdatePlaylistStarredMutationHookResult = ReturnType<typeof usePlaylistChooserUpdatePlaylistStarredMutation>;
-export type PlaylistChooserUpdatePlaylistStarredMutationResult = Apollo.MutationResult<IPlaylistChooserUpdatePlaylistStarredMutation>;
-export type PlaylistChooserUpdatePlaylistStarredMutationOptions = Apollo.BaseMutationOptions<IPlaylistChooserUpdatePlaylistStarredMutation, IPlaylistChooserUpdatePlaylistStarredMutationVariables>;
+export type StarPlaylistChooserMutationHookResult = ReturnType<typeof useStarPlaylistChooserMutation>;
+export type StarPlaylistChooserMutationResult = Apollo.MutationResult<IStarPlaylistChooserMutation>;
+export type StarPlaylistChooserMutationOptions = Apollo.BaseMutationOptions<IStarPlaylistChooserMutation, IStarPlaylistChooserMutationVariables>;
+export const UnstarPlaylistChooserDocument = gql`
+    mutation UnstarPlaylistChooser($id: Int!) {
+  unstarPlaylist(id: $id) {
+    id
+    starred
+  }
+}
+    `;
+export type IUnstarPlaylistChooserMutationFn = Apollo.MutationFunction<IUnstarPlaylistChooserMutation, IUnstarPlaylistChooserMutationVariables>;
+
+/**
+ * __useUnstarPlaylistChooserMutation__
+ *
+ * To run a mutation, you first call `useUnstarPlaylistChooserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnstarPlaylistChooserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [unstarPlaylistChooserMutation, { data, loading, error }] = useUnstarPlaylistChooserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUnstarPlaylistChooserMutation(baseOptions?: Apollo.MutationHookOptions<IUnstarPlaylistChooserMutation, IUnstarPlaylistChooserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<IUnstarPlaylistChooserMutation, IUnstarPlaylistChooserMutationVariables>(UnstarPlaylistChooserDocument, options);
+      }
+export type UnstarPlaylistChooserMutationHookResult = ReturnType<typeof useUnstarPlaylistChooserMutation>;
+export type UnstarPlaylistChooserMutationResult = Apollo.MutationResult<IUnstarPlaylistChooserMutation>;
+export type UnstarPlaylistChooserMutationOptions = Apollo.BaseMutationOptions<IUnstarPlaylistChooserMutation, IUnstarPlaylistChooserMutationVariables>;
 export const PlaylistsFetchPlaylistDocument = gql`
     query PlaylistsFetchPlaylist($id: Int!) {
   playlist(id: $id) {
@@ -2805,7 +2860,7 @@ export type InvitesFieldPolicy = {
 	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('updateUser' | 'newToken' | 'createArtist' | 'updateArtist' | 'starArtist' | 'unstarArtist' | 'createCollection' | 'updateCollection' | 'starCollection' | 'unstarCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createInvite' | 'createPlaylist' | 'updatePlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'delPlaylistEntries' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('updateUser' | 'newToken' | 'createArtist' | 'updateArtist' | 'starArtist' | 'unstarArtist' | 'createCollection' | 'updateCollection' | 'starCollection' | 'unstarCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createInvite' | 'createPlaylist' | 'updatePlaylist' | 'starPlaylist' | 'unstarPlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'delPlaylistEntries' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	updateUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	newToken?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2822,6 +2877,8 @@ export type MutationFieldPolicy = {
 	createInvite?: FieldPolicy<any> | FieldReadFunction<any>,
 	createPlaylist?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatePlaylist?: FieldPolicy<any> | FieldReadFunction<any>,
+	starPlaylist?: FieldPolicy<any> | FieldReadFunction<any>,
+	unstarPlaylist?: FieldPolicy<any> | FieldReadFunction<any>,
 	createPlaylistEntry?: FieldPolicy<any> | FieldReadFunction<any>,
 	delPlaylistEntry?: FieldPolicy<any> | FieldReadFunction<any>,
 	delPlaylistEntries?: FieldPolicy<any> | FieldReadFunction<any>,
