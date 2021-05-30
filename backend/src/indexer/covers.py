@@ -41,12 +41,14 @@ def save_pending_covers() -> None:
         for rls_id in _get_pending_releases(conn):
             logger.debug(f"Searching for cover art in release {rls_id}.")
 
-            if not (track_path := _get_track_path_of_release(rls_id, conn)):
+            track_path = _get_track_path_of_release(rls_id, conn)
+            if not track_path:
                 logger.debug(f"No tracks found for release {rls_id}.")
                 _delete_release_from_pending(rls_id, conn)
                 continue
 
-            if not (img := save_image(TagFile(track_path), conn)):
+            img = save_image(TagFile(track_path), conn)
+            if not img:
                 logger.debug(f"No image found for release {rls_id}.")
                 _delete_release_from_pending(rls_id, conn)
                 continue
@@ -127,7 +129,8 @@ def save_image(tf: TagFile, conn: Connection) -> Optional[image.T]:
     :param tf: The tagfile whose image we want to save.
     :return: The filepath of the saved image, if one was saved.
     """
-    if not (image_path := _save_embedded_image(tf) or _save_external_image(tf)):
+    image_path = _save_embedded_image(tf) or _save_external_image(tf)
+    if not image_path:
         return None
 
     try:

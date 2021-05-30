@@ -276,7 +276,9 @@ def check_token(usr: T, token: bytes, conn: Connection) -> bool:
         "SELECT token_hash FROM system__users WHERE id = ?",
         (usr.id,),
     )
-    if not (row := cursor.fetchone()):
+
+    row = cursor.fetchone()
+    if not row:
         logger.debug(f"Did not find token for user {usr.id}.")
         return False
 

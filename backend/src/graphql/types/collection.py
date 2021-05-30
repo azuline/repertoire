@@ -99,7 +99,8 @@ def resolve_update_collection(
     id: int,
     **changes,
 ) -> collection.T:
-    if not (col := collection.from_id(id, info.context.db)):
+    col = collection.from_id(id, info.context.db)
+    if not col:
         raise NotFound(f"Collection {id} does not exist.")
 
     return collection.update(col, info.context.db, **convert_keys_case(changes))
@@ -135,7 +136,8 @@ def resolve_add_release_to_collection(
     collectionId: int,
     releaseId: int,
 ) -> dict:
-    if not (col := collection.from_id(collectionId, info.context.db)):
+    col = collection.from_id(collectionId, info.context.db)
+    if not col:
         raise NotFound(f"Collection {collectionId} does not exist.")
 
     col = collection.add_release(col, releaseId, info.context.db)
@@ -152,7 +154,8 @@ def resolve_del_release_from_collection(
     collectionId: int,
     releaseId: int,
 ) -> dict:
-    if not (col := collection.from_id(collectionId, info.context.db)):
+    col = collection.from_id(collectionId, info.context.db)
+    if not col:
         raise NotFound(f"Collection {collectionId} does not exist.")
 
     col = collection.del_release(col, releaseId, info.context.db)

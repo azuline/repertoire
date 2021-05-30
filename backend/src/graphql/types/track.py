@@ -54,7 +54,8 @@ def resolve_update_track(
     id: int,
     **changes,
 ) -> track.T:
-    if not (trk := track.from_id(id, info.context.db)):
+    trk = track.from_id(id, info.context.db)
+    if not trk:
         raise NotFound(f"Track {id} does not exist.")
 
     return track.update(trk, info.context.db, **convert_keys_case(changes))
@@ -69,7 +70,8 @@ def resolve_add_artist_to_track(
     artistId: int,
     role: ArtistRole,
 ) -> dict:
-    if not (trk := track.from_id(trackId, info.context.db)):
+    trk = track.from_id(trackId, info.context.db)
+    if not trk:
         raise NotFound("Track does not exist.")
 
     trk = track.add_artist(trk, artistId, role, info.context.db)
@@ -87,7 +89,8 @@ def resolve_del_artist_from_track(
     artistId: int,
     role: ArtistRole,
 ) -> dict:
-    if not (trk := track.from_id(trackId, info.context.db)):
+    trk = track.from_id(trackId, info.context.db)
+    if not trk:
         raise NotFound("Track does not exist.")
 
     trk = track.del_artist(trk, artistId, role, info.context.db)
