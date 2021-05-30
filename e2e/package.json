@@ -5,7 +5,9 @@
   "license": "AGPL-3.0",
   "scripts": {
     "test": "npx cypress run",
-    "open": "npx cypress open"
+    "open": "npx cypress open",
+    "lint": "eslint cypress/ --ext .ts --fix --cache",
+    "fmt": "prettier --write cypress/**/*.{ts,json}"
   },
   "dependencies": {
     "cypress": "^7.0.1",
@@ -14,6 +16,12 @@
     "wait-port": "^0.2.9"
   },
   "devDependencies": {
-    "@types/node-fetch": "^2.5.10"
+    "@types/node-fetch": "^2.5.10",
+    "@typescript-eslint/eslint-plugin": "^4.25.0",
+    "@typescript-eslint/parser": "^4.25.0",
+    "eslint": "^7.27.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.0"
   }
 }

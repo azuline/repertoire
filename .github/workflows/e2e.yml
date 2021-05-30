@@ -64,7 +64,7 @@ jobs:
         with:
           path: frontend/node_modules/
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/frontend/yarn.lock') }}
-          restore-keys: "${{ runner.os }}-yarn-"
+          restore-keys: ${{ runner.os }}-yarn-
       - name: Install frontend dependencies
         if: steps.cache-frontend-deps.outputs.cache-hit != 'true'
         run: yarn install
@@ -99,7 +99,7 @@ jobs:
         with:
           path: e2e/node_modules/
           key: ${{ runner.os }}-yarn-e2e-${{ hashFiles('**/e2e/yarn.lock') }}
-          restore-keys: "${{ runner.os }}-yarn-e2e-"
+          restore-keys: ${{ runner.os }}-yarn-e2e-
       - name: Install e2e tests dependencies
         if: steps.cache-test-deps.outputs.cache-hit != 'true'
         run: yarn install
@@ -120,3 +120,25 @@ jobs:
             e2e/cypress/videos/
             e2e/cypress/screenshots/
             e2e/output/
+  lint_check:
+    name: Lint check
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+    defaults:
+      run:
+        working-directory: "e2e/"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache dependencies
+        id: cache-deps
+        uses: actions/cache@v2
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-yarn-e2e-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-e2e-
+      - name: Install dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: yarn install
+      - name: Run lint check
+        run: yarn eslint cypress/ --ext .ts --max-warnings=0

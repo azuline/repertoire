@@ -8,29 +8,29 @@
 // https://on.cypress.io/plugins-guide
 // ***********************************************************
 
-import fetch from "node-fetch";
+import fetch from 'node-fetch';
 
 const config: Cypress.PluginConfig = (on, config) => {
-  on("before:run", async () => {
+  on('before:run', async () => {
     const APP_URL = config.env.APP_URL;
 
-    console.log("Creating test user and library.");
+    console.log('Creating test user and library.');
 
     try {
       const res1 = await fetch(`${APP_URL}/api/dev/testuser`, {
-        method: "POST",
+        method: 'POST',
       });
       if (res1.status !== 200) {
-        console.log("Failed to create test user.");
-        throw new Error("Failed to create test user.");
+        console.log('Failed to create test user.');
+        throw new Error('Failed to create test user.');
       }
 
       const res2 = await fetch(`${APP_URL}/api/dev/indexlib`, {
-        method: "POST",
+        method: 'POST',
       });
       if (res2.status !== 200) {
-        console.log("Failed to index library.");
-        throw new Error("Failed to index library.");
+        console.log('Failed to index library.');
+        throw new Error('Failed to index library.');
       }
     } catch (e) {
       console.log(e);
