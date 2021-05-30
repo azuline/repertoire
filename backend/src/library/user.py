@@ -159,14 +159,22 @@ def create(nickname: str, conn: Connection) -> tuple[T, bytes]:
         (nickname, token_prefix, token_hash, csrf_token),
     )
 
-    logger.info(f"Created user {nickname} with ID {cursor.lastrowid}.")
-
-    _create_system_collections_and_playlists(cursor.lastrowid, conn)
-    _populate_inbox.schedule(args=(cursor.lastrowid,), delay=0)
-
     usr = from_id(cursor.lastrowid, conn)
     assert usr is not None
+
+    logger.info(f"Created user {nickname} with ID {usr.id}.")
+    post_create(usr.id, conn)
     return usr, token
+
+
+def post_create(user_id: int, conn: Connection) -> None:
+    """
+    This is a helper function used in the create function. If you create a user
+    manually, without using the create function, call this afterwards. This is used in
+    the e2e testing developer endpoint.
+    """
+    _create_system_collections_and_playlists(user_id, conn)
+    _populate_inbox.schedule(args=(user_id,), delay=0)
 
 
 def _create_system_collections_and_playlists(user_id: int, conn: Connection) -> None:

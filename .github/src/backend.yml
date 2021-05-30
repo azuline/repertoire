@@ -39,13 +39,13 @@ jobs:
         uses: ./.github/actions/install-sqlite
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.9.1'
+          python-version: '3.9.5'
       - name: Cache poetry
         id: cache-poetry
         uses: actions/cache@v2
         with:
           path: ~/.poetry
-          key: {{ "${{ runner.os }}-therealpoetry-1.1.4" }}
+          key: {{ "${{ runner.os }}-poetry-1.1.4" }}
       - name: Install poetry
         if: steps.cache-poetry.outputs.cache-hit != 'true'
         run: curl -sSl -vvv https://raw.githubusercontent.com/python-poetry/poetry/1.1.4/get-poetry.py | python -
@@ -56,7 +56,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.cache/pypoetry/virtualenvs
-          key: {{ "${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}" }}
+          key: {{ "${{ runner.os }}-python-3.9.5-${{ hashFiles('**/poetry.lock') }}" }}
           restore-keys: {{ "${{ runner.os }}-poetry-" }}
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
