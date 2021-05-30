@@ -1,5 +1,7 @@
+from hashlib import sha256
 from pathlib import Path
 from sqlite3 import Connection
+from unittest import mock
 
 import pytest
 
@@ -42,6 +44,7 @@ def test_from_filepath_failure(db: Connection):
 
 def test_from_sha256_success(factory: Factory, db: Connection):
     trk = factory.track(sha256=b"0" * 32, conn=db)
+    assert trk.sha256 is not None
     new_trk = track.from_sha256(trk.sha256, db)
     assert new_trk == trk
 
@@ -259,7 +262,7 @@ def test_create_duplicate_filepath(factory: Factory, db: Connection):
         )
 
 
-def test_create_bad_release_id(factory: Factory, db: Connection):
+def test_create_bad_release_id(db: Connection):
     with pytest.raises(NotFound) as e:
         track.create(
             title="new track",
@@ -302,29 +305,115 @@ def test_create_bad_artist_ids(factory: Factory, db: Connection):
     assert "Artist(s) 1000, 1001" in e.value.message
 
 
-# def test_create_same_sha256(factory: Factory, db: Connection):
-#     trk = factory.track(conn=db)
+@mock.patch("src.library.track.calculate_track_full_sha256")
+def test_create_same_sha256_precalculated_sha256(
+    mock_calculate_full: mock.MagicMock,
+    factory: Factory,
+    db: Connection,
+):
+    filepath, sha256sum = _create_dummy_file_with_hash(factory)
+    trk = factory.track(
+        filepath=filepath,
+        sha256_initial=sha256sum,
+        sha256=sha256sum,
+        conn=db,
+    )
 
-#     filepath = Path("/tmp/repertoire-library/09-track.m4a")
-#     new_trk = track.create(
-#         title="new track",
-#         filepath=filepath,
-#         sha256_initial=trk.sha256_initial,
-#         release_id=trk.release_id,
-#         artists=[],
-#         duration=9001,
-#         track_number="1",
-#         disc_number="2",
-#         conn=db,
-#     )
+    new_filepath, _ = _create_dummy_file_with_hash(factory)
+    new_trk = track.create(
+        title="new track",
+        filepath=new_filepath,
+        sha256_initial=sha256sum,
+        release_id=trk.release_id,
+        artists=[],
+        duration=9001,
+        track_number="1",
+        disc_number="2",
+        conn=db,
+    )
 
-#     assert new_trk.id == trk.id
-#     assert new_trk.filepath == filepath
-#     assert new_trk == track.from_id(trk.id, db)
+    assert new_trk.id == trk.id
+    assert new_trk.filepath == new_filepath
+    assert new_trk == track.from_id(trk.id, db)
+
+    mock_calculate_full.assert_not_called()
+
+
+def test_create_same_sha256_uncalculated_sha256(factory: Factory, db: Connection):
+    filepath, sha256sum = _create_dummy_file_with_hash(factory)
+    trk = factory.track(
+        filepath=filepath,
+        sha256_initial=sha256sum,
+        conn=db,
+    )
+
+    new_filepath, _ = _create_dummy_file_with_hash(factory)
+    new_trk = track.create(
+        title="new track",
+        filepath=new_filepath,
+        sha256_initial=sha256sum,
+        release_id=trk.release_id,
+        artists=[],
+        duration=9001,
+        track_number="1",
+        disc_number="2",
+        conn=db,
+    )
+
+    assert new_trk.id == trk.id
+    assert new_trk.filepath == new_filepath
+    assert new_trk == track.from_id(trk.id, db)
+
+
+def _create_dummy_file_with_hash(factory: Factory) -> tuple[Path, bytes]:
+    filepath = factory.rand_path(".m4a")
+    with filepath.open("wb") as fp:
+        fp.write(b"123")
+
+    sha256sum = sha256(b"123").digest()
+
+    return filepath, sha256sum
+
+
+def test_create_same_initial_sha256_different_full(factory: Factory, db: Connection):
+    filepath = factory.rand_path(".m4a")
+    with filepath.open("wb") as fp:
+        fp.write(b"123")
+    expected_sum = sha256(b"123").digest()
+
+    trk = factory.track(sha256_initial=expected_sum, conn=db)
+
+    new_trk = track.create(
+        title="new track",
+        filepath=filepath,
+        sha256_initial=expected_sum,
+        sha256=b"0" * 32,
+        release_id=trk.release_id,
+        artists=[],
+        duration=9001,
+        track_number="1",
+        disc_number="2",
+        conn=db,
+    )
+
+    assert new_trk.id != trk.id
 
 
 def test_calculate_track_full_sha256(factory: Factory, db: Connection):
-    pass
+    trk = factory.track(conn=db)
+    assert trk.sha256 is None
+
+    with trk.filepath.open("wb") as fp:
+        fp.write(b"123")
+
+    sha256sum = track.calculate_track_full_sha256(trk, db)
+
+    expected = sha256(b"123").digest()
+    assert sha256sum == expected
+
+    trk2 = track.from_id(trk.id, db)
+    assert trk2 is not None
+    assert trk2.sha256 == expected
 
 
 def test_update_fields(factory: Factory, db: Connection):

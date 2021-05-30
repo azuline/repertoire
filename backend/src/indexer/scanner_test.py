@@ -1,7 +1,7 @@
 from dataclasses import asdict
 from pathlib import Path
 from sqlite3 import Connection
-from unittest.mock import Mock, call, patch
+from unittest import mock
 
 import pytest
 
@@ -29,18 +29,18 @@ FAKE_MUSIC = TEST_DATA_PATH / "fake_music"
 NEW_ALBUM = FAKE_MUSIC / "New Album"
 
 
-@patch("src.indexer.scanner.scan_directory")
-def test_scan_directories(mock_scan_directory, seed_data):
+@mock.patch("src.indexer.scanner.scan_directory")
+def test_scan_directories(mock_scan_directory: mock.MagicMock, seed_data):
     scan_directories()
 
-    mock_scan_directory.assert_has_calls([call("/dir1"), call("/dir2")])
+    mock_scan_directory.assert_has_calls([mock.call("/dir1"), mock.call("/dir2")])
 
 
-@patch("src.indexer.scanner.handle_track_batch")
-@patch("src.indexer.scanner.catalog_file")
+@mock.patch("src.indexer.scanner.handle_track_batch")
+@mock.patch("src.indexer.scanner.catalog_file")
 def test_scan_directory(
-    mock_catalog_file,
-    mock_handle_track_batch,
+    mock_catalog_file: mock.MagicMock,
+    mock_handle_track_batch: mock.MagicMock,
     factory: Factory,
     db: Connection,
 ):
@@ -60,16 +60,16 @@ def test_scan_directory(
     assert filepaths == {c[1][0] for c in mock_catalog_file.mock_calls}
 
 
-@patch("src.indexer.scanner._fetch_or_create_release")
+@mock.patch("src.indexer.scanner._fetch_or_create_release")
 def test_catalog_file(
-    mock_fetch_or_create_release,
+    mock_fetch_or_create_release: mock.MagicMock,
     factory: Factory,
     db: Connection,
     snapshot,
 ):
     rls = factory.release(conn=db)
 
-    mock_fetch_or_create_release.return_value = Mock(id=rls.id)
+    mock_fetch_or_create_release.return_value = mock.Mock(id=rls.id)
 
     filepath = NEW_ALBUM / "track1.flac"
     trk = catalog_file(str(filepath), db)
@@ -85,26 +85,26 @@ def test_catalog_file(
     snapshot.assert_match(track.artists(trk, db))
 
 
-@patch("src.indexer.scanner._fetch_or_create_release")
-@patch("src.indexer.scanner.calculate_initial_sha_256")
-@patch("src.indexer.scanner.TagFile")
+@mock.patch("src.indexer.scanner._fetch_or_create_release")
+@mock.patch("src.indexer.scanner.calculate_initial_sha_256")
+@mock.patch("src.indexer.scanner.TagFile")
 def test_catalog_file_null_title(
-    tagfile,
-    calc_sha,
-    mock_fetch_or_create_release,
+    tagfile: mock.MagicMock,
+    calc_sha: mock.MagicMock,
+    mock_fetch_or_create_release: mock.MagicMock,
     factory: Factory,
     db: Connection,
 ):
     filepath = "/tmp/music.m4a"
     rls = factory.release(conn=db)
-    mock_fetch_or_create_release.return_value = Mock(id=rls.id)
+    mock_fetch_or_create_release.return_value = mock.Mock(id=rls.id)
     calc_sha.return_value = b"0" * 32
-    tagfile.return_value = Mock(
+    tagfile.return_value = mock.Mock(
         artist={ArtistRole.MAIN: ["art1"]},
         title=None,
         version=None,
         path=Path(filepath),
-        mut=Mock(info=Mock(length=1)),
+        mut=mock.Mock(info=mock.Mock(length=1)),
         track_number="1",
         disc_number="1",
     )
@@ -116,26 +116,26 @@ def test_catalog_file_null_title(
     assert trk.title == "Untitled"
 
 
-@patch("src.indexer.scanner._fetch_or_create_release")
-@patch("src.indexer.scanner.calculate_initial_sha_256")
-@patch("src.indexer.scanner.TagFile")
+@mock.patch("src.indexer.scanner._fetch_or_create_release")
+@mock.patch("src.indexer.scanner.calculate_initial_sha_256")
+@mock.patch("src.indexer.scanner.TagFile")
 def test_catalog_file_duplicate_artist(
-    tagfile,
-    calc_sha,
-    mock_fetch_or_create_release,
+    tagfile: mock.MagicMock,
+    calc_sha: mock.MagicMock,
+    mock_fetch_or_create_release: mock.MagicMock,
     factory: Factory,
     db: Connection,
 ):
     filepath = "/tmp/music.m4a"
     rls = factory.release(conn=db)
-    mock_fetch_or_create_release.return_value = Mock(id=rls.id)
+    mock_fetch_or_create_release.return_value = mock.Mock(id=rls.id)
     calc_sha.return_value = b"0" * 32
-    tagfile.return_value = Mock(
+    tagfile.return_value = mock.Mock(
         artist={ArtistRole.MAIN: ["art1", "art1"]},
         title=None,
         version=None,
         path=Path(filepath),
-        mut=Mock(info=Mock(length=1)),
+        mut=mock.Mock(info=mock.Mock(length=1)),
         track_number="1",
         disc_number="1",
     )
@@ -148,13 +148,13 @@ def test_catalog_file_duplicate_artist(
 
 
 def test_fetch_or_create_release_unknown(db: Connection):
-    assert release.from_id(1, db) == _fetch_or_create_release(Mock(album=None), db)
+    assert release.from_id(1, db) == _fetch_or_create_release(mock.Mock(album=None), db)
 
 
 def test_fetch_or_create_release_fetch(factory: Factory, db: Connection):
     rls = factory.release(conn=db)
     assert release.from_id(rls.id, db) == _fetch_or_create_release(
-        tf=Mock(
+        tf=mock.Mock(
             album=rls.title,
             artist_album=[art.name for art in release.artists(rls, conn=db)],
         ),
@@ -164,10 +164,10 @@ def test_fetch_or_create_release_fetch(factory: Factory, db: Connection):
 
 def test_fetch_or_create_release_no_fetch(db: Connection):
     assert release.from_id(3, db) != _fetch_or_create_release(
-        Mock(
+        mock.Mock(
             album="Departure",
             artist_album=["Bacchus"],
-            date=Mock(year=2020, date="2020-01-01"),
+            date=mock.Mock(year=2020, date="2020-01-01"),
             label=None,
             genre=[],
         ),
@@ -177,10 +177,10 @@ def test_fetch_or_create_release_no_fetch(db: Connection):
 
 def test_fetch_or_create_release_duplicate_artists(db: Connection):
     rls = _fetch_or_create_release(
-        Mock(
+        mock.Mock(
             album="aaaaa",
             artist_album=["Bacchus", "Bacchus"],
-            date=Mock(year=2020, date="2020-01-01"),
+            date=mock.Mock(year=2020, date="2020-01-01"),
             label=None,
             genre=[],
         ),
@@ -192,10 +192,10 @@ def test_fetch_or_create_release_duplicate_artists(db: Connection):
 
 def test_fetch_or_create_release_bad_date(db: Connection):
     rls = _fetch_or_create_release(
-        Mock(
+        mock.Mock(
             album="Departure",
             artist_album=["Bacchus"],
-            date=Mock(year=2020, date="0000-01-01"),
+            date=mock.Mock(year=2020, date="0000-01-01"),
             label=None,
             genre=[],
         ),
@@ -205,17 +205,17 @@ def test_fetch_or_create_release_bad_date(db: Connection):
 
 
 def test_get_release_type_unknown():
-    assert ReleaseType.UNKNOWN == _get_release_type(Mock(release_type=None))
+    assert ReleaseType.UNKNOWN == _get_release_type(mock.Mock(release_type=None))
 
 
 def test_get_release_type_matching():
     assert ReleaseType.COMPILATION == _get_release_type(
-        Mock(release_type="CoMpiLaTiOn")
+        mock.Mock(release_type="CoMpiLaTiOn")
     )
 
 
 def test_get_release_type_no_match():
-    assert ReleaseType.UNKNOWN == _get_release_type(Mock(release_type="efjaefj"))
+    assert ReleaseType.UNKNOWN == _get_release_type(mock.Mock(release_type="efjaefj"))
 
 
 def test_fetch_or_create_artist_unknown(db: Connection):

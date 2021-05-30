@@ -32,7 +32,7 @@ class T:
     #:
     filepath: Path
     #: A hash of the audio file.
-    sha256: bytes
+    sha256: Optional[bytes]
     #: A hash of the first 16KB of the file.
     sha256_initial: bytes
     #:
@@ -463,38 +463,55 @@ def _check_for_duplicate_sha256(
     another track has the same first 16KB hash, we proceed to compare the full hashes of
     both files. We do this for efficiency reasons--see the scanner for more details.
     """
-    cursor = conn.execute(
-        "SELECT id, sha256 FROM music__tracks WHERE sha256_initial = ?",
-        (sha256_initial,),
-    )
-
-    row = cursor.fetchone()
-    if not row:
+    trk = from_sha256_initial(sha256_initial, conn)
+    if not trk:
         return None
 
     # At this point, we know that the sha256 of the first bytes exist.
+
     new_sha256 = calculate_sha_256(filepath)
-
-    # This value is calculated lazily or on demand. Since we demand it here,
+    # This value is calculated lazily. Since we demand it here,
     # we must calculate it if it doesn't exist.
-    existing_sha256 = row["sha256"]
-    if not existing_sha256:
-        try:
-            existing_sha256 = calculate_track_full_sha256(row["id"], conn)
-        except FileNotFoundError:
-            # TODO: Flag the file missing when we add that feature?
-            return None
+    trk = _ensure_track_has_full_sha256(trk, conn)
 
-    if new_sha256 != existing_sha256:
+    if not trk.sha256 or new_sha256 != trk.sha256:
         return None
 
     # At this point, we know that the tracks have the same SHA256.
+
     conn.execute(
         "UPDATE music__tracks SET filepath = ? WHERE id = ?",
-        (str(filepath), row["id"]),
+        (str(filepath), trk.id),
     )
-    logger.debug(f"Found track {row['id']} with the same SHA256; updated filepath.")
-    return from_id(row["id"], conn)
+    logger.debug(f"Found track {trk.id} with the same SHA256; updated filepath.")
+
+    return from_id(trk.id, conn)
+
+
+def _ensure_track_has_full_sha256(trk: T, conn: Connection) -> T:
+    """
+    Ensure that a track has a sha256 for the full track. If the track's file is no
+    longer on disk, trk's sha256 will remain unmodified.
+
+    :param trk: The track to update.
+    :param conn: A connection to the database.
+    :return: The updated track.
+    """
+    if trk.sha256:
+        logger.debug(f"Track {trk.id} already has a full sha256, not calculating.")
+        return trk
+
+    logger.debug(f"Calculating sha256 for track {trk.id}.")
+    try:
+        calculate_track_full_sha256(trk, conn)
+        # Reload track.
+        refreshed_trk = from_id(trk.id, conn)
+        assert refreshed_trk is not None
+        return refreshed_trk
+    except FileNotFoundError:
+        logger.debug(f"File for track {trk.id} not on disk.")
+        # TODO: Flag the file missing when we add that feature?
+        return trk
 
 
 def calculate_track_full_sha256(trk: T, conn: Connection) -> bytes:
@@ -506,6 +523,7 @@ def calculate_track_full_sha256(trk: T, conn: Connection) -> bytes:
     :return: The calculated SHA256.
     :raises FileNotFoundError: If the track no longer exists.
     """
+    logger.debug(f"Calculating SHA256 for {trk.filepath}.")
     sha256 = calculate_sha_256(trk.filepath)
     conn.execute(
         "UPDATE music__tracks SET sha256 = ? WHERE id = ?",
