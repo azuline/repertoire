@@ -4,7 +4,7 @@ from typing import Any, Optional
 from ariadne import ObjectType
 
 from graphql.type import GraphQLResolveInfo
-from src.enums import CollectionType, ReleaseType
+from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.errors import NotFound, ParseError
 from src.graphql.mutation import mutation
 from src.graphql.query import query
@@ -45,7 +45,7 @@ def resolve_in_favorites(obj: release.T, info: GraphQLResolveInfo) -> bool:
 
 
 @gql_release.field("artists")
-def resolve_artists(obj: release.T, info: GraphQLResolveInfo) -> list[artist.T]:
+def resolve_artists(obj: release.T, info: GraphQLResolveInfo) -> list[dict]:
     return release.artists(obj, info.context.db)
 
 
@@ -137,11 +137,12 @@ def resolve_add_artist_to_release(
     info: GraphQLResolveInfo,
     releaseId: int,
     artistId: int,
+    role: ArtistRole,
 ) -> dict:
     if not (rls := release.from_id(releaseId, info.context.db)):
         raise NotFound(f"Release {releaseId} does not exist.")
 
-    rls = release.add_artist(rls, artistId, info.context.db)
+    rls = release.add_artist(rls, artistId, role, info.context.db)
     art = artist.from_id(artistId, info.context.db)
 
     return {"release": rls, "artist": art}
@@ -154,11 +155,12 @@ def resolve_del_artist_from_release(
     info: GraphQLResolveInfo,
     releaseId: int,
     artistId: int,
+    role: ArtistRole,
 ) -> dict:
     if not (rls := release.from_id(releaseId, info.context.db)):
         raise NotFound(f"Release {releaseId} does not exist.")
 
-    rls = release.del_artist(rls, artistId, info.context.db)
+    rls = release.del_artist(rls, artistId, role, info.context.db)
     art = artist.from_id(artistId, info.context.db)
 
     return {"release": rls, "artist": art}

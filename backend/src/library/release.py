@@ -7,9 +7,9 @@ from itertools import repeat
 from sqlite3 import Connection, Row
 from typing import Iterable, Optional, Union
 
-from src.enums import CollectionType, ReleaseSort, ReleaseType
+from src.enums import ArtistRole, CollectionType, ReleaseSort, ReleaseType
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
-from src.util import make_fts_match_query, update_dataclass
+from src.util import make_fts_match_query, update_dataclass, without_key
 
 from . import artist, collection, track
 
@@ -581,19 +581,21 @@ def tracks(rls: T, conn: Connection) -> list[track.T]:
     return [track.from_row(row) for row in cursor]
 
 
-def artists(rls: T, conn: Connection) -> list[artist.T]:
+def artists(rls: T, conn: Connection) -> list[dict]:
     """
     Get the "album artists" of the provided release.
 
     :param rls: The provided release.
     :param conn: A connection to the datbase.
-    :return: The "album artists" of the provided release.
+    :return: A list of ``{"artist": artist.T, "role": ArtistRole}`` dicts
+             representing the album artists.
     """
     cursor = conn.execute(
         """
         SELECT
             artists.*,
-            COUNT(rlsarts.release_id) AS num_releases
+            COUNT(rlsarts.release_id) AS num_releases,
+            rlsarts.role
         FROM (
             SELECT arts.*
             FROM music__releases_artists AS rlsarts
@@ -606,16 +608,24 @@ def artists(rls: T, conn: Connection) -> list[artist.T]:
         """,
         (rls.id,),
     )
+
     logger.debug(f"Fetched artists of release {rls.id}.")
-    return [artist.from_row(row) for row in cursor]
+    return [
+        {
+            "artist": artist.from_row(without_key(row, "role")),
+            "role": ArtistRole(row["role"]),
+        }
+        for row in cursor
+    ]
 
 
-def add_artist(rls: T, artist_id: int, conn: Connection) -> T:
+def add_artist(rls: T, artist_id: int, role: ArtistRole, conn: Connection) -> T:
     """
     Add the provided artist to the provided release.
 
     :param rls: The release to add the artist to.
     :param artist_id: The ID of the artist to add.
+    :param role: The role to add the artist with.
     :param conn: A connection to the database.
     :return: The release that was passed in.
     :raises NotFound: If no artist has the given artist ID.
@@ -626,28 +636,37 @@ def add_artist(rls: T, artist_id: int, conn: Connection) -> T:
         raise NotFound(f"Artist {artist_id} does not exist.")
 
     cursor = conn.execute(
-        "SELECT 1 FROM music__releases_artists WHERE release_id = ? AND artist_id = ?",
-        (rls.id, artist_id),
+        """
+        SELECT 1 FROM music__releases_artists
+        WHERE release_id = ? AND artist_id = ? AND role = ?
+        """,
+        (rls.id, artist_id, role),
     )
     if cursor.fetchone():
-        logger.debug(f"Artist {artist_id} is already on release {rls.id}.")
+        logger.debug(
+            f"Artist {artist_id} is already on release {rls.id} with role {role}."
+        )
         raise AlreadyExists("Artist is already on release.")
 
     conn.execute(
-        "INSERT INTO music__releases_artists (release_id, artist_id) VALUES (?, ?)",
-        (rls.id, artist_id),
+        """
+        INSERT INTO music__releases_artists (release_id, artist_id, role)
+        VALUES (?, ?, ?)
+        """,
+        (rls.id, artist_id, role),
     )
 
-    logger.info(f"Added artist {artist_id} to release {rls.id}.")
+    logger.info(f"Added artist {artist_id} to release {rls.id} with role {role}.")
     return rls
 
 
-def del_artist(rls: T, artist_id: int, conn: Connection) -> T:
+def del_artist(rls: T, artist_id: int, role: ArtistRole, conn: Connection) -> T:
     """
     Delete the provided artist to the provided release.
 
     :param rls: The release to delete the artist from.
     :param artist_id: The ID of the artist to delete.
+    :param role: The role of the artist on the release.
     :param conn: A connection to the database.
     :return: The release that was passed in.
     :raises NotFound: If no artist has the given artist ID.
@@ -658,19 +677,25 @@ def del_artist(rls: T, artist_id: int, conn: Connection) -> T:
         raise NotFound(f"Artist {artist_id} does not exist.")
 
     cursor = conn.execute(
-        "SELECT 1 FROM music__releases_artists WHERE release_id = ? AND artist_id = ?",
-        (rls.id, artist_id),
+        """
+        SELECT 1 FROM music__releases_artists
+        WHERE release_id = ? AND artist_id = ? AND role = ?
+        """,
+        (rls.id, artist_id, role),
     )
     if not cursor.fetchone():
-        logger.debug(f"Artist {artist_id} is not on release {rls.id}.")
+        logger.debug(f"Artist {artist_id} is not on release {rls.id} with role {role}.")
         raise DoesNotExist("Artist is not on release.")
 
     conn.execute(
-        "DELETE FROM music__releases_artists WHERE release_id = ? AND artist_id = ?",
-        (rls.id, artist_id),
+        """
+        DELETE FROM music__releases_artists
+        WHERE release_id = ? AND artist_id = ? AND role = ?
+        """,
+        (rls.id, artist_id, role),
     )
 
-    logger.info(f"Deleted artist {artist_id} from release {rls.id}.")
+    logger.info(f"Deleted artist {artist_id} from release {rls.id} with role {role}.")
     return rls
 
 

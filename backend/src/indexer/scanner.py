@@ -379,7 +379,7 @@ def _fix_album_artists(conn: Connection) -> None:
         artists = {amap["artist"] for amap in amaps if amap["role"] in MAIN_ROLES}
 
         for art in artists:
-            release.add_artist(rls, art.id, conn)
+            release.add_artist(rls, art.id, ArtistRole.MAIN, conn)
 
 
 def _fix_release_types(conn: Connection) -> None:

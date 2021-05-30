@@ -3,7 +3,7 @@ from sqlite3 import Connection
 
 import pytest
 
-from src.enums import CollectionType, ReleaseSort, ReleaseType
+from src.enums import ArtistRole, CollectionType, ReleaseSort, ReleaseType
 from src.errors import AlreadyExists, DoesNotExist, Duplicate
 from src.fixtures.factory import Factory
 
@@ -220,7 +220,7 @@ def test_create(factory: Factory, db: Connection):
 
     artists = release.artists(rls, db)
     assert len(artists) == 1
-    assert artists[0].id == art.id
+    assert artists[0]["artist"].id == art.id
 
 
 def test_create_same_album_name_no_duplicate_trigger(factory: Factory, db: Connection):
@@ -331,18 +331,18 @@ def test_artists(factory: Factory, db: Connection):
     rls = factory.release(artist_ids=[art1.id, art2.id], conn=db)
 
     artists = release.artists(rls, db)
-    assert {a.id for a in artists} == {art1.id, art2.id}
+    assert {a["artist"].id for a in artists} == {art1.id, art2.id}
 
 
 def test_add_artist(factory: Factory, db: Connection):
     rls = factory.release(artist_ids=[], conn=db)
     art = factory.artist(conn=db)
 
-    release.add_artist(rls, art.id, db)
+    release.add_artist(rls, art.id, ArtistRole.MAIN, db)
     artists = release.artists(rls, db)
 
     assert len(artists) == 1
-    assert artists[0].id == art.id
+    assert artists[0]["artist"].id == art.id
 
 
 def test_add_artist_failure(factory: Factory, db: Connection):
@@ -350,13 +350,13 @@ def test_add_artist_failure(factory: Factory, db: Connection):
     rls = factory.release(artist_ids=[art.id], conn=db)
 
     with pytest.raises(AlreadyExists):
-        release.add_artist(rls, art.id, db)
+        release.add_artist(rls, art.id, ArtistRole.MAIN, db)
 
 
 def test_del_artist(factory: Factory, db: Connection):
     art = factory.artist(conn=db)
     rls = factory.release(artist_ids=[art.id], conn=db)
-    new_rls = release.del_artist(rls, 2, db)
+    new_rls = release.del_artist(rls, 2, ArtistRole.MAIN, db)
 
     assert rls == new_rls
     assert release.artists(rls, db) == []
@@ -367,7 +367,7 @@ def test_del_artist_failure(factory: Factory, db: Connection):
     art = factory.artist(conn=db)
 
     with pytest.raises(DoesNotExist):
-        release.del_artist(rls, art.id, db)
+        release.del_artist(rls, art.id, ArtistRole.MAIN, db)
 
 
 def test_release_collections(factory: Factory, db: Connection):

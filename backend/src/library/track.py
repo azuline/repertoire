@@ -666,7 +666,6 @@ def artists(trk: T, conn: Connection) -> list[dict]:
     )
 
     logger.debug(f"Fetched artists of track {trk.id}.")
-
     return [
         {
             "artist": artist.from_row(without_key(row, "role")),
@@ -724,6 +723,7 @@ def del_artist(trk: T, artist_id: int, role: ArtistRole, conn: Connection) -> T:
 
     :param trk: The track to delete the artist from.
     :param artist_id: The ID of the artist to delete.
+    :param role: The role of the artist on the track.
     :param conn: A connection to the database.
     :return: The track that was passed in.
     :raises NotFound: If no artist has the given artist ID.
