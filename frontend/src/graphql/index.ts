@@ -39,6 +39,19 @@ export enum IArtistRole {
   Djmixer = 'DJMIXER'
 }
 
+export type IArtistWithRole = {
+  __typename?: 'ArtistWithRole';
+  artist: IArtist;
+  /** The role that the artist has on the track. */
+  role: IArtistRole;
+};
+
+export type IArtistWithRoleInput = {
+  artist_id: Scalars['Int'];
+  /** The role that the artist has on the track. */
+  role: IArtistRole;
+};
+
 export type IArtists = {
   __typename?: 'Artists';
   /** The total number of artists matching the query across all pages. */
@@ -220,7 +233,7 @@ export type IMutationUpdatePlaylistEntryArgs = {
 
 export type IMutationCreateReleaseArgs = {
   title: Scalars['String'];
-  artistIds: Array<Scalars['Int']>;
+  artists: Array<IArtistWithRoleInput>;
   releaseType: IReleaseType;
   releaseYear: Scalars['Int'];
   releaseDate: Maybe<Scalars['String']>;
@@ -241,12 +254,14 @@ export type IMutationUpdateReleaseArgs = {
 export type IMutationAddArtistToReleaseArgs = {
   releaseId: Scalars['Int'];
   artistId: Scalars['Int'];
+  role: IArtistRole;
 };
 
 
 export type IMutationDelArtistFromReleaseArgs = {
   releaseId: Scalars['Int'];
   artistId: Scalars['Int'];
+  role: IArtistRole;
 };
 
 
@@ -487,7 +502,7 @@ export type IRelease = {
   runtime: Scalars['Int'];
   /** The image ID of the release's cover image. */
   imageId: Maybe<Scalars['Int']>;
-  artists: Array<IArtist>;
+  artists: Array<IArtistWithRole>;
   tracks: Array<ITrack>;
   genres: Array<ICollection>;
   labels: Array<ICollection>;
@@ -555,20 +570,13 @@ export type ITrack = {
   /** Whether the track is in the user's favorites playlist. */
   inFavorites: Scalars['Boolean'];
   release: IRelease;
-  artists: Array<ITrackArtist>;
+  artists: Array<IArtistWithRole>;
 };
 
 export type ITrackAndArtist = {
   __typename?: 'TrackAndArtist';
   track: ITrack;
-  trackArtist: ITrackArtist;
-};
-
-export type ITrackArtist = {
-  __typename?: 'TrackArtist';
-  artist: IArtist;
-  /** The role that the artist has on the track. */
-  role: IArtistRole;
+  trackArtist: IArtistWithRole;
 };
 
 export enum ITrackSort {
@@ -731,8 +739,12 @@ export type IReleaseFieldsFragment = (
   { __typename?: 'Release' }
   & Pick<IRelease, 'id' | 'title' | 'releaseType' | 'addedOn' | 'inInbox' | 'inFavorites' | 'releaseYear' | 'releaseDate' | 'rating' | 'numTracks' | 'runtime' | 'imageId'>
   & { artists: Array<(
-    { __typename?: 'Artist' }
-    & Pick<IArtist, 'id' | 'name'>
+    { __typename?: 'ArtistWithRole' }
+    & Pick<IArtistWithRole, 'role'>
+    & { artist: (
+      { __typename?: 'Artist' }
+      & Pick<IArtist, 'id' | 'name'>
+    ) }
   )>, genres: Array<(
     { __typename?: 'Collection' }
     & Pick<ICollection, 'id' | 'name'>
@@ -781,8 +793,8 @@ export type ITrackFieldsFragment = (
     { __typename?: 'Release' }
     & Pick<IRelease, 'id' | 'imageId'>
   ), artists: Array<(
-    { __typename?: 'TrackArtist' }
-    & Pick<ITrackArtist, 'role'>
+    { __typename?: 'ArtistWithRole' }
+    & Pick<IArtistWithRole, 'role'>
     & { artist: (
       { __typename?: 'Artist' }
       & Pick<IArtist, 'id' | 'name'>
@@ -1274,8 +1286,11 @@ export const ReleaseFieldsFragmentDoc = gql`
   runtime
   imageId
   artists {
-    id
-    name
+    artist {
+      id
+      name
+    }
+    role
   }
   genres {
     id
@@ -2634,6 +2649,11 @@ export type ArtistFieldPolicy = {
 	releases?: FieldPolicy<any> | FieldReadFunction<any>,
 	topGenres?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type ArtistWithRoleKeySpecifier = ('artist' | 'role' | ArtistWithRoleKeySpecifier)[];
+export type ArtistWithRoleFieldPolicy = {
+	artist?: FieldPolicy<any> | FieldReadFunction<any>,
+	role?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type ArtistsKeySpecifier = ('total' | 'results' | ArtistsKeySpecifier)[];
 export type ArtistsFieldPolicy = {
 	total?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2808,11 +2828,6 @@ export type TrackAndArtistFieldPolicy = {
 	track?: FieldPolicy<any> | FieldReadFunction<any>,
 	trackArtist?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type TrackArtistKeySpecifier = ('artist' | 'role' | TrackArtistKeySpecifier)[];
-export type TrackArtistFieldPolicy = {
-	artist?: FieldPolicy<any> | FieldReadFunction<any>,
-	role?: FieldPolicy<any> | FieldReadFunction<any>
-};
 export type TracksKeySpecifier = ('total' | 'results' | TracksKeySpecifier)[];
 export type TracksFieldPolicy = {
 	total?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2830,6 +2845,10 @@ export type TypedTypePolicies = TypePolicies & {
 	Artist?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ArtistKeySpecifier | (() => undefined | ArtistKeySpecifier),
 		fields?: ArtistFieldPolicy,
+	},
+	ArtistWithRole?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ArtistWithRoleKeySpecifier | (() => undefined | ArtistWithRoleKeySpecifier),
+		fields?: ArtistWithRoleFieldPolicy,
 	},
 	Artists?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ArtistsKeySpecifier | (() => undefined | ArtistsKeySpecifier),
@@ -2906,10 +2925,6 @@ export type TypedTypePolicies = TypePolicies & {
 	TrackAndArtist?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TrackAndArtistKeySpecifier | (() => undefined | TrackAndArtistKeySpecifier),
 		fields?: TrackAndArtistFieldPolicy,
-	},
-	TrackArtist?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | TrackArtistKeySpecifier | (() => undefined | TrackArtistKeySpecifier),
-		fields?: TrackArtistFieldPolicy,
 	},
 	Tracks?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TracksKeySpecifier | (() => undefined | TracksKeySpecifier),
