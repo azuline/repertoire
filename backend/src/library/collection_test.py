@@ -144,7 +144,7 @@ def test_count_one(factory: Factory, db: Connection):
     ],
 )
 def test_create(db: Connection, type):
-    col = collection.create("new collage", type, starred=True, conn=db)
+    col = collection.create("new collage", type, conn=db)
     assert col == collection.from_id(col.id, db)
 
 
@@ -155,7 +155,6 @@ def test_create_collage_with_user(factory: Factory, db: Connection):
             "new collage",
             CollectionType.COLLAGE,
             user_id=usr.id,
-            starred=True,
             conn=db,
         )
 
@@ -166,7 +165,6 @@ def test_create_personal(factory: Factory, db: Connection):
         "new collection",
         CollectionType.PERSONAL,
         user_id=usr.id,
-        starred=True,
         conn=db,
     )
     assert col == collection.from_id(col.id, db)
@@ -177,7 +175,6 @@ def test_create_personal_without_user(db: Connection):
         collection.create(
             "new collection",
             CollectionType.PERSONAL,
-            starred=True,
             conn=db,
         )
 
@@ -207,10 +204,9 @@ def test_create_invalid_type_override(factory: Factory, db: Connection):
 
 def test_update_fields(factory: Factory, db: Connection):
     col = factory.collection(conn=db)
-    new_col = collection.update(col, conn=db, name="New Name", starred=True)
+    new_col = collection.update(col, conn=db, name="New Name")
     assert new_col == collection.from_id(col.id, db)
     assert new_col.name == "New Name"
-    assert new_col.starred is True
 
 
 def test_update_immutable(factory: Factory, db: Connection):
@@ -235,11 +231,18 @@ def test_update_duplicate(factory: Factory, db: Connection):
     assert e.value.entity == col1
 
 
-def test_update_starred(factory: Factory, db: Connection):
+def test_star(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
     col = factory.collection(conn=db)
-    new_col = collection.update(col, conn=db, starred=True)
-    assert new_col.starred is True
-    assert new_col == collection.from_id(col.id, db)
+    collection.star(col, usr.id, db)
+    assert collection.starred(col, usr.id, db) is True
+
+
+def test_unstar(factory: Factory, db: Connection):
+    usr, _ = factory.user(conn=db)
+    col = factory.collection(conn=db, starred_for_user=usr.id)
+    collection.unstar(col, usr.id, db)
+    assert not collection.starred(col, usr.id, db) is True
 
 
 def test_releases(factory: Factory, db: Connection):

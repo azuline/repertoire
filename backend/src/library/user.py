@@ -172,14 +172,14 @@ def create(nickname: str, conn: Connection) -> tuple[T, bytes]:
 
 def _create_system_collections_and_playlists(user_id: int, conn: Connection) -> None:
     for name in ["Inbox", "Favorites"]:
-        collection.create(
+        col = collection.create(
             name,
             CollectionType.SYSTEM,
             user_id=user_id,
-            starred=True,
             conn=conn,
             override_immutable=True,
         )
+        collection.star(col, user_id, conn)
 
     libplaylist.create(
         "Favorites",
