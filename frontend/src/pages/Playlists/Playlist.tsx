@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Header, SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { usePlaylistsFetchPlaylistQuery } from '~/graphql';
-import { AuthenticatedError } from '~/pages';
+import { ErrorPage } from '~/pages';
 
 import { PlaylistTracks } from './Tracks';
 
@@ -27,7 +27,7 @@ export const Playlist: IPlaylist = ({ active }) => {
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);
-    return <AuthenticatedError errors={errors} title="Could not fetch playlist." />;
+    return <ErrorPage errors={errors} title="Could not fetch playlist." />;
   }
 
   if (!playlist) {

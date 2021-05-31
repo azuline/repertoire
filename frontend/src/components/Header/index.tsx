@@ -12,7 +12,8 @@ type IHeader = React.FC<{ className?: string; searchbar?: boolean }>;
 
 export const Header: IHeader = ({ className, searchbar = true }) => {
   return (
-    <div className={className} tw="flex items-center flex-none w-full h-20 mb-2">
+    <div className={className} tw="flex items-center flex-none w-full h-20 px-8">
+      <Icon icon="logo" tw="w-8 text-primary-500" />
       <Link href="/mobile" tw="block sm:hidden">
         <Icon
           icon="home-small"

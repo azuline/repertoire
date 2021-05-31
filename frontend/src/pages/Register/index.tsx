@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 
 import { FullPageLoading } from '~/components';
 import { useRequestJson } from '~/hooks';
-import { UnauthenticatedError } from '~/pages/Error';
+import { ErrorPage } from '~/pages/Error';
 
 import { RegisterForm } from './Form';
 
@@ -50,7 +50,7 @@ export const Register: IRegister = ({ onSuccess, isFirstRegistration = false }) 
   }
 
   if (!validCode) {
-    return <UnauthenticatedError title="Invalid invite code." />;
+    return <ErrorPage title="Invalid invite code." />;
   }
 
   return (

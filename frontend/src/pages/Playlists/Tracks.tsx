@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { Tracklist } from '~/components';
 import { usePlaylistsFetchTracksQuery } from '~/graphql';
-import { AuthenticatedError } from '~/pages/Error';
+import { ErrorPage } from '~/pages/Error';
 import { filterNulls } from '~/util';
 
 type IPlaylistTracks = React.FC<{ active: number }>;
@@ -13,7 +13,7 @@ export const PlaylistTracks: IPlaylistTracks = ({ active }) => {
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);
-    return <AuthenticatedError errors={errors} title="Could not fetch release." />;
+    return <ErrorPage errors={errors} title="Could not fetch release." />;
   }
 
   const tracks = filterNulls(data?.playlist.entries.map((e) => e.track) ?? []);

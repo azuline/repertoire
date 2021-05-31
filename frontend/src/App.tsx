@@ -2,7 +2,13 @@ import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import tw from 'twin.macro';
 
-import { Background, FullPageLoading, NowPlayingBar, Sidebar } from '~/components';
+import {
+  Background,
+  FullPageLoading,
+  Header,
+  NowPlayingBar,
+  Sidebar,
+} from '~/components';
 import { AuthorizationContext, GlobalContexts, ThemeContext } from '~/contexts';
 import { AuthedRoutes, UnauthedRoutes } from '~/routes';
 import { AppStyles } from '~/Styles';
@@ -42,13 +48,13 @@ const Body: React.FC = () => {
 const AuthedBody: React.FC = () => {
   return (
     <>
+      <Header />
       <div
         css={[
-          tw`w-full height[calc(100% - 4rem)] min-height[calc(100% - 4rem)]`,
+          tw`w-full height[calc(100% - 9rem)] min-height[calc(100% - 9rem)]`,
           tw`flex flex-1`,
         ]}
       >
-        <Sidebar />
         <div tw="full relative flex flex-col min-w-0">
           <Background />
           <div

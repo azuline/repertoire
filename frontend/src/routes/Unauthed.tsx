@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import { FullPageLoading } from '~/components';
 import { useHasFirstUser } from '~/hooks';
-import { Login, Register, UnauthenticatedError } from '~/pages';
+import { ErrorPage, Login, Register } from '~/pages';
 
 export const UnauthedRoutes: React.FC = () => {
   const { hasFirstUser, loading, error, refetch } = useHasFirstUser();
@@ -12,9 +12,7 @@ export const UnauthedRoutes: React.FC = () => {
     case loading:
       return <FullPageLoading />;
     case error:
-      return (
-        <UnauthenticatedError title="Unable to reach server. Please try again later" />
-      );
+      return <ErrorPage title="Unable to reach server. Please try again later" />;
     case !hasFirstUser:
       return <Register isFirstRegistration onSuccess={refetch} />;
     default:

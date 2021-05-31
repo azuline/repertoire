@@ -4,7 +4,7 @@ import * as React from 'react';
 import { CollectionReleases, Header, SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { useGenresFetchGenreQuery } from '~/graphql';
-import { AuthenticatedError } from '~/pages';
+import { ErrorPage } from '~/pages';
 
 type IGenre = React.FC<{ active: number }>;
 
@@ -25,7 +25,7 @@ export const Genre: IGenre = ({ active }) => {
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);
-    return <AuthenticatedError errors={errors} title="Could not fetch genre." />;
+    return <ErrorPage errors={errors} title="Could not fetch genre." />;
   }
 
   if (!collection) {
