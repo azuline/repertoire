@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
 
-import { Button, Header, SectionHeader } from '~/components';
+import { Button, SectionHeader } from '~/components';
 import {
   refetchInvitesFetchInvitesQuery,
   useInvitesCreateInviteMutation,
@@ -20,24 +20,21 @@ export const Invites: React.FC = () => {
   };
 
   return (
-    <div tw="flex flex-col w-full">
-      <Header />
-      <div tw="flex flex-col mt-4">
-        <SectionHeader tw="pb-4">Active Invites</SectionHeader>
-        <div tw="pb-8 text-foreground-400">Click an invite to copy its invite URL.</div>
-        <div tw="flex">
-          {invites && (
-            <div tw="flex-shrink min-w-0">
-              {invites.map((inv) => (
-                <Invite key={inv.id} {...inv} />
-              ))}
-            </div>
-          )}
-          <div tw="flex-1" />
-        </div>
-        <div tw="py-10">
-          <Button onClick={createOnClick}>Create new invite</Button>
-        </div>
+    <div tw="flex flex-col w-full mt-4">
+      <SectionHeader tw="pb-4">Active Invites</SectionHeader>
+      <div tw="pb-8 text-foreground-500">Click an invite to copy its invite URL.</div>
+      <div tw="flex">
+        {invites && (
+          <div tw="flex-shrink min-w-0">
+            {invites.map((inv) => (
+              <Invite key={inv.id} {...inv} />
+            ))}
+          </div>
+        )}
+        <div tw="flex-1" />
+      </div>
+      <div tw="py-10">
+        <Button onClick={createOnClick}>Create new invite</Button>
       </div>
     </div>
   );

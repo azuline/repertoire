@@ -2,13 +2,7 @@ import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import tw from 'twin.macro';
 
-import {
-  Background,
-  FullPageLoading,
-  Header,
-  NowPlayingBar,
-  Sidebar,
-} from '~/components';
+import { Background, FullPageLoading, Header, NowPlayingBar } from '~/components';
 import { AuthorizationContext, GlobalContexts, ThemeContext } from '~/contexts';
 import { AuthedRoutes, UnauthedRoutes } from '~/routes';
 import { AppStyles } from '~/Styles';
@@ -28,7 +22,7 @@ const Body: React.FC = () => {
   const { theme } = React.useContext(ThemeContext);
 
   return (
-    <div tw="w-full min-h-0 bg-background-700 text-foreground-50 min-width[400px]">
+    <div tw="w-full min-h-0 bg-background-900 text-foreground-50 min-width[400px]">
       <div className={theme} tw="flex flex-col h-screen">
         {((): React.ReactNode => {
           switch (true) {
@@ -51,7 +45,7 @@ const AuthedBody: React.FC = () => {
       <Header />
       <div
         css={[
-          tw`w-full height[calc(100% - 9rem)] min-height[calc(100% - 9rem)]`,
+          tw`w-full height[calc(100% - 8rem)] min-height[calc(100% - 8rem)]`,
           tw`flex flex-1`,
         ]}
       >

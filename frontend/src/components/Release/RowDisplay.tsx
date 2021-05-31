@@ -58,7 +58,7 @@ export const RowRelease: IRowRelease = ({ release, className }) => {
             {release.rating !== null ? (
               <Rating rating={release.rating} />
             ) : (
-              <span tw="text-foreground-400">No Rating</span>
+              <span tw="text-foreground-500">No Rating</span>
             )}
           </div>
         </div>

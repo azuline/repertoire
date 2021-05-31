@@ -86,16 +86,16 @@ export const Track: ITrackComponent = ({
               </div>
               <ArtistListWithRoles
                 artists={filterNulls(track.artists)}
-                tw="flex-1 hidden w-2/3 truncate text-foreground-400 md:block"
+                tw="flex-1 hidden w-2/3 truncate text-foreground-500 md:block"
               />
             </div>
-            <div tw="flex-none w-14 text-right text-foreground-400">
+            <div tw="flex-none w-14 text-right text-foreground-500">
               {secondsToLength(track.duration)}
             </div>
           </div>
           <ArtistListWithRoles
             artists={filterNulls(track.artists)}
-            tw="mt-1 truncate text-foreground-400 md:hidden"
+            tw="mt-1 truncate text-foreground-500 md:hidden"
           />
         </div>
       </div>

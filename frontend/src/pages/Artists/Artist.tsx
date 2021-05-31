@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
 
-import { Header, SectionHeader } from '~/components';
+import { SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { useArtistsFetchArtistQuery } from '~/graphql';
 import { ErrorPage } from '~/pages';
@@ -36,7 +36,6 @@ export const Artist: IArtist = ({ active }) => {
 
   return (
     <div tw="flex flex-col w-full">
-      <Header />
       <SectionHeader tw="mt-4 mb-8">{artist.name}</SectionHeader>
       <ArtistReleases active={active} />
     </div>

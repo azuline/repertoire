@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { Header } from '~/components';
 import { useId } from '~/hooks';
 
 import { Artist } from './Artist';
@@ -10,12 +9,9 @@ export const Artists: React.FC = () => {
   const active = useId();
 
   return (
-    <>
-      {active === null && <Header />}
-      <div tw="flex flex-1">
-        <ArtistChooser active={active} tw="flex-none" />
-        {active !== null && <Artist active={active} />}
-      </div>
-    </>
+    <div tw="flex flex-1">
+      <ArtistChooser active={active} tw="flex-none" />
+      {active !== null && <Artist active={active} />}
+    </div>
   );
 };

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { CollectionChooser, Header } from '~/components';
+import { CollectionChooser } from '~/components';
 import { ICollectionType } from '~/graphql';
 import { useId } from '~/hooks';
 
@@ -12,19 +12,16 @@ export const Genres: React.FC = () => {
   const active = useId();
 
   return (
-    <>
-      {active === null && <Header />}
-      <div tw="flex flex-1">
-        <CollectionChooser
-          filterEmpty
-          active={active}
-          collectionTypes={types}
-          emptyString="genres"
-          tw="flex-none"
-          urlPrefix="/genres"
-        />
-        {active !== null && <Genre active={active} />}
-      </div>
-    </>
+    <div tw="flex flex-1">
+      <CollectionChooser
+        filterEmpty
+        active={active}
+        collectionTypes={types}
+        emptyString="genres"
+        tw="flex-none"
+        urlPrefix="/genres"
+      />
+      {active !== null && <Genre active={active} />}
+    </div>
   );
 };

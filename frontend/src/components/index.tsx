@@ -13,6 +13,7 @@ export * from './PlayButtons';
 export * from './Release';
 export * from './Releases';
 export * from './Routelist';
+export * from './Searchbar';
 export * from './Sidebar';
 export * from './Tracklist';
 export * from './ViewSettings';
