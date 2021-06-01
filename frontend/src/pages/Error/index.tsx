@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Header, SectionHeader } from '~/components';
+import { SectionHeader } from '~/components';
 
 type IErrorPage = React.FC<{ title: string; errors?: string[] }>;
 
