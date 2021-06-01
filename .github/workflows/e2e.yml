@@ -97,7 +97,9 @@ jobs:
         id: cache-test-deps
         uses: actions/cache@v2
         with:
-          path: e2e/node_modules/
+          path: |
+            e2e/node_modules/
+            ~/.cache/Cypress/
           key: ${{ runner.os }}-yarn-e2e-${{ hashFiles('**/e2e/yarn.lock') }}
           restore-keys: ${{ runner.os }}-yarn-e2e-
       - name: Install e2e tests dependencies

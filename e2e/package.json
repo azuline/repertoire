@@ -6,8 +6,8 @@
   "scripts": {
     "test": "npx cypress run",
     "open": "npx cypress open",
-    "lint": "eslint cypress/ --ext .ts --fix --cache",
-    "fmt": "prettier --write cypress/**/*.{ts,json}"
+    "lint": "eslint cypress --ext .ts --cache && prettier cypress --check",
+    "fmt": "eslint cypress --ext .ts --cache --fix && prettier cypress --write"
   },
   "dependencies": {
     "cypress": "^7.0.1",

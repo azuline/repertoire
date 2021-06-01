@@ -66,7 +66,7 @@ frontend_data = {
         """,
     "Lint check": """
       - name: Run lint check
-        run: yarn eslint src/ --ext .ts,.tsx --max-warnings=0
+        run: yarn lint
         """,
     "GraphQL Codegen": """
       - name: Run codegen
