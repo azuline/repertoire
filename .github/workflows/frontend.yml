@@ -82,7 +82,7 @@ jobs:
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: yarn install
       - name: Run lint check
-        run: yarn eslint src/ --ext .ts,.tsx --max-warnings=0
+        run: yarn lint
   graphql_codegen:
     name: GraphQL Codegen
     runs-on: ubuntu-latest
