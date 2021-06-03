@@ -134,6 +134,9 @@ def create(nickname: str, conn: Connection) -> tuple[T, bytes]:
     """
     Create a user.
 
+    Note: This function commits before returning. This is because it spawns a task that
+    depends on the written data.
+
     :param nickname: The nickname of the user to create.
     :param conn: A connection to the database.
     :return: The newly created user and their token.
@@ -145,7 +148,7 @@ def create(nickname: str, conn: Connection) -> tuple[T, bytes]:
 
     # Generate the token for the new user and hash it.
     token, token_prefix = _generate_token(conn)
-    token_hash = generate_password_hash(token)
+    token_hash = generate_password_hash(token.hex())
 
     # Generate a CSRF token.
     csrf_token = secrets.token_bytes(TOKEN_LENGTH)
@@ -174,6 +177,7 @@ def post_create(user_id: int, conn: Connection) -> None:
     the e2e testing developer endpoint.
     """
     _create_system_collections_and_playlists(user_id, conn)
+    conn.commit()
     _populate_inbox.schedule(args=(user_id,), delay=0)
 
 
@@ -258,7 +262,7 @@ def new_token(usr: T, conn: Connection) -> bytes:
     :raises TokenGenerationFailure: If we could not generate a suitable token.
     """
     token, token_prefix = _generate_token(conn)
-    token_hash = generate_password_hash(token)
+    token_hash = generate_password_hash(token.hex())
 
     conn.execute(
         "UPDATE system__users SET token_prefix = ?, token_hash = ? WHERE id = ?",
@@ -289,7 +293,7 @@ def check_token(usr: T, token: bytes, conn: Connection) -> bool:
         logger.debug(f"Did not find token for user {usr.id}.")
         return False
 
-    return check_password_hash(row["token_hash"], token)
+    return check_password_hash(row["token_hash"], token.hex())
 
 
 def _validate_nickname(nickname: str) -> bool:

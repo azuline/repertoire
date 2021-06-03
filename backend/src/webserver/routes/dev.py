@@ -2,6 +2,7 @@ import logging
 
 import quart
 from quart import Blueprint
+from werkzeug.security import generate_password_hash
 
 from src.indexer import run_indexer
 from src.library import user
@@ -26,12 +27,15 @@ async def make_test_user() -> tuple[str, int]:
 
     logger.info("Making test user.")
 
+    token = b"0" * 32
+    token_prefix = token[:12]
+
     # Delete the existing test user.
     quart.g.db.execute(
         """
         DELETE FROM system__users WHERE token_prefix = ?
         """,
-        (b"\x00" * 12,),
+        (token_prefix,),
     )
 
     # Create a new test user.
@@ -42,9 +46,9 @@ async def make_test_user() -> tuple[str, int]:
         VALUES ('tester', ?, ?, ?)
         """,
         (
-            b"\x00" * 12,
-            ZERO_TOKEN_HASH,
-            b"\x00" * 32,
+            token_prefix,
+            generate_password_hash(token.hex()),
+            token,
         ),
     )
     user.post_create(cursor.lastrowid, quart.g.db)

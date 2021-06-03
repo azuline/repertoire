@@ -438,8 +438,8 @@ def test_release_collections_filter_type(factory: Factory, db: Connection):
 
     out = release.collections(rls, db, type=CollectionType.SYSTEM)
 
-    assert len(out) == 2
-    assert {c.id for c in out} == {c.id for c in cols[:2]}
+    assert len(out) == 3
+    assert {c.id for c in out if c.id != 1} == {c.id for c in cols[:2]}
 
 
 def test_all_years(factory: Factory, db: Connection):

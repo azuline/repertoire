@@ -14,7 +14,7 @@ async def test_create_dev_user(db: Connection, quart_app, quart_client):
 
     usr = user.from_nickname("tester", db)
     assert usr is not None
-    assert user.check_token(usr, b"\x00" * 32, db)
+    assert user.check_token(usr, b"0" * 32, db)
 
 
 @pytest.mark.asyncio

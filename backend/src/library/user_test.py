@@ -80,7 +80,7 @@ def test_create_user_success(db: Connection):
         (new_user.id,),
     )
     token_hash = cursor.fetchone()["token_hash"]
-    assert check_password_hash(token_hash, token)
+    assert check_password_hash(token_hash, token.hex())
 
 
 def test_create_user_invalid_nickname(db: Connection):
@@ -115,9 +115,9 @@ def test_generate_new_token(factory: Factory, db: Connection):
     cursor = db.execute("SELECT token_hash FROM system__users WHERE id = 1")
     new_hash = cursor.fetchone()["token_hash"]
 
-    assert not check_password_hash(old_hash, new_token)
-    assert not check_password_hash(new_hash, old_token)
-    assert check_password_hash(new_hash, new_token)
+    assert not check_password_hash(old_hash, new_token.hex())
+    assert not check_password_hash(new_hash, old_token.hex())
+    assert check_password_hash(new_hash, new_token.hex())
 
 
 def test_check_token_success(factory: Factory, db: Connection):

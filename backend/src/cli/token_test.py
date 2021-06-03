@@ -27,8 +27,8 @@ def test_update_token(factory: Factory, db: Connection):
     )
     new_token_hash = cursor.fetchone()["token_hash"]
 
-    assert not check_password_hash(old_token_hash, tkn)
-    assert check_password_hash(new_token_hash, tkn)
+    assert not check_password_hash(old_token_hash, tkn.hex())
+    assert check_password_hash(new_token_hash, tkn.hex())
 
 
 def test_create_admin(db: Connection):
@@ -41,4 +41,4 @@ def test_create_admin(db: Connection):
     cursor = db.execute("SELECT token_hash FROM system__users WHERE id = 1")
     token_hash = cursor.fetchone()["token_hash"]
 
-    assert check_password_hash(token_hash, tkn)
+    assert check_password_hash(token_hash, tkn.hex())
