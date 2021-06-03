@@ -11,8 +11,6 @@ logger = logging.getLogger(__name__)
 
 bp = Blueprint("dev", __name__, url_prefix="/api/dev")
 
-ZERO_TOKEN_HASH = "pbkdf2:sha256:150000$b26LpXBc$ab7f9cf988532362beed5db5c974a3759aef479042364994df568c0284a5fee2"  # noqa
-
 
 @bp.route("/testuser", methods=["POST"])
 async def make_test_user() -> tuple[str, int]:
@@ -27,7 +25,7 @@ async def make_test_user() -> tuple[str, int]:
 
     logger.info("Making test user.")
 
-    token = b"0" * 32
+    token = b"\x00" * 32
     token_prefix = token[:12]
 
     # Delete the existing test user.
