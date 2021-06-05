@@ -5,6 +5,7 @@ import { Disclist, Image } from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { useReleaseFetchReleaseQuery } from '~/graphql';
 import { useId } from '~/hooks';
+import { Layout } from '~/layout';
 import { ErrorPage } from '~/pages';
 import { filterNulls } from '~/util';
 
@@ -47,7 +48,7 @@ const Body: IBody = ({ id }) => {
   }
 
   return (
-    <div tw="flex flex-col mt-4">
+    <Layout padX padY scroll>
       <div tw="flex">
         <Image
           imageId={release.imageId}
@@ -62,9 +63,9 @@ const Body: IBody = ({ id }) => {
         </div>
         <Rating release={release} />
       </div>
-      <Disclist tracks={filterNulls(release.tracks)} tw="py-8" />
+      <Disclist tracks={filterNulls(release.tracks)} tw="pt-8" />
       <InCollages collages={filterNulls(release.collages)} />
-    </div>
+    </Layout>
   );
 };
 

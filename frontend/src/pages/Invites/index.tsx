@@ -7,6 +7,7 @@ import {
   useInvitesCreateInviteMutation,
   useInvitesFetchInvitesQuery,
 } from '~/graphql';
+import { Layout } from '~/layout';
 
 import { Invite } from './Invite';
 
@@ -20,7 +21,7 @@ export const Invites: React.FC = () => {
   };
 
   return (
-    <div tw="flex flex-col w-full mt-4">
+    <Layout padX padY scroll>
       <SectionHeader tw="pb-4">Active Invites</SectionHeader>
       <div tw="pb-8 text-foreground-500">Click an invite to copy its invite URL.</div>
       <div tw="flex">
@@ -36,7 +37,7 @@ export const Invites: React.FC = () => {
       <div tw="py-10">
         <Button onClick={createOnClick}>Create new invite</Button>
       </div>
-    </div>
+    </Layout>
   );
 };
 

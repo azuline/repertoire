@@ -83,10 +83,20 @@ module.exports = {
             },
           },
         },
-        '.w-fullpad': {
-          width: 'calc(100% + 3rem) !important',
+        '.pad-page': {
+          'padding-left': '1.5rem',
+          'padding-right': '1.5rem',
+          '@screen xl': {
+            'padding-left': '4rem',
+            'padding-right': '4rem',
+          },
+          '@screen lg': {
+            'padding-left': '3rem',
+            'padding-right': '3rem',
+          },
           '@screen md': {
-            width: 'calc(100% + 4rem) !important',
+            'padding-left': '2rem',
+            'padding-right': '2rem',
           },
         },
       });

@@ -1,11 +1,12 @@
 import * as React from 'react';
 
 import { SectionHeader } from '~/components';
+import { Layout } from '~/layout';
 
 type IErrorPage = React.FC<{ title: string; errors?: string[] }>;
 
 export const ErrorPage: IErrorPage = ({ title, errors }) => (
-  <div tw="flex flex-col full justify-center items-center">
+  <Layout tw="flex flex-col full justify-center items-center">
     <SectionHeader>{title}</SectionHeader>
     <div tw="mt-4 text-xl">
       {(errors ?? []).map((err, i) => (
@@ -14,7 +15,7 @@ export const ErrorPage: IErrorPage = ({ title, errors }) => (
         </div>
       ))}
     </div>
-  </div>
+  </Layout>
 );
 
 export const NotFound: React.FC = () => (

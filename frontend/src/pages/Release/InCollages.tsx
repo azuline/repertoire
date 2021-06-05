@@ -11,7 +11,7 @@ export const InCollages: IInCollages = ({ collages }) => {
   }
 
   return (
-    <div tw="flex-none w-full py-8 truncate border-t-2 text-base border-background-900">
+    <div tw="flex-none w-full pt-8 truncate border-t-2 text-base border-background-900">
       <div tw="mb-4 font-semibold">In Collages</div>
       <ul>
         {collages.map((collage) => (

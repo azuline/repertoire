@@ -43,22 +43,10 @@ const AuthedBody: React.FC = () => {
   return (
     <>
       <Header />
-      <div
-        css={[
-          tw`w-full height[calc(100% - 8rem)] min-height[calc(100% - 8rem)]`,
-          tw`flex flex-1`,
-        ]}
-      >
+      <div tw="full flex min-h-0">
         <div tw="full relative flex flex-col min-w-0">
           <Background />
-          <div
-            css={[
-              tw`full px-6 md:px-8`,
-              tw`relative flex flex-col min-h-0 overflow-y-auto`,
-            ]}
-          >
-            <AuthedRoutes />
-          </div>
+          <AuthedRoutes />
         </div>
       </div>
       <NowPlayingBar />

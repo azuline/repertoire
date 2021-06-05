@@ -3,6 +3,7 @@ import * as React from 'react';
 import { CollectionChooser } from '~/components';
 import { ICollectionType } from '~/graphql';
 import { useId } from '~/hooks';
+import { Layout } from '~/layout';
 
 import { Label } from './Label';
 
@@ -12,7 +13,7 @@ export const Labels: React.FC = () => {
   const active = useId();
 
   return (
-    <div tw="flex flex-1">
+    <Layout tw="flex flex-1">
       <CollectionChooser
         filterEmpty
         active={active}
@@ -21,7 +22,11 @@ export const Labels: React.FC = () => {
         tw="flex-none"
         urlPrefix="/labels"
       />
-      {active !== null && <Label active={active} />}
-    </div>
+      {active !== null && (
+        <Layout padX padY scroll>
+          <Label active={active} />
+        </Layout>
+      )}
+    </Layout>
   );
 };
