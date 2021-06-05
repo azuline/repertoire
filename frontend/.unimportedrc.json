@@ -4,5 +4,9 @@
   "ignoreUnresolved": [],
   "ignoreUnimported": [],
   "ignoreUnused": ["@emotion/styled", "csstype", "tailwindcss", "web-vitals"],
-  "ignorePatterns": []
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "**/*.stories.{ts,tsx}",
+    "**/*.test.{ts,tsx}"
+  ]
 }
