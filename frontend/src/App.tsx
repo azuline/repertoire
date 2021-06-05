@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import tw from 'twin.macro';
 
 import { Background, FullPageLoading, Header, NowPlayingBar } from '~/components';
 import { AuthorizationContext, GlobalContexts, ThemeContext } from '~/contexts';
