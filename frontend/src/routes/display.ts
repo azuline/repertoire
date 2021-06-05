@@ -23,7 +23,10 @@ export const routeSections = [
     ],
   },
   {
-    name: 'Admin',
-    routes: [{ exact: false, label: 'Invites', path: '/invites' }],
+    name: 'Manage',
+    routes: [
+      { exact: false, label: 'Settings', path: '/settings' },
+      { exact: false, label: 'Invites', path: '/invites' },
+    ],
   },
 ] as const;

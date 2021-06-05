@@ -89,13 +89,12 @@ const RouteLinks = tw.div`
   flex
   flex-col
   bg-background-700
-  gap-1
-  py-4
+  pb-2
   border-t-0
 `;
 
 const RouteLink = styled(Link)`
   margin-left: -2px;
 
-  ${tw`pl-6 py-1 text-foreground-400 cursor-pointer min-width[120px]`}
+  ${tw`pl-6 py-2 text-foreground-400 cursor-pointer min-width[140px] hover-bg`}
 `;

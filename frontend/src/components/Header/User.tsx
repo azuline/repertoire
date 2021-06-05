@@ -30,25 +30,9 @@ export const User: IUserComponent = ({ className }) => {
       <div className="header--username" tw="mr-2 truncate">
         {data?.user?.nickname ?? 'Loading...'}
       </div>
-      <div tw="flex-none px-1 py-2 sm:hidden">
-        <Link
-          href="/settings"
-          tw="cursor-pointer hover:text-primary-400 text-primary-500"
-        >
-          <Icon icon="cog-medium" title="Settings" tw="w-6" />
-        </Link>
-      </div>
-      <div tw="flex-none px-1 py-2 hidden sm:block">
-        <Link
-          href="/settings"
-          tw="cursor-pointer hover:text-primary-400 text-primary-500"
-        >
-          <Icon icon="cog-medium" title="Settings" tw="w-6" />
-        </Link>
-      </div>
       <div tw="flex-none px-2 py-1 -mr-2">
         <div
-          tw="cursor-pointer hover:text-primary-400 text-primary-500"
+          tw="cursor-pointer hover:text-primary-400 text-primary-500 flex items-center"
           onClick={logout}
         >
           <Icon icon="logout-medium" title="Logout" tw="w-6" />

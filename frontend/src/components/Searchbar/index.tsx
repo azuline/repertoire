@@ -1,7 +1,7 @@
 import * as React from 'react';
 import tw, { styled } from 'twin.macro';
 
-import { Icon, Input } from '~/components/common';
+import { Icon, Input, Link } from '~/components/common';
 
 type ISearchbar = React.FC<{
   className?: string;
@@ -17,10 +17,20 @@ export const Searchbar: ISearchbar = ({ className }) => (
           tw`flex items-center pointer-events-none`,
         ]}
       >
-        <Icon icon="search-medium" tw="w-5 text-primary-400" />
+        <TheRealIcon />
       </div>
     </div>
   </div>
+);
+
+export const SearchbarIcon: ISearchbar = ({ className }) => (
+  <Link className={className} href="/search" tw="p-2 hover-bg rounded cursor-pointer">
+    <TheRealIcon />
+  </Link>
+);
+
+const TheRealIcon: React.FC = () => (
+  <Icon icon="search-medium" tw="w-5 text-primary-400" />
 );
 
 const SearchbarInput = styled(Input)`
