@@ -22,18 +22,18 @@ export const usePersistentState = <T>(
     return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
   });
 
-  const setPersistentValue = (
-    newValue: React.SetStateAction<T>,
-    persist = true,
-  ): void => {
-    setValue((innerValue: T) => {
-      const toStore = newValue instanceof Function ? newValue(innerValue) : newValue;
-      if (persist) {
-        localStorage.setItem(localStorageKey, JSON.stringify(toStore));
-      }
-      return toStore;
-    });
-  };
+  const setPersistentValue: ISetPersistentValue<T> = React.useCallback(
+    (newValue, persist = true): void => {
+      setValue((innerValue) => {
+        const toStore = newValue instanceof Function ? newValue(innerValue) : newValue;
+        if (persist) {
+          localStorage.setItem(localStorageKey, JSON.stringify(toStore));
+        }
+        return toStore;
+      });
+    },
+    [setValue], // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   return [value, setPersistentValue];
 };

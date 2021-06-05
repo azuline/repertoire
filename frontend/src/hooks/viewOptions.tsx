@@ -42,6 +42,10 @@ type IParams = {
  * An aggregated state hook to provide the viewOptions parameters for searching/browsing
  * releases.
  *
+ * WARNING: Don't use this object in a React dependency array. I tried wrapping the
+ * return value in React.useMemo previously; but for some fucking reason, it
+ * recalculated on every single call.
+ *
  * @param root0 - The "seed" object: initial values for the hook.
  * @returns A mega-state object containing the viewOptions parameters.
  */
@@ -69,46 +73,24 @@ export const useViewOptions = (defaults: IParams = {}): IViewOptions => {
     defaults.releaseView ?? IReleaseView.Artwork,
   );
 
-  return React.useMemo(
-    () => ({
-      artistIds,
-      asc,
-      collectionIds,
-      ratings,
-      releaseTypes,
-      releaseView,
-      search,
-      setArtistIds,
-      setAsc,
-      setCollectionIds,
-      setRatings,
-      setReleaseTypes,
-      setReleaseView,
-      setSearch,
-      setSort,
-      setYears,
-      sort,
-      years,
-    }),
-    [
-      artistIds,
-      asc,
-      collectionIds,
-      ratings,
-      releaseTypes,
-      releaseView,
-      search,
-      setArtistIds,
-      setAsc,
-      setCollectionIds,
-      setRatings,
-      setReleaseTypes,
-      setReleaseView,
-      setSearch,
-      setSort,
-      setYears,
-      sort,
-      years,
-    ],
-  );
+  return {
+    artistIds,
+    asc,
+    collectionIds,
+    ratings,
+    releaseTypes,
+    releaseView,
+    search,
+    setArtistIds,
+    setAsc,
+    setCollectionIds,
+    setRatings,
+    setReleaseTypes,
+    setReleaseView,
+    setSearch,
+    setSort,
+    setYears,
+    sort,
+    years,
+  };
 };

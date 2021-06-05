@@ -74,6 +74,8 @@ module.exports = {
     '@typescript-eslint/strict-boolean-expressions': 'error',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
+    // Disabling this because there are too many false positives.
+    'react-hooks/exhaustive-deps': 'off',
     // Unused imports and variables.
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'off',

@@ -9,6 +9,7 @@ import {
   useStarPlaylistChooserMutation,
   useUnstarPlaylistChooserMutation,
 } from '~/graphql';
+import { compareByStarThenName } from '~/util';
 
 type IPlaylistChooser = React.FC<{
   active: number | null;
@@ -39,10 +40,12 @@ export const PlaylistChooser: IPlaylistChooser = ({ active, className }) => {
   }
 
   // If the playlist has a user, prefix the playlist name with the user's nickname.
-  // TODO(now): Sort properly.
-  const playlists = data.playlists.results.map((p) =>
-    p.user === null ? p : { ...p, name: `${p.user.nickname}'s ${p.name}` },
-  );
+  // Also sort the playlists!
+  const playlists = data.playlists.results
+    .map((p) =>
+      p.user === null ? p : { ...p, name: `${p.user.nickname}'s ${p.name}` },
+    )
+    .sort(compareByStarThenName);
 
   const renderElement = (index: number): React.ReactNode => {
     const element = playlists[index];

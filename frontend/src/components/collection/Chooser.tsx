@@ -11,6 +11,7 @@ import {
   useStarCollectionChooserMutation,
   useUnstarCollectionChooserMutation,
 } from '~/graphql';
+import { compareByStarThenName } from '~/util';
 
 type ICollectionChooser = React.FC<{
   collectionTypes: ICollectionType[];
@@ -58,10 +59,11 @@ export const CollectionChooser: ICollectionChooser = ({
       ? data.collections.results.filter((col) => col.numReleases !== 0)
       : data.collections.results;
 
-    return xs.map((c) =>
-      c.user === null ? c : { ...c, name: `${c.user.nickname}'s ${c.name}` },
-    );
-    // TODO(now): Sort this properly.
+    return xs
+      .map((c) =>
+        c.user === null ? c : { ...c, name: `${c.user.nickname}'s ${c.name}` },
+      )
+      .sort(compareByStarThenName);
   })();
 
   const renderElement = (index: number): React.ReactNode => {

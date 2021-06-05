@@ -9,7 +9,7 @@ export const YearReleases: IYearReleases = ({ active }) => {
   const viewOptions = useViewOptions({ years: [active] });
   const pagination = usePagination();
 
-  React.useEffect(() => viewOptions.setYears([active]), [active, viewOptions]);
+  React.useEffect(() => viewOptions.setYears([active]), [active]);
 
   return <PagedReleases partial pagination={pagination} viewOptions={viewOptions} />;
 };

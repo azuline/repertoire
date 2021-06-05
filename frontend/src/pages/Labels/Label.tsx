@@ -21,7 +21,7 @@ export const Label: ILabel = ({ active }) => {
 
     setBackgroundImageId(collection.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [collection, setBackgroundImageId]);
+  }, [collection]);
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);

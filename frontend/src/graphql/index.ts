@@ -678,7 +678,7 @@ export type IFavoritePlaylistsIdQuery = (
   { __typename?: 'Query' }
   & { user: (
     { __typename?: 'User' }
-    & Pick<IUser, 'favoritesPlaylistId'>
+    & Pick<IUser, 'id' | 'favoritesPlaylistId'>
   ) }
 );
 
@@ -1087,7 +1087,7 @@ export type IInFavoritesFetchFavoritesIdQuery = (
   { __typename?: 'Query' }
   & { user: (
     { __typename?: 'User' }
-    & Pick<IUser, 'favoritesCollectionId'>
+    & Pick<IUser, 'id' | 'favoritesCollectionId'>
   ) }
 );
 
@@ -1158,7 +1158,7 @@ export type IInInboxFetchInboxIdQuery = (
   { __typename?: 'Query' }
   & { user: (
     { __typename?: 'User' }
-    & Pick<IUser, 'inboxCollectionId'>
+    & Pick<IUser, 'id' | 'inboxCollectionId'>
   ) }
 );
 
@@ -1503,6 +1503,7 @@ export function refetchPagedReleasesFetchReleasesQuery(variables?: IPagedRelease
 export const FavoritePlaylistsIdDocument = gql`
     query FavoritePlaylistsId {
   user {
+    id
     favoritesPlaylistId
   }
 }
@@ -2334,6 +2335,7 @@ export function refetchPlaylistsFetchTracksQuery(variables?: IPlaylistsFetchTrac
 export const InFavoritesFetchFavoritesIdDocument = gql`
     query InFavoritesFetchFavoritesId {
   user {
+    id
     favoritesCollectionId
   }
 }
@@ -2481,6 +2483,7 @@ export type InFavoritesDelReleaseFromCollectionMutationOptions = Apollo.BaseMuta
 export const InInboxFetchInboxIdDocument = gql`
     query InInboxFetchInboxId {
   user {
+    id
     inboxCollectionId
   }
 }

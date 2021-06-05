@@ -27,11 +27,12 @@ export const PagedReleases: IPagedReleases = ({
     variables: { ...viewOptions, ...pagination },
   });
 
-  const { total, results } = data?.releases || { results: [], total: 0 };
+  const { total, results } = React.useMemo(
+    () => data?.releases || { results: [], total: 0 },
+    [data],
+  );
 
-  React.useEffect(() => {
-    pagination.setTotal(total);
-  }, [total, pagination]);
+  React.useEffect(() => pagination.setTotal(total), [total]);
 
   React.useEffect(() => {
     if (!error) {
@@ -41,7 +42,7 @@ export const PagedReleases: IPagedReleases = ({
     error.graphQLErrors.forEach(({ message }) => {
       addToast(message, { appearance: 'error' });
     });
-  }, [error, addToast]);
+  }, [error]);
 
   let releasesDiv = null;
 

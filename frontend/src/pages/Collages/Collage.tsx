@@ -20,7 +20,7 @@ export const Collage: ICollage = ({ active }) => {
 
     setBackgroundImageId(collection.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [collection, setBackgroundImageId]);
+  }, [collection]);
 
   if (!collection) {
     return null;

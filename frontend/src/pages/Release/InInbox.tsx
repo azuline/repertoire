@@ -58,6 +58,7 @@ export const InInbox: IInInbox = ({ className, release }) => {
 gql`
   query InInboxFetchInboxId {
     user {
+      id
       inboxCollectionId
     }
   }

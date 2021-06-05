@@ -28,7 +28,9 @@ export const Popover: IPopover = ({ className, children, align, hover = false })
 
   return (
     <Wrapper hover={hover}>
-      {React.cloneElement(child1, { onClick: (): void => setOpen((o) => !o) })}
+      <div>
+        {React.cloneElement(child1, { onClick: (): void => setOpen((o) => !o) })}
+      </div>
       <div className={open ? 'open' : ''} tw="relative z-40">
         {open && <SetBackground setOpen={setOpen} />}
         <div
@@ -46,16 +48,16 @@ export const Popover: IPopover = ({ className, children, align, hover = false })
 };
 
 const Wrapper = styled.div<{ hover: boolean }>`
-  & > :nth-child(2) {
+  & > div:nth-of-type(2) {
     display: none;
   }
-  & > .open {
+  & > div:nth-of-type(2).open {
     display: block;
   }
   ${({ hover }): SerializedStyles | boolean =>
     hover &&
     css`
-      &:hover > :nth-child(2) {
+      &:hover > div:nth-of-type(2) {
         display: block;
       }
     `}

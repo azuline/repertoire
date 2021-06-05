@@ -16,6 +16,8 @@ export type IPagination = {
 /**
  * A mega-state hook that handles pagination for arbitrary data.
  *
+ * WARNING: Do not use this in a React dependency array.
+ *
  * @param root0 - A configuration object.
  * @param root0.useUrl - If true, then this hook will read the initial page from the URL
  *        query string's ``page`` key and update that key whenever ``curpage``changes.
@@ -61,10 +63,14 @@ export const usePagination = ({
 
   const numPages = perPage === 0 ? 0 : Math.ceil(total / perPage);
 
-  return React.useMemo(
-    () => ({ numPages, page, perPage, setPage, setPerPage, setTotal }),
-    [numPages, page, perPage, setPage, setPerPage, setTotal],
-  );
+  return {
+    numPages,
+    page,
+    perPage,
+    setPage,
+    setPerPage,
+    setTotal,
+  };
 };
 
 /**

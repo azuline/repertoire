@@ -23,7 +23,7 @@ export const Playlist: IPlaylist = ({ active }) => {
 
     setBackgroundImageId(playlist.imageId);
     return (): void => setBackgroundImageId(null);
-  }, [playlist, setBackgroundImageId]);
+  }, [playlist]);
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);

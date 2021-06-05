@@ -107,6 +107,7 @@ export const Track: ITrackComponent = ({
 gql`
   query FavoritePlaylistsId {
     user {
+      id
       favoritesPlaylistId
     }
   }

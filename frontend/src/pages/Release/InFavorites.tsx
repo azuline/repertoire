@@ -58,6 +58,7 @@ export const InFavorites: IInFavorites = ({ className, release }) => {
 gql`
   query InFavoritesFetchFavoritesId {
     user {
+      id
       favoritesCollectionId
     }
   }

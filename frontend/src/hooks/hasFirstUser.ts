@@ -19,7 +19,7 @@ export const useHasFirstUser = (): IReturn => {
   const [error, setError] = React.useState<boolean>(false);
   const requestJson = useRequestJson<IResponse>();
 
-  const fetchHasFirstUser = React.useCallback(async (): Promise<void> => {
+  const fetchHasFirstUser = async (): Promise<void> => {
     try {
       const res = await requestJson('/api/register/has-first-user');
       setHasFirstUser(res.hasFirstUser);
@@ -28,11 +28,11 @@ export const useHasFirstUser = (): IReturn => {
       setLoading(false);
       setError(true);
     }
-  }, [requestJson]);
+  };
 
   React.useEffect(() => {
     fetchHasFirstUser();
-  }, [fetchHasFirstUser]);
+  }, []);
 
   return { error, hasFirstUser, loading, refetch: fetchHasFirstUser };
 };
