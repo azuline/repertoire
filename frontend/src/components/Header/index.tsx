@@ -2,11 +2,12 @@ import * as React from 'react';
 import tw from 'twin.macro';
 
 import { Icon, Link } from '~/components/common';
+import { Searchbar } from '~/components/Searchbar';
 
 import { HeaderRoutes } from './Routes';
 import { User } from './User';
 
-export { User } from './User';
+export { User };
 
 export const Header: React.FC = () => (
   <div
@@ -28,6 +29,7 @@ export const Header: React.FC = () => (
       />
     </Link>
     <HeaderRoutes tw="hidden md:block" />
-    <User tw="pl-6 ml-auto flex" />
+    <Searchbar tw="ml-auto" />
+    <User tw="pl-6 flex" />
   </div>
 );
