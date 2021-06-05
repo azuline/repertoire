@@ -7,7 +7,7 @@ from filelock import FileLock
 from freezegun import freeze_time
 from yoyo import get_backend, read_migrations
 
-from src.config import _load_config, config
+from src.config import write_default_config
 from src.constants import TEST_DATA_PATH, constants
 from src.fixtures.factory import Factory
 from src.util import database, freeze_database_time
@@ -41,12 +41,15 @@ def _create_seed_db():
     with db_backend.lock():
         db_backend.apply_migrations(db_backend.to_apply(db_migrations))
 
+    write_default_config(db_backend._connection)
+
 
 @pytest.fixture(autouse=True)
-def isolated_dir():
+def isolated_dir(seed_db):
     with CliRunner().isolated_filesystem():
         constants.data_path = Path.cwd() / "_data"
         constants.data_path.mkdir()
+        shutil.copytree(TEST_DATA_PATH, constants.data_path, dirs_exist_ok=True)
         yield Path.cwd()
 
 
@@ -57,14 +60,7 @@ def stop_the_clock():
 
 
 @pytest.fixture
-def seed_data(seed_db, isolated_dir):
-    shutil.copytree(TEST_DATA_PATH, constants.data_path, dirs_exist_ok=True)
-    # Update config cache with a new config.
-    config.parser = _load_config(constants.config_path)
-
-
-@pytest.fixture
-def db(seed_data):
+def db(isolated_dir):
     with database() as conn:
         yield conn
 
@@ -75,7 +71,7 @@ def factory() -> Factory:
 
 
 @pytest.fixture
-def quart_app(seed_data):
+def quart_app(isolated_dir):
     yield create_app()
 
 

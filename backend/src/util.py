@@ -3,6 +3,7 @@ import sqlite3
 from contextlib import contextmanager
 from dataclasses import asdict
 from hashlib import sha256
+from itertools import chain
 from pathlib import Path
 from sqlite3 import Connection
 from string import ascii_uppercase
@@ -180,6 +181,16 @@ def del_pagination_keys(mapping: dict) -> dict:
     """
     illegal_keys = ["page", "per_page", "sort", "asc"]
     return {k: v for k, v in mapping.items() if k not in illegal_keys}
+
+
+def flatten_dict(mapping: dict) -> list[Any]:
+    """
+    Transform a dict's key/value pairs into a flat list.
+
+    :param mapping: The dict to flatten.
+    :return: A flattened dict.
+    """
+    return list(chain.from_iterable([[k, v] for k, v in mapping.items()]))
 
 
 def freeze_database_time(conn: Connection):

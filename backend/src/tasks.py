@@ -2,6 +2,7 @@ import logging
 
 from huey import SqliteHuey
 
+from src import config
 from src.constants import IS_DEBUG, IS_PYTEST, IS_SPHINX, constants
 
 logger = logging.getLogger(__name__)
@@ -16,8 +17,14 @@ huey = SqliteHuey(
 
 def schedule_tasks():
     """
-    This function imports the periodic tasks declared across the application.
+    This function schedules the application's periodic tasks and imports the tasks
+    declared across the application.
     """
+    from src.indexer import run_indexer
+
+    @huey.periodic_task(config.index_crontab())
+    def indexer():  # noqa
+        run_indexer()
+
     # IDK if this actually works but it should!
-    import src.indexer  # noqa
     import src.indexer.scanner  # noqa

@@ -21,6 +21,7 @@ DROP TABLE images;
 DROP TABLE system__users;
 DROP TABLE system__invites;
 DROP TABLE system__secret_key;
+DROP TABLE system__config;
 
 DROP VIEW music__releases__fts_content;
 DROP TABLE music__releases__fts;

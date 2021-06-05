@@ -1,5 +1,5 @@
 start:
-	QUART_DEBUG=1 QUART_APP="src.webserver.app:create_app()" poetry run quart run
+	QUART_DEBUG=1 QUART_APP="src.webserver.app:debug_app()" poetry run quart run
 
 # A parallel test execution.
 test:

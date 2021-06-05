@@ -207,6 +207,11 @@ CREATE TABLE system__secret_key (
     key BLOB PRIMARY KEY
 );
 
+CREATE TABLE system__config (
+    key VARCHAR PRIMARY KEY,
+    value VARCHAR
+);
+
 ------------------------
 --- FULL TEXT SEARCH ---
 ------------------------

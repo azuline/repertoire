@@ -10,6 +10,8 @@ from .database import run_database_migrations
 
 def test_run_database_migrations(isolated_dir):
     db_path = isolated_dir / "_data" / "db.sqlite3"
+    db_path.unlink()
+
     assert not db_path.exists()
     run_database_migrations()
     assert db_path.exists()
