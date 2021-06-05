@@ -1,5 +1,4 @@
 import * as React from 'react';
-import tw from 'twin.macro';
 
 import { FastForward, PlayPause, Rewind } from '~/components/PlayButtons';
 
