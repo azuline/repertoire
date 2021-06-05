@@ -12,12 +12,22 @@ from quart import Quart, Response
 from werkzeug.exceptions import HTTPException
 
 from src.constants import constants
+from src.initialize import initialize_app
 from src.util import database, raw_database
 from src.webserver.routes import dev, files, graphql, register, session
 
 SECRET_LENGTH = 32
 
 logger = logging.getLogger(__name__)
+
+
+def debug_app() -> Quart:
+    """
+    This is the entry point for the `quart run` debug application. It initializes the
+    application and then returns the web server.
+    """
+    initialize_app()
+    return create_app()
 
 
 def create_app() -> Quart:
