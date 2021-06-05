@@ -68,6 +68,10 @@ frontend_data = {
       - name: Run lint check
         run: yarn lint
         """,
+    "Unused imports": """
+      - name: Run unimported
+        run: yarn unimported
+        """,
     "GraphQL Codegen": """
       - name: Run codegen
         run: yarn codegen

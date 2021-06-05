@@ -1,0 +1,8 @@
+{
+  "entry": ["src/index.tsx"],
+  "extensions": [".ts", ".tsx"],
+  "ignoreUnresolved": [],
+  "ignoreUnimported": [],
+  "ignoreUnused": ["@emotion/styled", "csstype", "tailwindcss", "web-vitals"],
+  "ignorePatterns": []
+}
