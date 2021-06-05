@@ -51,14 +51,14 @@ export const VirtualList: IVirtualList = ({
     <AutoSizer>
       {({ width, height }): React.ReactNode => (
         <List
-          css={active !== null && tw`pt-8`}
           height={height}
           overscanRowCount={8}
-          rowCount={results.length + (active !== null ? 2 : 1)}
+          rowCount={results.length + 2}
           rowHeight={rowHeight}
           rowRenderer={renderRow}
           scrollToAlignment={scrollToAlignment as 'start' | 'auto'}
           scrollToIndex={scrollToIndex}
+          tw="pt-8"
           width={width}
         />
       )}
