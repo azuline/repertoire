@@ -18,6 +18,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     // This must be the last extension.
     'prettier/react',
+    'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
   plugins: [
