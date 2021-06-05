@@ -1,42 +1,77 @@
+import { SerializedStyles } from '@emotion/react';
 import * as React from 'react';
-import tw, { styled, TwStyle } from 'twin.macro';
+import tw, { css, styled, TwStyle } from 'twin.macro';
 
 type IPopover = React.FC<{
   children: [React.ReactElement, React.ReactElement];
-  arrow?: boolean;
+
+  /**
+   * How to align the popover body with the trigger elmeent.
+   */
   align: 'right' | 'left';
+
+  /**
+   * Whether to include an arrow at the top of the popover.
+   */
+  arrow?: boolean;
+
   /**
    * Use this className prop to style the full popover body, arrow and all.
    * One good use case is to add margin to the popover body.
    */
   className?: string;
+
+  /**
+   * Whether to also display the popover body when the trigger element is hovered on.
+   */
+  hover?: boolean;
 }>;
 
-export const Popover: IPopover = ({ className, children, align, arrow = false }) => {
+export const Popover: IPopover = ({
+  className,
+  children,
+  align,
+  arrow = false,
+  hover = false,
+}) => {
   const [child1, child2] = children;
   const [open, setOpen] = React.useState<boolean>(false);
 
   return (
-    <div>
+    <Wrapper hover={hover}>
       {React.cloneElement(child1, { onClick: (): void => setOpen((o) => !o) })}
-      {open && (
-        <div tw="relative z-40">
-          <SetBackground setOpen={setOpen} />
-          <div
-            className={className}
-            css={[align === 'right' && tw`right-0`, align === 'left' && tw`left-0`]}
-            tw="absolute"
-          >
-            {arrow && <Arrow align={align} />}
-            <PopoverBodyWrapper align={align} className="popover-body-wrapper">
-              {child2}
-            </PopoverBodyWrapper>
-          </div>
+      <div className={open ? 'open' : ''} tw="relative z-40">
+        {open && <SetBackground setOpen={setOpen} />}
+        <div
+          className={className}
+          css={[align === 'right' && tw`right-0`, align === 'left' && tw`left-0`]}
+          tw="absolute"
+        >
+          {arrow && <Arrow align={align} />}
+          <PopoverBody align={align} className="popover-body-wrapper">
+            {child2}
+          </PopoverBody>
         </div>
-      )}
-    </div>
+      </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div<{ hover: boolean }>`
+  & > :nth-child(2) {
+    display: none;
+  }
+  & > .open {
+    display: block;
+  }
+  ${({ hover }): SerializedStyles | boolean =>
+    hover &&
+    css`
+      &:hover > :nth-child(2) {
+        display: block;
+      }
+    `}
+`;
 
 type ISetBackground = React.FC<{
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -46,11 +81,7 @@ const SetBackground: ISetBackground = ({ setOpen }) => (
   <div tw="fixed top-0 left-0 w-screen h-screen" onClick={(): void => setOpen(false)} />
 );
 
-type IAlignmentProps = {
-  align: React.ComponentProps<IPopover>['align'];
-};
-
-const Arrow = styled.div<IAlignmentProps>`
+const Arrow = styled.div<{ align: React.ComponentProps<IPopover>['align'] }>`
   ${tw`
     absolute
     w-3
@@ -65,7 +96,7 @@ const Arrow = styled.div<IAlignmentProps>`
 `;
 
 // TODO: Drop shadow.
-const PopoverBodyWrapper = styled.div<IAlignmentProps>`
+const PopoverBody = styled.div<{ align: React.ComponentProps<IPopover>['align'] }>`
   ${tw`
     absolute
     z-20

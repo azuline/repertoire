@@ -7,9 +7,7 @@ import { routeSections } from '~/routes';
 
 /**
  * TODO: Clean the styling of this up. It's pretty ugly and crappy right now; the
- * dropdowns are atrocious. Do a proper hover popover; also change the dropdowns to be a
- * nice rounded popover. Give the popover a makeover too; don't need the arrow
- * complicating everything.
+ * dropdowns are atrocious.
  *
  * But for now, I want to go do some other things, so leaving this as-is.
  */
@@ -29,11 +27,20 @@ export const HeaderRoutes: IComponent = ({ className }) => (
         }
 
         return (
-          <StyledPopover key={name} align="left" tw="mt-1.5 -ml-3">
-            <MainLabel>
-              <span>{name}</span>
-              <Icon icon="chevron-down-small" tw="w-4 mt-0.5 ml-1.5 -mr-0.5" />
-            </MainLabel>
+          <StyledPopover key={name} hover align="left" tw="mt-1.5 -ml-3">
+            <div tw="relative">
+              <MainLabel>
+                <span>{name}</span>
+                <Icon icon="chevron-down-small" tw="w-4 mt-0.5 ml-1.5 -mr-0.5" />
+              </MainLabel>
+              {/**
+                 We have this extra little padding to connect the label to the
+                 popover route links. This ensures that the hover is uninterrupted.
+                 Otherwise, when moving the mouse from the label to the links, there
+                 would be a blank space that when crossed cancels the hover.
+              */}
+              <div tw="absolute top-full h-3 w-full" />
+            </div>
             <RouteLinks>
               {routes.map(({ path, label }) => {
                 return (
