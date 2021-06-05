@@ -1,9 +1,10 @@
 import * as React from 'react';
 
 import { RouteList } from '~/components';
+import { Layout } from '~/layout';
 
 export const Mobile: React.FC = () => (
-  <div tw="flex flex-col flex-1 pb-6">
+  <Layout padX scroll tw="py-4 flex flex-col">
     <RouteList />
-  </div>
+  </Layout>
 );

@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 
 import { FullPageLoading } from '~/components';
 import { useRequestJson } from '~/hooks';
+import { Layout } from '~/layout';
 import { ErrorPage } from '~/pages/Error';
 
 import { RegisterForm } from './Form';
@@ -45,19 +46,24 @@ export const Register: IRegister = ({ onSuccess, isFirstRegistration = false }) 
     }
   }, [isFirstRegistration, verifyToken]);
 
-  if (loading) {
-    return <FullPageLoading />;
-  }
-
-  if (!validCode) {
-    return <ErrorPage title="Invalid invite code." />;
-  }
-
   return (
-    <RegisterForm
-      inviteCode={inviteCode}
-      isFirstRegistration={isFirstRegistration}
-      onSuccess={onSuccess}
-    />
+    <Layout>
+      {((): React.ReactNode => {
+        switch (true) {
+          case loading:
+            return <FullPageLoading />;
+          case !validCode:
+            return <ErrorPage title="Invalid invite code." />;
+          default:
+            return (
+              <RegisterForm
+                inviteCode={inviteCode}
+                isFirstRegistration={isFirstRegistration}
+                onSuccess={onSuccess}
+              />
+            );
+        }
+      })()}
+    </Layout>
   );
 };

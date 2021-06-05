@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { useId } from '~/hooks';
+import { Layout } from '~/layout';
 
 import { YearChooser } from './Chooser';
 import { Year } from './Year';
@@ -9,9 +10,13 @@ export const Years: React.FC = () => {
   const active = useId();
 
   return (
-    <div tw="flex flex-1">
+    <Layout tw="flex flex-1">
       <YearChooser active={active} tw="flex-none" />
-      {active !== null && <Year active={active} />}
-    </div>
+      {active !== null && (
+        <Layout padX padY scroll>
+          <Year active={active} />
+        </Layout>
+      )}
+    </Layout>
   );
 };
