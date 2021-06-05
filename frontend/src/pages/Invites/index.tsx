@@ -21,7 +21,7 @@ export const Invites: React.FC = () => {
   };
 
   return (
-    <Layout padX padY scroll>
+    <Layout pad scroll>
       <SectionHeader tw="pb-4">Active Invites</SectionHeader>
       <div tw="pb-8 text-foreground-500">Click an invite to copy its invite URL.</div>
       <div tw="flex">

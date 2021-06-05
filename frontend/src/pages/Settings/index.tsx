@@ -7,7 +7,7 @@ import { ThemeSettings } from './Theme';
 import { UserSettings } from './User';
 
 export const Settings: React.FC = () => (
-  <Layout padX padY scroll>
+  <Layout pad scroll>
     <SectionHeader tw="mt-4 mb-8">Settings</SectionHeader>
     <UserSettings />
     <ThemeSettings />

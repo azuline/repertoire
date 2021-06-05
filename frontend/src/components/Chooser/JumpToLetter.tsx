@@ -52,8 +52,7 @@ export const JumpToLetter: IJumpToLetter = ({ active, results, setJumpTo }) => {
     <div
       css={[
         tw`absolute top-0 right-0 z-10 height[calc(100vh - 9.5rem)]`,
-        tw`overflow-y-hidden text-right`,
-        active !== null ? tw`mt-9 mr-5` : tw`mr-8 pt-1`,
+        tw`overflow-y-hidden text-right mt-9 mr-5`,
       ]}
     >
       {Object.entries(letterToIndexMap).map(([letter, jumpFn]) => (

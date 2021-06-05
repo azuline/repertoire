@@ -23,7 +23,7 @@ export const Labels: React.FC = () => {
         urlPrefix="/labels"
       />
       {active !== null && (
-        <Layout padX padY scroll>
+        <Layout pad scroll>
           <Label active={active} />
         </Layout>
       )}

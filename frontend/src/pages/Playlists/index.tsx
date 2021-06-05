@@ -13,7 +13,7 @@ export const Playlists: React.FC = () => {
     <Layout tw="flex flex-1">
       <PlaylistChooser active={active} tw="flex-none" />
       {active !== null && (
-        <Layout padX padY scroll>
+        <Layout pad scroll>
           <Playlist active={active} />
         </Layout>
       )}

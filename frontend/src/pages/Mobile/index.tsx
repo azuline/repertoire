@@ -4,7 +4,7 @@ import { RouteList } from '~/components';
 import { Layout } from '~/layout';
 
 export const Mobile: React.FC = () => (
-  <Layout padX scroll tw="py-4 flex flex-col">
+  <Layout pad scroll tw="py-4 flex flex-col">
     <RouteList />
   </Layout>
 );

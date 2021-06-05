@@ -11,7 +11,7 @@ export const Releases: React.FC = () => {
   const pagination = usePagination(paginationOpts);
 
   return (
-    <Layout padX padY scroll>
+    <Layout pad scroll>
       <PagedReleases pagination={pagination} viewOptions={viewOptions} />
     </Layout>
   );

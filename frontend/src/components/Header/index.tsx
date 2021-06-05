@@ -16,7 +16,7 @@ export const Header: React.FC = () => (
   </>
 );
 
-export const FullHeader: React.FC = () => (
+const FullHeader: React.FC = () => (
   <HeaderWrapper tw="hidden md:flex">
     <Link href="/" tw="flex items-center mr-4">
       <Icon icon="logo" tw="w-8 text-primary-500" />
@@ -31,7 +31,7 @@ export const FullHeader: React.FC = () => (
   </HeaderWrapper>
 );
 
-export const MobileHeader: React.FC = () => (
+const MobileHeader: React.FC = () => (
   <HeaderWrapper tw="md:hidden relative">
     <div tw="absolute left-1/2 transform -translate-x-1/2">
       <Link href="/" tw="flex items-center">

@@ -6,7 +6,7 @@ import { AuthorizationContext, GlobalContexts, ThemeContext } from '~/contexts';
 import { AuthedRoutes, UnauthedRoutes } from '~/routes';
 import { AppStyles } from '~/Styles';
 
-const App: React.FC = () => (
+export const App: React.FC = () => (
   <BrowserRouter>
     <GlobalContexts>
       <AppStyles>
@@ -21,7 +21,7 @@ const Body: React.FC = () => {
   const { theme } = React.useContext(ThemeContext);
 
   return (
-    <div tw="w-full min-h-0 bg-background-900 text-foreground-50 min-width[400px]">
+    <div tw="w-full bg-background-900 text-foreground-50 min-width[400px]">
       <div className={theme} tw="flex flex-col h-screen">
         {((): React.ReactNode => {
           switch (true) {
@@ -43,7 +43,7 @@ const AuthedBody: React.FC = () => {
     <>
       <Header />
       <div tw="full flex min-h-0">
-        <div tw="full relative flex flex-col min-w-0">
+        <div tw="full relative min-w-0">
           <Background />
           <AuthedRoutes />
         </div>
@@ -52,5 +52,3 @@ const AuthedBody: React.FC = () => {
     </>
   );
 };
-
-export default App;

@@ -23,7 +23,7 @@ export const Genres: React.FC = () => {
         urlPrefix="/genres"
       />
       {active !== null && (
-        <Layout padX padY scroll>
+        <Layout pad scroll>
           <Genre active={active} />
         </Layout>
       )}

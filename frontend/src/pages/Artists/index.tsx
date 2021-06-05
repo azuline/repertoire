@@ -13,7 +13,7 @@ export const Artists: React.FC = () => {
     <Layout tw="flex flex-1">
       <ArtistChooser active={active} tw="flex-none" />
       {active !== null && (
-        <Layout padX padY scroll>
+        <Layout pad scroll>
           <Artist active={active} />
         </Layout>
       )}

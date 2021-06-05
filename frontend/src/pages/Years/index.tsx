@@ -13,7 +13,7 @@ export const Years: React.FC = () => {
     <Layout tw="flex flex-1">
       <YearChooser active={active} tw="flex-none" />
       {active !== null && (
-        <Layout padX padY scroll>
+        <Layout pad scroll>
           <Year active={active} />
         </Layout>
       )}

@@ -48,7 +48,7 @@ const Body: IBody = ({ id }) => {
   }
 
   return (
-    <Layout padX padY scroll>
+    <Layout pad scroll>
       <div tw="flex">
         <Image
           imageId={release.imageId}

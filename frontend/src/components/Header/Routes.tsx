@@ -103,5 +103,5 @@ const RouteLinks = tw.div`
 const RouteLink = styled(Link)`
   margin-left: -2px;
 
-  ${tw`pl-6 py-2 text-foreground-400 cursor-pointer min-width[140px] hover-bg`}
+  ${tw`pl-6 py-2 text-foreground-400 cursor-pointer min-width[150px] hover-bg`}
 `;

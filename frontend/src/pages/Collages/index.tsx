@@ -22,7 +22,7 @@ export const Collages: React.FC = () => {
         urlPrefix="/collages"
       />
       {active !== null && (
-        <Layout padX padY scroll>
+        <Layout pad scroll>
           <Collage active={active} />
         </Layout>
       )}
