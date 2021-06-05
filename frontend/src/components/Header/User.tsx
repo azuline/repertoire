@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useHistory } from 'react-router';
 import { useToasts } from 'react-toast-notifications';
 
-import { Icon, Link } from '~/components/common';
+import { Icon } from '~/components/common';
 import { AuthorizationContext } from '~/contexts';
 import { useHeaderFetchUserQuery } from '~/graphql';
 import { useRequest } from '~/hooks';
