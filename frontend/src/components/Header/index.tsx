@@ -42,8 +42,8 @@ export const MobileHeader: React.FC = () => (
       href="/mobile"
       tw="mr-4 flex items-center cursor-pointer hover:text-primary-400 text-primary-500"
     >
-      <Icon icon="home-small" tw="w-8" />
-      Home
+      <Icon icon="home-small" tw="w-5" />
+      <div tw="ml-2">Home</div>
     </Link>
     <SearchbarIcon tw="ml-auto mr-4" />
     <User tw="flex" />

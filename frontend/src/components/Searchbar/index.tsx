@@ -17,7 +17,7 @@ export const Searchbar: ISearchbar = ({ className }) => (
           tw`flex items-center pointer-events-none`,
         ]}
       >
-        <TheRealIcon />
+        <Icon icon="search-medium" tw="w-5 text-primary-400" />
       </div>
     </div>
   </div>
@@ -25,12 +25,8 @@ export const Searchbar: ISearchbar = ({ className }) => (
 
 export const SearchbarIcon: ISearchbar = ({ className }) => (
   <Link className={className} href="/search" tw="p-2 hover-bg rounded cursor-pointer">
-    <TheRealIcon />
+    <Icon icon="search-medium" tw="w-6 hover:text-primary-400 text-primary-500" />
   </Link>
-);
-
-const TheRealIcon: React.FC = () => (
-  <Icon icon="search-medium" tw="w-5 text-primary-400" />
 );
 
 const SearchbarInput = styled(Input)`
