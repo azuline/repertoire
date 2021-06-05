@@ -19,7 +19,7 @@ export const NowPlayingBar: React.FC = () => {
   return (
     <div tw="relative flex-none w-full h-16 bg-background-900 z-10">
       <ProgressBar curTime={curTime} curTrack={curTrack} seek={seek} />
-      <div tw="flex items-center full">
+      <div tw="flex items-center full px-6 md:px-8">
         <PlayButtons
           curTime={curTime}
           isPlaying={isPlaying}
