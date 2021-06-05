@@ -31,7 +31,7 @@ GQL_DB_PATH = TEST_DATA_PATH / "gql_db.sqlite3"
 
 
 @pytest.fixture
-def graphql_query(seed_data, quart_app):
+def graphql_query(quart_app):
     async def executor(query):
         used_fragments = "\n".join(v for k, v in FRAGMENTS.items() if k in query)
         query = f"{query}\n{used_fragments}"
@@ -85,7 +85,7 @@ def _create_seed_gql_db():
 
 
 @pytest.fixture(autouse=True)
-def seed_gql_data(seed_data, seed_gql_db):
+def seed_gql_data(seed_gql_db):
     """
     This fixture replaces the seeded database in the isolated test directory with the
     database containing test data.

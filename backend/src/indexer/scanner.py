@@ -9,7 +9,7 @@ from typing import Optional
 
 from tagfiles import TagFile
 
-from src.config import config
+from src import config
 from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.errors import Duplicate
 from src.library import artist, collection, release, track
@@ -43,7 +43,7 @@ def scan_directories() -> None:
     Read the music directories to be indexed from the configuration and scan them for
     new files.
     """
-    music_directories = config.music_directories
+    music_directories = config.music_directories()
     logger.info(f"Found {len(music_directories)} directories to scan.")
 
     for dir_ in music_directories:

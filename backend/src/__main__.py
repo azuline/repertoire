@@ -5,11 +5,14 @@ import click
 
 from src.cli import commands
 from src.errors import CliError, InvalidConfig
+from src.initialize import initialize_app
 
 logger = logging.getLogger(__name__)
 
 
 def run():
+    initialize_app()
+
     try:
         commands()
     except CliError as e:

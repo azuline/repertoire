@@ -172,6 +172,11 @@ CREATE TABLE system__secret_key (
     key BLOB PRIMARY KEY
 );
 
+CREATE TABLE system__config (
+    key VARCHAR PRIMARY KEY,
+    value VARCHAR
+);
+
 CREATE VIEW music__releases__fts_content AS
     SELECT
         rls.id AS id,

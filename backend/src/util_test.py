@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from src.util import (
+    flatten_dict,
     make_fts_match_query,
     parse_crontab,
     uniq_list,
@@ -42,3 +43,7 @@ def test_make_fts_match_query():
     search = "test terms one two three"
     expect = '"test" AND "terms" AND "one" AND "two" AND "three"'
     assert make_fts_match_query(search) == expect
+
+
+def test_flatten_dict():
+    assert ["a", "b", "c", "d"] == flatten_dict(dict(a="b", c="d"))

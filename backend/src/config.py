@@ -1,117 +1,93 @@
+"""
+This module contains our configuration. The configuration is stored in the database, as
+an untyped (all strings) set of key/value pairs.
+
+All exposed functions besides `initialize_config` and `write_default_config` fetch a
+configuration value from the database.
+"""
+
 import json
 import logging
-from configparser import ConfigParser
-from pathlib import Path
+from sqlite3 import Connection
 from typing import Callable
 
 from huey import crontab
 
-from src.constants import IS_PYTEST, IS_SPHINX, constants
 from src.errors import InvalidConfig
-from src.util import parse_crontab
+from src.util import database, flatten_dict, parse_crontab
 
 logger = logging.getLogger(__name__)
 
+MUSIC_DIRECTORIES = "music_directories"
+INDEX_CRONTAB = "index_crontab"
+
 DEFAULT_CONFIG = {
-    "repertoire": {
-        "music_directories": '["/music"]',
-        "index_crontab": "0 0 * * *",
-    }
+    MUSIC_DIRECTORIES: '["/music"]',
+    INDEX_CRONTAB: "0 0 * * *",
 }
 
 
-def initialize_config():
-    """
-    Write the default config to the constant `config_path` location.
-    """
-    write_default_config(constants.config_path)
-
-
-def write_default_config(config_path: Path) -> None:
+def initialize_config() -> None:
     """
     Write the default config if a config file doesn't exist. And if the
     existing config lacks keys, update it with new default values.
-
-    :param config_path: The filepath of the configuration file. Typically
-                        ``CONFIG_PATH``.
     """
-    # If config doesn't exist, write it.
-    if not config_path.exists():
-        logger.debug("Writing a new default config.")
-        parser = ConfigParser()
-        parser.read_dict(DEFAULT_CONFIG)
-        _save_config(parser, config_path)
-        return
+    with database() as conn:
+        cursor = conn.execute("SELECT key FROM system__config")
+        keys = [r["key"] for r in cursor]
 
+        if not keys:
+            write_default_config(conn)
+        else:
+            _update_config(conn)
+
+        conn.commit()
+
+
+def write_default_config(conn: Connection) -> None:
+    logger.info("Writing default configuration.")
+
+    question_marks = ", ".join(["(?, ?)"] * len(DEFAULT_CONFIG))
+    conn.execute(
+        f"INSERT INTO system__config VALUES {question_marks}",
+        flatten_dict(DEFAULT_CONFIG),
+    )
+    conn.commit()
+
+
+def _update_config(conn: Connection):
     logger.debug("Adding missing config keys to existing config.")
 
-    # Otherwise, update config with default values if keys don't exist.
-    parser = _load_config(config_path)
-    modified = False
+    for key, value in DEFAULT_CONFIG.items():
+        cursor = conn.execute("SELECT 1 FROM system__config WHERE key = ?", (key,))
+        if cursor.fetchone():
+            continue
 
-    for section, items in DEFAULT_CONFIG.items():
-        if section not in parser:
-            logger.debug(f"Adding section {section} to config.")
-            modified = True
-            parser[section] = {}
-
-        for key, value in items.items():
-            if key not in parser[section]:
-                logger.debug(f"Adding key {key} to config with default value {value}.")
-                modified = True
-                parser[section][key] = value
-
-    if modified:
-        _save_config(parser, config_path)
+        conn.execute(
+            "INSERT INTO system__config (key, value) VALUES (?, ?)",
+            (key, value),
+        )
 
 
-class _Config:
-    def __init__(self):
-        self.parser = _load_config(constants.config_path)
-
-    @property
-    def music_directories(self) -> list[str]:
+def music_directories() -> list[str]:
+    with database() as conn:
+        cursor = conn.execute(
+            "SELECT value FROM system__config WHERE key = ?",
+            (MUSIC_DIRECTORIES,),
+        )
         try:
-            return json.loads(self.parser["repertoire"]["music_directories"])
-        except json.decoder.JSONDecodeError:
-            raise InvalidConfig(
-                "repertoire.music_directories is not a valid JSON-encoded list."
-            )
+            return json.loads(cursor.fetchone()["value"])
+        except (TypeError, ValueError):
+            raise InvalidConfig("music_directories is not a valid JSON-encoded list.")
 
-    @property
-    def index_crontab(self) -> Callable:
+
+def index_crontab() -> Callable:
+    with database() as conn:
+        cursor = conn.execute(
+            "SELECT value FROM system__config WHERE key = ?",
+            (INDEX_CRONTAB,),
+        )
         try:
-            return crontab(**parse_crontab(self.parser["repertoire"]["index_crontab"]))
-        except ValueError:
-            raise InvalidConfig("repertoire.index_crontab is not a valid crontab.")
-
-
-def _save_config(parser: ConfigParser, config_path: Path) -> None:
-    """
-    This function saves a ConfigParser instance to the provided ``config_path``.
-
-    :param parser: The ConfigParser instance to save.
-    :param config_path: The filepath of the file to save to.
-    """
-    with config_path.open("w") as f:
-        parser.write(f)
-
-
-def _load_config(config_path: Path) -> ConfigParser:
-    """
-    This function loads a ConfigParser instance from the provided ``config_path``.
-
-    :param config_path: The filepath of the config file to load.
-    :return: The loaded ConfigParser instance.
-    """
-    logger.debug(f"Reading config from {config_path}.")
-    parser = ConfigParser()
-    parser.read(config_path)
-    return parser
-
-
-# Don't automatically initialize/update application data when testing.
-if not IS_PYTEST and not IS_SPHINX:  # pragma: no cover
-    initialize_config()
-
-config = _Config()
+            return crontab(**parse_crontab(cursor.fetchone()["value"]))
+        except (TypeError, ValueError):
+            raise InvalidConfig("index_crontab is not a valid crontab.")

@@ -9,9 +9,6 @@ Configuration
    of, provided that your music libraries are mounted (volumes) as
    subdirectories of ``/music``.
 
-   The configuration can still be edited by invoking ``repertoire config`` in
-   the container.
-
 The Environment
 ---------------
 
@@ -22,8 +19,10 @@ be stored.
 We define environment variables in ``repertoire/backend/.env``. A sample
 ``.env`` file is located at ``repertoire/backend/.env.sample``.
 
-The Configuration File
-----------------------
+Configuration Options
+---------------------
+
+TODO: GUI editing for the configuration variables. Replace these outdated docs.
 
 Once the ``DATA_PATH`` environment variable is configured, the backend can be
 configured with the command ``$ repertoire config``. This will open the

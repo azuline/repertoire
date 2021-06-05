@@ -33,10 +33,10 @@ NEW_ALBUM = FAKE_MUSIC / "New Album"
 
 
 @mock.patch("src.indexer.scanner.scan_directory")
-def test_scan_directories(mock_scan_directory: mock.MagicMock, seed_data):
+def test_scan_directories(mock_scan_directory: mock.MagicMock):
     scan_directories()
 
-    mock_scan_directory.assert_has_calls([mock.call("/dir1"), mock.call("/dir2")])
+    mock_scan_directory.assert_has_calls([mock.call("/music")])
 
 
 @mock.patch("src.indexer.scanner.handle_track_batch")
