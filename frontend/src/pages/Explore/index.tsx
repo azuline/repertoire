@@ -1,13 +1,14 @@
 import * as React from 'react';
 
-import { Header } from '~/components';
+import { Layout } from '~/layout';
 
 import { RecentlyAdded } from './RecentlyAdded';
 
 export const Explore: React.FC = () => (
-  <>
-    <Header />
+  <Layout padY>
     <RecentlyAdded />
-    <span tw="py-8">More to come later~</span>
-  </>
+    <div>
+      <span tw="flex pad-page my-12">More to come later~</span>
+    </div>
+  </Layout>
 );

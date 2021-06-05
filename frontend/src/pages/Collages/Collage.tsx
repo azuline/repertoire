@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
 
-import { CollectionReleases, Header, SectionHeader } from '~/components';
+import { CollectionReleases, SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { useCollageFetchCollageQuery } from '~/graphql';
 
@@ -28,11 +28,8 @@ export const Collage: ICollage = ({ active }) => {
 
   return (
     <div tw="flex flex-col w-full">
-      <Header />
-      <div>
-        <SectionHeader tw="mt-4 mb-8">{collection.name}</SectionHeader>
-        <CollectionReleases active={active} />
-      </div>
+      <SectionHeader tw="mt-4 mb-8">{collection.name}</SectionHeader>
+      <CollectionReleases active={active} />
     </div>
   );
 };

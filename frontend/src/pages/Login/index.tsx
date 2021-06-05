@@ -6,6 +6,7 @@ import tw from 'twin.macro';
 import { Button, Input } from '~/components';
 import { AuthorizationContext } from '~/contexts';
 import { useRequestJson } from '~/hooks';
+import { Layout } from '~/layout';
 
 export const Login: React.FC = () => {
   const input = React.useRef<HTMLInputElement>(null);
@@ -44,7 +45,7 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div tw="flex content-center full items-center">
+    <Layout tw="flex content-center full items-center">
       <form tw="self-center mx-auto" onSubmit={onSubmit}>
         <div>
           <Input
@@ -76,6 +77,6 @@ export const Login: React.FC = () => {
           </label>
         </div>
       </form>
-    </div>
+    </Layout>
   );
 };

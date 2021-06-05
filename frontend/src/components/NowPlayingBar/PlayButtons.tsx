@@ -1,5 +1,4 @@
 import * as React from 'react';
-import tw from 'twin.macro';
 
 import { FastForward, PlayPause, Rewind } from '~/components/PlayButtons';
 
@@ -16,12 +15,7 @@ export const PlayButtons: IPlayButtons = ({
   curTime,
   seek,
 }) => (
-  <div
-    css={[
-      tw`flex items-center justify-center flex-none mx-2 sm:mx-6 lg:mx-10`,
-      tw`text-primary-500`,
-    ]}
-  >
+  <div tw="flex items-center justify-center flex-none text-primary-500">
     <Rewind curTime={curTime} isPlaying={isPlaying} seek={seek} />
     <PlayPause isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
     <FastForward />

@@ -11,17 +11,22 @@ module.exports = {
   ignorePatterns: ['src/graphql/index.ts'],
   extends: [
     'airbnb-typescript',
+    'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
-    'prettier',
-    'prettier/@typescript-eslint',
-    'prettier/react',
-    'plugin:react/recommended',
-    'plugin:prettier/recommended',
     'plugin:import/recommended',
+    'plugin:react/recommended',
     'plugin:react-hooks/recommended',
+    // This must be the last extension.
+    'prettier/react',
+    'prettier/@typescript-eslint',
+    'plugin:prettier/recommended',
   ],
-  plugins: ['@typescript-eslint', 'simple-import-sort', 'sort-keys-fix'],
+  plugins: [
+    '@typescript-eslint',
+    'simple-import-sort',
+    'sort-keys-fix',
+    'unused-imports',
+  ],
   env: {
     es6: true,
     browser: true,
@@ -68,11 +73,20 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'warn',
     '@typescript-eslint/strict-boolean-expressions': 'error',
     '@typescript-eslint/no-empty-function': 'off',
-    '@typescript-eslint/no-unused-vars': [
-      'warn',
-      { vars: 'all', args: 'after-used', ignoreRestSiblings: false },
-    ],
     '@typescript-eslint/no-use-before-define': 'off',
+    // Unused imports and variables.
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
   },
   settings: {
     react: {

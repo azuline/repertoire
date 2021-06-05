@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-import { Header, PagedReleases } from '~/components';
+import { PagedReleases } from '~/components';
 import { usePagination, useViewOptions } from '~/hooks';
+import { Layout } from '~/layout';
 
 const paginationOpts = { useUrl: true };
 
@@ -10,11 +11,8 @@ export const Releases: React.FC = () => {
   const pagination = usePagination(paginationOpts);
 
   return (
-    <>
-      <Header />
-      <div tw="pt-4">
-        <PagedReleases pagination={pagination} viewOptions={viewOptions} />
-      </div>
-    </>
+    <Layout padX padY scroll>
+      <PagedReleases pagination={pagination} viewOptions={viewOptions} />
+    </Layout>
   );
 };

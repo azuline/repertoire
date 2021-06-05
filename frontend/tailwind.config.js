@@ -17,9 +17,11 @@ module.exports = {
         'foreground-200': 'var(--color-foreground-200)',
         'foreground-300': 'var(--color-foreground-300)',
         'foreground-400': 'var(--color-foreground-400)',
+        'foreground-500': 'var(--color-foreground-500)',
         'background-700': 'var(--color-background-700)',
         'background-800': 'var(--color-background-800)',
         'background-900': 'var(--color-background-900)',
+        'background-950': 'var(--color-background-950)',
         'primary-400': 'var(--color-primary-400)',
         'primary-500': 'var(--color-primary-500)',
         'primary-600': 'var(--color-primary-600)',
@@ -81,10 +83,16 @@ module.exports = {
             },
           },
         },
-        '.w-fullpad': {
-          width: 'calc(100% + 3rem) !important',
+        '.pad-page': {
+          'padding-left': '1.5rem',
+          'padding-right': '1.5rem',
+          '@screen xl': {
+            'padding-left': '4rem',
+            'padding-right': '4rem',
+          },
           '@screen md': {
-            width: 'calc(100% + 4rem) !important',
+            'padding-left': '3rem',
+            'padding-right': '3rem',
           },
         },
       });

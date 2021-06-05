@@ -22,9 +22,9 @@ export const RecentlyAdded: React.FC = () => {
   };
 
   return (
-    <div>
+    <>
       <Link href="/releases" onClick={toRecentlyAdded}>
-        <SectionHeader tw="mt-4 cursor-pointer">
+        <SectionHeader tw="pad-page cursor-pointer">
           Recently Added
           <span tw="text-xl ml-1 hover:text-primary-400 text-primary-500">
             {' '}
@@ -32,8 +32,8 @@ export const RecentlyAdded: React.FC = () => {
           </span>
         </SectionHeader>
       </Link>
-      <ScrolledReleases releases={releases} />
-    </div>
+      <ScrolledReleases releases={releases} tw="mt-6" />
+    </>
   );
 };
 

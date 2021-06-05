@@ -27,15 +27,15 @@ export const Invite: IInviteComponent = ({ id, createdAt, code, createdBy }) => 
       <div tw="text-foreground-100 inline-block mr-3">
         <Icon icon="clipboard" tw="w-4 h-4" />
       </div>
-      <span tw="whitespace-nowrap text-foreground-400 mr-1.5">Created by</span>
+      <span tw="whitespace-nowrap text-foreground-500 mr-1.5">Created by</span>
       <span tw="whitespace-nowrap text-foreground-300">{createdBy.nickname}</span>
-      <span tw="whitespace-nowrap text-foreground-400 mr-1.5">. Expires in</span>
+      <span tw="whitespace-nowrap text-foreground-500 mr-1.5">. Expires in</span>
       <span tw="whitespace-nowrap text-foreground-100">{timeUntil(expiresAt)}</span>
-      <span tw="whitespace-nowrap text-foreground-400 mr-3">.</span>
-      <div tw="inline-block text-foreground-400 mr-3">
+      <span tw="whitespace-nowrap text-foreground-500 mr-3">.</span>
+      <div tw="inline-block text-foreground-500 mr-3">
         <Icon icon="arrow-right" tw="w-4 h-4" />
       </div>
-      <span title={code} tw="truncate overflow-ellipsis text-foreground-400">
+      <span title={code} tw="truncate overflow-ellipsis text-foreground-500">
         {code}
       </span>
     </ListItem>

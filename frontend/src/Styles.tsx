@@ -18,9 +18,11 @@ export const AppStyles = styled.div`
   --color-foreground-200: ${colors.foreground[200]};
   --color-foreground-300: ${colors.foreground[300]};
   --color-foreground-400: ${colors.foreground[400]};
+  --color-foreground-500: ${colors.foreground[500]};
   --color-background-700: ${colors.background[700]};
   --color-background-800: ${colors.background[800]};
   --color-background-900: ${colors.background[900]};
+  --color-background-950: ${colors.background[950]};
   --color-primary-400: ${colors.primary[400]};
   --color-primary-500: ${colors.primary[500]};
   --color-primary-600: ${colors.primary[600]};

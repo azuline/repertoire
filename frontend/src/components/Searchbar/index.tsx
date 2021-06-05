@@ -1,20 +1,16 @@
 import * as React from 'react';
 import tw, { styled } from 'twin.macro';
 
-import { Icon, Input } from '~/components/common';
+import { Icon, Input, Link } from '~/components/common';
 
 type ISearchbar = React.FC<{
   className?: string;
-  shrink?: boolean;
 }>;
 
-export const Searchbar: ISearchbar = ({ className, shrink = true }) => (
-  <div className={className} tw="flex-1">
+export const Searchbar: ISearchbar = ({ className }) => (
+  <div className={className}>
     <div tw="relative flex items-center h-full">
-      <SearchbarInput
-        css={shrink && tw`max-w-xs focus:max-w-none`}
-        placeholder="Search"
-      />
+      <SearchbarInput placeholder="Search" />
       <div
         css={[
           tw`absolute top-0 left-0 h-full pl-2 pr-1`,
@@ -27,8 +23,14 @@ export const Searchbar: ISearchbar = ({ className, shrink = true }) => (
   </div>
 );
 
+export const SearchbarIcon: ISearchbar = ({ className }) => (
+  <Link className={className} href="/search" tw="p-2 hover-bg rounded cursor-pointer">
+    <Icon icon="search-medium" tw="w-6 hover:text-primary-400 text-primary-500" />
+  </Link>
+);
+
 const SearchbarInput = styled(Input)`
-  ${tw`w-full pl-9`}
+  ${tw`w-64 pl-9`}
 
   &::placeholder {
     opacity: 70%;

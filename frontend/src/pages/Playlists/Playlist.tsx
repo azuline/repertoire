@@ -1,10 +1,10 @@
 import { gql } from '@apollo/client';
 import * as React from 'react';
 
-import { Header, SectionHeader } from '~/components';
+import { SectionHeader } from '~/components';
 import { BackgroundContext } from '~/contexts';
 import { usePlaylistsFetchPlaylistQuery } from '~/graphql';
-import { AuthenticatedError } from '~/pages';
+import { ErrorPage } from '~/pages';
 
 import { PlaylistTracks } from './Tracks';
 
@@ -27,7 +27,7 @@ export const Playlist: IPlaylist = ({ active }) => {
 
   if (error) {
     const errors = error.graphQLErrors.map(({ message }) => message);
-    return <AuthenticatedError errors={errors} title="Could not fetch playlist." />;
+    return <ErrorPage errors={errors} title="Could not fetch playlist." />;
   }
 
   if (!playlist) {
@@ -36,7 +36,6 @@ export const Playlist: IPlaylist = ({ active }) => {
 
   return (
     <div tw="flex flex-col w-full">
-      <Header />
       <SectionHeader tw="mt-4 mb-16">{playlist.name}</SectionHeader>
       <PlaylistTracks active={active} />
     </div>

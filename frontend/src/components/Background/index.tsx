@@ -20,7 +20,7 @@ export const Background: React.FC = () => {
   }
 
   return (
-    <div tw="absolute top-0 left-0 w-full h-screen overflow-hidden">
+    <div tw="absolute top-0 left-0 full overflow-hidden">
       <div tw="relative w-full h-0 overflow-hidden pb-full">
         <Image imageId={backgroundImageId} tw="object-cover w-full opacity-50" />
         <InnerBackground />

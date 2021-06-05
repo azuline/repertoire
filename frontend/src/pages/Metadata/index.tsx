@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { Header, SectionHeader } from '~/components';
+import { SectionHeader } from '~/components';
+import { Layout } from '~/layout';
 
 export const Metadata: React.FC = () => (
-  <div>
-    <Header />
+  <Layout padX padY>
     <SectionHeader tw="my-8 text-center">eta son</SectionHeader>
-  </div>
+  </Layout>
 );
