@@ -35,10 +35,10 @@ export const Artist: IArtist = ({ active }) => {
   }
 
   return (
-    <div tw="flex flex-col w-full">
+    <>
       <SectionHeader tw="mt-4 mb-8">{artist.name}</SectionHeader>
       <ArtistReleases active={active} />
-    </div>
+    </>
   );
 };
 

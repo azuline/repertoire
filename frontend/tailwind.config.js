@@ -90,13 +90,9 @@ module.exports = {
             'padding-left': '4rem',
             'padding-right': '4rem',
           },
-          '@screen lg': {
+          '@screen md': {
             'padding-left': '3rem',
             'padding-right': '3rem',
-          },
-          '@screen md': {
-            'padding-left': '2rem',
-            'padding-right': '2rem',
           },
         },
       });

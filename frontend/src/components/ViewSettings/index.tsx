@@ -38,12 +38,12 @@ export const ViewSettings: IViewSettings = ({
         <PerPage pagination={pagination} tw="ml-2" />
       </div>
       <div css={[tw`ml-auto -mr-2`, responsiveHide]}>
-        <Popover>
+        <Popover arrow align="right" tw="mt-2.5">
           <Button text tw="flex items-center px-2 py-1" type="button">
             <div>Options</div>
             <Icon icon="chevron-down-small" tw="w-4 ml-1 -mr-0.5" />
           </Button>
-          <div>
+          <div tw="px-8 py-6">
             <View tw="mb-1" viewOptions={viewOptions} />
             <Sort tw="mb-1" viewOptions={viewOptions} />
             <Order tw="mb-1" viewOptions={viewOptions} />
