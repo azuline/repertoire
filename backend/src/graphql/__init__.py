@@ -24,6 +24,7 @@ from src.graphql.scalars import posix_time_scalar
 from src.graphql.types.artist import gql_artist, gql_artists
 from src.graphql.types.artist_with_role import gql_artist_with_role
 from src.graphql.types.collection import gql_collection, gql_collections
+from src.graphql.types.config import gql_config
 from src.graphql.types.invite import gql_invite, gql_invites
 from src.graphql.types.playlist import gql_playlist, gql_playlists
 from src.graphql.types.playlist_entry import gql_pentry
@@ -44,6 +45,7 @@ resolvers = [
     gql_artist_with_role,
     gql_collection,
     gql_collections,
+    gql_config,
     gql_invite,
     gql_invites,
     gql_pentry,

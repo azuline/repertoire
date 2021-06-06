@@ -101,6 +101,13 @@ def set_music_directories(dirs: list[str], conn: Connection) -> None:
 
 
 def index_crontab() -> Callable:
+    try:
+        return crontab(**parse_crontab(index_crontab_str()))
+    except (TypeError, ValueError):
+        raise InvalidConfig("index_crontab is not a valid crontab.")
+
+
+def index_crontab_str() -> str:
     """
     A crontab representing when to index the library.
     """
@@ -109,10 +116,7 @@ def index_crontab() -> Callable:
             "SELECT value FROM system__config WHERE key = ?",
             (INDEX_CRONTAB,),
         )
-        try:
-            return crontab(**parse_crontab(cursor.fetchone()["value"]))
-        except (TypeError, ValueError):
-            raise InvalidConfig("index_crontab is not a valid crontab.")
+        return cursor.fetchone()["value"]
 
 
 def set_index_crontab(value: str, conn: Connection) -> None:

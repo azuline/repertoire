@@ -41,6 +41,12 @@ FRAGMENTS = {
             }
         }
     """,
+    "...ConfigFields": """
+        fragment ConfigFields on Config {
+            musicDirectories
+            indexCrontab
+        }
+    """,
     "...InviteFields": """
         fragment InviteFields on Invite {
             id

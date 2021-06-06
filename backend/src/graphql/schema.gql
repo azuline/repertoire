@@ -210,9 +210,9 @@ type Mutation {
   "Update the application configuration."
   updateConfig(
     "A list of directories to index. Will be validated in the resolver."
-    musicDirectories: [String!]!
+    musicDirectories: [String!]
     "A crontab for when to run the indexer. Will be validated in the resolver."
-    indexCrontab: String!
+    indexCrontab: String
   ): Config
 
   """

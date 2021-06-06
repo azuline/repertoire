@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Optional
 
 from ariadne import ObjectType
 
@@ -13,27 +13,29 @@ gql_config = ObjectType("Config")
 
 @query.field("config")
 def resolve_config(_obj: Any, _info: GraphQLResolveInfo) -> dict:
-    return {
-        "musicDirectories": config.music_directories(),
-        "indexCrontab": config.index_crontab(),
-    }
+    return _get_config()
 
 
 @mutation.field("updateConfig")
 def resolve_update_config(
     _obj: Any,
     info: GraphQLResolveInfo,
-    musicDirectories: list[str],
-    indexCrontab: str,
+    musicDirectories: Optional[list[str]] = None,
+    indexCrontab: Optional[str] = None,
 ) -> dict:
-    config.set_music_directories(musicDirectories, info.context.db)
-    config.set_index_crontab(indexCrontab, info.context.db)
 
+    if musicDirectories:
+        config.set_music_directories(musicDirectories, info.context.db)
+    if indexCrontab:
+        config.set_index_crontab(indexCrontab, info.context.db)
     info.context.db.commit()
 
     reschedule_indexer()
+    return _get_config()
 
-    return {
-        "musicDirectories": musicDirectories,
-        "indexCrontab": indexCrontab,
-    }
+
+def _get_config() -> dict:
+    return dict(
+        music_directories=config.music_directories(),
+        index_crontab=config.index_crontab_str(),
+    )
