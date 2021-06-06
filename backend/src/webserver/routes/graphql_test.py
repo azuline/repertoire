@@ -28,11 +28,7 @@ async def test_graphql_endpoint(factory: Factory, db, quart_client):
             "query": query,
         },
     )
-    data = await response.get_data()
-    from pprint import pprint
-
-    pprint(data)
-    data = json.loads(data)
+    data = json.loads(await response.get_data())
 
     assert data["data"]["user"]["id"] == usr.id
     assert data["data"]["user"]["nickname"] == usr.nickname

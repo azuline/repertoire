@@ -102,7 +102,7 @@ def set_music_directories(dirs: list[str], conn: Connection) -> None:
 
 def index_crontab() -> Callable:
     try:
-        return crontab(**parse_crontab(index_crontab_str()))
+        return crontab(**parse_crontab(index_crontab_str()), strict=True)
     except (TypeError, ValueError):
         raise InvalidConfig("index_crontab is not a valid crontab.")
 
@@ -124,7 +124,7 @@ def set_index_crontab(value: str, conn: Connection) -> None:
     :raises InvalidConfig: If the crontab is syntactically invalid.
     """
     try:
-        crontab(**parse_crontab(value))
+        crontab(**parse_crontab(value), strict=True)
     except ValueError:
         raise InvalidConfig(f"{value} is not a valid crontab.")
 

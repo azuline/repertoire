@@ -7,10 +7,10 @@ import { useMusicDirectoriesQuery, useUpdateMusicDirectoriesMutation } from '~/g
 
 export const MusicDirectories: React.FC = () => {
   const [newDirectory, setNewDirectory] = React.useState<string>('');
+  const { addToast } = useToasts();
 
   const { data, loading } = useMusicDirectoriesQuery();
   const [mutateConfig] = useUpdateMusicDirectoriesMutation();
-  const { addToast } = useToasts();
 
   if (data === undefined || loading === true) {
     return <>Loading... do a proper animation later</>;

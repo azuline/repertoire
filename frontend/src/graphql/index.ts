@@ -1267,6 +1267,30 @@ export type IReleaseFetchReleaseQuery = (
   ) }
 );
 
+export type IIndexCrontabQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IIndexCrontabQuery = (
+  { __typename?: 'Query' }
+  & { config: (
+    { __typename: 'Config' }
+    & Pick<IConfig, 'indexCrontab'>
+  ) }
+);
+
+export type IUpdateIndexCrontabMutationVariables = Exact<{
+  indexCrontab: Scalars['String'];
+}>;
+
+
+export type IUpdateIndexCrontabMutation = (
+  { __typename?: 'Mutation' }
+  & { updateConfig: Maybe<(
+    { __typename: 'Config' }
+    & Pick<IConfig, 'indexCrontab'>
+  )> }
+);
+
 export type IMusicDirectoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2743,6 +2767,78 @@ export type ReleaseFetchReleaseQueryResult = Apollo.QueryResult<IReleaseFetchRel
 export function refetchReleaseFetchReleaseQuery(variables?: IReleaseFetchReleaseQueryVariables) {
       return { query: ReleaseFetchReleaseDocument, variables: variables }
     }
+export const IndexCrontabDocument = gql`
+    query IndexCrontab {
+  config {
+    __typename
+    indexCrontab
+  }
+}
+    `;
+
+/**
+ * __useIndexCrontabQuery__
+ *
+ * To run a query within a React component, call `useIndexCrontabQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIndexCrontabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIndexCrontabQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useIndexCrontabQuery(baseOptions?: Apollo.QueryHookOptions<IIndexCrontabQuery, IIndexCrontabQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IIndexCrontabQuery, IIndexCrontabQueryVariables>(IndexCrontabDocument, options);
+      }
+export function useIndexCrontabLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IIndexCrontabQuery, IIndexCrontabQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IIndexCrontabQuery, IIndexCrontabQueryVariables>(IndexCrontabDocument, options);
+        }
+export type IndexCrontabQueryHookResult = ReturnType<typeof useIndexCrontabQuery>;
+export type IndexCrontabLazyQueryHookResult = ReturnType<typeof useIndexCrontabLazyQuery>;
+export type IndexCrontabQueryResult = Apollo.QueryResult<IIndexCrontabQuery, IIndexCrontabQueryVariables>;
+export function refetchIndexCrontabQuery(variables?: IIndexCrontabQueryVariables) {
+      return { query: IndexCrontabDocument, variables: variables }
+    }
+export const UpdateIndexCrontabDocument = gql`
+    mutation UpdateIndexCrontab($indexCrontab: String!) {
+  updateConfig(indexCrontab: $indexCrontab) {
+    __typename
+    indexCrontab
+  }
+}
+    `;
+export type IUpdateIndexCrontabMutationFn = Apollo.MutationFunction<IUpdateIndexCrontabMutation, IUpdateIndexCrontabMutationVariables>;
+
+/**
+ * __useUpdateIndexCrontabMutation__
+ *
+ * To run a mutation, you first call `useUpdateIndexCrontabMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateIndexCrontabMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateIndexCrontabMutation, { data, loading, error }] = useUpdateIndexCrontabMutation({
+ *   variables: {
+ *      indexCrontab: // value for 'indexCrontab'
+ *   },
+ * });
+ */
+export function useUpdateIndexCrontabMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateIndexCrontabMutation, IUpdateIndexCrontabMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<IUpdateIndexCrontabMutation, IUpdateIndexCrontabMutationVariables>(UpdateIndexCrontabDocument, options);
+      }
+export type UpdateIndexCrontabMutationHookResult = ReturnType<typeof useUpdateIndexCrontabMutation>;
+export type UpdateIndexCrontabMutationResult = Apollo.MutationResult<IUpdateIndexCrontabMutation>;
+export type UpdateIndexCrontabMutationOptions = Apollo.BaseMutationOptions<IUpdateIndexCrontabMutation, IUpdateIndexCrontabMutationVariables>;
 export const MusicDirectoriesDocument = gql`
     query MusicDirectories {
   config {
