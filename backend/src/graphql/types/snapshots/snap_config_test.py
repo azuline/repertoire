@@ -39,7 +39,7 @@ snapshots['test_update_config_bad_directory 1'] = {
                     'line': 3
                 }
             ],
-            'message': '/tmp/tmp8yikzcef/PPOSRKLDkezR is not a directory.',
+            'message': '/not_a_directory_lol is not a directory.',
             'path': [
                 'updateConfig'
             ]

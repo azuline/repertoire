@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 from src import config
@@ -47,9 +49,9 @@ async def test_update_config(factory: Factory, graphql_query):
 
 
 @pytest.mark.asyncio
-async def test_update_config_bad_directory(factory: Factory, graphql_query, snapshot):
+async def test_update_config_bad_directory(graphql_query, snapshot):
     # This directory doesn't exist.
-    path = factory.rand_path("")
+    path = "/not_a_directory_lol"
 
     query = f"""
         mutation {{

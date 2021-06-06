@@ -1,4 +1,4 @@
-import time
+import random
 from typing import Optional
 
 from huey.api import TaskWrapper
@@ -40,8 +40,6 @@ def reschedule_indexer() -> None:
         indexer.revoke()
 
     # Schedule the new library indexer task.
-    # indexer = huey.periodic_task(config.index_crontab())(run_indexer)  # type: ignore
-    indexer = huey.periodic_task(
-        config.index_crontab(),
-        name=f"indexer+{time.time()}",
-    )(run_indexer)
+    # This doesn't need to be securely random; it just needs to not clash.
+    name = f"indexer-{random.randbytes(16).hex()}"
+    indexer = huey.periodic_task(config.index_crontab(), name=name)(run_indexer)
