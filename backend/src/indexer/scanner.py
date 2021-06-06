@@ -13,7 +13,7 @@ from src import config
 from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.errors import Duplicate
 from src.library import artist, collection, release, track
-from src.tasks import huey
+from src.tasks.hueyy import huey
 from src.util import calculate_initial_sha256, database, uniq_list
 
 # TODO: TagFile type is incorrect--fix the entire library...

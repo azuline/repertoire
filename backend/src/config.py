@@ -8,6 +8,7 @@ configuration value from the database.
 
 import json
 import logging
+from pathlib import Path
 from sqlite3 import Connection
 from typing import Callable
 
@@ -70,6 +71,9 @@ def _update_config(conn: Connection):
 
 
 def music_directories() -> list[str]:
+    """
+    The directories to scan when indexing the library.
+    """
     with database() as conn:
         cursor = conn.execute(
             "SELECT value FROM system__config WHERE key = ?",
@@ -81,13 +85,50 @@ def music_directories() -> list[str]:
             raise InvalidConfig("music_directories is not a valid JSON-encoded list.")
 
 
+def set_music_directories(dirs: list[str], conn: Connection) -> None:
+    """
+    :raises InvalidConfig: If any directories don't exist.
+    """
+    for d in dirs:
+        dp = Path(d)
+        if not dp.is_dir():
+            raise InvalidConfig(f"{d} is not a directory.")
+
+    conn.execute(
+        "UPDATE system__config SET value = ? WHERE key = ?",
+        (json.dumps(dirs), MUSIC_DIRECTORIES),
+    )
+
+
 def index_crontab() -> Callable:
+    try:
+        return crontab(**parse_crontab(index_crontab_str()), strict=True)
+    except (TypeError, ValueError):
+        raise InvalidConfig("index_crontab is not a valid crontab.")
+
+
+def index_crontab_str() -> str:
+    """
+    A crontab representing when to index the library.
+    """
     with database() as conn:
         cursor = conn.execute(
             "SELECT value FROM system__config WHERE key = ?",
             (INDEX_CRONTAB,),
         )
-        try:
-            return crontab(**parse_crontab(cursor.fetchone()["value"]))
-        except (TypeError, ValueError):
-            raise InvalidConfig("index_crontab is not a valid crontab.")
+        return cursor.fetchone()["value"]
+
+
+def set_index_crontab(value: str, conn: Connection) -> None:
+    """
+    :raises InvalidConfig: If the crontab is syntactically invalid.
+    """
+    try:
+        crontab(**parse_crontab(value), strict=True)
+    except ValueError:
+        raise InvalidConfig(f"{value} is not a valid crontab.")
+
+    conn.execute(
+        "UPDATE system__config SET value = ? WHERE key = ?",
+        (value, INDEX_CRONTAB),
+    )

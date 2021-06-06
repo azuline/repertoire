@@ -100,6 +100,14 @@ export type ICollections = {
   results: Array<ICollection>;
 };
 
+export type IConfig = {
+  __typename?: 'Config';
+  /** A list of directories to index. */
+  musicDirectories: Array<Scalars['String']>;
+  /** A crontab value for when to run the indexer. */
+  indexCrontab: Scalars['String'];
+};
+
 export type IInvite = {
   __typename?: 'Invite';
   id: Scalars['Int'];
@@ -122,6 +130,8 @@ export type IMutation = {
   __typename?: 'Mutation';
   /** Update the authenticated user. */
   updateUser: IUser;
+  /** Update the application configuration. */
+  updateConfig: Maybe<IConfig>;
   /**
    * Generate a new authentication token for the current user. Invalidate the
    * old one.
@@ -158,6 +168,12 @@ export type IMutation = {
 
 export type IMutationUpdateUserArgs = {
   nickname: Maybe<Scalars['String']>;
+};
+
+
+export type IMutationUpdateConfigArgs = {
+  musicDirectories: Maybe<Array<Scalars['String']>>;
+  indexCrontab: Maybe<Scalars['String']>;
 };
 
 
@@ -371,6 +387,8 @@ export type IQuery = {
   __typename?: 'Query';
   /** Fetch the currently authenticated user. */
   user: IUser;
+  /** Fetch the current application config. */
+  config: IConfig;
   /** Search artists. */
   artists: IArtists;
   /** Fetch an artist by ID. */
@@ -1247,6 +1265,54 @@ export type IReleaseFetchReleaseQuery = (
     { __typename?: 'Release' }
     & IFullReleaseFieldsFragment
   ) }
+);
+
+export type IIndexCrontabQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IIndexCrontabQuery = (
+  { __typename?: 'Query' }
+  & { config: (
+    { __typename: 'Config' }
+    & Pick<IConfig, 'indexCrontab'>
+  ) }
+);
+
+export type IUpdateIndexCrontabMutationVariables = Exact<{
+  indexCrontab: Scalars['String'];
+}>;
+
+
+export type IUpdateIndexCrontabMutation = (
+  { __typename?: 'Mutation' }
+  & { updateConfig: Maybe<(
+    { __typename: 'Config' }
+    & Pick<IConfig, 'indexCrontab'>
+  )> }
+);
+
+export type IMusicDirectoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IMusicDirectoriesQuery = (
+  { __typename?: 'Query' }
+  & { config: (
+    { __typename: 'Config' }
+    & Pick<IConfig, 'musicDirectories'>
+  ) }
+);
+
+export type IUpdateMusicDirectoriesMutationVariables = Exact<{
+  musicDirectories: Maybe<Array<Scalars['String']> | Scalars['String']>;
+}>;
+
+
+export type IUpdateMusicDirectoriesMutation = (
+  { __typename?: 'Mutation' }
+  & { updateConfig: Maybe<(
+    { __typename: 'Config' }
+    & Pick<IConfig, 'musicDirectories'>
+  )> }
 );
 
 export type ISettingsFetchUserQueryVariables = Exact<{ [key: string]: never; }>;
@@ -2701,6 +2767,150 @@ export type ReleaseFetchReleaseQueryResult = Apollo.QueryResult<IReleaseFetchRel
 export function refetchReleaseFetchReleaseQuery(variables?: IReleaseFetchReleaseQueryVariables) {
       return { query: ReleaseFetchReleaseDocument, variables: variables }
     }
+export const IndexCrontabDocument = gql`
+    query IndexCrontab {
+  config {
+    __typename
+    indexCrontab
+  }
+}
+    `;
+
+/**
+ * __useIndexCrontabQuery__
+ *
+ * To run a query within a React component, call `useIndexCrontabQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIndexCrontabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIndexCrontabQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useIndexCrontabQuery(baseOptions?: Apollo.QueryHookOptions<IIndexCrontabQuery, IIndexCrontabQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IIndexCrontabQuery, IIndexCrontabQueryVariables>(IndexCrontabDocument, options);
+      }
+export function useIndexCrontabLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IIndexCrontabQuery, IIndexCrontabQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IIndexCrontabQuery, IIndexCrontabQueryVariables>(IndexCrontabDocument, options);
+        }
+export type IndexCrontabQueryHookResult = ReturnType<typeof useIndexCrontabQuery>;
+export type IndexCrontabLazyQueryHookResult = ReturnType<typeof useIndexCrontabLazyQuery>;
+export type IndexCrontabQueryResult = Apollo.QueryResult<IIndexCrontabQuery, IIndexCrontabQueryVariables>;
+export function refetchIndexCrontabQuery(variables?: IIndexCrontabQueryVariables) {
+      return { query: IndexCrontabDocument, variables: variables }
+    }
+export const UpdateIndexCrontabDocument = gql`
+    mutation UpdateIndexCrontab($indexCrontab: String!) {
+  updateConfig(indexCrontab: $indexCrontab) {
+    __typename
+    indexCrontab
+  }
+}
+    `;
+export type IUpdateIndexCrontabMutationFn = Apollo.MutationFunction<IUpdateIndexCrontabMutation, IUpdateIndexCrontabMutationVariables>;
+
+/**
+ * __useUpdateIndexCrontabMutation__
+ *
+ * To run a mutation, you first call `useUpdateIndexCrontabMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateIndexCrontabMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateIndexCrontabMutation, { data, loading, error }] = useUpdateIndexCrontabMutation({
+ *   variables: {
+ *      indexCrontab: // value for 'indexCrontab'
+ *   },
+ * });
+ */
+export function useUpdateIndexCrontabMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateIndexCrontabMutation, IUpdateIndexCrontabMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<IUpdateIndexCrontabMutation, IUpdateIndexCrontabMutationVariables>(UpdateIndexCrontabDocument, options);
+      }
+export type UpdateIndexCrontabMutationHookResult = ReturnType<typeof useUpdateIndexCrontabMutation>;
+export type UpdateIndexCrontabMutationResult = Apollo.MutationResult<IUpdateIndexCrontabMutation>;
+export type UpdateIndexCrontabMutationOptions = Apollo.BaseMutationOptions<IUpdateIndexCrontabMutation, IUpdateIndexCrontabMutationVariables>;
+export const MusicDirectoriesDocument = gql`
+    query MusicDirectories {
+  config {
+    __typename
+    musicDirectories
+  }
+}
+    `;
+
+/**
+ * __useMusicDirectoriesQuery__
+ *
+ * To run a query within a React component, call `useMusicDirectoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMusicDirectoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMusicDirectoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMusicDirectoriesQuery(baseOptions?: Apollo.QueryHookOptions<IMusicDirectoriesQuery, IMusicDirectoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IMusicDirectoriesQuery, IMusicDirectoriesQueryVariables>(MusicDirectoriesDocument, options);
+      }
+export function useMusicDirectoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IMusicDirectoriesQuery, IMusicDirectoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IMusicDirectoriesQuery, IMusicDirectoriesQueryVariables>(MusicDirectoriesDocument, options);
+        }
+export type MusicDirectoriesQueryHookResult = ReturnType<typeof useMusicDirectoriesQuery>;
+export type MusicDirectoriesLazyQueryHookResult = ReturnType<typeof useMusicDirectoriesLazyQuery>;
+export type MusicDirectoriesQueryResult = Apollo.QueryResult<IMusicDirectoriesQuery, IMusicDirectoriesQueryVariables>;
+export function refetchMusicDirectoriesQuery(variables?: IMusicDirectoriesQueryVariables) {
+      return { query: MusicDirectoriesDocument, variables: variables }
+    }
+export const UpdateMusicDirectoriesDocument = gql`
+    mutation UpdateMusicDirectories($musicDirectories: [String!]) {
+  updateConfig(musicDirectories: $musicDirectories) {
+    __typename
+    musicDirectories
+  }
+}
+    `;
+export type IUpdateMusicDirectoriesMutationFn = Apollo.MutationFunction<IUpdateMusicDirectoriesMutation, IUpdateMusicDirectoriesMutationVariables>;
+
+/**
+ * __useUpdateMusicDirectoriesMutation__
+ *
+ * To run a mutation, you first call `useUpdateMusicDirectoriesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMusicDirectoriesMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMusicDirectoriesMutation, { data, loading, error }] = useUpdateMusicDirectoriesMutation({
+ *   variables: {
+ *      musicDirectories: // value for 'musicDirectories'
+ *   },
+ * });
+ */
+export function useUpdateMusicDirectoriesMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateMusicDirectoriesMutation, IUpdateMusicDirectoriesMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<IUpdateMusicDirectoriesMutation, IUpdateMusicDirectoriesMutationVariables>(UpdateMusicDirectoriesDocument, options);
+      }
+export type UpdateMusicDirectoriesMutationHookResult = ReturnType<typeof useUpdateMusicDirectoriesMutation>;
+export type UpdateMusicDirectoriesMutationResult = Apollo.MutationResult<IUpdateMusicDirectoriesMutation>;
+export type UpdateMusicDirectoriesMutationOptions = Apollo.BaseMutationOptions<IUpdateMusicDirectoriesMutation, IUpdateMusicDirectoriesMutationVariables>;
 export const SettingsFetchUserDocument = gql`
     query SettingsFetchUser {
   user {
@@ -2850,6 +3060,11 @@ export type CollectionsFieldPolicy = {
 	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type ConfigKeySpecifier = ('musicDirectories' | 'indexCrontab' | ConfigKeySpecifier)[];
+export type ConfigFieldPolicy = {
+	musicDirectories?: FieldPolicy<any> | FieldReadFunction<any>,
+	indexCrontab?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type InviteKeySpecifier = ('id' | 'code' | 'createdBy' | 'createdAt' | 'usedBy' | InviteKeySpecifier)[];
 export type InviteFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2863,9 +3078,10 @@ export type InvitesFieldPolicy = {
 	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('updateUser' | 'newToken' | 'createArtist' | 'updateArtist' | 'starArtist' | 'unstarArtist' | 'createCollection' | 'updateCollection' | 'starCollection' | 'unstarCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createInvite' | 'createPlaylist' | 'updatePlaylist' | 'starPlaylist' | 'unstarPlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'delPlaylistEntries' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('updateUser' | 'updateConfig' | 'newToken' | 'createArtist' | 'updateArtist' | 'starArtist' | 'unstarArtist' | 'createCollection' | 'updateCollection' | 'starCollection' | 'unstarCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createInvite' | 'createPlaylist' | 'updatePlaylist' | 'starPlaylist' | 'unstarPlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'delPlaylistEntries' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	updateUser?: FieldPolicy<any> | FieldReadFunction<any>,
+	updateConfig?: FieldPolicy<any> | FieldReadFunction<any>,
 	newToken?: FieldPolicy<any> | FieldReadFunction<any>,
 	createArtist?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateArtist?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2927,9 +3143,10 @@ export type PlaylistsFieldPolicy = {
 	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('user' | 'artists' | 'artist' | 'artistFromName' | 'collections' | 'collection' | 'collectionFromNameTypeUser' | 'invites' | 'invite' | 'playlists' | 'playlist' | 'playlistFromNameTypeUser' | 'releases' | 'release' | 'tracks' | 'track' | 'releaseYears' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('user' | 'config' | 'artists' | 'artist' | 'artistFromName' | 'collections' | 'collection' | 'collectionFromNameTypeUser' | 'invites' | 'invite' | 'playlists' | 'playlist' | 'playlistFromNameTypeUser' | 'releases' | 'release' | 'tracks' | 'track' | 'releaseYears' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	config?: FieldPolicy<any> | FieldReadFunction<any>,
 	artists?: FieldPolicy<any> | FieldReadFunction<any>,
 	artist?: FieldPolicy<any> | FieldReadFunction<any>,
 	artistFromName?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3039,6 +3256,10 @@ export type TypedTypePolicies = TypePolicies & {
 	Collections?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CollectionsKeySpecifier | (() => undefined | CollectionsKeySpecifier),
 		fields?: CollectionsFieldPolicy,
+	},
+	Config?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ConfigKeySpecifier | (() => undefined | ConfigKeySpecifier),
+		fields?: ConfigFieldPolicy,
 	},
 	Invite?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | InviteKeySpecifier | (() => undefined | InviteKeySpecifier),

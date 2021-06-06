@@ -15,7 +15,6 @@ repertoire = "src.__main__:run"
 python = "^3.9"
 ariadne = "^0.12.0"
 click = "^7.1.2"
-huey = "^2.3.0"
 Pillow = "^8.1.0"
 python-dotenv = "^0.15.0"
 Quart = "^0.14.1"
@@ -23,6 +22,8 @@ requests = "^2.25.1"
 tagfiles = "^0.3.3"
 voluptuous = "^0.12.1"
 yoyo-migrations = "^7.3.1"
+# The dependency doesn't auto-update to the lockfile version if I specify master branch.
+huey = { git = "https://github.com/azuline/huey.git", rev = "f46b1490e0854bc9c606a4ac023f651fd600a0dc" }
 
 [tool.poetry.dev-dependencies]
 autodocsumm = "^0.2.2"

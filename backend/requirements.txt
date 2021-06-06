@@ -27,8 +27,7 @@ h2==4.0.0; python_version >= "3.7" and python_full_version >= "3.7.0" \
 hpack==4.0.0; python_version >= "3.7" and python_full_version >= "3.7.0" \
     --hash=sha256:84a076fad3dc9a9f8063ccb8041ef100867b1878b25ef0ee63847a5d53818a6c \
     --hash=sha256:fc41de0c63e687ebffde81187a948221294896f6bdc0ae2312708df339430095
-huey==2.3.2 \
-    --hash=sha256:7176acb113850824490da5a31f328cc48a2002a59bfb396efbab8ecbd3573910
+huey @ git+https://github.com/azuline/huey.git@f46b1490e0854bc9c606a4ac023f651fd600a0dc
 hypercorn==0.11.2; python_version >= "3.7" and python_full_version >= "3.7.0" \
     --hash=sha256:8007c10f81566920f8ae12c0e26e146f94ca70506da964b5a727ad610aa1d821 \
     --hash=sha256:5ba1e719c521080abd698ff5781a2331e34ef50fc1c89a50960538115a896a9a

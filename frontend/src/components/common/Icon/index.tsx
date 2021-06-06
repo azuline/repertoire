@@ -33,16 +33,19 @@ export type IIcon =
   | 'inbox-medium'
   | 'logo'
   | 'logout-medium'
+  | 'minus-small'
   | 'pause-small'
   | 'play-medium'
   | 'play-small'
+  | 'plus-small'
   | 'rewind-small'
   | 'right-arrow-small'
   | 'search-medium'
-  | 'star-small'
   | 'star-medium'
+  | 'star-small'
   | 'volume-off-small'
-  | 'volume-up-small';
+  | 'volume-up-small'
+  | 'warning-small';
 
 const ICONS: { [k in IIcon]: React.ReactNode } = {
   'arrow-right': (
@@ -213,6 +216,20 @@ const ICONS: { [k in IIcon]: React.ReactNode } = {
       />
     </svg>
   ),
+  'minus-small': (
+    <svg
+      className="h-5 w-5"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        clipRule="evenodd"
+        d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+        fillRule="evenodd"
+      />
+    </svg>
+  ),
   'pause-small': (
     <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -248,6 +265,20 @@ const ICONS: { [k in IIcon]: React.ReactNode } = {
       <path
         clipRule="evenodd"
         d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+        fillRule="evenodd"
+      />
+    </svg>
+  ),
+  'plus-small': (
+    <svg
+      className="h-5 w-5"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        clipRule="evenodd"
+        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
         fillRule="evenodd"
       />
     </svg>
@@ -310,6 +341,20 @@ const ICONS: { [k in IIcon]: React.ReactNode } = {
       <path
         clipRule="evenodd"
         d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z"
+        fillRule="evenodd"
+      />
+    </svg>
+  ),
+  'warning-small': (
+    <svg
+      className="h-5 w-5"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        clipRule="evenodd"
+        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
         fillRule="evenodd"
       />
     </svg>

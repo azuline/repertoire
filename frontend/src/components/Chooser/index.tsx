@@ -33,7 +33,7 @@ export const Chooser: IChooser = ({ className, results, active, renderElement })
           active !== null && tw`xl:bg-background-800`,
         ]}
       >
-        <JumpToLetter active={active} results={results} setJumpTo={setJumpTo} />
+        <JumpToLetter results={results} setJumpTo={setJumpTo} />
         <VirtualList
           active={active}
           jumpTo={jumpTo}
