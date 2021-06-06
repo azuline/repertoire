@@ -4,6 +4,9 @@ type Query {
   "Fetch the currently authenticated user."
   user: User!
 
+  "Fetch the current application config."
+  config: Config!
+
   "Search artists."
   artists(
     """
@@ -204,6 +207,14 @@ type Mutation {
     nickname: String
   ): User!
 
+  "Update the application configuration."
+  updateConfig(
+    "A list of directories to index. Will be validated in the resolver."
+    musicDirectories: [String!]!
+    "A crontab for when to run the indexer. Will be validated in the resolver."
+    indexCrontab: String!
+  ): Config
+
   """
   Generate a new authentication token for the current user. Invalidate the
   old one.
@@ -348,6 +359,13 @@ type Mutation {
     artistId: Int!
     role: ArtistRole!
   ): TrackAndArtist!
+}
+
+type Config {
+  "A list of directories to index."
+  musicDirectories: [String!]!
+  "A crontab value for when to run the indexer."
+  indexCrontab: String!
 }
 
 type Artist {

@@ -1,4 +1,4 @@
-from src.tasks import schedule_tasks
+from src.tasks.periodic import schedule_tasks
 
 
 def test_schedule_tasks():

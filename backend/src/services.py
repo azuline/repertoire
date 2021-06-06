@@ -12,7 +12,8 @@ from huey.consumer_options import ConsumerConfig
 from hypercorn.asyncio import serve
 from hypercorn.config import Config
 
-from src.tasks import huey, schedule_tasks
+from src.tasks.hueyy import huey
+from src.tasks.periodic import schedule_tasks
 from src.webserver.app import create_app
 
 
