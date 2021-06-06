@@ -22,7 +22,7 @@ setup(
     author_email='blissful@sunsetglow.net',
     license='AGPL-3.0',
     entry_points={"console_scripts": ["repertoire = src.__main__:run"]},
-    packages=['backend', 'backend.cli', 'backend.fixtures', 'backend.graphql', 'backend.graphql.types', 'backend.graphql.types.snapshots', 'backend.indexer', 'backend.indexer.snapshots', 'backend.library', 'backend.migrations', 'backend.search', 'backend.webserver', 'backend.webserver.routes'],
+    packages=['backend', 'backend.cli', 'backend.fixtures', 'backend.graphql', 'backend.graphql.types', 'backend.graphql.types.snapshots', 'backend.indexer', 'backend.indexer.snapshots', 'backend.library', 'backend.migrations', 'backend.search', 'backend.tasks', 'backend.webserver', 'backend.webserver.routes'],
     package_dir={"backend": "src"},
     package_data={"backend.graphql": ["*.gql"], "backend.migrations": ["sql/*.sql"]},
     install_requires=['ariadne==0.*,>=0.12.0', 'click==7.*,>=7.1.2', 'huey==2.*,>=2.3.0', 'pillow==8.*,>=8.1.0', 'python-dotenv==0.*,>=0.15.0', 'quart==0.*,>=0.14.1', 'requests==2.*,>=2.25.1', 'tagfiles==0.*,>=0.3.3', 'voluptuous==0.*,>=0.12.1', 'yoyo-migrations==7.*,>=7.3.1'],
