@@ -22,7 +22,8 @@ requests = "^2.25.1"
 tagfiles = "^0.3.3"
 voluptuous = "^0.12.1"
 yoyo-migrations = "^7.3.1"
-huey = { git = "https://github.com/azuline/huey.git", branch = "master" }
+# The dependency doesn't auto-update to the lockfile version if I specify master branch.
+huey = { git = "https://github.com/azuline/huey.git", rev = "f46b1490e0854bc9c606a4ac023f651fd600a0dc" }
 
 [tool.poetry.dev-dependencies]
 autodocsumm = "^0.2.2"

@@ -508,8 +508,8 @@ redis = ["redis (>=3.0.0)"]
 [package.source]
 type = "git"
 url = "https://github.com/azuline/huey.git"
-reference = "master"
-resolved_reference = "1351b648b9b174adbd85af1989e7688aece85a34"
+reference = "f46b1490e0854bc9c606a4ac023f651fd600a0dc"
+resolved_reference = "f46b1490e0854bc9c606a4ac023f651fd600a0dc"
 
 [[package]]
 name = "hypercorn"
@@ -1384,7 +1384,7 @@ pyodbc = ["pyodbc"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "be15b02b886aa5ee6cdfb6734a899f68e40240f6bdbeffc10fd9f3cc86cf4cac"
+content-hash = "b47fc0f15f0772f7e2cb54c26c2f60348414235d7ec9b3739357f0fc75f419a0"
 
 [metadata.files]
 aiofiles = [
