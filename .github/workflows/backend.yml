@@ -55,8 +55,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.cache/pypoetry/virtualenvs
-          key: ${{ runner.os }}-python-3.9.5-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: ${{ runner.os }}-poetry-
+          key: ${{ runner.os }}-python-3.9.5-v2-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: ${{ runner.os }}-python-3.9.5-v2-
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
@@ -105,8 +105,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.cache/pypoetry/virtualenvs
-          key: ${{ runner.os }}-python-3.9.5-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: ${{ runner.os }}-poetry-
+          key: ${{ runner.os }}-python-3.9.5-v2-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: ${{ runner.os }}-python-3.9.5-v2-
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
@@ -160,8 +160,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.cache/pypoetry/virtualenvs
-          key: ${{ runner.os }}-python-3.9.5-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: ${{ runner.os }}-poetry-
+          key: ${{ runner.os }}-python-3.9.5-v2-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: ${{ runner.os }}-python-3.9.5-v2-
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
@@ -208,8 +208,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.cache/pypoetry/virtualenvs
-          key: ${{ runner.os }}-python-3.9.5-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: ${{ runner.os }}-poetry-
+          key: ${{ runner.os }}-python-3.9.5-v2-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: ${{ runner.os }}-python-3.9.5-v2-
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
@@ -262,8 +262,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.cache/pypoetry/virtualenvs
-          key: ${{ runner.os }}-python-3.9.5-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: ${{ runner.os }}-poetry-
+          key: ${{ runner.os }}-python-3.9.5-v2-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: ${{ runner.os }}-python-3.9.5-v2-
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: poetry install
