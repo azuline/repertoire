@@ -37,7 +37,7 @@ docs:
 	poetry run sphinx-build -M html ../docs ../docs/_build
 
 setupfiles:
-	poetry export -f requirements.txt -o requirements.txt
+	poetry export --without-hashes -f requirements.txt -o requirements.txt
 	poetry run dephell deps convert --from pyproject.toml --to setup.py
 
 .PHONY: start test testseq typecheck lintcheck lint schema docs setupfiles setupcheck
