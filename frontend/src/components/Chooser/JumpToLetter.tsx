@@ -37,12 +37,11 @@ const jumpLetters = [
 ];
 
 type IJumpToLetter = React.FC<{
-  active: number | null;
   results: IElement[];
   setJumpTo: React.Dispatch<React.SetStateAction<number | null>>;
 }>;
 
-export const JumpToLetter: IJumpToLetter = ({ active, results, setJumpTo }) => {
+export const JumpToLetter: IJumpToLetter = ({ results, setJumpTo }) => {
   const letterToIndexMap = React.useMemo(
     () => mapLettersToIndex(results, setJumpTo),
     [results, setJumpTo],

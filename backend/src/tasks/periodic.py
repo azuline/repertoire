@@ -7,10 +7,10 @@ from src import config
 from src.tasks.hueyy import huey
 
 # Global variable for the current indexer.
-indexer: Optional[TaskWrapper] = None  # type: ignore
+indexer: Optional[TaskWrapper] = None
 
 
-def schedule_tasks():
+def schedule_tasks() -> None:
     """
     This function (re)schedules the application's periodic tasks and imports
     the tasks declared across the application.
@@ -28,7 +28,7 @@ def schedule_tasks():
     reschedule_indexer()
 
 
-def reschedule_indexer():
+def reschedule_indexer() -> None:
     """
     Reschedule the library indexer with our configuration-defined crontab.
     """
