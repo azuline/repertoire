@@ -27,7 +27,7 @@ export const UserSettings: React.FC = () => {
   };
 
   return (
-    <div tw="flex items-center min-w-0 my-2">
+    <div tw="flex items-center min-w-0">
       <div tw="flex-none w-28">Nickname:</div>
       <form tw="flex items-center flex-1 max-w-sm min-w-0" onSubmit={onSubmit}>
         <Input

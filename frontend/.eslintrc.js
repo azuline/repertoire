@@ -34,6 +34,8 @@ module.exports = {
   },
   rules: {
     'consistent-return': 'off',
+    // This interferes with GraphQL __typename usage.
+    'no-underscore-dangle': 'off',
     'import/order': 'off',
     'import/extensions': 'off',
     'import/no-unresolved': 'off',

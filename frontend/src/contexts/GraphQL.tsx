@@ -1,9 +1,24 @@
-import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloProvider,
+  defaultDataIdFromObject,
+  HttpLink,
+  InMemoryCache,
+} from '@apollo/client';
 import * as React from 'react';
 
 import { AuthorizationContext } from './Authorization';
 
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({
+  dataIdFromObject: (object): string | undefined => {
+    switch (object.__typename) {
+      case 'Config':
+        return 'always-the-same-thing';
+      default:
+        return defaultDataIdFromObject(object);
+    }
+  },
+});
 
 type IProvider = React.FC<{ children: React.ReactNode }>;
 

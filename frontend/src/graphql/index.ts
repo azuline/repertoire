@@ -1267,6 +1267,30 @@ export type IReleaseFetchReleaseQuery = (
   ) }
 );
 
+export type IMusicDirectoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IMusicDirectoriesQuery = (
+  { __typename?: 'Query' }
+  & { config: (
+    { __typename: 'Config' }
+    & Pick<IConfig, 'musicDirectories'>
+  ) }
+);
+
+export type IUpdateMusicDirectoriesMutationVariables = Exact<{
+  musicDirectories: Maybe<Array<Scalars['String']> | Scalars['String']>;
+}>;
+
+
+export type IUpdateMusicDirectoriesMutation = (
+  { __typename?: 'Mutation' }
+  & { updateConfig: Maybe<(
+    { __typename: 'Config' }
+    & Pick<IConfig, 'musicDirectories'>
+  )> }
+);
+
 export type ISettingsFetchUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2719,6 +2743,78 @@ export type ReleaseFetchReleaseQueryResult = Apollo.QueryResult<IReleaseFetchRel
 export function refetchReleaseFetchReleaseQuery(variables?: IReleaseFetchReleaseQueryVariables) {
       return { query: ReleaseFetchReleaseDocument, variables: variables }
     }
+export const MusicDirectoriesDocument = gql`
+    query MusicDirectories {
+  config {
+    __typename
+    musicDirectories
+  }
+}
+    `;
+
+/**
+ * __useMusicDirectoriesQuery__
+ *
+ * To run a query within a React component, call `useMusicDirectoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMusicDirectoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMusicDirectoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMusicDirectoriesQuery(baseOptions?: Apollo.QueryHookOptions<IMusicDirectoriesQuery, IMusicDirectoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IMusicDirectoriesQuery, IMusicDirectoriesQueryVariables>(MusicDirectoriesDocument, options);
+      }
+export function useMusicDirectoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IMusicDirectoriesQuery, IMusicDirectoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IMusicDirectoriesQuery, IMusicDirectoriesQueryVariables>(MusicDirectoriesDocument, options);
+        }
+export type MusicDirectoriesQueryHookResult = ReturnType<typeof useMusicDirectoriesQuery>;
+export type MusicDirectoriesLazyQueryHookResult = ReturnType<typeof useMusicDirectoriesLazyQuery>;
+export type MusicDirectoriesQueryResult = Apollo.QueryResult<IMusicDirectoriesQuery, IMusicDirectoriesQueryVariables>;
+export function refetchMusicDirectoriesQuery(variables?: IMusicDirectoriesQueryVariables) {
+      return { query: MusicDirectoriesDocument, variables: variables }
+    }
+export const UpdateMusicDirectoriesDocument = gql`
+    mutation UpdateMusicDirectories($musicDirectories: [String!]) {
+  updateConfig(musicDirectories: $musicDirectories) {
+    __typename
+    musicDirectories
+  }
+}
+    `;
+export type IUpdateMusicDirectoriesMutationFn = Apollo.MutationFunction<IUpdateMusicDirectoriesMutation, IUpdateMusicDirectoriesMutationVariables>;
+
+/**
+ * __useUpdateMusicDirectoriesMutation__
+ *
+ * To run a mutation, you first call `useUpdateMusicDirectoriesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMusicDirectoriesMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMusicDirectoriesMutation, { data, loading, error }] = useUpdateMusicDirectoriesMutation({
+ *   variables: {
+ *      musicDirectories: // value for 'musicDirectories'
+ *   },
+ * });
+ */
+export function useUpdateMusicDirectoriesMutation(baseOptions?: Apollo.MutationHookOptions<IUpdateMusicDirectoriesMutation, IUpdateMusicDirectoriesMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<IUpdateMusicDirectoriesMutation, IUpdateMusicDirectoriesMutationVariables>(UpdateMusicDirectoriesDocument, options);
+      }
+export type UpdateMusicDirectoriesMutationHookResult = ReturnType<typeof useUpdateMusicDirectoriesMutation>;
+export type UpdateMusicDirectoriesMutationResult = Apollo.MutationResult<IUpdateMusicDirectoriesMutation>;
+export type UpdateMusicDirectoriesMutationOptions = Apollo.BaseMutationOptions<IUpdateMusicDirectoriesMutation, IUpdateMusicDirectoriesMutationVariables>;
 export const SettingsFetchUserDocument = gql`
     query SettingsFetchUser {
   user {

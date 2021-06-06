@@ -33,14 +33,16 @@ export type IIcon =
   | 'inbox-medium'
   | 'logo'
   | 'logout-medium'
+  | 'minus-small'
   | 'pause-small'
   | 'play-medium'
   | 'play-small'
+  | 'plus-small'
   | 'rewind-small'
   | 'right-arrow-small'
   | 'search-medium'
-  | 'star-small'
   | 'star-medium'
+  | 'star-small'
   | 'volume-off-small'
   | 'volume-up-small';
 
@@ -213,6 +215,20 @@ const ICONS: { [k in IIcon]: React.ReactNode } = {
       />
     </svg>
   ),
+  'minus-small': (
+    <svg
+      className="h-5 w-5"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        clipRule="evenodd"
+        d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+        fillRule="evenodd"
+      />
+    </svg>
+  ),
   'pause-small': (
     <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -248,6 +264,20 @@ const ICONS: { [k in IIcon]: React.ReactNode } = {
       <path
         clipRule="evenodd"
         d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+        fillRule="evenodd"
+      />
+    </svg>
+  ),
+  'plus-small': (
+    <svg
+      className="h-5 w-5"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        clipRule="evenodd"
+        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
         fillRule="evenodd"
       />
     </svg>
