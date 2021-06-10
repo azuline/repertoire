@@ -57,7 +57,7 @@ export const ArtistListWithRoles: IList = ({
         <React.Fragment key={role}>
           {(i > 0 && dividerWords[role]) ?? delimiter}
           {arts.map((art, j) => (
-            <React.Fragment key={j}>
+            <React.Fragment key={art.id}>
               {j > 0 && delimiter}
               {link ? (
                 <Link className="list--element" href={`/artists/${art.id}`}>

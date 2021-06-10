@@ -33,6 +33,7 @@ export const Pagination: IPaginationComponent = ({
       {numPages > 1 && <Arrow direction="left" onClick={goBackOnePage} />}
       <Page curPage={page} page={1} setCurPage={setPage} />
       {Array.from({ length: top - bottom }).map((_, i) => (
+        // eslint-disable-next-line react/no-array-index-key
         <Page key={bottom + i} curPage={page} page={bottom + i} setCurPage={setPage} />
       ))}
       {numPages > 1 && <Page curPage={page} page={numPages} setCurPage={setPage} />}

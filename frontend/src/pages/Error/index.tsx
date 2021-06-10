@@ -10,6 +10,8 @@ export const ErrorPage: IErrorPage = ({ title, errors }) => (
     <SectionHeader>{title}</SectionHeader>
     <div tw="mt-4 text-xl">
       {(errors ?? []).map((err, i) => (
+        // Who knows what's unique about an error?
+        // eslint-disable-next-line react/no-array-index-key
         <div key={i} tw="mb-2">
           {err}
         </div>

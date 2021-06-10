@@ -52,6 +52,8 @@ export const MusicDirectories: React.FC = () => {
       <div>Music Library Directories:</div>
       <div tw="ml-8 flex flex-col gap-2">
         {musicDirectories.map((md, idx) => (
+          // Can have duplicates...
+          // eslint-disable-next-line react/no-array-index-key
           <div key={idx} tw="py-1 px-4">
             <div tw="flex items-center gap-2">
               <div>{md}</div>

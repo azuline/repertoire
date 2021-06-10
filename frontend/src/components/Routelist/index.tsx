@@ -21,7 +21,7 @@ export const RouteList: React.FC = () => {
             <div tw="px-6 pb-6 text-sm uppercase md:px-8 text-primary-400">{name}</div>
           )}
           {routes.map(({ path, label }, i) => (
-            <NavLink key={i} activeRoute={activeRoute} label={label} url={path} />
+            <NavLink key={label} activeRoute={activeRoute} label={label} url={path} />
           ))}
         </div>
       ))}

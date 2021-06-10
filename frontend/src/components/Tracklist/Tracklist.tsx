@@ -32,6 +32,8 @@ export const Tracklist: ITracklist = ({ className, tracks, showCovers = false })
     <div className={className} tw="pb-8">
       {tracks.map((track, idx) => (
         <Track
+          // There can be duplicate tracks in a tracklist.
+          // eslint-disable-next-line react/no-array-index-key
           key={idx}
           active={areTrackListsMatching && curIndex === idx}
           index={idx}

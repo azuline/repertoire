@@ -85,9 +85,10 @@ module.exports = {
     'simple-import-sort/exports': 'warn',
 
     // Overrides for React.
-    'react/no-array-index-key': 'off', // Sometimes there's nothing else -_-
-    'react/jsx-props-no-spreading': 'off', // ...
-    'react/prop-types': 'off', // Goes off even though components are typed.
+    // This is not so bad with Typescript.
+    'react/jsx-props-no-spreading': 'off',
+    // Goes off even though components are typed.
+    'react/prop-types': 'off',
 
     // Overrides for @typescript-eslint.
     '@typescript-eslint/explicit-function-return-type': 'warn',

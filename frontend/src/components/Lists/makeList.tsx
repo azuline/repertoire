@@ -24,7 +24,7 @@ export const makeList = (urlPrefix: string): IList => {
     return (
       <div className={className}>
         {elements.map((elem, i) => (
-          <React.Fragment key={i}>
+          <React.Fragment key={elem.id}>
             {i > 0 && delimiter}
             {link ? (
               <Link className="list--element" href={`${urlPrefix}/${elem.id}`}>
