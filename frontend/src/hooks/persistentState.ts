@@ -19,7 +19,10 @@ export const usePersistentState = <T>(
 ): [T, React.Dispatch<React.SetStateAction<T>>] => {
   const [value, setValue] = React.useState<T>(() => {
     const storedValue = localStorage.getItem(localStorageKey);
-    return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
+    if (storedValue !== null) {
+      return JSON.parse(storedValue) as T;
+    }
+    return defaultValue;
   });
 
   const setPersistentValue: ISetPersistentValue<T> = React.useCallback(

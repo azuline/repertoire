@@ -17,7 +17,7 @@ export const Invites: React.FC = () => {
 
   const [createInvite] = useInvitesCreateInviteMutation();
   const createOnClick = (): void => {
-    createInvite({ refetchQueries: [refetchInvitesFetchInvitesQuery()] });
+    void createInvite({ refetchQueries: [refetchInvitesFetchInvitesQuery()] });
   };
 
   return (

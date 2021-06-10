@@ -23,13 +23,14 @@ export const useRequest = (): IRequest<Response> => {
   ) => {
     const headers = new Headers();
 
-    headers.set('Authorization', token !== null ? `Token ${token}` : '');
     headers.set('Content-Type', contentType ?? '');
     headers.set('Content-Length', body !== undefined ? body.length.toString() : '0');
-    headers.set(
-      'X-CSRF-Token',
-      method !== undefined && method !== 'GET' && csrf !== null ? csrf : '',
-    );
+    if (token !== undefined) {
+      headers.set('Authorization', token !== null ? `Token ${token}` : '');
+    }
+    if (method !== undefined && method !== 'GET' && csrf !== null) {
+      headers.set('X-CSRF-Token', csrf);
+    }
 
     const response = await fetch(url, {
       body,
@@ -60,7 +61,7 @@ export const useRequestJson = <T>(): IRequest<T> => {
 
   const requestJson: IRequest<T> = async (url, opts = {}) => {
     const response = await request(url, { ...opts, contentType: 'application/json' });
-    return response.json();
+    return response.json() as Promise<T>;
   };
 
   return requestJson;

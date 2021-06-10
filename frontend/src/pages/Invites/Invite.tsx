@@ -18,7 +18,7 @@ export const Invite: IInviteComponent = ({ id, createdAt, code, createdBy }) => 
 
   const copyCode = (): void => {
     const url = `${window.location.protocol}//${window.location.host}/register/${code}`;
-    navigator.clipboard.writeText(url);
+    void navigator.clipboard.writeText(url);
     addToast('Copied code to clipboard!', { appearance: 'success' });
   };
 

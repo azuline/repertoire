@@ -23,7 +23,7 @@ export const UserSettings: React.FC = () => {
       return;
     }
 
-    mutateUser({ variables: { nickname: input.current.value } });
+    void mutateUser({ variables: { nickname: input.current.value } });
   };
 
   return (

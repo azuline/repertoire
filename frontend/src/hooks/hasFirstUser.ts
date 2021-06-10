@@ -31,7 +31,7 @@ export const useHasFirstUser = (): IReturn => {
   };
 
   React.useEffect(() => {
-    fetchHasFirstUser();
+    void fetchHasFirstUser();
   }, []);
 
   return { error, hasFirstUser, loading, refetch: fetchHasFirstUser };

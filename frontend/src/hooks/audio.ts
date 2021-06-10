@@ -57,7 +57,7 @@ export const useAudio = (): IAudio => {
     // create a new audio track.
     if (atc.next !== undefined && atc.next.trackId === track.id) {
       atc.curr = atc.next;
-      atc.curr.audio.play();
+      void atc.curr.audio.play();
     } else {
       atc.curr = {
         audio: new Audio(`/api/files/tracks/${track.id}`),
@@ -80,7 +80,10 @@ export const useAudio = (): IAudio => {
     setIsPlaying(true);
 
     // Set an event listener that will play this track as soon as possible.
-    const onCanPlay = (): Promise<void> | undefined => atc.curr?.audio.play();
+    const onCanPlay = (): void => {
+      atc.curr?.audio.play();
+    };
+
     atc.curr.audio.addEventListener('canplay', onCanPlay);
     return (): void => atc.curr?.audio.removeEventListener('canplay', onCanPlay);
   }, [playQueue, curIndex]);
@@ -118,7 +121,7 @@ export const useAudio = (): IAudio => {
         atc.curr.audio.currentTime = 0;
       }
       if (atc.curr.audio.paused) {
-        atc.curr.audio.play();
+        void atc.curr.audio.play();
       }
 
       const timer = setInterval(() => {

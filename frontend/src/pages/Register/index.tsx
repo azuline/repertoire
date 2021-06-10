@@ -23,8 +23,9 @@ export const Register: IRegister = ({ onSuccess, isFirstRegistration = false }) 
 
   const verifyToken = async (): Promise<void> => {
     try {
+      const params = new URLSearchParams({ inviteCode });
       const { valid } = await requestJson(
-        `/api/register/validate-invite?${new URLSearchParams({ inviteCode })}`,
+        `/api/register/validate-invite?${params.toString()}`,
       );
 
       if (!valid) {
@@ -40,7 +41,7 @@ export const Register: IRegister = ({ onSuccess, isFirstRegistration = false }) 
 
   React.useEffect((): void => {
     if (!isFirstRegistration) {
-      verifyToken();
+      void verifyToken();
     } else {
       setLoading(false);
     }

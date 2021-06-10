@@ -12,7 +12,7 @@ export const Rating: IRating = ({ release }) => {
   const [mutateRelease] = useReleaseUpdateReleaseRatingMutation();
 
   const setRating = (value: number): void => {
-    mutateRelease({ variables: { id: release.id, rating: value } });
+    void mutateRelease({ variables: { id: release.id, rating: value } });
   };
 
   return (
