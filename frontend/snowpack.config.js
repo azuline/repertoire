@@ -35,5 +35,7 @@ module.exports = {
     port: 3000,
     output: 'stream',
   },
-  buildOptions: {},
+  buildOptions: {
+    sourcemap: true,
+  },
 };
