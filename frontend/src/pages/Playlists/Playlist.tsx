@@ -42,7 +42,6 @@ export const Playlist: IPlaylist = ({ active }) => {
   );
 };
 
-/* eslint-disable */
 gql`
   query PlaylistsFetchPlaylist($id: Int!) {
     playlist(id: $id) {

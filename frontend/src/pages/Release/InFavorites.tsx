@@ -54,7 +54,6 @@ export const InFavorites: IInFavorites = ({ className, release }) => {
   );
 };
 
-/* eslint-disable */
 gql`
   query InFavoritesFetchFavoritesId {
     user {

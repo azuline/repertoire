@@ -41,7 +41,6 @@ export const YearChooser: IYearChooser = ({ active, className }) => {
   );
 };
 
-/* eslint-disable */
 gql`
   query YearsFetchReleaseYears {
     releaseYears

@@ -21,7 +21,6 @@ export const PlaylistTracks: IPlaylistTracks = ({ active }) => {
   return <Tracklist showCovers tracks={tracks} />;
 };
 
-/* eslint-disable */
 gql`
   query PlaylistsFetchTracks($id: Int!) {
     playlist(id: $id) {

@@ -34,7 +34,6 @@ export const Collage: ICollage = ({ active }) => {
   );
 };
 
-/* eslint-disable */
 gql`
   query CollageFetchCollage($id: Int!) {
     collection(id: $id) {

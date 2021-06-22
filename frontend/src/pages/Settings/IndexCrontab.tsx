@@ -52,7 +52,6 @@ export const IndexCrontab: React.FC = () => {
   );
 };
 
-/* eslint-disable */
 gql`
   query IndexCrontab {
     config {

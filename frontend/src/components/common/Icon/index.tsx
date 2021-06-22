@@ -2,8 +2,6 @@ import * as React from 'react';
 
 import logo from '~/assets/logo.svg';
 
-/* eslint-disable max-len */
-
 type IIconComponent = React.FC<{
   className?: string;
   icon: IIcon;

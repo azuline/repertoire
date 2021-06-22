@@ -42,7 +42,6 @@ export const Artist: IArtist = ({ active }) => {
   );
 };
 
-/* eslint-disable */
 gql`
   query ArtistsFetchArtist($id: Int!) {
     artist(id: $id) {

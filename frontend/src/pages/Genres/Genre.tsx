@@ -40,7 +40,6 @@ export const Genre: IGenre = ({ active }) => {
   );
 };
 
-/* eslint-disable */
 gql`
   query GenresFetchGenre($id: Int!) {
     collection(id: $id) {

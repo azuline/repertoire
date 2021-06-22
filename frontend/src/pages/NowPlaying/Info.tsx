@@ -95,7 +95,6 @@ const CustomGenreList = styled(GenreList)`
   }
 `;
 
-/* eslint-disable */
 gql`
   query NowPlayingInfoFetchRelease($id: Int!) {
     release(id: $id) {

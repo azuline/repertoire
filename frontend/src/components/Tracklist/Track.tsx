@@ -103,7 +103,6 @@ export const Track: ITrackComponent = ({
   );
 };
 
-/* eslint-disable */
 gql`
   query FavoritePlaylistsId {
     user {

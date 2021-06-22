@@ -62,7 +62,6 @@ export const ArtistChooser: IArtistChooser = ({ active, className }) => {
   );
 };
 
-/* eslint-disable */
 gql`
   query FetchArtistsChooser {
     artists {

@@ -70,7 +70,6 @@ export const PlaylistChooser: IPlaylistChooser = ({ active, className }) => {
   );
 };
 
-/* eslint-disable */
 gql`
   query FetchPlaylistsChooser($types: [PlaylistType!]) {
     playlists(types: $types) {

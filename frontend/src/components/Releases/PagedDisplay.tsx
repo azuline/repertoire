@@ -91,7 +91,6 @@ export const PagedReleases: IPagedReleases = ({
   );
 };
 
-/* eslint-disable */
 gql`
   query PagedReleasesFetchReleases(
     $search: String

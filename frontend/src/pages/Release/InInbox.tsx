@@ -54,7 +54,6 @@ export const InInbox: IInInbox = ({ className, release }) => {
   );
 };
 
-/* eslint-disable */
 gql`
   query InInboxFetchInboxId {
     user {

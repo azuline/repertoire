@@ -37,15 +37,12 @@ module.exports = {
   rules: {
     // Style
     'prettier/prettier': 'warn',
-    'max-len': ['warn', { code: 88, tabWidth: 2 }],
+    // This goes off when we have useEffects that return either nothing or a cleanup
+    // function.
+    'consistent-return': 'off',
+    curly: 'error',
     indent: ['error', 2, { SwitchCase: 1 }],
     quotes: ['error', 'single', 'avoid-escape'],
-    'linebreak-style': ['error', 'unix'],
-    'no-console': 'warn',
-    'no-unused-vars': 'warn',
-    'no-empty': 'warn',
-    'no-plusplus': 'off',
-    'consistent-return': 'off',
     // This interferes with GraphQL __typename usage.
     'no-underscore-dangle': 'off',
 
@@ -71,6 +68,10 @@ module.exports = {
         args: 'after-used',
         argsIgnorePattern: '^_',
       },
+    ],
+    '@typescript-eslint/no-unused-expressions': [
+      'warn',
+      { allowTaggedTemplates: true },
     ],
 
     // Imports

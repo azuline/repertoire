@@ -59,7 +59,6 @@ const Wrapper = styled.div`
   }
 `;
 
-/* eslint-disable */
 gql`
   mutation ReleaseUpdateReleaseRating($id: Int!, $rating: Int) {
     updateRelease(id: $id, rating: $rating) {

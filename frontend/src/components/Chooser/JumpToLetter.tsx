@@ -76,21 +76,24 @@ const mapLettersToIndex = (
   results: IElement[],
   setJumpTo: React.Dispatch<React.SetStateAction<number | null>>,
 ): IIndexMap => {
-  const initialMap = jumpLetters.reduce<IIndexMap>((map, jumpLetter) => {
-    map[jumpLetter] = undefined; // eslint-disable-line no-param-reassign
-    return map;
-  }, {});
+  const initialMap = jumpLetters.reduce<IIndexMap>(
+    (map, jumpLetter) => ({ ...map, [jumpLetter]: undefined }),
+    {},
+  );
 
   return results.reduce<IIndexMap>((map, elem, index) => {
-    if (elem.starred === true) return map; // Exclude starred elements from jumper.
+    // Exclude starred elements from jumper.
+    if (elem.starred === true) {
+      return map;
+    }
 
     const key = getJumpLetter(elem.name);
 
-    if (!map[key]) {
-      map[key] = (): void => setJumpTo(index); // eslint-disable-line no-param-reassign
+    if (map[key]) {
+      return map;
     }
 
-    return map;
+    return { ...map, [key]: (): void => setJumpTo(index) };
   }, initialMap);
 };
 

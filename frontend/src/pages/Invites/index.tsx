@@ -41,7 +41,6 @@ export const Invites: React.FC = () => {
   );
 };
 
-/* eslint-disable */
 gql`
   query InvitesFetchInvites {
     invites {

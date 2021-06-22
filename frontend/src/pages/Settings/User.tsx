@@ -43,7 +43,6 @@ export const UserSettings: React.FC = () => {
   );
 };
 
-/* eslint-disable */
 gql`
   query SettingsFetchUser {
     user {

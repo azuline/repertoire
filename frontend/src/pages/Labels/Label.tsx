@@ -40,7 +40,6 @@ export const Label: ILabel = ({ active }) => {
   );
 };
 
-/* eslint-disable */
 gql`
   query LabelFetchLabel($id: Int!) {
     collection(id: $id) {

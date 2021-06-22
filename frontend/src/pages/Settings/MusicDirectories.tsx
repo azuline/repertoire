@@ -58,7 +58,7 @@ export const MusicDirectories: React.FC = () => {
             <div tw="flex items-center gap-2">
               <div>{md}</div>
               <div
-                tw="px-1 py-2 cursor-pointer hover-bg flex items-center text-primary-400 rounded gap-1" //eslint-disable-line
+                tw="px-1 py-2 cursor-pointer hover-bg flex items-center text-primary-400 rounded gap-1"
                 onClick={(): Promise<void> => removeDirectory(md)}
               >
                 <Icon icon="minus-small" tw="w-5" />
@@ -74,7 +74,7 @@ export const MusicDirectories: React.FC = () => {
             onChange={(e): void => setNewDirectory(e.target.value)}
           />
           <div
-            tw="px-1 py-2 cursor-pointer hover-bg flex items-center text-primary-400 rounded gap-1" // eslint-disable-line
+            tw="px-1 py-2 cursor-pointer hover-bg flex items-center text-primary-400 rounded gap-1"
             onClick={addNewDirectory}
           >
             <Icon icon="plus-small" tw="w-5" />
@@ -86,7 +86,6 @@ export const MusicDirectories: React.FC = () => {
   );
 };
 
-/* eslint-disable */
 gql`
   query MusicDirectories {
     config {

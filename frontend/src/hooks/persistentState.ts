@@ -35,7 +35,7 @@ export const usePersistentState = <T>(
         return toStore;
       });
     },
-    [setValue], // eslint-disable-line react-hooks/exhaustive-deps
+    [setValue],
   );
 
   return [value, setPersistentValue];

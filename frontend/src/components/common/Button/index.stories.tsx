@@ -22,7 +22,8 @@ const Template: Story<IButtonProps> = (props) => <Button {...props} />;
 export const Default = Template.bind({});
 Default.args = {
   children: 'Click Me',
-  onClick: (): void => alert('clicked!'), // eslint-disable-line no-alert
+  // eslint-disable-next-line no-alert
+  onClick: (): void => alert('clicked!'),
 };
 
 export const Small = Template.bind({});

@@ -37,7 +37,6 @@ export const RecentlyAdded: React.FC = () => {
   );
 };
 
-/* eslint-disable */
 gql`
   query RecentlyAddedFetchReleases {
     releases(sort: RECENTLY_ADDED, asc: false, page: 1, perPage: 10) {

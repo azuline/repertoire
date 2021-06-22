@@ -93,7 +93,6 @@ export const CollectionChooser: ICollectionChooser = ({
   );
 };
 
-/* eslint-disable */
 gql`
   query FetchCollectionsChooser($types: [CollectionType!]) {
     collections(types: $types) {

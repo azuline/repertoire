@@ -42,7 +42,6 @@ export const User: IUserComponent = ({ className }) => {
   );
 };
 
-/* eslint-disable */
 gql`
   query HeaderFetchUser {
     user {

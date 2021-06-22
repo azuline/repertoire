@@ -50,7 +50,7 @@ export const Disclist: IDisclist = ({ className, tracks }) => {
             </SectionHeader>
           )}
           {discTracks.map((track, trackNumber) => {
-            trackIndex++;
+            trackIndex += 1;
             return (
               <Track
                 key={trackIndex}
@@ -76,7 +76,7 @@ const sortTracksIntoDiscs = <T extends ITrackWithNumbers>(
   const discs = tracks.reduce<Record<string, T[]>>((acc, track) => {
     const discNumber = track.discNumber || '1';
 
-    acc[discNumber] = acc[discNumber] ?? []; // eslint-disable-line no-param-reassign
+    acc[discNumber] = acc[discNumber] ?? [];
     acc[discNumber].push(track);
 
     return acc;

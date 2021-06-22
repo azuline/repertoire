@@ -69,7 +69,6 @@ const Body: IBody = ({ id }) => {
   );
 };
 
-/* eslint-disable */
 gql`
   query ReleaseFetchRelease($id: Int!) {
     release(id: $id) {
