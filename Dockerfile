@@ -65,7 +65,7 @@ ENV BUILT_FRONTEND_DIR=/app/frontend
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
 # Update system
-RUN apt-get upgrade -y \
+RUN apt-get update -y \
     && apt-get upgrade -y \
     && apt-get install make
 
