@@ -29,20 +29,14 @@ snapshots['test_update_config_bad_crontab 1'] = {
 
 snapshots['test_update_config_bad_directory 1'] = {
     'data': {
-        'updateConfig': None
-    },
-    'errors': [
-        {
-            'locations': [
+        'updateConfig': {
+            'indexCrontab': '0 0 * * *',
+            'musicDirectories': [
                 {
-                    'column': 13,
-                    'line': 3
+                    'directory': '/not_a_directory_lol',
+                    'existsOnDisk': False
                 }
-            ],
-            'message': '/not_a_directory_lol is not a directory.',
-            'path': [
-                'updateConfig'
             ]
         }
-    ]
+    }
 }

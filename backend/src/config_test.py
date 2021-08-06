@@ -102,15 +102,3 @@ def test_invalid_music_directories_not_even_a_list(db: Connection):
 
     with pytest.raises(InvalidConfig):
         music_directories()
-    with pytest.raises(InvalidConfig):
-        set_music_directories([directories], db)
-
-
-def test_invalid_set_music_directories_nonexistent_dir(
-    db: Connection,
-    factory: Factory,
-):
-    directories = [str(factory.rand_path(""))]
-
-    with pytest.raises(InvalidConfig):
-        set_music_directories(directories, db)
