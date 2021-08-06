@@ -103,7 +103,7 @@ export type ICollections = {
 export type IConfig = {
   __typename?: 'Config';
   /** A list of directories to index. */
-  musicDirectories: Array<Scalars['String']>;
+  musicDirectories: Array<IMusicDirectory>;
   /** A crontab value for when to run the indexer. */
   indexCrontab: Scalars['String'];
 };
@@ -124,6 +124,12 @@ export type IInvites = {
   total: Scalars['Int'];
   /** The invites on the current page. */
   results: Array<IInvite>;
+};
+
+export type IMusicDirectory = {
+  __typename?: 'MusicDirectory';
+  directory: Scalars['String'];
+  existsOnDisk: Scalars['Boolean'];
 };
 
 export type IMutation = {
@@ -1298,7 +1304,10 @@ export type IMusicDirectoriesQuery = (
   { __typename?: 'Query' }
   & { config: (
     { __typename: 'Config' }
-    & Pick<IConfig, 'musicDirectories'>
+    & { musicDirectories: Array<(
+      { __typename?: 'MusicDirectory' }
+      & Pick<IMusicDirectory, 'directory' | 'existsOnDisk'>
+    )> }
   ) }
 );
 
@@ -1311,7 +1320,10 @@ export type IUpdateMusicDirectoriesMutation = (
   { __typename?: 'Mutation' }
   & { updateConfig: Maybe<(
     { __typename: 'Config' }
-    & Pick<IConfig, 'musicDirectories'>
+    & { musicDirectories: Array<(
+      { __typename?: 'MusicDirectory' }
+      & Pick<IMusicDirectory, 'directory' | 'existsOnDisk'>
+    )> }
   )> }
 );
 
@@ -2843,7 +2855,10 @@ export const MusicDirectoriesDocument = gql`
     query MusicDirectories {
   config {
     __typename
-    musicDirectories
+    musicDirectories {
+      directory
+      existsOnDisk
+    }
   }
 }
     `;
@@ -2881,7 +2896,10 @@ export const UpdateMusicDirectoriesDocument = gql`
     mutation UpdateMusicDirectories($musicDirectories: [String!]) {
   updateConfig(musicDirectories: $musicDirectories) {
     __typename
-    musicDirectories
+    musicDirectories {
+      directory
+      existsOnDisk
+    }
   }
 }
     `;
@@ -3078,6 +3096,11 @@ export type InvitesFieldPolicy = {
 	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type MusicDirectoryKeySpecifier = ('directory' | 'existsOnDisk' | MusicDirectoryKeySpecifier)[];
+export type MusicDirectoryFieldPolicy = {
+	directory?: FieldPolicy<any> | FieldReadFunction<any>,
+	existsOnDisk?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type MutationKeySpecifier = ('updateUser' | 'updateConfig' | 'newToken' | 'createArtist' | 'updateArtist' | 'starArtist' | 'unstarArtist' | 'createCollection' | 'updateCollection' | 'starCollection' | 'unstarCollection' | 'addReleaseToCollection' | 'delReleaseFromCollection' | 'createInvite' | 'createPlaylist' | 'updatePlaylist' | 'starPlaylist' | 'unstarPlaylist' | 'createPlaylistEntry' | 'delPlaylistEntry' | 'delPlaylistEntries' | 'updatePlaylistEntry' | 'createRelease' | 'updateRelease' | 'addArtistToRelease' | 'delArtistFromRelease' | 'updateTrack' | 'addArtistToTrack' | 'delArtistFromTrack' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	updateUser?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3268,6 +3291,10 @@ export type TypedTypePolicies = TypePolicies & {
 	Invites?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | InvitesKeySpecifier | (() => undefined | InvitesKeySpecifier),
 		fields?: InvitesFieldPolicy,
+	},
+	MusicDirectory?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | MusicDirectoryKeySpecifier | (() => undefined | MusicDirectoryKeySpecifier),
+		fields?: MusicDirectoryFieldPolicy,
 	},
 	Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),

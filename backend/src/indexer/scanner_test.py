@@ -36,7 +36,7 @@ NEW_ALBUM = FAKE_MUSIC / "New Album"
 def test_scan_directories(mock_scan_directory: mock.MagicMock):
     scan_directories()
 
-    mock_scan_directory.assert_has_calls([mock.call("/music")])
+    mock_scan_directory.assert_called_once()
 
 
 @mock.patch("src.indexer.scanner.handle_track_batch")
@@ -51,7 +51,7 @@ def test_scan_directory(
     factory.track(filepath=NEW_ALBUM / "track1.flac", conn=db)
     db.commit()
 
-    scan_directory(str(FAKE_MUSIC))
+    scan_directory(FAKE_MUSIC)
 
     filepaths = {
         str(NEW_ALBUM / "track2.m4a"),

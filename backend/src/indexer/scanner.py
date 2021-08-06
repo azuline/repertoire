@@ -4,6 +4,7 @@ import logging
 import re
 from datetime import date
 from itertools import chain
+from pathlib import Path
 from sqlite3 import Connection
 from typing import Optional
 
@@ -47,16 +48,28 @@ def scan_directories() -> None:
     logger.info(f"Found {len(music_directories)} directories to scan.")
 
     for dir_ in music_directories:
-        scan_directory(dir_)
+        p = Path(dir_)
+        try:
+            scan_directory(p)
+        except NotADirectoryError:
+            # TODO: Should we propagate this back up to the frontend somehow?
+            # For now, I think it's ok, since the frontend settings page will display
+            # the status of these.
+            pass
 
 
-def scan_directory(directory: str) -> None:
+def scan_directory(directory: Path) -> None:
     """
     Scan a given directory for music files and catalog the discovered files.
 
     :param directory: The directory to scan.
+    :raises NotADirectoryError: If the directory does not exist.
     """
     logger.info(f"Scanning `{directory}`.")
+
+    if not directory.is_dir():
+        logger.error(f"{directory} is not a directory.")
+        raise NotADirectoryError(f"{directory} is not a directory.")
 
     with database() as conn:
         track_batch: list[track.T] = []
