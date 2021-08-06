@@ -361,9 +361,14 @@ type Mutation {
   ): TrackAndArtist!
 }
 
+type MusicDirectory {
+  directory: String!
+  existsOnDisk: Boolean!
+}
+
 type Config {
   "A list of directories to index."
-  musicDirectories: [String!]!
+  musicDirectories: [MusicDirectory!]!
   "A crontab value for when to run the indexer."
   indexCrontab: String!
 }

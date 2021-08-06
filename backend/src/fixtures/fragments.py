@@ -43,7 +43,10 @@ FRAGMENTS = {
     """,
     "...ConfigFields": """
         fragment ConfigFields on Config {
-            musicDirectories
+            musicDirectories {
+                directory
+                existsOnDisk
+            }
             indexCrontab
         }
     """,

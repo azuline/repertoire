@@ -13,15 +13,17 @@ export const MusicDirectories: React.FC = () => {
   const [mutateConfig] = useUpdateMusicDirectoriesMutation();
 
   if (data === undefined || loading === true) {
+    // TODO: Animation.
     return <>Loading... do a proper animation later</>;
   }
 
   const { musicDirectories } = data.config;
 
   const addNewDirectory = async (): Promise<void> => {
+    const oldDirectories = musicDirectories.map((md) => md.directory);
     try {
       await mutateConfig({
-        variables: { musicDirectories: [...musicDirectories, newDirectory] },
+        variables: { musicDirectories: [...oldDirectories, newDirectory] },
       });
 
       setNewDirectory('');
@@ -37,7 +39,9 @@ export const MusicDirectories: React.FC = () => {
     try {
       await mutateConfig({
         variables: {
-          musicDirectories: musicDirectories.filter((md) => md !== directory),
+          musicDirectories: musicDirectories
+            .map((md) => md.directory)
+            .filter((d) => d !== directory),
         },
       });
     } catch (e) {
@@ -56,10 +60,11 @@ export const MusicDirectories: React.FC = () => {
           // eslint-disable-next-line react/no-array-index-key
           <div key={idx} tw="py-1 px-4">
             <div tw="flex items-center gap-2">
-              <div>{md}</div>
+              <div>{md.directory}</div>
+              <div>{md.existsOnDisk || "Doesn't exist on Disk! Style this later"}</div>
               <div
                 tw="px-1 py-2 cursor-pointer hover-bg flex items-center text-primary-400 rounded gap-1"
-                onClick={(): Promise<void> => removeDirectory(md)}
+                onClick={(): Promise<void> => removeDirectory(md.directory)}
               >
                 <Icon icon="minus-small" tw="w-5" />
                 <div>Remove</div>
@@ -90,14 +95,20 @@ gql`
   query MusicDirectories {
     config {
       __typename
-      musicDirectories
+      musicDirectories {
+        directory
+        existsOnDisk
+      }
     }
   }
 
   mutation UpdateMusicDirectories($musicDirectories: [String!]) {
     updateConfig(musicDirectories: $musicDirectories) {
       __typename
-      musicDirectories
+      musicDirectories {
+        directory
+        existsOnDisk
+      }
     }
   }
 `;

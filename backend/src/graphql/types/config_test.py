@@ -16,7 +16,9 @@ async def test_config(graphql_query):
     success, data = await graphql_query(query)
     assert success is True
 
-    assert data["data"]["config"]["musicDirectories"] == ["/music"]
+    assert data["data"]["config"]["musicDirectories"] == [
+        {"directory": "/music", "existsOnDisk": False}
+    ]
     assert data["data"]["config"]["indexCrontab"] == "0 0 * * *"
 
 
@@ -39,11 +41,15 @@ async def test_update_config(factory: Factory, graphql_query):
     success, data = await graphql_query(query)
     assert success is True
 
-    assert data["data"]["updateConfig"]["musicDirectories"] == [f"{path}"]
-    assert data["data"]["updateConfig"]["indexCrontab"] == "1 1 * 2 *"
+    expected_crontab = "1 1 * 2 *"
+
+    assert data["data"]["updateConfig"]["musicDirectories"] == [
+        {"directory": f"{path}", "existsOnDisk": True}
+    ]
+    assert data["data"]["updateConfig"]["indexCrontab"] == expected_crontab
 
     assert config.music_directories() == [f"{path}"]
-    assert config.index_crontab_str() == "1 1 * 2 *"
+    assert config.index_crontab_str() == expected_crontab
 
 
 @pytest.mark.asyncio

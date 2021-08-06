@@ -89,11 +89,6 @@ def set_music_directories(dirs: list[str], conn: Connection) -> None:
     """
     :raises InvalidConfig: If any directories don't exist.
     """
-    for d in dirs:
-        dp = Path(d)
-        if not dp.is_dir():
-            raise InvalidConfig(f"{d} is not a directory.")
-
     conn.execute(
         "UPDATE system__config SET value = ? WHERE key = ?",
         (json.dumps(dirs), MUSIC_DIRECTORIES),

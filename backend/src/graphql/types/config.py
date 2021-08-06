@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Any, Optional
 
 from ariadne import ObjectType
@@ -35,7 +36,12 @@ def resolve_update_config(
 
 
 def _get_config() -> dict:
+    music_directories = [
+        dict(directory=d, exists_on_disk=Path(d).is_dir())
+        for d in config.music_directories()
+    ]
+
     return dict(
-        music_directories=config.music_directories(),
+        music_directories=music_directories,
         index_crontab=config.index_crontab_str(),
     )
