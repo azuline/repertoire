@@ -8,7 +8,6 @@ configuration value from the database.
 
 import json
 import logging
-from pathlib import Path
 from sqlite3 import Connection
 from typing import Callable
 
