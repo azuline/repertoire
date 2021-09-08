@@ -76,6 +76,7 @@ const sortTracksIntoDiscs = <T extends ITrackWithNumbers>(
   const discs = tracks.reduce<Record<string, T[]>>((acc, track) => {
     const discNumber = track.discNumber || '1';
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     acc[discNumber] = acc[discNumber] ?? [];
     acc[discNumber].push(track);
 

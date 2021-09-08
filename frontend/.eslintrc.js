@@ -109,6 +109,7 @@ module.exports = {
         ignoreIIFE: true,
       },
     ],
+    '@typescript-eslint/no-unnecessary-condition': 'warn',
     // This is for the above no-floating-promises rule.
     'no-void': ['error', { allowAsStatement: true }],
 

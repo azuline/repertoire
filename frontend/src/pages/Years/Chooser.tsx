@@ -12,10 +12,7 @@ type IYearChooser = React.FC<{
 export const YearChooser: IYearChooser = ({ active, className }) => {
   const { data } = useYearsFetchReleaseYearsQuery();
 
-  const years =
-    data?.releaseYears
-      ?.filter((year): year is number => year !== null)
-      .map((year) => ({ id: year, name: `${year}` })) || [];
+  const years = data?.releaseYears.map((year) => ({ id: year, name: `${year}` })) ?? [];
 
   const renderElement = (index: number): React.ReactNode => {
     const element = years[index];

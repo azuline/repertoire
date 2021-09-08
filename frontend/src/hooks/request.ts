@@ -26,7 +26,7 @@ export const useRequest = (): IRequest<Response> => {
     headers.set('Content-Type', contentType ?? '');
     headers.set('Content-Length', body !== undefined ? body.length.toString() : '0');
     if (token !== undefined) {
-      headers.set('Authorization', token !== null ? `Token ${token}` : '');
+      headers.set('Authorization', `Token ${token}`);
     }
     if (method !== undefined && method !== 'GET' && csrf !== null) {
       headers.set('X-CSRF-Token', csrf);

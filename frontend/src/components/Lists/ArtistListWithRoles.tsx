@@ -85,6 +85,7 @@ export const mapRolesToArtists = (
     artists.reduce<IRolesArtistsMap>((accumulator, artist) => {
       const { role } = artist;
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       accumulator[role] = accumulator[role] ?? [];
       accumulator[role].push(artist.artist);
 

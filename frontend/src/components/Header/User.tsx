@@ -28,7 +28,7 @@ export const User: IUserComponent = ({ className }) => {
   return (
     <div className={className} tw="flex items-center h-full min-w-0">
       <div className="header--username" tw="mr-2 truncate">
-        {data?.user?.nickname ?? 'Loading...'}
+        {data?.user.nickname ?? 'Loading...'}
       </div>
       <div tw="flex-none px-2 py-1 -mr-2">
         <div
