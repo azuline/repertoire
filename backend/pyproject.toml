@@ -46,6 +46,9 @@ filelock = "^3.0.12"
 semgrep = "^0.53.0"
 pip-audit = "^1.1.0"
 
+# A higher version breaks dephell.
+mistune = "^0.8.4"
+
 [tool.black]
 line-length = 88
 force-exclude = '''
