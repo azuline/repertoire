@@ -3,7 +3,7 @@
 /.pnp
 .pnp.js
 /coverage
-/build
+/dist
 /storybook-static
 /build-storybook.log
 
