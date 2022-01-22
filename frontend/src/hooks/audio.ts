@@ -81,7 +81,7 @@ export const useAudio = (): IAudio => {
 
     // Set an event listener that will play this track as soon as possible.
     const onCanPlay = (): void => {
-      atc.curr?.audio.play();
+      void atc.curr?.audio.play();
     };
 
     atc.curr.audio.addEventListener('canplay', onCanPlay);

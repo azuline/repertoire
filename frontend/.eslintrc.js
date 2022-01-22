@@ -90,6 +90,8 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     // Goes off even though components are typed.
     'react/prop-types': 'off',
+    // Why would we want this? We have TypeScript.
+    'react/require-default-props': 'off',
 
     // Overrides for @typescript-eslint.
     '@typescript-eslint/explicit-function-return-type': 'warn',
