@@ -1,18 +1,35 @@
 import { defineConfig } from 'vite';
-import reactRefresh from '@vitejs/plugin-react-refresh';
-import macrosPlugin from 'vite-plugin-babel-macros';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  esbuild: {
-    jsxFactory: 'jsx',
-    jsxInject: `
-      import React from 'react';
-      import { jsx } from '@emotion/react';
-    `,
+  resolve: {
+    alias: {
+      '~': path.resolve(__dirname, './src'),
+    },
   },
-  plugins: [reactRefresh(), macrosPlugin()],
-  define: {
-    'process.env': {},
+  server: {
+    proxy: {
+      '/api': 'http://localhost:5000',
+      '/graphql': 'http://localhost:5000',
+    },
   },
+  plugins: [
+    react({
+      babel: {
+        plugins: [
+          'babel-plugin-macros',
+          [
+            '@emotion/babel-plugin-jsx-pragmatic',
+            {
+              export: 'jsx',
+              import: '__cssprop',
+              module: '@emotion/react',
+            },
+          ],
+          ['@babel/plugin-transform-react-jsx', { pragma: '__cssprop' }, 'twin.macro'],
+        ],
+      },
+    }),
+  ],
 });
