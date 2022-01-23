@@ -18,6 +18,7 @@ export default defineConfig({
     react({
       babel: {
         plugins: [
+          'babel-plugin-twin',
           'babel-plugin-macros',
           [
             '@emotion/babel-plugin-jsx-pragmatic',

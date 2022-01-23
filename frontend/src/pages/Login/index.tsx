@@ -47,14 +47,14 @@ export const Login: React.FC = () => {
   return (
     <Layout tw="flex content-center full items-center">
       <form tw="self-center mx-auto" onSubmit={onSubmit}>
-        <div>
+        <div tw="flex">
           <Input
             ref={input}
             autoFocus
             id="login-token"
             name="password"
             placeholder="Authorization token"
-            tw="mr-6 max-width[600px] min-width[300px] width[50vw]"
+            tw="flex-grow mr-6 max-width[600px] min-width[300px] width[50vw]"
           />
           <Button id="login-btn" type="submit">
             Login
