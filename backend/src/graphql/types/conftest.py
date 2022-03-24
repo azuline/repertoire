@@ -79,6 +79,7 @@ def _create_seed_gql_db():
 
     with sqlite3.connect(GQL_DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES) as conn:
         conn.row_factory = sqlite3.Row
+        conn.isolation_level = None
         conn.execute("PRAGMA foreign_keys = ON")
         freeze_database_time(conn)
         _add_test_data(conn)

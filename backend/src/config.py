@@ -14,7 +14,7 @@ from typing import Callable
 from huey import crontab
 
 from src.errors import InvalidConfig
-from src.util import database, flatten_dict, parse_crontab
+from src.util import flatten_dict, parse_crontab, transaction
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +32,7 @@ def initialize_config() -> None:
     Write the default config if a config file doesn't exist. And if the
     existing config lacks keys, update it with new default values.
     """
-    with database() as conn:
+    with transaction() as conn:
         cursor = conn.execute("SELECT key FROM system__config")
         keys = [r["key"] for r in cursor]
 
@@ -40,8 +40,6 @@ def initialize_config() -> None:
             write_default_config(conn)
         else:
             _update_config(conn)
-
-        conn.commit()
 
 
 def write_default_config(conn: Connection) -> None:
@@ -73,7 +71,7 @@ def music_directories() -> list[str]:
     """
     The directories to scan when indexing the library.
     """
-    with database() as conn:
+    with transaction() as conn:
         cursor = conn.execute(
             "SELECT value FROM system__config WHERE key = ?",
             (MUSIC_DIRECTORIES,),
@@ -105,7 +103,7 @@ def index_crontab_str() -> str:
     """
     A crontab representing when to index the library.
     """
-    with database() as conn:
+    with transaction() as conn:
         cursor = conn.execute(
             "SELECT value FROM system__config WHERE key = ?",
             (INDEX_CRONTAB,),

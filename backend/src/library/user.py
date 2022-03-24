@@ -12,7 +12,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from src.enums import CollectionType, PlaylistType
 from src.errors import InvalidNickname, TokenGenerationFailure
 from src.tasks.hueyy import huey
-from src.util import database, update_dataclass
+from src.util import transaction, update_dataclass
 
 from . import collection, playlist
 
@@ -206,7 +206,7 @@ def _create_system_collections_and_playlists(user_id: int, conn: Connection) -> 
 
 @huey.task()
 def _populate_inbox(user_id: int) -> None:
-    with database() as conn:
+    with transaction() as conn:
         inbox = collection.inbox_of(user_id, conn)
 
         conn.execute(
@@ -219,8 +219,6 @@ def _populate_inbox(user_id: int) -> None:
             """,
             (inbox.id,),
         )
-
-        conn.commit()
 
 
 def update(usr: T, conn: Connection, **changes) -> T:

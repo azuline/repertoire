@@ -72,7 +72,7 @@ def test_handle_track_batch(factory: Factory, db: Connection):
 
     trk3 = factory.track(sha256_initial=b"0" * 32, sha256=b"0" * 32, conn=db)
 
-    handle_track_batch([trk1, trk2], db)
+    handle_track_batch([trk1, trk2])
 
     new1 = track.from_id(trk1.id, db)
     assert new1 is not None
