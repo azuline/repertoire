@@ -93,7 +93,6 @@ def _create_seed_gql_db():
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys=ON")
         conn.execute("PRAGMA journal_mode=WAL")
-        conn.execute("PRAGMA synchronous=FULL")
         freeze_database_time(conn)
         with transaction(conn):
             _add_test_data(conn)
