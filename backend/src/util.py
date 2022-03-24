@@ -35,6 +35,10 @@ def transaction(conn: Optional[Connection] = None):
     A simple context wrapper for a database transaction. If connection is null,
     a new connection is created.
     """
+    # We BEGIN IMMEDIATE to avoid deadlocks, which piss the hell out of me because no
+    # one's documenting this properly and SQLite just dies without respecting the
+    # timeout and without a reasonable error message. Absurd.
+    # - https://sqlite.org/forum/forumpost/a3db6dbff1cd1d5d
     tx_log_id = b2a_hex(randbytes(8)).decode()
     start_time = time()
 
@@ -52,7 +56,7 @@ def transaction(conn: Optional[Connection] = None):
 
         logger.debug(f"Transaction {tx_log_id}. Starting transaction from conn.")
         with conn:
-            conn.execute("BEGIN")
+            conn.execute("BEGIN IMMEDIATE")
             yield conn
             logger.debug(
                 f"Transaction {tx_log_id}. End of transaction from conn. "
@@ -65,7 +69,7 @@ def transaction(conn: Optional[Connection] = None):
     with database() as db_conn:
         logger.debug(f"Transaction {tx_log_id}. Starting transaction from new conn.")
         with db_conn:
-            db_conn.execute("BEGIN")
+            db_conn.execute("BEGIN IMMEDIATE")
             yield db_conn
             logger.debug(
                 f"Transaction {tx_log_id}. End of transaction from new conn. "
@@ -89,6 +93,7 @@ def raw_database(check_same_thread: bool = True) -> Connection:
         detect_types=sqlite3.PARSE_DECLTYPES,
         check_same_thread=check_same_thread,
         isolation_level=None,
+        timeout=15.0,
     )
 
     conn.row_factory = sqlite3.Row
