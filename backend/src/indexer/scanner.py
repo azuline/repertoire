@@ -123,8 +123,6 @@ def calculate_track_sha256s(track_ids: list[int]) -> None:
 
             track.calculate_track_full_sha256(trk, conn)
 
-        conn.commit()
-
 
 def _in_database(filepath: str, conn: Connection) -> bool:
     """
