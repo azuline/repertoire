@@ -34,6 +34,11 @@ def transaction(conn: Optional[Connection] = None):
     """
     # If a connection is passed in, use that.
     if conn:
+        # If we're already in a transaction, don't create a nested transaction.
+        if conn.in_transaction:
+            yield conn
+            return
+
         with conn:
             conn.execute("BEGIN")
             yield conn
