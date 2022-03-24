@@ -12,7 +12,7 @@ from src.graphql import error_formatter, schema
 from src.library import user as libuser
 from src.webserver.util import check_auth
 
-bp = Blueprint("graphql", __name__, url_prefix="/graphql")
+bp = Blueprint("graphql", __name__)
 
 
 @dataclass
@@ -22,7 +22,7 @@ class GraphQLContext:
     request: Request
 
 
-@bp.route("", methods=["GET"])
+@bp.route("/graphql", methods=["GET"])
 async def graphql_playground() -> tuple[str, int]:  # pragma: no cover
     """
     **Developer endpoint.**
@@ -36,7 +36,7 @@ async def graphql_playground() -> tuple[str, int]:  # pragma: no cover
     return PLAYGROUND_HTML, 200
 
 
-@bp.route("", methods=["POST"])
+@bp.route("/graphql", methods=["POST"])
 @check_auth(csrf=True)
 async def graphql_server() -> tuple[Response, int]:
     """

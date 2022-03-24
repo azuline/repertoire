@@ -4,10 +4,10 @@ from voluptuous import Schema
 
 from src.webserver.util import check_auth, validate_data
 
-bp = Blueprint("session", __name__, url_prefix="/api/session")
+bp = Blueprint("session", __name__, url_prefix="/api")
 
 
-@bp.route("", methods=["POST"])
+@bp.route("/session", methods=["POST"])
 @check_auth()
 @validate_data(Schema({"permanent": bool}))
 async def create_session(permanent=False):
@@ -33,7 +33,7 @@ async def create_session(permanent=False):
     return quart.jsonify({"csrfToken": quart.g.user.csrf_token.hex()}), 201
 
 
-@bp.route("", methods=["DELETE"])
+@bp.route("/session", methods=["DELETE"])
 @check_auth(csrf=True)
 async def delete_session():
     """

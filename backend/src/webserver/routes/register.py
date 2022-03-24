@@ -8,12 +8,12 @@ from voluptuous import Required, Schema
 from src.library import invite, user
 from src.webserver.util import validate_data
 
-bp = Blueprint("register", __name__, url_prefix="/api/register")
+bp = Blueprint("register", __name__, url_prefix="/api")
 
 logger = logging.getLogger(__name__)
 
 
-@bp.route("", methods=["POST"])
+@bp.route("/register", methods=["POST"])
 @validate_data(
     Schema(
         {
@@ -81,7 +81,7 @@ def _register_user(nickname: str, hex_invite_code: str) -> bytes:
     return token
 
 
-@bp.route("/has-first-user", methods=["GET"])
+@bp.route("/register/has-first-user", methods=["GET"])
 async def has_first_user() -> Response:
     """
     Return whether a user has registered on this server. This is used on the frontend to
@@ -92,7 +92,7 @@ async def has_first_user() -> Response:
     return quart.jsonify({"hasFirstUser": user.exists(1, quart.g.db)})
 
 
-@bp.route("/validate-invite", methods=["GET"])
+@bp.route("/register/validate-invite", methods=["GET"])
 @validate_data(
     Schema(
         {
