@@ -7,13 +7,13 @@ from itertools import chain
 from pathlib import Path
 from sqlite3 import Connection
 from typing import Optional
-from src.indexer.covers import save_pending_covers
 
 from tagfiles import TagFile
 
 from src import config
 from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.errors import Duplicate
+from src.indexer.covers import save_pending_covers
 from src.library import artist, collection, release, track
 from src.tasks.hueyy import huey
 from src.util import calculate_initial_sha256, database, transaction, uniq_list
