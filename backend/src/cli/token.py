@@ -1,11 +1,12 @@
 import click
 
-from src.cli.commands import commands, shared_options
+from src.cli.commands import commands, migrate, shared_options
 from src.library import user
 from src.util import database
 
 
 @commands.command()
+@migrate
 @shared_options
 def token():
     """Generate an authorization token."""

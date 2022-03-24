@@ -81,10 +81,6 @@ class __Constants:
         return self.data_path / "huey.sqlite3"
 
     @property
-    def config_path(self) -> Path:
-        return self.data_path / "config.ini"
-
-    @property
     def pid_path(self) -> Path:
         return self.data_path / "src.pid"
 

@@ -3,11 +3,12 @@ from multiprocessing import Process
 
 import click
 
-from src.cli.commands import commands, shared_options
+from src.cli.commands import commands, migrate, shared_options
 from src.services import start_task_queue, start_webserver
 
 
 @commands.command()
+@migrate
 @shared_options
 @click.option("--host", "-h", default="127.0.0.1", help="Where to listen")
 @click.option("--port", "-p", default=45731, help="Port to listen on")
