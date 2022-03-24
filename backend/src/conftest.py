@@ -13,6 +13,13 @@ from src.fixtures.factory import Factory
 from src.util import database, freeze_database_time
 from src.webserver.app import create_app
 
+SEED_DB_PATH = TEST_DATA_PATH / "db.sqlite3"
+SEED_DB_FILES = [
+    SEED_DB_PATH,
+    TEST_DATA_PATH / "db.sqlite3-shm",
+    TEST_DATA_PATH / "db.sqlite3-wal",
+]
+
 
 @pytest.fixture(scope="session")
 def seed_db(tmp_path_factory, worker_id):
@@ -30,14 +37,10 @@ def seed_db(tmp_path_factory, worker_id):
 
 
 def _create_seed_db():
-    db_path = TEST_DATA_PATH / "db.sqlite3"
-    db_path.unlink(missing_ok=True)
-    db_shm = TEST_DATA_PATH / "db.sqlite3-shm"
-    db_shm.unlink(missing_ok=True)
-    db_wal = TEST_DATA_PATH / "db.sqlite3-wal"
-    db_wal.unlink(missing_ok=True)
+    for f in SEED_DB_FILES:
+        f.unlink(missing_ok=True)
 
-    db_backend = get_backend(f"sqlite:///{db_path}")
+    db_backend = get_backend(f"sqlite:///{SEED_DB_PATH}")
     db_migrations = read_migrations(str(constants.migrations_path))
 
     freeze_database_time(db_backend._connection)

@@ -15,6 +15,7 @@ import pytest
 import quart
 from ariadne import graphql
 from filelock import FileLock
+from src.conftest import SEED_DB_FILES
 
 from src.constants import TEST_DATA_PATH, constants
 from src.enums import ArtistRole, CollectionType, PlaylistType, ReleaseType
@@ -24,12 +25,15 @@ from src.graphql import error_formatter, schema
 from src.library import collection
 from src.library import playlist_entry as pentry
 from src.library import user
-from src.util import database, freeze_database_time
+from src.util import database, freeze_database_time, transaction
 from src.webserver.routes.graphql import GraphQLContext
 
 GQL_DB_PATH = TEST_DATA_PATH / "gql_db.sqlite3"
-DB_SHM_PATH = TEST_DATA_PATH / "gql_db.sqlite3-shm"
-DB_WAL_PATH = TEST_DATA_PATH / "gql_db.sqlite3-wal"
+GQL_DB_FILES = [
+    GQL_DB_PATH,
+    TEST_DATA_PATH / "gql_db.sqlite3-shm",
+    TEST_DATA_PATH / "gql_db.sqlite3-wal",
+]
 
 
 @pytest.fixture
@@ -60,6 +64,7 @@ def seed_gql_db(tmp_path_factory, worker_id, seed_db):
     """
     This fixture augments the existing migrated seed database with test data.
     """
+    # Parallelism-safe DB creation; per python-xdist README.
     if worker_id == "master":  # pragma: no cover
         _create_seed_gql_db()
 
@@ -73,13 +78,12 @@ def seed_gql_db(tmp_path_factory, worker_id, seed_db):
 
 
 def _create_seed_gql_db():
-    # Parallelism-safe DB creation; per python-xdist README.
-    GQL_DB_PATH.unlink(missing_ok=True)
-    DB_SHM_PATH.unlink(missing_ok=True)
-    DB_WAL_PATH.unlink(missing_ok=True)
+    for f in GQL_DB_FILES:
+        f.unlink(missing_ok=True)
 
-    seed_db_path = TEST_DATA_PATH / "db.sqlite3"
-    shutil.copyfile(seed_db_path, GQL_DB_PATH)
+    for sdbf, gdbf in zip(SEED_DB_FILES, GQL_DB_FILES):
+        if sdbf.exists():
+            shutil.copyfile(sdbf, gdbf)
 
     with sqlite3.connect(
         GQL_DB_PATH,
@@ -89,8 +93,10 @@ def _create_seed_gql_db():
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys=ON")
         conn.execute("PRAGMA journal_mode=WAL")
+        conn.execute("PRAGMA synchronous=FULL")
         freeze_database_time(conn)
-        _add_test_data(conn)
+        with transaction(conn):
+            _add_test_data(conn)
 
 
 @pytest.fixture(autouse=True)

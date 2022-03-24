@@ -3,7 +3,8 @@ ariadne==0.12.0
 blinker==1.4; python_full_version >= "3.7.0"
 certifi==2021.10.8; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.6.0"
 charset-normalizer==2.0.10; python_full_version >= "3.6.0" and python_version >= "3"
-click==7.1.2; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
+click==8.0.4; python_version >= "3.6"
+colorama==0.4.4; platform_system == "Windows" and python_version >= "3.6" and python_full_version >= "3.7.0"
 graphql-core==3.0.6; python_version >= "3.6" and python_version < "4"
 h11==0.13.0; python_version >= "3.7" and python_full_version >= "3.7.0"
 h2==4.1.0; python_version >= "3.7" and python_full_version >= "3.7.0"
