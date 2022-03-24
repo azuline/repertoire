@@ -80,7 +80,7 @@ def scan_directory(directory: Path) -> None:
                 handle_track_batch(track_batch)
                 track_batch = []
 
-            with transaction() as conn:
+            with database() as conn:
                 if not _in_database(filepath, conn):
                     logger.debug(f"Discovered new file `{filepath}`.")
                     trk = catalog_file(filepath, conn)
@@ -100,7 +100,7 @@ def handle_track_batch(track_batch: list[track.T]) -> None:
     """
     logger.debug("Running the 50 track batch handler.")
 
-    with transaction() as conn:
+    with database() as conn:
         # Autofix potential deficiencies in the track tags.
         _fix_album_artists(conn)
         _fix_release_types(conn)
