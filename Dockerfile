@@ -3,7 +3,7 @@
 # Frontend builder
 # ----------------
 
-FROM mhart/alpine-node:15.8.0 AS frontend-builder
+FROM mhart/alpine-node:16 AS frontend-builder
 
 WORKDIR /app
 
