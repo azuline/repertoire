@@ -77,10 +77,14 @@ def _create_seed_gql_db():
     seed_db_path = TEST_DATA_PATH / "db.sqlite3"
     shutil.copyfile(seed_db_path, GQL_DB_PATH)
 
-    with sqlite3.connect(GQL_DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES) as conn:
+    with sqlite3.connect(
+        GQL_DB_PATH,
+        detect_types=sqlite3.PARSE_DECLTYPES,
+        isolation_level=None,
+    ) as conn:
         conn.row_factory = sqlite3.Row
-        conn.isolation_level = None
         conn.execute("PRAGMA foreign_keys = ON")
+        conn.execute("PRAGMA journal_mode = WAL")
         freeze_database_time(conn)
         _add_test_data(conn)
 
