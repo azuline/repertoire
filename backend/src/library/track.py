@@ -369,7 +369,7 @@ def create(
     disc_number: str,
     conn: Connection,
     sha256: Optional[bytes] = None,
-) -> T:  # type: ignore
+) -> T:
     """
     Create a track with the provided parameters.
 
@@ -448,9 +448,8 @@ def create(
         for mapping in artists:
             trk = add_artist(trk, mapping["artist_id"], mapping["role"], conn)
 
-        logger.info(f'Created track "{filepath}" with ID {trk.id}.')
-
-        return trk
+    logger.info(f'Created track "{filepath}" with ID {trk.id}.')
+    return trk
 
 
 def _check_for_duplicate_sha256(

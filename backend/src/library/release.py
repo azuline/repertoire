@@ -428,12 +428,12 @@ def create(
                 (id_, mapping["artist_id"], mapping["role"].value),
             )
 
-        logger.info(f'Created release "{title}" with ID {id_}.')
-
         # We fetch it from the database to also get the `added_on` column.
         rls = from_id(id_, conn)
         assert rls is not None
-        return rls
+
+    logger.info(f'Created release "{title}" with ID {id_}.')
+    return rls
 
 
 def _find_duplicate_release(

@@ -16,7 +16,7 @@ from src.errors import Duplicate
 from src.indexer.covers import save_pending_covers
 from src.library import artist, collection, release, track
 from src.tasks.hueyy import huey
-from src.util import calculate_initial_sha256, database, uniq_list
+from src.util import calculate_initial_sha256, database, transaction, uniq_list
 
 # TODO: TagFile type is incorrect--fix the entire library...
 
@@ -215,35 +215,38 @@ def _fetch_or_create_release(tf: TagFile, conn: Connection) -> release.T:
     )
     artists = [{"artist_id": aid, "role": ArtistRole.MAIN} for aid in artist_ids]
 
-    # Try to create a release with the given title and album artists. If it raises a
-    # duplicate error, return the duplicate entity.
-    try:
-        rls = release.create(
-            title=tf.album,
-            # The tags might contain duplicate artists..
-            artists=artists,
-            release_type=_get_release_type(tf),
-            release_year=tf.date.year,
-            release_date=release_date,
-            conn=conn,
-            allow_duplicate=False,
+    with transaction(conn) as conn:
+        # Try to create a release with the given title and album artists. If it raises a
+        # duplicate error, return the duplicate entity.
+        try:
+            rls = release.create(
+                title=tf.album,
+                # The tags might contain duplicate artists..
+                artists=artists,
+                release_type=_get_release_type(tf),
+                release_year=tf.date.year,
+                release_date=release_date,
+                conn=conn,
+                allow_duplicate=False,
+            )
+        except Duplicate as e:
+            logger.debug(
+                f"Return existing release {e.entity.id} for track `{tf.path}`."
+            )
+            return e.entity
+
+        logger.debug(f"Created new release {rls.id} for track `{tf.path}`.")
+
+        # Add release to the inbox and its label/genres.
+        _insert_into_inbox_collections(rls, conn)
+        _insert_into_label_collection(rls, tf.label, conn)
+        _insert_into_genre_collections(rls, tf.genre, conn)
+
+        # Flag the release to have its cover art extracted and stored.
+        conn.execute(
+            "INSERT INTO music__releases_images_to_fetch (release_id) VALUES (?)",
+            (rls.id,),
         )
-    except Duplicate as e:
-        logger.debug(f"Return existing release {e.entity.id} for track `{tf.path}`.")
-        return e.entity
-
-    logger.debug(f"Created new release {rls.id} for track `{tf.path}`.")
-
-    # Add release to the inbox and its label/genres.
-    _insert_into_inbox_collections(rls, conn)
-    _insert_into_label_collection(rls, tf.label, conn)
-    _insert_into_genre_collections(rls, tf.genre, conn)
-
-    # Flag the release to have its cover art extracted and stored.
-    conn.execute(
-        "INSERT INTO music__releases_images_to_fetch (release_id) VALUES (?)",
-        (rls.id,),
-    )
 
     return rls
 
