@@ -13,7 +13,7 @@ from werkzeug.exceptions import HTTPException
 
 from src.constants import constants
 from src.initialize import initialize_app
-from src.util import database, raw_database
+from src.util import raw_database, transaction
 from src.webserver.routes import dev, files, graphql, register, session
 
 SECRET_LENGTH = 32
@@ -78,7 +78,7 @@ def _get_secret_key():
     if "sphinx" in sys.modules:  # pragma: no cover
         return secrets.token_bytes(32)
 
-    with database() as conn:
+    with transaction() as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT key FROM system__secret_key LIMIT 1")
         if row := cursor.fetchone():
@@ -86,7 +86,6 @@ def _get_secret_key():
 
         secret_key = secrets.token_bytes(32)
         cursor.execute("INSERT INTO system__secret_key (key) VALUES (?)", (secret_key,))
-        conn.commit()
 
         return secret_key
 

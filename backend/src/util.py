@@ -17,13 +17,28 @@ logger = logging.getLogger(__name__)
 @contextmanager
 def database():
     """
-    A simple wrapper for the SQLite3 connection context manager.
-
-    :return: A context manager that yields a database connection.
+    A simple context manager for the SQLite3 connection.
     """
     conn = raw_database()
-    yield conn
-    conn.close()
+    try:
+        yield conn
+    finally:
+        conn.close()
+
+
+@contextmanager
+def transaction():
+    """
+    A simple context wrapper for a database transaction.
+    """
+    conn = raw_database()
+
+    try:
+        with conn:
+            conn.execute("BEGIN")
+            yield conn
+    finally:
+        conn.close()
 
 
 def raw_database(check_same_thread: bool = True) -> Connection:
@@ -44,6 +59,7 @@ def raw_database(check_same_thread: bool = True) -> Connection:
     )
 
     conn.row_factory = sqlite3.Row
+    conn.isolation_level = None
     conn.execute("PRAGMA foreign_keys = ON")
     if IS_PYTEST:
         freeze_database_time(conn)

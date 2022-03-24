@@ -15,7 +15,7 @@ from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.errors import Duplicate
 from src.library import artist, collection, release, track
 from src.tasks.hueyy import huey
-from src.util import calculate_initial_sha256, database, uniq_list
+from src.util import calculate_initial_sha256, database, transaction, uniq_list
 
 # TODO: TagFile type is incorrect--fix the entire library...
 
@@ -71,16 +71,16 @@ def scan_directory(directory: Path) -> None:
         logger.error(f"{directory} is not a directory.")
         raise NotADirectoryError(f"{directory} is not a directory.")
 
-    with database() as conn:
-        track_batch: list[track.T] = []
+    track_batch: list[track.T] = []
 
-        for ext in EXTS:
-            for filepath in glob.iglob(f"{directory}/**/*{ext}", recursive=True):
-                # Every 50 tracks, run some specialized logic.
-                if len(track_batch) == 50:  # pragma: no cover
-                    handle_track_batch(track_batch, conn)
-                    track_batch = []
+    for ext in EXTS:
+        for filepath in glob.iglob(f"{directory}/**/*{ext}", recursive=True):
+            # Every 50 tracks, run some specialized logic.
+            if len(track_batch) == 50:  # pragma: no cover
+                handle_track_batch(track_batch)
+                track_batch = []
 
+            with transaction() as conn:
                 if not _in_database(filepath, conn):
                     logger.debug(f"Discovered new file `{filepath}`.")
                     trk = catalog_file(filepath, conn)
@@ -88,13 +88,11 @@ def scan_directory(directory: Path) -> None:
                 else:
                     logger.debug(f"File `{filepath}` already in database, skipping...")
 
-        # Handle the last batch of tracks.
-        handle_track_batch(track_batch, conn)
-
-        conn.commit()
+    # Handle the last batch of tracks.
+    handle_track_batch(track_batch)
 
 
-def handle_track_batch(track_batch: list[track.T], conn: Connection) -> None:
+def handle_track_batch(track_batch: list[track.T]) -> None:
     """
     Every time we have a batch of tracks, run some logic. This is logic that has a
     cost--we don't want to run it once every track, but not to the point where we want
@@ -102,12 +100,10 @@ def handle_track_batch(track_batch: list[track.T], conn: Connection) -> None:
     """
     logger.debug("Running the 50 track batch handler.")
 
-    # Autofix potential deficiencies in the track tags.
-    _fix_album_artists(conn)
-    _fix_release_types(conn)
-
-    # Commit our new tracks and changes to the DB.
-    conn.commit()
+    with transaction() as conn:
+        # Autofix potential deficiencies in the track tags.
+        _fix_album_artists(conn)
+        _fix_release_types(conn)
 
     # Schedule a task to calculate the full sha256s.
     track_ids = [t.id for t in track_batch]
