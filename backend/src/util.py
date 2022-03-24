@@ -7,7 +7,7 @@ from itertools import chain
 from pathlib import Path
 from sqlite3 import Connection
 from string import ascii_uppercase
-from typing import Any, Iterable, Union
+from typing import Any, Iterable, Optional, Union
 
 from src.constants import IS_PYTEST, constants
 
@@ -27,11 +27,12 @@ def database():
 
 
 @contextmanager
-def transaction():
+def transaction(conn: Optional[Connection] = None):
     """
-    A simple context wrapper for a database transaction.
+    A simple context wrapper for a database transaction. If connection is null,
+    a new connection is created.
     """
-    conn = raw_database()
+    conn = conn or raw_database()
 
     try:
         with conn:

@@ -16,7 +16,7 @@ from src.errors import Duplicate
 from src.indexer.covers import save_pending_covers
 from src.library import artist, collection, release, track
 from src.tasks.hueyy import huey
-from src.util import calculate_initial_sha256, database, transaction, uniq_list
+from src.util import calculate_initial_sha256, database, uniq_list
 
 # TODO: TagFile type is incorrect--fix the entire library...
 

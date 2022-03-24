@@ -12,6 +12,7 @@ from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
 from src.util import (
     calculate_sha256,
     make_fts_match_query,
+    transaction,
     update_dataclass,
     without_key,
 )
@@ -394,9 +395,7 @@ def create(
     :raises Duplicate: If a track with the same filepath already exists. The duplicate
                        track is passed as the ``entity`` argument.
     """
-    with conn:
-        conn.execute("BEGIN")
-
+    with transaction(conn) as conn:
         if not librelease.exists(release_id, conn):
             logger.debug(f"Release {release_id} does not exist.")
             raise NotFound(f"Release {release_id} does not exist.")
