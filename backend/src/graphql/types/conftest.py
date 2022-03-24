@@ -83,8 +83,8 @@ def _create_seed_gql_db():
         isolation_level=None,
     ) as conn:
         conn.row_factory = sqlite3.Row
-        conn.execute("PRAGMA foreign_keys = ON")
-        conn.execute("PRAGMA journal_mode = WAL")
+        conn.execute("PRAGMA foreign_keys=ON")
+        conn.execute("PRAGMA journal_mode=WAL")
         freeze_database_time(conn)
         _add_test_data(conn)
 

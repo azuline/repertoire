@@ -11,7 +11,7 @@ logger.setLevel(logging.INFO)
 # captures logging output on its own.
 if not IS_PYTEST:  # pragma: no cover
     stream_formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - %(message)s",
+        "%(asctime)s.%(msecs)03d - %(name)s - %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
     stream_handler = logging.StreamHandler(sys.stdout)
