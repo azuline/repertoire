@@ -38,27 +38,24 @@ def save_pending_covers() -> None:
     logger.info("Saving cover art for newly-found releases.")
 
     with database() as conn:
-        pending_releases = _get_pending_releases(conn)
-        del conn
+        for rls_id in _get_pending_releases(conn):
+            logger.debug(f"Searching for cover art in release {rls_id}.")
 
-        for rls_id in pending_releases:
-            with transaction() as tx:
-                logger.debug(f"Searching for cover art in release {rls_id}.")
+            track_path = _get_track_path_of_release(rls_id, conn)
+            if not track_path:
+                logger.debug(f"No tracks found for release {rls_id}.")
+                _delete_release_from_pending(rls_id, conn)
+                continue
 
-                track_path = _get_track_path_of_release(rls_id, tx)
-                if not track_path:
-                    logger.debug(f"No tracks found for release {rls_id}.")
-                    _delete_release_from_pending(rls_id, tx)
-                    continue
+            img = save_image(TagFile(track_path), conn)
+            if not img:
+                logger.debug(f"No image found for release {rls_id}.")
+                _delete_release_from_pending(rls_id, conn)
+                continue
 
-                img = save_image(TagFile(track_path), tx)
-                if not img:
-                    logger.debug(f"No image found for release {rls_id}.")
-                    _delete_release_from_pending(rls_id, tx)
-                    continue
-
-                _update_release_image(rls_id, img, tx)
-                _delete_release_from_pending(rls_id, tx)
+            with transaction(conn) as conn:
+                _update_release_image(rls_id, img, conn)
+                _delete_release_from_pending(rls_id, conn)
 
 
 def _get_pending_releases(conn: Connection) -> list[int]:
