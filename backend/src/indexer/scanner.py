@@ -81,7 +81,7 @@ def scan_directory(directory: Path) -> None:
                 handle_track_batch(track_batch)
                 track_batch = []
 
-            with database() as conn:
+            with transaction() as conn:
                 if not _in_database(filepath, conn):
                     logger.debug(f"Discovered new file `{filepath}`.")
                     trk = catalog_file(filepath, conn)
@@ -395,8 +395,9 @@ def _fix_album_artists(conn: Connection) -> None:
         amaps = chain.from_iterable(track.artists(trk, conn) for trk in tracks)
         artists = {amap["artist"] for amap in amaps if amap["role"] in MAIN_ROLES}
 
-        for art in artists:
-            release.add_artist(rls, art.id, ArtistRole.MAIN, conn)
+        with transaction(conn) as conn:
+            for art in artists:
+                release.add_artist(rls, art.id, ArtistRole.MAIN, conn)
 
 
 def _fix_release_types(conn: Connection) -> None:
