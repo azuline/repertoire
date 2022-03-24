@@ -9,7 +9,7 @@ from typing import Iterable, Optional, Union
 
 from src.enums import ArtistRole, CollectionType, ReleaseSort, ReleaseType
 from src.errors import AlreadyExists, DoesNotExist, Duplicate, NotFound
-from src.util import make_fts_match_query, update_dataclass, without_key
+from src.util import make_fts_match_query, transaction, update_dataclass, without_key
 
 from . import artist, collection, track
 
@@ -406,33 +406,34 @@ def create(
         logger.debug(f"Release already exists with ID {rls.id}.")
         raise Duplicate("A release with the same name and artists already exists.", rls)
 
-    # Insert the release into the database.
-    cursor = conn.execute(
-        """
-        INSERT INTO music__releases (
-            title, image_id, release_type, release_year, release_date, rating
-        ) VALUES (?, ?, ?, ?, ?, ?)
-        """,
-        (title, image_id, release_type.value, release_year, release_date, rating),
-    )
-    id_ = cursor.lastrowid
-
-    # Insert the release artists into the database.
-    for mapping in artists:
-        cursor.execute(
+    with transaction(conn) as conn:
+        # Insert the release into the database.
+        cursor = conn.execute(
             """
-            INSERT INTO music__releases_artists (release_id, artist_id, role)
-            VALUES (?, ?, ?)
+            INSERT INTO music__releases (
+                title, image_id, release_type, release_year, release_date, rating
+            ) VALUES (?, ?, ?, ?, ?, ?)
             """,
-            (id_, mapping["artist_id"], mapping["role"].value),
+            (title, image_id, release_type.value, release_year, release_date, rating),
         )
+        id_ = cursor.lastrowid
 
-    logger.info(f'Created release "{title}" with ID {id_}.')
+        # Insert the release artists into the database.
+        for mapping in artists:
+            cursor.execute(
+                """
+                INSERT INTO music__releases_artists (release_id, artist_id, role)
+                VALUES (?, ?, ?)
+                """,
+                (id_, mapping["artist_id"], mapping["role"].value),
+            )
 
-    # We fetch it from the database to also get the `added_on` column.
-    rls = from_id(id_, conn)
-    assert rls is not None
-    return rls
+        logger.info(f'Created release "{title}" with ID {id_}.')
+
+        # We fetch it from the database to also get the `added_on` column.
+        rls = from_id(id_, conn)
+        assert rls is not None
+        return rls
 
 
 def _find_duplicate_release(

@@ -32,14 +32,19 @@ def transaction(conn: Optional[Connection] = None):
     A simple context wrapper for a database transaction. If connection is null,
     a new connection is created.
     """
-    conn = conn or raw_database()
-
-    try:
+    # If a connection is passed in, use that.
+    if conn:
         with conn:
             conn.execute("BEGIN")
             yield conn
-    finally:
-        conn.close()
+        return
+
+    # Otherwise, use a new connection.
+    del conn
+    with database() as db_conn:
+        with db_conn:
+            db_conn.execute("BEGIN")
+            yield db_conn
 
 
 def raw_database(check_same_thread: bool = True) -> Connection:

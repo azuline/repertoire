@@ -395,30 +395,26 @@ def create(
     :raises Duplicate: If a track with the same filepath already exists. The duplicate
                        track is passed as the ``entity`` argument.
     """
+    if not librelease.exists(release_id, conn):
+        logger.debug(f"Release {release_id} does not exist.")
+        raise NotFound(f"Release {release_id} does not exist.")
+
+    if bad_ids := [
+        d["artist_id"] for d in artists if not artist.exists(d["artist_id"], conn)
+    ]:
+        logger.debug(f"Artist(s) {', '.join(str(i) for i in bad_ids)} do not exist.")
+        raise NotFound(f"Artist(s) {', '.join(str(i) for i in bad_ids)} do not exist.")
+
+    # First, check to see if a track with the same filepath exists.
+    if trk := from_filepath(filepath, conn):
+        logger.debug("A track with this filepath already exists.")
+        raise Duplicate("A track with this filepath already exists.", trk)
+
+    # Next, check to see if a track with the same sha256 exists.
+    if trk := _check_for_duplicate_sha256(sha256_initial, filepath, conn):
+        return trk
+
     with transaction(conn) as conn:
-        if not librelease.exists(release_id, conn):
-            logger.debug(f"Release {release_id} does not exist.")
-            raise NotFound(f"Release {release_id} does not exist.")
-
-        if bad_ids := [
-            d["artist_id"] for d in artists if not artist.exists(d["artist_id"], conn)
-        ]:
-            logger.debug(
-                f"Artist(s) {', '.join(str(i) for i in bad_ids)} do not exist."
-            )
-            raise NotFound(
-                f"Artist(s) {', '.join(str(i) for i in bad_ids)} do not exist."
-            )
-
-        # First, check to see if a track with the same filepath exists.
-        if trk := from_filepath(filepath, conn):
-            logger.debug("A track with this filepath already exists.")
-            raise Duplicate("A track with this filepath already exists.", trk)
-
-        # Next, check to see if a track with the same sha256 exists.
-        if trk := _check_for_duplicate_sha256(sha256_initial, filepath, conn):
-            return trk
-
         # Track is not a duplicate, so we can insert and return.
         cursor = conn.execute(
             """
