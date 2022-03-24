@@ -15,6 +15,7 @@ from src.enums import ArtistRole, CollectionType, ReleaseType
 from src.errors import Duplicate
 from src.indexer.covers import save_pending_covers
 from src.library import artist, collection, release, track
+from src.tasks.hueyy import huey
 from src.util import calculate_initial_sha256, database, transaction, uniq_list
 
 # TODO: TagFile type is incorrect--fix the entire library...
@@ -92,7 +93,7 @@ def scan_directory(directory: Path) -> None:
     handle_track_batch(track_batch)
 
 
-def handle_track_batch(_track_batch: list[track.T]) -> None:
+def handle_track_batch(track_batch: list[track.T]) -> None:
     """
     Every time we have a batch of tracks, run some logic. This is logic that has a
     cost--we don't want to run it once every track, but not to the point where we want
@@ -105,8 +106,26 @@ def handle_track_batch(_track_batch: list[track.T]) -> None:
         _fix_album_artists(conn)
         _fix_release_types(conn)
 
+    # Schedule a task to calculate the full sha256s.
+    track_ids = [t.id for t in track_batch]
+    calculate_track_sha256s.schedule(args=(track_ids,), delay=0)
+
     # And save all pending covers.
     save_pending_covers()
+
+
+@huey.task()
+def calculate_track_sha256s(track_ids: list[int]) -> None:
+    """
+    Calculate a list of track's full SHA256s.
+    """
+    with database() as conn:
+        for id_ in track_ids:
+            trk = track.from_id(id_, conn)
+            if not trk or trk.sha256:
+                continue
+
+            track.calculate_track_full_sha256(trk, conn)
 
 
 def _in_database(filepath: str, conn: Connection) -> bool:
