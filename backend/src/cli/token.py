@@ -2,7 +2,7 @@ import click
 
 from src.cli.commands import commands, shared_options
 from src.library import user
-from src.util import database, transaction
+from src.util import transaction
 
 
 @commands.command()

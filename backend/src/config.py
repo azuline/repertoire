@@ -14,7 +14,7 @@ from typing import Callable
 from huey import crontab
 
 from src.errors import InvalidConfig
-from src.util import database, flatten_dict, parse_crontab, transaction
+from src.util import flatten_dict, parse_crontab, transaction
 
 logger = logging.getLogger(__name__)
 

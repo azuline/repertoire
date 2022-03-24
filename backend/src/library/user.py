@@ -12,7 +12,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from src.enums import CollectionType, PlaylistType
 from src.errors import InvalidNickname, TokenGenerationFailure
 from src.tasks.hueyy import huey
-from src.util import database, transaction, update_dataclass
+from src.util import transaction, update_dataclass
 
 from . import collection, playlist
 
