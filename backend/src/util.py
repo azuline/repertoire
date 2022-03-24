@@ -65,12 +65,14 @@ def raw_database(check_same_thread: bool = True) -> Connection:
     logger.debug(f"Opening a connection to database {constants.database_path}.")
     conn = sqlite3.connect(
         constants.database_path,
+        # I hope this helps a bit with the locking?
+        timeout=15,
         detect_types=sqlite3.PARSE_DECLTYPES,
         check_same_thread=check_same_thread,
+        isolation_level=None,
     )
 
     conn.row_factory = sqlite3.Row
-    conn.isolation_level = None
     conn.execute("PRAGMA foreign_keys = ON")
     if IS_PYTEST:
         freeze_database_time(conn)
