@@ -1,7 +1,7 @@
 __pycache__
 *.egg-info
 *.log
-*.sqlite3
+*.sqlite3*
 .coverage
 *.pid
 tags

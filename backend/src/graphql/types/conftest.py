@@ -105,8 +105,12 @@ def seed_gql_data(seed_gql_db):
     This fixture replaces the seeded database in the isolated test directory with the
     database containing test data.
     """
-    constants.database_path.unlink(missing_ok=True)
-    shutil.copyfile(GQL_DB_PATH, constants.database_path)
+    for f in SEED_DB_FILES:
+        f.unlink(missing_ok=True)
+
+    for gdbf, sdbf in zip(GQL_DB_FILES, SEED_DB_FILES):
+        if gdbf.exists():
+            shutil.copyfile(gdbf, sdbf)
 
 
 def _add_test_data(conn: Connection):
