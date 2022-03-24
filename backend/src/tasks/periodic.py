@@ -21,8 +21,9 @@ def schedule_tasks() -> None:
     then re-schedule them in this function and overwrite the function definition.
     """
     # Import declared tasks.
-    # IDK if this actually works but it should!
-    import src.indexer.scanner  # noqa
+    # ---
+    # We no longer have a task defined here, but we leave it as an example.
+    # import src.indexer.scanner  # noqa
 
     # Reschedule our tasks.
     reschedule_indexer()
