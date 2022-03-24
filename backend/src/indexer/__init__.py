@@ -3,6 +3,4 @@ from .scanner import scan_directories
 
 
 def run_indexer() -> None:
-    """Run the two stages of the indexer."""
     scan_directories()
-    save_pending_covers()

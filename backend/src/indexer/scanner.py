@@ -7,6 +7,7 @@ from itertools import chain
 from pathlib import Path
 from sqlite3 import Connection
 from typing import Optional
+from src.indexer.covers import save_pending_covers
 
 from tagfiles import TagFile
 
@@ -108,6 +109,9 @@ def handle_track_batch(track_batch: list[track.T]) -> None:
     # Schedule a task to calculate the full sha256s.
     track_ids = [t.id for t in track_batch]
     calculate_track_sha256s.schedule(args=(track_ids,), delay=0)
+
+    # And save all pending covers.
+    save_pending_covers()
 
 
 @huey.task()
