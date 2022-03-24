@@ -11,8 +11,9 @@ import quart
 from quart import Quart, Response
 from werkzeug.exceptions import HTTPException
 
+from src.config import initialize_config
 from src.constants import constants
-from src.initialize import initialize_app
+from src.migrations.database import run_database_migrations
 from src.util import raw_database, transaction
 from src.webserver.routes import dev, files, graphql, register, session
 
@@ -26,7 +27,8 @@ def debug_app() -> Quart:
     This is the entry point for the `quart run` debug application. It initializes the
     application and then returns the web server.
     """
-    initialize_app()
+    run_database_migrations()
+    initialize_config()
     return create_app()
 
 
