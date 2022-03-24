@@ -6,9 +6,10 @@ Quart app instance, call ``create_app()``.
 import logging
 import secrets
 import sys
+from pathlib import Path
 
 import quart
-from quart import Quart, Response
+from quart import Quart, Response, send_from_directory
 from werkzeug.exceptions import HTTPException
 
 from src.config import initialize_config
@@ -47,7 +48,6 @@ def create_app() -> Quart:
     app = Quart(
         __name__,
         static_folder=str(constants.built_frontend_dir),
-        static_url_path="/",
     )
 
     app.config.update(
@@ -62,8 +62,10 @@ def create_app() -> Quart:
     app.secret_key = _get_secret_key()
 
     @app.route("/", methods=["GET"])
-    @app.route("/<path>", methods=["GET"])
+    @app.route("/<path:path>", methods=["GET"])
     async def index(path=None):
+        if Path(app.static_folder / path).exists():
+            return await send_from_directory(app.static_folder, path)
         return await app.send_static_file("index.html")
 
     _register_blueprints(app)
