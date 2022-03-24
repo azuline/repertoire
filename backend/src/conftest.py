@@ -32,6 +32,10 @@ def seed_db(tmp_path_factory, worker_id):
 def _create_seed_db():
     db_path = TEST_DATA_PATH / "db.sqlite3"
     db_path.unlink(missing_ok=True)
+    db_shm = TEST_DATA_PATH / "db.sqlite3-shm"
+    db_shm.unlink(missing_ok=True)
+    db_wal = TEST_DATA_PATH / "db.sqlite3-wal"
+    db_wal.unlink(missing_ok=True)
 
     db_backend = get_backend(f"sqlite:///{db_path}")
     db_migrations = read_migrations(str(constants.migrations_path))

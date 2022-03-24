@@ -28,6 +28,8 @@ from src.util import database, freeze_database_time
 from src.webserver.routes.graphql import GraphQLContext
 
 GQL_DB_PATH = TEST_DATA_PATH / "gql_db.sqlite3"
+DB_SHM_PATH = TEST_DATA_PATH / "gql_db.sqlite3-shm"
+DB_WAL_PATH = TEST_DATA_PATH / "gql_db.sqlite3-wal"
 
 
 @pytest.fixture
@@ -73,6 +75,8 @@ def seed_gql_db(tmp_path_factory, worker_id, seed_db):
 def _create_seed_gql_db():
     # Parallelism-safe DB creation; per python-xdist README.
     GQL_DB_PATH.unlink(missing_ok=True)
+    DB_SHM_PATH.unlink(missing_ok=True)
+    DB_WAL_PATH.unlink(missing_ok=True)
 
     seed_db_path = TEST_DATA_PATH / "db.sqlite3"
     shutil.copyfile(seed_db_path, GQL_DB_PATH)

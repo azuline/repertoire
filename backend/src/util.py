@@ -1,15 +1,15 @@
 import logging
 import sqlite3
-from time import time
+from binascii import b2a_hex
 from contextlib import contextmanager
 from dataclasses import asdict
 from hashlib import sha256
-from random import randbytes
-from binascii import b2a_hex
 from itertools import chain
 from pathlib import Path
+from random import randbytes
 from sqlite3 import Connection
 from string import ascii_uppercase
+from time import time
 from typing import Any, Iterable, Optional, Union
 
 from src.constants import IS_PYTEST, constants
