@@ -15,8 +15,8 @@ import pytest
 import quart
 from ariadne import graphql
 from filelock import FileLock
-from src.conftest import SEED_DB_FILES
 
+from src.conftest import SEED_DB_FILES
 from src.constants import TEST_DATA_PATH, constants
 from src.enums import ArtistRole, CollectionType, PlaylistType, ReleaseType
 from src.fixtures.factory import Factory
@@ -82,8 +82,8 @@ def _create_seed_gql_db():
         f.unlink(missing_ok=True)
 
     for sdbf, gdbf in zip(SEED_DB_FILES, GQL_DB_FILES):
-        if sdbf.exists():
-            shutil.copyfile(sdbf, gdbf)
+        if (TEST_DATA_PATH / sdbf).exists():
+            shutil.copyfile(TEST_DATA_PATH / sdbf, gdbf)
 
     with sqlite3.connect(
         GQL_DB_PATH,
@@ -106,11 +106,11 @@ def seed_gql_data(seed_gql_db):
     database containing test data.
     """
     for f in SEED_DB_FILES:
-        f.unlink(missing_ok=True)
+        (constants.data_path / f).unlink(missing_ok=True)
 
     for gdbf, sdbf in zip(GQL_DB_FILES, SEED_DB_FILES):
         if gdbf.exists():
-            shutil.copyfile(gdbf, sdbf)
+            shutil.copyfile(gdbf, constants.data_path / sdbf)
 
 
 def _add_test_data(conn: Connection):

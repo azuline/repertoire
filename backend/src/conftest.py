@@ -15,9 +15,9 @@ from src.webserver.app import create_app
 
 SEED_DB_PATH = TEST_DATA_PATH / "db.sqlite3"
 SEED_DB_FILES = [
-    SEED_DB_PATH,
-    TEST_DATA_PATH / "db.sqlite3-shm",
-    TEST_DATA_PATH / "db.sqlite3-wal",
+    "db.sqlite3",
+    "db.sqlite3-shm",
+    "db.sqlite3-wal",
 ]
 
 
@@ -38,7 +38,7 @@ def seed_db(tmp_path_factory, worker_id):
 
 def _create_seed_db():
     for f in SEED_DB_FILES:
-        f.unlink(missing_ok=True)
+        (TEST_DATA_PATH / f).unlink(missing_ok=True)
 
     db_backend = get_backend(f"sqlite:///{SEED_DB_PATH}")
     db_migrations = read_migrations(str(constants.migrations_path))

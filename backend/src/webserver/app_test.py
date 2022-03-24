@@ -33,15 +33,3 @@ def test_get_secret_key_exists(db):
     db.execute("INSERT INTO system__secret_key (key) VALUES (X'0000')")
     db.commit()
     assert b"\x00\x00" == _get_secret_key()
-
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize("path", ["/", "/collections", "/releases"])
-async def test_index_root(path, quart_app, quart_client):
-    async def fake_send_static_file(_):
-        return b"owo"
-
-    quart_app.send_static_file = fake_send_static_file
-
-    response = await quart_client.get(path)
-    assert await response.get_data() == b"owo"
