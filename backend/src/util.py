@@ -3,6 +3,8 @@ import sqlite3
 from contextlib import contextmanager
 from dataclasses import asdict
 from hashlib import sha256
+from random import randbytes
+from binascii import b2a_hex
 from itertools import chain
 from pathlib import Path
 from sqlite3 import Connection
@@ -32,24 +34,31 @@ def transaction(conn: Optional[Connection] = None):
     A simple context wrapper for a database transaction. If connection is null,
     a new connection is created.
     """
+    tx_log_id = b2a_hex(randbytes(8)).decode()
     # If a connection is passed in, use that.
     if conn:
         # If we're already in a transaction, don't create a nested transaction.
         if conn.in_transaction:
+            logger.debug(f"Transaction {tx_log_id}. Starting nested transaction, NoOp.")
             yield conn
+            logger.debug(f"Transaction {tx_log_id}. End of nested transaction.")
             return
 
+        logger.debug(f"Transaction {tx_log_id}. Starting transaction from conn.")
         with conn:
             conn.execute("BEGIN")
             yield conn
+            logger.debug(f"Transaction {tx_log_id}. End of transaction from conn.")
         return
 
     # Otherwise, use a new connection.
     del conn
     with database() as db_conn:
+        logger.debug(f"Transaction {tx_log_id}. Starting transaction from new conn.")
         with db_conn:
             db_conn.execute("BEGIN")
             yield db_conn
+            logger.debug(f"Transaction {tx_log_id}. End of transaction from new conn.")
 
 
 def raw_database(check_same_thread: bool = True) -> Connection:
