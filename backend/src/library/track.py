@@ -440,12 +440,15 @@ def create(
                 sha256,
             ),
         )
+        logger.debug(f"Inserted track {cursor.lastrowid}.")
 
         trk = from_id(cursor.lastrowid, conn)
         assert trk is not None
+        logger.debug(f"Re-fetched track {trk.id}.")
 
         # Insert artists.
         for mapping in artists:
+            logger.debug(f"Inserted track/artist mapping {mapping}.")
             trk = add_artist(trk, mapping["artist_id"], mapping["role"], conn)
 
     logger.info(f'Created track "{filepath}" with ID {trk.id}.')
@@ -536,6 +539,7 @@ def calculate_track_full_sha256(trk: T, conn: Connection) -> bytes:
     """
     logger.debug(f"Calculating SHA256 for {trk.filepath}.")
     sha256sum = calculate_sha256(trk.filepath)
+    logger.debug(f"Finished calculating SHA256 for {trk.filepath}.")
 
     # The newly calculated sha256 is a duplicate of another track...
     # To deduplicate, delete the new track.
@@ -546,6 +550,7 @@ def calculate_track_full_sha256(trk: T, conn: Connection) -> bytes:
         delete(trk, conn)
         raise Duplicate("Duplicate SHA256 detected.", dup)
 
+    logger.debug(f"Setting calculated SHA256 for {trk.filepath}.")
     conn.execute(
         "UPDATE music__tracks SET sha256 = ? WHERE id = ?",
         (sha256sum, trk.id),

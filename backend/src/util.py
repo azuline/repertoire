@@ -1,8 +1,11 @@
 import logging
 import sqlite3
+from time import time
 from contextlib import contextmanager
 from dataclasses import asdict
 from hashlib import sha256
+from random import randbytes
+from binascii import b2a_hex
 from itertools import chain
 from pathlib import Path
 from sqlite3 import Connection
@@ -32,24 +35,42 @@ def transaction(conn: Optional[Connection] = None):
     A simple context wrapper for a database transaction. If connection is null,
     a new connection is created.
     """
+    tx_log_id = b2a_hex(randbytes(8)).decode()
+    start_time = time()
+
     # If a connection is passed in, use that.
     if conn:
         # If we're already in a transaction, don't create a nested transaction.
         if conn.in_transaction:
+            logger.debug(f"Transaction {tx_log_id}. Starting nested transaction, NoOp.")
             yield conn
+            logger.debug(
+                f"Transaction {tx_log_id}. End of nested transaction. "
+                f"Duration: {time() - start_time}."
+            )
             return
 
+        logger.debug(f"Transaction {tx_log_id}. Starting transaction from conn.")
         with conn:
             conn.execute("BEGIN")
             yield conn
+            logger.debug(
+                f"Transaction {tx_log_id}. End of transaction from conn. "
+                f"Duration: {time() - start_time}."
+            )
         return
 
     # Otherwise, use a new connection.
     del conn
     with database() as db_conn:
+        logger.debug(f"Transaction {tx_log_id}. Starting transaction from new conn.")
         with db_conn:
             db_conn.execute("BEGIN")
             yield db_conn
+            logger.debug(
+                f"Transaction {tx_log_id}. End of transaction from new conn. "
+                f"Duration: {time() - start_time}."
+            )
 
 
 def raw_database(check_same_thread: bool = True) -> Connection:
@@ -65,14 +86,15 @@ def raw_database(check_same_thread: bool = True) -> Connection:
     logger.debug(f"Opening a connection to database {constants.database_path}.")
     conn = sqlite3.connect(
         constants.database_path,
+        timeout=999999,
         detect_types=sqlite3.PARSE_DECLTYPES,
         check_same_thread=check_same_thread,
         isolation_level=None,
     )
 
     conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA foreign_keys = ON")
-    conn.execute("PRAGMA journal_mode = wal")
+    conn.execute("PRAGMA foreign_keys=ON")
+    conn.execute("PRAGMA journal_mode=WAL")
     if IS_PYTEST:
         freeze_database_time(conn)
 
