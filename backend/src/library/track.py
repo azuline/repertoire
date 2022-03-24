@@ -368,7 +368,7 @@ def create(
     disc_number: str,
     conn: Connection,
     sha256: Optional[bytes] = None,
-) -> T:
+) -> T:  # type: ignore
     """
     Create a track with the provided parameters.
 
@@ -394,61 +394,68 @@ def create(
     :raises Duplicate: If a track with the same filepath already exists. The duplicate
                        track is passed as the ``entity`` argument.
     """
-    if not librelease.exists(release_id, conn):
-        logger.debug(f"Release {release_id} does not exist.")
-        raise NotFound(f"Release {release_id} does not exist.")
+    with conn:
+        conn.execute("BEGIN")
 
-    if bad_ids := [
-        d["artist_id"] for d in artists if not artist.exists(d["artist_id"], conn)
-    ]:
-        logger.debug(f"Artist(s) {', '.join(str(i) for i in bad_ids)} do not exist.")
-        raise NotFound(f"Artist(s) {', '.join(str(i) for i in bad_ids)} do not exist.")
+        if not librelease.exists(release_id, conn):
+            logger.debug(f"Release {release_id} does not exist.")
+            raise NotFound(f"Release {release_id} does not exist.")
 
-    # First, check to see if a track with the same filepath exists.
-    if trk := from_filepath(filepath, conn):
-        logger.debug("A track with this filepath already exists.")
-        raise Duplicate("A track with this filepath already exists.", trk)
+        if bad_ids := [
+            d["artist_id"] for d in artists if not artist.exists(d["artist_id"], conn)
+        ]:
+            logger.debug(
+                f"Artist(s) {', '.join(str(i) for i in bad_ids)} do not exist."
+            )
+            raise NotFound(
+                f"Artist(s) {', '.join(str(i) for i in bad_ids)} do not exist."
+            )
 
-    # Next, check to see if a track with the same sha256 exists.
-    if trk := _check_for_duplicate_sha256(sha256_initial, filepath, conn):
+        # First, check to see if a track with the same filepath exists.
+        if trk := from_filepath(filepath, conn):
+            logger.debug("A track with this filepath already exists.")
+            raise Duplicate("A track with this filepath already exists.", trk)
+
+        # Next, check to see if a track with the same sha256 exists.
+        if trk := _check_for_duplicate_sha256(sha256_initial, filepath, conn):
+            return trk
+
+        # Track is not a duplicate, so we can insert and return.
+        cursor = conn.execute(
+            """
+            INSERT INTO music__tracks (
+                title,
+                filepath,
+                sha256_initial,
+                release_id,
+                track_number,
+                disc_number,
+                duration,
+                sha256
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                title,
+                str(filepath),
+                sha256_initial,
+                release_id,
+                track_number,
+                disc_number,
+                duration,
+                sha256,
+            ),
+        )
+
+        trk = from_id(cursor.lastrowid, conn)
+        assert trk is not None
+
+        # Insert artists.
+        for mapping in artists:
+            trk = add_artist(trk, mapping["artist_id"], mapping["role"], conn)
+
+        logger.info(f'Created track "{filepath}" with ID {trk.id}.')
+
         return trk
-
-    # Track is not a duplicate, so we can insert and return.
-    cursor = conn.execute(
-        """
-        INSERT INTO music__tracks (
-            title,
-            filepath,
-            sha256_initial,
-            release_id,
-            track_number,
-            disc_number,
-            duration,
-            sha256
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """,
-        (
-            title,
-            str(filepath),
-            sha256_initial,
-            release_id,
-            track_number,
-            disc_number,
-            duration,
-            sha256,
-        ),
-    )
-
-    trk = from_id(cursor.lastrowid, conn)
-    assert trk is not None
-
-    # Insert artists.
-    for mapping in artists:
-        trk = add_artist(trk, mapping["artist_id"], mapping["role"], conn)
-
-    logger.info(f'Created track "{filepath}" with ID {trk.id}.')
-
-    return trk
 
 
 def _check_for_duplicate_sha256(
