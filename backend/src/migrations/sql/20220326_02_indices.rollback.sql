@@ -1,0 +1,41 @@
+-- This file should undo anything in `up.sql`
+
+DROP INDEX music__artists_starred__user_id__idx;
+DROP INDEX music__artists_starred__artist_id__idx;
+
+DROP INDEX music__releases_artists__release_id__idx;
+DROP INDEX music__releases_artists__artist_id__idx;
+
+DROP INDEX music__tracks__sha256__idx;
+DROP INDEX music__tracks__sha256_initial__idx;
+DROP INDEX music__tracks__filepath__idx;
+DROP INDEX music__tracks__release_id__idx;
+
+DROP INDEX music__tracks_artists__track_id__idx;
+DROP INDEX music__tracks_artists__artist_id__idx;
+
+DROP INDEX music__collections__type__idx;
+DROP INDEX music__collections__last_updated_on__idx;
+DROP INDEX music__collections__user_id__idx;
+DROP INDEX music__collections__user_id__type__idx;
+DROP INDEX music__collections__user_id__last_updated_on__idx;
+
+DROP INDEX music__collections_starred__user_id__idx;
+DROP INDEX music__collections_starred__collection_id__idx;
+
+DROP INDEX music__collections_releases__collection_id__idx;
+DROP INDEX music__collections_releases__release_id__idx;
+DROP INDEX music__collections_releases__collection_id__added_on__idx;
+
+DROP INDEX music__playlists__type__idx;
+DROP INDEX music__playlists__last_updated_on__idx;
+DROP INDEX music__playlists__user_id__idx;
+DROP INDEX music__playlists__user_id__type__idx;
+DROP INDEX music__playlists__user_id__last_updated_on__idx;
+
+DROP INDEX music__playlists_starred__user_id__idx;
+DROP INDEX music__playlists_starred__playlist_id__idx;
+
+DROP INDEX music__playlists_tracks__playlist_id__idx;
+DROP INDEX music__playlists_tracks__track_id__idx;
+DROP INDEX music__playlists_tracks__playlist_id__added_on__idx;
