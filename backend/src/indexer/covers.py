@@ -8,7 +8,7 @@ from typing import Generator, Optional
 from tagfiles import TagFile
 
 from src.constants import constants
-from src.errors import Duplicate
+from src.errors import Duplicate, InvalidImage
 from src.library import image
 from src.util import database, transaction
 
@@ -136,6 +136,8 @@ def save_image(tf: TagFile, conn: Connection) -> Optional[image.T]:
         return image.create(image_path, conn)
     except Duplicate as e:
         return e.entity
+    except InvalidImage:
+        return None
 
 
 def _save_embedded_image(tf: TagFile) -> Optional[Path]:
