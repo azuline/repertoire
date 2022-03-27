@@ -64,7 +64,7 @@ def create_app() -> Quart:
     @app.route("/", methods=["GET"])
     @app.route("/<path:path>", methods=["GET"])
     async def index(path=None):
-        if Path(app.static_folder / path).exists():
+        if path and Path(app.static_folder / path).exists():
             return await send_from_directory(app.static_folder, path)
         return await app.send_static_file("index.html")
 
