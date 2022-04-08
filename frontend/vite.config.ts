@@ -30,6 +30,8 @@ export default defineConfig({
           ],
           ['@babel/plugin-transform-react-jsx', { pragma: '__cssprop' }, 'twin.macro'],
         ],
+        // https://github.com/ben-rogerson/babel-plugin-twin/issues/9#issuecomment-1092581846
+        ignore: ['\x00commonjsHelpers.js'],
       },
     }),
   ],
