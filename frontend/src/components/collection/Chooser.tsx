@@ -33,8 +33,9 @@ export const CollectionChooser: ICollectionChooser = ({
   const { data, error, loading } = useFetchCollectionsChooserQuery({
     variables: { types: collectionTypes },
   });
-  const [starCollection] = useStarCollectionChooserMutation();
-  const [unstarCollection] = useUnstarCollectionChooserMutation();
+  const [starCollection, { loading: starLoading }] = useStarCollectionChooserMutation();
+  const [unstarCollection, { loading: unstarLoading }] = useUnstarCollectionChooserMutation();
+  const mutationLoading = starLoading || unstarLoading;
   const { addToast } = useToasts();
 
   const toggleStar = async (collection: ICollectionFieldsFragment): Promise<void> => {
@@ -42,6 +43,7 @@ export const CollectionChooser: ICollectionChooser = ({
       addToast('Cannot unstar system collections.', { appearance: 'error' });
       return;
     }
+    if (mutationLoading) return;
 
     if (collection.starred) {
       await unstarCollection({ variables: { id: collection.id } });
@@ -73,6 +75,7 @@ export const CollectionChooser: ICollectionChooser = ({
       <StarrableChooserRow
         element={element}
         isActive={element.id === active}
+        loading={mutationLoading}
         url={`${urlPrefix}/${element.id}`}
         onToggle={(): Promise<void> => toggleStar(element)}
       />
