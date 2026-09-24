@@ -9,7 +9,7 @@ colorama==0.4.4; python_version >= "3.7" and python_full_version < "3.0.0" and p
 graphql-core==3.1.7; python_version >= "3.6" and python_version < "4"
 h11==0.13.0; python_full_version >= "3.7.0" and python_version >= "3.7"
 h2==4.1.0; python_full_version >= "3.6.1" and python_version >= "3.7"
-hpack==4.0.0; python_full_version >= "3.6.1" and python_version >= "3.7"
+hpack==4.2.0; python_full_version >= "3.6.1" and python_version >= "3.7"
 huey @ git+https://github.com/azuline/huey.git@f46b1490e0854bc9c606a4ac023f651fd600a0dc
 hypercorn==0.13.2; python_version >= "3.7"
 hyperframe==6.0.1; python_full_version >= "3.6.1" and python_version >= "3.7"
