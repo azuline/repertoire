@@ -30,7 +30,7 @@ tabulate==0.8.9
 tagfiles==0.3.3; python_version >= "3.6" and python_version < "4.0"
 toml==0.10.2; python_version >= "3.7" and python_full_version < "3.0.0" or python_full_version >= "3.3.0" and python_version >= "3.7"
 typing-extensions==4.1.1; python_version >= "3.6"
-urllib3==1.26.9; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.6.0" and python_version < "4"
+urllib3==2.8.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.6.0" and python_version < "4"
 voluptuous==0.12.2
 werkzeug==2.0.3; python_version >= "3.7"
 wsproto==1.1.0; python_full_version >= "3.7.0" and python_version >= "3.7"
